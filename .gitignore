@@ -1,0 +1,26 @@
+# Final seed runtime state
+.local/
+
+# Python/tooling
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Generated runtime evidence
+DATA/
+.sisyphus/
+.reflection/
+
+# Generated artifacts
+.symbiant/
+.venv/
+*.egg-info/
+
+# Coverage
+.coverage
+.coverage.*
+coverage/
+htmlcov/
+
+list_test_todo.md

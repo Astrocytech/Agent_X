@@ -1,0 +1,146 @@
+version: 7
+seed_package_version: 0.1.0-seed
+release_type: local_source_release
+
+seed_l0_public_api:
+  - CODE/core_kernel/public/__init__.py
+  - CODE/core_kernel/public/kernel_service.py
+  - CODE/core_kernel/public/health.py
+  - CODE/core_kernel/public/seed_constants.py
+  - CODE/core_kernel/public/kernel_diagnostics.py
+  - CODE/core_kernel/public/release_readiness.py
+
+seed_l0_public_contracts:
+  - CODE/core_kernel/contracts/__init__.py
+  - CODE/core_kernel/contracts/kernel_turn_request_v1.py
+  - CODE/core_kernel/contracts/kernel_turn_response_v1.py
+  - CODE/core_kernel/contracts/kernel_output_contract.py
+  - CODE/core_kernel/contracts/final_output_contract.py
+  - CODE/core_kernel/contracts/seed_phase_order.py
+  - CODE/core_kernel/contracts/seed_ports.py
+  - CODE/core_kernel/contracts/extension_capability_contract.py
+  - CODE/core_kernel/evidence/evidence_envelope.py
+
+seed_l0_runtime:
+  - CODE/core_kernel/runtime/__init__.py
+  - CODE/core_kernel/runtime/seed_runtime.py
+  - CODE/core_kernel/runtime/seed_turn_record.py
+  - CODE/core_kernel/runtime/seed_status.py
+  - CODE/core_kernel/runtime/failure_taxonomy.py
+  - CODE/core_kernel/runtime/phase_groups.py
+  - CODE/core_kernel/runtime/seed_phase_recorder.py
+  - CODE/core_kernel/runtime/phase_result.py
+  - CODE/core_kernel/runtime/response_builder.py
+  - CODE/core_kernel/runtime/seed_context.py
+  - CODE/core_kernel/runtime/phases/__init__.py
+  - CODE/core_kernel/runtime/phases/prelude.py
+  - CODE/core_kernel/runtime/phases/decision.py
+  - CODE/core_kernel/runtime/phases/execution.py
+  - CODE/core_kernel/runtime/phases/record.py
+  - CODE/core_kernel/runtime/phases/finale.py
+
+seed_l0_internal_contracts:
+  - CODE/core_kernel/contracts/kernel_contracts.py
+  - CODE/core_kernel/contracts/governance_contracts.py
+  - CODE/core_kernel/contracts/tool_gateway_contracts.py
+  - CODE/core_kernel/contracts/trace_contracts.py
+  - CODE/core_kernel/contracts/checkpoint_contracts.py
+
+seed_l0_data_models:
+  - CODE/core_kernel/evidence/__init__.py
+  - CODE/core_kernel/evidence/evidence_envelope.py
+  - CODE/core_kernel/evidence/evidence_ledger.py
+  - CODE/core_kernel/memory/__init__.py
+  - CODE/core_kernel/memory/seed_memory_facade.py
+  - CODE/core_kernel/memory/memory_write_envelope.py
+  - CODE/core_kernel/memory/memory_record_types.py
+  - CODE/core_kernel/memory/memory_recall_result.py
+  - CODE/core_kernel/state/__init__.py
+  - CODE/core_kernel/state/kernel_state.py
+
+seed_l0_models:
+  - CODE/__init__.py
+  - CODE/core_kernel/__init__.py
+  - CODE/core_kernel/models/__init__.py
+  - CODE/core_kernel/models/kernel_io.py
+  - CODE/core_kernel/models/kernel_errors.py
+  - CODE/core_kernel/models/kernel_requests.py
+  - CODE/core_kernel/models/kernel_results.py
+  - CODE/core_kernel/models/kernel_atoms.py
+  - CODE/core_kernel/models/planner_decision.py
+  - CODE/core_kernel/models/tool_objects.py
+  - CODE/core_kernel/models/state_model.py
+  - CODE/core_kernel/models/enums/__init__.py
+  - CODE/core_kernel/models/enums/seed_failure_reason.py
+  - CODE/core_kernel/models/enums/seed_governance_decision.py
+  - CODE/core_kernel/models/enums/seed_phase.py
+
+seed_l0_composition:
+  - CODE/kernel_composition/__init__.py
+  - CODE/kernel_composition/seed_runtime_factory.py
+
+seed_l0_default_ports:
+  - CODE/kernel_composition/local_seed_ports/__init__.py
+  - CODE/kernel_composition/local_seed_ports/local_config_port.py
+  - CODE/kernel_composition/local_seed_ports/local_path_resolver_port.py
+  - CODE/kernel_composition/local_seed_ports/local_risk_policy_port.py
+  - CODE/kernel_composition/local_seed_ports/local_evidence_writer_port.py
+  - CODE/kernel_composition/local_seed_ports/local_planner_port.py
+  - CODE/kernel_composition/local_seed_ports/local_governance_port.py
+  - CODE/kernel_composition/local_seed_ports/local_memory_port.py
+  - CODE/kernel_composition/local_seed_ports/local_evaluation_port.py
+  - CODE/kernel_composition/local_seed_ports/local_profile_port.py
+  - CODE/kernel_composition/local_seed_ports/local_policy_port.py
+  - CODE/kernel_composition/local_seed_ports/local_trace_port.py
+  - CODE/kernel_composition/local_seed_ports/local_checkpoint_port.py
+  - CODE/kernel_composition/local_seed_ports/tool_gateway_adapter_port.py
+
+seed_l0_profiles:
+  - CODE/profiles/__init__.py
+  - CODE/profiles/agent_profile_schema.py
+  - CODE/profiles/profile_loader.py
+  - CODE/profiles/profile_validator.py
+  - CODE/profiles/profile_registry.py
+  - CODE/profiles/builtin/__init__.py
+  - CODE/profiles/builtin/generalist.yaml
+
+seed_l0_gateway:
+  - CODE/tool_gateway/__init__.py
+  - CODE/tool_gateway/seed_tool_registry.py
+  - CODE/tool_gateway/tool_gateway.py
+  - CODE/tool_gateway/tool_registry.py
+  - CODE/tool_gateway/tool_contracts.py
+  - CODE/tool_gateway/tool_policy.py
+  - CODE/tool_gateway/tool_certification.py
+  - CODE/tool_gateway/seed_tools/__init__.py
+  - CODE/tool_gateway/seed_tools/emit_answer.py
+
+seed_l0_governance:
+  - CODE/governance/__init__.py
+  - CODE/governance/governance_factory.py
+  - CODE/governance/risk_model.py
+  - CODE/governance/permission_classes.py
+  - CODE/governance/irreversible_action_policy.py
+  - CODE/governance/policies/seed_tool_risk.yaml
+
+seed_proof_scripts:
+  - scripts/proofs/evidence_ledger.py
+  - scripts/proofs/prove_seed_invariants.py
+  - scripts/proofs/prove_capability_manifest.py
+  - scripts/proofs/prove_public_api_compatibility.py
+  - scripts/proofs/prove_runtime_phase_order.py
+  - scripts/proofs/prove_seed_package_reproducible.py
+
+seed_l0_method_docs:
+  - DOCUMENTS/INVERSE_SCIENCE.txt
+
+seed_authority:
+  - SEED_PACKAGE_MANIFEST.yaml
+  - CAPABILITY_MANIFEST.yaml
+  - SEED_INVARIANTS.yaml
+  - EXTENSION_ABI.md
+  - EVOLUTION_ACCEPTANCE.md
+  - PUBLIC_CONTRACT_POLICY.md
+  - SEED_ACCEPTANCE.md
+  - README.md
+  - LICENSE

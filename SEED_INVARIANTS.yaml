@@ -1,0 +1,95 @@
+version: 1
+name: governed_universal_seed_invariants
+seed_package_manifest: SEED_PACKAGE_MANIFEST.yaml
+
+public_runtime_boundary:
+  only_public_turn_entrypoint:
+    symbol: core_kernel.public.kernel_service.KernelService.run_turn
+    required: true
+  forbidden_public_turn_entrypoints:
+    patterns:
+      - "*.run_agent"
+      - "*.execute_agent"
+      - "*.dispatch_turn"
+      - "*.handle_turn"
+      - "*.process_turn"
+      - "*.act"
+      - "*.execute_tool"
+  public_api_package: CODE/core_kernel/public
+
+runtime_order:
+  required_phase_order:
+    - input_received
+    - goal_normalized
+    - profile_loaded
+    - task_created
+    - policy_computed
+    - capability_selected
+    - planner_decision_made
+    - governance_checked
+    - tool_requested
+    - trace_write_completed
+    - evaluation_completed
+    - memory_written_or_skipped_with_reason
+    - checkpoint_write_completed
+    - output_returned
+
+governance:
+  gateway_requires_governance_before_execution: true
+  denied_action_must_not_reach_gateway: true
+  approval_required_action_must_not_execute_without_continuation: true
+  governance_decision_must_be_recorded: true
+
+tool_boundary:
+  only_execution_authority: ToolGatewayPort
+  seed_allowed_tools:
+    - seed.emit_answer
+  forbidden_l0_tool_classes:
+    - shell
+    - network
+    - filesystem_write
+    - self_modification
+    - promotion
+    - package_install
+    - credential_access
+
+evidence:
+  every_turn_requires:
+    - trace_id
+    - checkpoint_id
+    - governance_decision_id
+    - evaluation_verdict_id
+  denial_requires:
+    - trace_id
+    - checkpoint_id
+    - blocked_action
+    - governance_decision_id
+
+extension_boundary:
+  l0_may_define_ports: true
+  l0_may_not_import_extensions: true
+  extension_roots:
+    - examples/extensions
+  extension_imports_forbidden_from:
+    - CODE/core_kernel
+    - CODE/kernel_composition/local_seed_ports
+    - CODE/tool_gateway/seed_tools
+    - CODE/governance
+  allowed_extension_attachment_points:
+    - PlannerPort
+    - GovernancePort
+    - ToolGatewayPort
+    - MemoryPort
+    - EvaluationPort
+    - TracePort
+    - CheckpointPort
+    - ProfilePort
+    - PolicyPort
+    - RiskPolicyPort
+    - EvidenceWriterPort
+
+release:
+  make_prove_seed_required: true
+  build_seed_required: true
+  no_untracked_l0_files_allowed: true
+  manifest_closure_required: true

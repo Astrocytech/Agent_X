@@ -1,0 +1,1873 @@
+INVERSE SCIENCE METHOD
+Document-only guidance for governed problem solving and future Agent_X evolution agents
+
+Version: 2.0
+Status: Advisory method document, final release for document-only Agent_X integration
+Runtime status: Not part of the required Agent_X seed-kernel runtime path
+
+Revision note:
+    Version 2.0 is the final document-only release. It makes no substantive expansion to
+    the method. It preserves inverse science as advisory guidance, confirms that no runtime
+    integration should be inferred from this document, and treats future edits as valid only
+    when a concrete defect, ambiguity, architectural drift, repeated misuse, or proven
+    compression need is observed.
+
+
+============================================================
+1. PURPOSE
+============================================================
+
+Inverse science is a disciplined method for deciding what input, action, design, prompt,
+parameter, tool call, code change, or strategy to try next when the desired output is
+known but the path to that output is uncertain.
+
+Use inverse science when the central question is:
+
+    What should be tried next to produce, approach, explain, or improve a desired output?
+
+The method is especially useful when the system being acted on behaves like a black box:
+the agent can choose inputs and observe outputs, but it does not fully know the hidden
+mechanism connecting them.
+
+This document is intended as guidance for an external evolution agent, coding agent,
+research agent, or planning agent that reads the Agent_X repository and decides how to
+improve, specialize, or operate it.
+
+It is not a mandate to add a new runtime subsystem.
+
+
+============================================================
+1A. INTENDED USE AND NON-GOALS
+============================================================
+
+This document is meant to be read by an external agent before it proposes changes,
+experiments, patches, or strategy updates.
+
+It is intended to guide:
+
+    - what problem to define,
+    - what output to seek,
+    - what candidate action to try,
+    - what evidence to collect,
+    - when to stop,
+    - when to reframe,
+    - and how to avoid mistaking activity for progress.
+
+It is not intended to be:
+
+    - a mandatory runtime loop,
+    - a replacement for governance,
+    - a permission system,
+    - a self-modification engine,
+    - a Bayesian optimization framework,
+    - a full scientific-method textbook,
+    - or a justification for adding machinery before evidence shows it is needed.
+
+For Agent_X, this document should help an external evolution agent reason better while
+leaving the seed kernel small and method-neutral.
+
+
+============================================================
+2. KERNEL BOUNDARY
+============================================================
+
+Inverse science is a reasoning doctrine, not a required kernel primitive.
+
+For Agent_X, this document must be treated as advisory unless a future profile explicitly
+adopts it.
+
+The seed kernel should remain:
+
+    - small
+    - governed
+    - replayable
+    - checkpointable
+    - profile-neutral
+    - method-neutral
+    - tool-mediated
+    - evaluation-aware
+    - safe to evolve by an external agent
+
+Do not add inverse-science runtime machinery to the seed unless the change clearly improves
+the kernel without weakening minimality, governance, replay, or extensibility.
+
+The correct relationship is:
+
+    Agent_X core:
+        governed execution kernel
+
+    Inverse science:
+        optional method for choosing better next actions
+
+    External evolution agent:
+        may read this document and use it to decide what code, tests, profiles, or
+        documentation to change next
+
+
+============================================================
+2A. DOCUMENT-ONLY INTEGRATION RULE
+============================================================
+
+This method should be integrated into Agent_X as a document first.
+
+The external evolution agent may read it and use it to decide what to try next, but the
+seed kernel must not be required to execute inverse science internally.
+
+Document-only integration is preferred when:
+
+    - the seed kernel is still being stabilized,
+    - the method is useful but not required for every agent type,
+    - runtime implementation would add complexity before there is evidence of need,
+    - future agents can apply the method through ordinary planning, testing, and review,
+    - the project needs doctrine more than machinery.
+
+Runtime integration may be considered later only if:
+
+    - a profile explicitly needs inverse-science behavior,
+    - the core runtime can remain profile-neutral,
+    - governance-before-action is preserved,
+    - replay and checkpoint behavior remain testable,
+    - the implementation is small, typed, and replaceable through ports,
+    - there is evidence that document-only use is insufficient.
+
+Until those conditions are met, inverse science is guidance for the agent, not a kernel
+subsystem.
+
+
+============================================================
+2B. DOCTRINE, PROFILE, AND RUNTIME DECISION GATE
+============================================================
+
+Before integrating any part of inverse science, classify the proposed integration level.
+
+Doctrine level:
+    A document, checklist, rubric, or acceptance criterion. This is the default and safest
+    form for the seed stage.
+
+Profile level:
+    A profile or agent mode that chooses to use inverse-science behavior while the core
+    remains neutral. This is acceptable only when the profile can be added without changing
+    the governed runtime path.
+
+Runtime level:
+    Core code that executes inverse-science stages directly. This should be avoided unless
+    there is strong evidence that doctrine-level and profile-level use are insufficient.
+
+Decision rule:
+
+    IF the improvement can be achieved as doctrine, use doctrine.
+    ELSE IF it can be achieved as profile behavior, use profile behavior.
+    ELSE IF runtime machinery is unavoidable, keep it small, port-based, governed,
+    replayable, and replaceable.
+
+The burden of proof is always on the proposal that adds runtime complexity.
+
+
+============================================================
+2C. INTEGRATION-PERMISSION TEST
+============================================================
+
+Before an external agent proposes any repository change based on this document, it must
+classify the change by permission level.
+
+Allowed by default:
+
+    - documentation improvements,
+    - test additions that do not alter runtime behavior,
+    - examples, rubrics, acceptance criteria,
+    - profile-level guidance that does not change the core runtime path,
+    - small contract clarifications that preserve existing behavior.
+
+Requires stronger evidence:
+
+    - new runtime branches,
+    - new required planner logic,
+    - new persistent state fields,
+    - new evaluation gates that can block normal operation,
+    - new tool policies,
+    - new abstractions imported by the seed runtime.
+
+Reject unless explicitly justified:
+
+    - direct tool execution outside governance,
+    - runtime self-modification,
+    - large optimization frameworks,
+    - heavy dependencies,
+    - method-specific code embedded in the neutral kernel,
+    - changes that make replay or checkpointing harder to test.
+
+Default rule:
+
+    If the same benefit can be achieved by documentation, tests, or profile guidance, do not
+    add runtime machinery.
+
+
+============================================================
+2D. REPOSITORY PLACEMENT AND ADOPTION RULE
+============================================================
+
+Recommended document placement in Agent_X:
+
+    docs/methods/INVERSE_SCIENCE.md
+
+Optional references may be added from:
+
+    README.md
+    docs/ARCHITECTURE.md
+    docs/EVOLUTION.md
+
+The reference should say that inverse science is an optional advisory method for external
+agents and future profiles. It must not imply that the seed kernel is required to execute
+this method internally.
+
+
+============================================================
+2E. SOURCE-OF-TRUTH AND CONFLICT RULE
+============================================================
+
+If this document conflicts with Agent_X kernel invariants, the kernel invariants win.
+
+Priority order:
+
+    1. Safety, permission, and governance rules.
+    2. Public kernel contracts and replay/checkpoint requirements.
+    3. Existing tests and acceptance criteria.
+    4. Profile-specific behavior.
+    5. This inverse-science advisory method.
+
+This document may guide reasoning, but it must not be used to justify bypassing a stronger
+project rule.
+
+External agents should treat inverse science as a way to choose better proposals, not as
+a source of authority over the repository architecture.
+
+
+============================================================
+2F. ANTI-BLOAT DECISION RULE
+============================================================
+
+Before proposing any implementation inspired by this document, apply this rule:
+
+    IF the benefit can be achieved by documentation, do documentation.
+    ELSE IF the benefit can be achieved by tests, do tests.
+    ELSE IF the benefit can be achieved by a profile, do profile-level behavior.
+    ELSE IF the benefit requires runtime code, keep the change minimal, port-based,
+    governed, typed, replayable, and removable.
+
+Reject the change if it adds machinery whose value cannot be measured by a clearer target,
+a better test, a safer decision, a more replayable trace, or a smaller future evolution step.
+
+The seed should become easier to evolve after the change, not merely more capable in one
+narrow scenario.
+
+Adoption rule:
+
+    - add the method as documentation first,
+    - mention it as optional guidance,
+    - do not import it into runtime code,
+    - do not create new ports or state fields only for this method,
+    - do not add dependencies for inverse-search machinery,
+    - revisit runtime adoption only after repeated external-agent use shows a real need.
+
+A correct repository integration is successful when a future agent can read the document,
+apply the method, and produce better governed patches without the kernel becoming larger.
+
+
+============================================================
+2G. METHOD MAINTENANCE AND REVISION DISCIPLINE
+============================================================
+
+This document should stay useful as doctrine, not grow into an informal runtime spec.
+
+Future edits should follow these rules:
+
+    - add a rule only when it prevents a real failure mode,
+    - prefer tightening an existing rule over adding a new section,
+    - remove duplicated advice when a clearer version already exists,
+    - keep examples tied to Agent_X seed evolution or general black-box search,
+    - avoid adding implementation details that belong in code, tests, or profiles,
+    - preserve the document-only boundary unless runtime adoption has been explicitly
+      approved by the project owner.
+
+A revision is useful only if it makes an external agent more likely to choose a small,
+governed, evidence-producing next action.
+
+If a proposed edit merely makes the document sound more comprehensive without changing
+agent behavior, reject or compress it.
+
+
+============================================================
+3. BASIC DEFINITION
+============================================================
+
+Normal science often starts with a hypothesis and tests whether the world agrees.
+
+Inverse science starts with a desired output and searches for the input that can produce it.
+
+Forward question:
+
+    Given input X, what output Y occurs?
+
+Inverse question:
+
+    Given desired output Y, what input X should be tried?
+
+Examples:
+
+    Desired output:
+        Better kernel replayability
+
+    Candidate inputs:
+        Add replay tests
+        Simplify event schema
+        Tighten checkpoint contracts
+        Remove non-deterministic runtime behavior
+
+    Observed outputs:
+        Tests pass or fail
+        Replay succeeds or diverges
+        Trace becomes clearer or noisier
+        Kernel becomes simpler or more complex
+
+Inverse science turns improvement into a disciplined search loop rather than an
+unstructured sequence of guesses.
+
+
+============================================================
+4. CORE LOOP
+============================================================
+
+The core loop is:
+
+    1. Define desired output.
+    2. Define hard constraints and soft preferences.
+    3. Define the input domain.
+    4. Characterize the black box.
+    5. Assess whether the target is identifiable and feasible.
+    6. Build or choose a provisional model.
+    7. Form an inverse hypothesis.
+    8. Generate candidate inputs.
+    9. Rank candidates by expected value, information gain, risk, cost, and novelty.
+    10. Route any probe through governance.
+    11. Execute only approved probes.
+    12. Observe and record the output.
+    13. Analyze the result.
+    14. Update the model, memory, best-known solution, and negative knowledge.
+    15. Decide whether to continue, backtrack, report, or stop.
+
+Compact form:
+
+    desired output
+    -> constraints
+    -> input domain
+    -> black-box characterization
+    -> candidate inputs
+    -> governed probe
+    -> observed output
+    -> analysis
+    -> memory update
+    -> next candidate or stop
+
+
+============================================================
+5. WHEN TO USE INVERSE SCIENCE
+============================================================
+
+Use this method for:
+
+    - black-box optimization
+    - prompt improvement
+    - codebase evolution
+    - tool strategy selection
+    - scientific search
+    - debugging uncertain systems
+    - architecture improvement
+    - product strategy search
+    - parameter tuning
+    - experiment planning
+    - agent behavior refinement
+    - multi-step real-world problem solving
+
+Use it when:
+
+    - the target is clearer than the path
+    - trial and observation are possible
+    - mistakes can teach useful negative knowledge
+    - candidate actions can be compared
+    - uncertainty should be reduced systematically
+    - governance is needed before acting
+
+Do not force it for:
+
+    - trivial tasks
+    - direct factual lookup
+    - simple deterministic transformations
+    - tasks where the next action is already obvious
+    - tasks where trial is impossible, unsafe, or unethical
+    - tasks where no meaningful output can be observed
+
+
+============================================================
+6. REQUIRED DISCIPLINE
+============================================================
+
+An agent using inverse science must follow these rules:
+
+    - Define the target before acting.
+    - Separate hard constraints from soft preferences.
+    - Define what counts as success, partial success, failure, and uncertainty.
+    - Define what inputs are allowed and forbidden.
+    - Do not confuse the best-found input with a proven optimum.
+    - Do not overclaim results.
+    - Record failed attempts as useful negative knowledge.
+    - Preserve the reason each candidate was chosen.
+    - Route all real probes through governance.
+    - Avoid irreversible or unsafe actions unless explicitly authorized and justified.
+    - Checkpoint before and after important probes.
+    - Preserve replayability.
+    - Prefer small informative probes over large uncontrolled changes.
+    - Stop when further probing is unjustified by cost, risk, or diminishing returns.
+
+
+============================================================
+7. BLACK-BOX MODEL
+============================================================
+
+A black box is any system where the agent can observe some inputs and outputs but does not
+fully know the mechanism.
+
+For Agent_X evolution, the repository can be treated as a black box:
+
+    Input:
+        A code change, documentation change, test addition, profile change, contract change,
+        or architecture simplification.
+
+    Output:
+        Test results, trace behavior, replay behavior, complexity change, governance behavior,
+        maintainability, and seed-kernel score.
+
+The black-box characterization should record:
+
+    - observable inputs
+    - observable outputs
+    - hidden-state hypotheses
+    - controllable variables
+    - uncontrollable variables
+    - delays between input and output
+    - noise or randomness
+    - nonstationarity or drift
+    - coupled subsystems
+    - safety limits
+    - measurement limits
+    - likely failure modes
+
+
+============================================================
+8. TARGET DEFINITION
+============================================================
+
+Before selecting any candidate action, define the desired output.
+
+A target definition should include:
+
+    - target name
+    - target description
+    - success tolerance
+    - unacceptable outputs
+    - measurable indicators
+    - evidence required
+    - uncertainty that can be tolerated
+    - uncertainty that must be reduced
+
+Example for Agent_X:
+
+    Target:
+        Improve Agent_X as a minimal governed universal seed kernel.
+
+    Desired output:
+        A smaller, cleaner, more replayable, more testable kernel that can be safely evolved
+        by an external coding agent into many specialized agents.
+
+    Hard constraints:
+        Do not add runtime bloat.
+        Do not bypass governance.
+        Do not introduce direct unmediated tool execution.
+        Do not break the public entrypoint.
+        Do not weaken checkpoint or replay behavior.
+
+    Soft preferences:
+        Prefer simpler code.
+        Prefer clearer contracts.
+        Prefer stronger tests.
+        Prefer less duplication.
+        Prefer profile-based specialization over core changes.
+
+
+============================================================
+9. CONSTRAINTS
+============================================================
+
+Hard constraints are non-negotiable. A candidate that violates them must be rejected.
+
+Soft constraints are preferences or tradeoffs. A candidate may violate a soft constraint only
+if the expected gain is explicit and justified.
+
+For each problem, define:
+
+    Hard constraints:
+        - safety limits
+        - governance limits
+        - ethical limits
+        - legal or regulatory limits
+        - runtime invariants
+        - input-domain boundaries
+        - budget limits
+        - irreversible-action limits
+
+    Soft constraints:
+        - cost
+        - elegance
+        - simplicity
+        - speed
+        - maintainability
+        - coverage
+        - explainability
+        - extensibility
+
+The agent must not treat soft preferences as hard constraints unless explicitly stated.
+
+
+============================================================
+9A. MINIMUM EVIDENCE STANDARD
+============================================================
+
+Every nontrivial claim of improvement must identify its evidence class.
+
+Evidence classes:
+
+    unsupported_claim:
+        A statement with no test, trace, inspection, or measurable observation. This should
+        not be treated as progress.
+
+    inspection_evidence:
+        A human or agent inspected the artifact and found a plausible improvement. Useful,
+        but weaker than executable evidence.
+
+    test_evidence:
+        A relevant test, fixture, replay, or check passed after the candidate change.
+
+    comparative_evidence:
+        The candidate was compared against a previous state, baseline, or alternative.
+
+    replicated_evidence:
+        The result was reproduced across repeated runs, examples, or conditions.
+
+    negative_evidence:
+        The candidate failed, exposed a weakness, or ruled out an assumption in a way that
+        improves future decisions.
+
+For Agent_X evolution, strong evidence usually requires at least one of:
+
+    - a passing test that did not exist before,
+    - a replay or checkpoint fixture,
+    - a reduced or simplified runtime path,
+    - a clearer contract boundary,
+    - a documented removal of ambiguity,
+    - or a recorded negative result that prevents repeated bad patches.
+
+A change that only sounds better but produces no observable evidence should be treated as
+low-confidence.
+
+
+============================================================
+9B. OBJECTIVE AND EVIDENCE SCORING
+============================================================
+
+The agent should not rely on vague impressions of improvement.
+
+For each inverse-science task, define a scoring structure before ranking candidates.
+
+Minimum score fields:
+
+    - target_distance:
+        How far the observed output is from the desired output. Lower is better.
+
+    - hard_constraint_status:
+        Whether all hard constraints were preserved. Any hard failure blocks success.
+
+    - soft_preference_score:
+        How well the candidate satisfies preferences such as simplicity, maintainability,
+        speed, clarity, or extensibility.
+
+    - information_gain:
+        How much the probe reduced uncertainty, even if it did not directly improve the
+        result.
+
+    - risk_cost_score:
+        Combined cost, danger, irreversibility, runtime complexity, or maintenance burden.
+
+    - evidence_strength:
+        How strong the evidence is that the observed effect is real, reproducible, and
+        attributable to the candidate.
+
+A candidate should be considered useful if it does at least one of the following without
+violating hard constraints:
+
+    - improves the best-known solution,
+    - reduces uncertainty,
+    - identifies a bad region,
+    - falsifies a weak hypothesis,
+    - exposes a hidden constraint,
+    - improves the model used for future decisions,
+    - justifies stopping or reframing.
+
+
+============================================================
+9C. EVIDENCE THRESHOLD BY CHANGE TYPE
+============================================================
+
+Not every change requires the same evidence level. Use the smallest sufficient evidence
+standard, but do not accept unsupported improvement claims.
+
+Documentation-only change:
+    Minimum evidence: inspection_evidence.
+    Stronger evidence: the document removes ambiguity, adds an acceptance criterion, or
+    prevents a known bad implementation path.
+
+Test-only change:
+    Minimum evidence: test_evidence.
+    Stronger evidence: the test fails before the relevant fix or guards a known invariant.
+
+Contract/schema change:
+    Minimum evidence: inspection_evidence plus test_evidence.
+    Stronger evidence: replay/checkpoint compatibility is demonstrated.
+
+Runtime-path change:
+    Minimum evidence: test_evidence plus comparative_evidence.
+    Stronger evidence: replay evidence, governance evidence, and no increase in unnecessary
+    runtime complexity.
+
+Tool/governance change:
+    Minimum evidence: explicit safety rationale plus test_evidence.
+    Stronger evidence: blocked-action and allowed-action cases are both demonstrated.
+
+External evolution agents should prefer changes with low implementation risk and high
+evidence value before attempting broad architectural changes.
+
+
+============================================================
+10. INPUT DOMAIN
+============================================================
+
+The input domain is the set of actions or changes the agent is allowed to try.
+
+For software evolution, candidate inputs may include:
+
+    - add a test
+    - remove dead code
+    - tighten a contract
+    - simplify a runtime path
+    - add a profile
+    - improve a document
+    - add a replay fixture
+    - improve error handling
+    - refactor an adapter
+    - add an evaluator hook
+    - remove duplicate logic
+
+For each input, record:
+
+    - what will be changed
+    - why it is allowed
+    - expected output
+    - expected information gain
+    - expected risk
+    - expected cost
+    - rollback path
+    - evaluation method
+
+
+============================================================
+11. INVERSE-PROBLEM TYPES
+============================================================
+
+Classify the inverse problem before choosing a strategy.
+
+Common types:
+
+    Deterministic inverse:
+        The same input reliably produces the same output.
+
+    Stochastic inverse:
+        The same input may produce different outputs.
+
+    Optimization problem:
+        The goal is to improve a score rather than hit an exact output.
+
+    Constraint-satisfaction problem:
+        The goal is to find any input satisfying all hard constraints.
+
+    Multiobjective problem:
+        The goal involves tradeoffs among competing outputs.
+
+    Ill-posed inverse problem:
+        Multiple inputs may explain the same output, or small input changes may cause large
+        output changes.
+
+    Many-to-one inverse:
+        Many valid inputs can produce the desired output.
+
+    Nonstationary black box:
+        The system changes over time, so old observations may become less reliable.
+
+    Expensive-trial problem:
+        Each probe has high cost, time, or risk.
+
+    Unsafe-trial problem:
+        Some probes could cause unacceptable harm or irreversible effects.
+
+The search strategy should depend on this classification.
+
+
+============================================================
+12. IDENTIFIABILITY
+============================================================
+
+Do not begin optimization until the target is at least provisionally identifiable.
+
+Ask:
+
+    - Can the desired output be observed?
+    - Can the relevant inputs be controlled?
+    - Are there hidden variables that dominate the output?
+    - Are measurements precise enough?
+    - Is the target meaningfully different from failure?
+    - Can trial results distinguish among candidate explanations?
+    - Is the problem underdetermined?
+    - Could many inputs produce indistinguishable outputs?
+
+Possible identifiability statuses:
+
+    identifiable:
+        Continue with candidate generation and ranking.
+
+    partially identifiable:
+        Continue, but prefer high-information probes and report uncertainty.
+
+    not identifiable:
+        Reframe the problem, improve observability, or stop.
+
+    unknown:
+        Perform characterization probes before optimization.
+
+
+============================================================
+13. MODEL SET
+============================================================
+
+The agent should maintain a provisional model set, not assume one model is correct.
+
+Possible model families:
+
+    - constraint-only model
+    - lookup-table model
+    - nearest-neighbor model
+    - local-linear model
+    - rule-based causal model
+    - probabilistic surrogate model
+    - tree-based surrogate
+    - mechanistic model
+    - subsystem model
+    - ensemble model
+
+The active model should be chosen by:
+
+    - consistency with observations
+    - usefulness for inverse search
+    - robustness to noise
+    - compatibility with constraints
+    - computational cost
+    - explainability
+    - ability to suggest informative next probes
+
+The agent should keep alternative models alive when uncertainty is high.
+
+
+============================================================
+14. INVERSE HYPOTHESIS
+============================================================
+
+An inverse hypothesis is a tentative claim about what input regions may move the output
+toward the target.
+
+It should state:
+
+    - which inputs are likely useful
+    - which variables matter most
+    - which unknowns most need resolution
+    - what evidence would support it
+    - what evidence would weaken or falsify it
+    - what candidate probes follow from it
+
+Example:
+
+    Hypothesis:
+        The kernel score will improve more from tightening replay/checkpoint tests than
+        from adding new runtime capabilities.
+
+    Candidate probes:
+        Add replay invariant tests.
+        Add checkpoint round-trip tests.
+        Remove runtime paths not covered by replay.
+        Strengthen trace expectations.
+
+    Falsification signal:
+        Tests show replay is already strong, while governance or contract boundaries remain weak.
+
+
+============================================================
+15. CANDIDATE GENERATION
+============================================================
+
+Generate candidates from multiple sources:
+
+    - literature or prior work
+    - current model
+    - inverse hypothesis
+    - boundary cases
+    - conservative safe probes
+    - high-information probes
+    - local refinement around a good result
+    - global exploration of untested regions
+    - failed-region repair
+    - replication of suspicious results
+
+A candidate should not be just an action. It should include a reason.
+
+Candidate record:
+
+    - candidate id
+    - input/action/change
+    - source
+    - expected output
+    - expected information gain
+    - expected risk
+    - expected cost
+    - hard-constraint check
+    - rollback plan
+    - rationale
+
+
+============================================================
+16. CANDIDATE RANKING
+============================================================
+
+Do not rank candidates by intuition alone.
+
+Rank candidates using an acquisition score that considers:
+
+    - expected closeness to target
+    - expected information gain
+    - constraint satisfaction
+    - safety risk
+    - cost
+    - novelty
+    - reversibility
+    - uncertainty reduction
+    - chance of improving the best-known solution
+
+A practical scoring rule:
+
+    acquisition_score =
+        expected_target_gain
+        + expected_information_gain
+        + novelty
+        + reversibility_bonus
+        - constraint_risk
+        - safety_risk
+        - cost
+        - complexity_penalty
+
+The highest-ranked candidate is not automatically allowed. It must still pass governance.
+
+
+============================================================
+16A. PATCH GRANULARITY AND VARIABLE CONTROL
+============================================================
+
+When using inverse science for codebase evolution, control the number of variables changed
+at once.
+
+Prefer one primary change per probe:
+
+    - one contract tightened,
+    - one test family added,
+    - one runtime path simplified,
+    - one document clarified,
+    - one profile boundary improved,
+    - or one obsolete component removed.
+
+A multi-change patch is allowed only when the changes are inseparable and the report states
+why they must be evaluated together.
+
+Variable-control rule:
+
+    IF a candidate changes too many things at once,
+    THEN split it into smaller candidates unless splitting would destroy the evidence value.
+
+This prevents the agent from producing a large patch where the cause of improvement or
+regression cannot be identified.
+
+
+============================================================
+17. EXPLORATION AND EXPLOITATION
+============================================================
+
+Use exploration when:
+
+    - little is known
+    - model uncertainty is high
+    - recent candidates have failed
+    - the search is stuck
+    - identifiability is weak
+    - many regions remain untested
+
+Use exploitation when:
+
+    - a promising region has been found
+    - the target is nearly reached
+    - uncertainty is low enough
+    - additional local refinement is cheap and safe
+
+A simple policy:
+
+    - early stage: mostly exploration
+    - middle stage: balanced exploration and exploitation
+    - near success: mostly exploitation
+    - after stagnation: return to exploration or reframe
+
+
+============================================================
+18. GOVERNED PROBING
+============================================================
+
+A probe is any action that tests a candidate input against the black box.
+
+For Agent_X, probes may include:
+
+    - running tests
+    - modifying code
+    - creating a new profile
+    - changing a contract
+    - removing a module
+    - adding documentation
+    - checking replay
+    - checking trace output
+    - evaluating seed-kernel score
+
+Every probe must be governed.
+
+Before execution, check:
+
+    - Is the candidate within the allowed input domain?
+    - Does it violate any hard constraint?
+    - Is it reversible?
+    - Does it require user approval?
+    - Does it bypass tool mediation?
+    - Does it weaken safety?
+    - Does it create runtime bloat?
+    - Does it preserve replayability?
+    - Is the expected information gain worth the cost?
+
+
+Governance outcome types:
+
+    allow:
+        The candidate may be executed as proposed.
+
+    allow_with_limits:
+        The candidate may be executed only with narrower scope, lower risk, added
+        checkpoints, additional tests, or explicit approval.
+
+    defer:
+        More information is needed before execution.
+
+    reject:
+        The candidate violates hard constraints or offers insufficient expected value.
+
+    require_reframe:
+        The target, constraints, input domain, or measurement method is too unclear to
+        justify probing.
+
+A rejected candidate should not simply disappear. It should be recorded as negative
+knowledge with the reason for rejection.
+
+
+============================================================
+19. OBSERVATION
+============================================================
+
+Each probe must produce an observation record.
+
+Observation record:
+
+    - candidate id
+    - actual input/action
+    - timestamp or sequence id
+    - environment assumptions
+    - tool used
+    - output observed
+    - tests run
+    - pass/fail result
+    - measured score
+    - unexpected side effects
+    - validity status
+    - uncertainty
+    - raw evidence
+    - link to trace/checkpoint
+
+Do not discard failed results. Failed results may be the most valuable part of the search.
+
+
+============================================================
+19A. EVIDENCE LEDGER
+============================================================
+
+Every nontrivial probe should create an evidence ledger entry.
+
+Evidence ledger entry:
+
+    - claim being tested
+    - candidate used
+    - expected result
+    - observed result
+    - tests or checks performed
+    - raw evidence location
+    - interpretation
+    - uncertainty remaining
+    - whether the claim was supported, weakened, falsified, or left unresolved
+    - whether the observation should affect future ranking
+
+The evidence ledger prevents the agent from treating activity as progress.
+
+A probe that produces no interpretable evidence should be marked as low value unless it
+reveals a constraint, a measurement failure, or a need to reframe the problem.
+
+
+============================================================
+20. ANALYSIS
+============================================================
+
+After each observation, analyze:
+
+    - Did the output move closer to the target?
+    - Were hard constraints preserved?
+    - Did the candidate reduce uncertainty?
+    - Did the result support or weaken the inverse hypothesis?
+    - Did it reveal a model mismatch?
+    - Did it reveal an unsafe or low-value region?
+    - Did it improve the best-known solution?
+    - Was the result valid, noisy, suspicious, or artifactual?
+    - Should the result be replicated?
+    - Should the search continue, backtrack, reframe, or stop?
+
+
+============================================================
+21. NEGATIVE KNOWLEDGE
+============================================================
+
+Negative knowledge is structured memory of what did not work and why.
+
+Record:
+
+    - impossible regions
+    - low-value regions
+    - unsafe regions
+    - high-cost low-gain regions
+    - misleading assumptions
+    - failed inverse hypotheses
+    - failed search strategies
+    - invalidated trials
+    - model mismatches
+    - measurement failures
+
+Negative knowledge prevents repeated mistakes and improves future candidate ranking.
+
+
+============================================================
+21A. FAILURE TAXONOMY
+============================================================
+
+Failures should be categorized, not merely marked as failed.
+
+Common failure types:
+
+    target_failure:
+        The candidate did not move the output toward the target.
+
+    constraint_failure:
+        The candidate violated a hard constraint.
+
+    governance_failure:
+        The candidate bypassed or weakened required approval, policy, or mediation.
+
+    evidence_failure:
+        The candidate produced no interpretable evidence.
+
+    measurement_failure:
+        The test, metric, trace, or observation method was invalid or too weak.
+
+    model_failure:
+        The active model predicted the wrong effect.
+
+    complexity_failure:
+        The candidate improved one score while making the system too large, coupled, or
+        hard to replay.
+
+    reversibility_failure:
+        The candidate could not be safely rolled back or isolated.
+
+    integration_failure:
+        The candidate worked locally but conflicted with the larger architecture.
+
+Each failure type should influence future candidate generation and ranking.
+
+
+============================================================
+22. BEST-KNOWN SOLUTION
+============================================================
+
+The best-known solution is not necessarily the true solution.
+
+Always distinguish:
+
+    best-found input:
+        The best input found so far.
+
+    local optimum:
+        The best input found within a local region.
+
+    global optimum:
+        The best possible input across the full domain, only if supported by strong evidence.
+
+    exact inverse:
+        An input that produces the exact desired output.
+
+    approximate inverse:
+        An input that produces an output within tolerance.
+
+    feasible solution:
+        An input that satisfies all hard constraints.
+
+    proven impossibility:
+        Evidence that no acceptable input exists under current constraints.
+
+Reports must state which status applies.
+
+
+============================================================
+23. BACKTRACKING
+============================================================
+
+Backtracking is required when:
+
+    - the model is contradicted
+    - the inverse hypothesis fails
+    - the search strategy repeatedly fails
+    - an apparatus or measurement fault is found
+    - data processing is invalid
+    - identifiability is insufficient
+    - constraints were misunderstood
+    - the target was poorly defined
+    - a checkpoint is needed to restore a clean state
+
+Backtracking must:
+
+    - restore a compatible checkpoint
+    - invalidate downstream state when appropriate
+    - preserve audit history
+    - record the cause
+    - avoid hiding failed trials
+    - avoid pretending the search was linear
+
+
+============================================================
+24. STOPPING CONDITIONS
+============================================================
+
+Stop when one of the following is true:
+
+    - success is reached and verified
+    - hard resource limits are reached
+    - no candidate remains above the minimum expected value
+    - marginal gain is below cost
+    - further probing is unsafe
+    - further probing is not justified by uncertainty reduction
+    - the target is likely infeasible under current constraints
+    - the problem must be reframed
+    - the user or governing policy requires stopping
+
+The termination reason must be explicit.
+
+
+============================================================
+25. REPORTING
+============================================================
+
+A report should include:
+
+    - target
+    - constraints
+    - input domain
+    - black-box characterization
+    - inverse-problem type
+    - identifiability status
+    - model assumptions
+    - inverse hypotheses tried
+    - candidate ranking method
+    - probes executed
+    - observations
+    - best-known input
+    - best-known output
+    - score
+    - feasibility
+    - uncertainty
+    - negative knowledge
+    - stopping reason
+    - recommended next justified probes, if any
+
+The report must separate:
+
+    - raw observation
+    - interpretation
+    - hypothesis
+    - speculation
+    - proven result
+
+
+============================================================
+26. USE FOR AGENT_X EVOLUTION
+============================================================
+
+When an external evolution agent improves Agent_X, it should use inverse science like this:
+
+    Desired output:
+        A better governed seed kernel.
+
+    Input domain:
+        Small code changes, test changes, contract changes, profile changes, documentation
+        changes, and cleanup patches.
+
+    Black box:
+        The current repository, tests, traces, replay behavior, architecture, and governance
+        behavior.
+
+    Candidate input:
+        A proposed patch or documentation change.
+
+    Probe:
+        Apply the patch in a controlled branch or sandbox.
+
+    Observed output:
+        Test results, trace output, replay behavior, static inspection, complexity change,
+        score change, and architectural clarity.
+
+    Best-known solution:
+        The best patch or sequence of patches found so far.
+
+    Negative knowledge:
+        Patches that increased complexity, broke replay, weakened governance, duplicated
+        logic, or added unnecessary runtime machinery.
+
+The evolution agent should prefer the lowest-risk, highest-information change first.
+
+
+============================================================
+26A. REPOSITORY-EVOLUTION WORKFLOW
+============================================================
+
+For Agent_X, an external evolution agent should apply this sequence:
+
+    1. Read the current architecture and kernel invariants.
+    2. Define the desired output for this improvement cycle.
+    3. Identify the lowest-scoring or highest-risk gap.
+    4. Convert that gap into an inverse-science target.
+    5. Generate small candidate changes.
+    6. Rank candidates by expected improvement, evidence value, risk, cost, and simplicity.
+    7. Select one primary candidate.
+    8. Check the candidate against hard constraints before editing.
+    9. Apply the smallest sufficient change.
+    10. Run or define tests/checks that observe the expected output.
+    11. Record the evidence, failure type, uncertainty, and next justified action.
+    12. Stop when the current target is satisfied, blocked, or no longer worth pursuing.
+
+The agent should not move to a higher-level or more ambitious change while lower-level
+kernel invariants remain weak.
+
+
+============================================================
+27. AGENT_X-SPECIFIC HARD CONSTRAINTS
+============================================================
+
+For Agent_X seed-kernel evolution, the following constraints should usually be treated as hard:
+
+    - preserve the stable public entrypoint
+    - preserve governed turn execution
+    - preserve strict input/output contracts
+    - preserve governance-before-action
+    - preserve tool mediation
+    - preserve traceability
+    - preserve replayability
+    - preserve checkpointing
+    - preserve evaluation hooks
+    - preserve profile-based specialization
+    - avoid direct runtime self-mutation in the seed
+    - avoid hardcoding one specialized agent identity into the core
+    - avoid large dependencies unless justified
+    - avoid adding orchestration machinery before the kernel needs it
+    - avoid adding inverse science as mandatory runtime behavior
+
+
+============================================================
+28. AGENT_X-SPECIFIC SOFT PREFERENCES
+============================================================
+
+For Agent_X, prefer:
+
+    - smaller over larger
+    - typed contracts over informal dictionaries
+    - ports over concrete coupling
+    - profiles over core specialization
+    - tests over comments
+    - replay fixtures over unverified claims
+    - explicit uncertainty over confident guessing
+    - simple patch sequences over large rewrites
+    - document-only doctrine before runtime implementation
+    - negative knowledge capture over repeated failed attempts
+
+
+============================================================
+29. ACCEPTANCE CRITERIA FOR USING THIS METHOD
+============================================================
+
+A use of inverse science is acceptable if:
+
+    [ ] The desired output is explicit.
+    [ ] Hard and soft constraints are separated.
+    [ ] The input domain is defined.
+    [ ] The black-box assumptions are recorded.
+    [ ] Identifiability is considered before optimization.
+    [ ] Candidate inputs include rationales.
+    [ ] Candidate ranking considers value, information gain, risk, cost, and novelty.
+    [ ] Probes are governed before execution.
+    [ ] Observations are recorded.
+    [ ] Evidence class is stated for any claimed improvement.
+    [ ] Failures are categorized and preserved as negative knowledge.
+    [ ] Best-found input is not falsely reported as a proven optimum.
+    [ ] Uncertainty is stated.
+    [ ] The stopping reason is explicit.
+    [ ] Replayability and traceability are preserved.
+    [ ] Runtime machinery is avoided unless doctrine/profile integration is insufficient.
+
+
+============================================================
+30. ANTI-PATTERNS
+============================================================
+
+Avoid:
+
+    - adding inverse science as a monolithic runtime subsystem too early
+    - treating every problem as an optimization problem
+    - optimizing before defining the target
+    - ignoring hard constraints
+    - confusing action with evidence
+    - hiding failed probes
+    - repeating failed candidates without new information
+    - treating a local improvement as global proof
+    - adding complex algorithms when simple governed probes are enough
+    - adding heavy dependencies to the seed kernel
+    - bypassing governance because a candidate appears promising
+    - changing multiple variables at once without a reason
+    - claiming improvement without stating the evidence class
+    - adding runtime behavior when doctrine or profile behavior would suffice
+    - continuing search after diminishing returns are clear
+    - reporting certainty where only partial evidence exists
+
+
+============================================================
+30A. EXTERNAL EVOLUTION AGENT OPERATING CONTRACT
+============================================================
+
+An external agent applying this method to Agent_X should operate under the following
+contract:
+
+    1. Treat each proposed repository change as a candidate input.
+    2. State the desired output before proposing the change.
+    3. Prefer the smallest candidate that can produce useful evidence.
+    4. Check hard constraints before modifying anything.
+    5. Preserve the stable entrypoint, governance path, tool mediation, replay, trace,
+       checkpointing, and evaluation hooks.
+    6. Run or define tests that can observe the expected output.
+    7. Record what improved, what failed, and what remains uncertain.
+    8. Avoid adding runtime machinery when a document, test, contract, or profile is enough.
+    9. Use negative knowledge to avoid repeating bad patches.
+    10. Report best-known state honestly rather than claiming finality.
+
+For seed-kernel work, the preferred candidate order is usually:
+
+    1. clarify doctrine or acceptance criteria,
+    2. add or improve tests,
+    3. tighten contracts,
+    4. simplify or remove clutter,
+    5. improve replay or checkpoint fixtures,
+    6. improve evaluation hooks,
+    7. add profile-level specialization,
+    8. add runtime machinery only when unavoidable.
+
+
+============================================================
+30B. EXTERNAL AGENT OUTPUT FORMAT
+============================================================
+
+When an external agent uses this document to propose a Agent_X change, its output should
+include:
+
+    Target:
+        The desired output for this cycle.
+
+    Current gap:
+        The weakness or uncertainty being addressed.
+
+    Candidate input:
+        The proposed change or probe.
+
+    Why this candidate:
+        Expected improvement, information gain, and reason for priority.
+
+    Hard-constraint check:
+        Confirmation that the change preserves the seed-kernel invariants.
+
+    Evidence plan:
+        The test, replay, trace, inspection, or metric that will show whether the candidate
+        worked.
+
+    Rollback path:
+        How to return to the prior state if the candidate fails.
+
+    Expected negative knowledge:
+        What will be learned even if the candidate fails.
+
+    Stopping or continuation rule:
+        What result would justify stopping, continuing, backtracking, or reframing.
+
+This format makes the method usable without requiring runtime integration.
+
+
+============================================================
+30C. EXTERNAL AGENT PROMPT CONTRACT
+============================================================
+
+When this document is given to an external coding or evolution agent, the instruction
+should be short and explicit:
+
+    Read docs/methods/INVERSE_SCIENCE.md as advisory doctrine.
+    Use it to choose the next smallest evidence-producing change.
+    Do not implement inverse-science runtime machinery unless the task explicitly asks for it.
+    Preserve Agent_X's seed-kernel invariants.
+    Report target, candidate, evidence, risks, rollback path, and uncertainty.
+
+The external agent should not copy the entire method into generated code. It should apply
+the method as reasoning guidance.
+
+
+============================================================
+30D. COMPACT EXECUTION PACKET FOR EXTERNAL AGENTS
+============================================================
+
+When an external agent cannot carry the full method in working context, compress this
+document into the following execution packet:
+
+    1. Define the desired output before proposing a change.
+    2. Separate hard constraints from soft preferences.
+    3. Treat each proposed patch, test, document edit, or strategy as a candidate input.
+    4. Prefer the smallest candidate that can produce useful evidence.
+    5. Check governance, replay, checkpoint, tool-mediation, and kernel-boundary rules
+       before action.
+    6. Predict what evidence would count as success, partial progress, failure, or
+       regression.
+    7. Execute only through the approved project workflow.
+    8. Record observations, negative knowledge, uncertainty, and rollback path.
+    9. Report the best-known result honestly, without claiming global optimality unless
+       proven.
+    10. Stop, continue, backtrack, or reframe based on evidence, not momentum.
+
+This packet is the minimum usable form of inverse science for Agent_X evolution.
+
+
+============================================================
+31. MINIMAL PSEUDOCODE
+============================================================
+
+PROCEDURE Inverse_Science_Method(problem_context):
+
+    target = define_desired_output(problem_context)
+    constraints = define_constraints(problem_context)
+    input_domain = define_allowed_inputs(problem_context)
+
+    IF target_is_invalid(target) THEN
+        RETURN report_invalid_target()
+    END IF
+
+    IF constraints_are_violated_by_problem_definition(target, constraints) THEN
+        RETURN report_constraint_failure()
+    END IF
+
+    black_box = characterize_black_box(problem_context, input_domain)
+
+    identifiability = assess_identifiability(target, input_domain, black_box)
+
+    IF identifiability == "not_identifiable" THEN
+        RETURN report_unidentifiable_problem()
+    END IF
+
+    model_set = build_or_update_model_set(black_box, prior_observations = [])
+    active_model = choose_provisional_model(model_set)
+
+    inverse_hypothesis = form_inverse_hypothesis(
+        target = target,
+        constraints = constraints,
+        input_domain = input_domain,
+        model = active_model,
+        black_box = black_box
+    )
+
+    candidate_pool = generate_candidates(
+        inverse_hypothesis = inverse_hypothesis,
+        input_domain = input_domain,
+        constraints = constraints
+    )
+
+    WHILE stopping_condition_not_met():
+
+        ranked_candidates = rank_candidates(
+            candidate_pool = candidate_pool,
+            target = target,
+            constraints = constraints,
+            model = active_model,
+            negative_knowledge = negative_knowledge_base
+        )
+
+        IF ranked_candidates IS EMPTY THEN
+            RETURN report_no_promising_candidates()
+        END IF
+
+        candidate = ranked_candidates[0]
+
+        IF governance_allows(candidate) == false THEN
+            retire_candidate(candidate)
+            update_negative_knowledge(candidate, reason = "governance_blocked")
+            CONTINUE
+        END IF
+
+        checkpoint_before_probe(candidate)
+
+        observation = execute_probe(candidate)
+
+        record_observation(candidate, observation)
+
+        analysis = analyze_observation(
+            target = target,
+            candidate = candidate,
+            observation = observation,
+            model = active_model,
+            constraints = constraints
+        )
+
+        update_best_known_solution(analysis)
+        update_negative_knowledge(analysis)
+        update_model_set(model_set, analysis)
+        active_model = choose_provisional_model(model_set)
+        inverse_hypothesis = refine_inverse_hypothesis(inverse_hypothesis, analysis)
+
+        IF analysis.requires_backtracking THEN
+            restore_compatible_checkpoint()
+            invalidate_downstream_state()
+            CONTINUE
+        END IF
+
+        IF analysis.suggests_new_candidates THEN
+            candidate_pool = merge_candidate_pools(
+                candidate_pool,
+                generate_candidates_from_analysis(analysis)
+            )
+        END IF
+
+        checkpoint_after_probe(candidate, observation, analysis)
+
+    END WHILE
+
+    RETURN final_report(
+        target = target,
+        constraints = constraints,
+        best_known_solution = best_known_solution,
+        negative_knowledge = negative_knowledge_base,
+        uncertainty = current_uncertainty,
+        termination_reason = termination_reason
+    )
+
+END PROCEDURE
+
+
+============================================================
+32. QUALITY RUBRIC FOR THIS METHOD
+============================================================
+
+Rate an inverse-science application by these criteria:
+
+    Target clarity:
+        The desired output is explicit, measurable, and bounded.
+
+    Constraint discipline:
+        Hard constraints are separated from soft preferences and enforced before action.
+
+    Candidate quality:
+        Candidates are meaningful, reversible where possible, and selected for evidence
+        value rather than habit.
+
+    Governance compliance:
+        Probes are approved, limited, or rejected before execution.
+
+    Evidence quality:
+        Observations are traceable, reproducible where needed, and tied to specific claims.
+
+    Learning quality:
+        Successes, failures, model mismatches, and negative regions change future behavior.
+
+    Reporting honesty:
+        The agent distinguishes best-known result, local optimum, global optimum,
+        approximate inverse, exact inverse, and unresolved uncertainty.
+
+    Kernel fitness for Agent_X:
+        The method helps future evolution without adding unnecessary seed-kernel machinery.
+
+A high-quality use of this method should score well on all criteria, not only on whether a
+particular candidate produced an immediate improvement.
+
+
+============================================================
+32A. SCORE INTERPRETATION
+============================================================
+
+Use the quality score as a readiness signal, not as a reason to keep adding content.
+
+Score bands:
+
+    10.0:
+        Ideal doctrine for the current project goal. No known material repair remains.
+
+    9.5 to 9.9:
+        Ready for repository adoption. Further changes should be small, corrective, and
+        based on a specific defect rather than general improvement pressure.
+
+    9.0 to 9.4:
+        Strong and usable, but still likely missing one or two practical safeguards,
+        examples, or acceptance checks.
+
+    8.0 to 8.9:
+        Conceptually strong, but still needs tightening before it should guide external
+        agents without supervision.
+
+    Below 8.0:
+        Useful draft only. It should not be treated as a stable method document.
+
+Once the document is above 9.5, the default repair should be compression, deduplication,
+or boundary clarification rather than adding new doctrine.
+
+
+============================================================
+32B. FINAL READINESS CHECK
+============================================================
+
+Before treating an inverse-science application as successful, verify:
+
+    - the desired output was defined before the candidate was chosen,
+    - hard constraints were preserved,
+    - the candidate was small enough to attribute the result,
+    - the evidence class was recorded,
+    - negative evidence was preserved,
+    - best-found result was not presented as a proven optimum,
+    - governance was not bypassed,
+    - the result can be replayed, inspected, or independently reviewed,
+    - the repository stayed closer to a minimal governed seed, not farther from it,
+    - the document itself did not accumulate avoidable duplication or runtime-like detail.
+
+If any item fails, report partial progress rather than success.
+
+
+============================================================
+32C. COMPACT ADOPTION CHECKLIST FOR AGENT_X
+============================================================
+
+Before adding this document to Agent_X, verify:
+
+    - the document is placed under docs/methods or an equivalent documentation path,
+    - README or architecture references call it optional and advisory,
+    - no core runtime file imports inverse-science code,
+    - no new dependency is added for the method,
+    - no default profile is forced to use it,
+    - the method helps external agents choose better patches,
+    - the seed remains smaller, clearer, and more governed after adoption.
+
+A document-only adoption is complete when the repository explains the method clearly and
+future agents can use it without any runtime change.
+
+Repository adoption should be considered finished when these conditions are met. Do not
+continue adding sections merely because the document can still be made more elaborate.
+
+
+============================================================
+32D. EXTERNAL-AGENT FINAL ACCEPTANCE PROTOCOL
+============================================================
+
+Before an external agent submits a patch or recommendation based on this document, it must
+produce a short acceptance record with these fields:
+
+    Target:
+        The desired output or capability being improved.
+
+    Candidate input/change:
+        The exact action, patch, document change, test, or strategy proposed.
+
+    Expected evidence:
+        What observation would show improvement.
+
+    Risk and constraint check:
+        Which hard constraints, governance rules, and kernel boundaries were checked.
+
+    Minimality check:
+        Why the proposal is the smallest useful change.
+
+    Reversibility check:
+        How the proposal can be reverted, ignored, or superseded if it fails.
+
+    Result classification:
+        One of: success, partial progress, no effect, regression, unsafe, inconclusive.
+
+A proposal that cannot fill these fields is not ready for implementation. It may still be
+kept as a note, but it should not be promoted as a repository change.
+
+
+============================================================
+32E. PATCH-SIZE DISCIPLINE FOR AGENT_X EVOLUTION
+============================================================
+
+When this method is used to evolve Agent_X, prefer one controlled variable per patch.
+
+Good patch shape:
+
+    - one target,
+    - one main change,
+    - one evidence path,
+    - one rollback path,
+    - clear before/after behavior.
+
+Avoid patches that mix:
+
+    - documentation and runtime behavior,
+    - contract changes and planner changes,
+    - tool policy changes and memory changes,
+    - cleanup and new capability,
+    - evaluation gates and unrelated refactors.
+
+If a patch changes too many variables, the observation becomes scientifically weak because
+the agent cannot tell which input produced the output.
+
+
+============================================================
+32F. NO-FURTHER-REPAIR DEFAULT
+============================================================
+
+When this method is rated above 9.5 and no concrete defect is found, the correct repair is
+not more content. The correct repair is to preserve the document, integrate it as optional
+documentation, and let future evidence determine whether any change is needed.
+
+An external agent should not infer that a sub-10 score means more runtime work is needed.
+For this document, a high score means the document is ready to guide future agents while
+remaining outside the seed runtime.
+
+
+============================================================
+32G. FINAL MATURITY GUIDANCE
+============================================================
+
+This method should now be treated as mature documentation rather than an active expansion
+target. A future revision is justified only when at least one concrete issue is observed:
+
+    - an external agent misuses the method and the document failed to prevent it,
+    - Agent_X's architecture changes enough that the document boundary becomes inaccurate,
+    - a real repository-evolution attempt exposes a missing decision rule,
+    - a section creates ambiguity, contradiction, or repeated interpretation errors,
+    - the document becomes too long and should be compressed.
+
+Do not revise this document merely to increase its score. Above the stabilization band,
+the preferred improvement is removal of ambiguity, removal of duplication, or tighter
+adoption wording. The document should remain small enough to be read by an external agent
+before it proposes changes to Agent_X.
+
+
+============================================================
+32H. FINAL STABILIZATION RULE
+============================================================
+
+This document is considered complete for document-only adoption when all of the following
+are true:
+
+    - it clearly says that inverse science is advisory, not runtime machinery,
+    - it gives external agents enough structure to choose candidate changes responsibly,
+    - it protects Agent_X's minimal seed-kernel boundary,
+    - it requires governance, evidence, replayability, and checkpoint discipline,
+    - it distinguishes best-found results from proven optima,
+    - it prevents expansion unless a concrete defect is found.
+
+If those conditions remain true, future agents should prefer using this document over
+rewriting it. Revision should be treated as maintenance, not feature development.
+
+
+============================================================
+32I. FINAL CHANGE CONTROL
+============================================================
+
+After document-only adoption, this method should not be edited during ordinary Agent_X
+implementation work. It should be used as a stable reference.
+
+A future change is valid only if the agent can name:
+
+    - the concrete defect or ambiguity being repaired,
+    - the section affected,
+    - the risk of leaving it unchanged,
+    - the smallest text change that resolves it,
+    - and whether the change preserves the document-only boundary.
+
+If those fields cannot be filled, the correct action is to leave the document unchanged.
+
+
+============================================================
+33. FINAL PRINCIPLE
+============================================================
+
+Inverse science is not a promise that the correct input will be found.
+
+It is a disciplined way to avoid blind guessing.
+
+Its value is that every step should either:
+
+    - move the output closer to the target,
+    - reduce uncertainty,
+    - reveal a constraint,
+    - improve the model,
+    - identify a failed region,
+    - justify stopping, or
+    - justify reframing the problem.
+
+For Agent_X, this method should guide future evolution without becoming mandatory kernel
+machinery until there is clear evidence that runtime integration is necessary.

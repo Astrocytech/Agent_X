@@ -1,0 +1,11 @@
+# seed_tool_risk.yaml — canonical risk classification for seed tools.
+# Loaded by LocalGovernancePort at runtime.
+# Unknown tools are denied by default (fail-closed).
+
+default_unknown_tool_policy: deny
+
+tools:
+  seed.emit_answer:
+    risk: low
+    side_effect: none
+    approval_required: false
