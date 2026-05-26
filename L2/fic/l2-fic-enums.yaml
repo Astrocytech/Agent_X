@@ -1,0 +1,21 @@
+l2_fic_enums_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+enums:
+  status_values:
+    - "draft"
+    - "reviewed"
+    - "ready-for-l1-handoff"
+    - "blocked"
+    - "deprecated"
+    - "archived"
+  risk_levels:
+    - "low"
+    - "medium"
+    - "high"
+    - "critical"
+  target_types:
+    - "profile"
+    - "blueprint"
+    - "spec"
+    - "standard"

@@ -1,0 +1,38 @@
+# Patch Proposal
+
+## Summary
+
+- **ID:** {{ proposal.proposal_id }}
+- **Title:** {{ proposal.title }}
+- **Risk Level:** {{ proposal.risk_level }}
+- **Status:** {% if proposal.allowed %}ALLOWED{% else %}BLOCKED{% endif %}
+- **Non-Mutating:** {{ proposal.non_mutating }}
+
+## Task
+
+{{ task }}
+
+## Affected Layers
+
+{% for layer in proposal.affected_layers %}
+- {{ layer }}
+{% endfor %}
+
+## Affected Files
+
+{% for file in proposal.affected_files %}
+- {{ file }}
+{% endfor %}
+
+## Risk Assessment
+
+{{ proposal.reason }}
+
+## Description
+
+{{ proposal.description }}
+
+## Governance Notice
+
+This proposal is non-mutating. It does not modify any source files automatically.
+Implementation requires L1 FIC-governance review and approval before any code changes.

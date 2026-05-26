@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/ecosystem/ecosystem-schemas/ecosystem-graph.schema.json",
+  "title": "Ecosystem Graph",
+  "description": "Schema for L1 ecosystem dependency graph sidecar",
+  "type": "object",
+  "required": ["ecosystem_graph_version", "portfolio_id", "edges"],
+  "properties": {
+    "ecosystem_graph_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "relationship"],
+        "properties": {
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "relationship": {"type": "string"}
+        }
+      }
+    }
+  }
+}

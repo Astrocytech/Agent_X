@@ -1,0 +1,72 @@
+final_validation_bundle:
+  version: v1.4.0
+  mode: Mode A safe additive scaffold
+  release_evidence: false
+  baseline_log: runtime_artifacts/l1_baseline_checks.log
+  source_standard_copy_manifest: L1/evidence/bootstrap/20260529T173052Z_source_standard_copy_manifest.yaml
+  es_cross_checks: L1/evidence/bootstrap/20260529T173052Z_es_cross_checks.yaml
+  sib_cross_checks: L1/evidence/bootstrap/20260529T173052Z_sib_cross_checks.yaml
+  eqc_cross_checks: L1/evidence/bootstrap/20260529T173052Z_eqc_cross_checks.yaml
+  bootstrap_validator_log: L1/evidence/bootstrap/20260529T173052Z_mode_a_bootstrap_validator.log
+  bootstrap_artifact_manifest: L1/generated/bootstrap_artifact_manifest.yaml
+  git_status_short: 'M README.md
+
+    ?? L1/AGENT_X_L1_EQC_FIC_v0_6.md
+
+    ?? L1/AGENT_X_L1_IMPLEMENTATION_TODO_FOR_CODING_LLM_v1_4.md
+
+    ?? L1/AGENT_X_L1_LIGHTWEIGHT_EQC_ES_v0_5.md
+
+    ?? L1/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB_v0_5.md
+
+    ?? L1/AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md
+
+    ?? L1/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW_v0_6.md
+
+    ?? L1/controller/document_loader.py
+
+    ?? L1/docs/00_L1_SYSTEM_GOAL.md
+
+    ?? L1/docs/01_L1_BACKGROUND.md
+
+    ?? L1/docs/02_L1_ARCHITECTURE_CONTRACT.md
+
+    ?? L1/docs/03_L1_WHOLE_SYSTEM_PSEUDOCODE.md
+
+    ?? L1/docs/04_L1_UNIT_DAG.md
+
+    ?? L1/docs/05_L1_SHARED_TYPES_AND_INTERFACES.md
+
+    ?? L1/docs/06_L1_VALIDATION_PLAN.md
+
+    ?? L1/docs/07_L1_RISK_LEDGER.md
+
+    ?? L1/docs/08_L1_TRACEABILITY_MATRIX.md
+
+    ?? L1/docs/09_L1_CODING_AGENT_HANDOFF_RULES.md
+
+    ?? L1/docs/10_L1_FAILURE_LEARNING_LOG.md
+
+    ?? L1/docs/11_L1_REVIEW_GATE.md
+
+    ?? L1/ecosystem/
+
+    ?? L1/eqc/
+
+    ?? L1/evidence/
+
+    ?? L1/fic/
+
+    ?? L1/generated/
+
+    ?? L1/sib/
+
+    ?? L1/standards/
+
+    ?? L1/tests/__init__.py
+
+    ?? L1/tests/test_document_loader.py
+
+    ?? runtime_artifacts/'
+  git_diff_stat: "README.md | 8 +++++---\n 1 file changed, 5 insertions(+), 3 deletions(-)"
+  decision: VALIDATED

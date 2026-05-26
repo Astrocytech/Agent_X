@@ -1,0 +1,38 @@
+l2_profile_package_check:
+  todo_version: "v1.3.0"
+  release_evidence: false
+  implementation_authorized: false
+  profiles:
+    - profile_id: "L2-PROFILE-SR-001"
+      has_required_fields: true
+      implementation_allowed: false
+      direct_runtime_allowed: false
+      has_forbidden_actions: true
+      has_required_l1_units: true
+      evaluation_refs_present: true
+      status: "PASS"
+    - profile_id: "L2-PROFILE-CA-001"
+      has_required_fields: true
+      implementation_allowed: false
+      direct_runtime_allowed: false
+      has_forbidden_actions: true
+      has_required_l1_units: true
+      evaluation_refs_present: true
+      status: "PASS"
+    - profile_id: "L2-PROFILE-RA-001"
+      has_required_fields: true
+      implementation_allowed: false
+      direct_runtime_allowed: false
+      has_forbidden_actions: true
+      has_required_l1_units: true
+      evaluation_refs_present: true
+      status: "PASS"
+    - profile_id: "L2-PROFILE-RM-001"
+      has_required_fields: true
+      implementation_allowed: false
+      direct_runtime_allowed: false
+      has_forbidden_actions: true
+      has_required_l1_units: true
+      evaluation_refs_present: true
+      status: "PASS"
+  final_status: "PASS"

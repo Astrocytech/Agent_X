@@ -1,0 +1,14 @@
+{
+  "schema": "agent-x-l2-eqc-procedure/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 EQC Procedure Schema",
+  "type": "object",
+  "properties": {
+    "procedure_id": { "type": "string" },
+    "name": { "type": "string" },
+    "phases": { "type": "array" },
+    "runtime_authority": { "type": "string" },
+    "implementation_authority": { "type": "string" }
+  },
+  "required": ["procedure_id", "name"]
+}

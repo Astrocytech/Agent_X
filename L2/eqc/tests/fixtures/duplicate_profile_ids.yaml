@@ -1,0 +1,10 @@
+# duplicate_profile_ids.yaml fixture
+profiles:
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Symbolic Regression Controller"
+    status: "draft"
+    specialization_type: "symbolic-regression"
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Duplicate"
+    status: "draft"
+    specialization_type: "symbolic-regression"

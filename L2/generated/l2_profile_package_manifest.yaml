@@ -1,0 +1,6 @@
+# bootstrap-placeholder-not-release-evidence
+release_evidence: false
+implementation_authorized: false
+
+# L2 Profile Package Manifest
+# This file will be populated by an L2 validator when one is created.

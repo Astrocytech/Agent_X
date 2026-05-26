@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/eqc/schemas/eqc-operator.schema.json",
+  "title": "EQC Operator",
+  "description": "Schema for EQC operator documents",
+  "type": "object",
+  "required": ["name", "version", "category", "purity"],
+  "properties": {
+    "name": {"type": "string"},
+    "version": {"type": "string"},
+    "category": {"type": "string"},
+    "purity": {"type": "string", "enum": ["pure", "impure"]}
+  }
+}

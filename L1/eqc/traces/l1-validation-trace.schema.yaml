@@ -1,0 +1,22 @@
+validation_trace_schema_version: v0.1.0
+portfolio_id: AGENT_X_L1
+fields:
+- name: trace_id
+  type: string
+  required: true
+- name: check_id
+  type: string
+  required: true
+- name: result
+  type: enum
+  values:
+  - pass
+  - fail
+  - skip
+  required: true
+- name: timestamp_utc
+  type: string
+  required: true
+- name: evidence_path
+  type: string
+  required: false

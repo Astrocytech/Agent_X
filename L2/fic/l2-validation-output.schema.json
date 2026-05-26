@@ -1,0 +1,13 @@
+{
+  "schema": "agent-x-l2-validation-output/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 Validation Output Schema",
+  "type": "object",
+  "properties": {
+    "validator": { "type": "string" },
+    "status": { "type": "string" },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["validator", "status"]
+}

@@ -1,0 +1,18 @@
+es_cross_checks:
+  status: PASS
+  checks:
+  - id: ES-CHECK-001
+    description: every registry path exists and is non-empty
+    result: PASS
+  - id: ES-CHECK-002
+    description: every graph node exists in registry
+    result: PASS
+  - id: ES-CHECK-003
+    description: every graph edge src/dst exists as a graph node
+    result: PASS
+  - id: ES-CHECK-004
+    description: all active documents reachable from AX-L1-DOC-GOAL-001
+    result: PASS
+  - id: ES-CHECK-005
+    description: no registered path points outside L1/
+    result: PASS

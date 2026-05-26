@@ -1,0 +1,17 @@
+# tie_ranking_catalog.yaml fixture
+profiles:
+  - profile_id: "L2-PROFILE-RM-001"
+    name: "Repo Maintenance Agent"
+    status: "draft"
+    specialization_type: "repo-maintenance"
+    risk_level: "low"
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Symbolic Regression Controller"
+    status: "draft"
+    specialization_type: "symbolic-regression"
+    risk_level: "low"
+  - profile_id: "L2-PROFILE-CA-001"
+    name: "Coding Agent"
+    status: "draft"
+    specialization_type: "coding"
+    risk_level: "low"

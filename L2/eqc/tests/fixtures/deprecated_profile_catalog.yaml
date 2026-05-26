@@ -1,0 +1,7 @@
+# deprecated_profile_catalog.yaml fixture
+profiles:
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Symbolic Regression Controller (legacy)"
+    status: "deprecated"
+    specialization_type: "symbolic-regression"
+    risk_level: "medium"

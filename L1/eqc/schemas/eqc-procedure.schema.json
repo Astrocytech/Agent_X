@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/eqc/schemas/eqc-procedure.schema.json",
+  "title": "EQC Procedure",
+  "description": "Schema for EQC procedure documents",
+  "type": "object",
+  "required": ["eqc_id", "version", "kind", "operators"],
+  "properties": {
+    "eqc_id": {"type": "string"},
+    "version": {"type": "string"},
+    "kind": {"type": "string", "enum": ["procedure"]},
+    "operators": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}

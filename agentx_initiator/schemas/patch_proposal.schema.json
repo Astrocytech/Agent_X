@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Patch Proposal Schema",
+  "type": "object",
+  "properties": {
+    "proposal_id": {"type": "string"},
+    "title": {"type": "string"},
+    "task": {"type": "string"},
+    "risk_level": {"type": "string"},
+    "allowed": {"type": "boolean"},
+    "reason": {"type": "string"},
+    "affected_layers": {"type": "array", "items": {"type": "string"}},
+    "affected_files": {"type": "array", "items": {"type": "string"}},
+    "description": {"type": "string"},
+    "non_mutating": {"type": "boolean"},
+    "generated_at": {"type": "string"}
+  },
+  "required": ["proposal_id", "title", "task", "risk_level", "allowed", "non_mutating"]
+}

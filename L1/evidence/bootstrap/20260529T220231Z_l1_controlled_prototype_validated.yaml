@@ -1,0 +1,21 @@
+l1_controlled_prototype_validation:
+  status: "VALIDATED"
+  commit: "ab8df6f3044efb3f102e044389c639530ddc6164"
+  release_evidence: false
+  validated_at_utc: "2026-05-29T22:02:31Z"
+  mode: "controlled-prototype"
+  results:
+    compile_l1: "PASS"
+    pytest_l1: "239 passed"
+    prove_seed: "52 passed"
+    prove_l1: "OK"
+    prove_l2: "6 passed"
+    prove_all: "OK (52+239+6=297)"
+    validate_all:
+      final_status: "WARNING"
+      fic: "PASS"
+      sib: "PASS"
+      es: "PASS"
+      eqc: "PASS"
+      lockfile: "WARNING (release_evidence: false, expected)"
+  summary: "L1 controlled prototype validated. Release evidence remains false by design. No release-candidate status."

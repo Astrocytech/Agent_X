@@ -1,0 +1,7 @@
+# Verification workflow: run proofs without changes
+
+workflow: verify_only
+steps:
+  - run_proofs
+  - collect_evidence
+  - report_status

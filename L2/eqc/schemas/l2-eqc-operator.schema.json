@@ -1,0 +1,15 @@
+{
+  "schema": "agent-x-l2-eqc-operator/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 EQC Operator Schema",
+  "type": "object",
+  "properties": {
+    "operator_id": { "type": "string" },
+    "name": { "type": "string" },
+    "purity_class": { "type": "string" },
+    "determinism": { "type": "string" },
+    "inputs": { "type": "array" },
+    "outputs": { "type": "array" }
+  },
+  "required": ["operator_id", "name", "purity_class"]
+}

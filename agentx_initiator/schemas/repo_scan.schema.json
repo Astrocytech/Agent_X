@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Repo Scan Schema",
+  "type": "object",
+  "properties": {
+    "root": {"type": "string"},
+    "layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "layer": {"type": "string"},
+          "path": {"type": "string"},
+          "purpose": {"type": "string"},
+          "file_count": {"type": "integer"},
+          "has_readme": {"type": "boolean"}
+        },
+        "required": ["layer", "path", "file_count", "has_readme"]
+      }
+    },
+    "total_files": {"type": "integer"},
+    "source_files": {"type": "integer"},
+    "doc_files": {"type": "integer"},
+    "test_files": {"type": "integer"}
+  },
+  "required": ["root", "layers", "total_files"]
+}

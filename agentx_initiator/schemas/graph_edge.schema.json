@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Graph Edge Schema",
+  "type": "object",
+  "properties": {
+    "source": {"type": "string"},
+    "target": {"type": "string"},
+    "relation": {"type": "string"},
+    "properties": {"type": "object"}
+  },
+  "required": ["source", "target", "relation"]
+}

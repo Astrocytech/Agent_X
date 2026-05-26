@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentx-init"
+version = "1.0.0"
+description = "Agent_X Initiator / Evolution Assistant — read-only CLI companion for inspecting, planning, and safely evolving Agent_X"
+license = { text = "Proprietary" }
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0.0",
+    "jinja2>=3.0",
+]
+
+[project.scripts]
+agentx-init = "agentx_initiator.cli.main:main"

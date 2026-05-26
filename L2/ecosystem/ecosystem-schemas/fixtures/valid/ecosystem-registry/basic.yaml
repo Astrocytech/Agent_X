@@ -1,0 +1,12 @@
+# Valid ecosystem registry fixture
+ecosystem_registry_version: "L2-lightweight-v0.1"
+portfolio_id: "AGENT_X_L2"
+documents:
+  - doc_id: "AX-L2-DOC-GOAL-001"
+    title: "L2 System Goal"
+    type: "system-goal"
+    path: "L2/docs/00_L2_SYSTEM_GOAL.md"
+    version: "v0.1.0"
+    status: "active"
+    layer: 0
+    authority_level: "constitutional"

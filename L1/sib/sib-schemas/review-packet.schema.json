@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/review-packet.schema.json",
+  "title": "SIB Review Packet",
+  "description": "Schema for L1 SIB review packet entries",
+  "type": "object",
+  "required": ["fic_id", "review_sections"],
+  "properties": {
+    "fic_id": {"type": "string"},
+    "review_sections": {"type": "array", "items": {"type": "string"}},
+    "reviewed_at": {"type": "string", "format": "date-time"}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Governance Decision Schema",
+  "type": "object",
+  "properties": {
+    "check": {"type": "string"},
+    "passed": {"type": "boolean"},
+    "detail": {"type": "string"}
+  },
+  "required": ["check", "passed", "detail"]
+}

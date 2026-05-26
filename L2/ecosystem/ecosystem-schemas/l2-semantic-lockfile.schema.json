@@ -1,0 +1,12 @@
+{
+  "schema": "agent-x-l2-semantic-lockfile/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 Semantic Lockfile Schema",
+  "type": "object",
+  "properties": {
+    "lockfile_version": { "type": "string" },
+    "selected_units": { "type": "array" },
+    "release_evidence": { "type": "boolean" }
+  },
+  "required": ["lockfile_version", "selected_units", "release_evidence"]
+}

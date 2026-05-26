@@ -1,0 +1,44 @@
+# Framework Seed Manifest — Example / Canonical
+# This is the preferred valid example manifest.
+# Must pass validate_framework_manifest.py.
+
+manifest_version: 1
+id: fw-seed-example
+name: framework_seed
+version: 0.1.0
+target_kind: framework
+source_profile: L2/profiles/framework_seed.yaml
+purpose: bootstrap framework target for evolving framework artifacts
+
+required_interfaces:
+  - plugin_registry
+  - evaluator_registry
+  - promotion_pipeline
+  - evidence_bundle
+
+contracts:
+  module_registry: L2/blueprints/framework_seed_blueprint.md
+
+artifacts:
+  profile: L2/profiles/framework_seed.yaml
+  tests: L2/tests/test_l2_framework_target.py
+
+promotion:
+  requires_tests: true
+  requires_evidence_bundle: true
+  requires_rollback_plan: true
+
+packaging:
+  exportable: true
+  includes_profile: true
+  includes_evaluation_spec: true
+
+rollback:
+  supported: true
+
+compatibility:
+  agent_x_l0_neutral: true
+  no_runtime_self_modification: true
+
+validation:
+  l0_invariants_passed: true

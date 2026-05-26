@@ -1,0 +1,13 @@
+sib_version_impact_version: "v0.5"
+portfolio_id: "AGENT_X_L1"
+status: "bootstrap-placeholder-not-release-evidence"
+change_classes:
+  METADATA:
+    default_version_impact: "PATCH"
+  VALIDATION:
+    default_version_impact: "PATCH"
+  STATE:
+    default_version_impact: "PATCH|MINOR"
+  FUNCTIONAL:
+    default_version_impact: "MINOR|MAJOR"
+records: []

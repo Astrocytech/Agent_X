@@ -1,0 +1,24 @@
+test_vectors_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+vectors:
+  - id: "L2-TEST-RSC-001"
+    description: "Complete profile scores 1.0"
+    input:
+      profile_id: "L2-PROFILE-SR-001"
+      version: "v0.1.0"
+      purpose: "defined"
+      required_l1_units: ["UNIT-L1-003"]
+      evaluation_refs: ["eval.md"]
+      forbidden_actions: ["no runtime"]
+    expected_score: 1.0
+  - id: "L2-TEST-RSC-002"
+    description: "Minimal profile scores 0.1"
+    input:
+      profile_id: "L2-PROFILE-XXX"
+      version: ""
+      purpose: ""
+      required_l1_units: []
+      evaluation_refs: []
+      forbidden_actions: []
+    expected_score: 0.1

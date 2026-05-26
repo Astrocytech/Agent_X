@@ -1,0 +1,51 @@
+completion_record:
+  status: VALIDATED
+  unit_id: UNIT-L1-001
+  fic_id: FIC-L1-001
+  fic_version: v0.6.0
+  target_file: L1/controller/document_loader.py
+  files_inspected:
+  - L1/fic/units/FIC-L1-001-document-loader.md
+  files_changed:
+  - L1/controller/document_loader.py
+  - L1/tests/test_document_loader.py
+  - L1/tests/__init__.py
+  tests_created_or_updated:
+  - L1/tests/test_document_loader.py
+  checks_run:
+  - command: python -m compileall L1/controller
+    result: pass
+  - command: pytest L1/tests/test_document_loader.py -q
+    result: pass
+  - command: make seed-boot
+    result: pass
+  - command: make prove-seed
+    result: pass
+  - command: make run
+    result: pass
+  checks_not_run: []
+  semantic_diff:
+    behavior_added:
+    - Added L1 document-loading utility governed by FIC-L1-001.
+    behavior_removed: []
+    behavior_changed: []
+    behavior_preserved:
+    - L0 proof commands preserved.
+    public_surface_added:
+    - DEFAULT_MAX_DOCUMENT_BYTES
+    - DocumentRecord
+    - DocumentLoaderError
+    - DocumentRootError
+    - DocumentPathError
+    - DocumentLoadError
+    - load_document
+    - load_documents
+    public_surface_removed: []
+    public_surface_changed: []
+    dependency_changes:
+    - 'Added stdlib-only L1 imports: dataclasses, hashlib, pathlib, typing.'
+    compatibility_impact: backward_compatible
+  deviations_from_fic: []
+  unresolved_unknowns: []
+  residual_risks: []
+  waivers_used: []

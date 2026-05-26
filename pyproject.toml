@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Agent_X"
+version = "0.1.0-seed"
+description = "Agent_X - minimal governed universal agent seed"
+readme = "README.md"
+license = { text = "Proprietary" }
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+seed-dev = [
+    "pytest>=9.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "L0/CODE"}
+
+[tool.setuptools.packages.find]
+where = ["L0/CODE"]
+include = [
+    "core_kernel*",
+    "governance*",
+    "kernel_composition*",
+    "profiles*",
+    "tool_gateway*",
+]
+exclude = [
+    "artifacts*",
+    "audit*",
+    "benchmarks*",
+    "diagnostics*",
+    "legacy*",
+    "orchestration*",
+    "planning*",
+    "release_authority*",
+    "tests*",
+]
+
+[tool.pytest.ini_options]
+# Default pytest is L0-only. Use make prove-l1 / prove-all for layer validation.
+pythonpath = ["L0/CODE"]
+testpaths = ["L0/tests/seed_l0"]
+norecursedirs = [
+    ".git",
+    ".venv",
+    "venv",
+    "archive",
+    ".local",
+    "logs",
+]
+
+[tool.seed-package]
+seed_release_version = "0.1.0-seed"
+included_packages = [
+    "core_kernel",
+    "profiles",
+    "tool_gateway",
+    "governance",
+    "kernel_composition",
+]

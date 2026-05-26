@@ -1,0 +1,44 @@
+completion_record:
+  status: VALIDATED
+  unit_id: UNIT-L1-009
+  fic_id: FIC-L1-009
+  fic_version: v0.6.0
+  target_file: L1/controller/evidence_collector.py
+  files_inspected:
+  - L1/fic/units/FIC-L1-009-evidence-collector.md
+  files_changed:
+  - L1/controller/evidence_collector.py
+  - L1/tests/test_evidence_collector.py
+  tests_created_or_updated:
+  - L1/tests/test_evidence_collector.py
+  checks_run:
+  - command: python -m compileall L1/controller
+    result: pass
+  - command: pytest L1/tests/test_evidence_collector.py -q
+    result: pass
+  - command: make prove-l1
+    result: pass
+  - command: make prove-all
+    result: pass
+  checks_not_run: []
+  semantic_diff:
+    behavior_added:
+    - Added L1 evidence-collector utility governed by FIC-L1-009.
+    behavior_removed: []
+    behavior_changed: []
+    behavior_preserved:
+    - L0 proof commands preserved.
+    - All prior L1 units preserved.
+    public_surface_added:
+    - EvidenceCollector
+    - collect_evidence
+    - EvidenceRecord
+    public_surface_removed: []
+    public_surface_changed: []
+    dependency_changes:
+    - Added stdlib-only L1 imports.
+    compatibility_impact: backward_compatible
+  deviations_from_fic: []
+  unresolved_unknowns: []
+  residual_risks: []
+  waivers_used: []

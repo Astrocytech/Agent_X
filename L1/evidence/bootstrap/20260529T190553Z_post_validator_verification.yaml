@@ -1,0 +1,38 @@
+post_validator_verification:
+  mode: "Mode A safe additive scaffold"
+  timestamp: "20260529T190553Z"
+  commit: "775bdc213b053e539e529c6101274009ff95ce8b"
+  commands:
+    - command: "git status --short"
+      expected: ""
+      result: |
+         M L1/generated/readiness_report.md
+         M L1/generated/semantic_lockfile.yaml
+         M L1/generated/validation_report.md
+         M Makefile
+         ?? L1/generated/release_package_manifest.yaml
+         ?? L1/tests/test_l1_validators.py
+         ?? L1/validators/
+    - command: "python -m compileall -q L1"
+      expected: "pass"
+      result: "OK"
+    - command: "pytest L1/tests -q"
+      expected: "pass"
+      result: "51 passed in 0.51s"
+    - command: "python -m L1.validators.validate_all"
+      expected: "pass or controlled warning/block"
+      result: "WARNING (4 PASS + 1 WARNING - Lockfile placeholder)"
+    - command: "make prove-l1"
+      expected: "pass"
+      result: "OK (compileall + 51 tests + validators WARNING)"
+    - command: "make prove-all"
+      expected: "pass"
+      result: "OK (52 L0 + 51 L1 + 6 L2 = 109 passed)"
+  generated_artifacts:
+    validation_report:
+      path: "L1/generated/validation_report.md"
+      digest: "sha256:6a1ca4e7ce2c708470a4f9cbb244291c9e99f93566189602d2ca5464f5fac3e8"
+    semantic_lockfile:
+      path: "L1/generated/semantic_lockfile.yaml"
+      digest: "sha256:2cf81c144258f8dd63ae2102499dc574eaa3c115d60540f41d8ec8f7d424d7eb"
+  release_evidence: false

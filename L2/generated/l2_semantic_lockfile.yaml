@@ -1,0 +1,10 @@
+# L2 Semantic Lockfile
+
+# bootstrap-placeholder-not-release-evidence
+lockfile_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+selected_units: []
+release_evidence: false
+implementation_authorized: false
+
+# This file will be populated by an L2 validation script when one is created.

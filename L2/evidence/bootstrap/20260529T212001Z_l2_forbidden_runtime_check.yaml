@@ -1,0 +1,34 @@
+l2_forbidden_runtime_check:
+  todo_version: "v1.3.0"
+  release_evidence: false
+  implementation_authorized: false
+  checks:
+    - path: "L2/controller/"
+      exists: false
+      status: "OK"
+    - path: "L2/runtime/"
+      exists: false
+      status: "OK"
+    - path: "L2/agents/"
+      exists: false
+      status: "OK"
+    - path: "L2/tools/"
+      exists: false
+      status: "OK"
+    - path: "L2/model_router/"
+      exists: false
+      status: "OK"
+    - path: "L2/memory/"
+      exists: false
+      status: "OK"
+    - path: "L2/autonomy/"
+      exists: false
+      status: "OK"
+    - path: "L2/executors/"
+      exists: false
+      status: "OK"
+    - path: "L2/patchers/"
+      exists: false
+      status: "OK"
+  prohibited_runtime_paths_with_executable: []
+  final_status: "OK — no prohibited runtime paths exist"

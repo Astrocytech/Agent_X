@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/ecosystem/ecosystem-schemas/ecosystem-impact-output.schema.json",
+  "title": "Ecosystem Impact Output",
+  "description": "Schema for L1 ecosystem impact analysis output",
+  "type": "object",
+  "required": ["impact_id", "changes"],
+  "properties": {
+    "impact_id": {"type": "string"},
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "impact"],
+        "properties": {
+          "target": {"type": "string"},
+          "impact": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/sib-error-codes.schema.json",
+  "title": "SIB Error Codes",
+  "description": "Schema for L1 SIB error codes sidecar",
+  "type": "object",
+  "required": ["sib_error_codes_version", "portfolio_id", "codes"],
+  "properties": {
+    "sib_error_codes_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "codes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"}
+        }
+      }
+    }
+  }
+}

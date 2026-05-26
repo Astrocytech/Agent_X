@@ -1,0 +1,17 @@
+command_results:
+  todo_version: "v1.3.0"
+  release_evidence: false
+  implementation_authorized: false
+  commands:
+    - command: "python3 L2/validators/bootstrap_validate_l2_scaffold.py"
+      result: "pass"
+      output_summary: "Errors: 0, Warnings: 0 — PASS"
+    - command: "python3 -m pytest L2/tests -q --tb=short -p no:cacheprovider"
+      result: "pass"
+      output_summary: "24 passed"
+    - command: "make prove-l2"
+      result: "pass"
+      output_summary: "bootstrap validator PASS, 24 tests passed"
+    - command: "make prove-all"
+      result: "pass"
+      output_summary: "298 total (52+240+6+24 L2)"

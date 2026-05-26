@@ -1,0 +1,25 @@
+# L2 → L1 Handoff Packet: Symbolic Regression Controller
+
+# bootstrap-placeholder-not-release-evidence
+release_evidence: false
+implementation_authorized: false
+
+handoff:
+  handoff_id: "L2-HANDOFF-SR-001"
+  source_profile_id: "AGENT_X_L2::L2-PROFILE-SR-001"
+  target_l1_units:
+    - "AGENT_X_L1::UNIT-L1-003"
+    - "AGENT_X_L1::UNIT-L1-004"
+    - "AGENT_X_L1::UNIT-L1-005"
+    - "AGENT_X_L1::UNIT-L1-006"
+    - "AGENT_X_L1::UNIT-L1-007"
+  proposed_l1_fic_targets:
+    - "AGENT_X_L1::FIC-L1-003"
+    - "AGENT_X_L1::FIC-L1-004"
+    - "AGENT_X_L1::FIC-L1-005"
+    - "AGENT_X_L1::FIC-L1-006"
+    - "AGENT_X_L1::FIC-L1-007"
+  implementation_allowed_by_l2: false
+  l1_acceptance_required: true
+  l1_may_reject: true
+  status: "draft"

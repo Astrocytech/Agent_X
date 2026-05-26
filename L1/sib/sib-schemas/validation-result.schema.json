@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/validation-result.schema.json",
+  "title": "SIB Validation Result",
+  "description": "Schema for L1 SIB validation result records",
+  "type": "object",
+  "required": ["check_id", "status"],
+  "properties": {
+    "check_id": {"type": "string"},
+    "status": {"type": "string", "enum": ["pass", "fail", "warn"]},
+    "details": {"type": "string"}
+  }
+}

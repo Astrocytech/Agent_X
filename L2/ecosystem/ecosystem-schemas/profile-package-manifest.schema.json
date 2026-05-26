@@ -1,0 +1,12 @@
+{
+  "schema": "agent-x-l2-profile-package-manifest/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 Profile Package Manifest Schema",
+  "type": "object",
+  "properties": {
+    "profile_package_manifest_version": { "type": "string" },
+    "profiles": { "type": "array" },
+    "release_evidence": { "type": "boolean" }
+  },
+  "required": ["profile_package_manifest_version", "profiles", "release_evidence"]
+}

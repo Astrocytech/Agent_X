@@ -1,0 +1,11 @@
+{
+  "schema": "agent-x-l2-eqc-test-vectors/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 EQC Test Vectors Schema",
+  "type": "object",
+  "properties": {
+    "test_vectors_version": { "type": "string" },
+    "vectors": { "type": "array" }
+  },
+  "required": ["test_vectors_version", "vectors"]
+}

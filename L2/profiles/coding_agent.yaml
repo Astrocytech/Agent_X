@@ -1,0 +1,49 @@
+profile_id: "L2-PROFILE-CA-001"
+global_profile_id: "AGENT_X_L2::L2-PROFILE-CA-001"
+version: "v0.1.0"
+status: "draft"
+name: "Coding Agent"
+specialization_type: "coding"
+ownership_key: "agent-x-l2-ca"
+purpose: "Generate, review, and validate code changes within L1 FIC boundaries."
+intended_user_goal_classes:
+  - "implement-feature"
+  - "fix-bug"
+  - "refactor-code"
+  - "add-tests"
+allowed_inputs:
+  - "implementation request"
+  - "FIC reference"
+  - "codebase context"
+  - "test results"
+expected_outputs:
+  - "governed code changes"
+  - "validation evidence"
+  - "handoff packets"
+required_l1_units:
+  - "AGENT_X_L1::UNIT-L1-003"
+  - "AGENT_X_L1::UNIT-L1-004"
+  - "AGENT_X_L1::UNIT-L1-005"
+  - "AGENT_X_L1::UNIT-L1-006"
+  - "AGENT_X_L1::UNIT-L1-007"
+required_l1_fic_candidates:
+  - "AGENT_X_L1::FIC-L1-003"
+  - "AGENT_X_L1::FIC-L1-004"
+  - "AGENT_X_L1::FIC-L1-005"
+  - "AGENT_X_L1::FIC-L1-006"
+  - "AGENT_X_L1::FIC-L1-007"
+forbidden_actions:
+  - "direct L0 modification"
+  - "direct L1 modification without FIC"
+  - "direct external repository modification"
+  - "ungoverned tool execution"
+  - "runtime autonomous patching"
+evaluation_refs:
+  - "L2/evaluation_specs/coding_agent_eval.md"
+integration_refs: []
+risk_level: "medium"
+profile_package_status: "draft"
+l1_handoff_allowed: false
+implementation_allowed_without_l1: false
+implementation_allowed: false
+direct_runtime_allowed: false

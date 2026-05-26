@@ -1,0 +1,11 @@
+# boundary_conflict_profile.yaml fixture
+profiles:
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Symbolic Regression Controller"
+    status: "active"
+    specialization_type: "symbolic-regression"
+    risk_level: "medium"
+    forbidden_actions:
+      - "direct PySR modification"
+      - "ungoverned tool execution"
+    implementation_allowed: false

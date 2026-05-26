@@ -1,0 +1,68 @@
+l2_cross_standard_status_alignment:
+  todo_version: "v1.3.0"
+  release_evidence: false
+  checks:
+    - source: "L2/profiles/symbolic_regression_controller.yaml"
+      status: "draft"
+      matched_registry: "L2/ecosystem/ecosystem-registry.yaml"
+      registry_doc_id: "AX-L2-PROFILE-SR-001"
+      registry_status: "draft"
+      aligned: true
+    - source: "L2/profiles/coding_agent.yaml"
+      status: "draft"
+      matched_registry: "L2/ecosystem/ecosystem-registry.yaml"
+      registry_doc_id: "AX-L2-PROFILE-CA-001"
+      registry_status: "draft"
+      aligned: true
+    - source: "L2/profiles/research_agent.yaml"
+      status: "draft"
+      matched_registry: "L2/ecosystem/ecosystem-registry.yaml"
+      registry_doc_id: "AX-L2-PROFILE-RA-001"
+      registry_status: "draft"
+      aligned: true
+    - source: "L2/profiles/repo_maintenance_agent.yaml"
+      status: "draft"
+      matched_registry: "L2/ecosystem/ecosystem-registry.yaml"
+      registry_doc_id: "AX-L2-PROFILE-RM-001"
+      registry_status: "draft"
+      aligned: true
+    - source: "L2/fic/index.l2-fic.yaml"
+      fic_status: "draft"
+      target_statuses:
+        - fic_id: "L2-FIC-PROFILE-SR-001"
+          status: "draft"
+          profile_status: "draft"
+          aligned: true
+        - fic_id: "L2-FIC-PROFILE-CODING-001"
+          status: "draft"
+          profile_status: "draft"
+          aligned: true
+        - fic_id: "L2-FIC-PROFILE-RESEARCH-001"
+          status: "draft"
+          profile_status: "draft"
+          aligned: true
+        - fic_id: "L2-FIC-PROFILE-REPO-001"
+          status: "draft"
+          profile_status: "draft"
+          aligned: true
+    - source: "L2/sib/sib-l1-handoff-map.yaml"
+      implementation_allowed_by_l2: false
+      aligned: true
+    - source: "L2/eqc/manifests/l2-eqc-manifest.yaml"
+      operator_count: 8
+      procedure_count: 3
+      no_runtime_authority: true
+      aligned: true
+    - source: "L2/generated/profile_catalog.yaml"
+      release_evidence: false
+      implementation_authorized: false
+      aligned: true
+    - source: "L2/generated/l2_profile_package_manifest.yaml"
+      release_evidence: false
+      implementation_authorized: false
+      aligned: true
+    - source: "L2/generated/readiness_report.md"
+      no_release_claims: true
+      aligned: true
+  blocking_contradictions: []
+  final_alignment: "pass"

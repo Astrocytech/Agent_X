@@ -1,0 +1,62 @@
+handoff_map_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+handoff_targets:
+  - handoff_id: "L2-HANDOFF-SR-001"
+    source_profile_id: "AGENT_X_L2::L2-PROFILE-SR-001"
+    source_profile_path: "L2/profiles/symbolic_regression_controller.yaml"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-003"
+      - "AGENT_X_L1::UNIT-L1-004"
+      - "AGENT_X_L1::UNIT-L1-005"
+      - "AGENT_X_L1::UNIT-L1-006"
+      - "AGENT_X_L1::UNIT-L1-007"
+    proposed_l1_fic_targets:
+      - "AGENT_X_L1::FIC-L1-003"
+      - "AGENT_X_L1::FIC-L1-004"
+      - "AGENT_X_L1::FIC-L1-005"
+      - "AGENT_X_L1::FIC-L1-006"
+      - "AGENT_X_L1::FIC-L1-007"
+    implementation_allowed_by_l2: false
+    l1_acceptance_required: true
+    l1_may_reject: true
+    status: "draft"
+  - handoff_id: "L2-HANDOFF-CA-001"
+    source_profile_id: "AGENT_X_L2::L2-PROFILE-CA-001"
+    source_profile_path: "L2/profiles/coding_agent.yaml"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-003"
+      - "AGENT_X_L1::UNIT-L1-004"
+      - "AGENT_X_L1::UNIT-L1-005"
+      - "AGENT_X_L1::UNIT-L1-006"
+      - "AGENT_X_L1::UNIT-L1-007"
+    proposed_l1_fic_targets:
+      - "AGENT_X_L1::FIC-L1-003"
+      - "AGENT_X_L1::FIC-L1-004"
+      - "AGENT_X_L1::FIC-L1-005"
+      - "AGENT_X_L1::FIC-L1-006"
+      - "AGENT_X_L1::FIC-L1-007"
+    implementation_allowed_by_l2: false
+    l1_acceptance_required: true
+    l1_may_reject: true
+    status: "draft"
+  - handoff_id: "L2-HANDOFF-RA-001"
+    source_profile_id: "AGENT_X_L2::L2-PROFILE-RA-001"
+    source_profile_path: "L2/profiles/research_agent.yaml"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-001"
+    proposed_l1_fic_targets: []
+    implementation_allowed_by_l2: false
+    l1_acceptance_required: true
+    l1_may_reject: true
+    status: "draft"
+  - handoff_id: "L2-HANDOFF-RM-001"
+    source_profile_id: "AGENT_X_L2::L2-PROFILE-RM-001"
+    source_profile_path: "L2/profiles/repo_maintenance_agent.yaml"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-002"
+    proposed_l1_fic_targets: []
+    implementation_allowed_by_l2: false
+    l1_acceptance_required: true
+    l1_may_reject: true
+    status: "draft"

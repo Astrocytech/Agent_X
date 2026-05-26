@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Graph Integrity Schema",
+  "type": "object",
+  "properties": {
+    "check_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "WARN"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "check_name": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "detail": {"type": "string"}
+        },
+        "required": ["check_name", "passed"]
+      }
+    }
+  },
+  "required": ["check_id", "timestamp", "status", "checks"]
+}

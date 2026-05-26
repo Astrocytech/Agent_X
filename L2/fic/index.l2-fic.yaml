@@ -1,0 +1,33 @@
+l2_fic_registry_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+implementation_authorized: false
+fic_units:
+  - fic_id: "L2-FIC-PROFILE-CODING-001"
+    global_fic_id: "AGENT_X_L2::L2-FIC-PROFILE-CODING-001"
+    target_artifact_id: "L2-PROFILE-CA-001"
+    target_path: "L2/profiles/coding_agent.yaml"
+    status: "draft"
+    risk_level: "medium"
+    implementation_allowed: false
+  - fic_id: "L2-FIC-PROFILE-SR-001"
+    global_fic_id: "AGENT_X_L2::L2-FIC-PROFILE-SR-001"
+    target_artifact_id: "L2-PROFILE-SR-001"
+    target_path: "L2/profiles/symbolic_regression_controller.yaml"
+    status: "draft"
+    risk_level: "medium"
+    implementation_allowed: false
+  - fic_id: "L2-FIC-PROFILE-RESEARCH-001"
+    global_fic_id: "AGENT_X_L2::L2-FIC-PROFILE-RESEARCH-001"
+    target_artifact_id: "L2-PROFILE-RA-001"
+    target_path: "L2/profiles/research_agent.yaml"
+    status: "draft"
+    risk_level: "low"
+    implementation_allowed: false
+  - fic_id: "L2-FIC-PROFILE-REPO-001"
+    global_fic_id: "AGENT_X_L2::L2-FIC-PROFILE-REPO-001"
+    target_artifact_id: "L2-PROFILE-RM-001"
+    target_path: "L2/profiles/repo_maintenance_agent.yaml"
+    status: "draft"
+    risk_level: "low"
+    implementation_allowed: false

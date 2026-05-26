@@ -1,0 +1,13 @@
+{
+  "schema": "agent-x-l2-sib-l1-handoff-map/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 SIB L1 Handoff Map Schema",
+  "type": "object",
+  "properties": {
+    "handoff_map_version": { "type": "string" },
+    "portfolio_id": { "type": "string" },
+    "release_evidence": { "type": "boolean" },
+    "handoff_targets": { "type": "array" }
+  },
+  "required": ["handoff_map_version", "portfolio_id", "release_evidence", "handoff_targets"]
+}

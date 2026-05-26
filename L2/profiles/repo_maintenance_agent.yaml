@@ -1,0 +1,40 @@
+profile_id: "L2-PROFILE-RM-001"
+global_profile_id: "AGENT_X_L2::L2-PROFILE-RM-001"
+version: "v0.1.0"
+status: "draft"
+name: "Repo Maintenance Agent"
+specialization_type: "repo-maintenance"
+ownership_key: "agent-x-l2-rm"
+purpose: "Refactor structure, update documentation, clean deprecated paths without changing logic."
+intended_user_goal_classes:
+  - "restructure-repo"
+  - "clean-deprecations"
+  - "update-references"
+allowed_inputs:
+  - "maintenance request"
+  - "deprecation notice"
+  - "restructure plan"
+expected_outputs:
+  - "restructured files"
+  - "updated references"
+  - "cleanup report"
+required_l1_units:
+  - "AGENT_X_L1::UNIT-L1-002"
+required_l1_fic_candidates: []
+forbidden_actions:
+  - "direct L0 modification"
+  - "direct L1 modification without FIC"
+  - "direct external repository modification"
+  - "ungoverned tool execution"
+  - "runtime autonomous patching"
+  - "change program logic"
+  - "introduce new behavior"
+evaluation_refs:
+  - "L2/evaluation_specs/repo_maintenance_eval.md"
+integration_refs: []
+risk_level: "low"
+profile_package_status: "draft"
+l1_handoff_allowed: false
+implementation_allowed_without_l1: false
+implementation_allowed: false
+direct_runtime_allowed: false

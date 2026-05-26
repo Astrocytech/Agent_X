@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Audit Event Schema",
+  "type": "object",
+  "properties": {
+    "event_id": {"type": "string"},
+    "event_type": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "detail": {"type": "string"}
+  },
+  "required": ["event_id", "event_type", "timestamp"]
+}

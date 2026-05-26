@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Validation Report Schema",
+  "type": "object",
+  "properties": {
+    "validation_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "returncode": {"type": "integer"},
+          "stdout": {"type": "string"},
+          "stderr": {"type": "string"}
+        },
+        "required": ["command", "passed"]
+      }
+    },
+    "passed": {"type": "integer"},
+    "failed": {"type": "integer"}
+  },
+  "required": ["validation_results", "passed", "failed"]
+}

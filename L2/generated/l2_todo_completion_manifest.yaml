@@ -1,0 +1,27 @@
+l2_todo_completion_manifest_version: "v1.2.0"
+portfolio_id: "AGENT_X_L2"
+target_baseline_commit: "46ce5b053beeb7816874597419e8db055e6c07e3"
+workspace_ref: "46ce5b053beeb7816874597419e8db055e6c07e3"
+release_evidence: false
+implementation_authorized: false
+summary:
+  final_status: "PASS"
+  runtime_surface_status: "none"
+  standards_present: true
+  required_files_reconciled: true
+  cross_standard_alignment: "pass"
+  root_false_claim_scan: "pass"
+  prove_l2: "pass"
+  prove_all: "pass"
+artifacts:
+  source_standard_manifest: "L2/generated/source_standard_manifest.yaml"
+  reconciliation_matrix: "L2/generated/l2_required_file_reconciliation.yaml"
+  standards_coverage_matrix: "L2/generated/l2_standards_coverage_matrix.yaml"
+  id_alias_map: "L2/generated/l2_id_alias_map.yaml"
+  completion_audit_bundle: "L2/evidence/bootstrap/20260529T212202Z_l2_completion_audit_bundle.yaml"
+blocking_items: []
+warning_items:
+  - "Digests in source_standard_manifest are sha256:<pending> — not computed"
+  - "ecosystem-registry.yaml uses compact schema, not the full extended field set"
+  - "SIB bridge standard is a compact document, not a full-length standard"
+  - "Generated placeholders remain bootstrap-only — no release evidence"

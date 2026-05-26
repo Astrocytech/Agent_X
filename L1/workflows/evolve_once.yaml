@@ -1,0 +1,12 @@
+# Evolution workflow: one cycle of the external evolution loop
+# L1 controller reads L0, plans a patch, applies it, verifies, records evidence
+
+workflow: evolve_once
+steps:
+  - read_l0_state
+  - check_boundary
+  - plan_patch
+  - apply_patch
+  - run_proofs
+  - collect_evidence
+  - record_outcome

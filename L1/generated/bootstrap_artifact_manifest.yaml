@@ -1,0 +1,113 @@
+bootstrap_artifact_manifest_version: v1.4.0
+status: mode-a-bootstrap-not-release-evidence
+release_evidence: false
+created_by: manual-bootstrap@v1.4.0
+mode: Mode A safe additive scaffold
+required_checks_recorded: true
+artifacts:
+  standards:
+  - L1/standards/AGENT_X_L1_EQC_FIC_v0_6.md
+  - L1/standards/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW_v0_6.md
+  - L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB_v0_5.md
+  - L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_ES_v0_5.md
+  - L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md
+  control_docs:
+  - L1/docs/00_L1_SYSTEM_GOAL.md
+  - L1/docs/01_L1_BACKGROUND.md
+  - L1/docs/02_L1_ARCHITECTURE_CONTRACT.md
+  - L1/docs/03_L1_WHOLE_SYSTEM_PSEUDOCODE.md
+  - L1/docs/04_L1_UNIT_DAG.md
+  - L1/docs/05_L1_SHARED_TYPES_AND_INTERFACES.md
+  - L1/docs/06_L1_VALIDATION_PLAN.md
+  - L1/docs/07_L1_RISK_LEDGER.md
+  - L1/docs/08_L1_TRACEABILITY_MATRIX.md
+  - L1/docs/09_L1_CODING_AGENT_HANDOFF_RULES.md
+  - L1/docs/10_L1_FAILURE_LEARNING_LOG.md
+  - L1/docs/11_L1_REVIEW_GATE.md
+  - L1/docs/12_L1_LEGACY_AND_SUPPORT_DIRECTORIES.md
+  - L1/docs/HISTORICAL_NOTES_README.md
+  governance:
+  - L1/standards/STANDARDS_AUTHORITY.md
+  evidence_layout:
+  - L1/evidence/EVIDENCE_LAYOUT.md
+  fic:
+  - L1/fic/index.fic.yaml
+  - L1/fic/units/FIC-L1-001-document-loader.md
+  - L1/fic/units/FIC-L1-002-repo-state-reader.md
+  - L1/fic/units/FIC-L1-003-goal-classifier.md
+  - L1/fic/units/FIC-L1-004-unit-planner.md
+  - L1/fic/units/FIC-L1-005-fic-generator.md
+  - L1/fic/units/FIC-L1-006-fic-validator.md
+  - L1/fic/units/FIC-L1-007-handoff-packet-builder.md
+  - L1/fic/units/FIC-L1-008-proof-check-runner.md
+  - L1/fic/units/FIC-L1-009-evidence-collector.md
+  - L1/fic/units/FIC-L1-010-completion-record-writer.md
+  - L1/fic/units/FIC-L1-011-traceability-updater.md
+  - L1/fic/units/FIC-L1-012-failure-learning-updater.md
+  ecosystem:
+  - L1/ecosystem/ecosystem-registry.yaml
+  - L1/ecosystem/ecosystem-graph.yaml
+  - L1/ecosystem/ecosystem-validation-log.md
+  - L1/ecosystem/ecosystem-error-codes.yaml
+  - L1/ecosystem/ecosystem-waivers.yaml
+  - L1/ecosystem/ecosystem-migration-log.md
+  - L1/ecosystem/ecosystem-schemas/ecosystem-registry.schema.json
+  - L1/ecosystem/ecosystem-schemas/ecosystem-graph.schema.json
+  - L1/ecosystem/ecosystem-schemas/ecosystem-validation-output.schema.json
+  - L1/ecosystem/ecosystem-schemas/ecosystem-impact-output.schema.json
+  sib:
+  - L1/sib/sib-registry.yaml
+  - L1/sib/sib-doc-registry.yaml
+  - L1/sib/sib-bindings.yaml
+  - L1/sib/sib-graph.yaml
+  - L1/sib/sib-validation-log.md
+  - L1/sib/sib-error-codes.yaml
+  - L1/sib/sib-waivers.yaml
+  - L1/sib/sib-source-freshness.yaml
+  - L1/sib/sib-version-impact.yaml
+  - L1/sib/sib-schemas/sib-registry.schema.json
+  - L1/sib/sib-schemas/sib-doc-registry.schema.json
+  - L1/sib/sib-schemas/sib-bindings.schema.json
+  - L1/sib/sib-schemas/sib-graph.schema.json
+  - L1/sib/sib-schemas/sib-error-codes.schema.json
+  - L1/sib/sib-schemas/waiver.schema.json
+  - L1/sib/sib-schemas/validation-result.schema.json
+  - L1/sib/sib-schemas/completion-record.schema.json
+  - L1/sib/sib-schemas/review-packet.schema.json
+  - L1/sib/sib-schemas/impact-report.schema.json
+  - L1/sib/sib-schemas/semantic-lockfile.schema.json
+  - L1/sib/sib-schemas/release-package-manifest.schema.json
+  eqc:
+  - L1/eqc/manifests/l1-eqc-manifest.yaml
+  - L1/eqc/procedures/L1_EvolveOnce.eqc.md
+  - L1/eqc/procedures/L1_ValidateFICBundle.eqc.md
+  - L1/eqc/operators/classify_goal.eqc.md
+  - L1/eqc/operators/decide_readiness.eqc.md
+  - L1/eqc/traces/l1-validation-trace.schema.yaml
+  - L1/eqc/tests/goal-classifier.test-vectors.yaml
+  - L1/eqc/schemas/eqc-header.schema.json
+  - L1/eqc/schemas/eqc-procedure.schema.json
+  - L1/eqc/schemas/eqc-operator.schema.json
+  - L1/eqc/schemas/eqc-manifest.schema.json
+  - L1/eqc/schemas/eqc-test-vector.schema.json
+  - L1/eqc/schemas/eqc-trace-record.schema.json
+  - L1/eqc/schemas/eqc-validator-output.schema.json
+  generated_placeholders:
+  - L1/generated/fic_bundle_manifest.yaml
+  - L1/generated/unit_dag.yaml
+  - L1/generated/semantic_lockfile.yaml
+  - L1/generated/requirement_coverage_matrix.yaml
+  - L1/generated/readiness_report.md
+  - L1/generated/validation_report.md
+  - L1/generated/review_packet.md
+  - L1/generated/release_candidate_report.md
+  source_evidence:
+  - runtime_artifacts/l1_baseline_checks.log
+  bootstrap_evidence:
+  - L1/evidence/bootstrap/20260529T173052Z_baseline_checks.log
+  - L1/evidence/bootstrap/20260529T173052Z_source_standard_copy_manifest.yaml
+  - L1/evidence/bootstrap/20260529T173052Z_es_cross_checks.yaml
+  - L1/evidence/bootstrap/20260529T173052Z_sib_cross_checks.yaml
+  - L1/evidence/bootstrap/20260529T173052Z_eqc_cross_checks.yaml
+validation_note: This manifest records scaffold artifacts only. It is not release
+  evidence.

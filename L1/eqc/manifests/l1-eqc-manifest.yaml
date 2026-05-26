@@ -1,0 +1,26 @@
+l1_eqc_manifest:
+  manifest_version: v0.5
+  portfolio_id: AGENT_X_L1
+  procedures:
+  - procedure_id: EQC-PROC-L1-EVOLVE-ONCE
+    path: L1/eqc/procedures/L1_EvolveOnce.eqc.md
+    version: v0.1.0
+    operators:
+    - L1.ClassifyGoal_v1
+    - L1.DecideReadiness_v1
+  - procedure_id: EQC-PROC-L1-VALIDATE-FIC-BUNDLE
+    path: L1/eqc/procedures/L1_ValidateFICBundle.eqc.md
+    version: v0.1.0
+    operators:
+    - L1.DecideReadiness_v1
+  operators:
+  - name: L1.ClassifyGoal_v1
+    path: L1/eqc/operators/classify_goal.eqc.md
+    version: v0.1.0
+    category: classification
+    purity: pure
+  - name: L1.DecideReadiness_v1
+    path: L1/eqc/operators/decide_readiness.eqc.md
+    version: v0.1.0
+    category: readiness
+    purity: pure

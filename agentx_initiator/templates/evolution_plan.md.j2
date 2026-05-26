@@ -1,0 +1,16 @@
+# Evolution Plan
+
+Generated at: {{ generated_at }}
+Recommendations: {{ count }}
+
+{% for item in plan_items %}
+## P{{ '%02d' % item.priority }} — {{ item.category | title }}
+
+**Action:** {{ item.action }}
+
+**Detail:** {{ item.detail }}
+
+{% endfor %}
+## Next Steps
+
+Review each recommendation above. Each item is a candidate for future FIC-driven governed implementation.

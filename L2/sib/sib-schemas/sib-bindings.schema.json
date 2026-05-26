@@ -1,0 +1,12 @@
+{
+  "schema": "agent-x-l2-sib-bindings/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 SIB Bindings Schema",
+  "type": "object",
+  "properties": {
+    "sib_bindings_version": { "type": "string" },
+    "portfolio_id": { "type": "string" },
+    "bindings": { "type": "array" }
+  },
+  "required": ["sib_bindings_version", "portfolio_id", "bindings"]
+}

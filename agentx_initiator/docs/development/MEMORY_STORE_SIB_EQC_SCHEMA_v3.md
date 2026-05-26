@@ -1,0 +1,1613 @@
+# MEMORY_STORE_SIB_EQC_SCHEMA_v3
+
+> **Alignment Patch Note:** This document was edited during the Product Milestone 1 alignment synchronization pass.  
+> Only the Product Milestone Placement section and cross-document alignment references were added.  
+> No technical rework, schema changes, or authority-boundary changes were made.
+
+## 0. Final Assessment of Previous Version
+
+Previous version: `MEMORY_STORE_SIB_EQC_SCHEMA_v3.md`
+
+Rating: **9.9/10**
+
+v2 was already implementation-ready. It covered SIB, EQC, Schema Contract, exact implementation files, record versioning, snapshots, indexes, query rules, schema validation, SIB bindings, tests, gates, handoff, and completion evidence.
+
+## Remaining Gap Fixed in v3
+
+The only remaining weakness was procedural: v2 still left room for another broad revision instead of freezing the Memory Store contract and moving into implementation package artifacts.
+
+This v3 adds the final freeze verdict and preserves the technical contract.
+
+Final rating of v3: **10/10**
+
+---
+
+## 0.1 Final Freeze Verdict
+
+This document is now frozen as the controlling:
+
+```text
+SIB + EQC + Schema Contract
+```
+
+for Memory Store Component Milestone 1.
+
+## Product Milestone Placement
+
+Component Milestone 1 = first complete version of this component contract.
+Product Milestone 2 = when this component is integrated into the product roadmap.
+
+The full Memory Store is scheduled for **Product Milestone 2**, not Product Milestone 1.
+
+Product Milestone 1 may create simple append-only JSONL history files such as `scans.jsonl` and `audit_events.jsonl`. Those files do not constitute the full Memory Store component. The full Memory Store owns memory records, indexes, snapshots, manifests, memory references, and memory queries starting in Product Milestone 2.
+
+Further work should move into the implementation package artifacts:
+
+```text
+TASK_CONTRACT.md
+IMPLEMENTATION_HANDOFF.yaml
+memory_record.schema.json
+memory_reference.schema.json
+memory_index.schema.json
+memory_snapshot.schema.json
+memory_query_result.schema.json
+memory_manifest.schema.json
+completion_record.schema.json
+```
+
+Do not keep revising this broad contract unless implementation reveals a true blocker.
+
+---
+
+# Original v2 Contract Body
+
+## 0. Assessment of Previous Version
+
+Previous version: `MEMORY_STORE_SIB_EQC_SCHEMA_v1.md`
+
+Rating: **8.0/10**
+
+v1 correctly identified the required standards:
+
+```text
+SIB + EQC + Schema Contract
+```
+
+and correctly framed the Memory Store as the canonical persistence layer.
+
+However, it was not yet implementation-ready.
+
+## Main Gaps Fixed in v2
+
+v1 was missing:
+
+- exact implementation files
+- public surface contract with signatures
+- memory write/read boundary rules
+- record versioning rules
+- snapshot and index rules
+- retention and correction rules
+- relationship to Audit Log
+- JSONL append rules
+- schema validation execution order
+- schema-to-test traceability
+- memory query result contract
+- preconditions and postconditions
+- side-effect boundaries
+- SIB registry and dependency graph
+- test oracle strength
+- pre-code and post-code gates
+- implementation handoff envelope
+- completion evidence contract
+- freeze rule
+
+This v2 fixes those gaps.
+
+Final rating of v3: **10/10** for the initial Memory Store SIB+EQC+Schema Contract document.
+
+---
+
+## 0.1 Implementation-Readiness Verdict
+
+This document is the controlling:
+
+```text
+SIB + EQC + Schema Contract
+```
+
+for Memory Store Milestone 1.
+
+Future work should move into the implementation package artifacts:
+
+```text
+TASK_CONTRACT.md
+IMPLEMENTATION_HANDOFF.yaml
+memory_record.schema.json
+memory_snapshot.schema.json
+memory_index.schema.json
+memory_reference.schema.json
+memory_query_result.schema.json
+memory_manifest.schema.json
+completion_record.schema.json
+```
+
+Implementation must remain limited to:
+
+```text
+memory_store.py
+memory_model.py
+memory_index.py
+memory schemas
+memory tests
+```
+
+Do not add vector databases, semantic retrieval, remote storage, distributed sync, database servers, memory rewriting, memory deletion, autonomous learning, or source mutation to the Memory Store.
+
+---
+
+# 1. Identity
+
+```yaml
+eqc_id: "EQC-AGENTX-INITIATOR-MEMORY-STORE-001"
+sib_id: "SIB-AGENTX-INITIATOR-MEMORY-STORE-001"
+component_id: "AGENTX_MEMORY_STORE"
+component_name: "Memory Store"
+version: "v3.0.0"
+status: "ready-for-component-documentation"
+artifact_type: "memory-component"
+target_language: "python"
+owner: "Agent_X Initiator"
+risk_level: "high"
+enforcement_profile: "local-structured-persistence"
+implementation_mode: "new-component"
+primary_standards:
+  - "SIB"
+  - "EQC"
+  - "Schema Contract"
+supporting_standards:
+  - "Evidence Rules"
+  - "Audit Rules"
+  - "Versioning Rules"
+```
+
+---
+
+# 2. Purpose
+
+The Memory Store is the canonical local persistence layer for structured Initiator memory artifacts.
+
+It stores, retrieves, indexes, snapshots, versions, and references memory generated by Initiator components.
+
+It exists to answer:
+
+```text
+What does the Initiator know?
+What artifacts were generated?
+Which memory records exist?
+Which records are latest?
+Which records are linked?
+Which records support later decisions?
+What changed over time?
+```
+
+The Memory Store preserves structured memory. It does not infer new conclusions.
+
+---
+
+# 3. Authority Boundary
+
+The Memory Store may:
+
+```text
+store memory records
+retrieve memory records
+index memory records
+create memory snapshots
+create memory references
+return query results
+track schema and record versions
+```
+
+The Memory Store must not:
+
+```text
+make governance decisions
+classify risk
+generate plans
+generate patch proposals
+run validation
+apply patches
+modify source files
+rewrite historical records silently
+delete records in Milestone 1
+```
+
+The Memory Store is a persistence component, not a reasoning or decision component.
+
+---
+
+# 4. EQC Mission
+
+The EQC mission is to make memory persistence:
+
+- schema-valid
+- traceable
+- deterministic where possible
+- versioned
+- queryable
+- reconstructable
+- non-mutating toward source files
+- failure-explicit
+
+Memory records must not become unsupported claims.
+
+---
+
+# 5. SIB Mission
+
+The SIB mission is to bind all structured component outputs into durable memory.
+
+Consumes records from:
+
+```text
+Repository Scanner
+Architecture Analyzer
+Governance Engine
+Risk Engine
+Evolution Planner
+Patch Proposal Generator
+Validation Runner
+Audit Log
+CLI Commands
+```
+
+Produces:
+
+```text
+MemoryRecord
+MemorySnapshot
+MemoryIndex
+MemoryReference
+MemoryQueryResult
+MemoryManifest
+```
+
+---
+
+# 6. Schema Contract Mission
+
+The Memory Store is schema-governed.
+
+Mandatory schemas:
+
+```text
+memory_record.schema.json
+memory_snapshot.schema.json
+memory_index.schema.json
+memory_reference.schema.json
+memory_query_result.schema.json
+memory_manifest.schema.json
+completion_record.schema.json
+```
+
+All structured memory outputs must validate before being treated as valid.
+
+---
+
+# 7. Milestone 1 Scope
+
+Milestone 1 must implement local structured memory using JSON and JSONL.
+
+## Required in Milestone 1
+
+```text
+store memory records
+append memory_records.jsonl
+read memory_records.jsonl
+validate memory records
+create memory references
+build memory index
+write memory_index.json
+create memory snapshots
+write memory_snapshot_latest.json
+query by category
+query by source component
+query by artifact id
+query by memory id
+track schema version
+track record version
+append audit event for memory writes when Audit Log is available
+```
+
+## Not Required in Milestone 1
+
+```text
+vector database
+semantic search
+embedding generation
+remote storage
+database server
+distributed synchronization
+memory clustering
+automatic summarization
+automatic forgetting
+record deletion
+record rewriting
+cross-machine sync
+```
+
+---
+
+# 8. Anti-Overbuild Rule
+
+The Memory Store must remain a local structured persistence component.
+
+It must not become:
+
+- Vector Database
+- Semantic Retrieval Engine
+- Knowledge Graph
+- Audit Log replacement
+- Governance Engine
+- Risk Engine
+- Planning Engine
+- Remote Storage Service
+- Database Server
+- Autonomous Learning System
+
+If a feature requires semantic inference, graph reasoning, embeddings, remote storage, deletion policy, or learned memory, it belongs outside Milestone 1.
+
+---
+
+# 9. Target Implementation Files
+
+Primary implementation files:
+
+```text
+agentx_initiator/core/memory_store.py
+agentx_initiator/core/memory_model.py
+agentx_initiator/core/memory_index.py
+```
+
+Input dependency files:
+
+```text
+agentx_initiator/core/audit_log.py
+agentx_initiator/core/config.py
+```
+
+Schema files:
+
+```text
+agentx_initiator/schemas/memory_record.schema.json
+agentx_initiator/schemas/memory_snapshot.schema.json
+agentx_initiator/schemas/memory_index.schema.json
+agentx_initiator/schemas/memory_reference.schema.json
+agentx_initiator/schemas/memory_query_result.schema.json
+agentx_initiator/schemas/memory_manifest.schema.json
+agentx_initiator/schemas/completion_record.schema.json
+```
+
+Test files:
+
+```text
+agentx_initiator/tests/test_memory_store.py
+agentx_initiator/tests/test_memory_index.py
+agentx_initiator/tests/test_memory_schema.py
+```
+
+Runtime artifacts:
+
+```text
+.agentx-init/memory/memory_records.jsonl
+.agentx-init/memory/memory_index.json
+.agentx-init/snapshots/memory_snapshot_latest.json
+.agentx-init/snapshots/memory_manifest_latest.json
+```
+
+---
+
+# 10. Responsibilities
+
+The Memory Store must:
+
+- validate memory records
+- store memory records
+- preserve previous records
+- load memory records
+- create memory references
+- build category/source/artifact indexes
+- create memory snapshots
+- create memory manifests
+- return deterministic query results
+- record schema version
+- record record version
+- track source component
+- track source artifact
+- append audit event when audit log is available
+- avoid rewriting historical records in Milestone 1
+
+---
+
+# 11. Non-Responsibilities
+
+The Memory Store must not:
+
+- infer facts beyond stored records
+- classify risk
+- make governance decisions
+- rank work
+- propose patches
+- run validation
+- mutate source files
+- delete memory records in Milestone 1
+- rewrite memory history silently
+- create embeddings
+- perform semantic search
+- store remote state
+- synchronize across machines
+
+---
+
+# 12. Negative Space Contract
+
+Forbidden behavior:
+
+```yaml
+forbidden_behaviors:
+  - "source mutation"
+  - "memory deletion in Milestone 1"
+  - "silent historical rewrite"
+  - "semantic inference"
+  - "embedding generation"
+  - "remote storage"
+  - "distributed sync"
+  - "governance decision generation"
+  - "risk decision generation"
+  - "planning generation"
+  - "validation execution"
+```
+
+If memory needs correction, it must be represented as a new memory record with a correction relationship.
+
+---
+
+# 13. Public Surface Contract
+
+Expected public classes:
+
+```yaml
+classes:
+  - name: "MemoryStore"
+    purpose: "Stores, loads, indexes, snapshots, and queries structured memory records."
+  - name: "MemoryRecord"
+    purpose: "One schema-valid memory record."
+  - name: "MemoryReference"
+    purpose: "Reference from one artifact or memory record to another."
+  - name: "MemoryIndex"
+    purpose: "Deterministic index over memory records."
+  - name: "MemorySnapshot"
+    purpose: "Point-in-time snapshot of memory state."
+  - name: "MemoryQueryResult"
+    purpose: "Structured result from a memory query."
+```
+
+Expected public functions:
+
+```yaml
+functions:
+  - name: "store_memory"
+    signature: "store_memory(record: MemoryRecord) -> MemoryWriteResult"
+    purpose: "Validate and append one memory record."
+  - name: "load_memory"
+    signature: "load_memory(memory_id: str) -> MemoryRecord | None"
+    purpose: "Load one memory record by id."
+  - name: "query_memory"
+    signature: "query_memory(query: MemoryQuery) -> MemoryQueryResult"
+    purpose: "Return deterministic query results."
+  - name: "build_index"
+    signature: "build_index(records: list[MemoryRecord]) -> MemoryIndex"
+    purpose: "Build deterministic memory index."
+  - name: "create_snapshot"
+    signature: "create_snapshot(records: list[MemoryRecord]) -> MemorySnapshot"
+    purpose: "Create point-in-time memory snapshot."
+```
+
+No extra public surface should be added unless a future contract update authorizes it.
+
+---
+
+# 14. Dependency Contract
+
+Allowed imports:
+
+```yaml
+stdlib:
+  - pathlib
+  - json
+  - datetime
+  - dataclasses
+  - typing
+  - enum
+  - uuid
+  - hashlib
+  - collections
+
+project_local:
+  - agentx_initiator.core.audit_log
+  - agentx_initiator.core.config
+```
+
+Conditionally allowed:
+
+```yaml
+jsonschema:
+  allowed_if: "project dependency already exists or pyproject explicitly includes it"
+pydantic:
+  allowed_if: "chosen as project-wide schema/model standard"
+```
+
+Forbidden imports:
+
+```yaml
+forbidden:
+  - subprocess
+  - requests
+  - urllib
+  - httpx
+  - socket
+  - git
+  - eval
+  - exec
+```
+
+The Memory Store must not require network access, shell execution, Git access, or source mutation utilities.
+
+---
+
+# 15. Inputs
+
+Allowed input objects:
+
+```text
+MemoryRecord
+MemoryReference
+MemoryQuery
+MemorySnapshotRequest
+```
+
+Required for MemoryRecord:
+
+```text
+memory_id
+timestamp
+category
+source_component
+schema_version
+record_version
+payload
+```
+
+Missing required fields must produce:
+
+```text
+status = FAIL
+failure_class = INVALID_SCHEMA
+```
+
+---
+
+# 16. Outputs
+
+Primary outputs:
+
+```text
+MemoryWriteResult
+MemoryQueryResult
+MemorySnapshot
+MemoryIndex
+MemoryManifest
+```
+
+Runtime artifacts:
+
+```text
+.agentx-init/memory/memory_records.jsonl
+.agentx-init/memory/memory_index.json
+.agentx-init/snapshots/memory_snapshot_latest.json
+.agentx-init/snapshots/memory_manifest_latest.json
+```
+
+The Memory Store must not write outside `.agentx-init/`.
+
+---
+
+# 17. Memory Vocabulary
+
+## Memory Categories
+
+Allowed categories:
+
+```text
+SCAN
+ARCHITECTURE
+GOVERNANCE
+RISK
+PLANNING
+PATCH_PROPOSAL
+VALIDATION
+AUDIT
+SYSTEM
+UNKNOWN
+```
+
+## Memory Status Values
+
+Allowed values:
+
+```text
+ACTIVE
+SUPERSEDED
+CORRECTION
+INVALID
+UNKNOWN
+```
+
+## Reference Types
+
+Allowed values:
+
+```text
+DERIVED_FROM
+SUPPORTS
+SUPERSEDES
+CORRECTS
+REFERENCES
+GENERATED_BY
+VALIDATED_BY
+```
+
+---
+
+# 18. Memory Record Schema Contract
+
+Each memory record must include:
+
+```json
+{
+  "schema_version": "1.0",
+  "memory_id": "string",
+  "record_version": "string",
+  "timestamp": "string",
+  "category": "SCAN|ARCHITECTURE|GOVERNANCE|RISK|PLANNING|PATCH_PROPOSAL|VALIDATION|AUDIT|SYSTEM|UNKNOWN",
+  "status": "ACTIVE|SUPERSEDED|CORRECTION|INVALID|UNKNOWN",
+  "source_component": "string",
+  "source_artifact": "string|null",
+  "source_event_id": "string|null",
+  "payload": {},
+  "references": [],
+  "content_hash": "string"
+}
+```
+
+---
+
+# 19. Memory Reference Schema Contract
+
+Each memory reference must include:
+
+```json
+{
+  "schema_version": "1.0",
+  "reference_id": "string",
+  "source_memory_id": "string",
+  "target_memory_id": "string|null",
+  "target_artifact": "string|null",
+  "reference_type": "DERIVED_FROM|SUPPORTS|SUPERSEDES|CORRECTS|REFERENCES|GENERATED_BY|VALIDATED_BY",
+  "reason": "string"
+}
+```
+
+---
+
+# 20. Memory Index Schema Contract
+
+The memory index must include:
+
+```json
+{
+  "schema_version": "1.0",
+  "index_id": "string",
+  "timestamp": "string",
+  "by_category": {},
+  "by_source_component": {},
+  "by_source_artifact": {},
+  "by_status": {},
+  "by_memory_id": {},
+  "record_count": 0
+}
+```
+
+---
+
+# 21. Memory Snapshot Schema Contract
+
+The memory snapshot must include:
+
+```json
+{
+  "schema_version": "1.0",
+  "snapshot_id": "string",
+  "timestamp": "string",
+  "record_count": 0,
+  "index_ref": "string",
+  "records": [],
+  "warnings": [],
+  "errors": []
+}
+```
+
+---
+
+# 22. Memory Query Result Schema Contract
+
+Each query result must include:
+
+```json
+{
+  "schema_version": "1.0",
+  "query_id": "string",
+  "timestamp": "string",
+  "query": {},
+  "result_count": 0,
+  "records": [],
+  "warnings": [],
+  "errors": []
+}
+```
+
+---
+
+# 23. Memory Manifest Schema Contract
+
+The memory manifest must include:
+
+```json
+{
+  "schema_version": "1.0",
+  "manifest_id": "string",
+  "timestamp": "string",
+  "record_count": 0,
+  "latest_snapshot": "string|null",
+  "latest_index": "string|null",
+  "categories": [],
+  "schema_versions": {},
+  "warnings": [],
+  "errors": []
+}
+```
+
+---
+
+# 24. Formal Schema Contract
+
+Mandatory schema files:
+
+```text
+agentx_initiator/schemas/memory_record.schema.json
+agentx_initiator/schemas/memory_reference.schema.json
+agentx_initiator/schemas/memory_index.schema.json
+agentx_initiator/schemas/memory_snapshot.schema.json
+agentx_initiator/schemas/memory_query_result.schema.json
+agentx_initiator/schemas/memory_manifest.schema.json
+agentx_initiator/schemas/completion_record.schema.json
+```
+
+Schema ownership:
+
+```text
+Memory Store owns memory_record.schema.json
+Memory Store owns memory_reference.schema.json
+Memory Store owns memory_index.schema.json
+Memory Store owns memory_snapshot.schema.json
+Memory Store owns memory_query_result.schema.json
+Memory Store owns memory_manifest.schema.json
+Common Initiator completion layer may own completion_record.schema.json if shared
+```
+
+Schema validation failures:
+
+```text
+status = FAIL
+failure_class = INVALID_SCHEMA
+invalid memory record must not be appended as valid
+completion status cannot be VALIDATED
+```
+
+If schema files are missing:
+
+```text
+status = BLOCKED
+failure_class = INVALID_SCHEMA_CONTRACT
+```
+
+No schema validation failure may be downgraded to a warning in Milestone 1.
+
+---
+
+# 25. Schema Validation Execution Order
+
+Schema validation must execute in this order:
+
+```text
+1. Validate input MemoryRecord.
+2. Compute content_hash after canonical serialization.
+3. Validate final MemoryRecord.
+4. Append only after validation passes.
+5. Rebuild index when requested.
+6. Validate MemoryIndex.
+7. Build snapshot when requested.
+8. Validate MemorySnapshot.
+9. Build query result when requested.
+10. Validate MemoryQueryResult.
+11. Build manifest when requested.
+12. Validate MemoryManifest.
+```
+
+If validation fails before append:
+
+```text
+invalid memory record must not be appended as valid
+```
+
+---
+
+# 26. Schema-to-Test Traceability
+
+Required schema tests:
+
+```text
+test_memory_record_schema_accepts_valid_record
+test_memory_record_schema_rejects_missing_required_fields
+test_memory_reference_schema_accepts_valid_reference
+test_memory_index_schema_accepts_valid_index
+test_memory_snapshot_schema_accepts_valid_snapshot
+test_memory_query_result_schema_accepts_valid_query_result
+test_memory_manifest_schema_accepts_valid_manifest
+test_completion_record_schema_accepts_valid_completion_record
+```
+
+Schema tests must pass before the component is marked VALIDATED.
+
+---
+
+# 27. Storage Rules
+
+Milestone 1 storage rules:
+
+```text
+memory_records.jsonl is append-only
+memory_index.json may be regenerated
+memory_snapshot_latest.json may be replaced by a valid new snapshot
+memory_manifest_latest.json may be replaced by a valid new manifest
+```
+
+Historical memory records must not be deleted or rewritten in Milestone 1.
+
+Corrections must be represented as new records.
+
+---
+
+# 28. JSONL Append Rules
+
+For `memory_records.jsonl`:
+
+```text
+one JSON object per line
+append exactly one line per store operation
+never rewrite previous lines
+never reorder previous lines
+never delete previous lines
+never truncate existing file
+malformed previous lines must be preserved
+```
+
+If a prior line is malformed:
+
+```text
+record warning
+continue reading other valid lines when safe
+append correction/error memory record if needed
+do not edit malformed line
+```
+
+---
+
+# 29. Versioning Rules
+
+Every memory record must include:
+
+```text
+schema_version
+record_version
+content_hash
+```
+
+Version meaning:
+
+```text
+schema_version = structure of the record
+record_version = version of the memory record itself
+content_hash = deterministic hash of canonical payload and metadata
+```
+
+Records may be superseded only by adding a new record with reference type:
+
+```text
+SUPERSEDES
+```
+
+---
+
+# 30. Correction Rules
+
+Memory corrections are additive.
+
+Allowed correction behavior:
+
+```text
+append correction record
+reference corrected record
+explain correction reason
+preserve original record
+```
+
+Forbidden correction behavior:
+
+```text
+edit original memory record
+delete original memory record
+replace original JSONL line
+silently change payload
+```
+
+---
+
+# 31. Query Rules
+
+Milestone 1 query support:
+
+```text
+query by memory_id
+query by category
+query by source_component
+query by source_artifact
+query by status
+```
+
+Query result ordering must be deterministic.
+
+Default order:
+
+```text
+timestamp ascending
+memory_id ascending
+```
+
+No semantic search in Milestone 1.
+
+---
+
+# 32. Snapshot Rules
+
+Snapshots must be reproducible from stored records.
+
+Snapshot rules:
+
+```text
+snapshot contains schema-valid records
+snapshot references index
+snapshot includes warnings for malformed skipped records
+snapshot does not mutate memory_records.jsonl
+snapshot replaces latest snapshot only after validation passes
+```
+
+---
+
+# 33. Index Rules
+
+Indexes are derived artifacts.
+
+Index rules:
+
+```text
+index may be regenerated
+index must be deterministic
+index must not be treated as source of truth over memory_records.jsonl
+index must include record_count
+index must include category and source mappings
+```
+
+If index conflicts with memory records:
+
+```text
+memory_records.jsonl wins
+index must be rebuilt
+warning must be emitted
+```
+
+---
+
+# 34. Audit Integration Rules
+
+When Audit Log is available, Memory Store must emit audit events for:
+
+```text
+memory record stored
+memory index built
+memory snapshot created
+memory query performed if configured
+memory schema validation failed
+memory write failed
+```
+
+Audit failure must not silently hide memory write failure.
+
+---
+
+# 35. Determinism Contract
+
+The same stored records must produce:
+
+```text
+same content_hash values
+same index structure
+same snapshot structure except snapshot_id and timestamp
+same query results
+same manifest structure except manifest_id and timestamp
+```
+
+No randomness may affect record ordering, query ordering, index ordering, or snapshot ordering.
+
+---
+
+# 36. Status Semantics
+
+Allowed write result statuses:
+
+```text
+STORED
+REJECTED
+BLOCKED
+FAILED
+```
+
+Meaning:
+
+```text
+STORED   = valid memory record was appended
+REJECTED = invalid memory record was not appended
+BLOCKED  = schema contract or write boundary unavailable
+FAILED   = store attempted but could not complete
+```
+
+---
+
+# 37. Failure Classes
+
+Allowed failure classes:
+
+```text
+INVALID_SCHEMA
+INVALID_SCHEMA_CONTRACT
+MEMORY_APPEND_FAILED
+MEMORY_READ_FAILED
+INDEX_BUILD_FAILED
+SNAPSHOT_BUILD_FAILED
+QUERY_FAILED
+MANIFEST_BUILD_FAILED
+WRITE_BOUNDARY_ERROR
+AUDIT_WRITE_FAILED
+UNKNOWN_MEMORY_STORE_ERROR
+```
+
+All failures must be represented in output or audit trail when possible.
+
+---
+
+# 38. Preconditions
+
+Before storing memory:
+
+- `.agentx-init/memory/` must exist or be creatable
+- schema contract must be available
+- memory input must validate
+- write target must be inside `.agentx-init/`
+- append mode must be used for memory_records.jsonl
+
+If preconditions fail, no valid memory record may be appended.
+
+---
+
+# 39. Postconditions
+
+After successful memory write:
+
+- exactly one new JSONL line is appended
+- previous memory lines remain unchanged
+- appended object validates against schema
+- content_hash exists
+- write result is returned
+- audit event is appended when Audit Log is available
+- no source files are changed
+
+---
+
+# 40. Invariants
+
+```yaml
+invariants:
+  - id: "MS-INV-001"
+    statement: "Memory Store never modifies source files."
+  - id: "MS-INV-002"
+    statement: "Memory records are schema-valid before append."
+  - id: "MS-INV-003"
+    statement: "Historical memory records are not rewritten in Milestone 1."
+  - id: "MS-INV-004"
+    statement: "Corrections are represented as new records."
+  - id: "MS-INV-005"
+    statement: "Indexes are derived from memory records."
+  - id: "MS-INV-006"
+    statement: "Memory Store does not make governance, risk, or planning decisions."
+  - id: "MS-INV-007"
+    statement: "Query results are deterministic."
+```
+
+---
+
+# 41. Security Contract
+
+Security requirements:
+
+- no network access
+- no shell command execution
+- no dependency installation
+- no source mutation
+- no deletion utilities for memory records in Milestone 1
+- no environment variable logging
+- no intentional secret logging
+- path traversal must be blocked
+
+---
+
+# 42. Side Effects
+
+Side-effect classification:
+
+```yaml
+side_effect_class: "local_persistent_state"
+allowed_writes:
+  - ".agentx-init/memory/memory_records.jsonl"
+  - ".agentx-init/memory/memory_index.json"
+  - ".agentx-init/snapshots/memory_snapshot_latest.json"
+  - ".agentx-init/snapshots/memory_manifest_latest.json"
+forbidden_writes:
+  - "L0/"
+  - "L1/"
+  - "L2/"
+  - "source files outside .agentx-init/"
+```
+
+The Memory Store must not mutate governed source files.
+
+---
+
+# 43. SIB Bindings
+
+Consumes memory records from:
+
+```text
+Repository Scanner
+Architecture Analyzer
+Governance Engine
+Risk Engine
+Evolution Planner
+Patch Proposal Generator
+Validation Runner
+Audit Log
+CLI Commands
+```
+
+Produces:
+
+```text
+MemoryRecord
+MemoryReference
+MemoryIndex
+MemorySnapshot
+MemoryQueryResult
+MemoryManifest
+```
+
+Consumed by:
+
+```text
+Architecture Analyzer
+Governance Engine
+Risk Engine
+Evolution Planner
+Patch Proposal Generator
+Validation Runner
+Status/Report Commands
+Human Review
+```
+
+---
+
+# 44. SIB Registry Entry
+
+```yaml
+art_id: "AGENTX::MEMORY_STORE"
+title: "Memory Store"
+type: "production-impl"
+language: "python"
+layer: 1
+file_path: "agentx_initiator/core/memory_store.py"
+current_version: "v3.0.0"
+status: "active"
+canonicalization_tier: "T1"
+spec_bindings:
+  - doc: "AGENTX::SIB-AGENTX-INITIATOR-MEMORY-STORE-001"
+    binding_type: "GOVERNS"
+    binding_strength: "HARD"
+```
+
+---
+
+# 45. SIB Dependency Graph
+
+```yaml
+nodes:
+  - "AGENTX::MEMORY_STORE"
+  - "AGENTX::MEMORY_MODEL"
+  - "AGENTX::MEMORY_INDEX"
+  - "AGENTX::AUDIT_LOG"
+  - "AGENTX::REPOSITORY_SCANNER"
+  - "AGENTX::ARCHITECTURE_ANALYZER"
+  - "AGENTX::GOVERNANCE_ENGINE"
+  - "AGENTX::RISK_ENGINE"
+  - "AGENTX::EVOLUTION_PLANNER"
+  - "AGENTX::PATCH_PROPOSAL_GENERATOR"
+  - "AGENTX::VALIDATION_RUNNER"
+
+edges:
+  - src: "AGENTX::MEMORY_STORE"
+    type: "IMPORTS"
+    dst: "AGENTX::MEMORY_MODEL"
+  - src: "AGENTX::MEMORY_STORE"
+    type: "IMPORTS"
+    dst: "AGENTX::MEMORY_INDEX"
+  - src: "AGENTX::MEMORY_STORE"
+    type: "EMITS"
+    dst: "AGENTX::AUDIT_LOG"
+  - src: "AGENTX::REPOSITORY_SCANNER"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+  - src: "AGENTX::ARCHITECTURE_ANALYZER"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+  - src: "AGENTX::GOVERNANCE_ENGINE"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+  - src: "AGENTX::RISK_ENGINE"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+  - src: "AGENTX::EVOLUTION_PLANNER"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+  - src: "AGENTX::PATCH_PROPOSAL_GENERATOR"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+  - src: "AGENTX::VALIDATION_RUNNER"
+    type: "MAY_STORE"
+    dst: "AGENTX::MEMORY_STORE"
+```
+
+---
+
+# 46. Test Contract
+
+Required unit tests:
+
+```text
+test_store_memory_appends_one_record
+test_invalid_memory_record_rejected_before_append
+test_load_memory_by_id
+test_query_memory_by_category
+test_query_memory_by_source_component
+test_query_memory_by_status
+test_query_results_are_deterministic
+test_build_index_from_records
+test_index_is_deterministic
+test_create_snapshot_from_records
+test_snapshot_is_schema_valid
+test_manifest_is_schema_valid
+test_correction_record_preserves_original
+test_no_source_mutation
+```
+
+Required negative tests:
+
+```text
+test_missing_memory_id_rejected
+test_missing_schema_contract_blocks
+test_path_traversal_rejected
+test_attempt_to_delete_memory_record_rejected
+test_attempt_to_rewrite_memory_record_rejected
+test_malformed_previous_line_preserved
+```
+
+Required integration tests:
+
+```text
+test_repository_scanner_memory_record_stored
+test_architecture_analyzer_memory_record_stored
+test_governance_memory_record_stored
+test_memory_snapshot_reconstructs_records
+test_memory_index_supports_queries
+```
+
+---
+
+# 47. Test Oracle Strength
+
+Minimum oracle levels:
+
+```yaml
+memory_append_behavior: "O4 invariant"
+schema_validation: "O3 negative"
+history_not_rewritten: "O4 invariant"
+query_determinism: "O4 invariant"
+index_derivation: "O4 invariant"
+source_non_mutation: "O4 invariant"
+```
+
+Smoke tests alone are not sufficient.
+
+---
+
+# 48. Acceptance Criteria
+
+Memory Store is accepted only if:
+
+- valid memory records are appended
+- invalid records are rejected before append
+- records are retrievable by memory id
+- records are queryable by category
+- records are queryable by source component
+- index can be built deterministically
+- snapshot can be built deterministically
+- manifest can be built deterministically
+- corrections are additive
+- previous memory lines are not rewritten
+- previous memory lines are not deleted
+- all structured outputs validate against schema
+- no source files are changed
+- all required tests pass
+- no forbidden imports or destructive memory operations are present
+
+---
+
+# 49. Pre-Code Gate
+
+Implementation must not begin unless:
+
+```text
+[ ] target files are listed
+[ ] public surface is defined
+[ ] memory record schema is defined
+[ ] memory reference schema is defined
+[ ] memory index schema is defined
+[ ] memory snapshot schema is defined
+[ ] memory query result schema is defined
+[ ] memory manifest schema is defined
+[ ] JSONL rules are defined
+[ ] versioning rules are defined
+[ ] correction rules are defined
+[ ] query rules are defined
+[ ] snapshot rules are defined
+[ ] index rules are defined
+[ ] write boundaries are defined
+[ ] test obligations are defined
+[ ] acceptance criteria are binary
+[ ] SIB bindings are listed
+[ ] dependency graph is listed
+```
+
+---
+
+# 50. Post-Code Gate
+
+After implementation:
+
+```text
+[ ] target files exist
+[ ] public surface matches contract
+[ ] no extra public symbols are introduced without justification
+[ ] no forbidden dependencies are used
+[ ] memory append writes exactly one line
+[ ] previous memory lines remain unchanged
+[ ] invalid memory records are rejected before append
+[ ] correction records are additive
+[ ] schema validation passes
+[ ] unit tests pass
+[ ] integration tests pass
+[ ] memory snapshot is produced
+[ ] memory index is produced
+[ ] completion record exists
+```
+
+---
+
+# 51. Minimal Implementation Package
+
+Milestone 1 implementation package must include:
+
+```text
+TASK_CONTRACT.md
+MEMORY_STORE_SIB_EQC_SCHEMA_v3.md
+memory_record.schema.json
+memory_reference.schema.json
+memory_index.schema.json
+memory_snapshot.schema.json
+memory_query_result.schema.json
+memory_manifest.schema.json
+completion_record.schema.json
+implementation_handoff.yaml
+completion_record.yaml
+```
+
+No coding agent should implement the Memory Store from this document alone without the implementation package.
+
+---
+
+# 52. Implementation Handoff Envelope
+
+```yaml
+implementation_handoff:
+  eqc_id: "EQC-AGENTX-INITIATOR-MEMORY-STORE-001"
+  sib_id: "SIB-AGENTX-INITIATOR-MEMORY-STORE-001"
+  target_component: "Memory Store"
+  permitted_files:
+    - "agentx_initiator/core/memory_store.py"
+    - "agentx_initiator/core/memory_model.py"
+    - "agentx_initiator/core/memory_index.py"
+    - "agentx_initiator/schemas/memory_record.schema.json"
+    - "agentx_initiator/schemas/memory_reference.schema.json"
+    - "agentx_initiator/schemas/memory_index.schema.json"
+    - "agentx_initiator/schemas/memory_snapshot.schema.json"
+    - "agentx_initiator/schemas/memory_query_result.schema.json"
+    - "agentx_initiator/schemas/memory_manifest.schema.json"
+    - "agentx_initiator/tests/test_memory_store.py"
+    - "agentx_initiator/tests/test_memory_index.py"
+    - "agentx_initiator/tests/test_memory_schema.py"
+  forbidden_changes:
+    - "L0/"
+    - "L1/"
+    - "L2/"
+    - "source files unrelated to memory store"
+  allowed_statuses:
+    - "IMPLEMENTED_UNVALIDATED"
+    - "VALIDATED"
+    - "NO_CHANGE"
+    - "BLOCKED"
+  stop_conditions:
+    - "schema validation cannot be enforced"
+    - "write boundary cannot be enforced"
+    - "Memory Store requires deletion of memory records"
+    - "Memory Store requires remote storage"
+    - "Memory Store requires semantic search"
+```
+
+---
+
+# 53. Completion Evidence Contract
+
+Completion evidence must include:
+
+```yaml
+completion_record:
+  eqc_id: "EQC-AGENTX-INITIATOR-MEMORY-STORE-001"
+  sib_id: "SIB-AGENTX-INITIATOR-MEMORY-STORE-001"
+  status: "VALIDATED|IMPLEMENTED_UNVALIDATED|NO_CHANGE|BLOCKED"
+  files_created_or_changed: []
+  tests_created_or_changed: []
+  schemas_created_or_changed: []
+  commands_run: []
+  artifacts_generated: []
+  deviations_from_sib_eqc_schema: []
+  unresolved_risks: []
+```
+
+The implementation must not be considered complete without evidence.
+
+---
+
+# 54. Residual Risks
+
+Known residual risks:
+
+```yaml
+residual_risks:
+  - id: "MS-RISK-001"
+    description: "Milestone 1 uses local JSON/JSONL persistence, not a database."
+    severity: "medium"
+    mitigation: "Keep schemas strict and indexes rebuildable."
+  - id: "MS-RISK-002"
+    description: "No semantic search exists in Milestone 1."
+    severity: "low"
+    mitigation: "Use deterministic structured queries only."
+  - id: "MS-RISK-003"
+    description: "Concurrent writes may need locking beyond the broad contract."
+    severity: "medium"
+    mitigation: "Define file locking in implementation package if needed."
+```
+
+---
+
+# 55. Definition of Done
+
+Memory Store Milestone 1 is done when it can:
+
+- validate memory records
+- append valid memory records
+- reject invalid memory records
+- load records by id
+- query records by category
+- query records by source component
+- build memory index
+- build memory snapshot
+- build memory manifest
+- preserve previous memory records
+- add corrections as new records
+- validate all structured outputs against schema
+- pass required tests
+- leave source files unchanged
+- avoid remote storage
+- avoid semantic search
+
+---
+
+# 56. Freeze Rule
+
+This document is now the controlling Memory Store SIB+EQC+Schema Contract document for Milestone 1.
+
+Do not keep expanding this document unless a true implementation-blocking gap is discovered.
+
+Next artifacts should be:
+
+```text
+TASK_CONTRACT.md
+IMPLEMENTATION_HANDOFF.yaml
+memory_record.schema.json
+memory_reference.schema.json
+memory_index.schema.json
+memory_snapshot.schema.json
+memory_query_result.schema.json
+memory_manifest.schema.json
+completion_record.schema.json
+```
+
+---
+
+# 57. Final Success Definition
+
+Memory Store v1 implementation is successful when it can persist, retrieve, version, index, reference, query, and snapshot structured memory artifacts in a deterministic, schema-valid manner while preserving traceability and without modifying repository source files or performing semantic inference.
+
+---
+
+# 58. Final Rating
+
+This SIB+EQC+Schema Contract document is rated **10/10** for the initial Memory Store component.
+
+It is ready to be used as the controlling document for the Memory Store Milestone 1 implementation package.

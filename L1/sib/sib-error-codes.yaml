@@ -1,0 +1,13 @@
+error_codes:
+- code: SIB_MISSING_PRIMARY_BINDING
+  severity: error
+  message: Artifact has no primary HARD FIC binding.
+  blocking: true
+- code: SIB_PATH_ESCAPES_ROOT
+  severity: error
+  message: Artifact path escapes repository root.
+  blocking: true
+- code: SIB_PUBLIC_SURFACE_MISMATCH
+  severity: error
+  message: Implementation public surface does not match governing FIC.
+  blocking: true

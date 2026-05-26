@@ -1,0 +1,32 @@
+l2_id_alias_map_version: "v1.2.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+aliases:
+  - canonical_global_id: "AGENT_X_L2::AX-L2-PROFILE-SR-001"
+    accepted_aliases:
+      - "AGENT_X_L2::L2-PROFILE-SR-001"
+      - "L2-PROFILE-SR-001"
+    artifact_path: "L2/profiles/symbolic_regression_controller.yaml"
+    artifact_type: "profile"
+    status: "draft"
+  - canonical_global_id: "AGENT_X_L2::AX-L2-PROFILE-CA-001"
+    accepted_aliases:
+      - "AGENT_X_L2::L2-PROFILE-CA-001"
+      - "L2-PROFILE-CA-001"
+    artifact_path: "L2/profiles/coding_agent.yaml"
+    artifact_type: "profile"
+    status: "draft"
+  - canonical_global_id: "AGENT_X_L2::AX-L2-PROFILE-RA-001"
+    accepted_aliases:
+      - "AGENT_X_L2::L2-PROFILE-RA-001"
+      - "L2-PROFILE-RA-001"
+    artifact_path: "L2/profiles/research_agent.yaml"
+    artifact_type: "profile"
+    status: "draft"
+  - canonical_global_id: "AGENT_X_L2::AX-L2-PROFILE-RM-001"
+    accepted_aliases:
+      - "AGENT_X_L2::L2-PROFILE-RM-001"
+      - "L2-PROFILE-RM-001"
+    artifact_path: "L2/profiles/repo_maintenance_agent.yaml"
+    artifact_type: "profile"
+    status: "draft"

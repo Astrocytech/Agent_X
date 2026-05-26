@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "agentx-init Config Schema",
+  "type": "object",
+  "properties": {
+    "agentx_init": {
+      "type": "object",
+      "properties": {
+        "version": {"type": "string"},
+        "state_dir": {"type": "string"},
+        "log_level": {"type": "string", "enum": ["debug", "info", "warn", "error"]},
+        "allowlisted_commands": {"type": "array", "items": {"type": "string"}},
+        "protected_paths": {"type": "array", "items": {"type": "string"}},
+        "blocked_paths": {"type": "array", "items": {"type": "string"}},
+        "risk_levels": {"type": "object"},
+        "max_risk_allowed": {"type": "string"}
+      },
+      "required": ["version", "state_dir", "allowlisted_commands", "protected_paths", "blocked_paths", "risk_levels", "max_risk_allowed"]
+    }
+  },
+  "required": ["agentx_init"]
+}

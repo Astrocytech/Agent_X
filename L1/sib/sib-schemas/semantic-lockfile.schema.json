@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/semantic-lockfile.schema.json",
+  "title": "SIB Semantic Lockfile",
+  "description": "Schema for L1 SIB semantic lockfile entries",
+  "type": "object",
+  "required": ["semantic_lockfile_version", "portfolio_id", "entries"],
+  "properties": {
+    "semantic_lockfile_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["artifact_id", "version", "digest"],
+        "properties": {
+          "artifact_id": {"type": "string"},
+          "version": {"type": "string"},
+          "digest": {"type": "string"}
+        }
+      }
+    }
+  }
+}

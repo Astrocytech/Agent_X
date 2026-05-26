@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/sib-bindings.schema.json",
+  "title": "SIB Bindings",
+  "description": "Schema for L1 SIB bindings sidecar",
+  "type": "object",
+  "required": ["sib_bindings_version", "portfolio_id", "bindings"],
+  "properties": {
+    "sib_bindings_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fic_id", "target_file"],
+        "properties": {
+          "fic_id": {"type": "string"},
+          "target_file": {"type": "string"}
+        }
+      }
+    }
+  }
+}

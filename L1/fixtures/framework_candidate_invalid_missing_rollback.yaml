@@ -1,0 +1,18 @@
+# Invalid framework candidate fixture — missing rollback
+id: fw-invalid-norollback-002
+name: Invalid Missing Rollback Candidate
+version: 0.1.0
+target_kind: framework
+purpose: "Invalid fixture for testing missing rollback rejection"
+constraints:
+  must_not: []
+evaluation:
+  required: true
+non_goals: []
+required_capabilities:
+  - plugin_registry
+required_interfaces: {}
+# no rollback field
+# no promotion field
+packaging: {}
+compatibility: {}

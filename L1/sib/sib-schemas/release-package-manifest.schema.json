@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/release-package-manifest.schema.json",
+  "title": "SIB Release Package Manifest",
+  "description": "Schema for L1 SIB release package manifest entries",
+  "type": "object",
+  "required": ["package_version", "portfolio_id", "files"],
+  "properties": {
+    "package_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "digest"],
+        "properties": {
+          "path": {"type": "string"},
+          "digest": {"type": "string"}
+        }
+      }
+    }
+  }
+}

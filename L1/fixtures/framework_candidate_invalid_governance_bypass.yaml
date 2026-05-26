@@ -1,0 +1,19 @@
+# Invalid framework fixture — governance bypass capability requested
+id: fw-invalid-gov-001
+name: Invalid Governance Bypass Candidate
+version: 0.1.0
+target_kind: framework
+purpose: "Invalid fixture for testing governance bypass rejection"
+constraints:
+  must_not:
+    - bypass_governance
+evaluation:
+  required: true
+non_goals: []
+required_capabilities:
+  - ungoverned_tool_execution
+required_interfaces: {}
+promotion: {}
+packaging: {}
+rollback: {}
+compatibility: {}

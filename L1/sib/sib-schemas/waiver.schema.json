@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/waiver.schema.json",
+  "title": "SIB Waiver",
+  "description": "Schema for L1 SIB waiver entries",
+  "type": "object",
+  "required": ["waiver_id", "target", "reason", "status"],
+  "properties": {
+    "waiver_id": {"type": "string"},
+    "target": {"type": "string"},
+    "reason": {"type": "string"},
+    "status": {"type": "string", "enum": ["active", "expired", "revoked"]}
+  }
+}

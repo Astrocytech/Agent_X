@@ -1,0 +1,41 @@
+l2_standards_coverage_matrix_version: "v1.2.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+coverage:
+  - standard: "L2-WORKFLOW-v0.5"
+    required_artifacts:
+      - "L2/docs/00_L2_SYSTEM_GOAL.md"
+      - "L2/profiles/symbolic_regression_controller.yaml"
+      - "L2/validators/bootstrap_validate_l2_scaffold.py"
+      - "L2/tests/test_l2_structure.py"
+      - "L2/generated/source_standard_manifest.yaml"
+    status: "covered"
+  - standard: "L2-EQC-FIC-v0.4"
+    required_artifacts:
+      - "L2/fic/index.l2-fic.yaml"
+      - "L2/fic/units/L2-FIC-PROFILE-SR-001-symbolic-regression-controller.md"
+      - "L2/fic/units/L2-FIC-PROFILE-CODING-001-coding-agent.md"
+      - "L2/fic/units/L2-FIC-PROFILE-RESEARCH-001-research-agent.md"
+      - "L2/fic/units/L2-FIC-PROFILE-REPO-001-repo-maintenance-agent.md"
+    status: "covered"
+  - standard: "L2-EQC-SIB-BRIDGE-v0.4"
+    required_artifacts:
+      - "L2/sib/sib-l1-handoff-map.yaml"
+      - "L2/sib/sib-bindings.yaml"
+      - "L2/sib/sib-doc-registry.yaml"
+    status: "covered"
+  - standard: "L2-EQC-ES-v0.4"
+    required_artifacts:
+      - "L2/ecosystem/ecosystem-registry.yaml"
+      - "L2/ecosystem/ecosystem-graph.yaml"
+      - "L2/generated/profile_catalog.yaml"
+      - "L2/generated/l2_profile_package_manifest.yaml"
+      - "L2/generated/l2_semantic_lockfile.yaml"
+    status: "covered"
+  - standard: "L2-EQC-v0.4"
+    required_artifacts:
+      - "L2/eqc/manifests/l2-eqc-manifest.yaml"
+      - "L2/eqc/procedures/L2_SelectProfile.eqc.md"
+      - "L2/eqc/procedures/L2_AssessProfileReadiness.eqc.md"
+      - "L2/eqc/procedures/L2_BuildL1HandoffProposal.eqc.md"
+    status: "covered"

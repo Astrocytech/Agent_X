@@ -1,0 +1,11 @@
+# Valid minimal agent target fixture
+id: agent-minimal-001
+name: Minimal Agent Target
+version: 0.1.0
+target_kind: agent
+purpose: "A minimal agent target for backward compatibility testing"
+constraints:
+  must_preserve:
+    - l0_governance_first
+evaluation:
+  required: true

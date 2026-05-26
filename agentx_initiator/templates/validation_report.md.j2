@@ -1,0 +1,28 @@
+# Validation Report
+
+{{ passed }} passed, {{ failed }} failed.
+
+{% for result in validation_results %}
+## Command: `{{ result.command }}`
+
+- **Status:** {% if result.passed %}✓ PASSED{% else %}✗ FAILED{% endif %}
+- **Exit Code:** {{ result.returncode }}
+{% if result.stdout %}
+- **Stdout:**
+```
+{{ result.stdout }}
+```
+{% endif %}
+{% if result.stderr %}
+- **Stderr:**
+```
+{{ result.stderr }}
+```
+{% endif %}
+
+{% endfor %}
+{% if failed == 0 %}
+All allowlisted validation commands passed.
+{% else %}
+{{ failed }} command(s) failed. Review the output above.
+{% endif %}
