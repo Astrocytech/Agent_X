@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/ecosystem/ecosystem-schemas/ecosystem-registry.schema.json",
+  "title": "Ecosystem Registry",
+  "description": "Schema for L1 ecosystem registry sidecar",
+  "type": "object",
+  "required": ["ecosystem_registry_version", "portfolio_id", "entries"],
+  "properties": {
+    "ecosystem_registry_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["doc_id", "path", "status"],
+        "properties": {
+          "doc_id": {"type": "string"},
+          "path": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      }
+    }
+  }
+}

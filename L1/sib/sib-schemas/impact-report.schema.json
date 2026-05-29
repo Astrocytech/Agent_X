@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/impact-report.schema.json",
+  "title": "SIB Impact Report",
+  "description": "Schema for L1 SIB impact report entries",
+  "type": "object",
+  "required": ["change_id", "fic_id", "impact"],
+  "properties": {
+    "change_id": {"type": "string"},
+    "fic_id": {"type": "string"},
+    "impact": {"type": "string"},
+    "affected_files": {"type": "array", "items": {"type": "string"}}
+  }
+}

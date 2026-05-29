@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/completion-record.schema.json",
+  "title": "SIB Completion Record",
+  "description": "Schema for L1 SIB completion record entries",
+  "type": "object",
+  "required": ["fic_id", "status", "test_summary"],
+  "properties": {
+    "fic_id": {"type": "string"},
+    "status": {"type": "string"},
+    "test_summary": {"type": "object"}
+  }
+}

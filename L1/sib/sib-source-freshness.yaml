@@ -1,0 +1,76 @@
+sib_source_freshness_version: "v0.5"
+portfolio_id: "AGENT_X_L1"
+status: "bootstrap-placeholder-not-release-evidence"
+sources:
+  - source_id: "SRC-L1-FIC-001"
+    path: "L1/fic/units/FIC-L1-001-document-loader.md"
+    version: "v0.6.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-002"
+    path: "L1/fic/units/FIC-L1-002-repo-state-reader.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-003"
+    path: "L1/fic/units/FIC-L1-003-goal-classifier.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-004"
+    path: "L1/fic/units/FIC-L1-004-unit-planner.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-005"
+    path: "L1/fic/units/FIC-L1-005-fic-generator.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-006"
+    path: "L1/fic/units/FIC-L1-006-fic-validator.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-007"
+    path: "L1/fic/units/FIC-L1-007-handoff-packet-builder.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-008"
+    path: "L1/fic/units/FIC-L1-008-proof-check-runner.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-009"
+    path: "L1/fic/units/FIC-L1-009-evidence-collector.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-010"
+    path: "L1/fic/units/FIC-L1-010-completion-record-writer.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-011"
+    path: "L1/fic/units/FIC-L1-011-traceability-updater.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false
+  - source_id: "SRC-L1-FIC-012"
+    path: "L1/fic/units/FIC-L1-012-failure-learning-updater.md"
+    version: "v0.1.0"
+    last_checked_utc: null
+    digest: "sha256:<pending>"
+    stale: false

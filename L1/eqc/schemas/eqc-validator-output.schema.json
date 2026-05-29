@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/eqc/schemas/eqc-validator-output.schema.json",
+  "title": "EQC Validator Output",
+  "description": "Schema for EQC validator output",
+  "type": "object",
+  "required": ["validator_id", "status", "results"],
+  "properties": {
+    "validator_id": {"type": "string"},
+    "status": {"type": "string", "enum": ["pass", "fail", "warn"]},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check_id", "status"],
+        "properties": {
+          "check_id": {"type": "string"},
+          "status": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/eqc/schemas/eqc-header.schema.json",
+  "title": "EQC Header",
+  "description": "Schema for EQC document header",
+  "type": "object",
+  "required": ["eqc_id", "version", "kind"],
+  "properties": {
+    "eqc_id": {"type": "string"},
+    "version": {"type": "string"},
+    "kind": {"type": "string", "enum": ["procedure", "operator"]}
+  }
+}

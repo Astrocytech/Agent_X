@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/sib/sib-schemas/sib-registry.schema.json",
+  "title": "SIB Registry",
+  "description": "Schema for L1 SIB registry sidecar",
+  "type": "object",
+  "required": ["sib_registry_version", "portfolio_id", "entries"],
+  "properties": {
+    "sib_registry_version": {"type": "string"},
+    "portfolio_id": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sib_id", "path", "status"],
+        "properties": {
+          "sib_id": {"type": "string"},
+          "path": {"type": "string"},
+          "status": {"type": "string", "enum": ["active", "archived", "draft", "bootstrap-placeholder-not-release-evidence"]}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Astrocytech/Agent_X/L1/eqc/schemas/eqc-trace-record.schema.json",
+  "title": "EQC Trace Record",
+  "description": "Schema for EQC trace records",
+  "type": "object",
+  "required": ["trace_id", "operator", "input", "output"],
+  "properties": {
+    "trace_id": {"type": "string"},
+    "operator": {"type": "string"},
+    "input": {"type": "object"},
+    "output": {"type": "object"}
+  }
+}

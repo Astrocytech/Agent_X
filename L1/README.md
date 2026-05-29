@@ -1,24 +1,34 @@
-# L1: External Evolution / Controller Layer
+# L1: External Evolution / Controller Control Plane
 
-L1 is the **external evolution and controller layer** for Agent_X. It reads, verifies, and evolves L0 using the evolution doctrine.
+L1 is the external evolution/controller layer for Agent_X. It is not imported by L0 and does not make L0 depend on L1 or L2.
 
-L1 is **not** part of the L0 runtime. It is a separate set of tooling and scaffolding for an external coding agent or orchestrator.
+## Current status
 
-## Contents
+Mode A scaffold: present.
+Release-ready validation: not yet complete.
+
+## Directory map
 
 | Path | Purpose |
 |---|---|
-| `controller/` | Evolution controller, repo reader, boundary checker, evidence collector |
-| `patch_planner/` | Patch plan data model and validation |
-| `proof_runner/` | Proof suite execution wrapper |
-| `workflows/` | Evolution workflow definitions (YAML) |
-| `prompts/` | Evolution prompt packets for LLMs |
-| `docs/` | Evolution guide, acceptance criteria, method doctrine |
-| `reports/` | Evolution reports output directory |
-| `tests/` | L1 structure and unit tests |
+| `standards/` | Finalized L1 standards: EQC-FIC, Pseudocode-to-FIC workflow, lightweight SIB, lightweight ES, lightweight EQC |
+| `docs/` | L1 control-plane documents `00–11` |
+| `fic/` | FIC registry and unit implementation contracts |
+| `controller/` | L1 implementation modules |
+| `tests/` | L1 unit and structure tests |
+| `sib/` | Lightweight SIB sidecars and schemas |
+| `ecosystem/` | Lightweight ES registry, graph, and schemas |
+| `eqc/` | Lightweight EQC operators, procedures, schemas, traces, and test vectors |
+| `generated/` | Bootstrap/generated placeholders and validation artifacts |
+| `evidence/` | Evidence records, completion records, review packets, and bootstrap logs |
 
-## Direction
+## Commands
 
-- L1 reads/verifies/evolves L0
-- L1 defines evolution targets for L2 profiles
-- L1 **does not** import into L0 or make L0 depend on it
+```bash
+make prove-l1
+make prove-all
+```
+
+## Boundary rule
+
+L1 may inspect L0 contracts and proof outputs. L0 must not import L1 or L2.
