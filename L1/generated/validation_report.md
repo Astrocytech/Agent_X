@@ -16,4 +16,4 @@
 | Lockfile  | WARNING| 0      | 1        |
 
 **Note:** Lockfile WARNING is expected.
-**Note:** This is controlled-prototype evidence, not release evidence.
+**Note:** This is controlled-prototype evidence.

@@ -5,7 +5,7 @@ status: "CONTROLLED_PROTOTYPE_ONLY"
 release_evidence: false
 created_at_utc: "2026-05-29T19:11:36Z"
 base_commit: "786903c6b1ef86ad9999af209704a82d16e02e58"
-selected_unit_id: "UNIT-L1-005"
+selected_unit_id: "UNIT-L1-006"
 control_documents:
   - path: "L1/docs/00_L1_SYSTEM_GOAL.md"
     digest: "sha256:a67a9fc51001dc297a56a6c671f915e7f2c71bcea21564d57bf67d76e93c06d3"
@@ -25,6 +25,9 @@ fic_units:
   - fic_id: "FIC-L1-005"
     path: "L1/fic/units/FIC-L1-005-fic-generator.md"
     digest: "sha256:fc00574083279f930f7e70bfbcb6d4bb33fcf060acc9c8e277c1159cea4fb0dd"
+  - fic_id: "FIC-L1-006"
+    path: "L1/fic/units/FIC-L1-006-fic-validator.md"
+    digest: "sha256:f192ef0319c4990d964194ead8dbd10108513fbad8d2f259e71167fe8d3e73e8"
 controllers:
   - unit_id: "UNIT-L1-001"
     path: "L1/controller/document_loader.py"
@@ -41,6 +44,9 @@ controllers:
   - unit_id: "UNIT-L1-005"
     path: "L1/controller/fic_generator.py"
     digest: "sha256:73374cbb85d93b0a575586edf6bbdbede5c480776d10b91950f90f6b02e6c0ec"
+  - unit_id: "UNIT-L1-006"
+    path: "L1/controller/fic_validator.py"
+    digest: "sha256:3c367aca5615d27056849215f2bbd72b46ad2041a68452bff1820ca2122ed283"
 sib_sidecars:
   - path: "L1/sib/sib-registry.yaml"
     digest: "sha256:02737601a5919c98efdb692abd1af01e0c943e530a6d8b51fc238ac84e47311a"
@@ -64,7 +70,7 @@ eqc_artifacts:
     digest: "sha256:c2bce14a03af004820378640482c87b7739db03a68dacd4a0efdbb2663f4a54d"
 validation_report:
   path: "L1/generated/validation_report.md"
-  digest: "sha256:6b4c624cbac764debc9d1e4633b8199e3522edbb95e462a0d7028692c77ba5d5"
+  digest: "sha256:7ca76d72463ca34107b56e96e7355518e6dae1ead13ab3cccc0b54a4bad46f62"
 readiness_report:
   path: "L1/generated/readiness_report.md"
-  digest: "sha256:ad587a008ac536602b25a989b211763e2599f8eb7ac27846a01bf61cf4e6fcb7"
+  digest: "sha256:5d0ce7b6648eff7fd1d4a727b4fe0a5e5de546ab3e17ef069bc5c3a8183c6322"
