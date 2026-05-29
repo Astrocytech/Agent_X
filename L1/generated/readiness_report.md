@@ -16,7 +16,8 @@
 | UNIT-L1-004 | L1/controller/unit_planner.py | DONE |
 | UNIT-L1-005 | L1/controller/fic_generator.py | DONE |
 | UNIT-L1-006 | L1/controller/fic_validator.py | DONE |
-| UNITS 007-014 | (pending) | DRAFT |
+| UNIT-L1-007 | L1/controller/handoff_packet_builder.py | DONE |
+| UNITS 008-014 | (pending) | DRAFT |
 
 ## Validators
 
@@ -24,4 +25,4 @@ All 5 validators operational. Lockfile reports WARNING (expected).
 
 ## Blockers
 
-No release blockers. Remaining FICs (007-014) are draft.
+No release blockers. Remaining FICs (008-014) are draft.
