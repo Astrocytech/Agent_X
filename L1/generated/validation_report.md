@@ -15,5 +15,5 @@
 | EQC       | PASS   | 0      | 0        |
 | Lockfile  | WARNING| 0      | 1        |
 
-**Note:** Lockfile WARNING is expected — release_evidence is false.
+**Note:** Lockfile WARNING is expected.
 **Note:** This is controlled-prototype evidence, not release evidence.

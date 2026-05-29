@@ -50,11 +50,14 @@ files:
   unit_id: UNIT-L1-005
   fic_path: L1/fic/units/FIC-L1-005-fic-generator.md
   target_file: L1/controller/fic_generator.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/fic_generator.py
+  - L1/tests/test_fic_generator.py
 - fic_id: FIC-L1-006
   unit_id: UNIT-L1-006
   fic_path: L1/fic/units/FIC-L1-006-fic-validator.md
