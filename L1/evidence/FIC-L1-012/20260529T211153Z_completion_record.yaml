@@ -1,0 +1,44 @@
+completion_record:
+  status: VALIDATED
+  unit_id: UNIT-L1-012
+  fic_id: FIC-L1-012
+  fic_version: v0.6.0
+  target_file: L1/controller/failure_learning_updater.py
+  files_inspected:
+  - L1/fic/units/FIC-L1-012-failure-learning-updater.md
+  files_changed:
+  - L1/controller/failure_learning_updater.py
+  - L1/tests/test_failure_learning_updater.py
+  tests_created_or_updated:
+  - L1/tests/test_failure_learning_updater.py
+  checks_run:
+  - command: python -m compileall L1/controller
+    result: pass
+  - command: pytest L1/tests/test_failure_learning_updater.py -q
+    result: pass
+  - command: make prove-l1
+    result: pass
+  - command: make prove-all
+    result: pass
+  checks_not_run: []
+  semantic_diff:
+    behavior_added:
+    - Added L1 failure-learning-updater utility governed by FIC-L1-012.
+    behavior_removed: []
+    behavior_changed: []
+    behavior_preserved:
+    - L0 proof commands preserved.
+    - All prior L1 units preserved.
+    public_surface_added:
+    - FailureLearningUpdater
+    - update_failure_learning
+    - FailureRecord
+    public_surface_removed: []
+    public_surface_changed: []
+    dependency_changes:
+    - Added stdlib-only L1 imports.
+    compatibility_impact: backward_compatible
+  deviations_from_fic: []
+  unresolved_unknowns: []
+  residual_risks: []
+  waivers_used: []
