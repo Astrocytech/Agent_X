@@ -44,6 +44,7 @@ exclude = [
 ]
 
 [tool.pytest.ini_options]
+# Default pytest is L0-only. Use make prove-l1 / prove-all for layer validation.
 pythonpath = ["L0/CODE"]
 testpaths = ["L0/tests/seed_l0"]
 norecursedirs = [

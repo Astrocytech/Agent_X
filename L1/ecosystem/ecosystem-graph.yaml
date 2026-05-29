@@ -16,7 +16,7 @@ nodes:
   layer: 1
 - doc_id: AX-L1-DOC-PS-001
   path: L1/docs/03_L1_WHOLE_SYSTEM_PSEUDOCODE.md
-  type: pseudocode
+  type: whole-system-pseudocode
   layer: 2
 - doc_id: AX-L1-DOC-DAG-001
   path: L1/docs/04_L1_UNIT_DAG.md
@@ -24,7 +24,7 @@ nodes:
   layer: 2
 - doc_id: AX-L1-DOC-IFACE-001
   path: L1/docs/05_L1_SHARED_TYPES_AND_INTERFACES.md
-  type: interface
+  type: shared-interface
   layer: 2
 - doc_id: AX-L1-DOC-VAL-001
   path: L1/docs/06_L1_VALIDATION_PLAN.md
@@ -48,7 +48,7 @@ nodes:
   layer: 4
 - doc_id: AX-L1-DOC-REVIEW-001
   path: L1/docs/11_L1_REVIEW_GATE.md
-  type: review-gate
+  type: validation-plan
   layer: 3
 - doc_id: AX-L1-DOC-FICREG-001
   path: L1/fic/index.fic.yaml
@@ -56,7 +56,7 @@ nodes:
   layer: 3
 - doc_id: AX-L1-DOC-FIC-001
   path: L1/fic/units/FIC-L1-001-document-loader.md
-  type: fic-document
+  type: fic-unit
   layer: 3
 - doc_id: AX-L1-DOC-STD-FIC-001
   path: L1/standards/AGENT_X_L1_EQC_FIC_v0_6.md

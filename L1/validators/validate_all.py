@@ -1,10 +1,23 @@
 """Aggregate validator — runs all L1 validators and outputs JSON summary."""
 
+import datetime
 import json
+import subprocess
 import sys
 
 from L1.validators import validate_fic, validate_sib, validate_es, validate_eqc, validate_lockfile
 from L1.validators.common import aggregate_status, PASS, WARNING, BLOCKED, FAIL, TOOL_ERROR
+
+SCHEMA_VERSION = "agent-x-l1-validate-all/v0.1"
+
+
+def _get_git_commit() -> str:
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True
+        ).strip()
+    except Exception:
+        return "unknown"
 
 
 def run_all() -> list[dict]:
@@ -48,7 +61,11 @@ def main():
     ])
 
     output = {
+        "schema_version": SCHEMA_VERSION,
         "validator": "L1.validators.validate_all",
+        "commit": _get_git_commit(),
+        "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "release_evidence": False,
         "final_status": final,
         "results": results,
         "summary": {

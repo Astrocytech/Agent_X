@@ -166,7 +166,9 @@ Allowed document types:
 | `generated-lockfile` | Freezes approved document state |
 | `generated-report` | Produced by validators or review tools |
 | `schema` | Machine-readable validation schema |
-| `other` | Allowed only with explicit justification |
+| `other` | Allowed only with explicit justification || `standard` | Defines architectural, workflow, or interface rules for L1 agents |
+| `governance-note` | Records governance decisions, legacy justifications, or non-binding guidance |
+
 
 `other` must not be used when a more specific type applies.
 

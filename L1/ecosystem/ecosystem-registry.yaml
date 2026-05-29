@@ -59,7 +59,7 @@ documents:
   source_of_truth_owner: AX-L1-DOC-ARCH-001
 - doc_id: AX-L1-DOC-PS-001
   title: L1 Whole-System Pseudocode
-  type: pseudocode
+  type: whole-system-pseudocode
   path: L1/docs/03_L1_WHOLE_SYSTEM_PSEUDOCODE.md
   version: v0.1.0
   status: active
@@ -95,7 +95,7 @@ documents:
   source_of_truth_owner: AX-L1-DOC-DAG-001
 - doc_id: AX-L1-DOC-IFACE-001
   title: L1 Shared Types and Interfaces
-  type: interface
+  type: shared-interface
   path: L1/docs/05_L1_SHARED_TYPES_AND_INTERFACES.md
   version: v0.1.0
   status: active
@@ -203,7 +203,7 @@ documents:
   source_of_truth_owner: AX-L1-DOC-FAIL-001
 - doc_id: AX-L1-DOC-REVIEW-001
   title: L1 Review Gate
-  type: review-gate
+  type: validation-plan
   path: L1/docs/11_L1_REVIEW_GATE.md
   version: v0.1.0
   status: active
@@ -239,7 +239,7 @@ documents:
   source_of_truth_owner: AX-L1-DOC-FICREG-001
 - doc_id: AX-L1-DOC-FIC-001
   title: FIC-L1-001 Document Loader
-  type: fic-document
+  type: fic-unit
   path: L1/fic/units/FIC-L1-001-document-loader.md
   version: v0.1.0
   status: active
@@ -363,3 +363,237 @@ documents:
   generated_from: null
   last_validated_utc: null
   source_of_truth_owner: AX-L1-DOC-LEGACY-001
+- doc_id: AX-L1-DOC-FIC-002
+  title: FIC-L1-002 Repo State Reader
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-002-repo-state-reader.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-002
+- doc_id: AX-L1-DOC-FIC-003
+  title: FIC-L1-003 Goal Classifier
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-003-goal-classifier.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-003
+- doc_id: AX-L1-DOC-FIC-004
+  title: FIC-L1-004 Unit Planner
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-004-unit-planner.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-004
+- doc_id: AX-L1-DOC-FIC-005
+  title: FIC-L1-005 FIC Generator
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-005-fic-generator.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-005
+- doc_id: AX-L1-DOC-FIC-006
+  title: FIC-L1-006 FIC Validator
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-006-fic-validator.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-006
+- doc_id: AX-L1-DOC-FIC-007
+  title: FIC-L1-007 Handoff Packet Builder
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-007-handoff-packet-builder.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-007
+- doc_id: AX-L1-DOC-FIC-008
+  title: FIC-L1-008 Proof Check Runner
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-008-proof-check-runner.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-008
+- doc_id: AX-L1-DOC-FIC-009
+  title: FIC-L1-009 Evidence Collector
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-009-evidence-collector.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-009
+- doc_id: AX-L1-DOC-FIC-010
+  title: FIC-L1-010 Completion Record Writer
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-010-completion-record-writer.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-010
+- doc_id: AX-L1-DOC-FIC-011
+  title: FIC-L1-011 Traceability Updater
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-011-traceability-updater.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-011
+- doc_id: AX-L1-DOC-FIC-012
+  title: FIC-L1-012 Failure Learning Updater
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-012-failure-learning-updater.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-012
+- doc_id: AX-L1-DOC-FIC-013
+  title: FIC-L1-013 Boundary Checker
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-013-boundary-checker.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-013
+- doc_id: AX-L1-DOC-FIC-014
+  title: FIC-L1-014 Evolution Controller
+  type: fic-unit
+  path: L1/fic/units/FIC-L1-014-evolution-controller.md
+  version: v0.6.0
+  status: active
+  owner: l1-control-plane
+  layer: 3
+  authority_level: unit-contract
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-FIC-014

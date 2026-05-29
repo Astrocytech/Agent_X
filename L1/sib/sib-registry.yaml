@@ -13,17 +13,17 @@ artifacts:
   governed_by_fic: AGENT_X_L1::FIC-L1-001
   implements_unit: AGENT_X_L1::UNIT-L1-001
   canonicalization_tier: T1
-  functional_digest: "sha256:<pending>"
-  public_surface_digest: "sha256:<pending>"
-  metadata_digest: "sha256:<pending>"
-  functional_state_digest: "sha256:<pending>"
-  digest_status: "pending-bootstrap"
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
   tests:
   - AGENT_X_L1::TEST-L1-001
   completion_records:
-  - "L1/evidence/FIC-L1-001/20260529T173052Z_completion_record.yaml"
+  - L1/evidence/FIC-L1-001/20260529T173052Z_completion_record.yaml
   review_packets:
-  - "L1/evidence/FIC-L1-001/20260529T173052Z_review_packet.md"
+  - L1/evidence/FIC-L1-001/20260529T173052Z_review_packet.md
   public_surface:
   - DEFAULT_MAX_DOCUMENT_BYTES
   - DocumentRecord
@@ -38,6 +38,448 @@ artifacts:
     - python:dataclasses
     - python:pathlib
     - python:hashlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-002
+  global_art_id: AGENT_X_L1::ART-L1-002
+  title: L1 repo state reader
+  type: implementation
+  layer: L1
+  file_path: L1/controller/repo_state_reader.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-002
+  implements_unit: AGENT_X_L1::UNIT-L1-002
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-002
+  completion_records:
+  - L1/evidence/FIC-L1-002/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-002/20260529T211153Z_review_packet.md
+  public_surface:
+  - RepoState
+  - read_repo_state
+  - RepoStateReader
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-003
+  global_art_id: AGENT_X_L1::ART-L1-003
+  title: L1 goal classifier
+  type: implementation
+  layer: L1
+  file_path: L1/controller/goal_classifier.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-003
+  implements_unit: AGENT_X_L1::UNIT-L1-003
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-003
+  completion_records:
+  - L1/evidence/FIC-L1-003/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-003/20260529T211153Z_review_packet.md
+  public_surface:
+  - GoalClassifier
+  - classify_goal
+  - GoalCategory
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-004
+  global_art_id: AGENT_X_L1::ART-L1-004
+  title: L1 unit planner
+  type: implementation
+  layer: L1
+  file_path: L1/controller/unit_planner.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-004
+  implements_unit: AGENT_X_L1::UNIT-L1-004
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-004
+  completion_records:
+  - L1/evidence/FIC-L1-004/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-004/20260529T211153Z_review_packet.md
+  public_surface:
+  - UnitPlanner
+  - plan_units
+  - UnitPlan
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-005
+  global_art_id: AGENT_X_L1::ART-L1-005
+  title: L1 fic generator
+  type: implementation
+  layer: L1
+  file_path: L1/controller/fic_generator.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-005
+  implements_unit: AGENT_X_L1::UNIT-L1-005
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-005
+  completion_records:
+  - L1/evidence/FIC-L1-005/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-005/20260529T211153Z_review_packet.md
+  public_surface:
+  - FicGenerator
+  - generate_fic
+  - FicSpec
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-006
+  global_art_id: AGENT_X_L1::ART-L1-006
+  title: L1 fic validator
+  type: implementation
+  layer: L1
+  file_path: L1/controller/fic_validator.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-006
+  implements_unit: AGENT_X_L1::UNIT-L1-006
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-006
+  completion_records:
+  - L1/evidence/FIC-L1-006/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-006/20260529T211153Z_review_packet.md
+  public_surface:
+  - FicValidator
+  - validate_fic
+  - ValidationResult
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-007
+  global_art_id: AGENT_X_L1::ART-L1-007
+  title: L1 handoff packet builder
+  type: implementation
+  layer: L1
+  file_path: L1/controller/handoff_packet_builder.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-007
+  implements_unit: AGENT_X_L1::UNIT-L1-007
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-007
+  completion_records:
+  - L1/evidence/FIC-L1-007/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-007/20260529T211153Z_review_packet.md
+  public_surface:
+  - HandoffPacketBuilder
+  - build_packet
+  - HandoffPacket
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-008
+  global_art_id: AGENT_X_L1::ART-L1-008
+  title: L1 proof check runner
+  type: implementation
+  layer: L1
+  file_path: L1/controller/proof_check_runner.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-008
+  implements_unit: AGENT_X_L1::UNIT-L1-008
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-008
+  completion_records:
+  - L1/evidence/FIC-L1-008/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-008/20260529T211153Z_review_packet.md
+  public_surface:
+  - ProofCheckRunner
+  - run_proof_check
+  - ProofResult
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-009
+  global_art_id: AGENT_X_L1::ART-L1-009
+  title: L1 evidence collector
+  type: implementation
+  layer: L1
+  file_path: L1/controller/evidence_collector.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-009
+  implements_unit: AGENT_X_L1::UNIT-L1-009
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-009
+  completion_records:
+  - L1/evidence/FIC-L1-009/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-009/20260529T211153Z_review_packet.md
+  public_surface:
+  - EvidenceCollector
+  - collect_evidence
+  - EvidenceRecord
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-010
+  global_art_id: AGENT_X_L1::ART-L1-010
+  title: L1 completion record writer
+  type: implementation
+  layer: L1
+  file_path: L1/controller/completion_record_writer.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-010
+  implements_unit: AGENT_X_L1::UNIT-L1-010
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-010
+  completion_records:
+  - L1/evidence/FIC-L1-010/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-010/20260529T211153Z_review_packet.md
+  public_surface:
+  - CompletionRecordWriter
+  - write_completion_record
+  - CompletionRecord
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-011
+  global_art_id: AGENT_X_L1::ART-L1-011
+  title: L1 traceability updater
+  type: implementation
+  layer: L1
+  file_path: L1/controller/traceability_updater.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-011
+  implements_unit: AGENT_X_L1::UNIT-L1-011
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-011
+  completion_records:
+  - L1/evidence/FIC-L1-011/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-011/20260529T211153Z_review_packet.md
+  public_surface:
+  - TraceabilityUpdater
+  - update_traceability
+  - TraceRecord
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-012
+  global_art_id: AGENT_X_L1::ART-L1-012
+  title: L1 failure learning updater
+  type: implementation
+  layer: L1
+  file_path: L1/controller/failure_learning_updater.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-012
+  implements_unit: AGENT_X_L1::UNIT-L1-012
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-012
+  completion_records:
+  - L1/evidence/FIC-L1-012/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-012/20260529T211153Z_review_packet.md
+  public_surface:
+  - FailureLearningUpdater
+  - update_failure_learning
+  - FailureRecord
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-013
+  global_art_id: AGENT_X_L1::ART-L1-013
+  title: L1 boundary checker
+  type: implementation
+  layer: L1
+  file_path: L1/controller/boundary_checker.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-013
+  implements_unit: AGENT_X_L1::UNIT-L1-013
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-013
+  completion_records:
+  - L1/evidence/FIC-L1-013/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-013/20260529T211153Z_review_packet.md
+  public_surface:
+  - BoundaryChecker
+  - check_boundary
+  - BoundaryResult
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []
+- art_id: ART-L1-014
+  global_art_id: AGENT_X_L1::ART-L1-014
+  title: L1 evolution controller
+  type: implementation
+  layer: L1
+  file_path: L1/controller/evolution_controller.py
+  version: v0.1.0
+  status: validated
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-014
+  implements_unit: AGENT_X_L1::UNIT-L1-014
+  canonicalization_tier: T1
+  functional_digest: sha256:<pending>
+  public_surface_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  functional_state_digest: sha256:<pending>
+  digest_status: pending-bootstrap
+  tests:
+  - AGENT_X_L1::TEST-L1-014
+  completion_records:
+  - L1/evidence/FIC-L1-014/20260529T211153Z_completion_record.yaml
+  review_packets:
+  - L1/evidence/FIC-L1-014/20260529T211153Z_review_packet.md
+  public_surface:
+  - EvolutionController
+  - evolve
+  - EvolutionPlan
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
     - python:typing
     optional: []
     dynamic_patterns: []

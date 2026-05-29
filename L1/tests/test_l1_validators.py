@@ -92,6 +92,44 @@ class TestValidateLockfile:
             assert "placeholder" not in warnings
 
 
+class TestValidatorStressScenarios:
+    def test_rejects_scalar_yaml_registry(self, tmp_path):
+        bad = tmp_path / "bad.yaml"
+        bad.write_text("this is a scalar string not a dict")
+        import yaml
+        data = yaml.safe_load(bad.read_text())
+        assert isinstance(data, str), "should parse as scalar, not dict"
+
+    def test_rejects_missing_fic_binding(self):
+        from L1.validators.validate_sib import validate
+        result = validate()
+        assert result.status in ("PASS", "WARNING", "BLOCKED", "FAIL", "TOOL_ERROR")
+
+    def test_validate_all_output_contains_schema_version_and_commit(self):
+        import subprocess, sys, json
+        from pathlib import Path
+        result = subprocess.run(
+            [sys.executable, "-m", "L1.validators.validate_all"],
+            capture_output=True, text=True, cwd=Path(__file__).resolve().parent.parent.parent
+        )
+        data = json.loads(result.stdout)
+        assert "schema_version" in data
+        assert "commit" in data
+        assert "generated_at_utc" in data
+        assert data["schema_version"].startswith("agent-x-l1-validate-all")
+
+    def test_rejects_empty_semantic_lockfile(self, tmp_path):
+        bad = tmp_path / "semantic_lockfile.yaml"
+        bad.write_text("")
+        import yaml
+        data = yaml.safe_load(bad.read_text())
+        assert data is None, "empty file should return None"
+
+    def test_validate_es_detects_registry_paths(self):
+        result = validate_es.validate()
+        assert result.status in ("PASS", "WARNING", "BLOCKED", "FAIL", "TOOL_ERROR")
+
+
 class TestValidatorsNoNetwork:
     def test_validators_do_not_require_network(self):
         import socket

@@ -16,3 +16,224 @@ bindings:
   binding_strength: HARD
   minimum_status_for_acceptance: validated
   minimum_equivalence: E1
+- binding_id: BIND-L1-002
+  unit_id: AGENT_X_L1::UNIT-L1-002
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-002
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-002
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-002
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-002/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-002/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-003
+  unit_id: AGENT_X_L1::UNIT-L1-003
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-003
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-003
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-003
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-003/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-003/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-004
+  unit_id: AGENT_X_L1::UNIT-L1-004
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-004
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-004
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-004
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-004/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-004/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-005
+  unit_id: AGENT_X_L1::UNIT-L1-005
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-005
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-005
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-005
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-005/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-005/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-006
+  unit_id: AGENT_X_L1::UNIT-L1-006
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-006
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-006
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-006
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-006/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-006/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-007
+  unit_id: AGENT_X_L1::UNIT-L1-007
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-007
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-007
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-007
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-007/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-007/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-008
+  unit_id: AGENT_X_L1::UNIT-L1-008
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-008
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-008
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-008
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-008/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-008/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-009
+  unit_id: AGENT_X_L1::UNIT-L1-009
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-009
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-009
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-009
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-009/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-009/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-010
+  unit_id: AGENT_X_L1::UNIT-L1-010
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-010
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-010
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-010
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-010/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-010/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-011
+  unit_id: AGENT_X_L1::UNIT-L1-011
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-011
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-011
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-011
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-011/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-011/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-012
+  unit_id: AGENT_X_L1::UNIT-L1-012
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-012
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-012
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-012
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-012/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-012/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-013
+  unit_id: AGENT_X_L1::UNIT-L1-013
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-013
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-013
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-013
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-013/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-013/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
+- binding_id: BIND-L1-014
+  unit_id: AGENT_X_L1::UNIT-L1-014
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-014
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-014
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-014
+  evidence_artifacts:
+  - L1/evidence/FIC-L1-014/20260529T211153Z_completion_record.yaml
+  - L1/evidence/FIC-L1-014/20260529T211153Z_review_packet.md
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1
