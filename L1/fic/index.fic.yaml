@@ -86,62 +86,83 @@ files:
   unit_id: UNIT-L1-008
   fic_path: L1/fic/units/FIC-L1-008-proof-check-runner.md
   target_file: L1/controller/proof_check_runner.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/proof_check_runner.py
+  - L1/tests/test_proof_check_runner.py
 - fic_id: FIC-L1-009
   unit_id: UNIT-L1-009
   fic_path: L1/fic/units/FIC-L1-009-evidence-collector.md
   target_file: L1/controller/evidence_collector.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/evidence_collector.py
+  - L1/tests/test_evidence_collector.py
 - fic_id: FIC-L1-010
   unit_id: UNIT-L1-010
   fic_path: L1/fic/units/FIC-L1-010-completion-record-writer.md
   target_file: L1/controller/completion_record_writer.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/completion_record_writer.py
+  - L1/tests/test_completion_record_writer.py
 - fic_id: FIC-L1-011
   unit_id: UNIT-L1-011
   fic_path: L1/fic/units/FIC-L1-011-traceability-updater.md
   target_file: L1/controller/traceability_updater.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/traceability_updater.py
+  - L1/tests/test_traceability_updater.py
 - fic_id: FIC-L1-012
   unit_id: UNIT-L1-012
   fic_path: L1/fic/units/FIC-L1-012-failure-learning-updater.md
   target_file: L1/controller/failure_learning_updater.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/failure_learning_updater.py
+  - L1/tests/test_failure_learning_updater.py
 - fic_id: FIC-L1-013
   unit_id: UNIT-L1-013
   fic_path: L1/fic/units/FIC-L1-013-boundary-checker.md
   target_file: L1/controller/boundary_checker.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: medium
   enforcement_profile: standard
+  permitted_files:
+  - L1/controller/boundary_checker.py
+  - L1/tests/test_boundary_checker.py
 - fic_id: FIC-L1-014
   unit_id: UNIT-L1-014
   fic_path: L1/fic/units/FIC-L1-014-evolution-controller.md
   target_file: L1/controller/evolution_controller.py
-  status: draft
-  version: v0.1.0
+  status: ready-for-code
+  version: v0.6.0
   layer: 1
   risk_level: high
   enforcement_profile: strict
+  permitted_files:
+  - L1/controller/evolution_controller.py
+  - L1/tests/test_evolution_controller.py
