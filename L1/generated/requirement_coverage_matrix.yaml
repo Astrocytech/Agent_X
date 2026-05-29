@@ -1,3 +1,5 @@
-generated_from: "manual-bootstrap@v1.4.0"
 status: "placeholder-not-release-evidence"
 release_evidence: false
+generated_from: "manual-bootstrap@v1.4.0"
+manual_edit_allowed: false
+replacement_rule: "Replace with validator-generated artifact before release-candidate status."

@@ -1,34 +1,37 @@
 # L1: External Evolution / Controller Control Plane
 
-L1 is the external evolution/controller layer for Agent_X. It is not imported by L0 and does not make L0 depend on L1 or L2.
+L1 is the external evolution/controller control plane for Agent_X.
+L1 does not run inside L0 and L0 must not import L1.
 
-## Current status
+## Current authoritative scaffold
 
-Mode A scaffold: present.
-Release-ready validation: not yet complete.
+- `standards/` — canonical L1 standards
+- `docs/` — L1 control-plane docs 00–11
+- `fic/` — FIC registry and unit contracts
+- `controller/` — governed L1 implementation modules
+- `tests/` — L1 tests
+- `sib/` — lightweight SIB sidecars
+- `ecosystem/` — lightweight ES registry and graph
+- `eqc/` — lightweight EQC procedures/operators/test vectors
+- `generated/` — generated placeholders and validator outputs
+- `evidence/` — evidence records and bootstrap logs
 
-## Directory map
+## Legacy/support directories
 
-| Path | Purpose |
-|---|---|
-| `standards/` | Finalized L1 standards: EQC-FIC, Pseudocode-to-FIC workflow, lightweight SIB, lightweight ES, lightweight EQC |
-| `docs/` | L1 control-plane documents `00–11` |
-| `fic/` | FIC registry and unit implementation contracts |
-| `controller/` | L1 implementation modules |
-| `tests/` | L1 unit and structure tests |
-| `sib/` | Lightweight SIB sidecars and schemas |
-| `ecosystem/` | Lightweight ES registry, graph, and schemas |
-| `eqc/` | Lightweight EQC operators, procedures, schemas, traces, and test vectors |
-| `generated/` | Bootstrap/generated placeholders and validation artifacts |
-| `evidence/` | Evidence records, completion records, review packets, and bootstrap logs |
+`L1/patch_planner/`, `L1/proof_runner/`, `L1/workflows/`, `L1/prompts/`, `L1/reports/` are legacy or support scaffolds unless explicitly registered in SIB/FIC.
 
-## Commands
+## Historical notes
+
+Files in `L1/docs/` such as `AGENT_X_AGENT_EVOLUTION_GUIDE_V11.md`, `EVOLUTION_ACCEPTANCE.md`, and `INVERSE_SCIENCE.txt` provide background but do not override current standards or FICs. See `L1/docs/HISTORICAL_NOTES_README.md`.
+
+## Validation
 
 ```bash
 make prove-l1
 make prove-all
+python L1/generated/bootstrap_validate_mode_a.py
 ```
 
-## Boundary rule
+## Status
 
-L1 may inspect L0 contracts and proof outputs. L0 must not import L1 or L2.
+Mode A scaffold exists. Release-grade L1 validation is not complete until schemas, digests, ES/SIB/EQC validators, and post-commit evidence are current.

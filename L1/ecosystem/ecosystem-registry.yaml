@@ -28,8 +28,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: historical
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -46,8 +46,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: architecture
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -64,8 +64,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 2
+  authority_level: workflow
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -82,8 +82,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 2
+  authority_level: architecture
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -100,8 +100,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 2
+  authority_level: interface
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -118,8 +118,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 3
+  authority_level: validation
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -136,8 +136,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 4
+  authority_level: validation
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -154,8 +154,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 4
+  authority_level: validation
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -172,8 +172,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 3
+  authority_level: workflow
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -190,8 +190,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 4
+  authority_level: historical
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -208,8 +208,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 3
+  authority_level: validation
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -226,8 +226,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 3
+  authority_level: unit-contract
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -244,8 +244,8 @@ documents:
   version: v0.1.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 3
+  authority_level: unit-contract
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -258,12 +258,12 @@ documents:
 - doc_id: AX-L1-DOC-STD-FIC-001
   title: AGENT_X_L1_EQC_FIC Standard
   type: standard
-  path: L1/standards/AGENT_X_L1_EQC_FIC.md
-  version: v0.1.0
+  path: L1/standards/AGENT_X_L1_EQC_FIC_v0_6.md
+  version: v0.6.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: architecture
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -276,12 +276,12 @@ documents:
 - doc_id: AX-L1-DOC-STD-WORKFLOW-001
   title: AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW Standard
   type: standard
-  path: L1/standards/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW.md
-  version: v0.1.0
+  path: L1/standards/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW_v0_6.md
+  version: v0.6.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: workflow
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -294,12 +294,12 @@ documents:
 - doc_id: AX-L1-DOC-STD-SIB-001
   title: AGENT_X_L1_LIGHTWEIGHT_EQC_SIB Standard
   type: standard
-  path: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB.md
-  version: v0.1.0
+  path: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB_v0_5.md
+  version: v0.5.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: architecture
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -312,12 +312,12 @@ documents:
 - doc_id: AX-L1-DOC-STD-ES-001
   title: AGENT_X_L1_LIGHTWEIGHT_EQC_ES Standard
   type: standard
-  path: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_ES.md
-  version: v0.1.0
+  path: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_ES_v0_5.md
+  version: v0.5.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: architecture
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -330,12 +330,12 @@ documents:
 - doc_id: AX-L1-DOC-STD-EQC-001
   title: AGENT_X_L1_LIGHTWEIGHT_EQC Standard
   type: standard
-  path: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC.md
-  version: v0.1.0
+  path: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md
+  version: v0.5.0
   status: active
   owner: l1-control-plane
-  layer: 0
-  authority_level: constitutional
+  layer: 1
+  authority_level: architecture
   functional_digest: sha256:<pending>
   metadata_digest: sha256:<pending>
   depends_on: []
@@ -345,3 +345,21 @@ documents:
   generated_from: null
   last_validated_utc: null
   source_of_truth_owner: AX-L1-DOC-STD-EQC-001
+- doc_id: AX-L1-DOC-LEGACY-001
+  title: L1 Legacy and Support Directories
+  type: governance-note
+  path: L1/docs/12_L1_LEGACY_AND_SUPPORT_DIRECTORIES.md
+  version: v0.1.0
+  status: active
+  owner: l1-control-plane
+  layer: 4
+  authority_level: governance
+  functional_digest: sha256:<pending>
+  metadata_digest: sha256:<pending>
+  depends_on: []
+  recognized_by: []
+  governs: []
+  allow_empty: false
+  generated_from: null
+  last_validated_utc: null
+  source_of_truth_owner: AX-L1-DOC-LEGACY-001

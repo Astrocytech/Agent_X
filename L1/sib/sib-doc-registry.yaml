@@ -28,3 +28,12 @@ objects:
   owner: l1-control-plane
   functional_digest: null
   metadata_digest: null
+- object_id: DOC-LEGACY-001
+  global_id: AGENT_X_L1::DOC-LEGACY-001
+  object_type: governance-note
+  path: L1/docs/12_L1_LEGACY_AND_SUPPORT_DIRECTORIES.md
+  version: v0.1.0
+  status: active
+  owner: l1-control-plane
+  functional_digest: null
+  metadata_digest: null

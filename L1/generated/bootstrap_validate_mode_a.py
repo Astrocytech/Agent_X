@@ -20,16 +20,33 @@ def check_contains(path: str, text: str, description: str):
     elif text not in p.read_text():
         errors.append(f"MISSING_MARKER: {description} - expected '{text}' in {path}")
 
-# 1. Check required standards
+def check_multiline(path: str, min_lines: int, description: str):
+    p = Path(path)
+    if p.exists() and len(p.read_text(encoding="utf-8").splitlines()) < min_lines:
+        errors.append(f"TOO_FLAT_FOR_REVIEW: {description} ({path}) must be >= {min_lines} lines")
+
+# 1. Check required standards (canonical versioned paths)
 standards = [
-    "L1/standards/AGENT_X_L1_EQC_FIC.md",
-    "L1/standards/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW.md",
-    "L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB.md",
-    "L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_ES.md",
-    "L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC.md",
+    "L1/standards/AGENT_X_L1_EQC_FIC_v0_6.md",
+    "L1/standards/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW_v0_6.md",
+    "L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB_v0_5.md",
+    "L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_ES_v0_5.md",
+    "L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md",
 ]
 for s in standards:
     check_exists(s, f"standard {s}")
+
+# 1b. Forbid root-level duplicate standards
+forbidden_duplicate_roots = [
+    "L1/AGENT_X_L1_EQC_FIC_v0_6.md",
+    "L1/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW_v0_6.md",
+    "L1/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB_v0_5.md",
+    "L1/AGENT_X_L1_LIGHTWEIGHT_EQC_ES_v0_5.md",
+    "L1/AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md",
+]
+for p in forbidden_duplicate_roots:
+    if Path(p).exists():
+        errors.append(f"DUPLICATE_STANDARD_SOURCE: non-canonical root duplicate exists ({p})")
 
 # 2. Check required L1 docs
 docs = [
@@ -109,6 +126,19 @@ for g in generated:
 check_contains("L1/generated/bootstrap_artifact_manifest.yaml",
                "mode-a-bootstrap-not-release-evidence",
                "bootstrap artifact manifest")
+
+# 10. Multiline formatting sanity check
+multiline_required = [
+    "L1/sib/sib-registry.yaml",
+    "L1/sib/sib-bindings.yaml",
+    "L1/sib/sib-doc-registry.yaml",
+    "L1/sib/sib-graph.yaml",
+    "L1/ecosystem/ecosystem-registry.yaml",
+    "L1/ecosystem/ecosystem-graph.yaml",
+    "L1/generated/semantic_lockfile.yaml",
+]
+for path in multiline_required:
+    check_multiline(path, 3, f"multiline YAML {path}")
 
 # Summary
 if errors:

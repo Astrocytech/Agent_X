@@ -8,19 +8,22 @@ artifacts:
   layer: L1
   file_path: L1/controller/document_loader.py
   version: v0.1.0
-  status: planned
+  status: validated
   owner: l1-controller
   governed_by_fic: AGENT_X_L1::FIC-L1-001
   implements_unit: AGENT_X_L1::UNIT-L1-001
   canonicalization_tier: T1
-  functional_digest: null
-  public_surface_digest: null
-  metadata_digest: null
-  functional_state_digest: null
+  functional_digest: "sha256:<pending>"
+  public_surface_digest: "sha256:<pending>"
+  metadata_digest: "sha256:<pending>"
+  functional_state_digest: "sha256:<pending>"
+  digest_status: "pending-bootstrap"
   tests:
   - AGENT_X_L1::TEST-L1-001
-  completion_records: []
-  review_packets: []
+  completion_records:
+  - "L1/evidence/FIC-L1-001/20260529T173052Z_completion_record.yaml"
+  review_packets:
+  - "L1/evidence/FIC-L1-001/20260529T173052Z_review_packet.md"
   public_surface:
   - DEFAULT_MAX_DOCUMENT_BYTES
   - DocumentRecord

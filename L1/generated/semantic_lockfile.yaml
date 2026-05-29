@@ -1,3 +1,15 @@
-generated_from: "manual-bootstrap@v1.4.0"
+lockfile_version: "v0.6.0"
+portfolio_id: "AGENT_X_L1"
 status: "placeholder-not-release-evidence"
 release_evidence: false
+generated_from: "manual-bootstrap@v1.4.0"
+created_at_utc: null
+selected_unit_id: null
+base_commit: null
+control_documents: []
+fic_units: []
+validation_report: null
+readiness_report: null
+notes:
+  - "This is a Mode A scaffold placeholder. It does not authorize governed implementation."
+  - "Replace with a validator-generated semantic lockfile before release-candidate status."
