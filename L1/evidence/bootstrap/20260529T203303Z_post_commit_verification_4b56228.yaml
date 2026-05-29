@@ -1,0 +1,14 @@
+post_commit_verification:
+  mode: "controlled-prototype"
+  commit: "4b56228f1028d3a09f5041dac8ef76983c22e1d0"
+  release_evidence: false
+  commands:
+    - command: "git status --short"
+      result: ""
+      expected: "empty output"
+    - command: "make prove-l1"
+      result: "pass"
+    - command: "make prove-all"
+      result: "pass"
+    - command: "python -m L1.validators.validate_all"
+      result: "pass or warning with exact warning"
