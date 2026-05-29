@@ -7,40 +7,40 @@ post_commit_verification:
       expected: ""
       result: |
          M L1/README.md
-        R  L1/controller/repo_reader.py -> L1/controller/repo_state_reader.py
+         R  L1/controller/repo_reader.py -> L1/controller/repo_state_reader.py
          D L1/ecosystem/ecosystem-schemas/.gitkeep
          D L1/eqc/schemas/.gitkeep
          M L1/fic/index.fic.yaml
          D L1/sib/sib-schemas/.gitkeep
-        ?? L1/ecosystem/ecosystem-migration-log.md
-        ?? L1/ecosystem/ecosystem-schemas/ecosystem-graph.schema.json
-        ?? L1/ecosystem/ecosystem-schemas/ecosystem-impact-output.schema.json
-        ?? L1/ecosystem/ecosystem-schemas/ecosystem-registry.schema.json
-        ?? L1/ecosystem/ecosystem-schemas/ecosystem-validation-output.schema.json
-        ?? L1/ecosystem/ecosystem-waivers.yaml
-        ?? L1/eqc/schemas/eqc-header.schema.json
-        ?? L1/eqc/schemas/eqc-manifest.schema.json
-        ?? L1/eqc/schemas/eqc-operator.schema.json
-        ?? L1/eqc/schemas/eqc-procedure.schema.json
-        ?? L1/eqc/schemas/eqc-test-vector.schema.json
-        ?? L1/eqc/schemas/eqc-trace-record.schema.json
-        ?? L1/eqc/schemas/eqc-validator-output.schema.json
-        ?? L1/fic/units/FIC-L1-013-boundary-checker.md
-        ?? L1/fic/units/FIC-L1-014-evolution-controller.md
-        ?? L1/sib/sib-schemas/completion-record.schema.json
-        ?? L1/sib/sib-schemas/impact-report.schema.json
-        ?? L1/sib/sib-schemas/release-package-manifest.schema.json
-        ?? L1/sib/sib-schemas/review-packet.schema.json
-        ?? L1/sib/sib-schemas/semantic-lockfile.schema.json
-        ?? L1/sib/sib-schemas/sib-bindings.schema.json
-        ?? L1/sib/sib-schemas/sib-doc-registry.schema.json
-        ?? L1/sib/sib-schemas/sib-error-codes.schema.json
-        ?? L1/sib/sib-schemas/sib-graph.schema.json
-        ?? L1/sib/sib-schemas/sib-registry.schema.json
-        ?? L1/sib/sib-schemas/validation-result.schema.json
-        ?? L1/sib/sib-schemas/waiver.schema.json
-        ?? L1/sib/sib-source-freshness.yaml
-        ?? L1/sib/sib-version-impact.yaml
+         ?? L1/ecosystem/ecosystem-migration-log.md
+         ?? L1/ecosystem/ecosystem-schemas/ecosystem-graph.schema.json
+         ?? L1/ecosystem/ecosystem-schemas/ecosystem-impact-output.schema.json
+         ?? L1/ecosystem/ecosystem-schemas/ecosystem-registry.schema.json
+         ?? L1/ecosystem/ecosystem-schemas/ecosystem-validation-output.schema.json
+         ?? L1/ecosystem/ecosystem-waivers.yaml
+         ?? L1/eqc/schemas/eqc-header.schema.json
+         ?? L1/eqc/schemas/eqc-manifest.schema.json
+         ?? L1/eqc/schemas/eqc-operator.schema.json
+         ?? L1/eqc/schemas/eqc-procedure.schema.json
+         ?? L1/eqc/schemas/eqc-test-vector.schema.json
+         ?? L1/eqc/schemas/eqc-trace-record.schema.json
+         ?? L1/eqc/schemas/eqc-validator-output.schema.json
+         ?? L1/fic/units/FIC-L1-013-boundary-checker.md
+         ?? L1/fic/units/FIC-L1-014-evolution-controller.md
+         ?? L1/sib/sib-schemas/completion-record.schema.json
+         ?? L1/sib/sib-schemas/impact-report.schema.json
+         ?? L1/sib/sib-schemas/release-package-manifest.schema.json
+         ?? L1/sib/sib-schemas/review-packet.schema.json
+         ?? L1/sib/sib-schemas/semantic-lockfile.schema.json
+         ?? L1/sib/sib-schemas/sib-bindings.schema.json
+         ?? L1/sib/sib-schemas/sib-doc-registry.schema.json
+         ?? L1/sib/sib-schemas/sib-error-codes.schema.json
+         ?? L1/sib/sib-schemas/sib-graph.schema.json
+         ?? L1/sib/sib-schemas/sib-registry.schema.json
+         ?? L1/sib/sib-schemas/validation-result.schema.json
+         ?? L1/sib/sib-schemas/waiver.schema.json
+         ?? L1/sib/sib-source-freshness.yaml
+         ?? L1/sib/sib-version-impact.yaml
     - command: "make prove-l1"
       expected: "pass"
       result: "39 passed in 0.08s"

@@ -10,9 +10,9 @@ post_validator_verification:
          M L1/generated/semantic_lockfile.yaml
          M L1/generated/validation_report.md
          M Makefile
-        ?? L1/generated/release_package_manifest.yaml
-        ?? L1/tests/test_l1_validators.py
-        ?? L1/validators/
+         ?? L1/generated/release_package_manifest.yaml
+         ?? L1/tests/test_l1_validators.py
+         ?? L1/validators/
     - command: "python -m compileall -q L1"
       expected: "pass"
       result: "OK"
