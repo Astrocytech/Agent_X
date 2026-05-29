@@ -13,7 +13,8 @@
 | UNIT-L1-001 | L1/controller/document_loader.py | DONE |
 | UNIT-L1-002 | L1/controller/repo_state_reader.py | DONE |
 | UNIT-L1-003 | L1/controller/goal_classifier.py | DONE |
-| UNITS 004-014 | (pending) | DRAFT |
+| UNIT-L1-004 | L1/controller/unit_planner.py | DONE |
+| UNITS 005-014 | (pending) | DRAFT |
 
 ## Validators
 
@@ -21,4 +22,4 @@ All 5 validators operational. Lockfile reports WARNING (expected).
 
 ## Blockers
 
-No release blockers. Remaining FICs (004-014) are draft.
+No release blockers. Remaining FICs (005-014) are draft.
