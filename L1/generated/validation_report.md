@@ -1,33 +1,19 @@
 # L1 Validation Report
 
-Generated-From: L1.validators.validate_all
-Generated-At-UTC: 2026-05-29T19:02:23Z
-Commit: 775bdc213b053e539e529c6101274009ff95ce8b
-Status: WARNING
-Release Evidence: false
+**generated_at:** 2026-05-29T19:11:36Z
+**generator:** L1.validators.validate_all
+**status:** WARNING
+**base_commit:** 0650bb94f1f1cddd210b8aa6a36c7ab730cac180
 
-Commands run:
-- python -m compileall -q L1
-- pytest L1/tests -q
-- python -m L1.validators.validate_all
+## Validator Summary
 
-Validator summary:
-- FIC: PASS
-- SIB: PASS
-- ES: PASS
-- EQC: PASS
-- Lockfile: WARNING
+| Validator | Status | Errors | Warnings |
+|-----------|--------|--------|----------|
+| FIC       | PASS   | 0      | 0        |
+| SIB       | PASS   | 0      | 0        |
+| ES        | PASS   | 0      | 0        |
+| EQC       | PASS   | 0      | 0        |
+| Lockfile  | WARNING| 0      | 1        |
 
-Errors:
-- (none)
-
-Warnings:
-- Semantic lockfile status is placeholder — not release evidence
-- release_evidence is false — validator must not report release-ready
-
-Skipped checks:
-- Digest-based cross-layer consistency (no digest closure implemented yet)
-
-Release evidence rule:
-- Use Release Evidence: true only when all release-required checks pass and the semantic lockfile is non-placeholder.
-- Otherwise use Release Evidence: false.
+**Note:** Lockfile WARNING is expected — release_evidence is false.
+**Note:** This is controlled-prototype evidence, not release evidence.
