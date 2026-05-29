@@ -1,0 +1,16 @@
+# Research agent profile
+
+profile: research_agent
+version: 0.1.0
+extends: generalist
+description: >
+  Profile for an agent that conducts research using
+  controlled information retrieval and analysis.
+capabilities:
+  - information_retrieval
+  - source_analysis
+  - citation_management
+  - report_generation
+constraints:
+  - read_only_by_default
+  - no_direct_shell

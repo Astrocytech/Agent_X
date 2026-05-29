@@ -1,0 +1,81 @@
+# CAPABILITY_MANIFEST.yaml — Seed kernel capability declaration.
+
+version: 4
+generated: false
+
+kernel_capabilities:
+  - id: governed_seed_turn_execution
+    description: "Execute one governed turn: accept goal, plan, govern, gateway, trace, checkpoint, evaluate, write memory, return output."
+    proof_command: "make prove-seed"
+
+  - id: profile_loading
+    description: "Load and apply a profile YAML to change kernel behavior."
+    proof_command: "make prove-seed"
+
+  - id: seed_tool_execution
+    description: "Execute the single seed tool seed.emit_answer through ToolGatewayPort with governance check."
+    proof_command: "make prove-seed"
+
+  - id: trace_recording
+    description: "Record every phase transition and event to a trace port."
+    proof_command: "make prove-seed"
+
+  - id: checkpoint_recording
+    description: "Save turn state to checkpoint port for potential restore."
+    proof_command: "make prove-seed"
+
+  - id: memory_write
+    description: "Write one turn observation/evaluation record through MemoryPort."
+    proof_command: "make prove-seed"
+
+  - id: evaluation_hook_recording
+    description: "Score every turn on goal satisfaction and record evaluation verdict."
+    proof_command: "make prove-seed"
+
+  - id: governance_denial_recording
+    description: "Reject unsafe tool requests and record denial with trace and checkpoint."
+    proof_command: "make prove-seed"
+
+  - id: degraded_mode_continuation
+    description: "Complete the turn with safe output when a non-fatal phase fails."
+    proof_command: "make prove-seed"
+
+  - id: no_model_required_for_boot
+    description: "Seed kernel boots without any GPU, LLM, or ML model dependency."
+    proof_command: "make seed-boot"
+
+blocked_capabilities:
+  - id: production_self_modification
+    description: "No production self-modification tool exists in L0; any future extension must be denied unless explicitly governed."
+    enforcement: "GovernancePort denies all write_patch/propose_patch in production."
+    blocked_by: "L0/CODE/governance/policies/seed_tool_risk.yaml"
+
+  - id: uncontrolled_network_access
+    description: "Seed runtime opens arbitrary outbound network connections."
+    enforcement: "Governance blocks all unapproved network calls."
+    blocked_by: "L0/CODE/governance/governance_factory.py"
+
+  - id: direct_shell_execution
+    description: "Execute arbitrary shell commands without going through ToolGatewayPort."
+    enforcement: "ToolGatewayPort is the only execution path."
+    blocked_by: "L0/CODE/governance/governance_factory.py"
+
+  - id: uncontrolled_filesystem_write
+    description: "Write arbitrary files outside approved runtime artifacts."
+    enforcement: "Only MemoryPort and CheckpointPort may write to disk."
+    blocked_by: "L0/CODE/governance/policies/seed_tool_risk.yaml"
+
+  - id: runtime_promotion
+    description: "Promote code changes or upgrade capabilities during normal turn execution."
+    enforcement: "No promotion tool exists in L0; GovernancePort denies any promotion action."
+    blocked_by: "L0/CODE/governance/policies/seed_tool_risk.yaml"
+
+  - id: package_installation
+    description: "Install or modify Python packages from L0."
+    enforcement: "No package installation tool exists in L0 tool registry."
+    blocked_by: "L0/CODE/tool_gateway/seed_tool_registry.py"
+
+  - id: credential_access
+    description: "Read environment secrets, credentials, or keys from L0."
+    enforcement: "No credential access tool exists in L0 tool registry."
+    blocked_by: "L0/CODE/tool_gateway/seed_tool_registry.py"

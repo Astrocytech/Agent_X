@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-hygiene run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-all prove-hygiene run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -11,34 +11,50 @@ help:
 	@echo "  make seed-boot    Compile and boot the seed"
 	@echo "  make prove-seed   Run canonical L0 seed proof"
 	@echo "  make run          Run one governed seed turn"
-	@echo "  make clean        Remove generated runtime artifacts"
 	@echo "  make build-seed   Build seed package from manifest"
+	@echo "L1 commands:"
+	@echo "  make prove-l1     Run L1 structure tests"
+	@echo "L2 commands:"
+	@echo "  make prove-l2     Run L2 structure tests"
+	@echo "  make prove-all    Run all tests across layers"
+	@echo "  make clean        Remove generated runtime artifacts"
 
 install:
 	$(PIP_INSTALL) -r requirements/seed.txt
 
 seed-boot:
-	PYTHONPATH=CODE $(PYTHON) -m compileall -q CODE
-	PYTHONPATH=CODE $(PYTHON) scripts/proofs/prove_seed_boot.py
+	PYTHONPATH=L0/CODE $(PYTHON) -m compileall -q L0/CODE
+	PYTHONPATH=L0/CODE $(PYTHON) L0/scripts/proofs/prove_seed_boot.py
 	@echo "=== seed-boot: OK ==="
 
 prove-seed:
-	PYTHONPATH=CODE $(PYTHON) -m compileall -q CODE
-	PYTHONPATH=CODE $(PYTHON) scripts/proofs/validate_seed_manifests.py
-	PYTHONPATH=CODE $(PYTHON) -m pytest tests/seed_l0 -q --tb=short -p no:cacheprovider
+	PYTHONPATH=L0/CODE $(PYTHON) -m compileall -q L0/CODE
+	PYTHONPATH=L0/CODE $(PYTHON) L0/scripts/proofs/validate_seed_manifests.py
+	PYTHONPATH=L0/CODE $(PYTHON) -m pytest L0/tests/seed_l0 -q --tb=short -p no:cacheprovider
 	@echo "=== prove-seed: OK ==="
 
+prove-l1:
+	PYTHONPATH=L1 $(PYTHON) -m pytest L1/tests -q --tb=short -p no:cacheprovider
+	@echo "=== prove-l1: OK ==="
+
+prove-l2:
+	PYTHONPATH=L2 $(PYTHON) -m pytest L2/tests -q --tb=short -p no:cacheprovider
+	@echo "=== prove-l2: OK ==="
+
+prove-all: prove-seed prove-l1 prove-l2
+	@echo "=== prove-all: OK ==="
+
 prove-hygiene:
-	PYTHONPATH=CODE ruff check CODE/
-	PYTHONPATH=CODE $(PYTHON) -m mypy CODE/core_kernel/ CODE/tool_gateway/ CODE/governance/ --ignore-missing-imports
+	PYTHONPATH=L0/CODE ruff check L0/CODE/
+	PYTHONPATH=L0/CODE $(PYTHON) -m mypy L0/CODE/core_kernel/ L0/CODE/tool_gateway/ L0/CODE/governance/ --ignore-missing-imports
 	pip-audit -r requirements/seed.txt
 	@echo "=== prove-hygiene: OK ==="
 
 run:
-	PYTHONPATH=CODE $(PYTHON) -c "from core_kernel.public.kernel_service import KernelService; from core_kernel.models.kernel_requests import KernelTurnRequest; k=KernelService(); print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"
+	PYTHONPATH=L0/CODE $(PYTHON) -c "from core_kernel.public.kernel_service import KernelService; from core_kernel.models.kernel_requests import KernelTurnRequest; k=KernelService(); print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"
 
 build-seed:
-	PYTHONPATH=CODE $(PYTHON) scripts/build_seed_package.py
+	PYTHONPATH=L0/CODE $(PYTHON) L0/scripts/build_seed_package.py
 
 clean:
 	rm -rf .local/runtime/

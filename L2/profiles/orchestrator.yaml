@@ -1,0 +1,18 @@
+# Orchestrator profile
+# Defines specialization targets for a swarm/master orchestrator
+
+profile: orchestrator
+version: 0.1.0
+extends: generalist
+description: >
+  Profile for an agent that coordinates sub-agents and
+  manages multi-step workflows.
+capabilities:
+  - sub_agent_coordination
+  - workflow_orchestration
+  - result_aggregation
+  - state_management
+constraints:
+  - no_direct_shell
+  - no_direct_network
+  - bounded_delegation

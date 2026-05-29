@@ -1,0 +1,15 @@
+# Symbolic regression controller profile
+
+profile: symbolic_regression_controller
+version: 0.1.0
+extends: generalist
+description: >
+  Profile for an agent that controls symbolic regression
+  discovery processes (e.g. PySR).
+capabilities:
+  - symbolic_regression_control
+  - result_interpretation
+  - data_pipeline_management
+constraints:
+  - no_direct_shell
+  - sandboxed_execution
