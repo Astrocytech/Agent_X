@@ -4,11 +4,29 @@ post_commit_verification:
   release_evidence: false
   commands:
     - command: "git status --short"
-      result: ""
       expected: "empty output"
-    - command: "make prove-l1"
-      result: "pass"
-    - command: "make prove-all"
-      result: "pass"
+      result: ""
     - command: "python -m L1.validators.validate_all"
-      result: "pass or warning with exact warning"
+      expected: "pass or warning with exact warning"
+      result: |
+        final_status: WARNING
+        results:
+          FIC:       PASS
+          SIB:       PASS
+          ES:        PASS
+          EQC:       PASS
+          Lockfile:  WARNING (release_evidence is false)
+        summary: 5 total, 4 pass, 1 warning
+    - command: "make prove-l1"
+      expected: "pass"
+      result: |
+        230 passed in ~0.75s
+        5 validators: 4 PASS, 1 WARNING (expected)
+        compileall: OK
+    - command: "make prove-all"
+      expected: "pass or recorded non-L1 failure"
+      result: |
+        L0: 52 passed
+        L1: 230 passed + validators OK
+        L2: 6 passed
+        Total: 288 passed, all layers OK
