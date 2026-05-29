@@ -41,6 +41,22 @@ ROOT_DUPLICATE_STANDARDS = [
     "AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md",
 ]
 
+REQUIRED_VALIDATORS = [
+    "bootstrap_validate_mode_a.py",
+    "common.py",
+    "validate_all.py",
+    "validate_eqc.py",
+    "validate_es.py",
+    "validate_fic.py",
+    "validate_lockfile.py",
+    "validate_sib.py",
+]
+
+def test_required_validator_files_exist():
+    for name in REQUIRED_VALIDATORS:
+        assert os.path.isfile(os.path.join(L1_DIR, "validators", name)), f"Missing validator: {name}"
+
+
 def test_no_root_level_duplicate_standards():
     for name in ROOT_DUPLICATE_STANDARDS:
         assert not os.path.exists(os.path.join(L1_DIR, name)), (
@@ -49,7 +65,6 @@ def test_no_root_level_duplicate_standards():
 
 REQUIRED_GENERATED = [
     "bootstrap_artifact_manifest.yaml",
-    "bootstrap_validate_mode_a.py",
     "fic_bundle_manifest.yaml",
     "readiness_report.md",
     "release_candidate_report.md",

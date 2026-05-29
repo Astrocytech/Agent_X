@@ -29,7 +29,7 @@ Files in `L1/docs/` such as `AGENT_X_AGENT_EVOLUTION_GUIDE_V11.md`, `EVOLUTION_A
 ```bash
 make prove-l1
 make prove-all
-python L1/generated/bootstrap_validate_mode_a.py
+python L1/validators/bootstrap_validate_mode_a.py
 ```
 
 ## Status

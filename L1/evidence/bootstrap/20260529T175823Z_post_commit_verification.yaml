@@ -50,7 +50,7 @@ post_commit_verification:
     - command: "python3 -m compileall L1/controller"
       expected: "pass"
       result: "OK"
-    - command: "python3 L1/generated/bootstrap_validate_mode_a.py"
+    - command: "python3 L1/validators/bootstrap_validate_mode_a.py"
       expected: "PASS"
       result: "MODE A BOOTSTRAP VALIDATOR: PASS"
   release_evidence: false

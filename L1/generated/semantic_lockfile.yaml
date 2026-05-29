@@ -244,7 +244,7 @@ generated_governance:
     digest: "sha256:2a0731b2ff14708d59c8ff5b1c1e6eb411aa6089d7f398b4d3fad5552c6d1af9"
   - path: "L1/generated/bootstrap_artifact_manifest.yaml"
     digest: "sha256:4609280d5431e449ea5cfa81361728b68911cd88e27975d3f9d79785cf60f89a"
-  - path: "L1/generated/bootstrap_validate_mode_a.py"
+  - path: "L1/validators/bootstrap_validate_mode_a.py"
     digest: "sha256:7b4c3937d978e3ae88e9d350eafacbb40201a780b7f13514a3ec7fd938f427d3"
   - path: "L1/generated/fic_bundle_manifest.yaml"
     digest: "sha256:400703332d421850c2e7add5b78ec26206d0d290809684000e9e1a0aba9f90fc"

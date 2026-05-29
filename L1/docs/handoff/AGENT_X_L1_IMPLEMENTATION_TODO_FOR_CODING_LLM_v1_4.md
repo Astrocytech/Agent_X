@@ -1790,7 +1790,7 @@ grep -q 'mode-a-bootstrap-not-release-evidence' L1/generated/bootstrap_artifact_
 Create:
 
 ```text
-L1/generated/bootstrap_validate_mode_a.py
+L1/validators/bootstrap_validate_mode_a.py
 ```
 
 Minimum behavior:
@@ -1811,7 +1811,7 @@ Use only Python standard library.
 Run:
 
 ```bash
-python L1/generated/bootstrap_validate_mode_a.py | tee "L1/evidence/bootstrap/${BOOTSTRAP_TS}_mode_a_bootstrap_validator.log"
+python L1/validators/bootstrap_validate_mode_a.py | tee "L1/evidence/bootstrap/${BOOTSTRAP_TS}_mode_a_bootstrap_validator.log"
 ```
 
 If the script exits nonzero, stop with:
