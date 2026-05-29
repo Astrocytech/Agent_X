@@ -1,0 +1,35 @@
+sib_bindings_version: "L2-lightweight-v0.1"
+portfolio_id: "AGENT_X_L2"
+bindings:
+  - binding_id: "L2-BIND-SR-001"
+    source_profile: "AGENT_X_L2::L2-PROFILE-SR-001"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-003"
+      - "AGENT_X_L1::UNIT-L1-004"
+      - "AGENT_X_L1::UNIT-L1-005"
+      - "AGENT_X_L1::UNIT-L1-006"
+      - "AGENT_X_L1::UNIT-L1-007"
+    binding_strength: "REFERENCE"
+    implementation_allowed: false
+  - binding_id: "L2-BIND-CA-001"
+    source_profile: "AGENT_X_L2::L2-PROFILE-CA-001"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-003"
+      - "AGENT_X_L1::UNIT-L1-004"
+      - "AGENT_X_L1::UNIT-L1-005"
+      - "AGENT_X_L1::UNIT-L1-006"
+      - "AGENT_X_L1::UNIT-L1-007"
+    binding_strength: "REFERENCE"
+    implementation_allowed: false
+  - binding_id: "L2-BIND-RA-001"
+    source_profile: "AGENT_X_L2::L2-PROFILE-RA-001"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-001"
+    binding_strength: "REFERENCE"
+    implementation_allowed: false
+  - binding_id: "L2-BIND-RM-001"
+    source_profile: "AGENT_X_L2::L2-PROFILE-RM-001"
+    target_l1_units:
+      - "AGENT_X_L1::UNIT-L1-002"
+    binding_strength: "REFERENCE"
+    implementation_allowed: false

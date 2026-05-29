@@ -1,18 +1,29 @@
-# Coding agent profile
-# Defines specialization targets for a coding agent built on L0
-
-profile: coding_agent
-version: 0.1.0
-extends: generalist
-description: >
-  Profile for an agent that reads, writes, and evolves code
-  within L0 governed boundaries.
-capabilities:
-  - code_reading
-  - patch_generation
-  - proof_execution
-  - evidence_collection
-constraints:
-  - no_direct_shell
-  - no_direct_network
-  - no_self_modification
+profile_id: "L2-PROFILE-CA-001"
+name: "Coding Agent"
+status: "draft"
+specialization_type: "coding"
+purpose: "Generate, review, and validate code changes within L1 FIC boundaries."
+allowed_inputs:
+  - "implementation request"
+  - "FIC reference"
+  - "codebase context"
+  - "test results"
+expected_outputs:
+  - "governed code changes"
+  - "validation evidence"
+  - "handoff packets"
+required_l1_units:
+  - "UNIT-L1-003"
+  - "UNIT-L1-004"
+  - "UNIT-L1-005"
+  - "UNIT-L1-006"
+  - "UNIT-L1-007"
+forbidden_actions:
+  - "modify L0 without L0 FIC"
+  - "bypass L1 validation"
+  - "autonomous deployment"
+  - "ungoverned dependency changes"
+evaluation_refs:
+  - "L2/evaluation_specs/coding_agent_eval.md"
+integration_refs: []
+risk_level: "medium"

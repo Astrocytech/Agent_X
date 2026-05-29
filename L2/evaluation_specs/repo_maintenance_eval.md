@@ -1,8 +1,8 @@
-# Research Agent Evaluation Spec
+# Repo Maintenance Evaluation Spec
 
 ## Profile
 
-L2-PROFILE-RA-001
+L2-PROFILE-RM-001
 
 ## Evaluation Criteria
 
@@ -10,8 +10,8 @@ L2-PROFILE-RA-001
 |-----------|--------|-----------|
 | Profile YAML validity | Validate against profile model | Pass = valid |
 | Blueprint completeness | All sections present | Pass = complete |
-| Boundary compliance | No implementation in spec | Pass = compliant |
-| L1 handoff readiness | Indirect path identified | Pass = mapped |
+| Boundary compliance | No logic changes permitted | Pass = compliant |
+| L1 handoff readiness | Minimal path identified | Pass = mapped |
 
 ## Current Status
 

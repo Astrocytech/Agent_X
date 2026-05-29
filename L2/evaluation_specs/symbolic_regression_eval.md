@@ -1,12 +1,19 @@
 # Symbolic Regression Evaluation Spec
 
-## Evaluation Criteria
-- Can control PySR discovery process
-- Can interpret equation results
-- Can manage data pipelines
-- Respects sandbox constraints
+## Profile
 
-## Success Metrics
-- Equation discovery success rate
-- Result accuracy
-- Resource usage within limits
+L2-PROFILE-SR-001
+
+## Evaluation Criteria
+
+| Criterion | Method | Pass/Fail |
+|-----------|--------|-----------|
+| Profile YAML validity | Validate against profile model | Pass = valid |
+| Blueprint completeness | All sections present | Pass = complete |
+| Boundary compliance | No forbidden actions in spec | Pass = compliant |
+| L1 handoff readiness | Required units identified | Pass = mapped |
+| Risk assessment | Risk level acceptable | Pass = medium or lower |
+
+## Current Status
+
+Profile is draft. Evaluation not yet performed.

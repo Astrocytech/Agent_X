@@ -1,0 +1,24 @@
+profile_id: "L2-PROFILE-RM-001"
+name: "Repo Maintenance Agent"
+status: "draft"
+specialization_type: "repo-maintenance"
+purpose: "Refactor structure, update documentation, clean deprecated paths without changing logic."
+allowed_inputs:
+  - "maintenance request"
+  - "deprecation notice"
+  - "restructure plan"
+expected_outputs:
+  - "restructured files"
+  - "updated references"
+  - "cleanup report"
+required_l1_units:
+  - "UNIT-L1-002"
+forbidden_actions:
+  - "change program logic"
+  - "introduce new behavior"
+  - "modify governance contracts"
+  - "delete governed evidence"
+evaluation_refs:
+  - "L2/evaluation_specs/repo_maintenance_eval.md"
+integration_refs: []
+risk_level: "low"

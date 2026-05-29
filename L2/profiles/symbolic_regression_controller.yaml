@@ -1,15 +1,30 @@
-# Symbolic regression controller profile
-
-profile: symbolic_regression_controller
-version: 0.1.0
-extends: generalist
-description: >
-  Profile for an agent that controls symbolic regression
-  discovery processes (e.g. PySR).
-capabilities:
-  - symbolic_regression_control
-  - result_interpretation
-  - data_pipeline_management
-constraints:
-  - no_direct_shell
-  - sandboxed_execution
+profile_id: "L2-PROFILE-SR-001"
+name: "Symbolic Regression Controller"
+status: "draft"
+specialization_type: "symbolic-regression"
+purpose: "Define how Agent_X should later plan, validate, and package symbolic-regression work through L1-governed implementation tasks."
+allowed_inputs:
+  - "problem statement"
+  - "dataset description"
+  - "candidate symbolic-regression backend"
+  - "resource budget"
+expected_outputs:
+  - "bounded L1 implementation proposal"
+  - "evaluation plan"
+  - "risk notes"
+required_l1_units:
+  - "UNIT-L1-003"
+  - "UNIT-L1-004"
+  - "UNIT-L1-005"
+  - "UNIT-L1-006"
+  - "UNIT-L1-007"
+forbidden_actions:
+  - "direct PySR_custom modification"
+  - "direct L0 modification"
+  - "runtime autonomous patching"
+  - "ungoverned tool execution"
+evaluation_refs:
+  - "L2/evaluation_specs/symbolic_regression_eval.md"
+integration_refs:
+  - "L2/integration_specs/pysr_custom_integration.md"
+risk_level: "medium"

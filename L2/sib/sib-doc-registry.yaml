@@ -1,0 +1,27 @@
+sib_doc_registry_version: "L2-lightweight-v0.1"
+portfolio_id: "AGENT_X_L2"
+documents:
+  - doc_id: "AX-L2-PROFILE-SR-001"
+    title: "Symbolic Regression Controller Profile"
+    type: "profile"
+    path: "L2/profiles/symbolic_regression_controller.yaml"
+    status: "draft"
+    layer: 2
+  - doc_id: "AX-L2-PROFILE-CA-001"
+    title: "Coding Agent Profile"
+    type: "profile"
+    path: "L2/profiles/coding_agent.yaml"
+    status: "draft"
+    layer: 2
+  - doc_id: "AX-L2-PROFILE-RA-001"
+    title: "Research Agent Profile"
+    type: "profile"
+    path: "L2/profiles/research_agent.yaml"
+    status: "draft"
+    layer: 2
+  - doc_id: "AX-L2-PROFILE-RM-001"
+    title: "Repo Maintenance Agent Profile"
+    type: "profile"
+    path: "L2/profiles/repo_maintenance_agent.yaml"
+    status: "draft"
+    layer: 2

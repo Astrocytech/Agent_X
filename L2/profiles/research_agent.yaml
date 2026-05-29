@@ -1,16 +1,24 @@
-# Research agent profile
-
-profile: research_agent
-version: 0.1.0
-extends: generalist
-description: >
-  Profile for an agent that conducts research using
-  controlled information retrieval and analysis.
-capabilities:
-  - information_retrieval
-  - source_analysis
-  - citation_management
-  - report_generation
-constraints:
-  - read_only_by_default
-  - no_direct_shell
+profile_id: "L2-PROFILE-RA-001"
+name: "Research Agent"
+status: "draft"
+specialization_type: "research"
+purpose: "Explore problem spaces, produce documentation and proposals for L1 consideration."
+allowed_inputs:
+  - "research question"
+  - "codebase analysis request"
+  - "literature reference"
+expected_outputs:
+  - "research findings"
+  - "proposal documents"
+  - "feasibility assessment"
+required_l1_units:
+  - "UNIT-L1-001"
+forbidden_actions:
+  - "implement code"
+  - "modify governance artifacts"
+  - "execute tools"
+  - "deploy changes"
+evaluation_refs:
+  - "L2/evaluation_specs/research_agent_eval.md"
+integration_refs: []
+risk_level: "low"
