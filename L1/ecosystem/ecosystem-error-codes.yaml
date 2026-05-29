@@ -1,0 +1,9 @@
+error_codes:
+  AX_ES_PATH_NOT_FOUND: Registered document path does not exist.
+  AX_ES_EMPTY_DOCUMENT: Registered document is empty and not marked AllowEmpty.
+  AX_ES_MISSING_VERSION_MARKER: Document does not declare matching version marker.
+  AX_ES_DUPLICATE_DOC_ID: Two registry entries use the same DocID.
+  AX_ES_DUPLICATE_PATH: Two active documents use the same path.
+  AX_ES_CYCLE_DETECTED: Functional dependency graph contains a cycle.
+  AX_ES_ORPHAN_DOCUMENT: Active document is not reachable from root.
+  AX_ES_STALE_DOCUMENT: Document depends on a changed dependency and was not revalidated.

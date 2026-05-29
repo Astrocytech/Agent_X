@@ -1,0 +1,28 @@
+source_standard_copy_manifest:
+  status: PASS
+  items:
+  - source: AGENT_X_L1_EQC_FIC_v0_6.md
+    target: L1/standards/AGENT_X_L1_EQC_FIC.md
+    source_sha256: d1d19c4f1504c5586844523ee0ca3e357db8d5fc34494c6766908dfa1f3432bc
+    target_sha256: d1d19c4f1504c5586844523ee0ca3e357db8d5fc34494c6766908dfa1f3432bc
+    byte_preserved: true
+  - source: AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW_v0_6.md
+    target: L1/standards/AGENT_X_L1_PSEUDOCODE_TO_FIC_WORKFLOW.md
+    source_sha256: 406ebb39d800fc420a8c3f7dfc0406dc74f10a04cf12e1c2e0d398ce7c1b7738
+    target_sha256: 406ebb39d800fc420a8c3f7dfc0406dc74f10a04cf12e1c2e0d398ce7c1b7738
+    byte_preserved: true
+  - source: AGENT_X_L1_LIGHTWEIGHT_EQC_SIB_v0_5.md
+    target: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_SIB.md
+    source_sha256: 44a2103079b1790787f1f1025a2452e4c43f9ae66600561ea82a62f369c11c33
+    target_sha256: 44a2103079b1790787f1f1025a2452e4c43f9ae66600561ea82a62f369c11c33
+    byte_preserved: true
+  - source: AGENT_X_L1_LIGHTWEIGHT_EQC_ES_v0_5.md
+    target: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC_ES.md
+    source_sha256: 6a377aaa374a7357df29cde4c52f3b730a7746a644d4f0ec37a438daf5610c12
+    target_sha256: 6a377aaa374a7357df29cde4c52f3b730a7746a644d4f0ec37a438daf5610c12
+    byte_preserved: true
+  - source: AGENT_X_L1_LIGHTWEIGHT_EQC_v0_5.md
+    target: L1/standards/AGENT_X_L1_LIGHTWEIGHT_EQC.md
+    source_sha256: 6c4b71aa0e4a57b2e09dd7a5f7c8fec0d326e04f30e08ea600edbafb54b48a20
+    target_sha256: 6c4b71aa0e4a57b2e09dd7a5f7c8fec0d326e04f30e08ea600edbafb54b48a20
+    byte_preserved: true

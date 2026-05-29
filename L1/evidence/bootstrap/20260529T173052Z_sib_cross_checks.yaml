@@ -1,0 +1,21 @@
+sib_cross_checks:
+  status: PASS
+  checks:
+  - id: SIB-CHECK-001
+    description: every binding unit_id exists in sib-doc-registry.yaml
+    result: PASS
+  - id: SIB-CHECK-002
+    description: every binding fic_id exists in sib-doc-registry.yaml
+    result: PASS
+  - id: SIB-CHECK-003
+    description: every binding implementation artifact exists in sib-registry.yaml
+    result: PASS
+  - id: SIB-CHECK-004
+    description: every graph node exists in registry or doc-registry
+    result: PASS
+  - id: SIB-CHECK-005
+    description: every graph edge src/dst exists as a node
+    result: PASS
+  - id: SIB-CHECK-006
+    description: ART-L1-001 public surface matches FIC-L1-001
+    result: PASS

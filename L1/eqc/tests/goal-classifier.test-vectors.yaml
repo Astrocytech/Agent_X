@@ -1,0 +1,15 @@
+test_vectors_version: v0.1.0
+portfolio_id: AGENT_X_L1
+vectors:
+- input:
+    goal: Add a new tool to the seed kernel
+  expected_classification: l0-impact
+  risk: medium
+- input:
+    goal: Update L1 control document 04
+  expected_classification: l1-doc-update
+  risk: low
+- input:
+    goal: Create a new L2 profile for data analysis
+  expected_classification: l2-profile
+  risk: low

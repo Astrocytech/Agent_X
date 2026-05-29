@@ -1,0 +1,18 @@
+sib_bindings_version: v0.5
+portfolio_id: AGENT_X_L1
+bindings:
+- binding_id: BIND-L1-001
+  unit_id: AGENT_X_L1::UNIT-L1-001
+  goal_refs:
+  - AGENT_X_L1::GOAL-L1-001
+  pseudocode_refs:
+  - AGENT_X_L1::PS-L1-001
+  fic_id: AGENT_X_L1::FIC-L1-001
+  implementation_artifacts:
+  - AGENT_X_L1::ART-L1-001
+  test_artifacts:
+  - AGENT_X_L1::TEST-L1-001
+  evidence_artifacts: []
+  binding_strength: HARD
+  minimum_status_for_acceptance: validated
+  minimum_equivalence: E1

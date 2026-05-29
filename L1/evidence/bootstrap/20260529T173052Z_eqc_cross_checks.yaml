@@ -1,0 +1,15 @@
+eqc_cross_checks:
+  status: PASS
+  checks:
+  - id: EQC-CHECK-001
+    description: every manifest procedure path exists
+    result: PASS
+  - id: EQC-CHECK-002
+    description: every manifest operator path exists
+    result: PASS
+  - id: EQC-CHECK-003
+    description: every EQC Markdown file has the Spec Version marker
+    result: PASS
+  - id: EQC-CHECK-004
+    description: every placeholder says Not release evidence
+    result: PASS

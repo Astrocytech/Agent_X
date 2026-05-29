@@ -6,9 +6,11 @@
 
 Agent_X is organized into three visible layers:
 
-- **L0**: governed universal seed kernel
-- **L1**: external evolution/controller layer
-- **L2**: specialization profiles and integration blueprints
+- **L0**: governed seed kernel and proof suite
+- **L1**: external evolution/controller control plane and implementation workflow
+- **L2**: future specialization profiles and blueprints
+
+L0 remains independently runnable and proofable. L1 may inspect L0 contracts and proof results, but L0 must not import or depend on L1 or L2.
 
 ## Quick start
 

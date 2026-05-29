@@ -1,0 +1,43 @@
+PYTHONPATH=L0/CODE python3 -m compileall -q L0/CODE
+PYTHONPATH=L0/CODE python3 L0/scripts/proofs/prove_seed_boot.py
+{
+  "claim_id": "boot",
+  "claim_text": "It boots",
+  "passed": true,
+  "evidence": {
+    "runtime_class": "SeedKernelRuntime",
+    "runtime_mode": "production",
+    "status": "degraded",
+    "active_profile_id": "generalist",
+    "active_gateway_type": "seed",
+    "port_health": {
+      "planner": true,
+      "profile": true,
+      "policy": true,
+      "tool_gateway": true,
+      "memory": true,
+      "evaluation": true,
+      "trace": true,
+      "checkpoint": true,
+      "governance": true
+    },
+    "runtime_available": true,
+    "profile_count": 1,
+    "tool_count": 0,
+    "field_checks_passed": true,
+    "port_count": 9
+  },
+  "failure_reason": null
+}
+
+Evidence written to .local/runtime/proofs/seed_boot.json
+=== seed-boot: OK ===
+PYTHONPATH=L0/CODE python3 -m compileall -q L0/CODE
+PYTHONPATH=L0/CODE python3 L0/scripts/proofs/validate_seed_manifests.py
+=== validate-seed-manifests: OK ===
+PYTHONPATH=L0/CODE python3 -m pytest L0/tests/seed_l0 -q --tb=short -p no:cacheprovider
+....................................................                     [100%]
+52 passed in 0.52s
+=== prove-seed: OK ===
+PYTHONPATH=L0/CODE python3 -c "from core_kernel.public.kernel_service import KernelService; from core_kernel.models.kernel_requests import KernelTurnRequest; k=KernelService(); print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"
+KernelTurnResponse(answer="{'success': True, 'answer': 'Say hello from the governed seed.', 'run_id': 'e0225f2901d6', 'length': 33, 'created_at': '2026-05-29T17:31:02.702896+00:00'}", status=<KernelTurnStatus.SUCCESS: 'success'>, run_id='e0225f2901d6', profile_id='generalist', trace_id='trace-e0225f2901d6', policy_decision_id='gov-allow-6f88bc98', evaluation_score=1.0, evaluation_status='', memory_refs=['mem-d4513bb71649'], selected_move_id='', governance_decision_id='gov-allow-6f88bc98', evaluation_verdict_id='ev-9ea41919fffc', checkpoint_id='ckpt-e0225f2901d6', tool_result_id='', config_hash='', rejected_alternatives=[], metadata={'runtime_authority': 'seed', 'runtime_class': 'SeedKernelRuntime', 'policy_id': 'policy-generalist-d7cb5778', 'policy_decision_id': 'gov-allow-6f88bc98', 'governance_decision_id': 'gov-allow-6f88bc98', 'goal_id': 'g-889179ee', 'task_id': 't-ea367940', 'missing_phases': [], 'events': [{'phase': 'input_received', 'goal': 'Say hello from the governed seed.'}, {'phase': 'goal_normalized', 'id': 'g-889179ee'}, {'phase': 'profile_loaded', 'id': 'generalist'}, {'phase': 'task_created', 'task_id': 't-ea367940', 'task_type': 'direct_answer'}, {'phase': 'policy_computed', 'policy_id': 'policy-generalist-d7cb5778'}, {'phase': 'capability_selected', 'policy_id': 'policy-generalist-d7cb5778'}, {'phase': 'planner_decision_made', 'tool_name': 'seed.emit_answer'}, {'phase': 'governance_checked', 'allowed': True, 'decision_id': 'gov-allow-6f88bc98', 'tool_name': 'seed.emit_answer'}, {'phase': 'approval_continuation_resolved', 'skipped': 'no_pending_approvals'}, {'phase': 'tool_requested', 'tool': 'seed.emit_answer'}, {'phase': 'tool_gateway_called', 'tool': 'seed.emit_answer', 'request_id': 'event-tool-requested-e0225f2901d6-1'}, {'phase': 'tool_succeeded', 'tool': 'seed.emit_answer'}, {'phase': 'trace_write_started'}, {'phase': 'trace_write_completed', 'id': 'trace-e0225f2901d6'}, {'phase': 'evaluation_completed', 'score': 1.0, 'verdict_id': 'ev-9ea41919fffc', 'failure_reason': ''}, {'phase': 'memory_written_or_skipped_with_reason', 'refs': ['mem-d4513bb71649']}, {'phase': 'checkpoint_write_started'}, {'phase': 'checkpoint_write_completed', 'id': 'ckpt-e0225f2901d6'}, {'phase': 'output_returned', 'status': 'completed', 'trace_id': 'trace-e0225f2901d6', 'checkpoint_id': 'ckpt-e0225f2901d6'}], 'event_count': 19, 'last_event_hash': '5626332294084235423', 'total_recorded_phases': 19, 'invalid_input': False, 'memory_recall_status': 'ok', 'memory_recall_error_type': '', 'evaluation_status': 'completed'})

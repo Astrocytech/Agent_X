@@ -1,0 +1,40 @@
+sib_registry_version: v0.5
+portfolio_id: AGENT_X_L1
+artifacts:
+- art_id: ART-L1-001
+  global_art_id: AGENT_X_L1::ART-L1-001
+  title: L1 document loader
+  type: implementation
+  layer: L1
+  file_path: L1/controller/document_loader.py
+  version: v0.1.0
+  status: planned
+  owner: l1-controller
+  governed_by_fic: AGENT_X_L1::FIC-L1-001
+  implements_unit: AGENT_X_L1::UNIT-L1-001
+  canonicalization_tier: T1
+  functional_digest: null
+  public_surface_digest: null
+  metadata_digest: null
+  functional_state_digest: null
+  tests:
+  - AGENT_X_L1::TEST-L1-001
+  completion_records: []
+  review_packets: []
+  public_surface:
+  - DEFAULT_MAX_DOCUMENT_BYTES
+  - DocumentRecord
+  - DocumentLoaderError
+  - DocumentRootError
+  - DocumentPathError
+  - DocumentLoadError
+  - load_document
+  - load_documents
+  declared_dependencies:
+    strict:
+    - python:dataclasses
+    - python:pathlib
+    - python:hashlib
+    - python:typing
+    optional: []
+    dynamic_patterns: []

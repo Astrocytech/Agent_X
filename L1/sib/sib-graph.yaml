@@ -1,0 +1,22 @@
+sib_graph_version: v0.5
+portfolio_id: AGENT_X_L1
+nodes:
+- id: AGENT_X_L1::ART-L1-001
+  kind: implementation
+  layer: L1
+  status: planned
+- id: AGENT_X_L1::FIC-L1-001
+  kind: fic-document
+  layer: L1
+  status: ready-for-code
+- id: AGENT_X_L1::TEST-L1-001
+  kind: test
+  layer: L1
+  status: planned
+edges:
+- src: AGENT_X_L1::ART-L1-001
+  type: IMPLEMENTS
+  dst: AGENT_X_L1::FIC-L1-001
+- src: AGENT_X_L1::TEST-L1-001
+  type: VALIDATES
+  dst: AGENT_X_L1::ART-L1-001

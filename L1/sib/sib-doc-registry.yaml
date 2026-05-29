@@ -1,0 +1,30 @@
+sib_doc_registry_version: v0.5
+portfolio_id: AGENT_X_L1
+objects:
+- object_id: GOAL-L1-001
+  global_id: AGENT_X_L1::GOAL-L1-001
+  object_type: goal
+  path: L1/docs/00_L1_SYSTEM_GOAL.md
+  version: v0.1.0
+  status: active
+  owner: l1-control-plane
+  functional_digest: null
+  metadata_digest: null
+- object_id: UNIT-L1-001
+  global_id: AGENT_X_L1::UNIT-L1-001
+  object_type: pseudocode-unit
+  path: L1/docs/04_L1_UNIT_DAG.md#UNIT-L1-001
+  version: v0.1.0
+  status: active
+  owner: l1-control-plane
+  functional_digest: null
+  metadata_digest: null
+- object_id: FIC-L1-001
+  global_id: AGENT_X_L1::FIC-L1-001
+  object_type: fic-document
+  path: L1/fic/units/FIC-L1-001-document-loader.md
+  version: v0.6.0
+  status: ready-for-code
+  owner: l1-control-plane
+  functional_digest: null
+  metadata_digest: null
