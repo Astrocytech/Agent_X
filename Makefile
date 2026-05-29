@@ -34,7 +34,9 @@ prove-seed:
 	@echo "=== prove-seed: OK ==="
 
 prove-l1:
-	PYTHONPATH=L1 $(PYTHON) -m pytest L1/tests -q --tb=short -p no:cacheprovider
+	PYTHONPATH=L1 $(PYTHON) -m compileall -q L1
+	PYTHONPATH=. $(PYTHON) -m pytest L1/tests -q --tb=short -p no:cacheprovider
+	PYTHONPATH=. $(PYTHON) -m L1.validators.validate_all
 	@echo "=== prove-l1: OK ==="
 
 prove-l2:

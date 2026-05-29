@@ -1,15 +1,36 @@
-lockfile_version: "v0.6.0"
+lockfile_version: "v0.1"
 portfolio_id: "AGENT_X_L1"
-status: "placeholder-not-release-evidence"
+generated_from: "L1.validators.validate_all"
+status: "CONTROLLED_PROTOTYPE_ONLY"
 release_evidence: false
-generated_from: "manual-bootstrap@v1.4.0"
-created_at_utc: null
-selected_unit_id: null
-base_commit: null
-control_documents: []
-fic_units: []
-validation_report: null
-readiness_report: null
-notes:
-  - "This is a Mode A scaffold placeholder. It does not authorize governed implementation."
-  - "Replace with a validator-generated semantic lockfile before release-candidate status."
+created_at_utc: "2026-05-29T19:02:23Z"
+base_commit: "775bdc213b053e539e529c6101274009ff95ce8b"
+selected_unit_id: "UNIT-L1-001"
+control_documents:
+  - path: "L1/docs/00_L1_SYSTEM_GOAL.md"
+    digest: "sha256:a67a9fc51001dc297a56a6c671f915e7f2c71bcea21564d57bf67d76e93c06d3"
+fic_units:
+  - fic_id: "FIC-L1-001"
+    path: "L1/fic/units/FIC-L1-001-document-loader.md"
+    digest: "sha256:d91140047d6b35e4eb943ced6916662682ff01e45db22ec61c53b83175877aa8"
+sib_sidecars:
+  - path: "L1/sib/sib-registry.yaml"
+    digest: "sha256:02737601a5919c98efdb692abd1af01e0c943e530a6d8b51fc238ac84e47311a"
+  - path: "L1/sib/sib-bindings.yaml"
+    digest: "sha256:8f3bbe984138b018630b16b2d4ed4e4b78b7261a9b270a90b98524bed6bd9de1"
+  - path: "L1/sib/sib-graph.yaml"
+    digest: "sha256:71f688c67b7c7bfa42f8822216035993e1700169c8afa2d1fe68351589accb20"
+ecosystem_sidecars:
+  - path: "L1/ecosystem/ecosystem-registry.yaml"
+    digest: "sha256:9cac5766c66d4f08c5db30d0e60bd14326e2f479b934c38f383a94a3a7eff2f3"
+  - path: "L1/ecosystem/ecosystem-graph.yaml"
+    digest: "sha256:806e38a768fa9d07c25228873fe1d30fd1675d9174ce3f208f8ce7a2935ca4c7"
+eqc_artifacts:
+  - path: "L1/eqc/manifests/l1-eqc-manifest.yaml"
+    digest: "sha256:c2bce14a03af004820378640482c87b7739db03a68dacd4a0efdbb2663f4a54d"
+validation_report:
+  path: "L1/generated/validation_report.md"
+  digest: "sha256:6a1ca4e7ce2c708470a4f9cbb244291c9e99f93566189602d2ca5464f5fac3e8"
+readiness_report:
+  path: "L1/generated/readiness_report.md"
+  digest: "sha256:8ed405e2a1c28326a59f3f88093b0ecba7189e5c9ab2af6ca60f55214bd52b48"
