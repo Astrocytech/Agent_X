@@ -14,7 +14,14 @@ from L1.validators import (
     validate_lockfile,
     validate_target_taxonomy,
 )
-from L1.validators.common import aggregate_status, PASS, WARNING, BLOCKED, FAIL, TOOL_ERROR
+from L1.validators.common import (
+    aggregate_status,
+    PASS,
+    WARNING,
+    BLOCKED,
+    FAIL,
+    TOOL_ERROR,
+)
 from L1.validators.validate_framework_manifest import validate_manifest
 
 SCHEMA_VERSION = "agent-x-l1-validate-all/v0.1"
@@ -23,7 +30,9 @@ SCHEMA_VERSION = "agent-x-l1-validate-all/v0.1"
 def _get_git_commit() -> str:
     try:
         return subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], stderr=subprocess.DEVNULL, text=True
+            ["git", "rev-parse", "HEAD"],
+            stderr=subprocess.DEVNULL,
+            text=True,
         ).strip()
     except Exception:
         return "unknown"
@@ -34,7 +43,11 @@ def validate_framework_manifests() -> dict:
 
     Returns a dict with name, status, errors, warnings.
     """
-    manifests_dir = Path(__file__).resolve().parent.parent.parent / "L1" / "framework_manifests"
+    manifests_dir = (
+        Path(__file__).resolve().parent.parent.parent
+        / "L1"
+        / "framework_manifests"
+    )
 
     if not manifests_dir.is_dir():
         return {
@@ -42,8 +55,7 @@ def validate_framework_manifests() -> dict:
             "status": WARNING,
             "errors": [],
             "warnings": [
-                "L1/framework_manifests/ directory not found — "
-                "no framework manifests to validate"
+                "L1/framework_manifests/ directory not found"
             ],
         }
 
@@ -55,7 +67,7 @@ def validate_framework_manifests() -> dict:
             "status": WARNING,
             "errors": [],
             "warnings": [
-                "L1/framework_manifests/ exists but contains no YAML manifests"
+                "L1/framework_manifests/ exists but has no manifests"
             ],
         }
 
@@ -110,30 +122,43 @@ def run_all() -> list[dict]:
 def main():
     results = run_all()
     statuses = [
-        r["status"] if r["status"] in {PASS, WARNING, BLOCKED, FAIL, TOOL_ERROR} else TOOL_ERROR
+        r["status"]
+        if r["status"] in {PASS, WARNING, BLOCKED, FAIL, TOOL_ERROR}
+        else TOOL_ERROR
         for r in results
     ]
     final = aggregate_status([
-        type("_", (), {"status": s})() for s in statuses
+        type("_", (), {"status": s})()
+        for s in statuses
     ])
 
     output = {
         "schema_version": SCHEMA_VERSION,
         "validator": "L1.validators.validate_all",
         "commit": _get_git_commit(),
-        "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).strftime(
-            "%Y-%m-%dT%H:%M:%SZ"
-        ),
+        "generated_at_utc": datetime.datetime.now(
+            datetime.timezone.utc
+        ).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "release_evidence": False,
         "final_status": final,
         "results": results,
         "summary": {
             "total": len(results),
-            "pass": sum(1 for r in results if r["status"] == PASS),
-            "warning": sum(1 for r in results if r["status"] == WARNING),
-            "blocked": sum(1 for r in results if r["status"] == BLOCKED),
-            "fail": sum(1 for r in results if r["status"] == FAIL),
-            "tool_error": sum(1 for r in results if r["status"] == TOOL_ERROR),
+            "pass": sum(
+                1 for r in results if r["status"] == PASS
+            ),
+            "warning": sum(
+                1 for r in results if r["status"] == WARNING
+            ),
+            "blocked": sum(
+                1 for r in results if r["status"] == BLOCKED
+            ),
+            "fail": sum(
+                1 for r in results if r["status"] == FAIL
+            ),
+            "tool_error": sum(
+                1 for r in results if r["status"] == TOOL_ERROR
+            ),
         },
     }
 

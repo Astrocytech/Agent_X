@@ -1,6 +1,6 @@
 # Framework Seed Manifest — Example / Canonical
-# This is the preferred valid example manifest for the framework_seed target.
-# Must pass validate_framework_manifest.py which checks all 16 required fields.
+# This is the preferred valid example manifest.
+# Must pass validate_framework_manifest.py.
 
 manifest_version: 1
 id: fw-seed-example
@@ -18,11 +18,9 @@ required_interfaces:
 
 contracts:
   module_registry: L2/blueprints/framework_seed_blueprint.md
-  extension_contract: L2/blueprints/framework_seed_blueprint.md
 
 artifacts:
   profile: L2/profiles/framework_seed.yaml
-  blueprint: L2/blueprints/framework_seed_blueprint.md
   tests: L2/tests/test_l2_framework_target.py
 
 promotion:

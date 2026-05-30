@@ -5,8 +5,7 @@
 schema_version: 1
 
 # allowed_target_kinds defines every valid value for the target_kind field
-# across all profiles and manifests. Changing this list affects validation
-# in both L1 and L2 validators.
+# across all profiles and manifests.
 allowed_target_kinds:
   - agent
   - controller
@@ -18,8 +17,6 @@ allowed_target_kinds:
   - evaluator
 
 # target_kinds defines the schema and expectations for each target kind.
-# Each entry describes the kind and lists extra required fields beyond
-# the common_required_fields.
 target_kinds:
   agent:
     description: >
@@ -71,13 +68,10 @@ target_kinds:
       A system that evaluates, benchmarks, or scores other artifacts.
     extra_required_fields: []
 
-# framework_rules defines the contract that every framework target must
-# satisfy. These rules are enforced by L1 taxonomy validation, L1
-# manifest validation, and L2 profile validation.
+# framework_rules defines the contract every framework target must satisfy.
 framework_rules:
 
-  # required_capabilities: every framework profile must declare these
-  # capabilities to be considered minimally complete.
+  # required_capabilities every framework profile must declare these.
   required_capabilities:
     - plugin_registry
     - extension_boundary
@@ -87,16 +81,14 @@ framework_rules:
     - packaging_export
     - rollback_plan
 
-  # forbidden_capabilities: no framework profile may require or declare
-  # these capabilities. They are incompatible with Agent_X governance.
+  # forbidden_capabilities no framework profile may require these.
   forbidden_capabilities:
     - l0_runtime_self_modification
     - ungoverned_tool_execution
     - hidden_non_replayable_state
     - required_separate_framework_seed_repo
 
-  # required_manifest_fields: every framework package manifest must
-  # include these fields to be considered valid.
+  # required_manifest_fields every framework package manifest must include.
   required_manifest_fields:
     - id
     - name
@@ -110,8 +102,8 @@ framework_rules:
     - promotion
     - validation
 
-# migration rules handle backward compatibility with profiles that
-# predate the target_kind field.
+# migration rules handle backward compatibility for profiles
+# without target_kind.
 migration:
   missing_target_kind_default: agent
   allow_legacy_profiles_without_target_kind: true

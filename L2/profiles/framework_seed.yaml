@@ -7,9 +7,10 @@ name: "Framework Seed"
 specialization_type: "framework"
 ownership_key: "agent-x-l2-fw"
 purpose: >
-  Define a minimal governed framework seed that can evolve into specialized
-  frameworks for building, evaluating, composing, deploying, or evolving agents,
-  tools, workflows, UIs, evaluators, and runtimes.
+  Define a minimal governed framework seed that can evolve
+  into specialized frameworks for building, evaluating,
+  composing, deploying, or evolving agents, tools, workflows,
+  UIs, evaluators, and runtimes.
 intended_user_goal_classes:
   - "evolve-framework"
   - "build-framework"
@@ -28,7 +29,7 @@ non_goals:
   - "Do not create a separate Framework_X repository yet."
   - "Do not move L0 responsibilities into the framework profile."
   - "Do not allow runtime self-modification of L0."
-  - "Do not add heavy framework machinery before evaluation proves the need."
+  - "Do not add heavy framework machinery before evaluation proves need."
   - "Do not depend on one fixed model, provider, cloud, UI, or runtime."
 required_l1_units:
   - "AGENT_X_L1::UNIT-L1-003"
@@ -187,9 +188,9 @@ implementation_allowed_without_l1: false
 implementation_allowed: false
 direct_runtime_allowed: false
 success_criteria:
-  - Can define at least two different framework families using the same profile.
+  - Can define at least two framework families using the same profile.
   - Can evaluate framework candidates with deterministic criteria.
-  - Can package a candidate framework with manifest, tests, evidence, and rollback notes.
+  - Can package a framework with manifest, tests, evidence, rollback.
   - Can remain compatible with Agent_X L0/L1 governance.
   - Does not require L0 to know framework internals.
   - Existing agent/controller/orchestrator targets still validate.

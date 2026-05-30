@@ -128,7 +128,8 @@ def _check_contracts(
         )
     elif not isinstance(contracts, dict) or len(contracts) == 0:
         errors.append(
-            f"{manifest_name}: 'contracts' must be a non-empty mapping"
+            f"{manifest_name}: 'contracts' must be "
+            f"a non-empty mapping"
         )
 
 
@@ -166,8 +167,8 @@ def _check_compatibility(
     else:
         if compat.get("agent_x_l0_neutral") is not True:
             errors.append(
-                f"{manifest_name}: compatibility.agent_x_l0_neutral "
-                f"must be true"
+                f"{manifest_name}: "
+                f"compatibility.agent_x_l0_neutral must be true"
             )
         if compat.get("no_runtime_self_modification") is not True:
             errors.append(

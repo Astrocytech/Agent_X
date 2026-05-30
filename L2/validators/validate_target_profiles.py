@@ -41,12 +41,9 @@ FORBIDDEN_CAPABILITY_TOKENS: set[str] = {
 
 
 def _collect_tokens(data: dict) -> set[str]:
-    """Collect string tokens from locations to check for forbidden capabilities.
-
-    Only scans the specific locations listed in FORBIDDEN_CHECK_LOCATIONS.
-    Does not scan the profile's own forbidden_capabilities field, since
-    that is a self-declaration of what the profile prohibits, not what
-    it does.
+    """Collect string tokens from locations to check for forbidden
+    capabilities. Only scans the specific locations listed in
+    FORBIDDEN_CHECK_LOCATIONS.
     """
     tokens: set[str] = set()
 
@@ -153,15 +150,15 @@ def validate_profiles(
             found_forbidden = forbidden_caps & all_tokens
             for cap in sorted(found_forbidden):
                 errors.append(
-                    f"{yaml_file.name}: Forbidden framework capability "
-                    f"'{cap}' found in profile capabilities/features"
+                    f"{yaml_file.name}: Forbidden framework "
+                    f"capability '{cap}' found in profile"
                 )
 
             found_extra = FORBIDDEN_CAPABILITY_TOKENS & all_tokens
             for cap in sorted(found_extra):
                 errors.append(
-                    f"{yaml_file.name}: Forbidden capability token "
-                    f"'{cap}' found in profile capabilities/features"
+                    f"{yaml_file.name}: Forbidden capability "
+                    f"token '{cap}' found in profile"
                 )
 
     return errors

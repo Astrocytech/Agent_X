@@ -86,7 +86,7 @@ fields:
       no_runtime_self_modification:
         type: bool
         required: true
-        description: "Must be true — framework does not self-modify at runtime"
+        description: "Must be true — framework does not self-modify"
 
   promotion:
     type: object
@@ -123,15 +123,15 @@ fields:
       exportable:
         type: bool
         required: true
-        description: "Whether the framework package is exportable"
+        description: "Whether the package is exportable"
       includes_profile:
         type: bool
         required: true
-        description: "Whether the package includes the L2 profile"
+        description: "Includes the L2 profile"
       includes_evaluation_spec:
         type: bool
         required: true
-        description: "Whether the package includes evaluation specification"
+        description: "Includes evaluation specification"
 
   rollback:
     type: object
