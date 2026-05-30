@@ -1,0 +1,16 @@
+l2_post_commit_verification:
+  todo_version: "v1.3.0"
+  commit: "9c212f0274b356b04ec5a54f0a3d0bbd7e2083d1"
+  release_evidence: false
+  implementation_authorized: false
+  commands:
+    - command: "git status --short"
+      expected: ""
+      result: ""
+    - command: "make prove-l2"
+      expected: "pass"
+      result: "pass"
+    - command: "make prove-all"
+      expected: "pass"
+      result: "pass"
+  final_status: "PASS"
