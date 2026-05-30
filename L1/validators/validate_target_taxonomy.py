@@ -38,24 +38,29 @@ def validate(path: str | Path = "L1/target_taxonomy.yaml") -> ValidationResult:
         elif "framework" not in kinds:
             errors.append("allowed_target_kinds must include 'framework'")
 
-    if "framework" not in data:
-        errors.append("Missing top-level key: framework")
+    if "target_kinds" not in data:
+        errors.append("Missing top-level key: target_kinds")
+    elif "framework" not in data["target_kinds"]:
+        errors.append("Missing target_kinds.framework")
+
+    if "framework_rules" not in data:
+        errors.append("Missing top-level key: framework_rules")
     else:
-        fw = data["framework"]
+        fw = data["framework_rules"]
         if not isinstance(fw, dict):
-            errors.append("framework must be a mapping")
+            errors.append("framework_rules must be a mapping")
         else:
             caps = fw.get("required_capabilities", [])
             if not isinstance(caps, list) or len(caps) == 0:
-                errors.append("framework.required_capabilities must be a non-empty list")
+                errors.append("framework_rules.required_capabilities must be a non-empty list")
 
             forbidden = fw.get("forbidden_capabilities", [])
             if not isinstance(forbidden, list) or len(forbidden) == 0:
-                errors.append("framework.forbidden_capabilities must be a non-empty list")
+                errors.append("framework_rules.forbidden_capabilities must be a non-empty list")
 
             manifest_fields = fw.get("required_manifest_fields", [])
             if not isinstance(manifest_fields, list) or len(manifest_fields) == 0:
-                errors.append("framework.required_manifest_fields must be a non-empty list")
+                errors.append("framework_rules.required_manifest_fields must be a non-empty list")
 
     if "migration" not in data:
         errors.append("Missing top-level key: migration")

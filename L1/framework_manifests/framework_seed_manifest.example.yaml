@@ -1,8 +1,10 @@
-# Valid framework manifest fixture — matches new schema
+# Framework Seed Manifest — Example / Canonical
+# This is the preferred valid example manifest for the framework_seed target.
+
 manifest_version: 1
 target_kind: framework
-name: Framework Seed Experimental
-purpose: "Experimental framework seed for evaluating framework evolution"
+name: framework_seed
+purpose: bootstrap framework target for evolving framework artifacts
 
 required_interfaces:
   - plugin_registry

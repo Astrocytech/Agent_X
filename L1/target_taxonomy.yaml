@@ -37,7 +37,9 @@ target_kinds:
     extra_required_fields: []
 
   framework:
-    description: "A reusable system for creating, evaluating, composing, evolving, deploying, or governing other artifacts."
+    description: >
+      A reusable system for creating, evaluating, composing, evolving,
+      deploying, or governing other artifacts.
     extra_required_fields:
       - non_goals
       - required_capabilities
@@ -63,7 +65,7 @@ target_kinds:
     description: "A system that evaluates, benchmarks, or scores other artifacts."
     extra_required_fields: []
 
-framework:
+framework_rules:
   required_capabilities:
     - plugin_registry
     - extension_boundary

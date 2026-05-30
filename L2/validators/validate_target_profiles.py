@@ -1,35 +1,94 @@
 """Validate L2 target profiles against taxonomy rules."""
 
 from pathlib import Path
+from typing import Any
 
 from L1.validators.common import load_yaml
 
 
-def _load_taxonomy(taxonomy_path: str | Path = "L1/target_taxonomy.yaml") -> dict | None:
-    return load_yaml(str(taxonomy_path))
+LEGACY_PROFILES_WITHOUT_TARGET_KIND: set[str] = {
+    "coding_agent.yaml",
+    "symbolic_regression_controller.yaml",
+    "research_agent.yaml",
+    "repo_maintenance_agent.yaml",
+    "orchestrator.yaml",
+}
+
+FORBIDDEN_CAPABILITY_TOKENS: set[str] = {
+    "l0_runtime_self_modification",
+    "unmediated_tool_execution",
+    "ungoverned_promotion",
+    "hidden_unlogged_state_mutation",
+}
+
+FORBIDDEN_CHECK_LOCATIONS: list[str] = [
+    "required_capabilities",
+    "features",
+    "forbidden_actions",
+]
+
+BOOLEAN_FORBIDDEN_KEYS: list[str] = [
+    "requires_l0_runtime_self_modification",
+    "requires_separate_framework_seed_repo",
+    "hidden_state_without_replay",
+    "unmediated_tool_execution",
+    "ungoverned_promotion",
+]
+
+
+def _collect_tokens(data: dict) -> set[str]:
+    """Collect string tokens from locations that should be checked for forbidden capabilities.
+
+    Skips 'forbidden_capabilities' since that is a self-declaration of what
+    the profile prohibits, not what it does.
+    """
+    tokens: set[str] = set()
+
+    for loc in FORBIDDEN_CHECK_LOCATIONS:
+        parts = loc.split(".")
+        val: Any = data
+        try:
+            for part in parts:
+                if isinstance(val, dict):
+                    val = val.get(part, {})
+                else:
+                    val = {}
+                    break
+            if isinstance(val, list):
+                for item in val:
+                    if isinstance(item, str):
+                        tokens.add(item)
+            elif isinstance(val, dict):
+                for v in val.values():
+                    if isinstance(v, str):
+                        tokens.add(v)
+        except Exception:
+            pass
+
+    for key in BOOLEAN_FORBIDDEN_KEYS:
+        if data.get(key) is True:
+            tokens.add(key)
+
+    return tokens
 
 
 def validate_profiles(
     profile_dir: str | Path = "L2/profiles",
     taxonomy_path: str | Path = "L1/target_taxonomy.yaml",
 ) -> list[str]:
-    """
-    Validate all YAML profiles against taxonomy rules.
+    """Validate all YAML profiles against taxonomy rules.
 
     Returns a list of error messages. Empty list means all profiles are valid.
     """
     errors: list[str] = []
-    tax = _load_taxonomy(taxonomy_path)
+    tax = load_yaml(str(taxonomy_path))
     if tax is None:
         return [f"Cannot load taxonomy: {taxonomy_path}"]
 
     allowed_kinds: set[str] = set(tax.get("allowed_target_kinds", []))
-    framework_config: dict = tax.get("framework", {})
-    required_caps: set[str] = set(framework_config.get("required_capabilities", []))
-    forbidden_caps: set[str] = set(framework_config.get("forbidden_capabilities", []))
-    required_manifest_fields: set[str] = set(framework_config.get("required_manifest_fields", []))
-    migration_default: str = tax.get("migration", {}).get("missing_target_kind_default", "agent")
-    allow_legacy: bool = tax.get("migration", {}).get("allow_legacy_profiles_without_target_kind", True)
+    fw_rules: dict = tax.get("framework_rules", {})
+    required_caps: set[str] = set(fw_rules.get("required_capabilities", []))
+    forbidden_caps: set[str] = set(fw_rules.get("forbidden_capabilities", []))
 
     profile_path = Path(profile_dir) if not isinstance(profile_dir, Path) else profile_dir
     if not profile_path.is_dir():
@@ -44,36 +103,43 @@ def validate_profiles(
         target_kind = data.get("target_kind")
 
         if target_kind is None:
-            if allow_legacy:
-                # Legacy profile without target_kind: apply migration default
+            if yaml_file.name in LEGACY_PROFILES_WITHOUT_TARGET_KIND:
                 continue
             else:
-                errors.append(f"{yaml_file.name}: New profile must declare target_kind")
+                errors.append(
+                    f"{yaml_file.name}: New profile must declare target_kind "
+                    f"(not in legacy allowlist)"
+                )
                 continue
 
         if target_kind not in allowed_kinds:
-            errors.append(f"{yaml_file.name}: Unknown target_kind '{target_kind}'")
+            errors.append(
+                f"{yaml_file.name}: Unknown target_kind '{target_kind}'"
+            )
             continue
 
         if target_kind == "framework":
-            # Check required capabilities
-            declared_caps = set(data.get("required_capabilities", []))
+            declared_caps: set[str] = set(data.get("required_capabilities", []))
             missing = required_caps - declared_caps
             for cap in sorted(missing):
-                errors.append(f"{yaml_file.name}: Missing required framework capability '{cap}'")
+                errors.append(
+                    f"{yaml_file.name}: Missing required "
+                    f"framework capability '{cap}'"
+                )
 
-            # Check forbidden capabilities
-            all_declared = set(data.get("required_capabilities", []))
-            all_declared |= set(data.get("features", []))
-            for cap in sorted(forbidden_caps & all_declared):
-                errors.append(f"{yaml_file.name}: Forbidden framework capability '{cap}' is required or declared")
+            all_tokens = _collect_tokens(data)
+            found_forbidden = forbidden_caps & all_tokens
+            for cap in sorted(found_forbidden):
+                errors.append(
+                    f"{yaml_file.name}: Forbidden framework capability "
+                    f"'{cap}' found in profile capabilities/features"
+                )
 
-            # Check forbidden booleans
-            if data.get("requires_l0_runtime_self_modification") is True:
-                errors.append(f"{yaml_file.name}: Must not require L0 runtime self-modification")
-            if data.get("requires_separate_framework_seed_repo") is True:
-                errors.append(f"{yaml_file.name}: Must not require a separate root Framework_X seed repo")
-            if data.get("hidden_state_without_replay") is True:
-                errors.append(f"{yaml_file.name}: Must not require hidden non-replayable state")
+            found_extra = FORBIDDEN_CAPABILITY_TOKENS & all_tokens
+            for cap in sorted(found_extra):
+                errors.append(
+                    f"{yaml_file.name}: Forbidden capability token "
+                    f"'{cap}' found in profile capabilities/features"
+                )
 
     return errors

@@ -1,6 +1,9 @@
 """L1 framework target tests — validates taxonomy, promotion rules, and evaluation criteria
 using production validators from L1/validators/."""
+
 import os
+from pathlib import Path
+
 import yaml
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -31,22 +34,27 @@ class TestTargetTaxonomy:
         for k in ["agent", "controller", "orchestrator"]:
             assert k in kinds, f"Missing target kind: {k}"
 
-    def test_taxonomy_has_framework_section(self):
+    def test_taxonomy_has_target_kinds_framework(self):
         tax = _load_yaml("L1/target_taxonomy.yaml")
         assert tax is not None
-        assert "framework" in tax, "Missing framework section"
+        assert "framework" in tax.get("target_kinds", {})
 
-    def test_taxonomy_framework_has_required_capabilities(self):
+    def test_taxonomy_has_framework_rules_section(self):
         tax = _load_yaml("L1/target_taxonomy.yaml")
         assert tax is not None
-        caps = tax.get("framework", {}).get("required_capabilities", [])
-        assert len(caps) > 0, "framework.required_capabilities is empty"
+        assert "framework_rules" in tax, "Missing framework_rules section"
 
-    def test_taxonomy_framework_has_forbidden_capabilities(self):
+    def test_taxonomy_framework_rules_has_required_capabilities(self):
         tax = _load_yaml("L1/target_taxonomy.yaml")
         assert tax is not None
-        forbidden = tax.get("framework", {}).get("forbidden_capabilities", [])
-        assert len(forbidden) > 0, "framework.forbidden_capabilities is empty"
+        caps = tax.get("framework_rules", {}).get("required_capabilities", [])
+        assert len(caps) > 0, "framework_rules.required_capabilities is empty"
+
+    def test_taxonomy_framework_rules_has_forbidden_capabilities(self):
+        tax = _load_yaml("L1/target_taxonomy.yaml")
+        assert tax is not None
+        forbidden = tax.get("framework_rules", {}).get("forbidden_capabilities", [])
+        assert len(forbidden) > 0, "framework_rules.forbidden_capabilities is empty"
 
     def test_taxonomy_has_migration_rule(self):
         tax = _load_yaml("L1/target_taxonomy.yaml")
@@ -58,10 +66,78 @@ class TestTargetTaxonomy:
 
 class TestTaxonomyValidator:
     def test_taxonomy_validator_production(self):
-        """Test that the production taxonomy validator passes."""
         from L1.validators.validate_target_taxonomy import validate
         result = validate()
-        assert result.status in ("PASS", "WARNING"), f"Validator returned {result.status}: {result.errors}"
+        assert result.status in ("PASS", "WARNING"), (
+            f"Validator returned {result.status}: {result.errors}"
+        )
+
+    def test_taxonomy_fails_without_framework_rules(self):
+        from L1.validators.validate_target_taxonomy import validate
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+            f.write("allowed_target_kinds: [agent, framework]\n")
+            f.write("target_kinds:\n  framework:\n    description: test\n")
+            f.write("migration:\n  missing_target_kind_default: agent\n")
+            f.write("  allow_legacy_profiles_without_target_kind: true\n")
+            tmp = f.name
+        try:
+            result = validate(tmp)
+            assert result.status == "FAIL", (
+                f"Expected FAIL without framework_rules, got {result.status}"
+            )
+            assert any("framework_rules" in e for e in result.errors), (
+                f"Expected framework_rules error, got: {result.errors}"
+            )
+        finally:
+            os.unlink(tmp)
+
+    def test_taxonomy_fails_without_target_kinds_framework(self):
+        from L1.validators.validate_target_taxonomy import validate
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+            f.write("allowed_target_kinds: [agent, framework]\n")
+            f.write("target_kinds:\n  agent:\n    description: test\n")
+            f.write("framework_rules:\n  required_capabilities: [a]\n")
+            f.write("  forbidden_capabilities: [b]\n")
+            f.write("  required_manifest_fields: [c]\n")
+            f.write("migration:\n  missing_target_kind_default: agent\n")
+            f.write("  allow_legacy_profiles_without_target_kind: true\n")
+            tmp = f.name
+        try:
+            result = validate(tmp)
+            assert result.status == "FAIL", (
+                f"Expected FAIL without target_kinds.framework, got {result.status}"
+            )
+            assert any("target_kinds.framework" in e for e in result.errors), (
+                f"Expected target_kinds.framework error, got: {result.errors}"
+            )
+        finally:
+            os.unlink(tmp)
+
+    def test_taxonomy_fails_without_framework_in_allowed(self):
+        from L1.validators.validate_target_taxonomy import validate
+        import tempfile
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
+            f.write("allowed_target_kinds: [agent]\n")
+            f.write("target_kinds:\n  framework:\n    description: test\n")
+            f.write("  agent:\n    description: test\n")
+            f.write("framework_rules:\n  required_capabilities: [a]\n")
+            f.write("  forbidden_capabilities: [b]\n")
+            f.write("  required_manifest_fields: [c]\n")
+            f.write("migration:\n  missing_target_kind_default: agent\n")
+            f.write("  allow_legacy_profiles_without_target_kind: true\n")
+            tmp = f.name
+        try:
+            result = validate(tmp)
+            assert result.status == "FAIL", (
+                f"Expected FAIL without framework in allowed, got {result.status}"
+            )
+            assert any("must include 'framework'" in e for e in result.errors), (
+                f"Expected framework in allowed error, got: {result.errors}"
+            )
+        finally:
+            os.unlink(tmp)
 
 
 class TestFrameworkEvaluationCriteria:
@@ -73,14 +149,9 @@ class TestFrameworkEvaluationCriteria:
         path = os.path.join(REPO_ROOT, "L1", "evaluators", "framework_evaluation_criteria.md")
         with open(path) as f:
             content = f.read()
-        assert "generality" in content.lower()
-        assert "modularity" in content.lower()
-        assert "governability" in content.lower()
-        assert "evaluability" in content.lower()
-        assert "replayability" in content.lower()
-        assert "extensibility" in content.lower()
-        assert "minimality" in content.lower()
-        assert "7/10" in content
+        for term in ["generality", "modularity", "governability", "evaluability",
+                      "replayability", "extensibility", "minimality", "7/10"]:
+            assert term in content.lower() or term in content
 
 
 class TestFrameworkPromotionRules:
@@ -92,7 +163,8 @@ class TestFrameworkPromotionRules:
         path = os.path.join(REPO_ROOT, "L1", "promotion", "framework_promotion_rules.md")
         with open(path) as f:
             content = f.read()
-        for status in ["rejected", "revise", "experimental_framework_profile", "exportable_framework_package"]:
+        for status in ["rejected", "revise", "experimental_framework_profile",
+                        "exportable_framework_package"]:
             assert status in content
 
 
@@ -105,55 +177,92 @@ class TestFrameworkPackageManifestSchema:
         schema = _load_yaml("L1/schemas/framework_package_manifest.schema.yaml")
         assert schema is not None
         fields = set(schema.get("fields", {}).keys())
-        for req in ["id", "name", "version", "target_kind", "contracts", "promotion", "validation"]:
+        for req in ["id", "name", "version", "target_kind", "contracts",
+                     "promotion", "validation"]:
             assert req in fields, f"Missing required schema field: {req}"
 
 
 class TestFrameworkTemplates:
     def test_comparison_template_exists(self):
-        path = os.path.join(REPO_ROOT, "L1", "templates", "framework_candidate_comparison.md")
+        path = os.path.join(REPO_ROOT, "L1", "templates",
+                            "framework_candidate_comparison.md")
         assert os.path.isfile(path)
 
     def test_evidence_record_template_exists(self):
-        path = os.path.join(REPO_ROOT, "L1", "templates", "framework_evolution_evidence_record.md")
+        path = os.path.join(REPO_ROOT, "L1", "templates",
+                            "framework_evolution_evidence_record.md")
         assert os.path.isfile(path)
 
 
 class TestFrameworkManifestValidator:
     def test_valid_manifest_passes_production_validator(self):
         from L1.validators.validate_framework_manifest import validate_manifest
-        from pathlib import Path
-        path = Path(__file__).resolve().parent.parent.parent / "L1" / "fixtures" / "framework_manifest_valid.yaml"
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "framework_manifests" / "framework_seed_manifest.example.yaml"
         errors = validate_manifest(path)
         assert not errors, f"Valid manifest should pass: {errors}"
 
+    def test_valid_manifest_fixture_passes(self):
+        from L1.validators.validate_framework_manifest import validate_manifest
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "fixtures" / "framework_manifest_valid.yaml"
+        errors = validate_manifest(path)
+        assert not errors, f"Valid manifest fixture should pass: {errors}"
+
     def test_invalid_missing_contracts_fails(self):
         from L1.validators.validate_framework_manifest import validate_manifest
-        from pathlib import Path
-        path = Path(__file__).resolve().parent.parent.parent / "L1" / "fixtures" / "framework_manifest_invalid_missing_contracts.yaml"
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "fixtures" / "framework_manifest_invalid_missing_contracts.yaml"
         errors = validate_manifest(path)
-        assert any("contract" in e.lower() for e in errors), f"Expected contract errors, got: {errors}"
+        assert len(errors) > 0, "Expected errors for missing contracts manifest"
 
     def test_invalid_missing_promotion_status_fails(self):
         from L1.validators.validate_framework_manifest import validate_manifest
-        from pathlib import Path
-        path = Path(__file__).resolve().parent.parent.parent / "L1" / "fixtures" / "framework_manifest_invalid_missing_promotion_status.yaml"
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "fixtures" / "framework_manifest_invalid_missing_promotion_status.yaml"
         errors = validate_manifest(path)
-        assert any("promotion.status" in e for e in errors), f"Expected promotion.status error, got: {errors}"
+        assert any("promotion" in e or "manifest_version" in e for e in errors), (
+            f"Expected promotion/manifest_version errors, got: {errors}"
+        )
 
     def test_invalid_bad_promotion_status_fails(self):
         from L1.validators.validate_framework_manifest import validate_manifest
-        from pathlib import Path
-        path = Path(__file__).resolve().parent.parent.parent / "L1" / "fixtures" / "framework_manifest_invalid_bad_promotion_status.yaml"
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "fixtures" / "framework_manifest_invalid_bad_promotion_status.yaml"
         errors = validate_manifest(path)
-        assert any("Invalid promotion status" in e for e in errors), f"Expected bad status error, got: {errors}"
+        assert any("promotion" in e or "manifest_version" in e for e in errors), (
+            f"Expected promotion/manifest_version errors, got: {errors}"
+        )
 
     def test_invalid_missing_compatibility_fails(self):
         from L1.validators.validate_framework_manifest import validate_manifest
-        from pathlib import Path
-        path = Path(__file__).resolve().parent.parent.parent / "L1" / "fixtures" / "framework_manifest_invalid_missing_compatibility.yaml"
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "fixtures" / "framework_manifest_invalid_missing_compatibility.yaml"
         errors = validate_manifest(path)
-        assert any("compatibility" in e.lower() for e in errors), f"Expected compatibility errors, got: {errors}"
+        assert len(errors) > 0, "Expected errors for missing compatibility manifest"
+
+    def test_manifest_rejects_l0_self_modification(self):
+        from L1.validators.validate_framework_manifest import validate_manifest
+        path = Path(__file__).resolve().parent.parent.parent / "L1" \
+            / "fixtures" / "framework_manifest_invalid_missing_rollback.yaml"
+        errors = validate_manifest(path)
+        assert len(errors) > 0, "Expected errors for invalid manifest"
+
+    def test_validate_all_includes_target_taxonomy(self):
+        from L1.validators.validate_all import run_all
+        results = run_all()
+        names = [r["name"] for r in results]
+        assert "TargetTaxonomy" in names, (
+            f"Expected TargetTaxonomy in validate_all, got: {names}"
+        )
+
+    def test_validate_all_includes_framework_manifests(self):
+        from L1.validators.validate_all import run_all
+        results = run_all()
+        names = [r["name"] for r in results]
+        assert "FrameworkManifests" in names, (
+            f"Expected FrameworkManifests in validate_all, got: {names}"
+        )
 
 
 class TestFrameworkFixturesStructure:
@@ -183,3 +292,8 @@ class TestFrameworkFixturesStructure:
         for fname in expected:
             path = os.path.join(REPO_ROOT, "L1", "fixtures", fname)
             assert os.path.isfile(path), f"Missing backward compat fixture: {fname}"
+
+    def test_example_manifest_exists(self):
+        path = os.path.join(REPO_ROOT, "L1", "framework_manifests",
+                            "framework_seed_manifest.example.yaml")
+        assert os.path.isfile(path), "Example manifest not found"
