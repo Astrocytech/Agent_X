@@ -407,14 +407,6 @@ make run
 - [L1/README.md](L1/README.md) — L1 evolution controller documentation
 - [L2/README.md](L2/README.md) — L2 specialization documentation
 
-## Visual Guide
-
-<div align="center">
-  <img src="DOCUMENTS/images/agent_x_01_high_level_flow.png" alt="High-Level Flow" width="450" />
-</div>
-
-See [DOCUMENTS/images/](DOCUMENTS/images/) for the full set of visual guides.
-
 ## Commands
 
 | Command | Purpose |
