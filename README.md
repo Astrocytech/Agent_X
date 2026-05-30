@@ -358,6 +358,32 @@ L2-PROFILE-SR-001 = Symbolic Regression Controller
 | Is this actual implementation/runtime work accepted by L1? | `L4`, later only |
 | Is this release, deployment, operation, or production maintenance? | `L5`, later only |
 
+---
+
+## Reserved future layers: L6+
+
+Layers above L5 are intentionally reserved.
+
+Agent_X does not predefine `L6`, `L7`, `L8`, `L9`, `L10`, or higher layers because doing so would create artificial structure before the system has a real need for it.
+
+A new layer above L5 may be created only when all of the following are true:
+
+1. The responsibility cannot cleanly fit into L0–L5.
+2. The new layer has a stable purpose distinct from existing layers.
+3. The new layer has clear boundaries, non-goals, and authority rules.
+4. The new layer does not bypass L1 governance.
+5. The new layer does not weaken L0 independence.
+6. The new layer is introduced through a governed L1 review or FIC process.
+
+Until such a need exists, `L6+` means:
+
+```text
+reserved for future expansion
+not active
+not implementation-authorized
+not required for current Agent_X development
+```
+
 When uncertain, keep the artifact in the lower-risk layer:
 
 ```text
