@@ -1,5 +1,5 @@
 # L2 Profile Catalog
-
-bootstrap-placeholder-not-release-evidence
-
-This file will be populated by an L2 validation script when one is created.
+# bootstrap-placeholder-not-release-evidence
+release_evidence: false
+implementation_authorized: false
+profiles: []

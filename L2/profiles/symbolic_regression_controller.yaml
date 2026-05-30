@@ -1,8 +1,15 @@
 profile_id: "L2-PROFILE-SR-001"
-name: "Symbolic Regression Controller"
+global_profile_id: "AGENT_X_L2::L2-PROFILE-SR-001"
+version: "v0.1.0"
 status: "draft"
+name: "Symbolic Regression Controller"
 specialization_type: "symbolic-regression"
+ownership_key: "agent-x-l2-sr"
 purpose: "Define how Agent_X should later plan, validate, and package symbolic-regression work through L1-governed implementation tasks."
+intended_user_goal_classes:
+  - "discover-equation"
+  - "validate-sr-experiment"
+  - "package-sr-results"
 allowed_inputs:
   - "problem statement"
   - "dataset description"
@@ -13,18 +20,31 @@ expected_outputs:
   - "evaluation plan"
   - "risk notes"
 required_l1_units:
-  - "UNIT-L1-003"
-  - "UNIT-L1-004"
-  - "UNIT-L1-005"
-  - "UNIT-L1-006"
-  - "UNIT-L1-007"
+  - "AGENT_X_L1::UNIT-L1-003"
+  - "AGENT_X_L1::UNIT-L1-004"
+  - "AGENT_X_L1::UNIT-L1-005"
+  - "AGENT_X_L1::UNIT-L1-006"
+  - "AGENT_X_L1::UNIT-L1-007"
+required_l1_fic_candidates:
+  - "AGENT_X_L1::FIC-L1-003"
+  - "AGENT_X_L1::FIC-L1-004"
+  - "AGENT_X_L1::FIC-L1-005"
+  - "AGENT_X_L1::FIC-L1-006"
+  - "AGENT_X_L1::FIC-L1-007"
 forbidden_actions:
-  - "direct PySR_custom modification"
   - "direct L0 modification"
-  - "runtime autonomous patching"
+  - "direct L1 modification without FIC"
+  - "direct external repository modification"
   - "ungoverned tool execution"
+  - "runtime autonomous patching"
+  - "direct PySR_custom modification"
 evaluation_refs:
   - "L2/evaluation_specs/symbolic_regression_eval.md"
 integration_refs:
   - "L2/integration_specs/pysr_custom_integration.md"
 risk_level: "medium"
+profile_package_status: "draft"
+l1_handoff_allowed: false
+implementation_allowed_without_l1: false
+implementation_allowed: false
+direct_runtime_allowed: false

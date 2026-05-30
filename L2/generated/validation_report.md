@@ -1,5 +1,9 @@
 # L2 Validation Report
 
+bootstrap-placeholder-not-release-evidence
+release_evidence: false
+implementation_authorized: false
+
 **Status**: Bootstrap placeholder — not release evidence.
 
 L2 has no formal validation yet. Validation will be added when:

@@ -1,0 +1,22 @@
+l2_eqc_enums_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+enums:
+  purity_classes:
+    - "PURE"
+    - "READ_ONLY"
+    - "IMPURE"
+  determinism:
+    - "deterministic"
+    - "non-deterministic"
+  operator_phases:
+    - "classify"
+    - "select"
+    - "rank"
+    - "check"
+    - "decide"
+    - "build"
+  procedure_phases:
+    - "select-profile"
+    - "assess-readiness"
+    - "build-handoff"

@@ -40,6 +40,7 @@ prove-l1:
 	@echo "=== prove-l1: OK ==="
 
 prove-l2:
+	$(PYTHON) L2/validators/bootstrap_validate_l2_scaffold.py
 	PYTHONPATH=L2 $(PYTHON) -m pytest L2/tests -q --tb=short -p no:cacheprovider
 	@echo "=== prove-l2: OK ==="
 

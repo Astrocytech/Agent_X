@@ -1,18 +1,51 @@
-# Orchestrator profile
-# Defines specialization targets for a swarm/master orchestrator
-
-profile: orchestrator
-version: 0.1.0
-extends: generalist
-description: >
-  Profile for an agent that coordinates sub-agents and
-  manages multi-step workflows.
-capabilities:
-  - sub_agent_coordination
-  - workflow_orchestration
-  - result_aggregation
-  - state_management
-constraints:
-  - no_direct_shell
-  - no_direct_network
-  - bounded_delegation
+profile_id: "L2-PROFILE-ORCH-001"
+global_profile_id: "AGENT_X_L2::L2-PROFILE-ORCH-001"
+version: "v0.1.0"
+status: "draft"
+name: "Orchestrator"
+specialization_type: "orchestration"
+ownership_key: "agent-x-l2-orch"
+purpose: "Coordinate sub-agents and manage multi-step workflows across profiles."
+intended_user_goal_classes:
+  - "coordinate-workflow"
+  - "manage-multi-agent"
+allowed_inputs:
+  - "workflow description"
+  - "sub-agent assignments"
+  - "coordination plan"
+expected_outputs:
+  - "orchestrated workflow"
+  - "aggregated results"
+  - "coordination report"
+required_l1_units:
+  - "AGENT_X_L1::UNIT-L1-003"
+  - "AGENT_X_L1::UNIT-L1-004"
+  - "AGENT_X_L1::UNIT-L1-005"
+  - "AGENT_X_L1::UNIT-L1-006"
+  - "AGENT_X_L1::UNIT-L1-007"
+  - "AGENT_X_L1::UNIT-L1-010"
+required_l1_fic_candidates:
+  - "AGENT_X_L1::FIC-L1-003"
+  - "AGENT_X_L1::FIC-L1-004"
+  - "AGENT_X_L1::FIC-L1-005"
+  - "AGENT_X_L1::FIC-L1-006"
+  - "AGENT_X_L1::FIC-L1-007"
+  - "AGENT_X_L1::FIC-L1-010"
+forbidden_actions:
+  - "direct L0 modification"
+  - "direct L1 modification without FIC"
+  - "direct external repository modification"
+  - "ungoverned tool execution"
+  - "runtime autonomous patching"
+  - "direct shell access"
+  - "direct network access"
+  - "unbounded sub-agent delegation"
+evaluation_refs:
+  - "L2/evaluation_specs/orchestrator_eval.md"
+integration_refs: []
+risk_level: "high"
+profile_package_status: "draft"
+l1_handoff_allowed: false
+implementation_allowed_without_l1: false
+implementation_allowed: false
+direct_runtime_allowed: false

@@ -1,0 +1,13 @@
+{
+  "schema": "agent-x-l2-sib-graph/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 SIB Graph Schema",
+  "type": "object",
+  "properties": {
+    "sib_graph_version": { "type": "string" },
+    "portfolio_id": { "type": "string" },
+    "nodes": { "type": "array" },
+    "edges": { "type": "array" }
+  },
+  "required": ["sib_graph_version", "portfolio_id", "nodes", "edges"]
+}

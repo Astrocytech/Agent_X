@@ -1,8 +1,15 @@
 profile_id: "L2-PROFILE-RA-001"
-name: "Research Agent"
+global_profile_id: "AGENT_X_L2::L2-PROFILE-RA-001"
+version: "v0.1.0"
 status: "draft"
+name: "Research Agent"
 specialization_type: "research"
+ownership_key: "agent-x-l2-ra"
 purpose: "Explore problem spaces, produce documentation and proposals for L1 consideration."
+intended_user_goal_classes:
+  - "explore-problem"
+  - "analyze-codebase"
+  - "propose-approach"
 allowed_inputs:
   - "research question"
   - "codebase analysis request"
@@ -12,13 +19,22 @@ expected_outputs:
   - "proposal documents"
   - "feasibility assessment"
 required_l1_units:
-  - "UNIT-L1-001"
+  - "AGENT_X_L1::UNIT-L1-001"
+required_l1_fic_candidates: []
 forbidden_actions:
+  - "direct L0 modification"
+  - "direct L1 modification without FIC"
+  - "direct external repository modification"
+  - "ungoverned tool execution"
+  - "runtime autonomous patching"
   - "implement code"
   - "modify governance artifacts"
-  - "execute tools"
-  - "deploy changes"
 evaluation_refs:
   - "L2/evaluation_specs/research_agent_eval.md"
 integration_refs: []
 risk_level: "low"
+profile_package_status: "draft"
+l1_handoff_allowed: false
+implementation_allowed_without_l1: false
+implementation_allowed: false
+direct_runtime_allowed: false

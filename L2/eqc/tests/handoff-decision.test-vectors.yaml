@@ -1,0 +1,24 @@
+test_vectors_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+vectors:
+  - id: "L2-TEST-HDOFF-001"
+    description: "Profile with required L1 units triggers handoff"
+    input:
+      required_l1_units:
+        - "AGENT_X_L1::UNIT-L1-003"
+    expected_handoff_required: true
+  - id: "L2-TEST-HDOFF-002"
+    description: "Draft profile does not trigger handoff yet"
+    input:
+      status: "draft"
+      required_l1_units: []
+    expected_handoff_required: false
+  - id: "L2-TEST-HDOFF-003"
+    description: "Critical risk profile requires additional review"
+    input:
+      risk_level: "critical"
+      required_l1_units:
+        - "AGENT_X_L1::UNIT-L1-003"
+    expected_handoff_required: true
+    expected_review_required: true

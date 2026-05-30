@@ -1,0 +1,12 @@
+{
+  "schema": "agent-x-l2-sib-doc-registry/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 SIB Doc Registry Schema",
+  "type": "object",
+  "properties": {
+    "sib_doc_registry_version": { "type": "string" },
+    "portfolio_id": { "type": "string" },
+    "documents": { "type": "array" }
+  },
+  "required": ["sib_doc_registry_version", "portfolio_id", "documents"]
+}

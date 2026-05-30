@@ -1,0 +1,426 @@
+l2_required_file_reconciliation_version: "v1.2.0"
+portfolio_id: "AGENT_X_L2"
+workspace_ref: "46ce5b053beeb7816874597419e8db055e6c07e3"
+release_evidence: false
+files:
+  - path: "L2/README.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added L2 structure overview linking to new artifacts"
+    downgrade_risk: false
+  - path: "L2/docs/00_L2_SYSTEM_GOAL.md"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    reason: "Already satisfied TODO requirements"
+    downgrade_risk: false
+  - path: "L2/docs/01_L2_BACKGROUND.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/02_L2_ARCHITECTURE_CONTRACT.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/03_L2_PROFILE_MODEL.md"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-FIC-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/04_L2_SPECIALIZATION_CATALOG.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/05_L2_INTEGRATION_BOUNDARIES.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/06_L2_EVALUATION_PLAN.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/07_L2_RISK_LEDGER.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/08_L2_TRACEABILITY_MATRIX.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/docs/09_L2_HANDOFF_TO_L1_RULES.md"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/profiles/coding_agent.yaml"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-FIC-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added global_profile_id, version, ownership_key, implementation_allowed, direct_runtime_allowed, etc."
+    downgrade_risk: false
+  - path: "L2/profiles/symbolic_regression_controller.yaml"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-FIC-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added global_profile_id, version, ownership_key, implementation_allowed, etc."
+    downgrade_risk: false
+  - path: "L2/profiles/research_agent.yaml"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-FIC-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added global_profile_id, version, ownership_key, implementation_allowed, etc."
+    downgrade_risk: false
+  - path: "L2/profiles/repo_maintenance_agent.yaml"
+    required_by: ["L2-WORKFLOW-v0.5", "L2-EQC-FIC-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added global_profile_id, version, ownership_key, implementation_allowed, etc."
+    downgrade_risk: false
+  - path: "L2/blueprints/coding_agent_blueprint.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/blueprints/symbolic_regression_controller_blueprint.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/blueprints/research_agent_blueprint.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/blueprints/repo_maintenance_agent_blueprint.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/evaluation_specs/coding_agent_eval.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/evaluation_specs/symbolic_regression_eval.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/evaluation_specs/research_agent_eval.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/evaluation_specs/repo_maintenance_eval.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/integration_specs/pysr_custom_integration.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/integration_specs/glyphser_integration.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/integration_specs/symbiant_integration.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/extension_specs/tool_access_policy.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/extension_specs/memory_policy.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/extension_specs/model_policy.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/extension_specs/autonomy_policy.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/standards/AGENT_X_L2_PSEUDOCODE_TO_FIC_WORKFLOW_v0_5.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/standards/AGENT_X_L2_LIGHTWEIGHT_EQC_FIC_v0_4.md"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/standards/AGENT_X_L2_LIGHTWEIGHT_EQC_SIB_BRIDGE_v0_4.md"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/standards/AGENT_X_L2_LIGHTWEIGHT_EQC_ES_v0_4.md"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/standards/AGENT_X_L2_LIGHTWEIGHT_EQC_v0_4.md"
+    required_by: ["L2-EQC-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/fic/index.l2-fic.yaml"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-fic-enums.yaml"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-fic-error-codes.yaml"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-fic.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-fic-registry.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-target-artifact.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-handoff-packet.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-completion-record.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-review-packet.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/l2-validation-output.schema.json"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/units/L2-FIC-PROFILE-CODING-001-coding-agent.md"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/units/L2-FIC-PROFILE-SR-001-symbolic-regression-controller.md"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/units/L2-FIC-PROFILE-RESEARCH-001-research-agent.md"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/fic/units/L2-FIC-PROFILE-REPO-001-repo-maintenance-agent.md"
+    required_by: ["L2-EQC-FIC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-registry.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-graph.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-validation-log.md"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-error-codes.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-waivers.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-migration-log.md"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/ecosystem/ecosystem-enums.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/sib/sib-doc-registry.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/sib/sib-bindings.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/sib/sib-graph.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/sib/sib-validation-log.md"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "present"
+    action: "kept"
+    downgrade_risk: false
+  - path: "L2/sib/sib-error-codes.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/sib/sib-waivers.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/sib/sib-source-freshness.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/sib/sib-version-impact.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/sib/sib-l1-handoff-map.yaml"
+    required_by: ["L2-EQC-SIB-BRIDGE-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/eqc/manifests/l2-eqc-manifest.yaml"
+    required_by: ["L2-EQC-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added new operators and procedures"
+    downgrade_risk: false
+  - path: "L2/eqc/manifests/l2-eqc-source-standards.yaml"
+    required_by: ["L2-EQC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/eqc/manifests/l2-eqc-enums.yaml"
+    required_by: ["L2-EQC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/generated/source_standard_manifest.yaml"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/generated/profile_catalog.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added release_evidence: false marker"
+    downgrade_risk: false
+  - path: "L2/generated/l2_profile_package_manifest.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/generated/l2_semantic_lockfile.yaml"
+    required_by: ["L2-EQC-ES-v0.4"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added lockfile_version and release_evidence markers"
+    downgrade_risk: false
+  - path: "L2/generated/readiness_report.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added release_evidence: false marker"
+    downgrade_risk: false
+  - path: "L2/generated/validation_report.md"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "present"
+    action: "modified"
+    reason: "Added release_evidence: false marker"
+    downgrade_risk: false
+  - path: "L2/generated/l2_eqc_validator_input_manifest.yaml"
+    required_by: ["L2-EQC-v0.4"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/validators/bootstrap_validate_l2_scaffold.py"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/tests/test_l2_structure.py"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/tests/test_l2_no_runtime_surface.py"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/tests/test_l2_profile_contracts.py"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/tests/test_l2_cross_standard_consistency.py"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/evidence/bootstrap/20260529T212000Z_l2_preflight_inventory.yaml"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false
+  - path: "L2/evidence/bootstrap/20260529T212001Z_l2_forbidden_runtime_check.yaml"
+    required_by: ["L2-WORKFLOW-v0.5"]
+    observed_state: "missing"
+    action: "created"
+    downgrade_risk: false

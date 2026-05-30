@@ -1,0 +1,30 @@
+ecosystem_enums_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+enums:
+  document_types:
+    - "system-goal"
+    - "profile"
+    - "blueprint"
+    - "integration-spec"
+    - "evaluation-spec"
+    - "standard"
+    - "governance-note"
+    - "sidecar"
+    - "schema"
+    - "fixture"
+    - "generated"
+  status_values:
+    - "draft"
+    - "active"
+    - "deprecated"
+    - "locked"
+  authority_levels:
+    - "constitutional"
+    - "standard"
+    - "profile"
+    - "reference"
+  layer_values:
+    - 0
+    - 1
+    - 2

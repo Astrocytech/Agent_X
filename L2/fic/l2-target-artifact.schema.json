@@ -1,0 +1,15 @@
+{
+  "schema": "agent-x-l2-target-artifact/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 Target Artifact Schema",
+  "type": "object",
+  "properties": {
+    "artifact_id": { "type": "string" },
+    "global_artifact_id": { "type": "string" },
+    "path": { "type": "string" },
+    "type": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "type": "string" }
+  },
+  "required": ["artifact_id", "path", "type"]
+}

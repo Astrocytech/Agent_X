@@ -1,0 +1,13 @@
+{
+  "schema": "agent-x-l2-eqc-trace-record/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 EQC Trace Record Schema",
+  "type": "object",
+  "properties": {
+    "trace_id": { "type": "string" },
+    "procedure": { "type": "string" },
+    "operator_calls": { "type": "array" },
+    "result": { "type": "string" }
+  },
+  "required": ["trace_id", "procedure"]
+}

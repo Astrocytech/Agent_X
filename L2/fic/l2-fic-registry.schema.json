@@ -1,0 +1,13 @@
+{
+  "schema": "agent-x-l2-fic-registry/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 FIC Registry Schema",
+  "type": "object",
+  "properties": {
+    "l2_fic_registry_version": { "type": "string" },
+    "portfolio_id": { "type": "string" },
+    "release_evidence": { "type": "boolean" },
+    "fic_units": { "type": "array" }
+  },
+  "required": ["l2_fic_registry_version", "portfolio_id", "fic_units"]
+}

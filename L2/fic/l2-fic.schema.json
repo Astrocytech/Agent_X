@@ -1,0 +1,21 @@
+{
+  "schema": "agent-x-l2-lightweight-eqc-fic/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 FIC Schema",
+  "type": "object",
+  "properties": {
+    "l2_fic_id": { "type": "string" },
+    "global_l2_fic_id": { "type": "string" },
+    "target_artifact_id": { "type": "string" },
+    "target_path": { "type": "string" },
+    "target_type": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "type": "string" },
+    "risk_level": { "type": "string" },
+    "implementation_allowed": { "type": "boolean" },
+    "may_request_l1_handoff": { "type": "boolean" },
+    "required_l1_units": { "type": "array", "items": { "type": "string" } },
+    "evaluation_refs": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["l2_fic_id", "global_l2_fic_id", "target_artifact_id", "version", "status", "implementation_allowed"]
+}

@@ -1,0 +1,10 @@
+# stale_profile_catalog.yaml fixture — profile fields outdated
+profiles:
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Symbolic Regression Controller"
+    status: "draft"
+    specialization_type: "symbolic-regression"
+    risk_level: "medium"
+    required_l1_units: []
+    forbidden_actions: []
+    last_validated_utc: "2025-01-01T00:00:00Z"

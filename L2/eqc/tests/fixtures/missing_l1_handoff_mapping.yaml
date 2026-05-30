@@ -1,0 +1,8 @@
+# missing_l1_handoff_mapping.yaml fixture
+profiles:
+  - profile_id: "L2-PROFILE-SR-001"
+    name: "Symbolic Regression Controller"
+    status: "draft"
+    specialization_type: "symbolic-regression"
+    required_l1_units: []
+    l1_handoff_allowed: false

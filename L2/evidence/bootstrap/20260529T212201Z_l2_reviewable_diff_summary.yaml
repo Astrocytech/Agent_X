@@ -1,0 +1,39 @@
+l2_reviewable_diff_summary:
+  todo_version: "v1.3.0"
+  workspace_state: "pre-commit"
+  base_commit: "46ce5b053beeb7816874597419e8db055e6c07e3"
+  git_status_short: []
+  git_diff_stat: []
+  artifact_counts:
+    docs: 10
+    profiles: 5
+    blueprints: 5
+    evaluation_specs: 5
+    integration_specs: 3
+    standards: 9
+    fic_units: 4
+    fic_schemas: 7
+    fic_sidecars: 3
+    ecosystem_sidecars: 7
+    ecosystem_schemas: 9
+    ecosystem_fixtures: 2
+    sib_sidecars: 9
+    sib_schemas: 7
+    eqc_procedures: 3
+    eqc_operators: 7
+    eqc_manifests: 3
+    eqc_tests: 3
+    eqc_fixtures: 8
+    eqc_schemas: 10
+    generated: 10
+    evidence: 8
+    validators: 1
+    tests: 5
+  prohibited_runtime_files: []
+  false_claim_scan_matches: []
+  reviewer_notes:
+    - "Pre-existing orchestrator.yaml/blueprint/eval updated to new profile format"
+    - "Pre-existing extension_specs/ (tool_access, memory, model policies) kept as-is"
+    - "Pre-existing L2 standard files at L2/ root moved to L2/standards/"
+    - "L2_LIGHTWEIGHT_*.md (old lightweight standards) kept alongside detailed v0.4/v0.5 standards"
+    - "SIB bridge standard created as compact document (no source available)"

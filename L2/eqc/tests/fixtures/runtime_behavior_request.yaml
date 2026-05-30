@@ -1,0 +1,7 @@
+# runtime_behavior_request.yaml fixture — input asks for direct execution
+request:
+  description: "Run symbolic regression experiment on dataset X"
+  requested_type: "symbolic-regression"
+  expects_runtime_execution: true
+expected_blocked: true
+block_reason: "L2 may not execute SR experiments directly"

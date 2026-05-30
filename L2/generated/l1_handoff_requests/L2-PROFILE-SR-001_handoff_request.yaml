@@ -1,0 +1,21 @@
+# L1 Handoff Request: Symbolic Regression Controller Profile
+
+bootstrap-placeholder-not-release-evidence
+release_evidence: false
+implementation_authorized: false
+
+handoff_request:
+  request_id: "L2-HANDOFF-REQ-SR-001"
+  source_profile_id: "AGENT_X_L2::L2-PROFILE-SR-001"
+  requesting_l1_action: "FIC creation and governed implementation"
+  requested_l1_units:
+    - "AGENT_X_L1::UNIT-L1-003"
+    - "AGENT_X_L1::UNIT-L1-004"
+    - "AGENT_X_L1::UNIT-L1-005"
+    - "AGENT_X_L1::UNIT-L1-006"
+    - "AGENT_X_L1::UNIT-L1-007"
+  l1_may_reject: true
+  l1_may_split: true
+  l1_may_defer: true
+  l1_may_convert: true
+  status: "draft"

@@ -1,0 +1,23 @@
+l2_cross_standard_consistency_check:
+  todo_version: "v1.3.0"
+  release_evidence: false
+  checks:
+    - check: "SIB handoff map has implementation_allowed_by_l2: true"
+      result: "not-found"
+      status: "PASS"
+    - check: "Any profile has implementation_allowed: true"
+      result: "not-found"
+      status: "PASS"
+    - check: "Any profile has direct_runtime_allowed: true"
+      result: "not-found"
+      status: "PASS"
+    - check: "Generated files claim release evidence"
+      result: "not-found"
+      status: "PASS"
+    - check: "FIC index has implementation_allowed: true"
+      result: "not-found"
+      status: "PASS"
+    - check: "EQC files claim runtime or implementation authority"
+      result: "not-found"
+      status: "PASS"
+  final_status: "PASS"

@@ -1,0 +1,21 @@
+l2_completion_audit_bundle:
+  todo_version: "v1.3.0"
+  workspace_ref: "46ce5b053beeb7816874597419e8db055e6c07e3"
+  required_paths_present: true
+  standards_verified: true
+  runtime_surface_status: "none"
+  profiles_have_implementation_allowed_false: true
+  profiles_have_direct_runtime_allowed_false: true
+  generated_outputs_release_evidence_false: true
+  sib_handoff_implementation_allowed_false: true
+  eqc_runtime_authority_none: true
+  root_readme_no_false_claims: true
+  makefile_prove_l2_scaffold_only: true
+  commands_passed:
+    bootstrap_validator: "pass"
+    pytest_l2: "pass"
+    prove_l2: "pass"
+    prove_all: "pass"
+  final_status: "PASS"
+  release_evidence: false
+  implementation_authorized: false

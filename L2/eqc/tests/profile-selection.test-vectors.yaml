@@ -1,0 +1,24 @@
+test_vectors_version: "v0.4.0"
+portfolio_id: "AGENT_X_L2"
+release_evidence: false
+vectors:
+  - id: "L2-TEST-SEL-001"
+    description: "Valid profile selection — symbolic regression request"
+    input:
+      specialization_type: "symbolic-regression"
+    expected_profiles:
+      - "L2-PROFILE-SR-001"
+    expected_count: 1
+  - id: "L2-TEST-SEL-002"
+    description: "No match — unknown type"
+    input:
+      specialization_type: "unknown"
+    expected_profiles: []
+    expected_count: 0
+  - id: "L2-TEST-SEL-003"
+    description: "Multiple candidates — coding and orchestrator"
+    input:
+      specialization_type: "coding"
+    expected_profiles:
+      - "L2-PROFILE-CA-001"
+    expected_count: 1

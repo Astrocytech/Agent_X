@@ -1,0 +1,11 @@
+{
+  "schema": "agent-x-l2-eqc-source-standards/v0.4",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "L2 EQC Source Standards Schema",
+  "type": "object",
+  "properties": {
+    "l2_eqc_source_standards_version": { "type": "string" },
+    "standards": { "type": "array" }
+  },
+  "required": ["l2_eqc_source_standards_version", "standards"]
+}
