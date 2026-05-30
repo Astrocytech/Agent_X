@@ -6,7 +6,10 @@ Checks:
 - No semicolon-compressed or collapsed patterns in critical files
 """
 
+import ast
 from pathlib import Path
+
+import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -231,7 +234,6 @@ def test_format_guard_itself_is_not_collapsed():
 
 
 def test_yaml_files_parse():
-    import yaml
     for pattern in ["L1/**/*.yaml", "L2/**/*.yaml"]:
         for path in sorted(REPO_ROOT.glob(pattern)):
             if not path.is_file() or path.stat().st_size == 0:
@@ -242,4 +244,31 @@ def test_yaml_files_parse():
                 data = yaml.safe_load(f)
             assert data is not None or path.stat().st_size < 10, (
                 f"Failed to parse YAML: {path}"
+            )
+
+
+def test_python_files_parse_with_ast():
+    for rel_path in CRITICAL_PYTHON_MIN_LINES:
+        full = REPO_ROOT / rel_path
+        if not full.is_file():
+            continue
+        source = full.read_text(encoding="utf-8")
+        try:
+            ast.parse(source, filename=rel_path)
+        except SyntaxError as e:
+            assert False, f"{rel_path}: AST parse error: {e}"
+
+
+def test_no_escaped_newline_inflation():
+    for rel_path in CRITICAL_PYTHON_MIN_LINES:
+        full = REPO_ROOT / rel_path
+        if not full.is_file():
+            continue
+        raw = full.read_bytes()
+        phys_lines = raw.count(b"\n")
+        lit_esc = raw.count(b"\\n")
+        if lit_esc > 0 and lit_esc >= phys_lines * 0.5:
+            assert False, (
+                f"{rel_path}: {lit_esc} literal \\n sequences "
+                f"({phys_lines} physical lines) — possible collapse"
             )

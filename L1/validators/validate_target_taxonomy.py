@@ -35,8 +35,14 @@ def validate(path: str | Path = "L1/target_taxonomy.yaml") -> ValidationResult:
         kinds = data["allowed_target_kinds"]
         if not isinstance(kinds, list):
             errors.append("allowed_target_kinds must be a list")
-        elif "framework" not in kinds:
-            errors.append("allowed_target_kinds must include 'framework'")
+        else:
+            if "framework" not in kinds:
+                errors.append("allowed_target_kinds must include 'framework'")
+            for legacy in ("agent", "controller", "orchestrator"):
+                if legacy not in kinds:
+                    errors.append(
+                        f"allowed_target_kinds missing legacy kind '{legacy}'"
+                    )
 
     if "target_kinds" not in data:
         errors.append("Missing top-level key: target_kinds")
