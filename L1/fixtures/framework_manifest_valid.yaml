@@ -1,7 +1,12 @@
-# Valid framework manifest fixture — matches new schema
+# Valid framework manifest fixture — matches new validator schema
+# Must pass validate_framework_manifest.py which checks 16 required fields.
+
 manifest_version: 1
-target_kind: framework
+id: fw-seed-001
 name: Framework Seed Experimental
+version: 0.1.0
+target_kind: framework
+source_profile: L2/profiles/framework_seed.yaml
 purpose: "Experimental framework seed for evaluating framework evolution"
 
 required_interfaces:
@@ -9,6 +14,15 @@ required_interfaces:
   - evaluator_registry
   - promotion_pipeline
   - evidence_bundle
+
+contracts:
+  module_registry: L2/blueprints/framework_seed_blueprint.md
+  extension_contract: L2/blueprints/framework_seed_blueprint.md
+
+artifacts:
+  profile: L2/profiles/framework_seed.yaml
+  blueprint: L2/blueprints/framework_seed_blueprint.md
+  tests: L2/tests/test_l2_framework_target.py
 
 promotion:
   requires_tests: true
@@ -26,3 +40,6 @@ rollback:
 compatibility:
   agent_x_l0_neutral: true
   no_runtime_self_modification: true
+
+validation:
+  l0_invariants_passed: true

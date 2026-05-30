@@ -1,104 +1,149 @@
 # Framework Package Manifest Schema
 # Schema for validating framework package manifests.
+# Must stay aligned with L1/validators/validate_framework_manifest.py.
 
-schema_version: 0.1.0
+schema_version: 0.2.0
 target_kind: framework
 
 fields:
+  manifest_version:
+    type: integer
+    required: true
+    description: "Schema version for the manifest format"
+
   id:
     type: string
     required: true
     description: "Unique identifier for the framework package"
+
   name:
     type: string
     required: true
     description: "Human-readable name"
+
   version:
     type: string
     required: true
     description: "Semantic version"
+
   target_kind:
     type: string
     required: true
     enum: [framework]
     description: "Must be 'framework'"
+
   source_profile:
     type: string
     required: true
     description: "Reference to the source L2 profile"
+
   created_by:
     type: string
     required: true
     description: "Creator or evaluator identifier"
+
   created_at:
     type: string
     required: true
     description: "ISO 8601 timestamp"
+
   purpose:
     type: string
     required: true
     description: "Why this framework package exists"
+
   non_goals:
     type: list
     required: true
     items: string
     description: "Things this framework explicitly does not do"
+
+  required_interfaces:
+    type: list
+    required: true
+    items: string
+    description: "Interface types this framework requires"
+
   contracts:
     type: object
     required: true
-    fields:
-      module_registry: { type: string, required: true }
-      extension_contract: { type: string, required: true }
-      composition_contract: { type: string, required: true }
-      evaluator_contract: { type: string, required: true }
-      promotion_contract: { type: string, required: true }
-      packaging_contract: { type: string, required: true }
-      rollback_contract: { type: string, required: true }
-      compatibility_contract: { type: string, required: true }
+    description: "Required contracts defined by this framework package"
+
   artifacts:
     type: object
     required: true
-    fields:
-      profile: { type: string, required: true }
-      blueprint: { type: string, required: true }
-      tests: { type: string, required: true }
-      evaluation_report: { type: string, required: true }
-      evidence_report: { type: string, required: true }
-      rollback_notes: { type: string, required: true }
-      package_files: { type: list, required: true, items: string }
+    description: "Artifacts included in this framework package"
+
   compatibility:
     type: object
     required: true
+    description: "Compatibility and neutrality assertions"
     fields:
-      agent_x_l0_version: { type: string, required: true }
-      agent_x_l1_version: { type: string, required: true }
-      required_features: { type: list, required: true, items: string }
-      forbidden_features: { type: list, required: true, items: string }
+      agent_x_l0_neutral:
+        type: bool
+        required: true
+        description: "Must be true — framework does not modify L0"
+      no_runtime_self_modification:
+        type: bool
+        required: true
+        description: "Must be true — framework does not self-modify at runtime"
+
   promotion:
     type: object
     required: true
+    description: "Promotion gates and status"
     fields:
+      requires_tests:
+        type: bool
+        required: true
+        description: "Promotion requires passing tests"
+      requires_evidence_bundle:
+        type: bool
+        required: true
+        description: "Promotion requires evidence bundle"
+      requires_rollback_plan:
+        type: bool
+        required: true
+        description: "Promotion requires rollback plan"
       status:
         type: string
-        required: true
+        required: false
         enum:
           - rejected
           - revise
           - experimental_framework_profile
           - exportable_framework_package
-          - promoted_framework_package
-      evaluator: { type: string, required: true }
-      evidence_id: { type: string, required: true }
-      rollback_id: { type: string, required: true }
-      approved_by_user:
-        type: any
-        required: true
-        enum: [true, false, not_required]
-  validation:
+        description: "Current promotion status"
+
+  packaging:
     type: object
     required: true
+    description: "Packaging and export configuration"
     fields:
-      l0_invariants_passed: { type: bool, required: true }
-      regression_tests_passed: { type: bool, required: true }
-      framework_tests_passed: { type: bool, required: true }
-      blocked_reasons: { type: list, required: true, items: string }
+      exportable:
+        type: bool
+        required: true
+        description: "Whether the framework package is exportable"
+      includes_profile:
+        type: bool
+        required: true
+        description: "Whether the package includes the L2 profile"
+      includes_evaluation_spec:
+        type: bool
+        required: true
+        description: "Whether the package includes evaluation specification"
+
+  rollback:
+    type: object
+    required: true
+    description: "Rollback support"
+    fields:
+      supported:
+        type: bool
+        required: true
+        description: "Whether rollback is supported"
+
+  validation:
+    type: object
+    required: false
+    description: "Validation results if available"

@@ -155,6 +155,12 @@ class TestFrameworkProfileInvalid:
                 f.write("target_kind: framework\n")
                 f.write("required_capabilities:\n")
                 f.write("  - plugin_registry\n")
+                f.write("  - extension_boundary\n")
+                f.write("  - evaluation_surface\n")
+                f.write("  - governance_hooks\n")
+                f.write("  - promotion_rules\n")
+                f.write("  - packaging_export\n")
+                f.write("  - rollback_plan\n")
                 f.write("features:\n")
                 f.write("  - unmediated_tool_execution\n")
             errors = validate_profiles(

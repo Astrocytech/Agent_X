@@ -4,6 +4,9 @@
 
 schema_version: 1
 
+# allowed_target_kinds defines every valid value for the target_kind field
+# across all profiles and manifests. Changing this list affects validation
+# in both L1 and L2 validators.
 allowed_target_kinds:
   - agent
   - controller
@@ -14,26 +17,23 @@ allowed_target_kinds:
   - ui
   - evaluator
 
-common_required_fields:
-  - id
-  - name
-  - version
-  - target_kind
-  - purpose
-  - constraints
-  - evaluation
-
+# target_kinds defines the schema and expectations for each target kind.
+# Each entry describes the kind and lists extra required fields beyond
+# the common_required_fields.
 target_kinds:
   agent:
-    description: "A runtime actor that plans and acts through governed turns."
+    description: >
+      A runtime actor that plans and acts through governed turns.
     extra_required_fields: []
 
   controller:
-    description: "A coordinator that manages agents, tools, workflows, or runtimes."
+    description: >
+      A coordinator that manages agents, tools, workflows, or runtimes.
     extra_required_fields: []
 
   orchestrator:
-    description: "A multi-agent or multi-tool coordination system."
+    description: >
+      A multi-agent or multi-tool coordination system.
     extra_required_fields: []
 
   framework:
@@ -50,22 +50,34 @@ target_kinds:
       - compatibility
 
   toolchain:
-    description: "A set of tools that work together to support development or operations."
+    description: >
+      A set of tools that work together to support development
+      or operations.
     extra_required_fields: []
 
   runtime:
-    description: "An execution environment for running agents, controllers, or frameworks."
+    description: >
+      An execution environment for running agents, controllers,
+      or frameworks.
     extra_required_fields: []
 
   ui:
-    description: "A user interface for interacting with Agent X components."
+    description: >
+      A user interface for interacting with Agent X components.
     extra_required_fields: []
 
   evaluator:
-    description: "A system that evaluates, benchmarks, or scores other artifacts."
+    description: >
+      A system that evaluates, benchmarks, or scores other artifacts.
     extra_required_fields: []
 
+# framework_rules defines the contract that every framework target must
+# satisfy. These rules are enforced by L1 taxonomy validation, L1
+# manifest validation, and L2 profile validation.
 framework_rules:
+
+  # required_capabilities: every framework profile must declare these
+  # capabilities to be considered minimally complete.
   required_capabilities:
     - plugin_registry
     - extension_boundary
@@ -75,12 +87,16 @@ framework_rules:
     - packaging_export
     - rollback_plan
 
+  # forbidden_capabilities: no framework profile may require or declare
+  # these capabilities. They are incompatible with Agent_X governance.
   forbidden_capabilities:
     - l0_runtime_self_modification
     - ungoverned_tool_execution
     - hidden_non_replayable_state
     - required_separate_framework_seed_repo
 
+  # required_manifest_fields: every framework package manifest must
+  # include these fields to be considered valid.
   required_manifest_fields:
     - id
     - name
@@ -94,7 +110,12 @@ framework_rules:
     - promotion
     - validation
 
+# migration rules handle backward compatibility with profiles that
+# predate the target_kind field.
 migration:
   missing_target_kind_default: agent
   allow_legacy_profiles_without_target_kind: true
-  rule: "Existing profiles without target_kind default to agent for backward compatibility. New profiles must declare target_kind explicitly."
+  rule: >
+    Existing profiles without target_kind default to agent
+    for backward compatibility. New profiles must declare
+    target_kind explicitly.

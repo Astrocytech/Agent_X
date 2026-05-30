@@ -1,10 +1,14 @@
-"""Validate L2 target profiles against taxonomy rules."""
+"""Validate L2 target profiles against taxonomy rules.
+
+Loads L1/target_taxonomy.yaml to determine allowed target kinds,
+required and forbidden framework capabilities, and migration rules.
+Framework profiles are validated against framework_rules.
+"""
 
 from pathlib import Path
 from typing import Any
 
 from L1.validators.common import load_yaml
-
 
 LEGACY_PROFILES_WITHOUT_TARGET_KIND: set[str] = {
     "coding_agent.yaml",
@@ -12,13 +16,6 @@ LEGACY_PROFILES_WITHOUT_TARGET_KIND: set[str] = {
     "research_agent.yaml",
     "repo_maintenance_agent.yaml",
     "orchestrator.yaml",
-}
-
-FORBIDDEN_CAPABILITY_TOKENS: set[str] = {
-    "l0_runtime_self_modification",
-    "unmediated_tool_execution",
-    "ungoverned_promotion",
-    "hidden_unlogged_state_mutation",
 }
 
 FORBIDDEN_CHECK_LOCATIONS: list[str] = [
@@ -35,12 +32,21 @@ BOOLEAN_FORBIDDEN_KEYS: list[str] = [
     "ungoverned_promotion",
 ]
 
+FORBIDDEN_CAPABILITY_TOKENS: set[str] = {
+    "l0_runtime_self_modification",
+    "unmediated_tool_execution",
+    "ungoverned_promotion",
+    "hidden_unlogged_state_mutation",
+}
+
 
 def _collect_tokens(data: dict) -> set[str]:
-    """Collect string tokens from locations that should be checked for forbidden capabilities.
+    """Collect string tokens from locations to check for forbidden capabilities.
 
-    Skips 'forbidden_capabilities' since that is a self-declaration of what
-    the profile prohibits, not what it does.
+    Only scans the specific locations listed in FORBIDDEN_CHECK_LOCATIONS.
+    Does not scan the profile's own forbidden_capabilities field, since
+    that is a self-declaration of what the profile prohibits, not what
+    it does.
     """
     tokens: set[str] = set()
 
@@ -78,26 +84,39 @@ def validate_profiles(
 ) -> list[str]:
     """Validate all YAML profiles against taxonomy rules.
 
-    Returns a list of error messages. Empty list means all profiles are valid.
+    Returns a list of error messages. Empty list means all profiles
+    are valid.
     """
     errors: list[str] = []
     tax = load_yaml(str(taxonomy_path))
     if tax is None:
         return [f"Cannot load taxonomy: {taxonomy_path}"]
 
-    allowed_kinds: set[str] = set(tax.get("allowed_target_kinds", []))
+    allowed_kinds: set[str] = set(
+        tax.get("allowed_target_kinds", [])
+    )
     fw_rules: dict = tax.get("framework_rules", {})
-    required_caps: set[str] = set(fw_rules.get("required_capabilities", []))
-    forbidden_caps: set[str] = set(fw_rules.get("forbidden_capabilities", []))
+    required_caps: set[str] = set(
+        fw_rules.get("required_capabilities", [])
+    )
+    forbidden_caps: set[str] = set(
+        fw_rules.get("forbidden_capabilities", [])
+    )
 
-    profile_path = Path(profile_dir) if not isinstance(profile_dir, Path) else profile_dir
+    profile_path = (
+        Path(profile_dir)
+        if not isinstance(profile_dir, Path)
+        else profile_dir
+    )
     if not profile_path.is_dir():
         return [f"Profile directory not found: {profile_dir}"]
 
     for yaml_file in sorted(profile_path.glob("*.yaml")):
         data = load_yaml(str(yaml_file))
         if data is None:
-            errors.append(f"{yaml_file.name}: Could not parse YAML")
+            errors.append(
+                f"{yaml_file.name}: Could not parse YAML"
+            )
             continue
 
         target_kind = data.get("target_kind")
@@ -107,19 +126,22 @@ def validate_profiles(
                 continue
             else:
                 errors.append(
-                    f"{yaml_file.name}: New profile must declare target_kind "
-                    f"(not in legacy allowlist)"
+                    f"{yaml_file.name}: New profile must declare "
+                    f"target_kind (not in legacy allowlist)"
                 )
                 continue
 
         if target_kind not in allowed_kinds:
             errors.append(
-                f"{yaml_file.name}: Unknown target_kind '{target_kind}'"
+                f"{yaml_file.name}: Unknown target_kind "
+                f"'{target_kind}'"
             )
             continue
 
         if target_kind == "framework":
-            declared_caps: set[str] = set(data.get("required_capabilities", []))
+            declared_caps: set[str] = set(
+                data.get("required_capabilities", [])
+            )
             missing = required_caps - declared_caps
             for cap in sorted(missing):
                 errors.append(
