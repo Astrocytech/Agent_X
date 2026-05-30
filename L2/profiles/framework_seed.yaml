@@ -43,23 +43,18 @@ required_l1_fic_candidates:
   - "AGENT_X_L1::FIC-L1-006"
   - "AGENT_X_L1::FIC-L1-007"
 required_capabilities:
-  - module_registry
-  - extension_contracts
-  - composition_rules
-  - evaluation_suite
+  - plugin_registry
+  - extension_boundary
+  - evaluation_surface
+  - governance_hooks
   - promotion_rules
-  - artifact_packaging
-  - rollback_migration
-  - compatibility_surface
-  - evidence_traceability
+  - packaging_export
+  - rollback_plan
 forbidden_capabilities:
   - l0_runtime_self_modification
-  - governance_bypass
-  - evidence_free_promotion
-  - hidden_state_without_replay
-  - provider_locked_core
-  - irreversible_export_without_approval
-  - separate_required_framework_seed_repo
+  - ungoverned_tool_execution
+  - hidden_non_replayable_state
+  - required_separate_framework_seed_repo
 required_interfaces:
   module_registry:
     purpose: Register framework modules and declared contracts.

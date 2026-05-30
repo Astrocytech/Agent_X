@@ -1,9 +1,8 @@
-# L1 Target Taxonomy — canonical list of allowed target kinds
-# This is the single source of truth for target-kind values across Agent_X.
-# All profiles, evaluators, and tests must reference this taxonomy.
-# Version: 0.1.0
+# L1 Target Taxonomy — canonical single source of truth for target-kind values.
+# All validators, evaluators, and tests must load from this file.
+# Changing this file should change validation behavior across the stack.
 
-version: 0.1.0
+schema_version: 1
 
 allowed_target_kinds:
   - agent
@@ -64,30 +63,36 @@ target_kinds:
     description: "A system that evaluates, benchmarks, or scores other artifacts."
     extra_required_fields: []
 
-framework_target:
+framework:
   required_capabilities:
-    - module_registry
-    - extension_contracts
-    - composition_rules
-    - evaluation_suite
+    - plugin_registry
+    - extension_boundary
+    - evaluation_surface
+    - governance_hooks
     - promotion_rules
-    - artifact_packaging
-    - rollback_migration
-    - compatibility_surface
-    - evidence_traceability
+    - packaging_export
+    - rollback_plan
 
   forbidden_capabilities:
     - l0_runtime_self_modification
-    - governance_bypass
-    - evidence_free_promotion
-    - hidden_state_without_replay
-    - provider_locked_core
-    - irreversible_export_without_approval
-    - separate_required_framework_seed_repo
+    - ungoverned_tool_execution
+    - hidden_non_replayable_state
+    - required_separate_framework_seed_repo
 
-# Migration rule for backward compatibility:
-# If an existing profile has no target_kind and is clearly an agent profile,
-# treat it as target_kind: agent. New profiles must declare target_kind explicitly.
+  required_manifest_fields:
+    - id
+    - name
+    - version
+    - target_kind
+    - source_profile
+    - purpose
+    - contracts
+    - artifacts
+    - compatibility
+    - promotion
+    - validation
+
 migration:
-  default_for_missing_target_kind: agent
+  missing_target_kind_default: agent
+  allow_legacy_profiles_without_target_kind: true
   rule: "Existing profiles without target_kind default to agent for backward compatibility. New profiles must declare target_kind explicitly."

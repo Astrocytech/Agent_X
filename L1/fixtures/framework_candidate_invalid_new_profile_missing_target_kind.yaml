@@ -1,0 +1,9 @@
+# Invalid framework candidate fixture — new profile missing target_kind
+id: fw-invalid-nokind-001
+name: Invalid New Profile Missing Target Kind
+version: 0.1.0
+# No target_kind declared — this is the violation
+purpose: "Invalid fixture for testing new profile without target_kind"
+constraints: {}
+evaluation:
+  required: true

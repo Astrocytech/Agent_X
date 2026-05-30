@@ -17,7 +17,7 @@ L0 remains protected.
 | Directory | Purpose |
 |-----------|---------|
 | `docs/` | System goal, architecture contract, profile model, catalog, boundaries, evaluation plan, risk ledger, traceability, handoff rules |
-| `profiles/` | YAML profile definitions (4 profiles) |
+| `profiles/` | YAML profile definitions (5 profiles) |
 | `blueprints/` | Specification documents for each profile |
 | `integration_specs/` | External system integration boundaries |
 | `evaluation_specs/` | Evaluation criteria per profile |
@@ -34,6 +34,9 @@ L0 remains protected.
 All profiles are **draft**. No L2 runtime code exists. No L2 implementation
 has begun. L2 is a specification-only layer.
 
+Framework Seed is a specification/profile target for evolving framework-building
+capability. It is not a separate repository and does not modify L0 at runtime.
+
 ## Profiles
 
 | Profile | Type | Status | Risk |
@@ -42,6 +45,7 @@ has begun. L2 is a specification-only layer.
 | Coding Agent | coding | draft | medium |
 | Research Agent | research | draft | low |
 | Repo Maintenance Agent | repo-maintenance | draft | low |
+| Framework Seed | framework | draft | medium |
 
 ## Quick Start
 

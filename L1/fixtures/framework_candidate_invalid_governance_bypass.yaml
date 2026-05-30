@@ -11,7 +11,7 @@ evaluation:
   required: true
 non_goals: []
 required_capabilities:
-  - governance_bypass
+  - ungoverned_tool_execution
 required_interfaces: {}
 promotion: {}
 packaging: {}

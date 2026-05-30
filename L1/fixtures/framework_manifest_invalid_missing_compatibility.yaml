@@ -1,0 +1,39 @@
+# Invalid framework manifest fixture — missing compatibility surface
+id: fw-invalid-nocompat-001
+name: Invalid Missing Compatibility
+version: 0.1.0
+target_kind: framework
+source_profile: L2/profiles/framework_seed.yaml
+created_by: Agent_X L1 Evaluator
+created_at: "2026-05-30T00:00:00Z"
+purpose: "Invalid fixture for testing missing compatibility"
+non_goals: []
+contracts:
+  module_registry: "path.md"
+  extension_contract: "path.md"
+  composition_contract: "path.md"
+  evaluator_contract: "path.md"
+  promotion_contract: "path.md"
+  packaging_contract: "path.md"
+  rollback_contract: "path.md"
+  compatibility_contract: "path.md"
+artifacts:
+  profile: "path.md"
+  blueprint: "path.md"
+  tests: "path.md"
+  evaluation_report: "path.md"
+  evidence_report: "path.md"
+  rollback_notes: "path.md"
+  package_files: []
+# compatibility: MISSING entirely
+promotion:
+  status: experimental_framework_profile
+  evaluator: "L1 Evaluator"
+  evidence_id: "EVIDENCE-FW-NOCOMPAT"
+  rollback_id: "ROLLBACK-FW-NOCOMPAT"
+  approved_by_user: not_required
+validation:
+  l0_invariants_passed: true
+  regression_tests_passed: true
+  framework_tests_passed: true
+  blocked_reasons: []

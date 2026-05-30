@@ -1,8 +1,9 @@
-"""L2 bootstrap scaffold validator — checks required structure, no-runtime surface."""
+"""L2 bootstrap scaffold validator — checks required structure, no-runtime surface, and profiles."""
 import os
 import sys
 
 L2_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_ROOT = os.path.dirname(L2_DIR)
 errors = []
 warnings = []
 
@@ -120,6 +121,21 @@ def check_eqc_runtime_authority():
                     errors.append(f"EQC file {f} claims runtime/implementation authority")
 
 def run_checks():
+    # Import profile validator and check all profiles
+    sys.path.insert(0, REPO_ROOT)
+    try:
+        from L2.validators.validate_target_profiles import validate_profiles
+        profile_errors = validate_profiles(
+            profile_dir=os.path.join(L2_DIR, "profiles"),
+            taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+        )
+        for e in profile_errors:
+            errors.append(f"PROFILE: {e}")
+    except ImportError as exc:
+        warnings.append(f"Profile validator import failed: {exc}")
+    finally:
+        sys.path.pop(0)
+
     check_required_files(REQUIRED_DOCS, "docs", "L2 doc")
     check_required_files(REQUIRED_STANDARDS, "standards", "L2 standard")
     check_required_files(REQUIRED_PROFILES, "profiles", "L2 profile")

@@ -19,4 +19,5 @@ required_interfaces:
       - state_id
       - state_type
       - persistence
-hidden_state_without_replay: true
+required_capabilities:
+  - hidden_non_replayable_state

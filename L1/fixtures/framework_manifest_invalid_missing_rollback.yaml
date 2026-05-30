@@ -1,0 +1,43 @@
+# Invalid framework manifest fixture — missing rollback evidence
+id: fw-invalid-norollback-001
+name: Invalid Missing Rollback
+version: 0.1.0
+target_kind: framework
+source_profile: L2/profiles/framework_seed.yaml
+created_by: Agent_X L1 Evaluator
+created_at: "2026-05-30T00:00:00Z"
+purpose: "Invalid fixture for testing missing rollback"
+non_goals: []
+contracts:
+  module_registry: "path.md"
+  # rollback_contract: MISSING
+  extension_contract: "path.md"
+  composition_contract: "path.md"
+  evaluator_contract: "path.md"
+  promotion_contract: "path.md"
+  packaging_contract: "path.md"
+  compatibility_contract: "path.md"
+artifacts:
+  profile: "path.md"
+  blueprint: "path.md"
+  tests: "path.md"
+  # evidence_report: MISSING
+  # rollback_notes: MISSING
+  evaluation_report: "path.md"
+  package_files: []
+compatibility:
+  agent_x_l0_version: "0.1.0-seed"
+  agent_x_l1_version: "0.1.0"
+  required_features: []
+  forbidden_features: []
+promotion:
+  status: experimental_framework_profile
+  evaluator: "L1 Evaluator"
+  evidence_id: "EVIDENCE-FW-NOROLLBACK"
+  rollback_id: "ROLLBACK-FW-NOROLLBACK"
+  approved_by_user: not_required
+validation:
+  l0_invariants_passed: true
+  regression_tests_passed: true
+  framework_tests_passed: true
+  blocked_reasons: []

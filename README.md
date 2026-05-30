@@ -353,7 +353,7 @@ Agent_X can evolve not only toward agents, controllers, and orchestrators, but a
 
 This does not make L0 a framework engine. L0 remains a governed seed kernel. Framework evolution is handled by L1 evolution machinery and expressed through L2 specialization profiles.
 
-The first framework target is `framework_seed`, which defines a minimal governed framework substrate that may later evolve into specialized frameworks.
+The first framework target is `framework_seed`, which defines a minimal governed framework substrate that may later evolve into specialized frameworks. No separate Framework_X repository is required at this stage. Future extraction into a separate framework project would require evidence and approval through L1 governance.
 
 ```text
 Agent_X L0

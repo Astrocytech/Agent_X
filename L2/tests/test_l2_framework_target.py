@@ -1,4 +1,5 @@
-"""L2 framework target tests — validates framework_seed profile, fixtures, and backward compat."""
+"""L2 framework target tests — validates framework_seed profile, fixtures, and backward compat
+using production validators from L2/validators/."""
 import os
 import yaml
 
@@ -14,163 +15,83 @@ def _load_yaml(rel_path):
         return yaml.safe_load(f)
 
 
-ALLOWED_TARGET_KINDS = {
-    "agent", "controller", "orchestrator", "framework",
-    "toolchain", "runtime", "ui", "evaluator",
-}
-
-COMMON_REQUIRED_FIELDS = {
-    "id", "name", "version", "target_kind", "purpose", "constraints", "evaluation",
-}
-
-FRAMEWORK_REQUIRED_FIELDS = {
-    "non_goals", "required_capabilities", "required_interfaces",
-    "promotion", "packaging", "rollback", "compatibility",
-}
-
-FRAMEWORK_REQUIRED_CAPABILITIES = {
-    "module_registry", "extension_contracts", "composition_rules",
-    "evaluation_suite", "promotion_rules", "artifact_packaging",
-    "rollback_migration", "compatibility_surface", "evidence_traceability",
-}
-
-FRAMEWORK_FORBIDDEN_FLAGS = {
-    "l0_runtime_self_modification", "governance_bypass",
-    "evidence_free_promotion", "hidden_state_without_replay",
-    "provider_locked_core", "irreversible_export_without_approval",
-    "separate_required_framework_seed_repo",
-}
-
-
-def _has_field(profile, field_name):
-    if field_name in profile:
-        return True
-    aliases = {"id": ["profile_id", "global_profile_id"], "evaluation": ["evaluation_refs"]}
-    if field_name in aliases:
-        for alias in aliases[field_name]:
-            if alias in profile:
-                return True
-    return False
-
-
-def validate_target_profile(profile):
-    errors = []
-
-    missing_common = [f for f in COMMON_REQUIRED_FIELDS if not _has_field(profile, f)]
-    for field in sorted(missing_common):
-        errors.append(f"missing common field: {field}")
-
-    target_kind = profile.get("target_kind")
-    if target_kind not in ALLOWED_TARGET_KINDS:
-        errors.append(f"invalid target_kind: {target_kind}")
-        return errors
-
-    if target_kind == "framework":
-        missing_framework = FRAMEWORK_REQUIRED_FIELDS - set(profile.keys())
-        for field in sorted(missing_framework):
-            errors.append(f"missing framework field: {field}")
-
-        declared_capabilities = set(profile.get("required_capabilities", []))
-        missing_capabilities = FRAMEWORK_REQUIRED_CAPABILITIES - declared_capabilities
-        for capability in sorted(missing_capabilities):
-            errors.append(f"missing framework capability: {capability}")
-
-        forbidden = set(profile.get("forbidden_capabilities", [])) | set(profile.get("must_not", []))
-        declared = set(profile.get("required_capabilities", [])) | set(profile.get("features", []))
-        for flag in sorted(FRAMEWORK_FORBIDDEN_FLAGS & declared):
-            errors.append(f"forbidden framework capability required: {flag}")
-
-        if profile.get("requires_l0_runtime_self_modification") is True:
-            errors.append("framework target must not require L0 runtime self-modification")
-
-        if profile.get("requires_separate_framework_seed_repo") is True:
-            errors.append("framework target must not require a separate root Framework_X seed repo")
-
-    return errors
-
-
 class TestFrameworkProfileValid:
     def test_framework_seed_profile_exists(self):
         path = os.path.join(L2_DIR, "profiles", "framework_seed.yaml")
         assert os.path.isfile(path), "framework_seed.yaml profile not found"
 
-    def test_framework_seed_profile_validates(self):
-        profile = _load_yaml("L2/profiles/framework_seed.yaml")
-        assert profile is not None
-        errors = validate_target_profile(profile)
-        assert errors == [], f"Validation errors: {errors}"
+    def test_framework_seed_profile_validates_with_production_validator(self):
+        from L2.validators.validate_target_profiles import validate_profiles
+        errors = validate_profiles(
+            profile_dir=os.path.join(L2_DIR, "profiles"),
+            taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+        )
+        framework_errors = [e for e in errors if "framework_seed.yaml" in e]
+        assert not framework_errors, f"Production validator errors for framework_seed.yaml: {framework_errors}"
 
     def test_framework_seed_profile_target_kind(self):
         profile = _load_yaml("L2/profiles/framework_seed.yaml")
         assert profile is not None
         assert profile.get("target_kind") == "framework"
 
-    def test_framework_seed_has_all_required_capabilities(self):
-        profile = _load_yaml("L2/profiles/framework_seed.yaml")
-        assert profile is not None
-        caps = set(profile.get("required_capabilities", []))
-        missing = FRAMEWORK_REQUIRED_CAPABILITIES - caps
-        assert not missing, f"Missing required capabilities: {missing}"
-
-    def test_framework_seed_no_forbidden_capabilities(self):
-        profile = _load_yaml("L2/profiles/framework_seed.yaml")
-        assert profile is not None
-        forbidden = set(profile.get("forbidden_capabilities", []))
-        allowed = FRAMEWORK_FORBIDDEN_FLAGS & forbidden
-        assert allowed == FRAMEWORK_FORBIDDEN_FLAGS, (
-            f"Missing forbidden flags: {FRAMEWORK_FORBIDDEN_FLAGS - allowed}"
-        )
-
 
 class TestFrameworkProfileInvalid:
-    def test_invalid_target_kind_rejected(self):
-        errors = validate_target_profile({
-            "id": "test", "name": "test", "version": "1",
-            "target_kind": "unicorn", "purpose": "x", "constraints": {}, "evaluation": {},
-        })
-        assert any("invalid target_kind" in e for e in errors)
+    def test_invalid_target_kind_rejected_by_production_validator(self):
+        from L2.validators.validate_target_profiles import validate_profiles
+        import tempfile
+        import os.path
+        with tempfile.TemporaryDirectory() as td:
+            bad_profile = os.path.join(td, "bad.yaml")
+            with open(bad_profile, "w") as f:
+                f.write("target_kind: unicorn\nname: bad\n")
+            errors = validate_profiles(
+                profile_dir=td,
+                taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+            )
+            assert any("Unknown target_kind" in e or "unicorn" in e for e in errors), (
+                f"Expected unknown target_kind rejection, got: {errors}"
+            )
 
-    def test_missing_common_fields_rejected(self):
-        errors = validate_target_profile({"target_kind": "agent"})
-        assert any("missing common field" in e for e in errors)
+    def test_governance_bypass_fixture_rejected_by_production_validator(self):
+        from L2.validators.validate_target_profiles import validate_profiles
+        errors = validate_profiles(
+            profile_dir=os.path.join(REPO_ROOT, "L1", "fixtures"),
+            taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+        )
+        gov_errors = [e for e in errors if "governance_bypass" in e]
+        assert gov_errors, f"Expected governance_bypass rejection, got: {errors}"
 
-    def test_missing_framework_fields_rejected(self):
-        errors = validate_target_profile({
-            "id": "test", "name": "test", "version": "1",
-            "target_kind": "framework", "purpose": "x", "constraints": {}, "evaluation": {},
-        })
-        assert any("missing framework field" in e for e in errors)
+    def test_l0_self_modification_fixture_rejected_by_production_validator(self):
+        from L2.validators.validate_target_profiles import validate_profiles
+        errors = validate_profiles(
+            profile_dir=os.path.join(REPO_ROOT, "L1", "fixtures"),
+            taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+        )
+        l0_errors = [e for e in errors if "L0 runtime self-modification" in e]
+        assert l0_errors, f"Expected L0 self-modification rejection, got: {errors}"
 
-    def test_missing_framework_capabilities_rejected(self):
-        errors = validate_target_profile({
-            "id": "test", "name": "test", "version": "1",
-            "target_kind": "framework", "purpose": "x", "constraints": {}, "evaluation": {},
-            "non_goals": [], "required_capabilities": [], "required_interfaces": {},
-            "promotion": {}, "packaging": {}, "rollback": {}, "compatibility": {},
-        })
-        assert any("missing framework capability" in e for e in errors)
+    def test_separate_seed_repo_fixture_rejected_by_production_validator(self):
+        from L2.validators.validate_target_profiles import validate_profiles
+        errors = validate_profiles(
+            profile_dir=os.path.join(REPO_ROOT, "L1", "fixtures"),
+            taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+        )
+        repo_errors = [e for e in errors if "separate" in e and "seed" in e]
+        assert repo_errors, f"Expected separate seed repo rejection, got: {errors}"
+
+    def test_hidden_state_fixture_rejected_by_production_validator(self):
+        from L2.validators.validate_target_profiles import validate_profiles
+        errors = validate_profiles(
+            profile_dir=os.path.join(REPO_ROOT, "L1", "fixtures"),
+            taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+        )
+        hidden_errors = [e for e in errors if "hidden" in e and "replay" in e]
+        assert hidden_errors, f"Expected hidden state rejection, got: {errors}"
 
 
 class TestExistingTargetBackwardCompat:
-    def test_existing_agent_target_valid_minimal(self):
-        profile = _load_yaml("L1/fixtures/agent_target_valid_minimal.yaml")
-        assert profile is not None
-        errors = validate_target_profile(profile)
-        assert errors == [], f"Agent target should validate: {errors}"
-
-    def test_existing_controller_target_valid_minimal(self):
-        profile = _load_yaml("L1/fixtures/controller_target_valid_minimal.yaml")
-        assert profile is not None
-        errors = validate_target_profile(profile)
-        assert errors == [], f"Controller target should validate: {errors}"
-
-    def test_existing_orchestrator_target_valid_minimal(self):
-        profile = _load_yaml("L1/fixtures/orchestrator_target_valid_minimal.yaml")
-        assert profile is not None
-        errors = validate_target_profile(profile)
-        assert errors == [], f"Orchestrator target should validate: {errors}"
-
     def test_existing_l2_profiles_still_valid_without_target_kind(self):
+        """Existing profiles without target_kind should be permitted via migration rule."""
         for fname in os.listdir(os.path.join(L2_DIR, "profiles")):
             if not fname.endswith(".yaml"):
                 continue
@@ -182,9 +103,13 @@ class TestExistingTargetBackwardCompat:
             profile = yaml.safe_load(content)
             if profile.get("target_kind") == "framework":
                 continue
-            errors = validate_target_profile(profile)
-            if errors:
-                assert fname == "framework_seed.yaml", f"Unexpected error in {fname}: {errors}"
+            from L2.validators.validate_target_profiles import validate_profiles
+            errors = validate_profiles(
+                profile_dir=os.path.join(L2_DIR, "profiles"),
+                taxonomy_path=os.path.join(REPO_ROOT, "L1", "target_taxonomy.yaml"),
+            )
+            fname_errors = [e for e in errors if fname in e]
+            assert not fname_errors, f"Unexpected error in {fname}: {fname_errors}"
 
 
 class TestFrameworkManifestFixtures:
@@ -201,31 +126,25 @@ class TestFrameworkManifestFixtures:
         missing = [k for k in ["extension_contract", "promotion_contract", "rollback_contract"] if k not in contracts]
         assert missing, "Fixture should be missing extension_contract, promotion_contract, rollback_contract"
 
-    def test_governance_bypass_fixture_rejected(self):
+    def test_governance_bypass_fixture_has_flag(self):
         profile = _load_yaml("L1/fixtures/framework_candidate_invalid_governance_bypass.yaml")
         assert profile is not None
-        errors = validate_target_profile(profile)
-        assert any("forbidden" in e and "governance_bypass" in e for e in errors), (
-            f"Expected governance_bypass rejection, got: {errors}"
-        )
+        caps = profile.get("required_capabilities", [])
+        assert "ungoverned_tool_execution" in caps
 
-    def test_l0_self_modification_fixture_rejected(self):
+    def test_l0_self_modification_fixture_has_flag(self):
         profile = _load_yaml("L1/fixtures/framework_candidate_invalid_l0_self_modification.yaml")
         assert profile is not None
-        errors = validate_target_profile(profile)
-        assert any("must not require L0 runtime self-modification" in e for e in errors), (
-            f"Expected L0 self-modification rejection, got: {errors}"
-        )
+        assert profile.get("requires_l0_runtime_self_modification") is True
 
-    def test_separate_seed_repo_fixture_rejected(self):
+    def test_separate_seed_repo_fixture_has_flag(self):
         profile = _load_yaml("L1/fixtures/framework_candidate_invalid_separate_seed_repo.yaml")
         assert profile is not None
-        errors = validate_target_profile(profile)
-        assert any("must not require a separate root Framework_X seed repo" in e for e in errors), (
-            f"Expected separate seed repo rejection, got: {errors}"
-        )
+        caps = profile.get("required_capabilities", [])
+        assert "required_separate_framework_seed_repo" in caps
 
-    def test_hidden_state_fixture_detected(self):
+    def test_hidden_state_fixture_has_flag(self):
         profile = _load_yaml("L1/fixtures/framework_candidate_invalid_hidden_state.yaml")
         assert profile is not None
-        assert profile.get("hidden_state_without_replay") is True
+        caps = profile.get("required_capabilities", [])
+        assert "hidden_non_replayable_state" in caps

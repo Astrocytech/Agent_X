@@ -1,0 +1,19 @@
+# Invalid framework candidate fixture — irreversible export without approval
+id: fw-invalid-irexp-001
+name: Invalid Irreversible Export Candidate
+version: 0.1.0
+target_kind: framework
+purpose: "Invalid fixture for testing irreversible export without approval rejection"
+constraints:
+  must_not: []
+evaluation:
+  required: true
+non_goals: []
+required_capabilities:
+  - plugin_registry
+required_interfaces: {}
+promotion: {}
+packaging: {}
+rollback: {}
+compatibility: {}
+irreversible_export_without_approval: true

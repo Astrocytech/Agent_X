@@ -5,7 +5,7 @@ import json
 import subprocess
 import sys
 
-from L1.validators import validate_fic, validate_sib, validate_es, validate_eqc, validate_lockfile
+from L1.validators import validate_fic, validate_sib, validate_es, validate_eqc, validate_lockfile, validate_target_taxonomy
 from L1.validators.common import aggregate_status, PASS, WARNING, BLOCKED, FAIL, TOOL_ERROR
 
 SCHEMA_VERSION = "agent-x-l1-validate-all/v0.1"
@@ -27,6 +27,7 @@ def run_all() -> list[dict]:
         validate_es.validate,
         validate_eqc.validate,
         validate_lockfile.validate,
+        validate_target_taxonomy.validate,
     ]
 
     results = []

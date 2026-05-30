@@ -1,0 +1,9 @@
+# Invalid framework candidate fixture — unknown target kind
+id: fw-invalid-unknownkind-001
+name: Invalid Unknown Target Kind Candidate
+version: 0.1.0
+target_kind: holographic_ai
+purpose: "Invalid fixture for testing unknown target kind rejection"
+constraints: {}
+evaluation:
+  required: true

@@ -17,4 +17,5 @@ promotion: {}
 packaging: {}
 rollback: {}
 compatibility: {}
-requires_separate_framework_seed_repo: true
+required_capabilities:
+  - required_separate_framework_seed_repo

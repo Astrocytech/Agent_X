@@ -15,6 +15,16 @@ L1 does not run inside L0 and L0 must not import L1.
 - `eqc/` — lightweight EQC procedures/operators/test vectors
 - `generated/` — generated placeholders and validator outputs
 - `evidence/` — evidence records and bootstrap logs
+- `target_taxonomy.yaml` — canonical target-kind taxonomy
+- `evaluators/` — framework scoring criteria
+- `promotion/` — framework promotion rules
+- `schemas/` — framework package manifest schema/documentation
+- `templates/` — comparison/evidence templates
+- `fixtures/` — positive and negative validation fixtures
+- `validators/` — executable taxonomy/profile/manifest validation
+
+L1 supports framework-target evaluation and promotion, but it is not itself
+a runtime framework engine.
 
 ## Legacy/support directories
 
