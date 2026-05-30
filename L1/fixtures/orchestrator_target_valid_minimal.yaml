@@ -1,0 +1,11 @@
+# Valid minimal orchestrator target fixture
+id: orchestrator-minimal-001
+name: Minimal Orchestrator Target
+version: 0.1.0
+target_kind: orchestrator
+purpose: "A minimal orchestrator target for backward compatibility testing"
+constraints:
+  must_preserve:
+    - l0_governance_first
+evaluation:
+  required: true

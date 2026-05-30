@@ -1,0 +1,51 @@
+# Valid framework manifest fixture
+id: fw-seed-001
+name: Framework Seed Experimental
+version: 0.1.0
+target_kind: framework
+source_profile: L2/profiles/framework_seed.yaml
+created_by: Agent_X L1 Evaluator
+created_at: "2026-05-30T00:00:00Z"
+purpose: "Experimental framework seed for evaluating framework evolution"
+non_goals:
+  - "Do not create a separate Framework_X repository"
+  - "Do not turn L0 into a framework runtime"
+contracts:
+  module_registry: "L2/blueprints/framework_seed_blueprint.md"
+  extension_contract: "L2/blueprints/framework_seed_blueprint.md"
+  composition_contract: "L2/blueprints/framework_seed_blueprint.md"
+  evaluator_contract: "L1/evaluators/framework_evaluation_criteria.md"
+  promotion_contract: "L1/promotion/framework_promotion_rules.md"
+  packaging_contract: "L1/schemas/framework_package_manifest.schema.yaml"
+  rollback_contract: "L1/promotion/framework_promotion_rules.md"
+  compatibility_contract: "L1/promotion/framework_promotion_rules.md"
+artifacts:
+  profile: "L2/profiles/framework_seed.yaml"
+  blueprint: "L2/blueprints/framework_seed_blueprint.md"
+  tests: "L2/tests/test_l2_framework_target.py"
+  evaluation_report: "L1/evaluators/framework_evaluation_criteria.md"
+  evidence_report: "L1/templates/framework_evolution_evidence_record.md"
+  rollback_notes: "L1/promotion/framework_promotion_rules.md"
+  package_files:
+    - "L2/profiles/framework_seed.yaml"
+    - "L2/blueprints/framework_seed_blueprint.md"
+    - "L2/evaluation_specs/framework_seed_eval_spec.md"
+compatibility:
+  agent_x_l0_version: "0.1.0-seed"
+  agent_x_l1_version: "0.1.0"
+  required_features:
+    - "target_kind_support"
+    - "governance_first"
+  forbidden_features:
+    - "l0_runtime_self_modification"
+promotion:
+  status: experimental_framework_profile
+  evaluator: "L1 Evaluator"
+  evidence_id: "EVIDENCE-FW-001"
+  rollback_id: "ROLLBACK-FW-001"
+  approved_by_user: not_required
+validation:
+  l0_invariants_passed: true
+  regression_tests_passed: true
+  framework_tests_passed: true
+  blocked_reasons: []

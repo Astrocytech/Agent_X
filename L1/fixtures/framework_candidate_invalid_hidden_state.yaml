@@ -1,0 +1,22 @@
+# Invalid framework fixture — requires hidden non-replayable state
+id: fw-invalid-hidden-001
+name: Invalid Hidden State Candidate
+version: 0.1.0
+target_kind: framework
+purpose: "Invalid fixture for testing hidden state rejection"
+constraints:
+  must_not:
+    - hide_state_from_trace
+evaluation:
+  required: true
+non_goals: []
+required_capabilities:
+  - module_registry
+required_interfaces:
+  state_management:
+    purpose: "Manage internal state"
+    must_define:
+      - state_id
+      - state_type
+      - persistence
+hidden_state_without_replay: true

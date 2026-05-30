@@ -1,0 +1,11 @@
+# Valid minimal controller target fixture
+id: controller-minimal-001
+name: Minimal Controller Target
+version: 0.1.0
+target_kind: controller
+purpose: "A minimal controller target for backward compatibility testing"
+constraints:
+  must_preserve:
+    - l0_governance_first
+evaluation:
+  required: true

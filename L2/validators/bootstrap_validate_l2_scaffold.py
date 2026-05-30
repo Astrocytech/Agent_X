@@ -24,16 +24,19 @@ REQUIRED_STANDARDS = [
 REQUIRED_PROFILES = [
     "coding_agent.yaml", "symbolic_regression_controller.yaml",
     "research_agent.yaml", "repo_maintenance_agent.yaml",
+    "framework_seed.yaml",
 ]
 
 REQUIRED_BLUEPRINTS = [
     "coding_agent_blueprint.md", "symbolic_regression_controller_blueprint.md",
     "research_agent_blueprint.md", "repo_maintenance_agent_blueprint.md",
+    "framework_seed_blueprint.md",
 ]
 
 REQUIRED_EVALS = [
     "coding_agent_eval.md", "symbolic_regression_eval.md",
     "research_agent_eval.md", "repo_maintenance_eval.md",
+    "framework_seed_eval_spec.md",
 ]
 
 REQUIRED_INTEGRATIONS = [

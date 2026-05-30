@@ -347,6 +347,39 @@ L2-PROFILE-SR-001 = Symbolic Regression Controller
 
 ---
 
+## Framework Evolution Target
+
+Agent_X can evolve not only toward agents, controllers, and orchestrators, but also toward framework-building targets.
+
+This does not make L0 a framework engine. L0 remains a governed seed kernel. Framework evolution is handled by L1 evolution machinery and expressed through L2 specialization profiles.
+
+The first framework target is `framework_seed`, which defines a minimal governed framework substrate that may later evolve into specialized frameworks.
+
+```text
+Agent_X L0
+  stable governed seed kernel
+        |
+        v
+Agent_X L1
+  evolution, validation, evaluation, comparison, promotion, packaging, evidence
+        |
+        v
+Agent_X L2
+  specialization targets
+    - agent
+    - controller
+    - orchestrator
+    - framework_seed
+        |
+        v
+Evolved framework candidate
+        |
+        v
+Specialized framework families
+```
+
+---
+
 ## Layer decision table
 
 | Question | Correct layer |

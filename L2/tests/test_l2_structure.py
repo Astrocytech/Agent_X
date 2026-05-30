@@ -25,6 +25,7 @@ REQUIRED_PROFILES = [
     "symbolic_regression_controller.yaml",
     "research_agent.yaml",
     "repo_maintenance_agent.yaml",
+    "framework_seed.yaml",
 ]
 
 

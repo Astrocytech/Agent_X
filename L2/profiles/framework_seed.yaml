@@ -1,0 +1,200 @@
+profile_id: "L2-PROFILE-FW-001"
+global_profile_id: "AGENT_X_L2::L2-PROFILE-FW-001"
+version: "v0.1.0"
+status: "draft"
+target_kind: framework
+name: "Framework Seed"
+specialization_type: "framework"
+ownership_key: "agent-x-l2-fw"
+purpose: >
+  Define a minimal governed framework seed that can evolve into specialized
+  frameworks for building, evaluating, composing, deploying, or evolving agents,
+  tools, workflows, UIs, evaluators, and runtimes.
+intended_user_goal_classes:
+  - "evolve-framework"
+  - "build-framework"
+  - "evaluate-framework"
+allowed_inputs:
+  - "framework evolution request"
+  - "L2 framework profile"
+  - "evaluation criteria"
+  - "promotion rules"
+expected_outputs:
+  - "governed framework package"
+  - "evaluation evidence"
+  - "promotion evidence"
+  - "rollback notes"
+non_goals:
+  - "Do not create a separate Framework_X repository yet."
+  - "Do not move L0 responsibilities into the framework profile."
+  - "Do not allow runtime self-modification of L0."
+  - "Do not add heavy framework machinery before evaluation proves the need."
+  - "Do not depend on one fixed model, provider, cloud, UI, or runtime."
+required_l1_units:
+  - "AGENT_X_L1::UNIT-L1-003"
+  - "AGENT_X_L1::UNIT-L1-004"
+  - "AGENT_X_L1::UNIT-L1-005"
+  - "AGENT_X_L1::UNIT-L1-006"
+  - "AGENT_X_L1::UNIT-L1-007"
+required_l1_fic_candidates:
+  - "AGENT_X_L1::FIC-L1-003"
+  - "AGENT_X_L1::FIC-L1-004"
+  - "AGENT_X_L1::FIC-L1-005"
+  - "AGENT_X_L1::FIC-L1-006"
+  - "AGENT_X_L1::FIC-L1-007"
+required_capabilities:
+  - module_registry
+  - extension_contracts
+  - composition_rules
+  - evaluation_suite
+  - promotion_rules
+  - artifact_packaging
+  - rollback_migration
+  - compatibility_surface
+  - evidence_traceability
+forbidden_capabilities:
+  - l0_runtime_self_modification
+  - governance_bypass
+  - evidence_free_promotion
+  - hidden_state_without_replay
+  - provider_locked_core
+  - irreversible_export_without_approval
+  - separate_required_framework_seed_repo
+required_interfaces:
+  module_registry:
+    purpose: Register framework modules and declared contracts.
+    must_define:
+      - module_id
+      - module_type
+      - provided_contracts
+      - required_contracts
+      - version
+      - compatibility
+  extension_contract:
+    purpose: Define how new framework extensions are added safely.
+    must_define:
+      - extension_id
+      - extension_type
+      - allowed_operations
+      - forbidden_operations
+      - validation_tests
+      - governance_requirements
+  composition_contract:
+    purpose: Define how framework modules may be composed.
+    must_define:
+      - allowed_dependencies
+      - forbidden_dependencies
+      - build_order
+      - conflict_resolution
+      - compatibility_checks
+  evaluator_contract:
+    purpose: Define how framework candidates are tested and compared.
+    must_define:
+      - scoring_dimensions
+      - pass_fail_tests
+      - evidence_requirements
+      - rejection_conditions
+  promotion_contract:
+    purpose: Define promotion gates and required evidence.
+    must_define:
+      - promotion_statuses
+      - required_tests
+      - required_evidence
+      - approval_requirements
+      - rollback_requirements
+  package_manifest:
+    purpose: Define exportable framework package metadata.
+    must_define:
+      - package_id
+      - version
+      - target_kind
+      - contracts
+      - artifacts
+      - compatibility
+      - evidence
+      - rollback
+  rollback_contract:
+    purpose: Define how failed framework changes are reverted.
+    must_define:
+      - rollback_id
+      - affected_files
+      - previous_state
+      - recovery_steps
+      - validation_after_rollback
+forbidden_actions:
+  - "direct L0 modification"
+  - "direct L1 modification without FIC"
+  - "direct external repository modification"
+  - "ungoverned tool execution"
+  - "runtime autonomous patching"
+  - "direct shell access"
+  - "direct network access"
+  - "l0 runtime self-modification"
+  - "governance bypass"
+  - "evidence-free promotion"
+  - "hidden state without replay"
+  - "provider locked core"
+  - "irreversible export without approval"
+  - "separate required framework seed repo"
+constraints:
+  must_preserve:
+    - l0_governance_first
+    - l0_target_kind_neutrality
+    - traceability
+    - replayability
+    - checkpoint_safety
+    - regression_safety
+  must_not:
+    - bypass_governance
+    - self_promote_without_evidence
+    - mutate_l0_at_runtime
+    - hide_state_from_trace
+    - require_model_provider_lock_in
+    - create_separate_framework_seed_repo_now
+promotion:
+  minimum_dimension_score: 7
+  required_evidence:
+    - framework_evaluation_report
+    - regression_test_report
+    - l0_invariant_check
+    - compatibility_check
+    - rollback_notes
+packaging:
+  required_artifacts:
+    - manifest
+    - profile
+    - blueprint
+    - contracts
+    - tests
+    - evaluation_report
+    - evidence_report
+    - rollback_notes
+rollback:
+  required: true
+  must_include:
+    - affected_files
+    - previous_state
+    - recovery_steps
+    - validation_after_rollback
+compatibility:
+  must_remain_compatible_with:
+    - agent_target_profiles
+    - controller_target_profiles
+    - orchestrator_target_profiles
+    - l0_governance_invariants
+evaluation_refs:
+  - "L2/evaluation_specs/framework_seed_eval_spec.md"
+integration_refs: []
+risk_level: "medium"
+profile_package_status: "draft"
+l1_handoff_allowed: false
+implementation_allowed_without_l1: false
+implementation_allowed: false
+direct_runtime_allowed: false
+success_criteria:
+  - Can define at least two different framework families using the same profile.
+  - Can evaluate framework candidates with deterministic criteria.
+  - Can package a candidate framework with manifest, tests, evidence, and rollback notes.
+  - Can remain compatible with Agent_X L0/L1 governance.
+  - Does not require L0 to know framework internals.
+  - Existing agent/controller/orchestrator targets still validate.

@@ -1,0 +1,20 @@
+# Invalid framework fixture — requires separate Framework_X seed repo
+id: fw-invalid-seprepo-001
+name: Invalid Separate Seed Repo Candidate
+version: 0.1.0
+target_kind: framework
+purpose: "Invalid fixture for testing separate seed repo rejection"
+constraints:
+  must_not:
+    - create_separate_framework_seed_repo_now
+evaluation:
+  required: true
+non_goals: []
+required_capabilities:
+  - module_registry
+required_interfaces: {}
+promotion: {}
+packaging: {}
+rollback: {}
+compatibility: {}
+requires_separate_framework_seed_repo: true

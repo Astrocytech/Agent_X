@@ -1,0 +1,93 @@
+# L1 Target Taxonomy — canonical list of allowed target kinds
+# This is the single source of truth for target-kind values across Agent_X.
+# All profiles, evaluators, and tests must reference this taxonomy.
+# Version: 0.1.0
+
+version: 0.1.0
+
+allowed_target_kinds:
+  - agent
+  - controller
+  - orchestrator
+  - framework
+  - toolchain
+  - runtime
+  - ui
+  - evaluator
+
+common_required_fields:
+  - id
+  - name
+  - version
+  - target_kind
+  - purpose
+  - constraints
+  - evaluation
+
+target_kinds:
+  agent:
+    description: "A runtime actor that plans and acts through governed turns."
+    extra_required_fields: []
+
+  controller:
+    description: "A coordinator that manages agents, tools, workflows, or runtimes."
+    extra_required_fields: []
+
+  orchestrator:
+    description: "A multi-agent or multi-tool coordination system."
+    extra_required_fields: []
+
+  framework:
+    description: "A reusable system for creating, evaluating, composing, evolving, deploying, or governing other artifacts."
+    extra_required_fields:
+      - non_goals
+      - required_capabilities
+      - required_interfaces
+      - promotion
+      - packaging
+      - rollback
+      - compatibility
+
+  toolchain:
+    description: "A set of tools that work together to support development or operations."
+    extra_required_fields: []
+
+  runtime:
+    description: "An execution environment for running agents, controllers, or frameworks."
+    extra_required_fields: []
+
+  ui:
+    description: "A user interface for interacting with Agent X components."
+    extra_required_fields: []
+
+  evaluator:
+    description: "A system that evaluates, benchmarks, or scores other artifacts."
+    extra_required_fields: []
+
+framework_target:
+  required_capabilities:
+    - module_registry
+    - extension_contracts
+    - composition_rules
+    - evaluation_suite
+    - promotion_rules
+    - artifact_packaging
+    - rollback_migration
+    - compatibility_surface
+    - evidence_traceability
+
+  forbidden_capabilities:
+    - l0_runtime_self_modification
+    - governance_bypass
+    - evidence_free_promotion
+    - hidden_state_without_replay
+    - provider_locked_core
+    - irreversible_export_without_approval
+    - separate_required_framework_seed_repo
+
+# Migration rule for backward compatibility:
+# If an existing profile has no target_kind and is clearly an agent profile,
+# treat it as target_kind: agent. New profiles must declare target_kind explicitly.
+migration:
+  default_for_missing_target_kind: agent
+  rule: "Existing profiles without target_kind default to agent for backward compatibility. New profiles must declare target_kind explicitly."

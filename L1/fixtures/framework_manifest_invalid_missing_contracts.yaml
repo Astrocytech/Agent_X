@@ -1,0 +1,45 @@
+# Invalid framework manifest fixture — missing required contracts
+id: fw-invalid-001
+name: Invalid Framework Missing Contracts
+version: 0.1.0
+target_kind: framework
+source_profile: L2/profiles/framework_seed.yaml
+created_by: Agent_X L1 Evaluator
+created_at: "2026-05-30T00:00:00Z"
+purpose: "Invalid fixture for testing missing contracts"
+non_goals:
+  - "Test fixture only"
+contracts:
+  module_registry: "some/path.md"
+  # extension_contract: MISSING
+  composition_contract: "some/path.md"
+  evaluator_contract: "some/path.md"
+  # promotion_contract: MISSING
+  packaging_contract: "some/path.md"
+  # rollback_contract: MISSING
+  compatibility_contract: "some/path.md"
+artifacts:
+  profile: "L2/profiles/framework_seed.yaml"
+  blueprint: "L2/blueprints/framework_seed_blueprint.md"
+  tests: "L2/tests/test_l2_framework_target.py"
+  evaluation_report: "L1/evaluators/framework_evaluation_criteria.md"
+  evidence_report: "L1/templates/framework_evolution_evidence_record.md"
+  rollback_notes: "L1/promotion/framework_promotion_rules.md"
+  package_files:
+    - "L2/profiles/framework_seed.yaml"
+compatibility:
+  agent_x_l0_version: "0.1.0-seed"
+  agent_x_l1_version: "0.1.0"
+  required_features: []
+  forbidden_features: []
+promotion:
+  status: experimental_framework_profile
+  evaluator: "L1 Evaluator"
+  evidence_id: "EVIDENCE-FW-INVALID-001"
+  rollback_id: "ROLLBACK-FW-INVALID-001"
+  approved_by_user: not_required
+validation:
+  l0_invariants_passed: true
+  regression_tests_passed: true
+  framework_tests_passed: true
+  blocked_reasons: []

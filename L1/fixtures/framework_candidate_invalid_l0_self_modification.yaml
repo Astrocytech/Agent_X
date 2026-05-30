@@ -1,0 +1,20 @@
+# Invalid framework fixture — requires L0 runtime self-modification
+id: fw-invalid-l0mod-001
+name: Invalid L0 Self-Modification Candidate
+version: 0.1.0
+target_kind: framework
+purpose: "Invalid fixture for testing L0 self-modification rejection"
+constraints:
+  must_not:
+    - mutate_l0_at_runtime
+evaluation:
+  required: true
+non_goals: []
+required_capabilities:
+  - module_registry
+required_interfaces: {}
+promotion: {}
+packaging: {}
+rollback: {}
+compatibility: {}
+requires_l0_runtime_self_modification: true
