@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-all prove-hygiene run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all prove-hygiene run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -16,6 +16,7 @@ help:
 	@echo "  make prove-l1     Run L1 structure tests"
 	@echo "L2 commands:"
 	@echo "  make prove-l2     Run L2 structure tests"
+	@echo "  make prove-format Run formatting guard tests"
 	@echo "  make prove-all    Run all tests across layers"
 	@echo "  make clean        Remove generated runtime artifacts"
 
@@ -43,6 +44,10 @@ prove-l2:
 	$(PYTHON) L2/validators/bootstrap_validate_l2_scaffold.py
 	PYTHONPATH=L2 $(PYTHON) -m pytest L2/tests -q --tb=short -p no:cacheprovider
 	@echo "=== prove-l2: OK ==="
+
+prove-format:
+	PYTHONPATH=. $(PYTHON) -m pytest L0/tests L1/tests L2/tests -q --tb=short -p no:cacheprovider -k "formatting or text_file"
+	@echo "=== prove-format: OK ==="
 
 prove-all: prove-seed prove-l1 prove-l2
 	@echo "=== prove-all: OK ==="

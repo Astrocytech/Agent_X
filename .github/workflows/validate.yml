@@ -14,5 +14,4 @@ jobs:
           python-version: "3.11"
       - run: python -m pip install --upgrade pip
       - run: pip install pyyaml pytest
-      - run: make prove-l1
-      - run: make prove-all
+      - run: make prove-all PYTHON=python
