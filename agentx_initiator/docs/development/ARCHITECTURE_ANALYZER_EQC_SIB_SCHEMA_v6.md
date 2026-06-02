@@ -242,6 +242,7 @@ risk_level: "medium"
 enforcement_profile: "standard"
 implementation_mode: "new-component"
 primary_standards:
+  - "FIC"
   - "EQC"
   - "SIB"
   - "Schema Contract"

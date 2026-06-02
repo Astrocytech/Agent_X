@@ -4,6 +4,10 @@
 > It fills the missing Layer Mapper component contract gap.  
 > No technical rework, schema changes, or authority-boundary changes beyond the contract definition were made.
 
+## 0.1 Final Freeze Verdict
+
+This document is now frozen as the controlling FIC+SIB+EQC contract for the Layer Mapper Component Milestone 1 implementation.
+
 ## Product Milestone Placement
 
 Component Milestone 1 = first complete version of this component contract.

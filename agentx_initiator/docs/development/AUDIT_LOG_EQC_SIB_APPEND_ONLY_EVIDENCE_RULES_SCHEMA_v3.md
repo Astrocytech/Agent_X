@@ -165,6 +165,7 @@ risk_level: "high"
 enforcement_profile: "append-only"
 implementation_mode: "new-component"
 primary_standards:
+  - "FIC"
   - "EQC"
   - "SIB"
   - "Append-Only Evidence Rules"

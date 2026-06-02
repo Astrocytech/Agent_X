@@ -159,6 +159,7 @@ risk_level: "high"
 enforcement_profile: "allowlisted-execution"
 implementation_mode: "new-component"
 primary_standards:
+  - "FIC"
   - "EQC"
   - "Evidence Rules"
   - "Schema Contract"

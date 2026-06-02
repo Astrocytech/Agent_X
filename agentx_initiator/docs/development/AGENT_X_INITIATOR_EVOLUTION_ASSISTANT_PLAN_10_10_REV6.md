@@ -1091,7 +1091,7 @@ Product Milestone 1 is done when all are true:
 - `.agentx-init/logs/command_history.jsonl` — only if CLI command history is enabled
 
 ### Component Scope
-- Product Milestone 1 includes: Repository Scanner, Layer Mapper, Minimal Architecture Analyzer, Minimal Report Writer, Audit Log.
+- Product Milestone 1 includes: CLI Commands, Config/Paths, Repository Scanner, Layer Mapper, Minimal Architecture Analyzer, Minimal Report Writer, Audit Log.
 - Governance Engine, Risk Engine, Evolution Planner, Patch Proposal Generator, Validation Runner, Full Memory Store, Knowledge Graph, and CLI graph are not active.
 
 ### Quality

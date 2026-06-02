@@ -664,7 +664,6 @@ agentx_initiator/schemas/architecture_relationship.schema.json
 agentx_initiator/schemas/architecture_evidence.schema.json
 agentx_initiator/schemas/completion_record.schema.json
 .agentx-init/snapshots/architecture_latest.json
-.agentx-init/reports/latest_status.md
 .agentx-init/memory/audit_events.jsonl
 ```
 
@@ -1130,6 +1129,7 @@ Target files:
 
 ```text
 agentx_initiator/cli/main.py
+agentx_initiator/cli/commands/help.py
 agentx_initiator/cli/commands/scan.py
 agentx_initiator/cli/commands/status.py
 agentx_initiator/cli/commands/explain.py

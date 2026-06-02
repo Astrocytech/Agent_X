@@ -160,6 +160,7 @@ risk_level: "medium"
 enforcement_profile: "local-structured-graph"
 implementation_mode: "new-component"
 primary_standards:
+  - "FIC"
   - "SIB"
   - "ES"
   - "Graph Schema Contract"

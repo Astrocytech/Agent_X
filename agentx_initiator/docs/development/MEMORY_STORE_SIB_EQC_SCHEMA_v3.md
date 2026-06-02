@@ -161,6 +161,7 @@ risk_level: "high"
 enforcement_profile: "local-structured-persistence"
 implementation_mode: "new-component"
 primary_standards:
+  - "FIC"
   - "SIB"
   - "EQC"
   - "Schema Contract"
