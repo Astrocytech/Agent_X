@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/patch_proposal.schema.json",
   "title": "Patch Proposal Schema",
   "type": "object",
   "properties": {

@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/graph_query_result.schema.json",
   "title": "Graph Query Result Schema",
   "type": "object",
   "properties": {

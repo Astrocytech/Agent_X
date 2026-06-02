@@ -4,7 +4,31 @@
 > It fills the missing Layer Mapper component contract gap.  
 > No technical rework, schema changes, or authority-boundary changes beyond the contract definition were made.
 
-## 0.1 Final Freeze Verdict
+## 0.1 Identity
+
+```yaml
+fic_id: "FIC-AGENTX-INITIATOR-LAYER-MAPPER-001"
+sib_id: "SIB-AGENTX-INITIATOR-LAYER-MAPPER-001"
+eqc_id: "EQC-AGENTX-INITIATOR-LAYER-MAPPER-001"
+component_id: "AGENTX_LAYER_MAPPER"
+component_name: "Layer Mapper"
+version: "v1.0.0"
+status: "ready-for-milestone-1-implementation"
+artifact_type: "core-analysis"
+target_language: "python"
+owner: "Agent_X Initiator"
+risk_level: "low"
+enforcement_profile: "standard"
+implementation_mode: "new-component"
+primary_standards:
+  - "FIC"
+  - "SIB"
+  - "EQC"
+supporting_standards:
+  - "Audit Rules"
+```
+
+## 0.2 Final Freeze Verdict
 
 This document is now frozen as the controlling FIC+SIB+EQC contract for the Layer Mapper Component Milestone 1 implementation.
 

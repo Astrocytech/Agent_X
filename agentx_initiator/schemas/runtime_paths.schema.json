@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/runtime_paths.schema.json",
+  "title": "Runtime Paths Schema",
+  "description": "Runtime path configuration for the agentx-init tool",
+  "type": "object",
+  "properties": {
+    "state_dir": {"type": "string"},
+    "config_path": {"type": "string"},
+    "memory_path": {"type": "string"},
+    "reports_path": {"type": "string"},
+    "snapshots_path": {"type": "string"},
+    "graph_path": {"type": "string"}
+  },
+  "required": ["state_dir"]
+}

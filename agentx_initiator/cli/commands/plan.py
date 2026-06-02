@@ -1,3 +1,4 @@
+# PM2 implementation — not active in Product Milestone 1 (registered as BLOCKED stub)
 import json
 from agentx_initiator.core.evolution_planner import generate_plan
 from agentx_initiator.core.paths import snapshot_file, report_file, ensure_state_dirs

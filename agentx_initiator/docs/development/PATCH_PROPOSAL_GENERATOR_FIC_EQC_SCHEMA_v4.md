@@ -30,7 +30,7 @@ This document is now frozen as the controlling:
 FIC + EQC + Schema Contract
 ```
 
-for Patch Proposal Generator Milestone 1.
+for Patch Proposal Generator Component Milestone 1.
 
 Further work should move into the implementation package artifacts:
 

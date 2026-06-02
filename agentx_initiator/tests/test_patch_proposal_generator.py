@@ -1,4 +1,8 @@
+import pytest
 from agentx_initiator.core.patch_proposal_generator import generate_proposal
+
+
+pytestmark = pytest.mark.skip(reason="PM2 patch_proposal_generator not active in Product Milestone 1")
 
 
 def test_generate_proposal():

@@ -12,6 +12,7 @@ Configuration file: `.agentx-init/config/config.json`
     "log_level": "info",
     "allowlisted_commands": [
       "python -m compileall -q",
+      "python -m pytest --co -q",
       "make prove-seed",
       "make prove-l1",
       "make prove-l2"

@@ -1,5 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/architecture_report.schema.json",
   "title": "Architecture Report Schema",
   "type": "object",
   "properties": {

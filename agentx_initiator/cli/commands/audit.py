@@ -1,3 +1,4 @@
+# PM2 implementation — not active in Product Milestone 1 (registered as BLOCKED stub)
 from agentx_initiator.core.audit_log import read_events
 
 

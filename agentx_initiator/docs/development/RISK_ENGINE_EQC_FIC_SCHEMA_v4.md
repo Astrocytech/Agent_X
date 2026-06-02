@@ -480,7 +480,7 @@ It must not become:
 
 - Governance Engine
 - Architecture Analyzer
-- Patch Planner
+- Patch Proposal Generator
 - Validation Runner
 - Execution Engine
 - Monitoring System

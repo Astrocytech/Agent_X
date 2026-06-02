@@ -20,5 +20,9 @@ agentx-init uses JSON Schema (draft-07) for all structured data.
 | `schemas/graph_query_result.schema.json` | Graph query result schema |
 | `schemas/graph_manifest.schema.json` | Graph manifest schema |
 | `schemas/graph_integrity.schema.json` | Graph integrity schema |
+| `schemas/completion_record.schema.json` | Common implementation-completion record schema |
+| `schemas/path_registry.schema.json` | Path registry schema |
+| `schemas/runtime_paths.schema.json` | Runtime path configuration schema |
+| `schemas/config_validation_report.schema.json` | Config validation report schema |
 
 All schemas are located in `agentx_initiator/schemas/`.

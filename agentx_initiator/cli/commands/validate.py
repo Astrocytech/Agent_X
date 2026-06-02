@@ -1,3 +1,4 @@
+# PM2 implementation — not active in Product Milestone 1 (registered as BLOCKED stub)
 from agentx_initiator.core.validation_runner import run_validation
 from agentx_initiator.core.paths import report_file, ensure_state_dirs
 from agentx_initiator.core.report_writer import render_report, write_report

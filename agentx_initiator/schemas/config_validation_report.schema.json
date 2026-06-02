@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/config_validation_report.schema.json",
+  "title": "Config Validation Report Schema",
+  "description": "Report structure for config validation output",
+  "type": "object",
+  "properties": {
+    "valid": {"type": "boolean"},
+    "config_path": {"type": "string"},
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {"type": "string"},
+          "message": {"type": "string"}
+        },
+        "required": ["field", "message"]
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {"type": "string"},
+          "message": {"type": "string"}
+        },
+        "required": ["field", "message"]
+      }
+    },
+    "validated_at": {"type": "string"}
+  },
+  "required": ["valid", "errors", "warnings"]
+}

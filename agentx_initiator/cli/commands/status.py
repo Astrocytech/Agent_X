@@ -23,14 +23,6 @@ def run(args):
 
     context = {
         "repo_scan": scan,
-        "architecture": arch,
-        "layers": len(arch.layers),
-        "layer_count": arch.layer_count,
-        "valid_layer_structure": arch.valid_layer_structure,
-        "l0_independent": arch.l0_independent,
-        "l1_separated": arch.l1_separated,
-        "l2_contains_active_runtime": arch.l2_contains_active_runtime,
-        "risks": arch.risks,
         "passed": 0,
         "failed": 0,
         "governance_checks": [],

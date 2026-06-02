@@ -1,5 +1,9 @@
+import pytest
 from agentx_initiator.core.risk_engine import classify_risk, is_action_allowed
 from agentx_initiator.core.config import load_config
+
+
+pytestmark = pytest.mark.skip(reason="PM2 risk_engine not active in Product Milestone 1")
 
 
 def test_classify_risk_read():

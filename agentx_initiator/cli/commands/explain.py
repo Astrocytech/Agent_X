@@ -1,3 +1,4 @@
+# PM2 implementation — not active in Product Milestone 1 (registered as BLOCKED stub)
 from pathlib import Path
 from agentx_initiator.core.paths import repo_root
 

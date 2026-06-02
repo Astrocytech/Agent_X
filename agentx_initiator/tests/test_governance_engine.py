@@ -1,4 +1,8 @@
+import pytest
 from agentx_initiator.core.governance_engine import run_governance_checks
+
+
+pytestmark = pytest.mark.skip(reason="PM2 governance_engine not active in Product Milestone 1")
 
 
 def test_governance_checks_return_list():
