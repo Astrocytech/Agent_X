@@ -1,15 +1,46 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentx-init/schemas/graph_manifest.schema.json",
-  "title": "Graph Manifest Schema",
+  "title": "Graph Manifest",
+  "description": "Manifest summary of the Knowledge Graph",
   "type": "object",
   "properties": {
-    "manifest_id": {"type": "string"},
-    "generated_at": {"type": "string"},
-    "graph_version": {"type": "string"},
-    "node_count": {"type": "integer"},
-    "edge_count": {"type": "integer"},
-    "checksum": {"type": "string"}
+    "schema_version": { "type": "string", "const": "1.0" },
+    "schema_id": { "type": "string", "const": "graph_manifest.schema.json" },
+    "owner_component": { "type": "string", "const": "AGENTX_KNOWLEDGE_GRAPH" },
+    "artifact_type": { "type": "string", "const": "graph_manifest" },
+    "manifest_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string" },
+    "node_count": { "type": "integer", "minimum": 0 },
+    "edge_count": { "type": "integer", "minimum": 0 },
+    "node_types": { "type": "array", "items": { "type": "string" } },
+    "edge_types": { "type": "array", "items": { "type": "string" } },
+    "latest_snapshot": { "type": "string" },
+    "schema_versions": { "type": "object" },
+    "artifact_discovery": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artifact_path": { "type": "string" },
+          "artifact_type": { "type": "string" },
+          "required_for_pm3_minimum": { "type": "boolean" },
+          "exists": { "type": "boolean" },
+          "valid_json": { "type": "boolean" },
+          "schema_valid_if_checked": { "type": "boolean" },
+          "consumed": { "type": "boolean" },
+          "warning": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
   },
-  "required": ["manifest_id", "generated_at", "node_count", "edge_count"]
+  "required": [
+    "schema_version", "schema_id", "owner_component", "artifact_type",
+    "manifest_id", "timestamp", "node_count", "edge_count",
+    "node_types", "edge_types", "latest_snapshot",
+    "schema_versions", "warnings", "errors"
+  ],
+  "additionalProperties": false
 }

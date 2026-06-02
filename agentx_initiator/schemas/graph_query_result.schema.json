@@ -1,19 +1,27 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentx-init/schemas/graph_query_result.schema.json",
-  "title": "Graph Query Result Schema",
+  "title": "Graph Query Result",
+  "description": "Result of a Knowledge Graph query",
   "type": "object",
   "properties": {
-    "query": {"type": "string"},
-    "nodes": {
-      "type": "array",
-      "items": {"$ref": "graph_node.schema.json"}
-    },
-    "edges": {
-      "type": "array",
-      "items": {"$ref": "graph_edge.schema.json"}
-    },
-    "total_count": {"type": "integer"}
+    "schema_version": { "type": "string", "const": "1.0" },
+    "schema_id": { "type": "string", "const": "graph_query_result.schema.json" },
+    "owner_component": { "type": "string", "const": "AGENTX_KNOWLEDGE_GRAPH" },
+    "artifact_type": { "type": "string", "const": "graph_query_result" },
+    "query_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string" },
+    "query": { "type": "object" },
+    "node_results": { "type": "array", "items": { "type": "object" } },
+    "edge_results": { "type": "array", "items": { "type": "object" } },
+    "result_count": { "type": "integer", "minimum": 0 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
   },
-  "required": ["query", "nodes", "edges"]
+  "required": [
+    "schema_version", "schema_id", "owner_component", "artifact_type",
+    "query_id", "timestamp", "query", "node_results", "edge_results",
+    "result_count", "warnings", "errors"
+  ],
+  "additionalProperties": false
 }

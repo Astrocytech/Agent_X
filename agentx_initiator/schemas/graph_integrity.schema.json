@@ -1,27 +1,39 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentx-init/schemas/graph_integrity.schema.json",
-  "title": "Graph Integrity Schema",
+  "title": "Graph Integrity Report",
+  "description": "Integrity report for the Knowledge Graph",
   "type": "object",
   "properties": {
-    "check_id": {"type": "string"},
-    "timestamp": {"type": "string"},
+    "schema_version": { "type": "string", "const": "1.0" },
+    "schema_id": { "type": "string", "const": "graph_integrity.schema.json" },
+    "owner_component": { "type": "string", "const": "AGENTX_KNOWLEDGE_GRAPH" },
+    "artifact_type": { "type": "string", "const": "graph_integrity" },
+    "integrity_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string" },
     "status": {
       "type": "string",
-      "enum": ["PASS", "FAIL", "WARN"]
+      "enum": ["PASS", "FAIL", "PARTIAL", "BLOCKED"]
     },
-    "checks": {
+    "checked_node_count": { "type": "integer", "minimum": 0 },
+    "checked_edge_count": { "type": "integer", "minimum": 0 },
+    "missing_endpoint_edges": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "check_name": {"type": "string"},
-          "passed": {"type": "boolean"},
-          "detail": {"type": "string"}
-        },
-        "required": ["check_name", "passed"]
-      }
-    }
+      "items": { "type": "object" }
+    },
+    "invalid_schema_records": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
   },
-  "required": ["check_id", "timestamp", "status", "checks"]
+  "required": [
+    "schema_version", "schema_id", "owner_component", "artifact_type",
+    "integrity_id", "timestamp", "status",
+    "checked_node_count", "checked_edge_count",
+    "missing_endpoint_edges", "invalid_schema_records",
+    "warnings", "errors"
+  ],
+  "additionalProperties": false
 }

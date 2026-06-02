@@ -1,41 +1,28 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentx-init/schemas/graph_snapshot.schema.json",
-  "title": "Graph Snapshot Schema",
+  "title": "Graph Snapshot",
+  "description": "A point-in-time snapshot of the Knowledge Graph",
   "type": "object",
   "properties": {
-    "metadata": {
-      "type": "object",
-      "properties": {
-        "generated_at": {"type": "string"},
-        "type": {"type": "string"}
-      },
-      "required": ["generated_at", "type"]
-    },
-    "nodes": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {"type": "string"},
-          "type": {"type": "string"},
-          "label": {"type": "string"}
-        },
-        "required": ["id", "type", "label"]
-      }
-    },
-    "edges": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "source": {"type": "string"},
-          "target": {"type": "string"},
-          "relation": {"type": "string"}
-        },
-        "required": ["source", "target", "relation"]
-      }
-    }
+    "schema_version": { "type": "string", "const": "1.0" },
+    "schema_id": { "type": "string", "const": "graph_snapshot.schema.json" },
+    "owner_component": { "type": "string", "const": "AGENTX_KNOWLEDGE_GRAPH" },
+    "artifact_type": { "type": "string", "const": "graph_snapshot" },
+    "snapshot_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string" },
+    "node_count": { "type": "integer", "minimum": 0 },
+    "edge_count": { "type": "integer", "minimum": 0 },
+    "nodes": { "type": "array", "items": { "type": "object" } },
+    "edges": { "type": "array", "items": { "type": "object" } },
+    "integrity_report": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
   },
-  "required": ["metadata", "nodes", "edges"]
+  "required": [
+    "schema_version", "schema_id", "owner_component", "artifact_type",
+    "snapshot_id", "timestamp", "node_count", "edge_count",
+    "nodes", "edges", "integrity_report", "warnings", "errors"
+  ],
+  "additionalProperties": false
 }

@@ -1,13 +1,38 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentx-init/schemas/graph_node.schema.json",
-  "title": "Graph Node Schema",
+  "title": "Graph Node",
+  "description": "A node in the Knowledge Graph",
   "type": "object",
   "properties": {
-    "id": {"type": "string"},
-    "type": {"type": "string"},
-    "label": {"type": "string"},
-    "properties": {"type": "object"}
+    "schema_version": { "type": "string", "const": "1.0" },
+    "schema_id": { "type": "string", "const": "graph_node.schema.json" },
+    "owner_component": { "type": "string", "const": "AGENTX_KNOWLEDGE_GRAPH" },
+    "artifact_type": { "type": "string", "const": "graph_node" },
+    "node_id": { "type": "string", "minLength": 1 },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "COMPONENT", "ARTIFACT", "MEMORY_RECORD", "AUDIT_EVENT",
+        "RISK_ITEM", "GOVERNANCE_DECISION", "EVOLUTION_PLAN",
+        "CANDIDATE_ACTION", "PATCH_PROPOSAL", "VALIDATION_REPORT",
+        "REPOSITORY", "SCHEMA", "TEST", "VALIDATOR", "REPORT", "COMMAND", "UNKNOWN"
+      ]
+    },
+    "label": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "SUPERSEDED", "CORRECTION", "INVALID", "UNKNOWN"]
+    },
+    "source_ref": { "type": "string" },
+    "source_component": { "type": "string" },
+    "properties": { "type": "object" },
+    "content_hash": { "type": "string" }
   },
-  "required": ["id", "type", "label"]
+  "required": [
+    "schema_version", "schema_id", "owner_component", "artifact_type",
+    "node_id", "node_type", "label", "status",
+    "source_ref", "source_component", "content_hash"
+  ],
+  "additionalProperties": false
 }

@@ -1,13 +1,40 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://agentx-init/schemas/graph_edge.schema.json",
-  "title": "Graph Edge Schema",
+  "title": "Graph Edge",
+  "description": "A directed edge in the Knowledge Graph",
   "type": "object",
   "properties": {
-    "source": {"type": "string"},
-    "target": {"type": "string"},
-    "relation": {"type": "string"},
-    "properties": {"type": "object"}
+    "schema_version": { "type": "string", "const": "1.0" },
+    "schema_id": { "type": "string", "const": "graph_edge.schema.json" },
+    "owner_component": { "type": "string", "const": "AGENTX_KNOWLEDGE_GRAPH" },
+    "artifact_type": { "type": "string", "const": "graph_edge" },
+    "edge_id": { "type": "string", "minLength": 1 },
+    "source_node_id": { "type": "string", "minLength": 1 },
+    "target_node_id": { "type": "string", "minLength": 1 },
+    "edge_type": {
+      "type": "string",
+      "enum": [
+        "DEPENDS_ON", "PRODUCES", "CONSUMES", "SUPPORTS", "VALIDATES",
+        "SUPERSEDES", "CORRECTS", "REFERENCES", "AFFECTS", "GENERATED_BY",
+        "DERIVED_FROM", "BLOCKED_BY", "MITIGATES", "EVIDENCED_BY",
+        "IMPLEMENTS", "USES_SCHEMA", "HAS_TEST", "HAS_VALIDATOR", "UNKNOWN"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "SUPERSEDED", "CORRECTION", "INVALID", "UNKNOWN"]
+    },
+    "source_ref": { "type": "string" },
+    "source_component": { "type": "string" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "properties": { "type": "object" },
+    "content_hash": { "type": "string" }
   },
-  "required": ["source", "target", "relation"]
+  "required": [
+    "schema_version", "schema_id", "owner_component", "artifact_type",
+    "edge_id", "source_node_id", "target_node_id", "edge_type",
+    "status", "source_ref", "source_component", "evidence_refs", "content_hash"
+  ],
+  "additionalProperties": false
 }

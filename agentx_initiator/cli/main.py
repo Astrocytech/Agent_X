@@ -6,14 +6,12 @@ from uuid import uuid4
 import argparse
 from agentx_initiator.cli.registry import register, CommandEntry
 from agentx_initiator.cli.commands import scan, status, help as help_cmd
-from agentx_initiator.cli.commands import audit, explain, plan, propose, validate, report
+from agentx_initiator.cli.commands import audit, explain, plan, propose, validate, report, graph
 from agentx_initiator.cli.models import CLICommandResponse
 from agentx_initiator.core.audit_log import append_event
 
 
-PM3_COMMANDS = [
-    ("graph", "Generate repository knowledge graph (PM3)"),
-]
+PM3_COMMANDS: list[tuple[str, str]] = []
 RESERVED_COMMANDS = [
     ("memory", "Query memory store (PM3+)"),
 ]
@@ -62,6 +60,11 @@ def _register_all():
     register(CommandEntry(
         name="report", category="ARCHITECTURE",
         description="Generate architecture report",
+        writes_artifacts=True,
+    ))
+    register(CommandEntry(
+        name="graph", category="GRAPH",
+        description="Build and query the Knowledge Graph",
         writes_artifacts=True,
     ))
     for name, desc in PM3_COMMANDS:
@@ -117,6 +120,7 @@ def main():
     propose.register(sub)
     validate.register(sub)
     report.register(sub)
+    graph.register(sub)
 
     for name, desc in PM3_COMMANDS + RESERVED_COMMANDS:
         p = sub.add_parser(name, help=desc)
@@ -130,7 +134,7 @@ def main():
     if args.command == "help":
         args.func(args)
         sys.exit(0)
-    elif args.command in ("scan", "status", "audit", "explain", "plan", "propose", "validate", "report"):
+    elif args.command in ("scan", "status", "audit", "explain", "plan", "propose", "validate", "report", "graph"):
         resp = args.func(args)
         if resp is not None:
             sys.exit(resp.exit_code if hasattr(resp, 'exit_code') else 0)
