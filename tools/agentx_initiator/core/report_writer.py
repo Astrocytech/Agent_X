@@ -5,7 +5,7 @@ from agentx_initiator.core.path_registry import _detect_repo_root, get_path
 
 
 def get_template_env():
-    template_dir = _detect_repo_root() / "agentx_initiator" / "templates"
+    template_dir = Path(__file__).resolve().parent.parent / "templates"
     return Environment(loader=FileSystemLoader(str(template_dir)))
 
 

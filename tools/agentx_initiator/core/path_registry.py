@@ -91,7 +91,11 @@ def _get_default_registry() -> PathRegistry:
 
 
 def _detect_repo_root() -> Path:
-    return Path(__file__).resolve().parent.parent.parent
+    here = Path(__file__).resolve().parent
+    for p in [here] + list(here.parents):
+        if (p / ".git").is_dir():
+            return p
+    return here.parent.parent.parent.parent  # fallback: Agent_X/tools/agentx_initiator/core
 
 
 def repo_root() -> Path:
