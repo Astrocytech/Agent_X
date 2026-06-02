@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/command_history_record.schema.json",
+  "title": "Command History Record Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "history_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "request": {"type": "object"},
+    "response": {"type": "object"},
+    "governance_ref": {"type": "null"},
+    "audit_event_id": {"type": ["string", "null"]}
+  },
+  "required": ["schema_version", "history_id", "timestamp", "request", "response", "governance_ref"]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "risk_item.schema.json",
+  "owner_component": "RiskEngine",
+  "artifact_type": "risk_item",
+  "type": "object",
+  "required": ["schema_version", "risk_id", "category", "severity", "confidence", "title", "description"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "risk_id": {"type": "string"},
+    "category": {"type": "string", "enum": ["ARCHITECTURE_RISK", "GOVERNANCE_RISK", "IMPLEMENTATION_RISK", "TESTING_RISK", "SCHEMA_RISK", "DEPENDENCY_RISK", "BOUNDARY_RISK", "EVIDENCE_RISK", "UNKNOWN_RISK"]},
+    "severity": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+    "confidence": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH"]},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "source_refs": {"type": "array", "items": {"type": "string"}},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "mitigation_ids": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

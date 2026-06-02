@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/report_bundle.schema.json",
+  "title": "Report Bundle Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "bundle_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "report": {"$ref": "report.schema.json"},
+    "rendered_report_path": {"type": "string"},
+    "template_ref": {"type": "string"},
+    "source_artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "required": ["schema_version", "bundle_id", "timestamp", "report", "rendered_report_path"]
+}

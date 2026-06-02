@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_validation.schema.json",
+  "owner_component": "PatchProposalGenerator",
+  "artifact_type": "patch_validation",
+  "type": "object",
+  "required": ["schema_version", "validation_id", "proposal_id", "validator", "status", "result"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "validation_id": {"type": "string"},
+    "proposal_id": {"type": "string"},
+    "validator": {"type": "string"},
+    "status": {"type": "string"},
+    "result": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

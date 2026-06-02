@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "risk_history_record.schema.json",
+  "owner_component": "RiskEngine",
+  "artifact_type": "risk_history_record",
+  "type": "object",
+  "required": ["schema_version", "history_id", "timestamp", "assessment_id", "status", "overall_risk"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "history_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "assessment_id": {"type": "string"},
+    "status": {"type": "string"},
+    "overall_risk": {"type": "string"},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "warning_count": {"type": "integer"},
+    "error_count": {"type": "integer"}
+  },
+  "additionalProperties": false
+}

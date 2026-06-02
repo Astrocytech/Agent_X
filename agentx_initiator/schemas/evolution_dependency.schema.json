@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "evolution_dependency.schema.json",
+  "owner_component": "EvolutionPlanner",
+  "artifact_type": "evolution_dependency",
+  "type": "object",
+  "required": ["schema_version", "dependency_id", "required_id", "description", "dependency_type"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "dependency_id": {"type": "string"},
+    "required_id": {"type": "string"},
+    "description": {"type": "string"},
+    "dependency_type": {"type": "string", "enum": ["blocks", "requires", "triggers"]}
+  },
+  "additionalProperties": false
+}

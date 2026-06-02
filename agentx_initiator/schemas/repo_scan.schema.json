@@ -4,25 +4,68 @@
   "title": "Repo Scan Schema",
   "type": "object",
   "properties": {
-    "root": {"type": "string"},
-    "layers": {
+    "schema_version": {"type": "string"},
+    "scan_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "repo_root": {"type": "string"},
+    "scanner_version": {"type": "string"},
+    "scan_profile": {"type": "string"},
+    "status": {"type": "string", "enum": ["PASS", "PARTIAL", "FAIL"]},
+    "total_files": {"type": "integer", "minimum": 0},
+    "files": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "layer": {"type": "string"},
           "path": {"type": "string"},
-          "purpose": {"type": "string"},
-          "file_count": {"type": "integer"},
-          "has_readme": {"type": "boolean"}
+          "relative_path": {"type": "string"},
+          "extension": {"type": "string"},
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": ["string", "null"]},
+          "detected_layer": {"type": "string", "enum": ["L0", "L1", "L2", "unknown"]},
+          "is_protected": {"type": "boolean"},
+          "artifact_kinds": {"type": "array", "items": {"type": "string"}},
+          "trust_level": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+          "detection_rules": {"type": "array", "items": {"type": "string"}},
+          "warnings": {"type": "array", "items": {"type": "string"}}
         },
-        "required": ["layer", "path", "file_count", "has_readme"]
+        "required": ["path", "relative_path", "extension", "detected_layer", "is_protected"]
       }
     },
-    "total_files": {"type": "integer"},
-    "source_files": {"type": "integer"},
-    "doc_files": {"type": "integer"},
-    "test_files": {"type": "integer"}
+    "directories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string"},
+          "relative_path": {"type": "string"},
+          "detected_layer": {"type": "string", "enum": ["L0", "L1", "L2", "unknown"]},
+          "is_protected": {"type": "boolean"},
+          "artifact_kinds": {"type": "array", "items": {"type": "string"}},
+          "trust_level": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]}
+        },
+        "required": ["path", "relative_path", "detected_layer", "is_protected"]
+      }
+    },
+    "repository_fingerprint": {
+      "type": "object",
+      "properties": {
+        "schema_version": {"type": "string"},
+        "repo_root": {"type": "string"},
+        "scanner_version": {"type": "string"},
+        "total_files": {"type": "integer", "minimum": 0},
+        "total_directories": {"type": "integer", "minimum": 0},
+        "file_digest_manifest_hash": {"type": "string"},
+        "repository_hash": {"type": "string"},
+        "technology_summary": {"type": "object"},
+        "layer_summary": {"type": "object"},
+        "protected_path_summary": {"type": "object"}
+      },
+      "required": ["repo_root", "total_files", "repository_hash"]
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "evidence": {"type": "array", "items": {"type": "object"}}
   },
-  "required": ["root", "layers", "total_files"]
+  "required": ["schema_version", "scan_id", "timestamp", "repo_root", "status", "total_files", "files"]
 }

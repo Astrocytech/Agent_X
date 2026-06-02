@@ -1,23 +1,58 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://agentx-init/schemas/config.schema.json",
-  "title": "agentx-init Config Schema",
+  "title": "ConfigRecord Schema",
   "type": "object",
   "properties": {
-    "agentx_init": {
+    "schema_version": {
+      "type": "string",
+      "description": "Schema version identifier",
+      "default": "1.0"
+    },
+    "config_version": {
+      "type": "string",
+      "description": "Configuration version identifier",
+      "default": "1.0.0"
+    },
+    "default_mode": {
+      "type": "string",
+      "enum": ["read_only", "advisory", "full"],
+      "description": "Default operational mode",
+      "default": "read_only"
+    },
+    "runtime_root": {
+      "type": "string",
+      "description": "Runtime state directory path",
+      "default": ".agentx-init"
+    },
+    "scan": {
       "type": "object",
+      "description": "Repository scanning configuration",
       "properties": {
-        "version": {"type": "string"},
-        "state_dir": {"type": "string"},
-        "log_level": {"type": "string", "enum": ["debug", "info", "warn", "error"]},
-        "allowlisted_commands": {"type": "array", "items": {"type": "string"}},
-        "protected_paths": {"type": "array", "items": {"type": "string"}},
-        "blocked_paths": {"type": "array", "items": {"type": "string"}},
-        "risk_levels": {"type": "object"},
-        "max_risk_allowed": {"type": "string"}
+        "include_hidden": {"type": "boolean", "default": false},
+        "max_file_size_mb": {"type": "integer", "default": 5, "minimum": 1},
+        "ignore_dirs": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": [".git", "__pycache__", ".venv", "node_modules", ".agentx-init"]
+        }
       },
-      "required": ["version", "state_dir", "allowlisted_commands", "protected_paths", "blocked_paths", "risk_levels", "max_risk_allowed"]
+      "additionalProperties": false
+    },
+    "feature_flags": {
+      "type": "object",
+      "description": "Feature flags for later-milestone components",
+      "properties": {
+        "governance_engine_active": {"type": "boolean", "default": false},
+        "risk_engine_active": {"type": "boolean", "default": false},
+        "planner_active": {"type": "boolean", "default": false},
+        "proposal_generator_active": {"type": "boolean", "default": false},
+        "validation_runner_active": {"type": "boolean", "default": false},
+        "knowledge_graph_active": {"type": "boolean", "default": false}
+      },
+      "additionalProperties": false
     }
   },
-  "required": ["agentx_init"]
+  "required": ["schema_version", "config_version", "default_mode", "runtime_root", "scan", "feature_flags"],
+  "additionalProperties": false
 }

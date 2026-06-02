@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "memory_reference.schema.json",
+  "owner_component": "MemoryStore",
+  "artifact_type": "memory_reference",
+  "type": "object",
+  "required": ["schema_version", "reference_id", "source_memory_id", "target_memory_id", "target_artifact", "reference_type", "reason"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "reference_id": {"type": "string"},
+    "source_memory_id": {"type": "string"},
+    "target_memory_id": {"type": "string"},
+    "target_artifact": {"type": "string"},
+    "reference_type": {"type": "string"},
+    "reason": {"type": "string"}
+  },
+  "additionalProperties": false
+}

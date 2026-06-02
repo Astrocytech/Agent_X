@@ -1,7 +1,49 @@
+from __future__ import annotations
+from datetime import datetime, timezone
 from pathlib import Path
+from uuid import uuid4
 from agentx_initiator.core.paths import repo_root
+from agentx_initiator.core.governance_model import (
+    GovernanceRequest, GovernanceContext, GovernanceDecision,
+)
+from agentx_initiator.core.governance_rules import apply_governance_rules, evaluate_target_path
+from agentx_initiator.core.path_registry import PathRegistry
 
 
+def evaluate_governance(request: GovernanceRequest, context: GovernanceContext) -> GovernanceDecision:
+    if not request.request_id:
+        request.request_id = str(uuid4())
+    if not request.timestamp:
+        request.timestamp = datetime.now(timezone.utc).isoformat()
+
+    decision = apply_governance_rules(request, context)
+
+    if not decision.decision_id:
+        decision.decision_id = str(uuid4())
+    if not decision.timestamp:
+        decision.timestamp = datetime.now(timezone.utc).isoformat()
+    if not decision.request_id:
+        decision.request_id = request.request_id
+
+    return decision
+
+
+def classify_action_type(action_type: str) -> str:
+    from agentx_initiator.core.governance_rules import classify_action_type as _classify
+    return _classify(action_type)
+
+
+def evaluate_target_path(target_path: Path, context: GovernanceContext) -> list:
+    from agentx_initiator.core.governance_rules import evaluate_target_path as _evaluate
+    return _evaluate(target_path, context)
+
+
+def apply_governance_rules(request: GovernanceRequest, context: GovernanceContext) -> GovernanceDecision:
+    from agentx_initiator.core.governance_rules import apply_governance_rules as _apply
+    return _apply(request, context)
+
+
+# --- backward compat ---
 def run_governance_checks() -> list[dict]:
     checks = [
         ("L0 is independent", _l0_is_independent),

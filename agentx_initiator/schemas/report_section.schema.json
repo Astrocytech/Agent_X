@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/report_section.schema.json",
+  "title": "Report Section Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "section_id": {"type": "string"},
+    "section_kind": {"type": "string"},
+    "title": {"type": "string"},
+    "content": {"type": "string"},
+    "source_artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "order": {"type": "integer", "minimum": 0}
+  },
+  "required": ["schema_version", "section_id", "section_kind", "title", "content", "order"]
+}

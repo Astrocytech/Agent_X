@@ -1,9 +1,11 @@
-# PM2 implementation — not active in Product Milestone 1 (registered as BLOCKED stub)
+"""PM2: Run allowlisted validation commands."""
+from __future__ import annotations
+from datetime import datetime, timezone
+from uuid import uuid4
 from agentx_initiator.core.validation_runner import run_validation
-from agentx_initiator.core.paths import report_file, ensure_state_dirs
-from agentx_initiator.core.report_writer import render_report, write_report
+from agentx_initiator.core.path_registry import get_path
 from agentx_initiator.core.audit_log import append_event
-from agentx_initiator.core.memory_store import append_record
+from agentx_initiator.cli.models import CLICommandResponse
 
 
 def register(sub):
@@ -12,26 +14,57 @@ def register(sub):
 
 
 def run(args):
-    ensure_state_dirs()
-    results = run_validation()
+    try:
+        results = run_validation()
+    except Exception as e:
+        resp = _response("validate", "FAILED", 5,
+                         f"Validation runner error: {e}",
+                         errors=[{"failure_class": "VALIDATION_ERROR", "detail": str(e)}])
+        _print_response(resp)
+        return resp
 
-    context = {
-        "validation_results": results,
-        "passed": sum(1 for r in results if r["passed"]),
-        "failed": sum(1 for r in results if not r["passed"]),
-    }
-    report = render_report("validation_report.md.j2", context)
-    path = write_report("validation_report_latest.json", report)
+    passed = sum(1 for r in results if r.get("passed"))
+    failed = sum(1 for r in results if not r.get("passed"))
 
-    print(f"Validation report written to {path}")
-    print(f"Commands: {context['passed']} passed, {context['failed']} failed")
-    for r in results:
-        mark = "✓" if r["passed"] else "✗"
-        print(f"  {mark} {r['command']} (exit={r['returncode']})")
+    report_path = get_path("reports_dir") / "validation_report.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    import json
+    report_path.write_text(json.dumps(results, indent=2))
 
-    for r in results:
-        append_record("validation_history.jsonl", r)
     append_event({
         "event_type": "validate",
-        "detail": f"Ran {len(results)} validation commands: {context['passed']} passed",
+        "category": "VALIDATION",
+        "status": "SUCCESS" if failed == 0 else "PARTIAL",
+        "summary": f"Validation: {passed} passed, {failed} failed",
+        "component": "validate_command",
+        "artifact_refs": [str(report_path)],
     })
+
+    status = "SUCCESS" if failed == 0 else "PARTIAL"
+    resp = _response("validate", status, 0 if failed == 0 else 4,
+                     f"Validation complete: {passed} passed, {failed} failed.",
+                     data={"results": results, "passed": passed, "failed": failed},
+                     artifact_refs=[str(report_path)])
+    _print_response(resp)
+    return resp
+
+
+def _response(command, status, exit_code, message, data=None, artifact_refs=None, warnings=None, errors=None):
+    return CLICommandResponse(
+        response_id=str(uuid4()),
+        request_id="cli-internal",
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        command=command, status=status, exit_code=exit_code, message=message,
+        data=data or {}, artifact_refs=artifact_refs or [],
+        warnings=warnings or [], errors=errors or [],
+    )
+
+
+def _print_response(resp):
+    print(resp.message)
+    if resp.warnings:
+        for w in resp.warnings:
+            print(f"  Warning: {w}")
+    if resp.errors:
+        for e in resp.errors:
+            print(f"  Error: {e.get('failure_class', 'UNKNOWN')}")

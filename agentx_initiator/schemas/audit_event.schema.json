@@ -4,10 +4,20 @@
   "title": "Audit Event Schema",
   "type": "object",
   "properties": {
+    "schema_version": {"type": "string"},
     "event_id": {"type": "string"},
-    "event_type": {"type": "string"},
     "timestamp": {"type": "string"},
-    "detail": {"type": "string"}
+    "category": {"type": "string", "enum": ["SYSTEM", "SCAN", "ARCHITECTURE", "MEMORY", "AUDIT", "ERROR", "UNKNOWN"]},
+    "component": {"type": "string"},
+    "event_type": {"type": "string"},
+    "status": {"type": "string", "enum": ["PASS", "FAIL", "PARTIAL", "BLOCKED", "INFO", "WARNING", "ERROR"]},
+    "summary": {"type": "string"},
+    "input_refs": {"type": "array", "items": {"type": "string"}},
+    "output_refs": {"type": "array", "items": {"type": "string"}},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "previous_event_hash": {"type": ["string", "null"]},
+    "event_hash": {"type": "string"}
   },
-  "required": ["event_id", "event_type", "timestamp"]
+  "required": ["schema_version", "event_id", "timestamp", "category", "component", "event_type", "status", "summary"]
 }

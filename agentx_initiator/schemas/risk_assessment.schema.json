@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "risk_assessment.schema.json",
+  "owner_component": "RiskEngine",
+  "artifact_type": "risk_assessment",
+  "type": "object",
+  "required": ["schema_version", "assessment_id", "timestamp", "source_component", "status", "overall_risk", "input_refs", "risk_items", "evidence", "mitigations", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "assessment_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "source_component": {"type": "string"},
+    "status": {"type": "string", "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"]},
+    "overall_risk": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]},
+    "input_refs": {"type": "array", "items": {"type": "string"}},
+    "risk_items": {"type": "array"},
+    "evidence": {"type": "array"},
+    "mitigations": {"type": "array"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

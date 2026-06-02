@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/command_request.schema.json",
+  "title": "Command Request Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "request_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "command": {"type": "string"},
+    "category": {"type": "string", "enum": ["HELP", "SCAN", "STATUS", "RESERVED", "UNKNOWN"]},
+    "arguments": {"type": "object"},
+    "requested_effect": {"type": "string"},
+    "output_format": {"type": "string"}
+  },
+  "required": ["schema_version", "request_id", "timestamp", "command", "category"]
+}

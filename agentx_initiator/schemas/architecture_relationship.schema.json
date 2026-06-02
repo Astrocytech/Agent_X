@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/architecture_relationship.schema.json",
+  "title": "Architecture Relationship Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "relationship_id": {"type": "string"},
+    "source": {"type": "string"},
+    "target": {"type": "string"},
+    "relationship_type": {"type": "string", "enum": ["belongs_to_layer", "protected_by", "validated_by", "tested_by", "specified_by", "uses_schema", "unknown"]},
+    "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}}
+  },
+  "required": ["schema_version", "relationship_id", "source", "target", "relationship_type", "confidence"]
+}

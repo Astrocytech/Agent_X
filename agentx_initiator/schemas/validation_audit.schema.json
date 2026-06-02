@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "validation_audit.schema.json",
+  "owner_component": "ValidationRunner",
+  "artifact_type": "validation_audit",
+  "type": "object",
+  "required": ["schema_version", "audit_id", "event_type", "report_id", "timestamp", "source_component", "status"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "audit_id": {"type": "string"},
+    "event_type": {"type": "string"},
+    "report_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "source_component": {"type": "string"},
+    "status": {"type": "string"},
+    "artifacts": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

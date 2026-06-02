@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/report_request.schema.json",
+  "title": "Report Request Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "request_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "report_type": {"type": "string", "enum": ["STATUS_REPORT", "ARCHITECTURE_REPORT"]},
+    "template_id": {"type": "string"},
+    "source_artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "output_path": {"type": "string"}
+  },
+  "required": ["schema_version", "request_id", "timestamp", "report_type"]
+}

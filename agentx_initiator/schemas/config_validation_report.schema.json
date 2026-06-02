@@ -9,25 +9,11 @@
     "config_path": {"type": "string"},
     "errors": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "field": {"type": "string"},
-          "message": {"type": "string"}
-        },
-        "required": ["field", "message"]
-      }
+      "items": {"type": "string"}
     },
     "warnings": {
       "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "field": {"type": "string"},
-          "message": {"type": "string"}
-        },
-        "required": ["field", "message"]
-      }
+      "items": {"type": "string"}
     },
     "validated_at": {"type": "string"}
   },

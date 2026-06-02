@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/command_response.schema.json",
+  "title": "Command Response Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "response_id": {"type": "string"},
+    "request_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "command": {"type": "string"},
+    "status": {"type": "string", "enum": ["SUCCESS", "PARTIAL", "BLOCKED", "FAILED", "INVALID"]},
+    "exit_code": {"type": "integer", "minimum": 0, "maximum": 5},
+    "message": {"type": "string"},
+    "data": {"type": "object"},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "object"}}
+  },
+  "required": ["schema_version", "response_id", "request_id", "timestamp", "command", "status", "exit_code", "message"]
+}

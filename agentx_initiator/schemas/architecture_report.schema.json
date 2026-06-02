@@ -4,23 +4,50 @@
   "title": "Architecture Report Schema",
   "type": "object",
   "properties": {
-    "layers": {"type": "array"},
-    "layer_count": {"type": "integer"},
-    "valid_layer_structure": {"type": "boolean"},
-    "l0_independent": {"type": "boolean"},
-    "l1_separated": {"type": "boolean"},
-    "l2_contains_active_runtime": {"type": "boolean"},
-    "risks": {
+    "schema_version": {"type": "string"},
+    "report_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "status": {"type": "string", "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED"]},
+    "layer_summary": {"type": "object"},
+    "protected_count": {"type": "integer", "minimum": 0},
+    "total_files": {"type": "integer", "minimum": 0},
+    "findings": {
       "type": "array",
       "items": {
         "type": "object",
         "properties": {
-          "layer": {"type": "string"},
-          "concern": {"type": "string"},
-          "severity": {"type": "string"}
-        }
+          "finding_id": {"type": "string"},
+          "category": {"type": "string", "enum": ["INFO", "WARNING", "RISK", "VIOLATION", "UNKNOWN"]},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "affected_paths": {"type": "array", "items": {"type": "string"}},
+          "affected_layers": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}},
+          "source": {"type": "string"},
+          "recommendation_scope": {"type": "string"}
+        },
+        "required": ["finding_id", "category", "title", "description", "confidence"]
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": {"type": "string"},
+          "source_scan_id": {"type": "string"},
+          "source_path": {"type": "string"},
+          "source_artifact": {"type": "string"},
+          "detection_rule": {"type": "string"},
+          "supports": {"type": "string"},
+          "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]}
+        },
+        "required": ["evidence_id", "source_path", "source_artifact", "confidence"]
       }
     }
   },
-  "required": ["layers", "layer_count", "valid_layer_structure"]
+  "required": ["schema_version", "report_id", "timestamp", "status"]
 }

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "memory_snapshot.schema.json",
+  "owner_component": "MemoryStore",
+  "artifact_type": "memory_snapshot",
+  "type": "object",
+  "required": ["schema_version", "snapshot_id", "timestamp", "record_count", "records"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "snapshot_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "record_count": {"type": "integer"},
+    "index_ref": {"type": "string"},
+    "records": {"type": "array"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

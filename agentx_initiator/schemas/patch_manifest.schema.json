@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_manifest.schema.json",
+  "owner_component": "PatchProposalGenerator",
+  "artifact_type": "patch_manifest",
+  "type": "object",
+  "required": ["schema_version", "manifest_id", "proposal_id", "action_count", "applied_count", "total_dependencies", "created_at", "updated_at"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "manifest_id": {"type": "string"},
+    "proposal_id": {"type": "string"},
+    "action_count": {"type": "integer"},
+    "applied_count": {"type": "integer"},
+    "total_dependencies": {"type": "integer"},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": "string"}
+  },
+  "additionalProperties": false
+}

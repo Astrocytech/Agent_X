@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "risk_audit.schema.json",
+  "owner_component": "RiskEngine",
+  "artifact_type": "risk_audit",
+  "type": "object",
+  "required": ["schema_version", "audit_id", "event_type", "assessment_id", "timestamp", "source_component", "status"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "audit_id": {"type": "string"},
+    "event_type": {"type": "string"},
+    "assessment_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "source_component": {"type": "string"},
+    "status": {"type": "string"},
+    "artifacts": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

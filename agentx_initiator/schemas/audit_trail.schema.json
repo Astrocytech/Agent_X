@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/audit_trail.schema.json",
+  "title": "Audit Trail Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "trail_id": {"type": "string"},
+    "events": {"type": "array", "items": {"$ref": "audit_event.schema.json"}},
+    "first_event_hash": {"type": "string"},
+    "last_event_hash": {"type": "string"},
+    "chain_integrity": {"type": "boolean"}
+  },
+  "required": ["schema_version", "trail_id", "events", "chain_integrity"]
+}

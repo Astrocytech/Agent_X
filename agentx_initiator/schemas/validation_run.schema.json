@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "validation_run.schema.json",
+  "owner_component": "ValidationRunner",
+  "artifact_type": "validation_run",
+  "type": "object",
+  "required": ["schema_version", "run_id", "command", "status", "returncode", "stdout", "stderr", "duration_ms", "entry_id"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "run_id": {"type": "string"},
+    "command": {"type": "string"},
+    "status": {"type": "string", "enum": ["PENDING", "PASS", "FAIL", "TIMEOUT", "ERROR"]},
+    "returncode": {"type": "integer"},
+    "stdout": {"type": "string"},
+    "stderr": {"type": "string"},
+    "duration_ms": {"type": "integer"},
+    "entry_id": {"type": "string"}
+  },
+  "additionalProperties": false
+}

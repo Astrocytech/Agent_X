@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/architecture_finding.schema.json",
+  "title": "Architecture Finding Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "finding_id": {"type": "string"},
+    "category": {"type": "string", "enum": ["INFO", "WARNING", "RISK", "VIOLATION", "UNKNOWN"]},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "affected_paths": {"type": "array", "items": {"type": "string"}},
+    "affected_layers": {"type": "array", "items": {"type": "string"}},
+    "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "source": {"type": "string"},
+    "recommendation_scope": {"type": "string"}
+  },
+  "required": ["schema_version", "finding_id", "category", "title", "description", "confidence"]
+}

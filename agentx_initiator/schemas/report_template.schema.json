@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/report_template.schema.json",
+  "title": "Report Template Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "template_id": {"type": "string"},
+    "report_type": {"type": "string"},
+    "required_sections": {"type": "array", "items": {"type": "string"}},
+    "optional_sections": {"type": "array", "items": {"type": "string"}},
+    "section_order": {"type": "array", "items": {"type": "string"}},
+    "template_path": {"type": "string"},
+    "output_format": {"type": "string", "enum": ["markdown"]}
+  },
+  "required": ["schema_version", "template_id", "report_type", "template_path", "output_format"]
+}

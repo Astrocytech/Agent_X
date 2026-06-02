@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/audit_integrity.schema.json",
+  "title": "Audit Integrity Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "integrity_id": {"type": "string"},
+    "verified_at": {"type": "string"},
+    "event_count": {"type": "integer", "minimum": 0},
+    "chain_intact": {"type": "boolean"},
+    "broken_links": {"type": "array", "items": {"type": "object"}},
+    "malformed_lines": {"type": "integer", "minimum": 0}
+  },
+  "required": ["schema_version", "integrity_id", "verified_at", "event_count", "chain_intact"]
+}

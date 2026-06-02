@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "risk_evidence.schema.json",
+  "owner_component": "RiskEngine",
+  "artifact_type": "risk_evidence",
+  "type": "object",
+  "required": ["schema_version", "evidence_id", "source_artifact", "source_path", "claim", "supports", "confidence"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "evidence_id": {"type": "string"},
+    "source_artifact": {"type": "string"},
+    "source_id": {"type": "string"},
+    "source_path": {"type": "string"},
+    "claim": {"type": "string"},
+    "supports": {"type": "string"},
+    "confidence": {"type": "string", "enum": ["LOW", "MEDIUM", "HIGH"]}
+  },
+  "additionalProperties": false
+}

@@ -1,9 +1,7 @@
 import pytest
-from agentx_initiator.core.risk_engine import classify_risk, is_action_allowed
+from agentx_initiator.core.risk_engine import classify_risk, is_action_allowed, evaluate_risk
+from agentx_initiator.core.risk_model import RiskContext, RiskAssessment
 from agentx_initiator.core.config import load_config
-
-
-pytestmark = pytest.mark.skip(reason="PM2 risk_engine not active in Product Milestone 1")
 
 
 def test_classify_risk_read():
@@ -29,3 +27,28 @@ def test_is_action_allowed_r4_blocked():
     allowed, reason = is_action_allowed("modify L0", config)
     assert not allowed
     assert "R4" in reason
+
+
+def test_evaluate_risk_blocked_on_empty():
+    context = RiskContext()
+    assessment = evaluate_risk(context)
+    assert assessment.status == "BLOCKED"
+    assert assessment.errors
+
+
+def test_evaluate_risk_pass_on_clean():
+    context = RiskContext(
+        architecture_report={"findings": [], "protected_count": 0},
+        repository_scan_summary={"test_count": 5},
+    )
+    assessment = evaluate_risk(context)
+    assert assessment.status == "PASS"
+
+
+def test_risk_assessment_has_risk_items():
+    context = RiskContext(
+        architecture_report={"findings": [{"category": "VIOLATION", "title": "bad", "description": "thing"}], "protected_count": 0},
+        repository_scan_summary={"test_count": 1},
+    )
+    assessment = evaluate_risk(context)
+    assert len(assessment.risk_items) > 0

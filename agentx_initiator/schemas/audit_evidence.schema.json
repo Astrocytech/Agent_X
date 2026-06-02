@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx-init/schemas/audit_evidence.schema.json",
+  "title": "Audit Evidence Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "evidence_id": {"type": "string"},
+    "source_path": {"type": "string"},
+    "source_artifact": {"type": "string", "enum": ["file", "directory", "map", "summary"]},
+    "detection_rule": {"type": "string"},
+    "supports": {"type": "string"},
+    "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]}
+  },
+  "required": ["schema_version", "evidence_id", "source_path", "source_artifact", "confidence"]
+}

@@ -1,27 +1,17 @@
+"""PM3 stub — not active in Product Milestone 1."""
 import json
-# PM3 implementation — not active in Product Milestone 1 (registered as BLOCKED stub)
-from agentx_initiator.core.knowledge_graph import build_graph
-from agentx_initiator.core.paths import snapshot_file, ensure_state_dirs
-from agentx_initiator.core.audit_log import append_event
 
 
 def register(sub):
-    p = sub.add_parser("graph", help="Build architecture knowledge graph")
+    p = sub.add_parser("graph", help="Build architecture knowledge graph (PM3 — BLOCKED in PM1)")
     p.set_defaults(func=run)
 
 
 def run(args):
-    ensure_state_dirs()
-    graph = build_graph()
-
-    snap = snapshot_file("graph_snapshot_latest.json")
-    snap.write_text(json.dumps(graph, indent=2))
-
-    print(f"Graph written to {snap}")
-    print(f"Nodes: {len(graph['nodes'])}")
-    print(f"Edges: {len(graph['edges'])}")
-
-    append_event({
-        "event_type": "graph",
-        "detail": f"Built knowledge graph: {len(graph['nodes'])} nodes, {len(graph['edges'])} edges",
-    })
+    resp = {
+        "status": "BLOCKED",
+        "exit_code": 3,
+        "message": "Command is reserved for a later product milestone.",
+        "errors": [{"failure_class": "COMMAND_NOT_IMPLEMENTED_IN_PRODUCT_MILESTONE_1"}],
+    }
+    print(json.dumps(resp, indent=2))

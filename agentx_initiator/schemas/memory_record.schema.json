@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "memory_record.schema.json",
+  "owner_component": "MemoryStore",
+  "artifact_type": "memory_record",
+  "type": "object",
+  "required": ["schema_version", "memory_id", "timestamp", "category", "status", "source_component", "payload", "content_hash"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "memory_id": {"type": "string"},
+    "record_version": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "category": {"type": "string", "enum": ["SCAN", "ARCHITECTURE", "GOVERNANCE", "RISK", "PLANNING", "PATCH_PROPOSAL", "VALIDATION", "AUDIT", "SYSTEM", "UNKNOWN"]},
+    "status": {"type": "string", "enum": ["ACTIVE", "SUPERSEDED", "CORRECTION", "INVALID", "UNKNOWN"]},
+    "source_component": {"type": "string"},
+    "source_artifact": {"type": "string"},
+    "source_event_id": {"type": "string"},
+    "payload": {"type": "object"},
+    "references": {"type": "array"},
+    "content_hash": {"type": "string"}
+  },
+  "additionalProperties": false
+}

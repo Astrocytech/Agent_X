@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "governance_evidence.schema.json",
+  "owner_component": "GovernanceEngine",
+  "artifact_type": "governance_evidence",
+  "type": "object",
+  "required": ["schema_version", "evidence_id", "request_id", "rule_id", "source", "source_path", "claim", "supports_decision"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "evidence_id": {"type": "string"},
+    "request_id": {"type": "string"},
+    "rule_id": {"type": "string"},
+    "source": {"type": "string"},
+    "source_path": {"type": "string"},
+    "claim": {"type": "string"},
+    "confidence": {"type": "string", "enum": ["HIGH", "MEDIUM", "LOW"]},
+    "supports_decision": {"type": "string", "enum": ["ALLOW", "WARN", "BLOCK"]}
+  },
+  "additionalProperties": false
+}

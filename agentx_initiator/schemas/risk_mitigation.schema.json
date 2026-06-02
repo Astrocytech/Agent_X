@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "risk_mitigation.schema.json",
+  "owner_component": "RiskEngine",
+  "artifact_type": "risk_mitigation",
+  "type": "object",
+  "required": ["schema_version", "mitigation_id", "risk_ids", "mitigation_type", "description", "execution_authority"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "mitigation_id": {"type": "string"},
+    "risk_ids": {"type": "array", "items": {"type": "string"}},
+    "mitigation_type": {"type": "string", "enum": ["ADD_TESTS", "ADD_VALIDATION", "ADD_SCHEMA", "ADD_EVIDENCE", "REQUEST_REVIEW", "DEFER", "BLOCK_FOR_GOVERNANCE_REVIEW"]},
+    "description": {"type": "string"},
+    "execution_authority": {"type": "string"}
+  },
+  "additionalProperties": false
+}

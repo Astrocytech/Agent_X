@@ -1,9 +1,13 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://agentx-init/schemas/patch_proposal.schema.json",
-  "title": "Patch Proposal Schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_proposal.schema.json",
+  "owner_component": "PatchProposalGenerator",
+  "artifact_type": "patch_proposal",
   "type": "object",
+  "required": ["schema_version", "proposal_id", "title", "task", "risk_level", "allowed", "reason", "affected_layers", "affected_files", "description", "non_mutating", "generated_at"],
   "properties": {
+    "schema_version": {"type": "string"},
     "proposal_id": {"type": "string"},
     "title": {"type": "string"},
     "task": {"type": "string"},
@@ -16,5 +20,5 @@
     "non_mutating": {"type": "boolean"},
     "generated_at": {"type": "string"}
   },
-  "required": ["proposal_id", "title", "task", "risk_level", "allowed", "non_mutating"]
+  "additionalProperties": false
 }

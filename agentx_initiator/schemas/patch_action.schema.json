@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_action.schema.json",
+  "owner_component": "PatchProposalGenerator",
+  "artifact_type": "patch_action",
+  "type": "object",
+  "required": ["schema_version", "action_id", "action_type", "target_path", "content_ref", "description", "priority", "status"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "action_id": {"type": "string"},
+    "action_type": {"type": "string", "enum": ["CREATE", "MODIFY", "DELETE", "REFACTOR", "NOOP"]},
+    "target_path": {"type": "string"},
+    "content_ref": {"type": "string"},
+    "description": {"type": "string"},
+    "priority": {"type": "string", "enum": ["P0", "P1", "P2", "P3"]},
+    "status": {"type": "string"}
+  },
+  "additionalProperties": false
+}

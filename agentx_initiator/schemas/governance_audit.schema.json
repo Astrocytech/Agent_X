@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "governance_audit.schema.json",
+  "owner_component": "GovernanceEngine",
+  "artifact_type": "governance_audit",
+  "type": "object",
+  "required": ["schema_version", "audit_id", "event_type", "request_id", "decision_id", "timestamp", "source_component", "decision"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "audit_id": {"type": "string"},
+    "event_type": {"type": "string"},
+    "request_id": {"type": "string"},
+    "decision_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "source_component": {"type": "string"},
+    "decision": {"type": "string", "enum": ["ALLOW", "WARN", "BLOCK"]},
+    "success": {"type": "boolean"},
+    "artifacts": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "evolution_manifest.schema.json",
+  "owner_component": "EvolutionPlanner",
+  "artifact_type": "evolution_manifest",
+  "type": "object",
+  "required": ["schema_version", "manifest_id", "plan_id", "step_count", "completed_count", "total_dependencies", "created_at", "updated_at"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "manifest_id": {"type": "string"},
+    "plan_id": {"type": "string"},
+    "step_count": {"type": "integer"},
+    "completed_count": {"type": "integer"},
+    "total_dependencies": {"type": "integer"},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": "string"}
+  },
+  "additionalProperties": false
+}

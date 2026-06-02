@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "validation_manifest.schema.json",
+  "owner_component": "ValidationRunner",
+  "artifact_type": "validation_manifest",
+  "type": "object",
+  "required": ["schema_version", "manifest_id", "report_id", "run_count", "passed_count", "failed_count", "created_at"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "manifest_id": {"type": "string"},
+    "report_id": {"type": "string"},
+    "run_count": {"type": "integer"},
+    "passed_count": {"type": "integer"},
+    "failed_count": {"type": "integer"},
+    "created_at": {"type": "string"}
+  },
+  "additionalProperties": false
+}
