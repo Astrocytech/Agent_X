@@ -15,6 +15,19 @@ Product Milestone 1 = when this component is integrated into the product roadmap
 
 Layer Mapper is scheduled for **Product Milestone 1**.
 
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+SIB.md
+EQC.md
+ACCEPTANCE.md
+TESTS.md
+EVIDENCE.md
+```
+
 ---
 
 ## Purpose

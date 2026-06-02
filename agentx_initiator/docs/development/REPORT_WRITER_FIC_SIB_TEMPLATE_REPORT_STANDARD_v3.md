@@ -194,6 +194,18 @@ supporting_standards:
   - "Audit Rules"
 ```
 
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+REPORT_TEMPLATE_STANDARD.md
+ACCEPTANCE.md
+TESTS.md
+EVIDENCE.md
+```
+
 ---
 
 # 2. Purpose

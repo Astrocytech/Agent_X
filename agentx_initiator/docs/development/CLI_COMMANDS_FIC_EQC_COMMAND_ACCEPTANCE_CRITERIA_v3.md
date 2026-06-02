@@ -199,6 +199,18 @@ supporting_standards:
   - "SIB Binding"
 ```
 
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+COMMAND_ACCEPTANCE.md
+ACCEPTANCE.md
+TESTS.md
+EVIDENCE.md
+```
+
 ---
 
 # 2. Purpose

@@ -171,6 +171,20 @@ supporting_standards:
   - "Versioning Rules"
 ```
 
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+SIB.md
+EQC.md
+SCHEMA_CONTRACT.md
+ACCEPTANCE.md
+TESTS.md
+EVIDENCE.md
+```
+
 ---
 
 # 2. Purpose

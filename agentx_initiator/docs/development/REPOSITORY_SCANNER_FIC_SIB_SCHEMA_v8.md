@@ -270,6 +270,26 @@ owner: "Agent_X Initiator"
 risk_level: "medium"
 enforcement_profile: "standard"
 implementation_mode: "new-component"
+primary_standards:
+  - "FIC"
+  - "SIB"
+  - "Evidence Rules"
+  - "Schema Contract"
+supporting_standards:
+  - "Audit Rules"
+```
+
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+SIB.md
+SCHEMA_CONTRACT.md
+ACCEPTANCE.md
+TESTS.md
+EVIDENCE.md
 ```
 
 ---

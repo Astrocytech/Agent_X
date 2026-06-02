@@ -251,6 +251,19 @@ supporting_standards:
   - "Report Template Standard"
 ```
 
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+SIB.md
+SCHEMA_CONTRACT.md
+ACCEPTANCE.md
+TESTS.md
+EVIDENCE.md
+```
+
 ---
 
 # 2. Component Purpose

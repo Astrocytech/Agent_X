@@ -409,6 +409,7 @@ Later component contracts may define Component Milestone 1 for those components,
 |---|---|---|---|
 | Package skeleton | `agentx_initiator/__init__.py`, `pyproject.toml` | OVERVIEW, ACCEPTANCE | `agentx-init --help` works |
 | CLI entrypoint | `agentx_initiator/cli/main.py` | FIC, COMMAND_ACCEPTANCE, TESTS | help output test |
+| help command | `agentx_initiator/cli/commands/help.py` | FIC, COMMAND_ACCEPTANCE | help output test |
 | scan command | `agentx_initiator/cli/commands/scan.py` | FIC, COMMAND_ACCEPTANCE, EVIDENCE | scan writes snapshot + audit event |
 | status command | `agentx_initiator/cli/commands/status.py` | FIC, COMMAND_ACCEPTANCE, REPORT_TEMPLATE_STANDARD | status writes markdown report |
 | Config | `agentx_initiator/core/config.py`, `schemas/config.schema.json` | FIC, SCHEMA_CONTRACT, EQC | config validation test |
