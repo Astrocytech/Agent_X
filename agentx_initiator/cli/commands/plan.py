@@ -2,6 +2,7 @@
 from __future__ import annotations
 from datetime import datetime, timezone
 from uuid import uuid4
+import json
 from agentx_initiator.core.evolution_planner import generate_evolution_plan
 from agentx_initiator.core.path_registry import get_path
 from agentx_initiator.core.audit_log import append_event
@@ -20,7 +21,8 @@ def run(args):
 
     plan_path = get_path("plans_dir") / f"plan_{plan.plan_id[:8]}.json"
     plan_path.parent.mkdir(parents=True, exist_ok=True)
-    plan_path.write_text(plan.to_dict() if hasattr(plan, "to_dict") else str(plan))
+    plan_dict = plan.to_dict() if hasattr(plan, "to_dict") else {"raw": str(plan)}
+    plan_path.write_text(json.dumps(plan_dict, indent=2, default=str))
 
     report_content = render_report("evolution_plan.md.j2", plan.to_dict() if hasattr(plan, "to_dict") else {})
     report_path = get_path("latest_status_report").parent / f"evolution_plan_{plan.plan_id[:8]}.md"

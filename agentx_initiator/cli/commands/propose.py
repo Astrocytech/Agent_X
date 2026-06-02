@@ -2,6 +2,7 @@
 from __future__ import annotations
 from datetime import datetime, timezone
 from uuid import uuid4
+import json
 from agentx_initiator.core.patch_proposal_generator import generate_patch_proposal
 from agentx_initiator.core.path_registry import get_path
 from agentx_initiator.core.audit_log import append_event
@@ -26,7 +27,8 @@ def run(args):
 
     spec_path = get_path("proposals_dir") / f"proposal_{spec.spec_id[:8]}.json"
     spec_path.parent.mkdir(parents=True, exist_ok=True)
-    spec_path.write_text(spec.to_dict() if hasattr(spec, "to_dict") else str(spec))
+    spec_dict = spec.to_dict() if hasattr(spec, "to_dict") else {"raw": str(spec)}
+    spec_path.write_text(json.dumps(spec_dict, indent=2, default=str))
 
     append_event({
         "event_type": "propose",

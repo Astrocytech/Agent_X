@@ -20,6 +20,8 @@ PATH_IDS = {
     "architecture_latest": "snapshots/architecture_latest.json",
     "latest_status_report": "reports/latest_status.md",
     "architecture_report": "reports/architecture_report.md",
+    "plans_dir": "plans",
+    "proposals_dir": "proposals",
 }
 
 
