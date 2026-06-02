@@ -69,7 +69,6 @@ TASK_CONTRACT.md
 IMPLEMENTATION_HANDOFF.yaml
 command_request.schema.json
 command_response.schema.json
-command_registry.schema.json
 command_history_record.schema.json
 completion_record.schema.json
 ```
@@ -154,7 +153,6 @@ TASK_CONTRACT.md
 IMPLEMENTATION_HANDOFF.yaml
 command_request.schema.json
 command_response.schema.json
-command_registry.schema.json
 command_history_record.schema.json
 completion_record.schema.json
 ```
@@ -163,7 +161,6 @@ Product Milestone 1 implementation must remain limited to:
 
 ```text
 cli/main.py
-cli/registry.py
 cli/commands/help.py
 cli/commands/scan.py
 cli/commands/status.py
@@ -402,7 +399,6 @@ Primary implementation files:
 
 ```text
 agentx_initiator/cli/main.py
-agentx_initiator/cli/registry.py
 agentx_initiator/cli/models.py
 ```
 
@@ -461,16 +457,16 @@ Schema files:
 ```text
 agentx_initiator/schemas/command_request.schema.json
 agentx_initiator/schemas/command_response.schema.json
-agentx_initiator/schemas/command_registry.schema.json
 agentx_initiator/schemas/command_history_record.schema.json
 agentx_initiator/schemas/completion_record.schema.json
 ```
+
+> **Implementation note:** CLI Commands registers commands inline via `argparse` sub-parsers in `cli/main.py`. A separate `cli/registry.py` and `command_registry.schema.json` are not required for the current inline registration pattern.
 
 Test files:
 
 ```text
 agentx_initiator/tests/test_cli_commands.py
-agentx_initiator/tests/test_cli_registry.py
 agentx_initiator/tests/test_cli_schema.py
 ```
 
@@ -851,7 +847,6 @@ Mandatory schema files:
 ```text
 agentx_initiator/schemas/command_request.schema.json
 agentx_initiator/schemas/command_response.schema.json
-agentx_initiator/schemas/command_registry.schema.json
 agentx_initiator/schemas/command_history_record.schema.json
 agentx_initiator/schemas/completion_record.schema.json
 ```
@@ -861,7 +856,6 @@ Schema ownership:
 ```text
 CLI Commands owns command_request.schema.json
 CLI Commands owns command_response.schema.json
-CLI Commands owns command_registry.schema.json
 CLI Commands owns command_history_record.schema.json
 Common Initiator completion layer may own completion_record.schema.json if shared
 ```
@@ -919,7 +913,6 @@ Required schema tests:
 test_command_request_schema_accepts_valid_request
 test_command_request_schema_rejects_missing_required_fields
 test_command_response_schema_accepts_valid_response
-test_command_registry_schema_accepts_valid_registry
 test_command_history_record_schema_accepts_valid_history_record
 test_completion_record_schema_accepts_valid_completion_record
 ```
@@ -1602,7 +1595,6 @@ TASK_CONTRACT.md
 CLI_COMMANDS_FIC_EQC_COMMAND_ACCEPTANCE_CRITERIA_v3.md
 command_request.schema.json
 command_response.schema.json
-command_registry.schema.json
 command_history_record.schema.json
 completion_record.schema.json
 implementation_handoff.yaml
@@ -1623,7 +1615,6 @@ implementation_handoff:
   permitted_files:
     # Product Milestone 1
     - "agentx_initiator/cli/main.py"
-    - "agentx_initiator/cli/registry.py"
     - "agentx_initiator/cli/models.py"
     - "agentx_initiator/cli/commands/help.py"
     - "agentx_initiator/cli/commands/scan.py"
@@ -1640,10 +1631,8 @@ implementation_handoff:
     - "agentx_initiator/cli/commands/graph.py"
     - "agentx_initiator/schemas/command_request.schema.json"
     - "agentx_initiator/schemas/command_response.schema.json"
-    - "agentx_initiator/schemas/command_registry.schema.json"
     - "agentx_initiator/schemas/command_history_record.schema.json"
     - "agentx_initiator/tests/test_cli_commands.py"
-    - "agentx_initiator/tests/test_cli_registry.py"
     - "agentx_initiator/tests/test_cli_schema.py"
   forbidden_changes:
     - "L0/"
@@ -1750,7 +1739,6 @@ TASK_CONTRACT.md
 IMPLEMENTATION_HANDOFF.yaml
 command_request.schema.json
 command_response.schema.json
-command_registry.schema.json
 command_history_record.schema.json
 completion_record.schema.json
 ```

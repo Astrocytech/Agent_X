@@ -220,6 +220,7 @@ agentx_initiator/
     patch_proposal.schema.json
     validation_report.schema.json
     audit_event.schema.json
+    completion_record.schema.json
     graph_node.schema.json
     graph_edge.schema.json
     graph_snapshot.schema.json
@@ -596,7 +597,7 @@ Must:
 Outputs:
 
 ```text
-.agentx-init/reports/
+.agentx-init/reports/latest_report.md
 ```
 
 Done when:

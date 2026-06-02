@@ -546,6 +546,7 @@ If a newer document-only alignment commit supersedes this one, Phase 2 must begi
 | 6 | `REPORT_WRITER_FIC_SIB_TEMPLATE_REPORT_STANDARD_v3.md` (Report Writer) | PM1 compatibility note (earlier pass) | Addendum PM1 compatibility |
 | 7 | `AUDIT_LOG_EQC_SIB_APPEND_ONLY_EVIDENCE_RULES_SCHEMA_v3.md` (Audit Log) | Partial-use note for PM1 (earlier pass) | Addendum PM1 compatibility |
 | 8 | This Addendum | Authority hierarchy split; graph_integrity fix; side-effect clarification; report/memory stub list | Self-consistent |
+| 9–17 | All 9 remaining frozen contracts (Config/Paths, Repository Scanner, Governance Engine, Risk Engine, Evolution Planner, Patch Proposal Generator, Validation Runner, Memory Store, Knowledge Graph) | Product Milestone Placement section and cross-document alignment references added | Addendum scheduling |
 
 **Reviewed synchronization baseline:** `bbf163fba249c5f2c77a28a00f03f1e6a85bdf1d`
 

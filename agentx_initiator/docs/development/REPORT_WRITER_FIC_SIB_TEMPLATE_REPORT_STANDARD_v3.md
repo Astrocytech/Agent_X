@@ -440,7 +440,7 @@ agentx_initiator/tests/test_report_schema.py
 Runtime artifacts:
 
 ```text
-.agentx-init/reports/latest_report.md
+.agentx-init/reports/latest_status.md
 .agentx-init/reports/report_bundle.json
 .agentx-init/memory/report_history.jsonl
 .agentx-init/memory/audit_events.jsonl
@@ -461,7 +461,7 @@ The Report Writer must:
 - preserve evidence references
 - preserve source artifact references
 - separate facts, findings, decisions, risks, plans, proposals, validations, and unknowns
-- write `latest_report.md`
+- write `latest_status.md`
 - write `report_bundle.json`
 - append report history
 - append audit event when Audit Log is available
@@ -1180,7 +1180,7 @@ Side-effect classification:
 ```yaml
 side_effect_class: "report_persistent_state"
 allowed_writes:
-  - ".agentx-init/reports/latest_report.md"
+  - ".agentx-init/reports/latest_status.md"
   - ".agentx-init/reports/report_bundle.json"
   - ".agentx-init/memory/report_history.jsonl"
   - ".agentx-init/memory/audit_events.jsonl"

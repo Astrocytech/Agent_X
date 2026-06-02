@@ -221,6 +221,19 @@ supporting_standards:
   - "SIB Binding"
 ```
 
+Required documents:
+
+```text
+OVERVIEW.md
+PSEUDOCODE.md
+FIC.md
+SIB.md
+SCHEMA_CONTRACT.md
+ACCORDANCE.md
+TESTS.md
+EVIDENCE.md
+```
+
 ---
 
 # 2. Purpose
