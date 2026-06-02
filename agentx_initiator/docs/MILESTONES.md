@@ -1,29 +1,23 @@
 # Milestones
 
-## v1.0 (current)
+This document is a high-level summary. The authoritative milestone definition is in:
 
-- Read-only CLI companion for Agent_X
-- Repository scanning and layer mapping
-- Governance and risk checking
-- Evolution planning
-- Non-mutating patch proposals
-- Allowlisted validation command runner
-- Append-only audit log
-- Architecture knowledge graph
-- JSON schemas for all data types
-- Jinja2 Markdown report templates
+> [`docs/development/AGENT_X_INITIATOR_ALL_MILESTONES_SUMMARY_v6.md`](development/AGENT_X_INITIATOR_ALL_MILESTONES_SUMMARY_v6.md)
 
-## v2.0 (planned)
+## Quick Reference
 
-- L1 FIC unit generation scaffolds
-- R2 risk level support (docs/tests/schema/profile modifications)
-- Enhanced governance rule engine
+| Stage | Active Commands | Key Components |
+|---|---|---|
+| **Product Milestone 1** (current) | `help`, `scan`, `status` | Config/Paths, Audit Log, Repository Scanner, Layer Mapper, Minimal Architecture Analyzer, Minimal Report Writer |
+| **Product Milestone 2** (planned) | `explain`, `plan`, `propose`, `validate`, `audit`, `report`, `memory` | Governance Engine, Risk Engine, Evolution Planner, Patch Proposal Generator, Validation Runner, Memory Store, Expanded Report Writer |
+| **Product Milestone 3** (future) | `graph` | Knowledge Graph |
 
-## v3.0 (future)
+## Key Distinctions
 
-- R3 risk level support (governance or L1 behavior changes)
-- Integration with L1 FIC workflow
+- **Component Milestone 1** ≠ **Product Milestone 1**. A component may have a complete contract while being scheduled for a later product milestone.
+- PM1 is read-only toward source files. Only `.agentx-init/` is writable at runtime.
+- Later commands are BLOCKED stubs returning `COMMAND_NOT_IMPLEMENTED_IN_PRODUCT_MILESTONE_1`.
 
-## Blocked
+---
 
-R4 (L0 modification, self-modification, governance bypass) is never allowed.
+> **Synchronization Status:** This document is a summary. The authoritative milestone control document is `docs/development/AGENT_X_INITIATOR_ALL_MILESTONES_SUMMARY_v6.md`. All milestone placement, naming, and activation rules are defined there.
