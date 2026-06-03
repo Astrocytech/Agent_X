@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "completion_record.schema.json",
+  "component_id": "AGENTX_SECURITY_SANDBOX_FILESYSTEM_BOUNDARY",
+  "component_name": "Security Sandbox / Filesystem Boundary Layer",
+  "status": "VALIDATED",
+  "validated_commit": "fd3d679ee9f799614d76e359cf852ff4840b9ee1",
+  "validated_at": "2026-06-03T01:04:00+00:00",
+  "canonical_subdirectory": "tools/agentx_evolve/security/",
+  "basis_documents": [
+    "SECURITY_SANDBOX_FILESYSTEM_BOUNDARY_EQC_FIC_SIB_SCHEMA_CONTRACT_v3",
+    "SECURITY_SANDBOX_FILESYSTEM_BOUNDARY_IMPLEMENTATION_SPEC_v3",
+    "AGENT_X_SECURITY_SANDBOX_FD3D679_REVIEW_AND_DOD_v4"
+  ],
+  "commands_run": [
+    {
+      "command": "PYTHONPATH=tools python3 -m compileall tools/agentx_evolve",
+      "status": "PASS",
+      "evidence_summary": "All files compiled successfully."
+    },
+    {
+      "command": "PYTHONPATH=tools python3 -m pytest tools/agentx_evolve/tests",
+      "status": "PASS",
+      "evidence_summary": "648 passed in 11.35s"
+    },
+    {
+      "command": "git status --short",
+      "status": "PASS",
+      "evidence_summary": "No unexpected source mutation after validation."
+    }
+  ],
+  "files_created_or_changed": [
+    "tools/agentx_evolve/security/__init__.py",
+    "tools/agentx_evolve/security/security_models.py",
+    "tools/agentx_evolve/security/sandbox_policy.py",
+    "tools/agentx_evolve/security/path_boundary.py",
+    "tools/agentx_evolve/security/safe_file_ops.py",
+    "tools/agentx_evolve/security/safe_subprocess.py",
+    "tools/agentx_evolve/security/network_policy.py",
+    "tools/agentx_evolve/security/secret_redactor.py",
+    "tools/agentx_evolve/security/sandbox_evidence.py",
+    "tools/agentx_evolve/security/initiator_compat.py"
+  ],
+  "schemas_created_or_changed": [
+    "tools/agentx_evolve/schemas/sandbox_policy.schema.json",
+    "tools/agentx_evolve/schemas/sandbox_decision.schema.json",
+    "tools/agentx_evolve/schemas/path_boundary_result.schema.json",
+    "tools/agentx_evolve/schemas/safe_file_operation.schema.json",
+    "tools/agentx_evolve/schemas/safe_subprocess_result.schema.json",
+    "tools/agentx_evolve/schemas/network_policy_result.schema.json",
+    "tools/agentx_evolve/schemas/secret_redaction_result.schema.json",
+    "tools/agentx_evolve/schemas/sandbox_violation.schema.json",
+    "tools/agentx_evolve/schemas/sandbox_audit.schema.json"
+  ],
+  "tests_created_or_changed": [
+    "tools/agentx_evolve/tests/test_path_boundary.py",
+    "tools/agentx_evolve/tests/test_safe_file_ops.py",
+    "tools/agentx_evolve/tests/test_safe_subprocess.py",
+    "tools/agentx_evolve/tests/test_network_policy.py",
+    "tools/agentx_evolve/tests/test_secret_redactor.py",
+    "tools/agentx_evolve/tests/test_sandbox_schema.py",
+    "tools/agentx_evolve/tests/test_sandbox_agentx_integration.py",
+    "tools/agentx_evolve/tests/test_sandbox_negative_cases.py",
+    "tools/agentx_evolve/tests/test_sandbox_evidence.py"
+  ],
+  "validated_capabilities": [
+    "path traversal blocking",
+    "symlink escape blocking",
+    "L0 write blocking",
+    "protected path write blocking",
+    "source writes blocked by default",
+    "runtime writes constrained to .agentx-init/security/",
+    "safe exact edit ambiguity blocking",
+    "patch target precheck",
+    "subprocess blocked by default",
+    "destructive command blocking",
+    "network blocked by default",
+    "secret redaction",
+    "schema-governed sandbox results",
+    "sandbox evidence artifacts",
+    "Agent_X Initiator compatibility bridge"
+  ],
+  "opencode_patterns_borrowed": [
+    "read concept mapped to safe_read_file",
+    "edit concept mapped to safe_exact_edit",
+    "write concept mapped to safe_write_file",
+    "patch/apply_patch concept mapped to safe_patch_precheck",
+    "shell concept mapped to check_subprocess_allowed",
+    "invalid-tool behavior mapped to fail-closed sandbox decision"
+  ],
+  "opencode_patterns_rejected_or_restricted": [
+    "no OpenCode source copied",
+    "no Bun dependency added",
+    "no Node dependency added",
+    "no broad shell availability",
+    "no network fetch/search by default",
+    "no plugin execution in sandbox layer",
+    "no subagent execution in sandbox layer"
+  ],
+  "agentx_integration_points_verified": [
+    "canonical location under tools/agentx_evolve/security/",
+    "runtime artifacts under .agentx-init/security/",
+    "compatibility bridge to tools/agentx_initiator/",
+    "schema validation integration works or fails closed",
+    "audit/evidence integration works or fails closed",
+    "sandbox does not mutate Initiator source"
+  ],
+  "deviations_from_contract": [],
+  "unresolved_risks": [],
+  "final_decision": "DONE"
+}
