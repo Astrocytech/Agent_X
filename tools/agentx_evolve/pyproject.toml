@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentx-evolve"
+version = "0.1.0"
+description = "Agent_X Self-Evolving System — governed patch execution, model integration, orchestration, and evaluation layer"
+license = { text = "Proprietary" }
+requires-python = ">=3.11"
+dependencies = [
+    "agentx-init>=1.0.0",
+]
+
+[project.scripts]
+agentx-evolve = "agentx_evolve.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agentx_evolve*"]
+
+[tool.setuptools.package-data]
+agentx_evolve = ["schemas/*.json"]

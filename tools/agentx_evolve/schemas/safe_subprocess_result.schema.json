@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "safe_subprocess_result.schema.json",
+  "owner_component": "SafeSubprocess",
+  "artifact_type": "safe_subprocess_result",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "result_id", "timestamp",
+    "source_component", "command", "working_directory", "status",
+    "reason", "timeout_seconds", "stdout_redacted", "stderr_redacted",
+    "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "schema_id": {"type": "string", "const": "safe_subprocess_result.schema.json"},
+    "result_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "source_component": {"type": "string"},
+    "command": {"type": "array", "items": {"type": "string"}},
+    "working_directory": {"type": ["string", "null"]},
+    "status": {"type": "string"},
+    "reason": {"type": "string"},
+    "timeout_seconds": {"type": "integer"},
+    "stdout_redacted": {"type": ["string", "null"]},
+    "stderr_redacted": {"type": ["string", "null"]},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

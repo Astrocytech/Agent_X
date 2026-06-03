@@ -5,9 +5,10 @@
   "owner_component": "ValidationRunner",
   "artifact_type": "validation_report",
   "type": "object",
-  "required": ["schema_version", "report_id", "timestamp", "source_component", "status", "allowlist_entries", "runs", "manifest"],
+  "required": ["schema_version", "schema_id", "report_id", "timestamp", "source_component", "status", "allowlist_entries", "runs", "manifest"],
   "properties": {
-    "schema_version": {"type": "string"},
+    "schema_version": {"type": "string", "const": "1.0"},
+    "schema_id": {"type": "string", "const": "validation_report.schema.json"},
     "report_id": {"type": "string"},
     "timestamp": {"type": "string"},
     "source_component": {"type": "string"},

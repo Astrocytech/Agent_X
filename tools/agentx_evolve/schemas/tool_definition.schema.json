@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "tool_definition.schema.json",
+  "owner_component": "ToolAdapter",
+  "artifact_type": "tool_definition",
+  "type": "object",
+  "required": ["tool_name"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "schema_id": {"type": "string", "const": "tool_definition.schema.json"},
+    "tool_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "tool_name": {"type": "string"},
+    "description": {"type": "string"},
+    "parameters": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/ToolParameter"}
+    },
+    "handler_name": {"type": "string"},
+    "requires_approval": {"type": "boolean"},
+    "side_effect": {"type": "string"},
+    "enabled": {"type": "boolean"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "ToolParameter": {
+      "type": "object",
+      "properties": {
+        "name": {"type": "string"},
+        "param_type": {"type": "string"},
+        "description": {"type": "string"},
+        "required": {"type": "boolean"},
+        "default": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

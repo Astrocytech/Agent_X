@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "tool_policy_result.schema.json",
+  "owner_component": "ToolAdapter",
+  "artifact_type": "tool_policy_result",
+  "type": "object",
+  "required": ["tool_name", "decision"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "schema_id": {"type": "string", "const": "tool_policy_result.schema.json"},
+    "result_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "tool_name": {"type": "string"},
+    "decision": {"type": "string", "enum": ["ALLOW", "BLOCK", "REQUIRE_APPROVAL"]},
+    "matched_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {"type": "string"},
+          "timestamp": {"type": "string"},
+          "tool_name": {"type": "string"},
+          "effect": {"type": "string"},
+          "reason": {"type": "string"}
+        }
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

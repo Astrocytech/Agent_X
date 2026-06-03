@@ -1,5 +1,6 @@
 """PM2: Run allowlisted validation commands."""
 from __future__ import annotations
+import json
 from datetime import datetime, timezone
 from uuid import uuid4
 from agentx_initiator.core.validation_runner import run_validation
@@ -26,10 +27,25 @@ def run(args):
     passed = sum(1 for r in results if r.get("passed"))
     failed = sum(1 for r in results if not r.get("passed"))
 
+    status = "PASS" if failed == 0 else "PARTIAL"
+
+    report_obj = {
+        "schema_version": "1.0",
+        "schema_id": "validation_report.schema.json",
+        "report_id": str(uuid4()),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "source_component": "ValidationRunner",
+        "status": status,
+        "allowlist_entries": [],
+        "runs": results,
+        "manifest": {},
+        "warnings": [],
+        "errors": [],
+    }
+
     report_path = get_path("reports_dir") / "validation_report.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    import json
-    report_path.write_text(json.dumps(results, indent=2))
+    report_path.write_text(json.dumps(report_obj, indent=2))
 
     append_event({
         "event_type": "validate",

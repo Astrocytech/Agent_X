@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "git_result.schema.json",
+  "owner_component": "GitIntegration",
+  "artifact_type": "git_result",
+  "type": "object",
+  "required": ["operation", "status"],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "schema_id": {"type": "string", "const": "git_result.schema.json"},
+    "result_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "operation": {"type": "string"},
+    "status": {"type": "string"},
+    "message": {"type": "string"},
+    "stdout": {"type": "string"},
+    "stderr": {"type": "string"},
+    "returncode": {"type": "integer"},
+    "data": {"type": "object"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

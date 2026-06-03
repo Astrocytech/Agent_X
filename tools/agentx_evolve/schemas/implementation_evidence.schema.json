@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "implementation_evidence.schema.json",
+  "owner_component": "PatchExecution",
+  "artifact_type": "implementation_evidence",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "evidence_id", "timestamp",
+    "session_id", "event_type", "summary", "artifact_refs",
+    "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "const": "1.0"},
+    "schema_id": {"type": "string", "const": "implementation_evidence.schema.json"},
+    "evidence_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "session_id": {"type": "string"},
+    "event_type": {"type": "string"},
+    "summary": {"type": "string"},
+    "details": {"type": "object"},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
