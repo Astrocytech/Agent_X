@@ -7,11 +7,11 @@ from agentx_evolve.security.security_models import SandboxDecision, SandboxViola
 from agentx_evolve.security.initiator_compat import InitiatorCompat
 
 
-def _security_dir(repo_root: Path) -> Path:
-    return repo_root / ".agentx-init" / "security"
+def _security_dir(repo_root: Path | str) -> Path:
+    return Path(repo_root) / ".agentx-init" / "security"
 
 
-def _ensure_security_dir(repo_root: Path) -> Path:
+def _ensure_security_dir(repo_root: Path | str) -> Path:
     d = _security_dir(repo_root)
     d.mkdir(parents=True, exist_ok=True)
     return d
@@ -30,7 +30,7 @@ def _append_jsonl(path: Path, data: dict):
 
 def append_sandbox_decision(
     decision: SandboxDecision,
-    repo_root: Path,
+    repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
     d = _ensure_security_dir(repo_root)
@@ -41,7 +41,7 @@ def append_sandbox_decision(
 
 def append_sandbox_violation(
     violation: SandboxViolation,
-    repo_root: Path,
+    repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
     d = _ensure_security_dir(repo_root)
@@ -52,7 +52,7 @@ def append_sandbox_violation(
 
 def write_latest_sandbox_decision(
     decision: SandboxDecision,
-    repo_root: Path,
+    repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
     d = _ensure_security_dir(repo_root)
@@ -68,16 +68,17 @@ def write_latest_sandbox_decision(
 def build_sandbox_audit_event(decision: SandboxDecision) -> dict:
     return {
         "schema_version": "1.0",
-        "event_id": str(uuid4()),
+        "schema_id": "sandbox_audit.schema.json",
+        "audit_id": str(uuid4()),
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "category": "SECURITY_SANDBOX",
-        "component": "SecuritySandbox",
+        "source_component": "SecuritySandbox",
         "event_type": "sandbox_decision",
-        "status": decision.decision,
-        "summary": f"Sandbox {decision.decision} for {decision.operation} on {decision.target}: {decision.reason}",
         "operation": decision.operation,
         "target": decision.target,
         "decision": decision.decision,
         "reason": decision.reason,
         "artifacts": [".agentx-init/security/sandbox_decisions.jsonl"],
+        "success": decision.decision in ("ALLOW",),
+        "warnings": decision.warnings,
+        "errors": decision.errors,
     }
