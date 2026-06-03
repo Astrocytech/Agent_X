@@ -6,6 +6,7 @@ from pathlib import Path
 from agentx_evolve.patch.patch_models import (
     PatchSession, PatchAction, RollbackSnapshot,
     ImplementationEvidence, ImplementationSessionStatus,
+    ApprovedMutation, MutationAllowlist,
     SESSION_CREATED, SESSION_LOADED, SESSION_PROPOSAL_LOADED,
     SESSION_GOVERNANCE_CHECKED, SESSION_PATCH_APPLIED,
     SESSION_VALIDATED, SESSION_ACCEPTED, SESSION_ROLLED_BACK,
@@ -944,3 +945,104 @@ def test_rollback_manager_snapshot_creates_dir(repo):
 def test_implementation_session_id_property(repo, source_write_policy):
     sess = ImplementationSession(repo, source_write_policy, session_id="my-sess-id")
     assert sess.session_id == "my-sess-id"
+
+
+def test_approved_mutation_defaults():
+    m = ApprovedMutation()
+    assert m.mutation_id == ""
+    assert m.allowed_change_types == ["UPDATE", "CREATE"]
+    assert m.allows_path("src/file.py") is False
+    assert m.allows_change_type("UPDATE") is True
+    assert m.allows_change_type("DELETE") is False
+
+
+def test_approved_mutation_allows_path():
+    m = ApprovedMutation(target_path="src/", mutation_id="m1")
+    assert m.allows_path("src/file.py") is True
+    assert m.allows_path("src/") is True
+    assert m.allows_path("other/file.py") is False
+
+
+def test_mutation_allowlist_allows_mutation():
+    allowlist = MutationAllowlist(
+        allowlist_id="mal1",
+        mutations=[
+            ApprovedMutation(target_path="src/", allowed_change_types=["UPDATE", "CREATE"], mutation_id="m1"),
+        ],
+    )
+    assert allowlist.allows_mutation("src/file.py", "UPDATE") is True
+    assert allowlist.allows_mutation("src/file.py", "DELETE") is False
+    assert allowlist.allows_mutation("other/file.py", "UPDATE") is False
+    assert allowlist.is_empty() is False
+
+
+def test_mutation_allowlist_empty():
+    allowlist = MutationAllowlist()
+    assert allowlist.is_empty() is True
+    assert allowlist.allows_mutation("anything", "UPDATE") is False
+
+
+def test_applier_delete_blocked_by_allowlist(repo, source_write_policy):
+    compat = InitiatorCompat(repo)
+    applier = PatchApplier(
+        repo, source_write_policy,
+        "sess-del-test", "gov-del-test",
+        compat=compat,
+        mutation_allowlist=MutationAllowlist(
+            allowlist_id="mal-del",
+            mutations=[
+                ApprovedMutation(target_path="src/", allowed_change_types=["UPDATE", "CREATE"], mutation_id="m1"),
+            ],
+        ),
+    )
+    target = repo / "src" / "keep.txt"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text("keep me")
+    action = PatchAction(
+        action_id="act-del", target_file="src/keep.txt",
+        change_type="DELETE",
+    )
+    result = applier.apply_action(action)
+    assert result.status == "FAILED"
+    assert "mutation allowlist" in result.errors[0]
+    assert target.exists()
+
+
+def test_session_check_governance_resolves_allowlist(repo, source_write_policy):
+    gid = "gov-resolve-test"
+    gov_dir = repo / ".agentx-init" / "governance" / "decisions"
+    gov_dir.mkdir(parents=True, exist_ok=True)
+    (gov_dir / f"{gid}.json").write_text(json.dumps({
+        "mutation_allowlist": [
+            {"target_path": "src/", "allowed_change_types": ["UPDATE", "CREATE"], "reason": "test"},
+        ],
+    }))
+    sess = ImplementationSession(
+        repo, source_write_policy,
+        session_id="sess-resolve", governance_decision_id=gid,
+    )
+    sess.load_proposal({
+        "actions": [{"target_file": "src/file.py", "change_type": "UPDATE", "old_text": "", "new_text": "content"}],
+    })
+    decision = sess.check_governance()
+    assert decision.decision == DECISION_ALLOW
+    assert not sess._mutation_allowlist.is_empty()
+    assert sess._mutation_allowlist.allows_mutation("src/file.py", "UPDATE") is True
+
+
+def test_initiator_check_source_guard_with_allowlist(repo, source_write_policy):
+    compat = InitiatorCompat()
+    allowlist = MutationAllowlist(
+        allowlist_id="mal-sg",
+        mutations=[
+            ApprovedMutation(target_path="src/", mutation_id="m1"),
+        ],
+    )
+    result = compat.check_source_guard(["src/file.py"], mutation_allowlist=allowlist)
+    assert result["enforces_approved_mutation_scope"] is True
+    assert result["approved"] is True
+
+    result = compat.check_source_guard(["other/file.py"], mutation_allowlist=allowlist)
+    assert result["enforces_approved_mutation_scope"] is True
+    assert result["approved"] is False
+    assert "other/file.py" in result.get("unapproved_paths", [])

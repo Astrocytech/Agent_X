@@ -95,6 +95,9 @@ class SandboxPolicy:
     require_session_for_source_write: bool = True
     require_rollback_for_source_write: bool = True
     redact_secret_patterns: list[str] = field(default_factory=list)
+    audit_enabled: bool = False
+    audit_log_path: str = ""
+    audit_level: str = "metadata"
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
 

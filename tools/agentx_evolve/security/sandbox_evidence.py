@@ -28,8 +28,11 @@ def _write_json_atomic(path: Path, data: dict):
 
 
 def _append_jsonl(path: Path, data: dict):
+    import fcntl
     with open(path, "a") as f:
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
         f.write(json.dumps(data, separators=(",", ":")) + "\n")
+        fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 
 def _reject_if_schema_invalid(artifact: dict, schema_id: str, compat: InitiatorCompat | None) -> dict | None:

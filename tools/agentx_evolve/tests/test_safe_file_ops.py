@@ -5,6 +5,7 @@ from agentx_evolve.security.safe_file_ops import (
 )
 from agentx_evolve.security.sandbox_policy import default_sandbox_policy
 from agentx_evolve.security.initiator_compat import InitiatorCompat
+from agentx_evolve.patch.patch_models import MutationAllowlist, ApprovedMutation
 
 
 @pytest.fixture
@@ -162,3 +163,44 @@ def test_patch_precheck_blocks_forbidden_target(temp_repo, policy):
         ["src/allowed.txt", "L0/protected.py"], temp_repo, policy,
     )
     assert result.decision == "BLOCK", result.reason
+
+
+def test_source_write_blocked_by_mutation_allowlist(temp_repo, policy):
+    policy.source_write_allowed = True
+    policy.require_rollback_for_source_write = False
+    compat = InitiatorCompat(temp_repo)
+    allowlist = MutationAllowlist(
+        allowlist_id="mal-test",
+        mutations=[
+            ApprovedMutation(target_path="src/", mutation_id="m1"),
+        ],
+    )
+    result = safe_write_file(
+        "other/unlisted.txt", "content", temp_repo, policy,
+        implementation_session_id="sess-1",
+        governance_decision_id="gov-123",
+        compat=compat,
+        mutation_allowlist=allowlist,
+    )
+    assert result.status != "SUCCESS"
+    assert any("allowlist" in (e or "").lower() for e in (result.errors or []))
+
+
+def test_source_write_allowed_by_mutation_allowlist(temp_repo, policy):
+    policy.source_write_allowed = True
+    policy.require_rollback_for_source_write = False
+    compat = InitiatorCompat(temp_repo)
+    allowlist = MutationAllowlist(
+        allowlist_id="mal-test2",
+        mutations=[
+            ApprovedMutation(target_path="src/", mutation_id="m1"),
+        ],
+    )
+    result = safe_write_file(
+        "src/new_allowed.txt", "content", temp_repo, policy,
+        implementation_session_id="sess-1",
+        governance_decision_id="gov-123",
+        compat=compat,
+        mutation_allowlist=allowlist,
+    )
+    assert result.status == "SUCCESS", result.errors

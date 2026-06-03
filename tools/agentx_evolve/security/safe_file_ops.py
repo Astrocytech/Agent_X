@@ -2,6 +2,7 @@ from __future__ import annotations
 import os
 import json
 from pathlib import Path
+from typing import TYPE_CHECKING
 from agentx_evolve.security.security_models import (
     SandboxPolicy, SandboxDecision, SafeFileOperationResult,
     DECISION_ALLOW, DECISION_BLOCK,
@@ -13,6 +14,9 @@ from agentx_evolve.security.security_models import (
 )
 from agentx_evolve.security.path_boundary import check_path_boundary
 from agentx_evolve.security.initiator_compat import InitiatorCompat
+
+if TYPE_CHECKING:
+    from agentx_evolve.patch.patch_models import MutationAllowlist
 
 
 def check_read_allowed(
@@ -31,6 +35,7 @@ def check_write_allowed(
     governance_decision_id: str | None = None,
     rollback_snapshot_id: str | None = None,
     compat: InitiatorCompat | None = None,
+    mutation_allowlist: MutationAllowlist | None = None,
 ) -> SandboxDecision:
     decision = check_path_boundary(path, repo_root, OP_WRITE, policy)
     if decision.decision != DECISION_ALLOW:
@@ -138,7 +143,7 @@ def check_write_allowed(
             applied_rule_ids=["SOURCE_GUARD_REQUIRED"],
         )
 
-    guard_result = compat.check_source_guard([repo_rel])
+    guard_result = compat.check_source_guard([repo_rel], mutation_allowlist=mutation_allowlist)
     if not guard_result.get("enforces_approved_mutation_scope", False):
         return SandboxDecision(
             decision_id=new_id("decision"),
@@ -148,6 +153,17 @@ def check_write_allowed(
             decision=DECISION_BLOCK,
             reason="Source guard does not enforce approved mutation scope",
             applied_rule_ids=["SOURCE_GUARD_NON_ENFORCING"],
+        )
+
+    if not guard_result.get("approved", True):
+        return SandboxDecision(
+            decision_id=new_id("decision"),
+            timestamp=utc_now_iso(),
+            operation=OP_WRITE,
+            target=repo_rel,
+            decision=DECISION_BLOCK,
+            reason="Mutation not in allowlist",
+            applied_rule_ids=["MUTATION_NOT_ALLOWLISTED"],
         )
 
     return decision
@@ -240,7 +256,7 @@ def safe_read_file(
             errors=[f"Read error: {e}"],
         )
 
-    return SafeFileOperationResult(
+    result = SafeFileOperationResult(
         operation_id=operation_id,
         timestamp=utc_now_iso(),
         operation=OP_READ,
@@ -251,6 +267,23 @@ def safe_read_file(
         decision_id=decision.decision_id,
         content=content,
     )
+
+    if policy.audit_enabled and policy.audit_log_path:
+        from agentx_evolve.security.sandbox_evidence import append_sandbox_decision
+        audit_dir = repo_root / policy.audit_log_path
+        append_sandbox_decision(
+            SandboxDecision(
+                decision_id=new_id("decision"),
+                timestamp=utc_now_iso(),
+                operation=OP_READ,
+                target=str(p),
+                decision="ALLOW",
+                reason="Read audited by policy",
+            ),
+            audit_dir,
+        )
+
+    return result
 
 
 def safe_write_file(
@@ -263,6 +296,7 @@ def safe_write_file(
     governance_decision_id: str | None = None,
     rollback_snapshot_id: str | None = None,
     compat: InitiatorCompat | None = None,
+    mutation_allowlist: MutationAllowlist | None = None,
 ) -> SafeFileOperationResult:
     operation_id = new_id("sfop")
     decision = check_write_allowed(
@@ -271,6 +305,7 @@ def safe_write_file(
         governance_decision_id=governance_decision_id,
         rollback_snapshot_id=rollback_snapshot_id,
         compat=compat,
+        mutation_allowlist=mutation_allowlist,
     )
 
     if decision.decision != DECISION_ALLOW:
@@ -370,6 +405,7 @@ def safe_exact_edit(
     governance_decision_id: str | None = None,
     rollback_snapshot_id: str | None = None,
     compat: InitiatorCompat | None = None,
+    mutation_allowlist: MutationAllowlist | None = None,
 ) -> SafeFileOperationResult:
     operation_id = new_id("sfop")
     read_result = safe_read_file(path, repo_root, policy)
@@ -419,6 +455,7 @@ def safe_exact_edit(
         governance_decision_id=governance_decision_id,
         rollback_snapshot_id=rollback_snapshot_id,
         compat=compat,
+        mutation_allowlist=mutation_allowlist,
     )
     result.operation = OP_EDIT
     result.operation_id = operation_id
@@ -433,6 +470,7 @@ def safe_patch_precheck(
     governance_decision_id: str | None = None,
     rollback_snapshot_id: str | None = None,
     compat: InitiatorCompat | None = None,
+    mutation_allowlist: MutationAllowlist | None = None,
 ) -> SandboxDecision:
     overall_decision = DECISION_ALLOW
     reasons: list[str] = []
@@ -447,6 +485,7 @@ def safe_patch_precheck(
             governance_decision_id=governance_decision_id,
             rollback_snapshot_id=rollback_snapshot_id,
             compat=compat,
+            mutation_allowlist=mutation_allowlist,
         )
         if decision.decision == DECISION_BLOCK:
             overall_decision = DECISION_BLOCK

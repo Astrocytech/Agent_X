@@ -169,6 +169,52 @@ class RollbackSnapshot:
 
 
 @dataclass
+class ApprovedMutation:
+    schema_version: str = "1.0"
+    schema_id: str = "approved_mutation.schema.json"
+    mutation_id: str = ""
+    target_path: str = ""
+    allowed_change_types: list[str] = field(default_factory=lambda: ["UPDATE", "CREATE"])
+    governance_decision_id: str = ""
+    reason: str = ""
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return to_dict(self)
+
+    def allows_path(self, path: str) -> bool:
+        return path == self.target_path or path.startswith(self.target_path.rstrip("/") + "/")
+
+    def allows_change_type(self, change_type: str) -> bool:
+        return change_type in self.allowed_change_types
+
+
+@dataclass
+class MutationAllowlist:
+    schema_version: str = "1.0"
+    schema_id: str = "mutation_allowlist.schema.json"
+    allowlist_id: str = ""
+    timestamp: str = ""
+    governance_decision_id: str = ""
+    mutations: list[ApprovedMutation] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return {"mutations": [m.to_dict() for m in self.mutations]} if self.mutations else {}
+
+    def allows_mutation(self, target_path: str, change_type: str) -> bool:
+        return any(
+            m.allows_path(target_path) and m.allows_change_type(change_type)
+            for m in self.mutations
+        )
+
+    def is_empty(self) -> bool:
+        return len(self.mutations) == 0
+
+
+@dataclass
 class ImplementationEvidence:
     schema_version: str = "1.0"
     schema_id: str = "implementation_evidence.schema.json"

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from agentx_evolve.security.secret_redactor import redact_secrets
 from agentx_evolve.tool.tool_models import (
     ToolDefinition, ToolCall, ToolResult, ToolParameter,
     TS_SUCCESS, TS_FAILED,
@@ -71,6 +72,10 @@ def _run_command(call: ToolCall) -> ToolResult:
             command,
             capture_output=True, text=True, timeout=30,
         )
+        raw_stdout = proc.stdout[:100000]
+        raw_stderr = proc.stderr[:50000]
+        redacted_stdout = redact_secrets(raw_stdout).redacted_text
+        redacted_stderr = redact_secrets(raw_stderr).redacted_text
         return ToolResult(
             result_id=new_id("tr"), timestamp=utc_now_iso(),
             tool_name=call.tool_name, status=TS_SUCCESS,
@@ -78,8 +83,8 @@ def _run_command(call: ToolCall) -> ToolResult:
             data={
                 "command": command,
                 "returncode": proc.returncode,
-                "stdout": proc.stdout[:100000],
-                "stderr": proc.stderr[:50000],
+                "stdout": redacted_stdout,
+                "stderr": redacted_stderr,
             },
         )
     except subprocess.TimeoutExpired:

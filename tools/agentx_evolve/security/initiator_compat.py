@@ -4,7 +4,10 @@ import importlib
 from pathlib import Path
 from datetime import datetime, timezone
 from uuid import uuid4
-from typing import Any
+from typing import Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from agentx_evolve.patch.patch_models import MutationAllowlist
 
 _INITIATOR_IMPORT_ERRORS: list[str] = []
 
@@ -80,13 +83,35 @@ class InitiatorCompat:
     def get_protected_paths(self) -> list[str]:
         return ["L0/", "agent_x/runtime/", "core/"]
 
-    def check_source_guard(self, target_paths: list[str]) -> dict:
-        """Partial stub: captures source state via Initiator but does not
-        enforce an approved-mutation policy. Full enforcement requires
-        Initiator's SourceGuard to be running with a mutation allowlist.
-        This is acceptable at the current sandbox layer because source
-        writes are blocked by default (source_write_allowed=False) and
-        require explicit governance/session/rollback approval to enable."""
+    def check_source_guard(
+        self,
+        target_paths: list[str],
+        mutation_allowlist: MutationAllowlist | None = None,
+    ) -> dict:
+        if mutation_allowlist is not None and not mutation_allowlist.is_empty():
+            unapproved: list[str] = []
+            for tp in target_paths:
+                if not mutation_allowlist.allows_mutation(tp, "UPDATE") and not mutation_allowlist.allows_mutation(tp, "CREATE"):
+                    unapproved.append(tp)
+            if unapproved:
+                return {
+                    "integration": "mutation_allowlist",
+                    "before_state_captured": False,
+                    "paths_checked": target_paths,
+                    "enforces_approved_mutation_scope": True,
+                    "approved": False,
+                    "unapproved_paths": unapproved,
+                    "validation_note": "mutation_not_in_allowlist",
+                }
+            return {
+                "integration": "mutation_allowlist",
+                "before_state_captured": True,
+                "paths_checked": target_paths,
+                "enforces_approved_mutation_scope": True,
+                "approved": True,
+                "validation_note": "all_mutations_approved",
+            }
+
         s_guard = self._modules.get("source_guard")
         if s_guard is not None:
             try:

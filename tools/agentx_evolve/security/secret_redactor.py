@@ -46,7 +46,7 @@ def _build_patterns() -> list[tuple[str, re.Pattern]]:
 _DEFAULT_PATTERNS = _build_patterns()
 
 
-def redact_secrets(text: str, policy: SandboxPolicy) -> SecretRedactionResult:
+def redact_secrets(text: str, policy: SandboxPolicy | None = None) -> SecretRedactionResult:
     if not text:
         return SecretRedactionResult(
             result_id=new_id("srr"),
@@ -68,7 +68,8 @@ def redact_secrets(text: str, policy: SandboxPolicy) -> SecretRedactionResult:
             redaction_count += count
             redaction_types.append(type_name)
 
-    for pattern_str in policy.redact_secret_patterns:
+    custom_patterns: list[str] = policy.redact_secret_patterns if policy else []
+    for pattern_str in custom_patterns:
         if not pattern_str:
             continue
         try:

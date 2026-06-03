@@ -1,6 +1,7 @@
 from __future__ import annotations
 import subprocess
 from pathlib import Path
+from agentx_evolve.security.secret_redactor import redact_secrets
 from agentx_evolve.git.git_models import (
     GitOperation, GitResult, GitDiffResult, GitDiffEntry, GitOpType,
     GIT_OP_STATUS, GIT_OP_DIFF, GIT_OP_DIFF_NAME_ONLY, GIT_OP_DIFF_STAT,
@@ -75,17 +76,21 @@ def run_git_operation(op: GitOperation) -> GitResult:
             git_args, capture_output=True, text=True, timeout=30,
             cwd=repo_path,
         )
+        raw_stdout = proc.stdout
+        raw_stderr = proc.stderr
+        redacted_stdout = redact_secrets(raw_stdout).redacted_text
+        redacted_stderr = redact_secrets(raw_stderr).redacted_text
         result = GitResult(
             result_id=new_id("gr"), timestamp=utc_now_iso(),
             operation=op.operation,
             status=GS_SUCCESS if proc.returncode == 0 else GS_FAILED,
             message=f"git {op.operation} completed with code {proc.returncode}",
-            stdout=proc.stdout, stderr=proc.stderr,
+            stdout=redacted_stdout, stderr=redacted_stderr,
             returncode=proc.returncode,
             data={"args": git_args, "cwd": repo_path},
         )
         if proc.returncode != 0:
-            result.errors.append(proc.stderr[:5000])
+            result.errors.append(redacted_stderr[:5000])
         return result
     except subprocess.TimeoutExpired:
         return GitResult(

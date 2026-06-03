@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from agentx_evolve.patch.patch_models import (
     PatchSession, PatchAction, ImplementationEvidence,
+    MutationAllowlist, ApprovedMutation,
     SESSION_CREATED, SESSION_LOADED, SESSION_ACCEPTED, SESSION_ROLLED_BACK,
     SESSION_FAILED, SESSION_BLOCKED,
     new_id, utc_now_iso, to_dict,
@@ -29,6 +30,7 @@ class ImplementationSession:
         governance_decision_id: str = "",
         risk_assessment_id: str = "",
         compat: InitiatorCompat | None = None,
+        mutation_allowlist: MutationAllowlist | None = None,
     ):
         self._repo_root = repo_root.resolve()
         self._policy = policy
@@ -46,10 +48,12 @@ class ImplementationSession:
             self._session.session_id,
             governance_decision_id,
             compat=compat,
+            mutation_allowlist=mutation_allowlist,
         )
         self._validation_gate = ImplementationValidationGate(repo_root, policy)
         self._evidence = ImplementationEvidenceWriter(repo_root)
         self._snapshots: list = []
+        self._mutation_allowlist = mutation_allowlist or self._resolve_allowlist_from_governance()
 
     @property
     def session_id(self) -> str:
@@ -81,6 +85,34 @@ class ImplementationSession:
         self._session.target_paths = list(set(target_files))
         return self._session
 
+    def _resolve_allowlist_from_governance(self) -> MutationAllowlist:
+        gid = self._session.governance_decision_id
+        if not gid:
+            return MutationAllowlist()
+        gov_path = self._repo_root / ".agentx-init" / "governance" / "decisions" / f"{gid}.json"
+        if not gov_path.exists():
+            return MutationAllowlist(warnings=[f"Governance decision not found: {gov_path}"])
+        try:
+            data = json.loads(gov_path.read_text())
+        except (json.JSONDecodeError, OSError):
+            return MutationAllowlist(errors=[f"Cannot read governance decision: {gov_path}"])
+        mutations_data = data.get("mutation_allowlist", data.get("approved_mutations", []))
+        mutations = []
+        for m in mutations_data:
+            mutations.append(ApprovedMutation(
+                mutation_id=m.get("mutation_id", new_id("mut")),
+                target_path=m.get("target_path", ""),
+                allowed_change_types=m.get("allowed_change_types", ["UPDATE", "CREATE"]),
+                governance_decision_id=gid,
+                reason=m.get("reason", ""),
+            ))
+        return MutationAllowlist(
+            allowlist_id=new_id("mal"),
+            timestamp=utc_now_iso(),
+            governance_decision_id=gid,
+            mutations=mutations,
+        )
+
     def check_governance(self) -> SandboxDecision:
         self._session.status.transition_to("GOVERNANCE_CHECKED")
         if not self._session.governance_decision_id:
@@ -92,6 +124,8 @@ class ImplementationSession:
                 decision=DECISION_BLOCK,
                 reason="Governance decision ID is required",
             )
+        if self._mutation_allowlist is None or self._mutation_allowlist.is_empty():
+            self._mutation_allowlist = self._resolve_allowlist_from_governance()
         return SandboxDecision(
             decision_id=new_id("decision"),
             timestamp=utc_now_iso(),

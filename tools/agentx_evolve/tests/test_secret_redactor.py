@@ -63,3 +63,17 @@ def test_custom_pattern_from_policy(temp_repo, policy):
     result = redact_secrets(text, policy)
     assert result.redaction_count > 0
     assert "[REDACTED_SECRET]" in result.redacted_text
+
+
+def test_redact_secrets_with_none_policy_uses_defaults():
+    text = 'OPENAI_API_KEY="sk-1234567890abcdef1234567890abcdef"'
+    result = redact_secrets(text, None)
+    assert result.redaction_count > 0
+    assert "[REDACTED_API_KEY]" in result.redacted_text
+
+
+def test_no_secret_with_none_policy_preserves_text():
+    text = "safe text with no credentials"
+    result = redact_secrets(text, None)
+    assert result.redaction_count == 0
+    assert result.redacted_text == text

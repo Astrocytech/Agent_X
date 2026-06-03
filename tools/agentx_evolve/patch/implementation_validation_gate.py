@@ -1,6 +1,7 @@
 from __future__ import annotations
 import subprocess
 from pathlib import Path
+from agentx_evolve.security.secret_redactor import redact_secrets
 from agentx_evolve.security.safe_subprocess import check_subprocess_allowed
 from agentx_evolve.security.sandbox_policy import SandboxPolicy
 from agentx_evolve.security.security_models import STATUS_SUCCESS
@@ -36,12 +37,16 @@ class ImplementationValidationGate:
                     capture_output=True, text=True, timeout=60,
                     cwd=self._repo_root,
                 )
+                raw_out = result.stdout[:500]
+                raw_err = result.stderr[:500]
+                redacted_out = redact_secrets(raw_out, self._policy).redacted_text
+                redacted_err = redact_secrets(raw_err, self._policy).redacted_text
                 results.append({
                     "command": cmd,
                     "status": "PASS" if result.returncode == 0 else "FAIL",
                     "returncode": result.returncode,
-                    "stdout": result.stdout[:500],
-                    "stderr": result.stderr[:500],
+                    "stdout": redacted_out,
+                    "stderr": redacted_err,
                 })
             except subprocess.TimeoutExpired:
                 results.append({

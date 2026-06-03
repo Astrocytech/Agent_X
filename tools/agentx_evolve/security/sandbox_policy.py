@@ -22,6 +22,9 @@ def default_sandbox_policy(repo_root: Path) -> SandboxPolicy:
         require_session_for_source_write=True,
         require_rollback_for_source_write=True,
         redact_secret_patterns=[],
+        audit_enabled=False,
+        audit_log_path="",
+        audit_level="metadata",
         warnings=[],
         errors=[],
     )
@@ -39,6 +42,7 @@ def load_sandbox_policy_from_dict(
         "blocked_write_paths", "max_file_size_bytes", "resolve_symlinks",
         "require_governance_for_source_write", "require_session_for_source_write",
         "require_rollback_for_source_write", "redact_secret_patterns",
+        "audit_enabled", "audit_log_path", "audit_level",
         "warnings", "errors",
     }
     for k, v in data.items():
@@ -76,6 +80,9 @@ def merge_sandbox_policy(base: SandboxPolicy, override: dict) -> SandboxPolicy:
         "require_session_for_source_write": base.require_session_for_source_write,
         "require_rollback_for_source_write": base.require_rollback_for_source_write,
         "redact_secret_patterns": list(base.redact_secret_patterns),
+        "audit_enabled": base.audit_enabled,
+        "audit_log_path": base.audit_log_path,
+        "audit_level": base.audit_level,
         "warnings": list(base.warnings),
         "errors": list(base.errors),
     }
