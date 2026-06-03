@@ -73,6 +73,7 @@ def test_safe_write_requires_session_for_source_write(temp_repo, policy):
 
 def test_safe_write_source_with_all_ids(temp_repo, policy):
     policy.source_write_allowed = True
+    policy.require_rollback_for_source_write = False
     result = safe_write_file(
         "src/new.txt", "content", temp_repo, policy,
         implementation_session_id="sess-1",

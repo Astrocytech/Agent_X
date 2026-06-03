@@ -125,6 +125,7 @@ class ImplementationSession:
         self._session.rollback_snapshot_paths = [
             s.snapshot_path for s in self._snapshots
         ]
+        self._applier._rollback_id = self._session.session_id
         return self._session
 
     def validate(self, validation_commands: list[list[str]] | None = None) -> PatchSession:

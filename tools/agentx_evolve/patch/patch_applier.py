@@ -16,11 +16,13 @@ class PatchApplier:
         policy: SandboxPolicy,
         implementation_session_id: str,
         governance_decision_id: str,
+        rollback_snapshot_id: str | None = None,
     ):
         self._repo_root = repo_root.resolve()
         self._policy = policy
         self._session_id = implementation_session_id
         self._gov_id = governance_decision_id
+        self._rollback_id = rollback_snapshot_id
 
     def apply_action(self, action: PatchAction) -> PatchAction:
         if action.change_type == "UPDATE":
@@ -55,6 +57,7 @@ class PatchApplier:
             self._policy,
             implementation_session_id=self._session_id,
             governance_decision_id=self._gov_id,
+            rollback_snapshot_id=self._rollback_id,
         )
 
         if result.status == STATUS_SUCCESS:
@@ -79,6 +82,7 @@ class PatchApplier:
             self._policy,
             implementation_session_id=self._session_id,
             governance_decision_id=self._gov_id,
+            rollback_snapshot_id=self._rollback_id,
         )
 
         if result.status == STATUS_SUCCESS:

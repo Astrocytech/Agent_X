@@ -550,7 +550,7 @@ def _applier(repo, policy=None):
             "source_write_allowed": True,
             "allowlisted_write_paths": [".agentx-init/", "src/"],
         })
-    return PatchApplier(repo, policy, "sess-applier", "gov-applier")
+    return PatchApplier(repo, policy, "sess-applier", "gov-applier", rollback_snapshot_id="rb-applier")
 
 
 def test_applier_update(repo):

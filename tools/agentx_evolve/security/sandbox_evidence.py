@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import os
 from pathlib import Path
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -19,8 +20,11 @@ def _ensure_security_dir(repo_root: Path | str) -> Path:
 
 def _write_json_atomic(path: Path, data: dict):
     tmp = path.with_suffix(f".tmp.{uuid4().hex}")
-    tmp.write_text(json.dumps(data, indent=2, default=str))
-    tmp.replace(path)
+    with open(tmp, "w") as f:
+        f.write(json.dumps(data, indent=2, default=str))
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(str(tmp), str(path))
 
 
 def _append_jsonl(path: Path, data: dict):
@@ -36,6 +40,8 @@ def append_sandbox_decision(
     d = _ensure_security_dir(repo_root)
     decision_path = d / "sandbox_decisions.jsonl"
     _append_jsonl(decision_path, decision.to_dict())
+    if compat:
+        compat.append_audit_event(build_sandbox_audit_event(decision))
     return {"status": "APPENDED", "path": str(decision_path)}
 
 
@@ -47,6 +53,13 @@ def append_sandbox_violation(
     d = _ensure_security_dir(repo_root)
     violation_path = d / "sandbox_violations.jsonl"
     _append_jsonl(violation_path, violation.to_dict())
+    if compat:
+        compat.append_audit_event({
+            "event_type": "sandbox_violation",
+            "violation_id": violation.violation_id,
+            "target": violation.target,
+            "severity": violation.severity,
+        })
     return {"status": "APPENDED", "path": str(violation_path)}
 
 
@@ -57,11 +70,10 @@ def write_latest_sandbox_decision(
 ) -> dict:
     d = _ensure_security_dir(repo_root)
     latest_path = d / "latest_sandbox_decision.json"
-    _write_json_atomic(latest_path, decision.to_dict())
-
     if compat:
         compat.write_json_atomic(latest_path, decision.to_dict())
-
+    else:
+        _write_json_atomic(latest_path, decision.to_dict())
     return {"status": "WRITTEN", "path": str(latest_path)}
 
 

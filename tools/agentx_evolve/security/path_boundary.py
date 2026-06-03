@@ -5,6 +5,7 @@ from agentx_evolve.security.security_models import (
     DECISION_ALLOW, DECISION_BLOCK, STATUS_SUCCESS, STATUS_BLOCKED,
     utc_now_iso, new_id,
 )
+from agentx_evolve.security.sandbox_policy import is_protected_path
 
 
 def _l0_block_decision(repo_relative: str, operation: str) -> SandboxDecision | None:
@@ -41,6 +42,24 @@ def _protected_block_decision(repo_relative: str, operation: str, policy: Sandbo
     return None
 
 
+def _blocked_write_path_decision(repo_relative: str, operation: str, policy: SandboxPolicy) -> SandboxDecision | None:
+    if operation in ("WRITE", "EDIT", "PATCH_PRECHECK"):
+        path = repo_relative.rstrip("/")
+        for blocked in policy.blocked_write_paths:
+            b = blocked.rstrip("/")
+            if path == b or path.startswith(b + "/"):
+                return SandboxDecision(
+                    decision_id=new_id("decision"),
+                    timestamp=utc_now_iso(),
+                    operation=operation,
+                    target=repo_relative,
+                    decision=DECISION_BLOCK,
+                    reason=f"Write blocked by blocked_write_paths rule: '{blocked}'",
+                    applied_rule_ids=["BLOCKED_WRITE_PATH"],
+                )
+    return None
+
+
 def _source_write_block_decision(repo_relative: str, operation: str, policy: SandboxPolicy) -> SandboxDecision | None:
     if operation in ("WRITE", "EDIT", "PATCH_PRECHECK") and not policy.source_write_allowed:
         if not repo_relative.startswith(policy.runtime_state_root):
@@ -56,7 +75,7 @@ def _source_write_block_decision(repo_relative: str, operation: str, policy: San
     return None
 
 
-def normalize_repo_path(path: str | Path, repo_root: Path) -> PathBoundaryResult:
+def normalize_repo_path(path: str | Path, repo_root: Path, policy: SandboxPolicy | None = None) -> PathBoundaryResult:
     result_id = new_id("pbr")
     input_path = str(path)
     p = Path(path)
@@ -97,6 +116,9 @@ def normalize_repo_path(path: str | Path, repo_root: Path) -> PathBoundaryResult
                 pass
 
     is_l0 = bool(repo_relative and (repo_relative.startswith("L0/") or repo_relative == "L0"))
+    is_prot = False
+    if policy and repo_relative:
+        is_prot = is_protected_path(repo_relative, policy)
 
     return PathBoundaryResult(
         result_id=result_id,
@@ -108,7 +130,7 @@ def normalize_repo_path(path: str | Path, repo_root: Path) -> PathBoundaryResult
         is_symlink=is_symlink,
         symlink_escape=symlink_escape,
         is_l0=is_l0,
-        is_protected=False,
+        is_protected=is_prot,
         operation="",
         status=STATUS_SUCCESS if inside_repo else STATUS_BLOCKED,
     )
@@ -186,6 +208,10 @@ def check_path_boundary(
     prot_block = _protected_block_decision(repo_rel, operation, policy)
     if prot_block:
         return prot_block
+
+    blocked_write = _blocked_write_path_decision(repo_rel, operation, policy)
+    if blocked_write:
+        return blocked_write
 
     src_block = _source_write_block_decision(repo_rel, operation, policy)
     if src_block:

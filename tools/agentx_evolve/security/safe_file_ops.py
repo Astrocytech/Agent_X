@@ -5,11 +5,14 @@ from pathlib import Path
 from agentx_evolve.security.security_models import (
     SandboxPolicy, SandboxDecision, SafeFileOperationResult,
     DECISION_ALLOW, DECISION_BLOCK,
+    DECISION_NEEDS_GOVERNANCE, DECISION_NEEDS_ROLLBACK_SNAPSHOT,
+    DECISION_NEEDS_SESSION,
     STATUS_SUCCESS, STATUS_BLOCKED, STATUS_DRY_RUN,
     OP_READ, OP_WRITE, OP_EDIT, OP_PATCH_PRECHECK,
     utc_now_iso, new_id, sha256_text, sha256_file,
 )
 from agentx_evolve.security.path_boundary import check_path_boundary
+from agentx_evolve.security.initiator_compat import InitiatorCompat
 
 
 def check_read_allowed(
@@ -26,6 +29,8 @@ def check_write_allowed(
     policy: SandboxPolicy,
     implementation_session_id: str | None = None,
     governance_decision_id: str | None = None,
+    rollback_snapshot_id: str | None = None,
+    compat: InitiatorCompat | None = None,
 ) -> SandboxDecision:
     decision = check_path_boundary(path, repo_root, OP_WRITE, policy)
     if decision.decision != DECISION_ALLOW:
@@ -61,6 +66,21 @@ def check_write_allowed(
                 reason="Runtime writes are disabled by policy",
                 applied_rule_ids=["RUNTIME_WRITE_DISABLED"],
             )
+        if policy.allowlisted_write_paths:
+            is_allowlisted = any(
+                repo_rel == entry.rstrip("/") or repo_rel.startswith(entry.rstrip("/") + "/")
+                for entry in policy.allowlisted_write_paths
+            )
+            if not is_allowlisted:
+                return SandboxDecision(
+                    decision_id=new_id("decision"),
+                    timestamp=utc_now_iso(),
+                    operation=OP_WRITE,
+                    target=repo_rel,
+                    decision=DECISION_BLOCK,
+                    reason="Path not in allowlisted_write_paths",
+                    applied_rule_ids=["WRITE_PATH_NOT_ALLOWLISTED"],
+                )
         return decision
 
     if not policy.source_write_allowed:
@@ -80,7 +100,7 @@ def check_write_allowed(
             timestamp=utc_now_iso(),
             operation=OP_WRITE,
             target=repo_rel,
-            decision=DECISION_BLOCK,
+            decision=DECISION_NEEDS_GOVERNANCE,
             reason="Source write requires governance decision ID",
             applied_rule_ids=["GOVERNANCE_BLOCK"],
         )
@@ -91,10 +111,24 @@ def check_write_allowed(
             timestamp=utc_now_iso(),
             operation=OP_WRITE,
             target=repo_rel,
-            decision=DECISION_BLOCK,
+            decision=DECISION_NEEDS_SESSION,
             reason="Source write requires implementation session ID",
-            applied_rule_ids=["GOVERNANCE_BLOCK"],
+            applied_rule_ids=["SESSION_BLOCK"],
         )
+
+    if policy.require_rollback_for_source_write and not rollback_snapshot_id:
+        return SandboxDecision(
+            decision_id=new_id("decision"),
+            timestamp=utc_now_iso(),
+            operation=OP_WRITE,
+            target=repo_rel,
+            decision=DECISION_NEEDS_ROLLBACK_SNAPSHOT,
+            reason="Source write requires rollback snapshot",
+            applied_rule_ids=["ROLLBACK_BLOCK"],
+        )
+
+    if compat:
+        compat.check_source_guard([repo_rel])
 
     return decision
 
@@ -207,12 +241,16 @@ def safe_write_file(
     dry_run: bool = False,
     implementation_session_id: str | None = None,
     governance_decision_id: str | None = None,
+    rollback_snapshot_id: str | None = None,
+    compat: InitiatorCompat | None = None,
 ) -> SafeFileOperationResult:
     operation_id = new_id("sfop")
     decision = check_write_allowed(
         path, repo_root, policy,
         implementation_session_id=implementation_session_id,
         governance_decision_id=governance_decision_id,
+        rollback_snapshot_id=rollback_snapshot_id,
+        compat=compat,
     )
 
     if decision.decision != DECISION_ALLOW:
@@ -294,6 +332,8 @@ def safe_exact_edit(
     dry_run: bool = False,
     implementation_session_id: str | None = None,
     governance_decision_id: str | None = None,
+    rollback_snapshot_id: str | None = None,
+    compat: InitiatorCompat | None = None,
 ) -> SafeFileOperationResult:
     operation_id = new_id("sfop")
     read_result = safe_read_file(path, repo_root, policy)
@@ -341,6 +381,8 @@ def safe_exact_edit(
         dry_run=dry_run,
         implementation_session_id=implementation_session_id,
         governance_decision_id=governance_decision_id,
+        rollback_snapshot_id=rollback_snapshot_id,
+        compat=compat,
     )
 
 
@@ -350,6 +392,8 @@ def safe_patch_precheck(
     policy: SandboxPolicy,
     implementation_session_id: str | None = None,
     governance_decision_id: str | None = None,
+    rollback_snapshot_id: str | None = None,
+    compat: InitiatorCompat | None = None,
 ) -> SandboxDecision:
     overall_decision = DECISION_ALLOW
     reasons: list[str] = []
@@ -362,6 +406,8 @@ def safe_patch_precheck(
             target, repo_root, policy,
             implementation_session_id=implementation_session_id,
             governance_decision_id=governance_decision_id,
+            rollback_snapshot_id=rollback_snapshot_id,
+            compat=compat,
         )
         if decision.decision == DECISION_BLOCK:
             overall_decision = DECISION_BLOCK
