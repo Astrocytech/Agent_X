@@ -32,13 +32,26 @@ def _append_jsonl(path: Path, data: dict):
         f.write(json.dumps(data, separators=(",", ":")) + "\n")
 
 
+def _reject_if_schema_invalid(artifact: dict, schema_id: str, compat: InitiatorCompat | None) -> dict | None:
+    if compat is None:
+        return None
+    result = compat.validate_schema(artifact, schema_id)
+    if result.get("integration", "").startswith("initiator_") and result.get("valid") is False:
+        return {
+            "status": "FAILED",
+            "error": f"Schema validation failed for {schema_id}: {result.get('errors', [])}",
+        }
+    return None
+
+
 def append_sandbox_decision(
     decision: SandboxDecision,
     repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
-    if compat:
-        compat.validate_schema(decision.to_dict(), "sandbox_decision.schema.json")
+    rejection = _reject_if_schema_invalid(decision.to_dict(), "sandbox_decision.schema.json", compat)
+    if rejection:
+        return rejection
     d = _ensure_security_dir(repo_root)
     decision_path = d / "sandbox_decisions.jsonl"
     _append_jsonl(decision_path, decision.to_dict())
@@ -52,8 +65,9 @@ def append_sandbox_violation(
     repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
-    if compat:
-        compat.validate_schema(violation.to_dict(), "sandbox_violation.schema.json")
+    rejection = _reject_if_schema_invalid(violation.to_dict(), "sandbox_violation.schema.json", compat)
+    if rejection:
+        return rejection
     d = _ensure_security_dir(repo_root)
     violation_path = d / "sandbox_violations.jsonl"
     _append_jsonl(violation_path, violation.to_dict())

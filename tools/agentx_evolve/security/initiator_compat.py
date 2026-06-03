@@ -83,7 +83,10 @@ class InitiatorCompat:
     def check_source_guard(self, target_paths: list[str]) -> dict:
         """Partial stub: captures source state via Initiator but does not
         enforce an approved-mutation policy. Full enforcement requires
-        Initiator's SourceGuard to be running with a mutation allowlist."""
+        Initiator's SourceGuard to be running with a mutation allowlist.
+        This is acceptable at the current sandbox layer because source
+        writes are blocked by default (source_write_allowed=False) and
+        require explicit governance/session/rollback approval to enable."""
         s_guard = self._modules.get("source_guard")
         if s_guard is not None:
             try:
