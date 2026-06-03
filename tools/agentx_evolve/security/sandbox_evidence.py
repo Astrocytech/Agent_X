@@ -37,6 +37,8 @@ def append_sandbox_decision(
     repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
+    if compat:
+        compat.validate_schema(decision.to_dict(), "sandbox_decision.schema.json")
     d = _ensure_security_dir(repo_root)
     decision_path = d / "sandbox_decisions.jsonl"
     _append_jsonl(decision_path, decision.to_dict())
@@ -50,6 +52,8 @@ def append_sandbox_violation(
     repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
+    if compat:
+        compat.validate_schema(violation.to_dict(), "sandbox_violation.schema.json")
     d = _ensure_security_dir(repo_root)
     violation_path = d / "sandbox_violations.jsonl"
     _append_jsonl(violation_path, violation.to_dict())
@@ -90,7 +94,9 @@ def build_sandbox_audit_event(decision: SandboxDecision) -> dict:
         "decision": decision.decision,
         "reason": decision.reason,
         "artifacts": [".agentx-init/security/sandbox_decisions.jsonl"],
-        "success": decision.decision in ("ALLOW",),
+        "success": True,
+        "operation_allowed": decision.decision in ("ALLOW",),
+        "enforcement_success": True,
         "warnings": decision.warnings,
         "errors": decision.errors,
     }

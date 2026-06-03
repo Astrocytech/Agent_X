@@ -18,6 +18,8 @@
     "reason",
     "artifacts",
     "success",
+    "operation_allowed",
+    "enforcement_success",
     "warnings",
     "errors"
   ],
@@ -37,7 +39,8 @@
       "type": "string"
     },
     "source_component": {
-      "type": "string"
+      "type": "string",
+      "const": "SecuritySandbox"
     },
     "event_type": {
       "type": "string"
@@ -64,6 +67,12 @@
       }
     },
     "success": {
+      "type": "boolean"
+    },
+    "operation_allowed": {
+      "type": "boolean"
+    },
+    "enforcement_success": {
       "type": "boolean"
     },
     "warnings": {

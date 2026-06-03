@@ -1,6 +1,6 @@
 from __future__ import annotations
 from agentx_evolve.security.security_models import (
-    SandboxPolicy, NetworkPolicyResult, DECISION_BLOCK,
+    SandboxPolicy, NetworkPolicyResult, STATUS_BLOCKED, STATUS_FAILED,
     utc_now_iso, new_id,
 )
 
@@ -14,7 +14,7 @@ def check_network_allowed(
             result_id=new_id("npr"),
             timestamp=utc_now_iso(),
             target=target,
-            status=DECISION_BLOCK,
+            status=STATUS_BLOCKED,
             reason="Network access is disabled by policy",
         )
 
@@ -23,7 +23,7 @@ def check_network_allowed(
             result_id=new_id("npr"),
             timestamp=utc_now_iso(),
             target=target,
-            status=DECISION_BLOCK,
+            status=STATUS_FAILED,
             reason="Network target is required but was not provided",
         )
 
@@ -31,6 +31,6 @@ def check_network_allowed(
         result_id=new_id("npr"),
         timestamp=utc_now_iso(),
         target=target,
-        status=DECISION_BLOCK,
+        status=STATUS_BLOCKED,
         reason="Network target is not in allowlist (v1: all targets blocked)",
     )

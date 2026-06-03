@@ -2,8 +2,8 @@ from __future__ import annotations
 from pathlib import Path
 from agentx_evolve.security.security_models import (
     SandboxPolicy, SafeSubprocessResult,
-    DECISION_BLOCK,
-    utc_now_iso, new_id,
+    DECISION_BLOCK, STATUS_FAILED,
+    utc_now_iso, new_id, has_control_chars,
 )
 
 _ALWAYS_BLOCKED_PATTERNS: list[tuple[str, list[str]]] = [
@@ -43,6 +43,25 @@ def check_subprocess_allowed(
     policy: SandboxPolicy,
     working_directory: Path | None = None,
 ) -> SafeSubprocessResult:
+    if not isinstance(command, list) or not all(isinstance(c, str) for c in command):
+        return SafeSubprocessResult(
+            result_id=new_id("ssr"),
+            timestamp=utc_now_iso(),
+            command=list(command) if isinstance(command, list) else [],
+            status=STATUS_FAILED,
+            reason="Command must be a list of strings",
+        )
+
+    for token in command:
+        if has_control_chars(token):
+            return SafeSubprocessResult(
+                result_id=new_id("ssr"),
+                timestamp=utc_now_iso(),
+                command=list(command),
+                status=STATUS_FAILED,
+                reason=f"Command token contains control characters: {token!r}",
+            )
+
     if not policy.shell_allowed:
         return SafeSubprocessResult(
             result_id=new_id("ssr"),
@@ -116,7 +135,8 @@ def check_subprocess_allowed(
                 allowed = True
                 break
         elif isinstance(entry, str):
-            if cmd_str.startswith(entry):
+            entry_parts = entry.split()
+            if len(command) >= len(entry_parts) and command[:len(entry_parts)] == entry_parts:
                 allowed = True
                 break
 

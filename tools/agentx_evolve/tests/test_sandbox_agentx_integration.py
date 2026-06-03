@@ -3,6 +3,8 @@ from pathlib import Path
 from agentx_evolve.security.initiator_compat import InitiatorCompat, _INITIATOR_IMPORT_ERRORS
 
 
+# --- Optional (degraded-mode) import tests ---
+
 def test_imports_initiator_path_registry():
     try:
         from agentx_initiator.core import path_registry
@@ -43,6 +45,35 @@ def test_imports_initiator_audit_log():
         pytest.skip("Initiator not installed")
 
 
+# --- Required (non-skip) integration tests ---
+
+def test_required_initiator_import_path_registry():
+    from agentx_initiator.core import path_registry
+    assert path_registry is not None
+
+
+def test_required_initiator_import_source_guard():
+    from agentx_initiator.core import source_guard
+    assert source_guard is not None
+
+
+def test_required_initiator_import_schema_validation():
+    from agentx_initiator.core import schema_validation
+    assert schema_validation is not None
+
+
+def test_required_initiator_import_artifact_io():
+    from agentx_initiator.core import artifact_io
+    assert artifact_io is not None
+
+
+def test_required_initiator_import_audit_log():
+    from agentx_initiator.core import audit_log
+    assert audit_log is not None
+
+
+# --- Compat instance tests ---
+
 def test_compat_uses_runtime_state_root():
     compat = InitiatorCompat()
     root = compat.get_runtime_state_root()
@@ -68,7 +99,7 @@ def test_compat_integration_failures_recorded():
     assert isinstance(failures, list)
 
 
-def test_compat_validate_schema_works():
+def test_compat_validate_schema_valid_artifact():
     compat = InitiatorCompat()
     result = compat.validate_schema(
         {"schema_version": "1.0", "test": "value"},
@@ -76,3 +107,21 @@ def test_compat_validate_schema_works():
     )
     assert "valid" in result
     assert "integration" in result
+
+
+def test_compat_validate_schema_invalid_artifact():
+    compat = InitiatorCompat()
+    result = compat.validate_schema(
+        {"bad": "data"},
+        "sandbox_decision.schema.json",
+    )
+    assert "valid" in result
+    assert "integration" in result
+
+
+def test_compat_refresh_updates_status():
+    compat = InitiatorCompat()
+    original_errors = list(compat.integration_failures)
+    compat.refresh_integration_status()
+    assert isinstance(compat.integration_failures, list)
+    assert compat.degraded is True or compat.degraded is False

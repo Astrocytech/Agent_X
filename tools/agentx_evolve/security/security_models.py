@@ -1,6 +1,7 @@
 from __future__ import annotations
 import hashlib
 import json
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -64,6 +65,13 @@ def sha256_text(text: str) -> str:
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+_CONTROL_CHARS_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+
+
+def has_control_chars(s: str) -> bool:
+    return bool(_CONTROL_CHARS_RE.search(s))
 
 
 @dataclass
@@ -156,7 +164,9 @@ class PathBoundaryResult:
     errors: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
-        return to_dict(self)
+        d = to_dict(self)
+        d.pop("resolved_path", None)
+        return d
 
 
 @dataclass

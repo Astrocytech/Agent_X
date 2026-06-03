@@ -3,7 +3,7 @@ from pathlib import Path
 from agentx_evolve.security.security_models import (
     SandboxPolicy, SandboxDecision, PathBoundaryResult,
     DECISION_ALLOW, DECISION_BLOCK, STATUS_SUCCESS, STATUS_BLOCKED,
-    utc_now_iso, new_id,
+    utc_now_iso, new_id, has_control_chars,
 )
 from agentx_evolve.security.sandbox_policy import is_protected_path
 
@@ -75,9 +75,18 @@ def _source_write_block_decision(repo_relative: str, operation: str, policy: San
     return None
 
 
-def normalize_repo_path(path: str | Path, repo_root: Path, policy: SandboxPolicy | None = None) -> PathBoundaryResult:
+def normalize_repo_path(path: str | Path, repo_root: Path, policy: SandboxPolicy | None = None, operation: str = "") -> PathBoundaryResult:
     result_id = new_id("pbr")
     input_path = str(path)
+    if has_control_chars(input_path):
+        return PathBoundaryResult(
+            result_id=result_id,
+            timestamp=utc_now_iso(),
+            input_path=input_path,
+            inside_repo=False,
+            status=STATUS_BLOCKED,
+            errors=[f"Path contains control characters"],
+        )
     p = Path(path)
 
     try:
@@ -131,7 +140,7 @@ def normalize_repo_path(path: str | Path, repo_root: Path, policy: SandboxPolicy
         symlink_escape=symlink_escape,
         is_l0=is_l0,
         is_protected=is_prot,
-        operation="",
+        operation=operation,
         status=STATUS_SUCCESS if inside_repo else STATUS_BLOCKED,
     )
 
@@ -173,7 +182,7 @@ def check_path_boundary(
     operation: str,
     policy: SandboxPolicy,
 ) -> SandboxDecision:
-    result = normalize_repo_path(path, repo_root)
+    result = normalize_repo_path(path, repo_root, policy=policy, operation=operation)
 
     if not result.inside_repo:
         return SandboxDecision(

@@ -7,7 +7,7 @@ from agentx_evolve.security.security_models import (
     DECISION_ALLOW, DECISION_BLOCK,
     DECISION_NEEDS_GOVERNANCE, DECISION_NEEDS_ROLLBACK_SNAPSHOT,
     DECISION_NEEDS_SESSION,
-    STATUS_SUCCESS, STATUS_BLOCKED, STATUS_DRY_RUN,
+    STATUS_SUCCESS, STATUS_BLOCKED, STATUS_FAILED, STATUS_DRY_RUN,
     OP_READ, OP_WRITE, OP_EDIT, OP_PATCH_PRECHECK,
     utc_now_iso, new_id, sha256_text, sha256_file,
 )
@@ -165,7 +165,7 @@ def safe_read_file(
             timestamp=utc_now_iso(),
             operation=OP_READ,
             target_path=str(path),
-            status=STATUS_BLOCKED,
+            status=STATUS_FAILED,
             decision_id=decision.decision_id,
             errors=[f"File not found: {p}"],
         )
@@ -176,7 +176,7 @@ def safe_read_file(
             timestamp=utc_now_iso(),
             operation=OP_READ,
             target_path=str(path),
-            status=STATUS_BLOCKED,
+            status=STATUS_FAILED,
             decision_id=decision.decision_id,
             errors=[f"Path is a directory, not a file: {p}"],
         )
@@ -189,7 +189,7 @@ def safe_read_file(
             timestamp=utc_now_iso(),
             operation=OP_READ,
             target_path=str(path),
-            status=STATUS_BLOCKED,
+            status=STATUS_FAILED,
             decision_id=decision.decision_id,
             errors=[f"Cannot stat file: {e}"],
         )
@@ -215,7 +215,7 @@ def safe_read_file(
             timestamp=utc_now_iso(),
             operation=OP_READ,
             target_path=str(path),
-            status=STATUS_BLOCKED,
+            status=STATUS_FAILED,
             decision_id=decision.decision_id,
             errors=[f"Read error: {e}"],
         )
@@ -226,7 +226,7 @@ def safe_read_file(
         operation=OP_READ,
         target_path=str(p),
         status=STATUS_SUCCESS,
-        before_hash=sha256_text(content) if content else None,
+        before_hash=sha256_file(p),
         bytes_read=len(content.encode("utf-8")),
         decision_id=decision.decision_id,
         content=content,
@@ -266,9 +266,22 @@ def safe_write_file(
 
     p = Path(path)
     if not p.is_absolute():
-        p = (repo_root / p).resolve()
-    else:
+        p = repo_root / p
+    if p.exists():
         p = p.resolve()
+    else:
+        p = p.parent.resolve() / p.name
+
+    if p.exists() and p.is_dir():
+        return SafeFileOperationResult(
+            operation_id=operation_id,
+            timestamp=utc_now_iso(),
+            operation=OP_WRITE,
+            target_path=str(path),
+            status=STATUS_FAILED,
+            decision_id=decision.decision_id,
+            errors=[f"Target is a directory, not a file: {p}"],
+        )
 
     before_hash = sha256_file(p) if p.exists() else None
 
@@ -306,7 +319,10 @@ def safe_write_file(
             errors=[f"Write error: {e}"],
         )
     finally:
-        tmp.unlink(missing_ok=True)
+        try:
+            tmp.unlink(missing_ok=True)
+        except Exception:
+            pass
 
     after_hash = sha256_file(p)
 
@@ -376,7 +392,7 @@ def safe_exact_edit(
 
     updated_content = current_content.replace(old_text, new_text, 1)
 
-    return safe_write_file(
+    result = safe_write_file(
         path, updated_content, repo_root, policy,
         dry_run=dry_run,
         implementation_session_id=implementation_session_id,
@@ -384,6 +400,9 @@ def safe_exact_edit(
         rollback_snapshot_id=rollback_snapshot_id,
         compat=compat,
     )
+    result.operation = OP_EDIT
+    result.operation_id = operation_id
+    return result
 
 
 def safe_patch_precheck(

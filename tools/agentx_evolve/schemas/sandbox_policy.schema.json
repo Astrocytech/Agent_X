@@ -65,7 +65,13 @@
       "type": "boolean"
     },
     "allowlisted_commands": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"type": "string"},
+          {"type": "array", "items": {"type": "string"}}
+        ]
+      }
     },
     "allowlisted_write_paths": {
       "type": "array",

@@ -3,6 +3,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 from uuid import uuid4
 
+import pytest
+
 try:
     import jsonschema
     HAS_JSONSCHEMA = True
@@ -22,28 +24,13 @@ def _load_schema(name: str) -> dict:
 
 def _validate(instance: dict, schema_name: str) -> tuple[bool, list[str]]:
     schema = _load_schema(schema_name)
-    if HAS_JSONSCHEMA:
-        try:
-            jsonschema.validate(instance, schema)
-            return True, []
-        except jsonschema.ValidationError as e:
-            return False, [e.message]
-    else:
-        errors = []
-        required = schema.get("required", [])
-        for field in required:
-            if field not in instance:
-                errors.append(f"Missing required field: {field}")
-        props = schema.get("properties", {})
-        for field in props:
-            if field not in instance:
-                continue
-            prop = props[field]
-            if "const" in prop and instance[field] != prop["const"]:
-                errors.append(f"Field {field}: expected const {prop['const']}, got {instance[field]}")
-            if "enum" in prop and instance[field] not in prop["enum"]:
-                errors.append(f"Field {field}: {instance[field]} not in {prop['enum']}")
-        return len(errors) == 0, errors
+    try:
+        jsonschema.validate(instance, schema)
+        return True, []
+    except jsonschema.ValidationError as e:
+        return False, [e.message]
+    except jsonschema.SchemaError as e:
+        return False, [f"Schema error: {e.message}"]
 
 
 def _make_valid_policy_dict():
@@ -168,16 +155,19 @@ def _make_valid_redaction_dict():
     }
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_sandbox_policy_schema_accepts_valid_policy():
     valid, errors = _validate(_make_valid_policy_dict(), "sandbox_policy.schema.json")
     assert valid, errors
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_sandbox_decision_schema_accepts_valid_decision():
     valid, errors = _validate(_make_valid_decision_dict(), "sandbox_decision.schema.json")
     assert valid, errors
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_sandbox_decision_schema_rejects_missing_required_fields():
     obj = _make_valid_decision_dict()
     del obj["decision"]
@@ -185,21 +175,25 @@ def test_sandbox_decision_schema_rejects_missing_required_fields():
     assert not valid
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_path_boundary_result_schema_accepts_valid_result():
     valid, errors = _validate(_make_valid_path_boundary_dict(), "path_boundary_result.schema.json")
     assert valid, errors
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_safe_file_operation_schema_accepts_valid_result():
     valid, errors = _validate(_make_valid_file_op_dict(), "safe_file_operation.schema.json")
     assert valid, errors
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_safe_subprocess_result_schema_accepts_valid_result():
     valid, errors = _validate(_make_valid_subprocess_dict(), "safe_subprocess_result.schema.json")
     assert valid, errors
 
 
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
 def test_secret_redaction_schema_accepts_valid_result():
     valid, errors = _validate(_make_valid_redaction_dict(), "secret_redaction_result.schema.json")
     assert valid, errors

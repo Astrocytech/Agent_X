@@ -37,7 +37,8 @@
       "type": "string"
     },
     "source_component": {
-      "type": "string"
+      "type": "string",
+      "const": "SecuritySandbox"
     },
     "operation": {
       "type": "string",
@@ -64,6 +65,7 @@
         "BLOCK",
         "WARN",
         "NEEDS_GOVERNANCE",
+        "NEEDS_SESSION",
         "NEEDS_ROLLBACK_SNAPSHOT"
       ]
     },

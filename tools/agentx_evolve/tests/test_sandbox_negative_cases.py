@@ -55,7 +55,7 @@ def test_attempted_raw_shell_never_allows(temp_repo, policy):
 
 def test_attempted_network_never_allows_by_default(temp_repo, policy):
     result = check_network_allowed("https://example.com", policy)
-    assert result.status == "BLOCK", result.reason
+    assert result.status == "BLOCKED", result.reason
 
 
 def test_opencode_style_patch_cannot_bypass_agentx_governance(temp_repo, policy):

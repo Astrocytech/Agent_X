@@ -37,7 +37,8 @@
       "type": "string"
     },
     "source_component": {
-      "type": "string"
+      "type": "string",
+      "const": "SafeSubprocess"
     },
     "command": {
       "type": "array",

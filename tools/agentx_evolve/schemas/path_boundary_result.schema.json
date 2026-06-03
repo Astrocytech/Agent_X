@@ -12,7 +12,6 @@
     "timestamp",
     "source_component",
     "input_path",
-    "resolved_path",
     "repo_relative_path",
     "inside_repo",
     "is_symlink",
@@ -40,7 +39,8 @@
       "type": "string"
     },
     "source_component": {
-      "type": "string"
+      "type": "string",
+      "const": "PathBoundary"
     },
     "input_path": {
       "type": "string"

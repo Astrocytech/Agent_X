@@ -38,7 +38,8 @@
       "type": "string"
     },
     "source_component": {
-      "type": "string"
+      "type": "string",
+      "const": "SafeFileOps"
     },
     "operation": {
       "type": "string"
