@@ -52,6 +52,21 @@ def check_subprocess_allowed(
             reason="Subprocess execution is disabled by policy",
         )
 
+    if working_directory is not None:
+        repo_root = Path(policy.repo_root).resolve()
+        wd = Path(working_directory).resolve()
+        try:
+            wd.relative_to(repo_root)
+        except ValueError:
+            return SafeSubprocessResult(
+                result_id=new_id("ssr"),
+                timestamp=utc_now_iso(),
+                command=list(command),
+                working_directory=str(working_directory),
+                status=DECISION_BLOCK,
+                reason=f"Working directory {wd} is outside repo root {repo_root}",
+            )
+
     if not command:
         return SafeSubprocessResult(
             result_id=new_id("ssr"),

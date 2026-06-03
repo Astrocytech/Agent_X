@@ -69,6 +69,9 @@ class InitiatorCompat:
         return ["L0/", "agent_x/runtime/", "core/"]
 
     def check_source_guard(self, target_paths: list[str]) -> dict:
+        """Partial stub: captures source state via Initiator but does not
+        enforce an approved-mutation policy. Full enforcement requires
+        Initiator's SourceGuard to be running with a mutation allowlist."""
         if _source_guard is not None:
             try:
                 root = self.get_repo_root()
@@ -77,6 +80,7 @@ class InitiatorCompat:
                     "integration": "initiator_source_guard",
                     "before_state_captured": True,
                     "paths_checked": target_paths,
+                    "validation_note": "intro_only_no_mutation_policy",
                 }
             except Exception as e:
                 self._integration_failures.append(f"source_guard.check: {e}")

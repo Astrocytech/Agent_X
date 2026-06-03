@@ -250,8 +250,10 @@ def safe_write_file(
     p.parent.mkdir(parents=True, exist_ok=True)
     tmp = p.parent / f"{p.name}.tmp.{new_id()}"
     try:
-        tmp.write_text(content, encoding="utf-8")
-        tmp.flush() if hasattr(tmp, "flush") else None
+        with open(tmp, "w", encoding="utf-8") as f:
+            f.write(content)
+            f.flush()
+            os.fsync(f.fileno())
         os.replace(str(tmp), str(p))
     except OSError as e:
         tmp.unlink(missing_ok=True)

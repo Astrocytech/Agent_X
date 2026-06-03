@@ -25,8 +25,10 @@ def _l0_block_decision(repo_relative: str, operation: str) -> SandboxDecision | 
 
 def _protected_block_decision(repo_relative: str, operation: str, policy: SandboxPolicy) -> SandboxDecision | None:
     if operation in ("WRITE", "EDIT", "PATCH_PRECHECK"):
+        path = repo_relative.rstrip("/")
         for protected in policy.protected_paths:
-            if repo_relative == protected or repo_relative.startswith(protected):
+            p = protected.rstrip("/")
+            if path == p or path.startswith(p + "/"):
                 return SandboxDecision(
                     decision_id=new_id("decision"),
                     timestamp=utc_now_iso(),

@@ -103,8 +103,10 @@ def is_runtime_path(path: Path, repo_root: Path, policy: SandboxPolicy) -> bool:
 
 
 def is_protected_path(repo_relative_path: str, policy: SandboxPolicy) -> bool:
+    path = repo_relative_path.rstrip("/")
     for protected in policy.protected_paths:
-        if repo_relative_path == protected or repo_relative_path.startswith(protected):
+        p = protected.rstrip("/")
+        if path == p or path.startswith(p + "/") or path == p:
             return True
     return False
 
