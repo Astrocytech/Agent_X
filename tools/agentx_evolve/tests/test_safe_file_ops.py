@@ -97,7 +97,7 @@ def test_safe_write_source_blocked_without_rollback(temp_repo, policy):
     assert result.errors is not None and any("rollback" in (e or "").lower() for e in result.errors)
 
 
-def test_safe_write_source_with_all_ids_explicit_rollback_disabled(temp_repo, policy):
+def test_source_write_with_ids_but_no_compat_blocks(temp_repo, policy):
     policy.source_write_allowed = True
     policy.require_rollback_for_source_write = False
     result = safe_write_file(
@@ -105,9 +105,22 @@ def test_safe_write_source_with_all_ids_explicit_rollback_disabled(temp_repo, po
         implementation_session_id="sess-1",
         governance_decision_id="gov-123",
     )
-    assert result.status == "SUCCESS", result.errors
-    assert (temp_repo / "src" / "new.txt").exists()
-    assert (temp_repo / "src" / "new.txt").read_text() == "content"
+    assert result.status != "SUCCESS"
+    assert result.errors is not None and any("SOURCE_GUARD_REQUIRED" in e or "source guard" in e.lower() for e in result.errors)
+
+
+def test_source_write_with_non_enforcing_source_guard_blocks(temp_repo, policy):
+    policy.source_write_allowed = True
+    policy.require_rollback_for_source_write = False
+    compat = InitiatorCompat(temp_repo)
+    result = safe_write_file(
+        "src/new.txt", "content", temp_repo, policy,
+        implementation_session_id="sess-1",
+        governance_decision_id="gov-123",
+        compat=compat,
+    )
+    assert result.status != "SUCCESS"
+    assert result.errors is not None and any("SOURCE_GUARD_NON_ENFORCING" in e or "does not enforce" in e.lower() for e in result.errors)
 
 
 def test_safe_exact_edit_single_match_succeeds(temp_repo, policy):

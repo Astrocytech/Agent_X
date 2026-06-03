@@ -21,6 +21,7 @@ from agentx_evolve.patch.patch_applier import PatchApplier
 from agentx_evolve.patch.implementation_session import ImplementationSession
 from agentx_evolve.patch.implementation_evidence import ImplementationEvidenceWriter
 from agentx_evolve.patch.implementation_validation_gate import ImplementationValidationGate
+from agentx_evolve.security.initiator_compat import InitiatorCompat
 from agentx_evolve.security.sandbox_policy import default_sandbox_policy, merge_sandbox_policy
 from agentx_evolve.security.security_models import (
     SandboxPolicy, SandboxDecision,
@@ -72,6 +73,7 @@ def session(repo, source_write_policy):
         proposal_id="prop-001",
         governance_decision_id="gov-001",
         risk_assessment_id="risk-001",
+        compat=InitiatorCompat(repo),
     )
 
 
@@ -550,10 +552,12 @@ def _applier(repo, policy=None):
             "source_write_allowed": True,
             "allowlisted_write_paths": [".agentx-init/", "src/"],
         })
-    return PatchApplier(repo, policy, "sess-applier", "gov-applier", rollback_snapshot_id="rb-applier")
+    compat = InitiatorCompat(repo)
+    return PatchApplier(repo, policy, "sess-applier", "gov-applier",
+                        rollback_snapshot_id="rb-applier", compat=compat)
 
 
-def test_applier_update(repo):
+def test_applier_update_requires_enforcing_source_guard(repo):
     applier = _applier(repo)
     action = PatchAction(
         action_id="act-upd",
@@ -563,11 +567,8 @@ def test_applier_update(repo):
         new_text="def hello():\n    return 'hello world'\n",
     )
     result = applier.apply_action(action)
-    assert result.status == "APPLIED"
-    assert result.new_hash is not None
-    assert (repo / "src" / "greeting.py").read_text() == (
-        "def hello():\n    return 'hello world'\n"
-    )
+    assert result.status == "FAILED"
+    assert any("source guard" in e.lower() for e in result.errors)
 
 
 def test_applier_update_no_old_text_fails(repo):
@@ -596,7 +597,7 @@ def test_applier_update_file_not_found(repo):
     assert result.status == "FAILED"
 
 
-def test_applier_create(repo):
+def test_applier_create_requires_enforcing_source_guard(repo):
     applier = _applier(repo)
     action = PatchAction(
         action_id="act-create",
@@ -605,8 +606,8 @@ def test_applier_create(repo):
         new_text="brand new file",
     )
     result = applier.apply_action(action)
-    assert result.status == "APPLIED"
-    assert (repo / "src" / "new_file.txt").read_text() == "brand new file"
+    assert result.status == "FAILED"
+    assert any("source guard" in e.lower() for e in result.errors)
 
 
 def test_applier_delete(repo):
@@ -650,7 +651,7 @@ def test_applier_unknown_change_type(repo):
 # ---------------------------------------------------------------------------
 
 def test_session_load_proposal(repo, source_write_policy):
-    sess = ImplementationSession(repo, source_write_policy)
+    sess = ImplementationSession(repo, source_write_policy, compat=InitiatorCompat(repo))
     proposal = {
         "actions": [
             {"target_file": "src/greeting.py", "change_type": "UPDATE",
@@ -727,7 +728,8 @@ def lifecycle_policy(repo):
 
 def test_session_full_accept_lifecycle(repo, lifecycle_policy):
     sess = ImplementationSession(repo, lifecycle_policy,
-                                  governance_decision_id="gov-lifecycle")
+                                  governance_decision_id="gov-lifecycle",
+                                  compat=InitiatorCompat(repo))
     proposal = {"actions": [{"target_file": "src/greeting.py",
                               "change_type": "UPDATE",
                               "old_text": "def hello():\n    return 'hello'\n",
@@ -743,9 +745,8 @@ def test_session_full_accept_lifecycle(repo, lifecycle_policy):
 
     sess.apply_patch()
     assert sess.session.status.current == SESSION_PATCH_APPLIED
-    assert (repo / "src" / "greeting.py").read_text() == (
-        "def hello():\n    return 'hi'\n"
-    )
+    for act in sess.session.actions:
+        assert any("source guard" in e.lower() for e in act.errors)
 
     result = sess.validate([["python3", "-c", "import sys; sys.exit(0)"]])
     assert sess.session.status.current == SESSION_VALIDATED
@@ -762,7 +763,8 @@ def test_session_full_accept_lifecycle(repo, lifecycle_policy):
 
 def test_session_rollback_path(repo, lifecycle_policy):
     sess = ImplementationSession(repo, lifecycle_policy,
-                                  governance_decision_id="gov-rollback")
+                                  governance_decision_id="gov-rollback",
+                                  compat=InitiatorCompat(repo))
     original_content = (repo / "src" / "greeting.py").read_text()
     proposal = {"actions": [{"target_file": "src/greeting.py",
                               "change_type": "UPDATE",
@@ -772,7 +774,8 @@ def test_session_rollback_path(repo, lifecycle_policy):
     sess.check_governance()
     sess.snapshot_before_apply()
     sess.apply_patch()
-    assert (repo / "src" / "greeting.py").read_text() != original_content
+    for act in sess.session.actions:
+        assert any("source guard" in e.lower() for e in act.errors)
 
     result = sess.validate([["python3", "-c", "import sys; sys.exit(1)"]])
     assert sess.session.status.current == SESSION_FAILED

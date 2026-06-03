@@ -139,6 +139,27 @@ def _make_valid_subprocess_dict():
     }
 
 
+def _make_valid_audit_dict():
+    return {
+        "schema_version": "1.0",
+        "schema_id": "sandbox_audit.schema.json",
+        "audit_id": str(uuid4()),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "source_component": "SecuritySandbox",
+        "event_type": "sandbox_decision",
+        "operation": "READ",
+        "target": "src/file.txt",
+        "decision": "ALLOW",
+        "reason": "Boundary check passed",
+        "artifacts": [".agentx-init/security/sandbox_decisions.jsonl"],
+        "success": True,
+        "operation_allowed": True,
+        "enforcement_success": True,
+        "warnings": [],
+        "errors": [],
+    }
+
+
 def _make_valid_redaction_dict():
     return {
         "schema_version": "1.0",
@@ -197,3 +218,17 @@ def test_safe_subprocess_result_schema_accepts_valid_result():
 def test_secret_redaction_schema_accepts_valid_result():
     valid, errors = _validate(_make_valid_redaction_dict(), "secret_redaction_result.schema.json")
     assert valid, errors
+
+
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
+def test_sandbox_audit_schema_accepts_valid_audit():
+    valid, errors = _validate(_make_valid_audit_dict(), "sandbox_audit.schema.json")
+    assert valid, errors
+
+
+@pytest.mark.skipif(not HAS_JSONSCHEMA, reason="jsonschema package required")
+def test_sandbox_audit_schema_rejects_missing_required_fields():
+    obj = _make_valid_audit_dict()
+    del obj["decision"]
+    valid, errors = _validate(obj, "sandbox_audit.schema.json")
+    assert not valid

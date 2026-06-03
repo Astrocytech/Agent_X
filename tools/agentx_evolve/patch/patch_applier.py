@@ -3,6 +3,7 @@ from pathlib import Path
 from agentx_evolve.patch.patch_models import PatchAction, sha256_file, utc_now_iso
 from agentx_evolve.security.safe_file_ops import safe_exact_edit, safe_write_file
 from agentx_evolve.security.sandbox_policy import SandboxPolicy
+from agentx_evolve.security.initiator_compat import InitiatorCompat
 from agentx_evolve.security.security_models import (
     STATUS_SUCCESS, STATUS_BLOCKED, OP_EDIT, OP_WRITE,
     SandboxDecision, DECISION_ALLOW, DECISION_BLOCK,
@@ -17,12 +18,14 @@ class PatchApplier:
         implementation_session_id: str,
         governance_decision_id: str,
         rollback_snapshot_id: str | None = None,
+        compat: InitiatorCompat | None = None,
     ):
         self._repo_root = repo_root.resolve()
         self._policy = policy
         self._session_id = implementation_session_id
         self._gov_id = governance_decision_id
         self._rollback_id = rollback_snapshot_id
+        self._compat = compat
 
     def apply_action(self, action: PatchAction) -> PatchAction:
         if action.change_type == "UPDATE":
@@ -58,6 +61,7 @@ class PatchApplier:
             implementation_session_id=self._session_id,
             governance_decision_id=self._gov_id,
             rollback_snapshot_id=self._rollback_id,
+            compat=self._compat,
         )
 
         if result.status == STATUS_SUCCESS:
@@ -83,6 +87,7 @@ class PatchApplier:
             implementation_session_id=self._session_id,
             governance_decision_id=self._gov_id,
             rollback_snapshot_id=self._rollback_id,
+            compat=self._compat,
         )
 
         if result.status == STATUS_SUCCESS:

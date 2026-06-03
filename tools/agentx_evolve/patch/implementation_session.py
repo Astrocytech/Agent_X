@@ -12,6 +12,7 @@ from agentx_evolve.patch.patch_applier import PatchApplier
 from agentx_evolve.patch.rollback_manager import RollbackManager
 from agentx_evolve.patch.implementation_validation_gate import ImplementationValidationGate
 from agentx_evolve.patch.implementation_evidence import ImplementationEvidenceWriter
+from agentx_evolve.security.initiator_compat import InitiatorCompat
 from agentx_evolve.security.sandbox_policy import SandboxPolicy
 from agentx_evolve.security.security_models import (
     SandboxDecision, DECISION_ALLOW, DECISION_BLOCK,
@@ -27,6 +28,7 @@ class ImplementationSession:
         proposal_id: str = "",
         governance_decision_id: str = "",
         risk_assessment_id: str = "",
+        compat: InitiatorCompat | None = None,
     ):
         self._repo_root = repo_root.resolve()
         self._policy = policy
@@ -43,6 +45,7 @@ class ImplementationSession:
             repo_root, policy,
             self._session.session_id,
             governance_decision_id,
+            compat=compat,
         )
         self._validation_gate = ImplementationValidationGate(repo_root, policy)
         self._evidence = ImplementationEvidenceWriter(repo_root)

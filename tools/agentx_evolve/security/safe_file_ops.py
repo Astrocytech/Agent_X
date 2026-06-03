@@ -127,18 +127,28 @@ def check_write_allowed(
             applied_rule_ids=["ROLLBACK_BLOCK"],
         )
 
-    if compat:
-        guard_result = compat.check_source_guard([repo_rel])
-        if not guard_result.get("enforces_approved_mutation_scope", False):
-            return SandboxDecision(
-                decision_id=new_id("decision"),
-                timestamp=utc_now_iso(),
-                operation=OP_WRITE,
-                target=repo_rel,
-                decision=DECISION_BLOCK,
-                reason="Source guard does not enforce approved mutation scope",
-                applied_rule_ids=["SOURCE_GUARD_NO_ENFORCEMENT"],
-            )
+    if not compat:
+        return SandboxDecision(
+            decision_id=new_id("decision"),
+            timestamp=utc_now_iso(),
+            operation=OP_WRITE,
+            target=repo_rel,
+            decision=DECISION_BLOCK,
+            reason="Source write requires enforcing source guard",
+            applied_rule_ids=["SOURCE_GUARD_REQUIRED"],
+        )
+
+    guard_result = compat.check_source_guard([repo_rel])
+    if not guard_result.get("enforces_approved_mutation_scope", False):
+        return SandboxDecision(
+            decision_id=new_id("decision"),
+            timestamp=utc_now_iso(),
+            operation=OP_WRITE,
+            target=repo_rel,
+            decision=DECISION_BLOCK,
+            reason="Source guard does not enforce approved mutation scope",
+            applied_rule_ids=["SOURCE_GUARD_NON_ENFORCING"],
+        )
 
     return decision
 
