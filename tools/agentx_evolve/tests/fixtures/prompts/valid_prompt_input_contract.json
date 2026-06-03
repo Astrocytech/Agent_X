@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_input_contract.schema.json","input_contract_id":"ic-001","required_fields":["task_description"],"max_input_chars":10000,"warnings":[],"errors":[]}

@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_output_contract.schema.json","output_contract_id":"oc-001","required_format":"json","required_fields":["summary","files_changed"],"max_output_chars":5000,"warnings":[],"errors":[]}

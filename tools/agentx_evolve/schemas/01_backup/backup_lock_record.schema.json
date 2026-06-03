@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_lock_record.schema.json",
+  "title": "Backup Lock Record",
+  "description": "Tracks distributed locks used to serialise concurrent backup and restore operations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "lock_record_id",
+    "lock_name",
+    "lock_id",
+    "acquired_at",
+    "stale_after_seconds",
+    "owner_component",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "lock_record_id": { "type": "string" },
+    "lock_name": { "type": "string" },
+    "lock_id": { "type": "string" },
+    "acquired_at": { "type": "string", "format": "date-time" },
+    "released_at": { "type": ["string", "null"] },
+    "stale_after_seconds": { "type": "integer" },
+    "owner_component": { "type": "string" },
+    "status": { "type": "string", "enum": ["ACQUIRED", "RELEASED", "STALE", "BLOCKED"] },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

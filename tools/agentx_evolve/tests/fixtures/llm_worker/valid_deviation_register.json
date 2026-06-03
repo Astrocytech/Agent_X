@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"llm_worker_deviation_register.schema.json","deviation_register_id":"dr-001","created_at":"2026-06-05T00:00:00","source_component":"LLMImplementationWorker","task_id":"t-001","deviations":[{"deviation_id":"d-001","description":"Manual edit","approved":true}],"warnings":[],"errors":[]}

@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_registry_snapshot.schema.json","snapshot_id":"prs-001","registry_id":"pr-001","registry_version":"1.0","created_at":"2026-06-05T00:00:00","prompt_contract_ids":["pc-001"],"prompt_version_ids":["pv-001"],"active_bindings":{"pc-001":"pv-001"},"registry_sha256":"abc123","warnings":[],"errors":[]}

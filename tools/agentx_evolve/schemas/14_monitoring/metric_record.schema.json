@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "metric_record.schema.json",
+  "title": "Metric Record",
+  "description": "Schema for a single metric record collected by the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "metric_id",
+    "name",
+    "value",
+    "unit",
+    "timestamp",
+    "component"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "metric_record.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "metric_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique metric identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Metric name"
+    },
+    "value": {
+      "type": "number",
+      "description": "Numeric value of the metric"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement (e.g. count, gauge, percent, ms)"
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Key-value label pairs for the metric"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the metric collection"
+    },
+    "component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component that recorded the metric"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

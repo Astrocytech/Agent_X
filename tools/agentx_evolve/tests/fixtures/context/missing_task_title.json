@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "task_input.schema.json",
+  "task_input_id": "ti-002",
+  "created_at": "2026-06-05T00:00:00Z",
+  "warnings": ["missing task title"],
+  "errors": []
+}

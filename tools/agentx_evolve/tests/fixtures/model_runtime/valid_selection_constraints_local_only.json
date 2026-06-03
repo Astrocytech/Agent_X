@@ -1,0 +1,1 @@
+{"schema_id": "local_model_selection_constraints.schema.json", "local_only": true, "max_context_tokens": 8192, "max_model_size_bytes": 8589934592}

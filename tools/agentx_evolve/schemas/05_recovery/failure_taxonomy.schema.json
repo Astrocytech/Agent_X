@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "failure_taxonomy.schema.json",
+  "owner_component": "FailureRecovery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "taxonomy_id",
+    "timestamp",
+    "version",
+    "failure_classes",
+    "severity_matrix",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "taxonomy_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "version": { "type": "string" },
+    "failure_classes": { "type": "array", "items": { "type": "string" } },
+    "severity_matrix": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

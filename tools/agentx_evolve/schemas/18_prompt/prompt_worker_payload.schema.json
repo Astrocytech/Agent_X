@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_worker_payload.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "payload_id", "binding_id",
+    "prompt_contract_id", "prompt_version_id", "prompt_body",
+    "prompt_body_sha256", "input_data", "input_contract_id",
+    "output_contract_id", "allowed_tool_names", "registry_snapshot_sha256"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_worker_payload.schema.json"},
+    "payload_id": {"type": "string"},
+    "binding_id": {"type": "string"},
+    "prompt_contract_id": {"type": "string"},
+    "prompt_version_id": {"type": "string"},
+    "prompt_body": {"type": "string"},
+    "prompt_body_sha256": {"type": "string"},
+    "input_data": {"type": "object"},
+    "input_contract_id": {"type": "string"},
+    "output_contract_id": {"type": "string"},
+    "allowed_tool_names": {"type": "array", "items": {"type": "string"}},
+    "model_profile_id": {"type": "string"},
+    "context_pack_id": {"type": "string"},
+    "registry_snapshot_sha256": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

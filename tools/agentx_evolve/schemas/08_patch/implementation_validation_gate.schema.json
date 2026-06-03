@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "implementation_validation_gate.schema.json",
+  "owner_component": "GovernedPatchExecution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "validation_gate_id",
+    "session_id",
+    "timestamp",
+    "source_component",
+    "commands_requested",
+    "commands_allowed",
+    "commands_blocked",
+    "validation_status",
+    "requires_rollback",
+    "reason",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "validation_gate_id": { "type": "string" },
+    "session_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "commands_requested": { "type": "array", "items": { "type": "string" } },
+    "commands_allowed": { "type": "array", "items": { "type": "string" } },
+    "commands_blocked": { "type": "array", "items": { "type": "string" } },
+    "validation_status": { "type": "string" },
+    "requires_rollback": { "type": "boolean" },
+    "reason": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

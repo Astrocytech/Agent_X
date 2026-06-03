@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_priority_score.schema.json",
+  "context_item_id": "ci-001",
+  "priority_score": 0.85,
+  "reason": "System constraint outranks optional context",
+  "warnings": [],
+  "errors": []
+}

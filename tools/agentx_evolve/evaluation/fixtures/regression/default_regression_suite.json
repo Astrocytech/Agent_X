@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "evaluation_benchmark_suite.schema.json",
+  "suite_id": "default_regression_suite",
+  "suite_name": "Default Regression Suite",
+  "description": "Standard regression benchmark suite for evaluation harness.",
+  "created_at": "2026-06-05T00:00:00Z",
+  "source_component": "EvaluationHarness",
+  "case_refs": [
+    "invalid_tool_regression_case.json",
+    "blocked_write_regression_case.json"
+  ],
+  "default_threshold_id": "default_regression_threshold",
+  "baseline_ref": "default_regression_baseline.json",
+  "first_run_allowed": false,
+  "tags": ["regression", "offline"],
+  "warnings": [],
+  "errors": []
+}

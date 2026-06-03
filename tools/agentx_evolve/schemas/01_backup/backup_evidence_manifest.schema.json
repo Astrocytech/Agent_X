@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_evidence_manifest.schema.json",
+  "title": "Backup Evidence Manifest",
+  "description": "Collects all evidence files, hashes, runtime artifacts, and deviations produced by the Backup/Disaster Recovery Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "evidence_manifest_id",
+    "component_id",
+    "created_at",
+    "evidence_files",
+    "evidence_file_hashes",
+    "final_status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "evidence_manifest_id": { "type": "string" },
+    "component_id": { "const": "AGENTX_BACKUP_DISASTER_RECOVERY" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "backup_id": { "type": ["string", "null"] },
+    "restore_request_id": { "type": ["string", "null"] },
+    "evidence_files": { "type": "array", "items": { "type": "string" } },
+    "evidence_file_hashes": { "type": "object" },
+    "runtime_artifacts": { "type": "array", "items": { "type": "string" } },
+    "deviation_register": { "type": "array", "items": { "type": "string" } },
+    "final_status": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,1 @@
+{"schema_id": "local_runtime_profile.schema.json", "runtime_id": "ollama", "runtime_name": "Ollama", "runtime_kind": "local", "supported_model_formats": ["gguf"], "supported_quantizations": ["Q4", "Q8"], "supported_devices": ["CPU", "GPU"], "max_context_tokens": 32768, "supports_cpu_fallback": true, "supports_gpu_fallback": true, "enabled": true}

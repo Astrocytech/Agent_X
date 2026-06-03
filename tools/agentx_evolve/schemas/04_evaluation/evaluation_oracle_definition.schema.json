@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_oracle_definition.schema.json",
+  "title": "EvaluationOracleDefinition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "oracle_id",
+    "oracle_name",
+    "oracle_type",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "schema_id": {
+      "const": "evaluation_oracle_definition.schema.json",
+      "description": "Unique identifier for this schema document"
+    },
+    "oracle_id": {
+      "type": "string",
+      "description": "Unique identifier for the oracle"
+    },
+    "oracle_name": {
+      "type": "string",
+      "description": "Human-readable name of the oracle"
+    },
+    "oracle_type": {
+      "type": "string",
+      "enum": [
+        "STATIC_COMPARATOR",
+        "TOOL_RESULT_VALIDATOR",
+        "POLICY_CHECKER",
+        "SCHEMA_VALIDATOR",
+        "ARTIFACT_EXISTS_CHECKER",
+        "REGEX_MATCHER",
+        "SCRIPT_BASED"
+      ],
+      "description": "The kind of judgment the oracle performs"
+    },
+    "comparator_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "References to comparators used by this oracle"
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Free-form parameters passed to the oracle at evaluation time"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the oracle's judgment logic"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Arbitrary tags for categorisation and filtering"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Non-fatal issues detected during oracle definition"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fatal issues detected during oracle definition"
+    }
+  }
+}

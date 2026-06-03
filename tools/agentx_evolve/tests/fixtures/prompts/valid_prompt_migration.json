@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_migration.schema.json","migration_id":"pm-001","from_prompt_version_id":"pv-001","to_prompt_version_id":"pv-002","created_at":"2026-06-05T00:00:00","migration_status":"REQUIRED","affected_runtime_bindings":["rb-001"],"warnings":[],"errors":[]}

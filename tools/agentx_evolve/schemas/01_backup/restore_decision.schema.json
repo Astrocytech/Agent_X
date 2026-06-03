@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "restore_decision.schema.json",
+  "title": "Restore Decision",
+  "description": "Records the policy/governance decision on whether a restore request is allowed, blocked, or requires further approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "restore_decision_id",
+    "restore_request_id",
+    "decided_at",
+    "decision",
+    "reason",
+    "destructive_actions_allowed",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "restore_decision_id": { "type": "string" },
+    "restore_request_id": { "type": "string" },
+    "decided_at": { "type": "string", "format": "date-time" },
+    "decision": { "type": "string", "enum": ["ALLOW", "BLOCK", "NEEDS_GOVERNANCE", "NEEDS_APPROVAL", "DRY_RUN_ONLY"] },
+    "reason": { "type": "string" },
+    "required_authorities": { "type": "array", "items": { "type": "string" } },
+    "missing_authorities": { "type": "array", "items": { "type": "string" } },
+    "destructive_actions_allowed": { "type": "boolean" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

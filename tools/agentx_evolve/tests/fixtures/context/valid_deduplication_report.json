@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_deduplication_report.schema.json",
+  "primary_item_id": "ci-001",
+  "duplicate_item_ids": ["ci-002", "ci-003"],
+  "decision": "KEEP_PRIMARY",
+  "reason": "exact content match, lower priority duplicate removed",
+  "tokens_saved_estimate": 200,
+  "warnings": [],
+  "errors": []
+}

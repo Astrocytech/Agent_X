@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_builder_review_report.schema.json",
+  "component_id": "AGENTX_CONTEXT_BUILDER_TASK_PACKER",
+  "reviewed_commit": "abc123def456",
+  "reviewed_branch": "main",
+  "reviewed_at": "2026-06-05T00:00:00Z",
+  "review_environment": {
+    "os": "linux",
+    "python_version": "3.11",
+    "pytest_version": "7.4"
+  },
+  "commands_run": [
+    {
+      "name": "compileall",
+      "command": "PYTHONPATH=tools python -m compileall tools/agentx_evolve/context",
+      "exit_code": 0,
+      "status": "PASS",
+      "summary": "compiled"
+    }
+  ],
+  "coverage_statuses": {
+    "task_input_normalization": "PASS",
+    "context_source_loading": "PASS",
+    "prompt_injection_filtering": "PASS",
+    "sensitive_data_redaction": "PASS",
+    "budget_estimation": "PASS",
+    "deduplication": "PASS",
+    "compression": "PASS",
+    "model_compatibility": "PASS",
+    "tool_compatibility": "PASS",
+    "artifact_writing": "PASS",
+    "negative_tests": "PASS"
+  },
+  "blockers": [],
+  "high_issues": [],
+  "non_blocking_followups": [],
+  "deviation_register": [],
+  "evidence_manifest_path": ".agentx-init/context_packs/context_builder_evidence_manifest.json",
+  "evidence_manifest_sha256": "abc123",
+  "review_report_sha256": "def456",
+  "completion_record_path": ".agentx-init/context_packs/context_builder_completion_record.json",
+  "completion_record_sha256": "ghi789",
+  "implementation_rating": 10.0,
+  "final_verdict": "DONE"
+}

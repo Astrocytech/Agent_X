@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_compression_plan.schema.json",
+  "plan_id": "plan-001",
+  "compressible_item_ids": ["ci-010", "ci-011"],
+  "must_keep_verbatim_ids": ["ci-001", "ci-002"],
+  "summary_item_ids": ["ci-010"],
+  "tokens_saved_estimate": 500,
+  "warnings": [],
+  "errors": []
+}

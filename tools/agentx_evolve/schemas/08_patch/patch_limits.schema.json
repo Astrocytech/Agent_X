@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_limits.schema.json",
+  "owner_component": "GovernedPatchExecution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "limits_id",
+    "timestamp",
+    "source_component",
+    "max_changed_files_per_session",
+    "max_patch_operations_per_session",
+    "max_single_file_bytes",
+    "max_patch_text_bytes",
+    "max_total_snapshot_bytes",
+    "max_validation_runtime_seconds",
+    "max_session_runtime_seconds",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "limits_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "max_changed_files_per_session": { "type": "integer" },
+    "max_patch_operations_per_session": { "type": "integer" },
+    "max_single_file_bytes": { "type": "integer" },
+    "max_patch_text_bytes": { "type": "integer" },
+    "max_total_snapshot_bytes": { "type": "integer" },
+    "max_validation_runtime_seconds": { "type": "integer" },
+    "max_session_runtime_seconds": { "type": "integer" },
+    "status": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

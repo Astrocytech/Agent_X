@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "monitoring_completion_record.schema.json",
+  "title": "Monitoring Completion Record",
+  "description": "Schema for a monitoring completion record within the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "completion_record_id",
+    "created_at",
+    "source_component",
+    "status",
+    "final_decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "monitoring_completion_record.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "completion_record_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique completion record identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component that generated the record"
+    },
+    "component_id": {
+      "type": "string",
+      "description": "Identifier of the component"
+    },
+    "component_name": {
+      "type": "string",
+      "description": "Human-readable component name"
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Completion status"
+    },
+    "validated_commit": {
+      "type": "string",
+      "description": "Commit hash that was validated"
+    },
+    "validated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of validation"
+    },
+    "commands_run": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of commands executed"
+    },
+    "evidence_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the evidence manifest"
+    },
+    "review_report_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the review report"
+    },
+    "implementation_score": {
+      "type": "number",
+      "description": "Implementation quality score"
+    },
+    "final_decision": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Final decision recorded"
+    },
+    "completion_record_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the completion record"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

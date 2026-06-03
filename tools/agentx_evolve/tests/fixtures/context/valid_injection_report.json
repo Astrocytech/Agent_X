@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_injection_filter_report.schema.json",
+  "context_item_id": "ci-030",
+  "risk_level": "HIGH",
+  "patterns_detected": ["ignore previous instructions"],
+  "decision": "EXCLUDE",
+  "reason": "high-risk prompt injection detected",
+  "warnings": ["injection risk"],
+  "errors": []
+}

@@ -1,0 +1,31 @@
+from agentx_evolve.docs_sync.evidence_writer import (
+    write_scan_report,
+    write_drift_report,
+    write_link_report,
+    write_staleness_report,
+    write_sync_plan,
+    write_sync_result,
+    write_evidence_manifest,
+    write_command_result,
+    write_completion_record,
+    write_registry_report,
+    write_manual_protection_report,
+    write_generated_sync_report,
+    append_change_history_line,
+)
+
+__all__ = [
+    "write_scan_report",
+    "write_drift_report",
+    "write_link_report",
+    "write_staleness_report",
+    "write_sync_plan",
+    "write_sync_result",
+    "write_evidence_manifest",
+    "write_command_result",
+    "write_completion_record",
+    "write_registry_report",
+    "write_manual_protection_report",
+    "write_generated_sync_report",
+    "append_change_history_line",
+]

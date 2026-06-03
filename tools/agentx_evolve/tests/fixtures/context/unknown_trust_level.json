@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_source.schema.json",
+  "source_id": "src-002",
+  "source_type": "UNKNOWN",
+  "source_component": "unknown",
+  "source_trust_level": "INVALID_TRUST_LEVEL",
+  "allowed_by_policy": false,
+  "warnings": ["unknown trust level"],
+  "errors": []
+}

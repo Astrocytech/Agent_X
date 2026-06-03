@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_benchmark_change.schema.json",
+  "title": "EvaluationBenchmarkChange",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "change_id",
+    "suite_id",
+    "previous_suite_sha256",
+    "new_suite_sha256",
+    "changed_at",
+    "changed_by",
+    "reason",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "schema_id": {
+      "const": "evaluation_benchmark_change.schema.json",
+      "description": "Unique identifier for this schema document"
+    },
+    "change_id": {
+      "type": "string",
+      "description": "Unique identifier for this change record"
+    },
+    "suite_id": {
+      "type": "string",
+      "description": "Identifier of the suite that was changed"
+    },
+    "previous_suite_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the suite before the change"
+    },
+    "new_suite_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the suite after the change"
+    },
+    "changed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the change was applied"
+    },
+    "changed_by": {
+      "type": "string",
+      "description": "Entity (user or component) that performed the change"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Rationale for why the benchmark was changed"
+    },
+    "cases_added": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Identifiers of cases added in this change"
+    },
+    "cases_removed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Identifiers of cases removed in this change"
+    },
+    "cases_modified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Identifiers of cases modified in this change"
+    },
+    "approval_ref": {
+      "type": "string",
+      "description": "Reference to an approval record that authorised this change"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Non-fatal issues detected during the benchmark change"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fatal issues detected during the benchmark change"
+    }
+  }
+}

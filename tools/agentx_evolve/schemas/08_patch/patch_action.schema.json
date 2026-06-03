@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_action.schema.json",
+  "owner_component": "PatchExecution",
+  "artifact_type": "patch_action",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "action_id",
+    "timestamp",
+    "target_file",
+    "change_type",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "patch_action.schema.json"
+    },
+    "action_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "target_file": {
+      "type": "string"
+    },
+    "change_type": {
+      "type": "string",
+      "enum": [
+        "UPDATE",
+        "CREATE",
+        "DELETE"
+      ]
+    },
+    "old_text": {
+      "type": "string"
+    },
+    "new_text": {
+      "type": "string"
+    },
+    "old_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "new_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

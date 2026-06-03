@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinalAcceptanceEvidenceManifest",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "source_component",
+    "acceptance_mode", "items"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"enum": ["final_acceptance_evidence_manifest.schema.json"]},
+    "source_component": {"type": "string"},
+    "reviewed_commit": {"type": ["string", "null"]},
+    "created_at": {"type": "string"},
+    "acceptance_mode": {"type": "string"},
+    "items": {
+      "type": "array",
+      "items": {"$ref": "final_acceptance_evidence_item.schema.json"}
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinalAcceptanceEvidenceItem",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "source_component",
+    "layer_id", "artifact_path", "artifact_type", "required",
+    "exists", "readable"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"enum": ["final_acceptance_evidence_item.schema.json"]},
+    "source_component": {"type": "string"},
+    "layer_id": {"type": "string"},
+    "artifact_path": {"type": "string"},
+    "artifact_type": {"type": "string"},
+    "required": {"type": "boolean"},
+    "exists": {"type": "boolean"},
+    "readable": {"type": "boolean"},
+    "sha256": {"type": ["string", "null"]},
+    "schema_valid": {"type": "boolean"},
+    "schema_validation_error": {"type": ["string", "null"]},
+    "reviewed_commit_in_artifact": {"type": ["string", "null"]},
+    "artifact_timestamp": {"type": ["string", "null"]},
+    "stale": {"type": "boolean"},
+    "alias_used": {"type": ["string", "null"]},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

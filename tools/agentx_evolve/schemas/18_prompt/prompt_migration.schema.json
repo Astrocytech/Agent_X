@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_migration.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "migration_id", "from_prompt_version_id",
+    "to_prompt_version_id", "created_at", "migration_status",
+    "affected_runtime_bindings"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_migration.schema.json"},
+    "migration_id": {"type": "string"},
+    "from_prompt_version_id": {"type": "string"},
+    "to_prompt_version_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "migration_status": {"type": "string", "enum": ["REQUIRED", "IN_PROGRESS", "COMPLETE", "BLOCKED", "NOT_REQUIRED"]},
+    "required_actions": {"type": "array", "items": {"type": "string"}},
+    "affected_runtime_bindings": {"type": "array", "items": {"type": "string"}},
+    "approval_required": {"type": "boolean"},
+    "governance_required": {"type": "boolean"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

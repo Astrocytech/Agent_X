@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "role_permission_matrix.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "role_permission_matrix",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "matrix_id",
+    "timestamp",
+    "source_component",
+    "roles",
+    "matrix",
+    "non_overridable_blocks",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "role_permission_matrix.schema.json"
+    },
+    "matrix_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "matrix": {
+      "type": "object"
+    },
+    "non_overridable_blocks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

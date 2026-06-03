@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_adapter_evidence_manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "component_id", "validated_commit",
+    "validated_at", "review_environment", "commands",
+    "source_mutation_status", "provider_status", "local_model_status",
+    "hosted_model_status", "final_decision"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "component_id": { "type": "string" },
+    "validated_commit": { "type": "string" },
+    "validated_at": { "type": "string" },
+    "review_environment": {
+      "type": "object",
+      "properties": {
+        "os": { "type": "string" },
+        "python_version": { "type": "string" },
+        "pytest_version": { "type": "string" }
+      }
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "command": { "type": "string" },
+          "exit_code": { "type": "integer" },
+          "status": { "type": "string" },
+          "summary": { "type": "string" },
+          "output_artifact": { "type": "string" }
+        }
+      }
+    },
+    "evidence_files": { "type": "array", "items": { "type": "string" } },
+    "evidence_file_hashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string" }
+        }
+      }
+    },
+    "runtime_artifacts": { "type": "array", "items": { "type": "string" } },
+    "known_expected_runtime_artifacts": { "type": "array", "items": { "type": "string" } },
+    "deviation_register": { "type": "array", "items": { "type": "object" } },
+    "source_mutation_status": { "type": "string" },
+    "provider_status": { "type": "string" },
+    "local_model_status": { "type": "string" },
+    "hosted_model_status": { "type": "string" },
+    "final_decision": { "type": "string" }
+  }
+}

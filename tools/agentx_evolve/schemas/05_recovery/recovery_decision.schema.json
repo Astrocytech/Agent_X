@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "recovery_decision.schema.json",
+  "owner_component": "FailureRecovery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "recovery_decision_id",
+    "timestamp",
+    "failure_id",
+    "decision",
+    "selected_actions",
+    "reason",
+    "policy_rule_ids",
+    "safe_mode_required",
+    "human_review_required",
+    "rollback_required",
+    "retry_allowed",
+    "continue_session_allowed",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "recovery_decision_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "failure_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["RECOVERABLE", "NON_RECOVERABLE", "BLOCKED", "SAFE_MODE_REQUIRED", "HUMAN_REVIEW_REQUIRED"]
+    },
+    "selected_actions": { "type": "array", "items": { "type": "object" } },
+    "reason": { "type": "string" },
+    "policy_rule_ids": { "type": "array", "items": { "type": "string" } },
+    "safe_mode_required": { "type": "boolean" },
+    "human_review_required": { "type": "boolean" },
+    "rollback_required": { "type": "boolean" },
+    "retry_allowed": { "type": "boolean" },
+    "continue_session_allowed": { "type": "boolean" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

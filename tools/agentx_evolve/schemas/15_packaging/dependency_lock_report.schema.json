@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "dependency_lock_report.schema.json",
+  "title": "Dependency Lock Report",
+  "description": "Schema for the dependency lock report",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "dependency_lock_report.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_at",
+    "source_component",
+    "lock_files_found",
+    "lock_files_required",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "dependency_lock_report.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "report_id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "description": "Name of the source component"
+    },
+    "lock_files_found": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Lock files that were found"
+    },
+    "lock_files_required": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Lock files that are required"
+    },
+    "missing_lock_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Required lock files that are missing"
+    },
+    "dependency_files_found": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Dependency specification files found"
+    },
+    "unpinned_dependencies": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Dependencies that are not pinned to specific versions"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED", "NOT CHECKED", "NOT RUN", "NOT APPLICABLE", "DEFERRED SAFELY"],
+      "description": "Validation status"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

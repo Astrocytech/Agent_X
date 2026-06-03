@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "packaging_evidence_manifest.schema.json",
+  "title": "Packaging Evidence Manifest",
+  "description": "Schema for the packaging evidence manifest",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "packaging_evidence_manifest.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "evidence_manifest_id",
+    "created_at",
+    "source_component",
+    "component_id",
+    "validated_commit"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "packaging_evidence_manifest.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "evidence_manifest_id": {
+      "type": "string",
+      "description": "Unique evidence manifest identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "description": "Name of the source component"
+    },
+    "component_id": {
+      "type": "string",
+      "description": "Identifier of the component"
+    },
+    "validated_commit": {
+      "type": "string",
+      "description": "Commit hash that was validated"
+    },
+    "evidence_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of evidence file paths"
+    },
+    "evidence_hashes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": { "type": "string", "description": "Path to the evidence file" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "SHA-256 hash of the evidence file" }
+        }
+      },
+      "description": "Hashes of evidence files"
+    },
+    "package_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of package artifact paths"
+    },
+    "release_bundle_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of release bundle artifact paths"
+    },
+    "commands_run": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of commands executed"
+    },
+    "source_mutation_status": {
+      "type": "string",
+      "description": "Status of source mutation checks"
+    },
+    "network_status": {
+      "type": "string",
+      "description": "Status of network access"
+    },
+    "publish_status": {
+      "type": "string",
+      "description": "Status of publishing"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED", "NOT CHECKED", "NOT RUN", "NOT APPLICABLE", "DEFERRED SAFELY"],
+      "description": "Overall status"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

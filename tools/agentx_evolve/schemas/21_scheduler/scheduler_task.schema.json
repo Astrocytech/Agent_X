@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scheduler_task.schema.json",
+  "title": "Scheduler Task",
+  "description": "Defines a task record managed by Agent X's Task Queue / Session Scheduler Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "record_id",
+    "task_id",
+    "session_id",
+    "status",
+    "priority",
+    "created_at",
+    "updated_at",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "record_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "session_id": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["QUEUED", "CLAIMED", "RUNNING", "COMPLETED", "FAILED", "CANCELLED", "BLOCKED", "PENDING_REVIEW"]
+    },
+    "priority": { "type": "integer" },
+    "payload_ref": { "type": "string" },
+    "dependency_ids": { "type": "array", "items": { "type": "string" } },
+    "retry_count": { "type": "integer" },
+    "max_retries": { "type": "integer" },
+    "next_run_at": { "type": ["string", "null"] },
+    "previous_record_hash": { "type": "string" },
+    "task_record_hash": { "type": "string" },
+    "append_sequence": { "type": "integer" },
+    "revision": { "type": "integer" },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

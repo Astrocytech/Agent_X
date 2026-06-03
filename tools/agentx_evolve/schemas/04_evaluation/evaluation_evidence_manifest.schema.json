@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_evidence_manifest.schema.json",
+  "title": "EvaluationEvidenceManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "run_id",
+    "suite_id",
+    "validated_commit",
+    "final_decision",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "type": "string"
+    },
+    "component_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "suite_id": {
+      "type": "string"
+    },
+    "validated_commit": {
+      "type": "string"
+    },
+    "validated_at": {
+      "type": "string"
+    },
+    "execution_mode": {
+      "type": "string"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "fixtures_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fixture_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "baseline_used": {
+      "type": "string"
+    },
+    "baseline_sha256": {
+      "type": "string"
+    },
+    "runtime_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "runtime_artifact_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reports": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "report_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_mutation_status": {
+      "type": "string"
+    },
+    "network_status": {
+      "type": "string"
+    },
+    "tool_adapter_status": {
+      "type": "string"
+    },
+    "policy_status": {
+      "type": "string"
+    },
+    "failure_taxonomy_status": {
+      "type": "string"
+    },
+    "final_decision": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "tool_call.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "tool_call_id",
+    "timestamp",
+    "source_component",
+    "caller_role",
+    "tool_name",
+    "arguments",
+    "requested_effect",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "tool_call_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "caller_role": { "type": "string" },
+    "caller_id": { "type": ["string", "null"] },
+    "session_id": { "type": ["string", "null"] },
+    "tool_name": { "type": "string" },
+    "arguments": { "type": "object" },
+    "requested_effect": { "type": "string" },
+    "dry_run": { "type": "boolean" },
+    "policy_decision_id": { "type": ["string", "null"] },
+    "sandbox_decision_id": { "type": ["string", "null"] },
+    "governance_decision_id": { "type": ["string", "null"] },
+    "human_approval_id": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "installation_manifest.schema.json",
+  "title": "Installation Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "package_name",
+    "installed_paths",
+    "dependencies"
+  ],
+  "properties": {
+    "manifest_version": { "type": "string", "description": "Version of the manifest schema" },
+    "package_name": { "type": "string", "description": "Name of the installed package" },
+    "package_version": { "type": "string", "description": "Version of the installed package" },
+    "installed_paths": { "type": "array", "items": { "type": "string" }, "description": "Paths where package files were installed" },
+    "dependencies": { "type": "array", "items": { "type": "string" }, "description": "List of package dependencies" },
+    "installed_at": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp of installation" },
+    "installer": { "type": "string", "description": "Name or ID of the installer" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

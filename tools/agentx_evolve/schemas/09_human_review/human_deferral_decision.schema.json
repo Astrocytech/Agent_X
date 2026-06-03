@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "human_deferral_decision.schema.json",
+  "title": "Human Deferral Decision",
+  "description": "Records a human reviewer's decision to defer a review request within Agent X's HumanReview Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "request_id",
+    "decided_at",
+    "source_component",
+    "reviewer",
+    "decision",
+    "reason",
+    "deferred_until",
+    "artifact_refs",
+    "evidence_refs",
+    "request_hash",
+    "decision_hash",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "decision_id": { "type": "string" },
+    "request_id": { "type": "string" },
+    "decided_at": { "type": "string" },
+    "source_component": { "type": "string" },
+    "reviewer": {
+      "type": "object",
+      "properties": {
+        "reviewer_id": { "type": "string" },
+        "reviewer_label": { "type": "string" },
+        "reviewer_role": { "type": "string" },
+        "auth_method": { "type": "string" },
+        "auth_evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "created_at": { "type": "string" }
+      },
+      "required": ["reviewer_id"]
+    },
+    "decision": { "const": "DEFERRED" },
+    "reason": { "type": "string" },
+    "deferred_until": { "type": "string" },
+    "artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "request_hash": { "type": "string" },
+    "decision_hash": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

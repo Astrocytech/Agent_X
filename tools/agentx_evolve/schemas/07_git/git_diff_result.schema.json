@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "git_diff_result.schema.json",
+  "title": "Git Diff Result",
+  "description": "Records the result of a git diff operation within Agent X's Git Integration Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "result_id",
+    "timestamp",
+    "operation",
+    "status",
+    "entries",
+    "files_changed",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "result_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "operation": { "type": "string" },
+    "status": { "type": "string" },
+    "message": { "type": "string" },
+    "stdout": { "type": "string" },
+    "stderr": { "type": "string" },
+    "returncode": { "type": "integer" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "change_type": { "type": "string" },
+          "additions": { "type": "integer" },
+          "deletions": { "type": "integer" },
+          "diff_content": { "type": "string" }
+        },
+        "required": ["path", "change_type"]
+      }
+    },
+    "files_changed": { "type": "integer" },
+    "data": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

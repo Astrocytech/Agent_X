@@ -1,0 +1,1 @@
+{"schema_id": "local_hardware_profile.schema.json", "hardware_profile_id": "hw-low-vram", "probe_mode": "STATIC_ONLY", "cpu_arch": "x86_64", "os_name": "Linux 6.1", "ram_total_bytes": 17179869184, "conservative_ram_limit_bytes": 12884901888, "gpu_present": true, "gpu_name": "NVIDIA GTX 1060", "gpu_vram_total_bytes": 6442450944, "conservative_vram_limit_bytes": 5368709120}

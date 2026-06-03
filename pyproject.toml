@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Agent_X"
-version = "0.1.0-seed"
+version = "0.1.0"
 description = "Agent_X - minimal governed universal agent seed"
 readme = "README.md"
 license = { text = "Proprietary" }

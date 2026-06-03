@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_policy.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "model_policy",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "timestamp",
+    "source_component",
+    "default_model_mode",
+    "model_profiles",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "model_policy.schema.json"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "default_model_mode": {
+      "type": "string"
+    },
+    "model_profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ModelProfile"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "ModelProfile": {
+      "type": "object",
+      "properties": {
+        "model_profile_id": {
+          "type": "string"
+        },
+        "provider_type": {
+          "type": "string"
+        },
+        "allowed_task_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocked_task_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "may_read_source_context": {
+          "type": "boolean"
+        },
+        "may_write_files": {
+          "type": "boolean"
+        },
+        "may_execute_tools": {
+          "type": "boolean"
+        },
+        "may_execute_commands": {
+          "type": "boolean"
+        },
+        "may_use_network": {
+          "type": "boolean"
+        },
+        "requires_redaction": {
+          "type": "boolean"
+        },
+        "requires_json_output": {
+          "type": "boolean"
+        },
+        "max_context_tokens": {
+          "type": "integer"
+        },
+        "requires_human_approval": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

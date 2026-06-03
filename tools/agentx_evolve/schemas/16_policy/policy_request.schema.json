@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "policy_request.schema.json",
+  "title": "PolicyRequest",
+  "description": "A policy evaluation request",
+  "type": "object",
+  "properties": {
+    "request_id": {"type": "string"},
+    "caller_role": {"type": "string"},
+    "tool_name": {"type": "string"},
+    "requested_effect": {"type": "string"},
+    "target": {"type": "string"},
+    "metadata": {"type": "object"}
+  },
+  "required": [
+    "request_id",
+    "caller_role",
+    "tool_name",
+    "requested_effect"
+  ],
+  "additionalProperties": false
+}

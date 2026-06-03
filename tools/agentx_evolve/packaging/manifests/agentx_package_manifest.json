@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "package_manifest.schema.json",
+  "manifest_id": "agentx-default-package-manifest",
+  "package_name": "agentx",
+  "package_version": "0.1.0",
+  "source_root": ".",
+  "include_patterns": ["L0/**", "L1/**", "L2/**", "tools/**", "README.md", "CHANGELOG.md", "LICENSE", "Makefile"],
+  "exclude_patterns": [
+    ".git/**", ".agentx-init/**", "**/__pycache__/**", "**/.pytest_cache/**",
+    "**/*.pyc", "**/.DS_Store", "**/.env", "**/.env.*"
+  ],
+  "required_files": ["README.md", "LICENSE"],
+  "forbidden_paths": [".git", ".agentx-init", ".venv", "venv", "node_modules"],
+  "forbidden_extensions": [".pem", ".key", ".p12", ".pfx"],
+  "forbidden_runtime_roots": [".agentx-init"],
+  "forbidden_archive_names": ["..", "/"],
+  "allowed_package_formats": ["tar.gz", "zip", "directory"],
+  "default_package_format": "tar.gz",
+  "require_clean_git": true,
+  "require_tracked_files_only": false,
+  "require_dependency_lock": false,
+  "allow_network_for_install_validation": false,
+  "allow_symlinks": false,
+  "allow_external_symlink_targets": false,
+  "allow_external_publish": false,
+  "build_output_root": ".agentx-init/packaging/dist",
+  "staging_root": ".agentx-init/packaging/staging",
+  "evidence_root": ".agentx-init/packaging/evidence",
+  "report_root": ".agentx-init/packaging/reports",
+  "warnings": [],
+  "errors": []
+}

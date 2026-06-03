@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_runtime_profile.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "profile_id", "profile_name",
+    "local_only", "network_allowed", "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "profile_id": { "type": "string" },
+    "profile_name": { "type": "string" },
+    "local_only": { "type": "boolean" },
+    "network_allowed": { "type": "boolean" },
+    "max_loaded_models": { "type": "integer" },
+    "default_context_window": { "type": "integer" },
+    "max_total_context_tokens": { "type": "integer" },
+    "vram_budget_gb": { "type": "number" },
+    "endpoint_allowlisted": { "type": "boolean" },
+    "allowed_endpoints": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

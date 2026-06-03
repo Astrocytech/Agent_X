@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_pack_evidence.schema.json",
+  "component_id": "AGENTX_CONTEXT_BUILDER_TASK_PACKER",
+  "validated_commit": "abc123def456",
+  "validated_at": "2026-06-05T00:00:00Z",
+  "context_pack_id": "cp-001",
+  "context_pack_hash": "sha256hash",
+  "evidence_files": [".agentx-init/context_packs/latest_context_pack.json"],
+  "evidence_file_hashes": [{"path": "latest_context_pack.json", "sha256": "hash123"}],
+  "warnings": [],
+  "errors": []
+}

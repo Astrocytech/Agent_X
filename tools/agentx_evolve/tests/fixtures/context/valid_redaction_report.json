@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_redaction_report.schema.json",
+  "context_item_id": "ci-020",
+  "redaction_type": "API_KEY",
+  "location_hint": "content line 5",
+  "replacement_token": "[REDACTED]",
+  "safe_to_include": true,
+  "warnings": [],
+  "errors": []
+}

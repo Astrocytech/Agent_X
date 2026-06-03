@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "evaluation_benchmark_case.schema.json",
+  "case_id": "policy_denial_smoke_case",
+  "case_name": "Policy denies write tool call",
+  "description": "Policy-denied tool calls must return BLOCKED.",
+  "case_type": "POLICY_DENIAL_EXPECTED_RESULT",
+  "target_component": "AGENTX_POLICY_REGISTRY",
+  "severity": "critical",
+  "weight": 3.0,
+  "input_ref": null,
+  "input_payload": {
+    "tool_name": "git_write",
+    "caller_role": "ORCHESTRATOR",
+    "requested_effect": "WRITE",
+    "arguments": {}
+  },
+  "expected_result": {
+    "expected_status": "BLOCKED",
+    "expected_failure_class": "EVAL_POLICY_DENIED",
+    "comparators": [
+      {
+        "type": "STATUS_MATCH",
+        "path": "status",
+        "expected": "BLOCKED"
+      }
+    ],
+    "required_artifacts": []
+  },
+  "threshold_id": null,
+  "timeout_seconds": 30,
+  "tags": ["smoke", "policy", "fail-closed"],
+  "warnings": [],
+  "errors": []
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "policy_violation.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "policy_violation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "violation_id",
+    "timestamp",
+    "source_component",
+    "caller_role",
+    "tool_name",
+    "requested_effect",
+    "target",
+    "violation_type",
+    "severity",
+    "reason",
+    "decision_id",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "policy_violation.schema.json"
+    },
+    "violation_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "caller_role": {
+      "type": "string"
+    },
+    "tool_name": {
+      "type": "string"
+    },
+    "requested_effect": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "violation_type": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

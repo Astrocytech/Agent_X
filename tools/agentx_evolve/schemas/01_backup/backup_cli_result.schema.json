@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_cli_result.schema.json",
+  "title": "Backup CLI Result",
+  "description": "Captures the outcome of a CLI command executed by the Backup/Disaster Recovery Layer, including exit code and structured data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "command_name",
+    "command_id",
+    "started_at",
+    "completed_at",
+    "status",
+    "exit_code",
+    "message",
+    "data",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "command_name": { "type": "string" },
+    "command_id": { "type": "string" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["SUCCESS", "BLOCKED", "FAILED", "INVALID"] },
+    "exit_code": { "type": "integer" },
+    "message": { "type": "string" },
+    "data": { "type": "object" },
+    "artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

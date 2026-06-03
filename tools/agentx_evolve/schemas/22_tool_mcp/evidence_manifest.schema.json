@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "evidence_manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "manifest_id",
+    "timestamp",
+    "source_component",
+    "tool_call_id",
+    "evidence_entries",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "manifest_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "tool_call_id": { "type": "string" },
+    "tool_name": { "type": "string" },
+    "evidence_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "evidence_type", "content"],
+        "properties": {
+          "evidence_id": { "type": "string" },
+          "evidence_type": { "type": "string" },
+          "content": { "type": "object" },
+          "timestamp": { "type": "string" },
+          "source": { "type": "string" },
+          "hash": { "type": "string" },
+          "metadata": { "type": "object" }
+        }
+      }
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "packaging_check.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["check_id", "fresh_clone_install", "optional_dependencies", "base_install_no_gpu"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "check_id": {"type": "string"},
+    "fresh_clone_install": {"type": "string", "enum": ["PASS", "FAIL", "WARN"]},
+    "optional_dependencies": {"type": "string", "enum": ["PASS", "FAIL", "WARN"]},
+    "base_install_no_gpu": {"type": "string", "enum": ["PASS", "FAIL", "WARN"]},
+    "commands_available": {"type": "array", "items": {"type": "string"}},
+    "dep_groups_defined": {"type": "array", "items": {"type": "string"}},
+    "checks": {"type": "array", "items": {"$ref": "#/$defs/PackagingCheckResult"}},
+    "checked_at": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "PackagingCheckResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_name", "status"],
+      "properties": {
+        "check_name": {"type": "string"},
+        "status": {"type": "string", "enum": ["PASS", "FAIL", "WARN"]},
+        "details": {"type": "string"},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "errors": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

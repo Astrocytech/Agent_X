@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "policy_decision.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "policy_decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "timestamp",
+    "source_component",
+    "caller_role",
+    "tool_name",
+    "requested_effect",
+    "target",
+    "decision",
+    "reason",
+    "applied_policy_ids",
+    "required_followups",
+    "evidence_ids",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "policy_decision.schema.json"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "caller_role": {
+      "type": "string"
+    },
+    "tool_name": {
+      "type": "string"
+    },
+    "requested_effect": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "applied_policy_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_followups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

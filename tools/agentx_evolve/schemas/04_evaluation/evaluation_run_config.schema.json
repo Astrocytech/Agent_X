@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_run_config.schema.json",
+  "title": "EvaluationRunConfig",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_config_id",
+    "suite_path",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "run_config_id": {
+      "type": "string"
+    },
+    "suite_path": {
+      "type": "string"
+    },
+    "execution_mode": {
+      "type": "string"
+    },
+    "baseline_path": {
+      "type": "string"
+    },
+    "first_run": {
+      "type": "boolean"
+    },
+    "case_filter": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "include_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exclude_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "policy_context_ref": {
+      "type": "string"
+    },
+    "dry_run": {
+      "type": "boolean"
+    },
+    "timeout_seconds": {
+      "type": "integer"
+    },
+    "max_case_count": {
+      "type": "integer"
+    },
+    "write_reports": {
+      "type": "boolean"
+    },
+    "write_evidence": {
+      "type": "boolean"
+    },
+    "allow_tool_adapter_cases": {
+      "type": "boolean"
+    },
+    "allow_candidate_baseline_write": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

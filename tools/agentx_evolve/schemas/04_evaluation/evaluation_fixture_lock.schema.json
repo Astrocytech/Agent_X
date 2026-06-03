@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_fixture_lock.schema.json",
+  "title": "EvaluationFixtureLock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "suite_id",
+    "suite_path",
+    "case_refs",
+    "case_hashes",
+    "created_at",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "suite_id": {
+      "type": "string"
+    },
+    "suite_path": {
+      "type": "string"
+    },
+    "case_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "case_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "baseline_ref": {
+      "type": "string"
+    },
+    "baseline_hash": {
+      "type": "string"
+    },
+    "threshold_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "threshold_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

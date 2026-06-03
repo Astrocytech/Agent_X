@@ -1,0 +1,1 @@
+{"schema_id": "local_model_inventory.schema.json", "inventory_id": "inv-test", "created_at": "2026-01-01T00:00:00Z", "approved_model_roots": ["/tmp/models"], "models": [{"model_id": "small-q4", "model_path": "/tmp/models/small-q4.gguf", "enabled": true}, {"model_id": "small-q8", "model_path": "/tmp/models/small-q8.gguf", "enabled": true}]}

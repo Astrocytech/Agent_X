@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "sandbox_decision.schema.json",
+  "owner_component": "SecuritySandbox",
+  "artifact_type": "sandbox_decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "decision_id",
+    "timestamp",
+    "source_component",
+    "operation",
+    "target",
+    "decision",
+    "reason",
+    "applied_rule_ids",
+    "evidence_ids",
+    "violations",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "sandbox_decision.schema.json"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string",
+      "const": "SecuritySandbox"
+    },
+    "operation": {
+      "type": "string",
+      "enum": [
+        "READ",
+        "WRITE",
+        "EDIT",
+        "PATCH_PRECHECK",
+        "SUBPROCESS",
+        "NETWORK",
+        "REDACT"
+      ]
+    },
+    "target": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "ALLOW",
+        "BLOCK",
+        "WARN",
+        "NEEDS_GOVERNANCE",
+        "NEEDS_SESSION",
+        "NEEDS_ROLLBACK_SNAPSHOT"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "applied_rule_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

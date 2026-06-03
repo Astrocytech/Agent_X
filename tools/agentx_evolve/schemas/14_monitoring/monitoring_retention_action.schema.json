@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "monitoring_retention_action.schema.json",
+  "title": "Monitoring Retention Action",
+  "description": "Schema for a data retention action performed by the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "action_id",
+    "action_type",
+    "target_data_type",
+    "performed_at",
+    "items_removed"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "monitoring_retention_action.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique retention action identifier"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": ["PURGE_EXPIRED", "ARCHIVE", "COMPRESS", "TRUNCATE"],
+      "description": "Type of retention action performed"
+    },
+    "target_data_type": {
+      "type": "string",
+      "enum": ["events", "metrics", "traces", "alerts"],
+      "description": "Type of monitoring data targeted"
+    },
+    "performed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the action was performed"
+    },
+    "items_removed": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of items removed by the action"
+    },
+    "retention_days_configured": {
+      "type": "integer",
+      "description": "Retention period in days at time of action"
+    },
+    "cutoff_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 cutoff timestamp used for the action"
+    },
+    "component": {
+      "type": "string",
+      "description": "Component that performed the retention action"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

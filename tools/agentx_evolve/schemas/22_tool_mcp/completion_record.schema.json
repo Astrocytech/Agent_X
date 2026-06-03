@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "completion_record.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "completion_id",
+    "timestamp",
+    "source_component",
+    "tool_call_id",
+    "tool_name",
+    "overall_status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "completion_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "tool_call_id": { "type": "string" },
+    "tool_name": { "type": "string" },
+    "overall_status": { "type": "string" },
+    "started_at": { "type": "string" },
+    "completed_at": { "type": "string" },
+    "duration_ms": { "type": "integer" },
+    "result_ref": { "type": "string" },
+    "evidence_manifest_ref": { "type": "string" },
+    "review_report_ref": { "type": "string" },
+    "artifacts_produced": { "type": "array", "items": { "type": "string" } },
+    "summary": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

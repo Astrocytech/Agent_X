@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"llm_worker_review_report.schema.json","review_report_id":"rr-001","created_at":"2026-06-05T00:00:00","source_component":"LLMImplementationWorker","task_id":"t-001","worker_result_id":"wr-001","verdict":"DONE","review_notes":["All checks passed"],"checklist":{"models":true},"review_report_sha256":"selfhash","warnings":[],"errors":[]}

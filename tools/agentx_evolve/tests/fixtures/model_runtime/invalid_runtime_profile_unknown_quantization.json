@@ -1,0 +1,1 @@
+{"schema_id": "local_runtime_profile.schema.json", "runtime_id": "bad-runtime", "runtime_name": "Bad Runtime", "runtime_kind": "local", "supported_model_formats": ["gguf"], "supported_quantizations": ["UNKNOWN"], "supported_devices": ["CPU"], "max_context_tokens": 0, "enabled": true}

@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_item.schema.json",
+  "context_item_id": "ci-001",
+  "created_at": "2026-06-05T00:00:00Z",
+  "source_id": "src-doc-001",
+  "source_component": "ContextBuilderTaskPacker",
+  "source_trust_level": "SOURCE_TRUST_AGENTX_CONTRACT",
+  "item_kind": "CONSTRAINT",
+  "title": "Safety constraint",
+  "content": "must not drop safety rules",
+  "content_hash": "abc123",
+  "token_estimate": 10,
+  "priority_score": 0.9,
+  "recency_score": 0.8,
+  "injection_risk_score": 0.0,
+  "sensitive_data_score": 0.0,
+  "inclusion_decision": "INCLUDE",
+  "redacted": false,
+  "summarized": false,
+  "warnings": [],
+  "errors": []
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_comparator.schema.json",
+  "title": "EvaluationComparator",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "type",
+    "path",
+    "expected",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "EXACT_MATCH",
+        "CONTAINS",
+        "REGEX_MATCH",
+        "STATUS_MATCH",
+        "FAILURE_CLASS_MATCH",
+        "ARTIFACT_EXISTS",
+        "NUMERIC_EQUALS",
+        "NUMERIC_AT_LEAST",
+        "NUMERIC_AT_MOST",
+        "LIST_CONTAINS",
+        "DICT_HAS_KEY",
+        "CUSTOM_STATIC_CHECK"
+      ]
+    },
+    "path": {
+      "type": "string"
+    },
+    "expected": {},
+    "tolerance": {
+      "type": "number"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

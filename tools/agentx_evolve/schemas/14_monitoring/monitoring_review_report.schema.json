@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "monitoring_review_report.schema.json",
+  "title": "Monitoring Review Report",
+  "description": "Schema for a monitoring review report within the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "review_report_id",
+    "created_at",
+    "source_component"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "monitoring_review_report.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "review_report_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique review report identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component that generated the report"
+    },
+    "component_id": {
+      "type": "string",
+      "description": "Identifier of the component"
+    },
+    "reviewed_commit": {
+      "type": "string",
+      "description": "Commit hash that was reviewed"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the review"
+    },
+    "commands_run": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of commands executed during review"
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of blocking issues identified"
+    },
+    "evidence_manifest_path": {
+      "type": "string",
+      "description": "Path to the associated evidence manifest"
+    },
+    "evidence_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the evidence manifest"
+    },
+    "completion_record_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the completion record"
+    },
+    "final_verdict": {
+      "type": "string",
+      "description": "Final review verdict"
+    },
+    "review_report_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the review report"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

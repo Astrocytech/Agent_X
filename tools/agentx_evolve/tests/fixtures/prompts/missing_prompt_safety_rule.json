@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_safety_rule.schema.json","name":"missing-id","safety_level":"HIGH","description":"Missing safety rule id","warnings":[],"errors":[]}

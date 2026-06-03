@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_contract.schema.json","prompt_contract_id":"pc-invalid","prompt_name":"invalid-type","owner_component":"PromptRegistry","prompt_type":"INVALID_TYPE","allowed_roles":["developer"],"input_contract_id":"ic-001","output_contract_id":"oc-001","status":"DRAFT","warnings":[],"errors":[]}

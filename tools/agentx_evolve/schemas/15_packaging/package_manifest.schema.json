@@ -1,0 +1,261 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "package_manifest.schema.json",
+  "title": "Package Manifest",
+  "description": "Schema for the package manifest configuration",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "package_manifest.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "manifest_id",
+    "package_name",
+    "package_version",
+    "source_root"
+  ],
+  "dependentRequired": {
+    "source_commit": ["package_mode", "package_type"]
+  },
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "package_manifest.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "manifest_id": {
+      "type": "string",
+      "description": "Unique manifest identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation (required for release-ready)"
+    },
+    "source_component": {
+      "type": "string",
+      "const": "PackagingDistribution",
+      "description": "Name of the source component"
+    },
+    "package_name": {
+      "type": "string",
+      "description": "Name of the package"
+    },
+    "package_version": {
+      "type": "string",
+      "description": "Version of the package"
+    },
+    "package_mode": {
+      "type": "string",
+      "enum": ["INTERNAL_DEV_BUNDLE", "INTERNAL_EVIDENCE_BUNDLE", "SOURCE_ARCHIVE", "WHEEL", "SDIST", "RELEASE_CANDIDATE_BUNDLE", "PUBLIC_RELEASE_BUNDLE"],
+      "description": "Package mode (required for release-ready)"
+    },
+    "package_type": {
+      "type": "string",
+      "enum": ["SOURCE_ARCHIVE", "WHEEL", "SDIST", "INTERNAL_BUNDLE"],
+      "description": "Package type (required for release-ready)"
+    },
+    "source_commit": {
+      "type": "string",
+      "description": "Git commit hash of the source (required for release-ready)"
+    },
+    "source_branch": {
+      "type": "string",
+      "description": "Git branch of the source"
+    },
+    "working_tree_status": {
+      "type": "string",
+      "enum": ["CLEAN", "EXPECTED_RUNTIME_ARTIFACTS_ONLY", "DIRTY"],
+      "description": "Working tree status"
+    },
+    "source_root": {
+      "type": "string",
+      "description": "Root directory of the source code"
+    },
+    "include_patterns": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Glob patterns for files to include"
+    },
+    "exclude_patterns": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Glob patterns for files to exclude"
+    },
+    "required_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files that must be present"
+    },
+    "forbidden_paths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths that are forbidden"
+    },
+    "forbidden_extensions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "File extensions that are forbidden"
+    },
+    "approved_source_roots": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Approved source root directories"
+    },
+    "approved_output_root": {
+      "type": "string",
+      "description": "Approved output root directory"
+    },
+    "included_paths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Explicit list of included paths after selection"
+    },
+    "excluded_paths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Explicit list of excluded paths"
+    },
+    "forbidden_path_matches": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths that matched forbidden patterns"
+    },
+    "symlink_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string" },
+          "target": { "type": "string" },
+          "escaping": { "type": "boolean" }
+        }
+      },
+      "description": "Symlink findings during packaging"
+    },
+    "secret_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string" },
+          "rule": { "type": "string" }
+        }
+      },
+      "description": "Secret findings during packaging"
+    },
+    "generated_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Generated artifacts included in the package"
+    },
+    "dependency_lock_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to dependency lock records"
+    },
+    "sbom_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the SBOM metadata"
+    },
+    "license_manifest_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the license manifest"
+    },
+    "hash_manifest_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the hash manifest"
+    },
+    "provenance_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the provenance record"
+    },
+    "deviation_register_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the deviation register"
+    },
+    "forbidden_runtime_roots": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Runtime root directories that are forbidden"
+    },
+    "forbidden_archive_names": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Archive filenames that are forbidden"
+    },
+    "allowed_package_formats": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Allowed package formats"
+    },
+    "default_package_format": {
+      "type": "string",
+      "description": "Default package format to use"
+    },
+    "require_clean_git": {
+      "type": "boolean",
+      "description": "Whether a clean git working tree is required"
+    },
+    "require_tracked_files_only": {
+      "type": "boolean",
+      "description": "Whether only git-tracked files are allowed"
+    },
+    "require_dependency_lock": {
+      "type": "boolean",
+      "description": "Whether a dependency lock file is required"
+    },
+    "allow_network_for_install_validation": {
+      "type": "boolean",
+      "description": "Whether network access is allowed for install validation"
+    },
+    "allow_symlinks": {
+      "type": "boolean",
+      "description": "Whether symlinks are allowed in the package"
+    },
+    "allow_external_symlink_targets": {
+      "type": "boolean",
+      "description": "Whether symlinks to external targets are allowed"
+    },
+    "allow_external_publish": {
+      "type": "boolean",
+      "description": "Whether external publishing is allowed"
+    },
+    "build_output_root": {
+      "type": "string",
+      "description": "Root directory for build output"
+    },
+    "staging_root": {
+      "type": "string",
+      "description": "Root directory for staging"
+    },
+    "evidence_root": {
+      "type": "string",
+      "description": "Root directory for evidence output"
+    },
+    "report_root": {
+      "type": "string",
+      "description": "Root directory for reports"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

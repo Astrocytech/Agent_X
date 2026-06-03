@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentSyncOperation",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "operation_id", "operation_type", "target_path", "target_authority"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_sync_operation.schema.json"]},
+    "operation_id": {"type": "string"},
+    "operation_type": {"type": "string"},
+    "target_path": {"type": "string"},
+    "target_authority": {"type": "string"},
+    "requires_policy_approval": {"type": "boolean"},
+    "requires_manual_review": {"type": "boolean"},
+    "allowed_to_apply": {"type": "boolean"},
+    "reason": {"type": "string"},
+    "diff_preview": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

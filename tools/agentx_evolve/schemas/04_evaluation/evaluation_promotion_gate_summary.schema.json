@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_promotion_gate_summary.schema.json",
+  "title": "EvaluationPromotionGateSummary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "gate_id",
+    "suite_id",
+    "run_id",
+    "timestamp",
+    "decision",
+    "score_summary",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "schema_id": {
+      "const": "evaluation_promotion_gate_summary.schema.json",
+      "description": "Unique identifier for this schema document"
+    },
+    "gate_id": {
+      "type": "string",
+      "description": "Unique identifier for the promotion gate"
+    },
+    "suite_id": {
+      "type": "string",
+      "description": "The evaluation suite this gate applies to"
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Identifier of the evaluation run this gate summarises"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the gate decision was made"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCKED",
+        "DEFER"
+      ],
+      "description": "The gate decision outcome"
+    },
+    "score_summary": {
+      "type": "object",
+      "description": "Summary of scores that informed the gate decision"
+    },
+    "threshold_summary": {
+      "type": "object",
+      "description": "Summary of thresholds and whether they were met"
+    },
+    "regression_summary": {
+      "type": "object",
+      "description": "Summary of regressions detected against the baseline"
+    },
+    "baseline_change_ref": {
+      "type": "string",
+      "description": "Reference to a baseline change record if the baseline was adjusted"
+    },
+    "promotion_blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of identifiers or descriptions of blockers preventing promotion"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Non-fatal issues detected during gate evaluation"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fatal issues detected during gate evaluation"
+    }
+  }
+}

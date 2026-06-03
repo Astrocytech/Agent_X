@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "task_input.schema.json",
+  "task_input_id": "ti-001",
+  "created_at": "2026-06-05T00:00:00Z",
+  "source_component": "ContextBuilderTaskPacker",
+  "task_title": "Implement feature X",
+  "task_description": "Build the context builder layer",
+  "task_type": "IMPLEMENTATION",
+  "user_constraints": ["do not mutate source"],
+  "system_constraints": ["must pass all tests"],
+  "required_outputs": ["context_models.py"],
+  "forbidden_actions": ["network fetch", "model call"],
+  "target_files": ["tools/agentx_evolve/context/"],
+  "requested_tools": ["read_file", "write_file"],
+  "warnings": [],
+  "errors": []
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_injection_assessment.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "assessment_id", "prompt_id",
+    "risk_level", "passed", "assessed_at"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_injection_assessment.schema.json"},
+    "assessment_id": {"type": "string"},
+    "prompt_id": {"type": "string"},
+    "risk_level": {"type": "string", "enum": ["safe", "suspicious", "dangerous"]},
+    "indicators": {"type": "array", "items": {"type": "string"}},
+    "passed": {"type": "boolean"},
+    "assessed_at": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

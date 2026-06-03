@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"llm_worker_task.schema.json","task_id":"t-bad","created_at":"2026-06-05T00:00:00","source_component":"LLMImplementationWorker","requested_by":"test-user","caller_role":"developer","worker_mode":"INVALID_MODE","implementation_goal":"Add auth","target_component_id":"auth","target_files":[],"dry_run":true,"warnings":[],"errors":[]}

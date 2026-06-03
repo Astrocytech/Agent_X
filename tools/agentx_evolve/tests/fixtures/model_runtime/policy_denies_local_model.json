@@ -1,0 +1,1 @@
+{"schema_id": "policy_denies_local_model.json", "decision": "DENY", "reason": "Policy denies local model use", "failure_class": "LOCAL_POLICY_DENIED"}

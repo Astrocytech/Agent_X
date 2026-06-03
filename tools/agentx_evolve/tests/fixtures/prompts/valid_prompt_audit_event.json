@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_audit.schema.json","audit_id":"pa-001","timestamp":"2026-06-05T00:00:00","source_component":"PromptContractVersioning","event_type":"VERSION_ACTIVATED","status":"SUCCESS","message":"version activated","warnings":[],"errors":[]}

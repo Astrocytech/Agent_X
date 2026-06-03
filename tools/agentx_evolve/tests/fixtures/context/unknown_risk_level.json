@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_injection_filter_report.schema.json",
+  "context_item_id": "ci-031",
+  "risk_level": "INVALID_LEVEL",
+  "patterns_detected": [],
+  "decision": "INCLUDE",
+  "warnings": [],
+  "errors": []
+}

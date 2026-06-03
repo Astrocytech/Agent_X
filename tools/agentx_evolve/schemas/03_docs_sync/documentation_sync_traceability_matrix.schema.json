@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentationSyncTraceabilityMatrix",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "matrix_id", "created_at", "component_id"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_sync_traceability_matrix.schema.json"]},
+    "matrix_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "component_id": {"type": "string"},
+    "entries": {"type": "array", "items": {"type": "object"}},
+    "summary": {"type": "object"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

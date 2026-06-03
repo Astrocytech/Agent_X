@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "tool_capability.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "tool_capability",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "tool_id",
+    "timestamp",
+    "tool_name",
+    "description",
+    "capabilities",
+    "policy_rules",
+    "enabled",
+    "requires_approval",
+    "side_effect_level",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "tool_capability.schema.json"
+    },
+    "tool_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "tool_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "capability_definition.schema.json"
+      }
+    },
+    "policy_rules": {
+      "type": "array",
+      "items": {
+        "$ref": "policy_rule.schema.json"
+      }
+    },
+    "enabled": {
+      "type": "boolean"
+    },
+    "requires_approval": {
+      "type": "boolean"
+    },
+    "side_effect_level": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

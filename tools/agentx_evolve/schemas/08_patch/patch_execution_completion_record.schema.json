@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_execution_completion_record.schema.json",
+  "title": "Patch Execution Completion Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "completion_record_id",
+    "status",
+    "schema_version",
+    "created_at"
+  ],
+  "properties": {
+    "completion_record_id": { "type": "string", "description": "Unique identifier for the completion record" },
+    "status": { "type": "string", "description": "Status of the patch execution" },
+    "schema_version": { "type": "string", "description": "Version of the schema" },
+    "created_at": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp of creation" },
+    "patch_session_id": { "type": "string", "description": "Reference to the patch session" },
+    "summary": { "type": "string", "description": "Summary of the patch execution" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" }, "description": "References to evidence records" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

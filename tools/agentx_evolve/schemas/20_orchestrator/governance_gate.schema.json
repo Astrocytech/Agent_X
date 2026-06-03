@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "governance_gate.schema.json",
+  "title": "Governance Gate Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gate_id",
+    "run_id",
+    "gate_type",
+    "gate_status",
+    "created_at"
+  ],
+  "properties": {
+    "gate_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "session_id": {"type": "string"},
+    "step_id": {"type": "string"},
+    "gate_type": {"type": "string", "enum": ["GOVERNANCE"]},
+    "gate_status": {"type": "string", "enum": ["PENDING", "APPROVED", "DENIED", "ABSTAIN", "NOT_REQUIRED"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "resolved_at": {"type": "string", "format": "date-time"},
+    "resolved_by": {"type": "string"},
+    "reason": {"type": "string"},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string"},
+    "source_component": {"type": "string"}
+  }
+}

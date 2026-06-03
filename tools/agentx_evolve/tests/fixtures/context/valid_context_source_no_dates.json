@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_source.schema.json",
+  "source_id": "src-003",
+  "source_type": "POLICY_RECORD",
+  "source_component": "PolicyLayer",
+  "source_trust_level": "SOURCE_TRUST_AGENTX_CONTRACT",
+  "allowed_by_policy": true,
+  "loaded_at": "2026-06-05T00:00:00Z",
+  "warnings": [],
+  "errors": []
+}

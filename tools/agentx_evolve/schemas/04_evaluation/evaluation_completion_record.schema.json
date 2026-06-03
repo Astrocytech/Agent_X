@@ -1,0 +1,169 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_completion_record.schema.json",
+  "title": "EvaluationCompletionRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "component_id",
+    "status",
+    "validated_commit",
+    "final_decision",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "type": "string"
+    },
+    "component_id": {
+      "type": "string"
+    },
+    "component_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "validated_commit": {
+      "type": "string"
+    },
+    "validated_at": {
+      "type": "string"
+    },
+    "review_environment": {
+      "type": "object"
+    },
+    "canonical_evaluation_subdirectory": {
+      "type": "string"
+    },
+    "canonical_benchmark_subdirectory": {
+      "type": "string"
+    },
+    "canonical_schema_subdirectory": {
+      "type": "string"
+    },
+    "canonical_test_subdirectory": {
+      "type": "string"
+    },
+    "runtime_artifact_root": {
+      "type": "string"
+    },
+    "basis_documents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "commands_run": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "files_created_or_changed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "schemas_created_or_changed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tests_created_or_changed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "benchmark_suites_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "baselines_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "thresholds_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "regression_checks_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "deterministic_replay_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reports_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_manifest_path": {
+      "type": "string"
+    },
+    "evidence_manifest_sha256": {
+      "type": "string"
+    },
+    "review_report_path": {
+      "type": "string"
+    },
+    "review_report_sha256": {
+      "type": "string"
+    },
+    "completion_record_sha256": {
+      "type": "string"
+    },
+    "deviation_register": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "unresolved_risks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "implementation_score": {
+      "type": "number"
+    },
+    "final_decision": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "document_link_record.schema.json",
+  "title": "DocumentLinkRecord",
+  "description": "Represents the validation result for a single hyperlink found in a documentation file within the Documentation Synchronization Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "link_id",
+    "source_path",
+    "target"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string", "enum": ["document_link_record.schema.json"] },
+    "link_id": { "type": "string" },
+    "source_path": { "type": "string" },
+    "target": { "type": "string" },
+    "resolved_path": { "type": "string" },
+    "link_type": { "type": "string" },
+    "status": { "type": "string" },
+    "reason": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

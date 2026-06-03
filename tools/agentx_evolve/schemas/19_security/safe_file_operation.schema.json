@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "safe_file_operation.schema.json",
+  "owner_component": "SafeFileOps",
+  "artifact_type": "safe_file_operation",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "operation_id",
+    "timestamp",
+    "source_component",
+    "operation",
+    "target_path",
+    "status",
+    "before_hash",
+    "after_hash",
+    "bytes_read",
+    "bytes_written",
+    "decision_id",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "safe_file_operation.schema.json"
+    },
+    "operation_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string",
+      "const": "SafeFileOps"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "target_path": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "before_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "after_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "bytes_read": {
+      "type": "integer"
+    },
+    "bytes_written": {
+      "type": "integer"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "content": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

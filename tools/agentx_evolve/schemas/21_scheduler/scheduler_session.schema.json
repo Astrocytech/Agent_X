@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scheduler_session.schema.json",
+  "title": "Scheduler Session Record",
+  "description": "Captures the state and lifecycle of a scheduler worker session within Agent X's Task Queue / Session Scheduler Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "record_id",
+    "session_id",
+    "role",
+    "status",
+    "created_at",
+    "updated_at",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "record_id": { "type": "string" },
+    "session_id": { "type": "string" },
+    "role": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "HEARTBEAT", "CLOSED", "STALE", "FAILED"]
+    },
+    "heartbeat_at": { "type": ["string", "null"] },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" },
+    "closed_at": { "type": ["string", "null"] },
+    "previous_record_hash": { "type": "string" },
+    "session_record_hash": { "type": "string" },
+    "append_sequence": { "type": "integer" },
+    "revision": { "type": "integer" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

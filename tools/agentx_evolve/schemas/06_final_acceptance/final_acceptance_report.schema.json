@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinalAcceptanceReport",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "source_component",
+    "acceptance_mode", "final_verdict", "implementation_rating",
+    "self_hash_mode"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"enum": ["final_acceptance_report.schema.json"]},
+    "source_component": {"type": "string"},
+    "reviewed_commit": {"type": ["string", "null"]},
+    "reviewed_branch": {"type": ["string", "null"]},
+    "created_at": {"type": "string"},
+    "acceptance_mode": {"type": "string"},
+    "bootstrap_mode_used": {"type": "boolean"},
+    "final_verdict": {"type": "string"},
+    "implementation_rating": {"type": "number"},
+    "layer_statuses": {"type": "object"},
+    "evidence_summary": {"type": "object"},
+    "cross_layer_summary": {"type": "object"},
+    "validation_summary": {"type": "object"},
+    "schema_validation_summary": {"type": "object"},
+    "safe_deferrals": {"type": "array", "items": {"type": "object"}},
+    "deviations": {"type": "array", "items": {"type": "object"}},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "high_issues": {"type": "array", "items": {"type": "string"}},
+    "non_blocking_followups": {"type": "array", "items": {"type": "string"}},
+    "artifact_hashes": {"type": "array", "items": {"type": "object"}},
+    "artifact_hashes_path": {"type": "string"},
+    "artifact_hashes_content_id": {"type": "string"},
+    "artifact_hashes_sha256": {"type": ["string", "null"]},
+    "self_hash_mode": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

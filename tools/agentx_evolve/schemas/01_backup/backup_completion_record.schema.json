@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_completion_record.schema.json",
+  "title": "Backup Completion Record",
+  "description": "Signals the formal completion of the Backup/Disaster Recovery Layer, recording validated commits, commands run, and final decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "component_id",
+    "validated_commit",
+    "validated_at",
+    "final_decision",
+    "commands_run",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "component_id": { "const": "AGENTX_BACKUP_DISASTER_RECOVERY" },
+    "component_name": { "type": "string" },
+    "status": { "type": "string" },
+    "validated_commit": { "type": ["string", "null"] },
+    "validated_at": { "type": "string", "format": "date-time" },
+    "backup_ids": { "type": "array", "items": { "type": "string" } },
+    "restore_plan_ids": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "hash_refs": { "type": "array", "items": { "type": "string" } },
+    "commands_run": { "type": "array", "items": { "type": "string" } },
+    "validated_capabilities": { "type": "array", "items": { "type": "string" } },
+    "deviations_from_contract": { "type": "array", "items": { "type": "string" } },
+    "unresolved_risks": { "type": "array", "items": { "type": "string" } },
+    "final_decision": { "type": "string", "enum": ["DONE", "NOT DONE"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}
