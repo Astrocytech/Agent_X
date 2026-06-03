@@ -4,6 +4,7 @@ from agentx_evolve.security.safe_file_ops import (
     safe_read_file, safe_write_file, safe_exact_edit, safe_patch_precheck,
 )
 from agentx_evolve.security.sandbox_policy import default_sandbox_policy
+from agentx_evolve.security.initiator_compat import InitiatorCompat
 
 
 @pytest.fixture
@@ -69,6 +70,20 @@ def test_safe_write_requires_session_for_source_write(temp_repo, policy):
         governance_decision_id="gov-123",
     )
     assert result.status != "SUCCESS"
+
+
+def test_source_write_with_policy_enabled_but_no_enforcing_source_guard_blocks(temp_repo, policy):
+    policy.source_write_allowed = True
+    policy.require_rollback_for_source_write = False
+    compat = InitiatorCompat(temp_repo)
+    result = safe_write_file(
+        "src/new.txt", "content", temp_repo, policy,
+        implementation_session_id="sess-1",
+        governance_decision_id="gov-123",
+        compat=compat,
+    )
+    assert result.status != "SUCCESS"
+    assert result.errors is not None and any("source guard" in e.lower() for e in result.errors)
 
 
 def test_safe_write_source_blocked_without_rollback(temp_repo, policy):

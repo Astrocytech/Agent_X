@@ -96,6 +96,7 @@ class InitiatorCompat:
                     "integration": "initiator_source_guard",
                     "before_state_captured": True,
                     "paths_checked": target_paths,
+                    "enforces_approved_mutation_scope": False,
                     "validation_note": "intro_only_no_mutation_policy",
                 }
             except (RuntimeError, Exception) as e:
@@ -104,6 +105,7 @@ class InitiatorCompat:
             "integration": "fallback",
             "before_state_captured": False,
             "paths_checked": target_paths,
+            "enforces_approved_mutation_scope": False,
             "warning": "Source guard check unavailable",
         }
 

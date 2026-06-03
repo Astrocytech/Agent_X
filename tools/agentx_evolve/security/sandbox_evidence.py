@@ -36,10 +36,12 @@ def _reject_if_schema_invalid(artifact: dict, schema_id: str, compat: InitiatorC
     if compat is None:
         return None
     result = compat.validate_schema(artifact, schema_id)
-    if result.get("integration", "").startswith("initiator_") and result.get("valid") is False:
+    if not result.get("valid", False):
         return {
             "status": "FAILED",
-            "error": f"Schema validation failed for {schema_id}: {result.get('errors', [])}",
+            "error": "SCHEMA_VALIDATION_FAILED",
+            "schema_id": schema_id,
+            "validation": result,
         }
     return None
 
@@ -86,6 +88,9 @@ def write_latest_sandbox_decision(
     repo_root: Path | str,
     compat: InitiatorCompat | None = None,
 ) -> dict:
+    rejection = _reject_if_schema_invalid(decision.to_dict(), "sandbox_decision.schema.json", compat)
+    if rejection:
+        return rejection
     d = _ensure_security_dir(repo_root)
     latest_path = d / "latest_sandbox_decision.json"
     if compat:
