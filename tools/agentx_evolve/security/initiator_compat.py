@@ -103,10 +103,10 @@ class InitiatorCompat:
             except Exception as e:
                 self._integration_failures.append(f"schema_validation.validate: {e}")
         return {
-            "valid": True,
-            "errors": [],
+            "valid": False,
+            "errors": ["Schema validation unavailable — failing closed"],
             "integration": "fallback",
-            "warning": "Schema validation unavailable",
+            "warning": "Schema validation unavailable — failing closed",
         }
 
     def write_json_atomic(self, path: Path, artifact: dict) -> dict:

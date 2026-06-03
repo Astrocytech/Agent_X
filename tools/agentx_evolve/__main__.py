@@ -44,39 +44,51 @@ def main() -> None:
 
 
 def _run_review(session_id: str) -> None:
-    from agentx_evolve.review.review_interface import HumanReviewInterface, ReviewReport
-    hri = HumanReviewInterface()
-    report = ReviewReport(session_id=session_id, task="review")
-    result = hri.review(session_id, report)
-    print(f"Session: {result.session_id}")
-    print(f"Task: {result.task}")
-    print(f"Files changed: {', '.join(result.files_changed) or 'none'}")
-    print(f"Rollback available: {result.rollback_available}")
+    try:
+        from agentx_evolve.review.review_interface import HumanReviewInterface, ReviewReport
+        hri = HumanReviewInterface()
+        report = ReviewReport(session_id=session_id, task="review")
+        result = hri.review(session_id, report)
+        print(f"Session: {result.session_id}")
+        print(f"Task: {result.task}")
+        print(f"Files changed: {', '.join(result.files_changed) or 'none'}")
+        print(f"Rollback available: {result.rollback_available}")
+    except ImportError:
+        print("Review layer not yet available — this command requires the Human Review module")
 
 
 def _run_approve(session_id: str) -> None:
-    from agentx_evolve.review.review_interface import HumanReviewInterface
-    hri = HumanReviewInterface()
-    record = hri.approve(session_id, reviewer="cli", reason="CLI approval")
-    print(f"Session {session_id} approved (id={record.approval_id})")
+    try:
+        from agentx_evolve.review.review_interface import HumanReviewInterface
+        hri = HumanReviewInterface()
+        record = hri.approve(session_id, reviewer="cli", reason="CLI approval")
+        print(f"Session {session_id} approved (id={record.approval_id})")
+    except ImportError:
+        print("Review layer not yet available — this command requires the Human Review module")
 
 
 def _run_reject(session_id: str) -> None:
-    from agentx_evolve.review.review_interface import HumanReviewInterface
-    hri = HumanReviewInterface()
-    record = hri.reject(session_id, reviewer="cli", reason="CLI rejection")
-    print(f"Session {session_id} rejected (id={record.approval_id})")
+    try:
+        from agentx_evolve.review.review_interface import HumanReviewInterface
+        hri = HumanReviewInterface()
+        record = hri.reject(session_id, reviewer="cli", reason="CLI rejection")
+        print(f"Session {session_id} rejected (id={record.approval_id})")
+    except ImportError:
+        print("Review layer not yet available — this command requires the Human Review module")
 
 
 def _run_explain(session_id: str) -> None:
-    from agentx_evolve.review.review_interface import HumanReviewInterface, ReviewReport
-    hri = HumanReviewInterface()
-    report = ReviewReport(session_id=session_id)
-    result = hri.review(session_id, report)
-    print(f"Session: {result.session_id}")
-    print(f"Proposal: {result.proposal}")
-    print(f"Governance: {result.governance_decision}")
-    print(f"Risk: {result.risk_assessment}")
+    try:
+        from agentx_evolve.review.review_interface import HumanReviewInterface, ReviewReport
+        hri = HumanReviewInterface()
+        report = ReviewReport(session_id=session_id)
+        result = hri.review(session_id, report)
+        print(f"Session: {result.session_id}")
+        print(f"Proposal: {result.proposal}")
+        print(f"Governance: {result.governance_decision}")
+        print(f"Risk: {result.risk_assessment}")
+    except ImportError:
+        print("Review layer not yet available — this command requires the Human Review module")
 
 
 if __name__ == "__main__":

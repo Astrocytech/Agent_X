@@ -6,27 +6,88 @@
   "artifact_type": "patch_session",
   "type": "object",
   "required": [
-    "schema_version", "schema_id", "session_id", "timestamp",
-    "source_component", "proposal_id", "governance_decision_id",
-    "status", "target_paths", "actions", "warnings", "errors"
+    "schema_version",
+    "schema_id",
+    "session_id",
+    "timestamp",
+    "source_component",
+    "proposal_id",
+    "governance_decision_id",
+    "status",
+    "target_paths",
+    "actions",
+    "warnings",
+    "errors"
   ],
   "properties": {
-    "schema_version": {"type": "string", "const": "1.0"},
-    "schema_id": {"type": "string", "const": "patch_session.schema.json"},
-    "session_id": {"type": "string"},
-    "timestamp": {"type": "string"},
-    "source_component": {"type": "string"},
-    "proposal_id": {"type": "string"},
-    "governance_decision_id": {"type": "string"},
-    "risk_assessment_id": {"type": "string"},
-    "status": {"type": "object"},
-    "target_paths": {"type": "array", "items": {"type": "string"}},
-    "actions": {"type": "array", "items": {"type": "object"}},
-    "rollback_snapshot_paths": {"type": "array", "items": {"type": "string"}},
-    "validation_result": {"type": "object"},
-    "evidence_refs": {"type": "array", "items": {"type": "string"}},
-    "warnings": {"type": "array", "items": {"type": "string"}},
-    "errors": {"type": "array", "items": {"type": "string"}}
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "patch_session.schema.json"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "governance_decision_id": {
+      "type": "string"
+    },
+    "risk_assessment_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "object"
+    },
+    "target_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "rollback_snapshot_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "validation_result": {
+      "type": "object"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "additionalProperties": false
 }

@@ -6,36 +6,112 @@
   "artifact_type": "sandbox_policy",
   "type": "object",
   "required": [
-    "schema_version", "schema_id", "policy_id", "repo_root", "runtime_state_root",
-    "protected_paths", "source_write_allowed", "runtime_write_allowed",
-    "network_allowed", "shell_allowed", "allowlisted_commands",
-    "allowlisted_write_paths", "blocked_write_paths", "max_file_size_bytes",
-    "resolve_symlinks", "require_governance_for_source_write",
-    "require_session_for_source_write", "require_rollback_for_source_write",
-    "redact_secret_patterns", "warnings", "errors"
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "repo_root",
+    "runtime_state_root",
+    "protected_paths",
+    "source_write_allowed",
+    "runtime_write_allowed",
+    "network_allowed",
+    "shell_allowed",
+    "allowlisted_commands",
+    "allowlisted_write_paths",
+    "blocked_write_paths",
+    "max_file_size_bytes",
+    "resolve_symlinks",
+    "require_governance_for_source_write",
+    "require_session_for_source_write",
+    "require_rollback_for_source_write",
+    "redact_secret_patterns",
+    "warnings",
+    "errors"
   ],
   "properties": {
-    "schema_version": {"type": "string", "const": "1.0"},
-    "schema_id": {"type": "string", "const": "sandbox_policy.schema.json"},
-    "policy_id": {"type": "string"},
-    "repo_root": {"type": "string"},
-    "runtime_state_root": {"type": "string"},
-    "protected_paths": {"type": "array", "items": {"type": "string"}},
-    "source_write_allowed": {"type": "boolean"},
-    "runtime_write_allowed": {"type": "boolean"},
-    "network_allowed": {"type": "boolean"},
-    "shell_allowed": {"type": "boolean"},
-    "allowlisted_commands": {"type": "array"},
-    "allowlisted_write_paths": {"type": "array", "items": {"type": "string"}},
-    "blocked_write_paths": {"type": "array", "items": {"type": "string"}},
-    "max_file_size_bytes": {"type": "integer"},
-    "resolve_symlinks": {"type": "boolean"},
-    "require_governance_for_source_write": {"type": "boolean"},
-    "require_session_for_source_write": {"type": "boolean"},
-    "require_rollback_for_source_write": {"type": "boolean"},
-    "redact_secret_patterns": {"type": "array", "items": {"type": "string"}},
-    "warnings": {"type": "array", "items": {"type": "string"}},
-    "errors": {"type": "array", "items": {"type": "string"}}
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "sandbox_policy.schema.json"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "repo_root": {
+      "type": "string"
+    },
+    "runtime_state_root": {
+      "type": "string"
+    },
+    "protected_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_write_allowed": {
+      "type": "boolean"
+    },
+    "runtime_write_allowed": {
+      "type": "boolean"
+    },
+    "network_allowed": {
+      "type": "boolean"
+    },
+    "shell_allowed": {
+      "type": "boolean"
+    },
+    "allowlisted_commands": {
+      "type": "array"
+    },
+    "allowlisted_write_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocked_write_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "max_file_size_bytes": {
+      "type": "integer"
+    },
+    "resolve_symlinks": {
+      "type": "boolean"
+    },
+    "require_governance_for_source_write": {
+      "type": "boolean"
+    },
+    "require_session_for_source_write": {
+      "type": "boolean"
+    },
+    "require_rollback_for_source_write": {
+      "type": "boolean"
+    },
+    "redact_secret_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "additionalProperties": false
 }

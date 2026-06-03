@@ -6,29 +6,90 @@
   "artifact_type": "path_boundary_result",
   "type": "object",
   "required": [
-    "schema_version", "schema_id", "result_id", "timestamp",
-    "source_component", "input_path", "resolved_path", "repo_relative_path",
-    "inside_repo", "is_symlink", "symlink_escape", "is_l0", "is_protected",
-    "operation", "status", "warnings", "errors"
+    "schema_version",
+    "schema_id",
+    "result_id",
+    "timestamp",
+    "source_component",
+    "input_path",
+    "resolved_path",
+    "repo_relative_path",
+    "inside_repo",
+    "is_symlink",
+    "symlink_escape",
+    "is_l0",
+    "is_protected",
+    "operation",
+    "status",
+    "warnings",
+    "errors"
   ],
   "properties": {
-    "schema_version": {"type": "string", "const": "1.0"},
-    "schema_id": {"type": "string", "const": "path_boundary_result.schema.json"},
-    "result_id": {"type": "string"},
-    "timestamp": {"type": "string"},
-    "source_component": {"type": "string"},
-    "input_path": {"type": "string"},
-    "resolved_path": {"type": ["string", "null"]},
-    "repo_relative_path": {"type": ["string", "null"]},
-    "inside_repo": {"type": "boolean"},
-    "is_symlink": {"type": "boolean"},
-    "symlink_escape": {"type": "boolean"},
-    "is_l0": {"type": "boolean"},
-    "is_protected": {"type": "boolean"},
-    "operation": {"type": "string"},
-    "status": {"type": "string"},
-    "warnings": {"type": "array", "items": {"type": "string"}},
-    "errors": {"type": "array", "items": {"type": "string"}}
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "path_boundary_result.schema.json"
+    },
+    "result_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "input_path": {
+      "type": "string"
+    },
+    "resolved_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "repo_relative_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inside_repo": {
+      "type": "boolean"
+    },
+    "is_symlink": {
+      "type": "boolean"
+    },
+    "symlink_escape": {
+      "type": "boolean"
+    },
+    "is_l0": {
+      "type": "boolean"
+    },
+    "is_protected": {
+      "type": "boolean"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "additionalProperties": false
 }

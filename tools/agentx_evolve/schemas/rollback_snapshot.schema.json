@@ -6,22 +6,60 @@
   "artifact_type": "rollback_snapshot",
   "type": "object",
   "required": [
-    "schema_version", "schema_id", "snapshot_id", "timestamp",
-    "session_id", "file_path", "before_hash", "snapshot_path",
-    "restored", "warnings", "errors"
+    "schema_version",
+    "schema_id",
+    "snapshot_id",
+    "timestamp",
+    "session_id",
+    "file_path",
+    "before_hash",
+    "snapshot_path",
+    "restored",
+    "warnings",
+    "errors"
   ],
   "properties": {
-    "schema_version": {"type": "string", "const": "1.0"},
-    "schema_id": {"type": "string", "const": "rollback_snapshot.schema.json"},
-    "snapshot_id": {"type": "string"},
-    "timestamp": {"type": "string"},
-    "session_id": {"type": "string"},
-    "file_path": {"type": "string"},
-    "before_hash": {"type": "string"},
-    "snapshot_path": {"type": "string"},
-    "restored": {"type": "boolean"},
-    "warnings": {"type": "array", "items": {"type": "string"}},
-    "errors": {"type": "array", "items": {"type": "string"}}
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "rollback_snapshot.schema.json"
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "file_path": {
+      "type": "string"
+    },
+    "before_hash": {
+      "type": "string"
+    },
+    "snapshot_path": {
+      "type": "string"
+    },
+    "restored": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "additionalProperties": false
 }

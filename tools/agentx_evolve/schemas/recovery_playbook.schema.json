@@ -5,37 +5,98 @@
   "owner_component": "FailureTaxonomy",
   "artifact_type": "recovery_playbook",
   "type": "object",
-  "required": ["playbook_id", "failure_category", "severity"],
+  "required": [
+    "playbook_id",
+    "failure_category",
+    "severity"
+  ],
   "properties": {
-    "schema_version": {"type": "string", "const": "1.0"},
-    "schema_id": {"type": "string", "const": "recovery_playbook.schema.json"},
-    "playbook_id": {"type": "string"},
-    "timestamp": {"type": "string"},
-    "failure_category": {"type": "string"},
-    "severity": {"type": "string"},
-    "description": {"type": "string"},
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "recovery_playbook.schema.json"
+    },
+    "playbook_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "failure_category": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
     "suggested_actions": {
       "type": "array",
-      "items": {"$ref": "#/$defs/RecoveryAction"}
+      "items": {
+        "$ref": "#/$defs/RecoveryAction"
+      }
     },
-    "auto_recoverable": {"type": "boolean"},
-    "warnings": {"type": "array", "items": {"type": "string"}},
-    "errors": {"type": "array", "items": {"type": "string"}}
+    "auto_recoverable": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "additionalProperties": false,
   "$defs": {
     "RecoveryAction": {
       "type": "object",
-      "required": ["action_type"],
+      "required": [
+        "action_type"
+      ],
       "properties": {
-        "action_id": {"type": "string"},
-        "timestamp": {"type": "string"},
-        "action_type": {"type": "string"},
-        "description": {"type": "string"},
-        "command": {"type": "array", "items": {"type": "string"}},
-        "requires_approval": {"type": "boolean"},
-        "warnings": {"type": "array", "items": {"type": "string"}},
-        "errors": {"type": "array", "items": {"type": "string"}}
+        "action_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "action_type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
       },
       "additionalProperties": false
     }

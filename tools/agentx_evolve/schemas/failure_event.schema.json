@@ -5,23 +5,71 @@
   "owner_component": "FailureTaxonomy",
   "artifact_type": "failure_event",
   "type": "object",
-  "required": ["schema_version", "schema_id", "event_id", "category", "severity", "summary"],
+  "required": [
+    "schema_version",
+    "schema_id",
+    "event_id",
+    "category",
+    "severity",
+    "summary"
+  ],
   "properties": {
-    "schema_version": {"type": "string", "const": "1.0"},
-    "schema_id": {"type": "string", "const": "failure_event.schema.json"},
-    "event_id": {"type": "string"},
-    "timestamp": {"type": "string"},
-    "session_id": {"type": "string"},
-    "category": {"type": "string"},
-    "severity": {"type": "string"},
-    "source_component": {"type": "string"},
-    "summary": {"type": "string"},
-    "details": {"type": "object"},
-    "suggested_action": {"type": "string"},
-    "recovery_action_id": {"type": ["string", "null"]},
-    "recovered": {"type": "boolean"},
-    "warnings": {"type": "array", "items": {"type": "string"}},
-    "errors": {"type": "array", "items": {"type": "string"}}
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "failure_event.schema.json"
+    },
+    "event_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "details": {
+      "type": "object"
+    },
+    "suggested_action": {
+      "type": "string"
+    },
+    "recovery_action_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recovered": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "additionalProperties": false
 }
