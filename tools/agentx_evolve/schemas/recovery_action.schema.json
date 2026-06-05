@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "recovery_action.schema.json",
+  "owner_component": "FailureRecovery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "recovery_action_id",
+    "timestamp",
+    "failure_id",
+    "action_type",
+    "action_status",
+    "reason",
+    "max_attempts",
+    "attempt_number",
+    "preconditions",
+    "expected_result",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "recovery_action_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "failure_id": { "type": "string" },
+    "action_type": {
+      "type": "string",
+      "enum": ["RETRY", "REBUILD_CONTEXT", "ROLLBACK", "BLOCK_SESSION", "ENTER_SAFE_MODE", "REQUEST_HUMAN_REVIEW", "REJECT_OUTPUT", "REVALIDATE", "NO_ACTION"]
+    },
+    "action_status": {
+      "type": "string",
+      "enum": ["PROPOSED", "STARTED", "COMPLETED", "FAILED", "BLOCKED"]
+    },
+    "reason": { "type": "string" },
+    "executor_component": { "type": "string" },
+    "max_attempts": { "type": "integer" },
+    "attempt_number": { "type": "integer" },
+    "preconditions": { "type": "array", "items": { "type": "string" } },
+    "expected_result": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}
