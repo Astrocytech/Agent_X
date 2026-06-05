@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "completion_record.schema.json",
+  "component_id": "AGENTX_FAILURE_TAXONOMY_RECOVERY_PLAYBOOK",
+  "component_name": "Failure Taxonomy / Recovery Playbook",
+  "status": "VALIDATED",
+  "validated_commit": "22af357",
+  "validated_at": "2026-06-04T00:00:00Z",
+  "canonical_subdirectory": "tools/agentx_evolve/recovery/",
+  "basis_documents": [
+    "FAILURE_TAXONOMY_RECOVERY_PLAYBOOK_EQC_FIC_SIB_SCHEMA_CONTRACT_v1",
+    "FAILURE_TAXONOMY_RECOVERY_PLAYBOOK_IMPLEMENTATION_SPEC_v3"
+  ],
+  "commands_run": [
+    "PYTHONPATH=tools python -m compileall tools/agentx_evolve/recovery",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_failure_taxonomy.py",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_recovery_policy.py",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_recovery_decider.py",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_safe_mode_triggers.py",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_failure_evidence.py",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_failure_schema.py",
+    "PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_failure_negative_cases.py"
+  ],
+  "files_created_or_changed": [
+    "tools/agentx_evolve/recovery/__init__.py",
+    "tools/agentx_evolve/recovery/failure_models.py",
+    "tools/agentx_evolve/recovery/failure_taxonomy.py",
+    "tools/agentx_evolve/recovery/recovery_playbook.py",
+    "tools/agentx_evolve/recovery/recovery_policy.py",
+    "tools/agentx_evolve/recovery/safe_mode_triggers.py",
+    "tools/agentx_evolve/recovery/recovery_decider.py",
+    "tools/agentx_evolve/recovery/failure_evidence.py",
+    "tools/agentx_evolve/schemas/failure_record.schema.json",
+    "tools/agentx_evolve/schemas/recovery_action.schema.json",
+    "tools/agentx_evolve/schemas/recovery_decision.schema.json",
+    "tools/agentx_evolve/schemas/safe_mode_trigger.schema.json",
+    "tools/agentx_evolve/schemas/failure_evidence.schema.json",
+    "tools/agentx_evolve/schemas/recovery_playbook.schema.json",
+    "tools/agentx_evolve/schemas/failure_taxonomy.schema.json",
+    "tools/agentx_evolve/tests/test_failure_taxonomy.py",
+    "tools/agentx_evolve/tests/test_recovery_policy.py",
+    "tools/agentx_evolve/tests/test_recovery_decider.py",
+    "tools/agentx_evolve/tests/test_safe_mode_triggers.py",
+    "tools/agentx_evolve/tests/test_failure_evidence.py",
+    "tools/agentx_evolve/tests/test_failure_schema.py",
+    "tools/agentx_evolve/tests/test_failure_negative_cases.py"
+  ],
+  "schemas_created_or_changed": [
+    "failure_record.schema.json",
+    "recovery_action.schema.json",
+    "recovery_decision.schema.json",
+    "safe_mode_trigger.schema.json",
+    "failure_evidence.schema.json",
+    "recovery_playbook.schema.json",
+    "failure_taxonomy.schema.json"
+  ],
+  "tests_created_or_changed": [
+    "test_failure_taxonomy.py (15 tests)",
+    "test_recovery_policy.py (10 tests)",
+    "test_recovery_decider.py (8 tests)",
+    "test_safe_mode_triggers.py (9 tests)",
+    "test_failure_evidence.py (7 tests)",
+    "test_failure_schema.py (15 tests)",
+    "test_failure_negative_cases.py (8 tests)"
+  ],
+  "validated_capabilities": [
+    "failure classification",
+    "severity assignment",
+    "recovery action selection",
+    "safe-mode trigger detection",
+    "recovery decision engine",
+    "append-only evidence writing",
+    "atomic latest-artifact writes",
+    "non-execution boundary",
+    "no LLM/network/shell dependencies"
+  ],
+  "integration_points_verified": [
+    "Security Sandbox failure classification",
+    "Policy / Capability Registry failure classification",
+    "Governed Patch Execution failure classification"
+  ],
+  "deviations_from_contract": [],
+  "unresolved_risks": [],
+  "final_decision": "DONE"
+}
