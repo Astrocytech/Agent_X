@@ -21,7 +21,7 @@ from agentx_evolve.human_review.review_models import (
     AUTH_EXTERNAL_ASSERTION, AUTH_UNKNOWN, ALL_AUTH_METHODS,
     RISK_LEVEL_LOW, RISK_LEVEL_MEDIUM, RISK_LEVEL_HIGH, RISK_LEVEL_CRITICAL,
     ALL_RISK_LEVELS, SOURCE_COMPONENT, SCHEMA_VERSION,
-    utc_now_iso, new_id, to_dict, from_dict, sha256_dict, sha256_file,
+    utc_now_iso, new_id, to_dict, from_dict, canonical_json, sha256_dict, sha256_file,
     redact_sensitive_fields,
 )
 from agentx_evolve.human_review.review_queue import (
@@ -113,7 +113,7 @@ __all__ = [
     "AUTH_EXTERNAL_ASSERTION", "AUTH_UNKNOWN", "ALL_AUTH_METHODS",
     "RISK_LEVEL_LOW", "RISK_LEVEL_MEDIUM", "RISK_LEVEL_HIGH", "RISK_LEVEL_CRITICAL",
     "ALL_RISK_LEVELS", "SOURCE_COMPONENT", "SCHEMA_VERSION",
-    "utc_now_iso", "new_id", "to_dict", "from_dict", "sha256_dict", "sha256_file",
+    "utc_now_iso", "new_id", "to_dict", "from_dict", "canonical_json", "sha256_dict", "sha256_file",
     "redact_sensitive_fields",
     "load_queue", "enqueue_request", "resolve_request",
     "create_review_request", "add_request_to_queue", "validate_review_request",

@@ -113,9 +113,12 @@ def to_dict(obj: object) -> dict:
     return obj
 
 
+def canonical_json(data: dict) -> str:
+    return json.dumps(data, sort_keys=True, separators=(",", ":"))
+
+
 def sha256_dict(data: dict) -> str:
-    canonical = json.dumps(data, sort_keys=True, separators=(",", ":"))
-    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    return hashlib.sha256(canonical_json(data).encode("utf-8")).hexdigest()
 
 
 def sha256_file(path: Path) -> str:
