@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"llm_worker_audit.schema.json","audit_id":"aud-001","created_at":"2026-06-05T00:00:00","source_component":"LLMImplementationWorker","event_type":"WORKER_COMPLETED","task_id":"t-001","status":"SUCCESS","message":"Done","artifact_refs":[],"evidence_refs":[],"warnings":[],"errors":[]}
