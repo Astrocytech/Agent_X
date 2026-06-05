@@ -18,7 +18,11 @@ from agentx_evolve.runtime.runtime_profile import (
     RP_CPU_ONLY_SAFE, RP_SMALL_GPU_8GB, RP_BALANCED_LOCAL, RP_HOSTED_FALLBACK,
 )
 from agentx_evolve.monitoring.monitoring import AuditEvent, AuditLog, SessionInspector
-from agentx_evolve.acceptance.acceptance import AcceptanceCheck
+from agentx_evolve.acceptance.acceptance import AcceptanceCheck, AC_CHECK_PASS
+from agentx_evolve.orchestrator.self_evolution_orchestrator import SelfEvolutionOrchestrator
+from agentx_evolve.orchestrator.session_models import (
+    SessionRecord, SC_ACCEPTED, SC_BLOCKED, SC_FAILED,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -503,25 +507,83 @@ def test_session_inspector_no_failure():
 
 def test_acceptance_check_defaults():
     c = AcceptanceCheck()
-    results = c.run_all()
-    assert len(results) == 14
-    assert all(v is False for v in results.values())
-    assert not c.all_passed()
+    report = c.run_all()
+    assert report.total == 19
+    assert report.passed > 0
+    assert report.skipped == 0
 
 
 def test_acceptance_check_set():
     c = AcceptanceCheck()
-    c.run_all()
-    c.set_result("patch_execution", True)
-    assert c.get_result("patch_execution")
+    c.set_result("patch_execution", "PASS")
+    result = c.get_result("patch_execution")
+    assert result is not None
+    assert result.status == "PASS"
 
 
 def test_acceptance_check_summary():
     c = AcceptanceCheck()
-    c.run_all()
-    c.set_result("patch_execution", True)
-    c.set_result("rollback", True)
+    c.set_result("patch_execution", "PASS")
+    c.set_result("rollback", "PASS")
     summary = c.summary()
-    assert summary["total"] == 14
+    assert summary["total"] == 2
     assert summary["passed"] == 2
-    assert summary["failed"] == 12
+    assert summary["failed"] == 0
+
+
+# ---------------------------------------------------------------------------
+# End-to-end integration: orchestrator + real hooks + acceptance check
+# ---------------------------------------------------------------------------
+
+def test_full_cycle_integration():
+    o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "integration test evolution"}])
+    session = SessionRecord(session_id="e2e-001", description="end-to-end test")
+    result = o.run_cycle(session)
+    assert result.session_id == "e2e-001"
+    assert result.status in (SC_ACCEPTED, SC_BLOCKED, SC_FAILED)
+    assert result.completion_record is not None
+    assert result.completion_record["session_id"] == "e2e-001"
+
+
+def test_acceptance_with_real_check_integration():
+    c = AcceptanceCheck()
+    report = c.run_all()
+    assert report.total == 19
+    assert report.passed >= 17
+    assert report.skipped == 0
+    check_names = {r.check_name for r in report.checks}
+    assert "fresh_clone_install" in check_names
+    assert "patch_execution" in check_names
+    assert "schema_validation" in check_names
+    for r in report.checks:
+        if r.status == AC_CHECK_PASS:
+            assert r.details, f"Check {r.check_name} passed but has no details"
+
+
+def test_packaging_integration():
+    from agentx_evolve.packaging.packaging_checker import PackagingChecker
+    checker = PackagingChecker()
+    c = checker.run_check()
+    assert c.check_id.startswith("pkg-")
+    assert len(c.dep_groups_defined) > 0
+    for check in c.checks:
+        if check.check_name.startswith("cmd_"):
+            assert check.status in ("PASS", "FAIL"), f"{check.check_name}: unexpected {check.status}"
+
+
+def test_backup_persistence_integration(tmp_path):
+    from agentx_evolve.backup.backup_recovery import BackupManager, BC_AUDIT_HISTORY, BK_COMPLETED
+    backup_dir = tmp_path / "backups"
+    bak_file = tmp_path / "test.bak"
+    bak_file.write_text("backup content")
+    mgr = BackupManager(backup_dir=str(backup_dir))
+    r = mgr.create_backup(BC_AUDIT_HISTORY, source_paths=["/tmp/test.log"])
+    mgr.complete_backup(r.backup_id, backup_paths=[str(bak_file)],
+                        checksum="abc123", size_bytes=512)
+    assert r.status == BK_COMPLETED
+    assert (backup_dir / "backups.jsonl").exists()
+    mgr2 = BackupManager(backup_dir=str(backup_dir))
+    assert mgr2.get_backup(r.backup_id) is not None
+    ok, msg = mgr2.can_restore(r.backup_id)
+    assert ok is True

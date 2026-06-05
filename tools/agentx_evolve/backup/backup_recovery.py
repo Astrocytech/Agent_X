@@ -1,6 +1,9 @@
 from __future__ import annotations
+import json
+import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 from agentx_evolve.model.model_models import new_id, to_dict
 
@@ -81,12 +84,43 @@ class BackupManifest:
 
 
 class BackupManager:
-    def __init__(self):
+    def __init__(self, backup_dir: str | Path | None = None):
         self._backups: dict[str, BackupRecord] = {}
+        self._backup_dir = Path(backup_dir) if backup_dir else None
         self._manifest: BackupManifest = BackupManifest(
             manifest_id=new_id("bkm"),
             created_at=datetime.now(timezone.utc).isoformat(),
         )
+        self._load_from_disk()
+
+    def _persist_path(self) -> Path | None:
+        if self._backup_dir is None:
+            return None
+        self._backup_dir.mkdir(parents=True, exist_ok=True)
+        return self._backup_dir / "backups.jsonl"
+
+    def _load_from_disk(self) -> None:
+        p = self._persist_path()
+        if p is None or not p.exists():
+            return
+        for line in p.read_text().splitlines():
+            if not line.strip():
+                continue
+            try:
+                data = json.loads(line)
+                r = BackupRecord(**data)
+                self._backups[r.backup_id] = r
+            except Exception:
+                continue
+        for r in self._backups.values():
+            self._manifest.add_backup(r)
+
+    def _append_to_disk(self, record: BackupRecord) -> None:
+        p = self._persist_path()
+        if p is None:
+            return
+        with open(p, "a") as f:
+            f.write(json.dumps(record.to_dict(), default=str) + "\n")
 
     def create_backup(self, category: str,
                        source_paths: list[str] | None = None) -> BackupRecord:
@@ -101,6 +135,7 @@ class BackupManager:
         )
         self._backups[record.backup_id] = record
         self._manifest.add_backup(record)
+        self._append_to_disk(record)
         return record
 
     def complete_backup(self, backup_id: str, backup_paths: list[str] | None = None,
@@ -114,8 +149,13 @@ class BackupManager:
             record.backup_paths = backup_paths
         if checksum:
             record.checksum = checksum
+        else:
+            record.checksum = hashlib.sha256(json.dumps(record.to_dict(), default=str).encode()).hexdigest()[:16]
         if size_bytes:
             record.size_bytes = size_bytes
+        elif backup_paths:
+            record.size_bytes = sum(Path(p).stat().st_size for p in backup_paths if Path(p).exists())
+        self._append_to_disk(record)
         return True
 
     def fail_backup(self, backup_id: str, errors: list[str] | None = None) -> bool:
@@ -126,6 +166,7 @@ class BackupManager:
         record.completed_at = datetime.now(timezone.utc).isoformat()
         if errors:
             record.errors = errors
+        self._append_to_disk(record)
         return True
 
     def get_backup(self, backup_id: str) -> BackupRecord | None:
@@ -145,6 +186,9 @@ class BackupManager:
             manifest_id=new_id("bkm"),
             created_at=datetime.now(timezone.utc).isoformat(),
         )
+        p = self._persist_path()
+        if p and p.exists():
+            p.unlink()
 
     def can_restore(self, backup_id: str) -> tuple[bool, str]:
         record = self._backups.get(backup_id)
@@ -154,6 +198,10 @@ class BackupManager:
             return False, f"Backup status is {record.status}, not COMPLETED"
         if not record.backup_paths:
             return False, "No backup paths available for restore"
+        if self._backup_dir is not None:
+            for p in record.backup_paths:
+                if not Path(p).exists():
+                    return False, f"Backup path does not exist on disk: {p}"
         return True, "Ready to restore"
 
     def check_recovery_scenario(self, scenario: str) -> str:

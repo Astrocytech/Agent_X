@@ -84,6 +84,7 @@ def test_orchestrator_defaults():
 
 def test_orchestrator_full_cycle_success():
     o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "evolve component X"}])
     session = SessionRecord(session_id="s1", description="evolve component X")
     result = o.run_cycle(session)
     assert result.status == SC_ACCEPTED
@@ -91,6 +92,7 @@ def test_orchestrator_full_cycle_success():
 
 def test_orchestrator_with_failing_governance():
     o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "test"}])
     o.register_hook("governance_check", lambda: {"decision": "DENY", "level": "L0"})
     session = SessionRecord(session_id="s2")
     result = o.run_cycle(session)
@@ -113,6 +115,7 @@ def test_orchestrator_repair_loop():
         return {"passed": False, "output": "FAILED test_foo"}
 
     o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "repair test"}])
     o.register_hook("validate", failing_validate)
     session = SessionRecord(session_id="s4")
     result = o.run_cycle(session)
@@ -124,6 +127,7 @@ def test_orchestrator_max_repair_loops():
         return {"passed": False, "output": "FAILED"}
 
     o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "max repair test"}])
     o.register_hook("validate", always_fail_validate)
     session = SessionRecord(session_id="s5")
     result = o.run_cycle(session)
@@ -155,6 +159,7 @@ def test_orchestrator_hooks_registration():
 def test_orchestrator_with_custom_context_builder():
     cb = ContextBuilder(max_tokens=4096)
     o = SelfEvolutionOrchestrator(context_builder=cb)
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "test custom"}])
     session = SessionRecord(session_id="s8", description="test custom")
     result = o.run_cycle(session, candidate_files=["src/main.py"])
     assert result.status == SC_ACCEPTED
@@ -163,6 +168,7 @@ def test_orchestrator_with_custom_context_builder():
 
 def test_orchestrator_records_completion():
     o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "complete"}])
     session = SessionRecord(session_id="s9")
     result = o.run_cycle(session)
     assert result.completion_record is not None
@@ -189,6 +195,7 @@ def test_orchestrator_repair_count_tracked():
 
 def test_orchestrator_patch_failure_triggers_rollback():
     o = SelfEvolutionOrchestrator()
+    o.register_hook("plan", lambda: [{"id": "c1", "description": "patch test"}])
     o.register_hook("apply_patch", lambda: {"status": "failed", "error": "conflict"})
     session = SessionRecord(session_id="s11")
     result = o.run_cycle(session)
