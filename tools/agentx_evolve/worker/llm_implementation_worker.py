@@ -5,7 +5,7 @@ from agentx_evolve.worker.worker_models import (
     WO_PROPOSED, WO_NEEDS_MORE_CONTEXT, WO_FAILED,
     CT_UPDATE, CT_CREATE, CT_DELETE,
 )
-from agentx_evolve.context.task_packet import (
+from agentx_evolve.context.context_models import (
     TaskPacket, TT_FIX_VALIDATION, TT_WRITE_TEST, TT_EXPLAIN_FAILURE,
 )
 from agentx_evolve.model.prompt_runner import PromptRunner

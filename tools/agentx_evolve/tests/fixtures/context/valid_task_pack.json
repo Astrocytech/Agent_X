@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "task_pack.schema.json",
+  "task_pack_id": "tp-001",
+  "created_at": "2026-06-05T00:00:00Z",
+  "source_component": "ContextBuilderTaskPacker",
+  "task_input": {"task_title": "test"},
+  "context_pack": {"context_pack_id": "cp-001", "max_context_tokens": 4096},
+  "allowed_tools": ["read_file"],
+  "blocked_tools": ["write_file"],
+  "final_instructions": ["build the context pack"],
+  "required_outputs": ["pack.json"],
+  "forbidden_actions": ["network fetch"],
+  "status": "DRAFT",
+  "warnings": [],
+  "errors": []
+}

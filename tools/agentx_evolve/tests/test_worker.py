@@ -9,7 +9,7 @@ from agentx_evolve.worker.llm_implementation_worker import (
     LLMImplementationWorker, EditPlanGenerator,
     PatchCandidateGenerator, TestCandidateGenerator, ValidationFixGenerator,
 )
-from agentx_evolve.context.task_packet import (
+from agentx_evolve.context.context_models import (
     TaskPacket, TaskPacketBuilder,
     TT_IMPLEMENT_PATCH, TT_FIX_VALIDATION, TT_WRITE_TEST, TT_EXPLAIN_FAILURE,
 )

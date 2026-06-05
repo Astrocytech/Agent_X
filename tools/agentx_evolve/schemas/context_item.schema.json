@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "context_item.schema.json",
+  "title": "ContextItem",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "context_item_id", "created_at", "source_id", "source_component", "source_trust_level", "item_kind", "title", "content", "content_hash", "token_estimate", "priority_score", "recency_score", "injection_risk_score", "sensitive_data_score", "inclusion_decision", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "pattern": "^context_item\\.schema\\.json$"},
+    "context_item_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "source_id": {"type": "string"},
+    "source_component": {"type": "string"},
+    "source_trust_level": {
+      "type": "string",
+      "enum": ["SOURCE_TRUST_SYSTEM", "SOURCE_TRUST_AGENTX_CONTRACT", "SOURCE_TRUST_VALIDATED_ARTIFACT", "SOURCE_TRUST_USER_INPUT", "SOURCE_TRUST_TOOL_OUTPUT", "SOURCE_TRUST_UNTRUSTED_TEXT", "SOURCE_TRUST_BLOCKED"]
+    },
+    "item_kind": {"type": "string"},
+    "title": {"type": "string"},
+    "content": {"type": "string"},
+    "content_hash": {"type": "string"},
+    "token_estimate": {"type": "integer", "minimum": 0},
+    "priority_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "recency_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "dedupe_key": {"type": "string"},
+    "injection_risk_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "sensitive_data_score": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+    "inclusion_decision": {
+      "type": "string",
+      "enum": ["INCLUDE", "EXCLUDE_DUPLICATE", "EXCLUDE_LOW_PRIORITY", "EXCLUDE_OVER_BUDGET", "EXCLUDE_POLICY_BLOCKED", "EXCLUDE_INJECTION_RISK", "EXCLUDE_SENSITIVE", "SUMMARIZE", "REDACT_AND_INCLUDE"]
+    },
+    "redacted": {"type": "boolean"},
+    "summarized": {"type": "boolean"},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

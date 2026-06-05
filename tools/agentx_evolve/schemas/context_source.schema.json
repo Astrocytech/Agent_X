@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "context_source.schema.json",
+  "title": "ContextSource",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "source_id", "source_type", "source_component", "source_trust_level", "allowed_by_policy", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "pattern": "^context_source\\.schema\\.json$"},
+    "source_id": {"type": "string"},
+    "source_type": {"type": "string"},
+    "source_path": {"type": "string"},
+    "source_component": {"type": "string"},
+    "source_trust_level": {
+      "type": "string",
+      "enum": ["SOURCE_TRUST_SYSTEM", "SOURCE_TRUST_AGENTX_CONTRACT", "SOURCE_TRUST_VALIDATED_ARTIFACT", "SOURCE_TRUST_USER_INPUT", "SOURCE_TRUST_TOOL_OUTPUT", "SOURCE_TRUST_UNTRUSTED_TEXT", "SOURCE_TRUST_BLOCKED"]
+    },
+    "created_at": {"type": "string"},
+    "modified_at": {"type": "string"},
+    "loaded_at": {"type": "string"},
+    "allowed_by_policy": {"type": "boolean"},
+    "policy_decision_id": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

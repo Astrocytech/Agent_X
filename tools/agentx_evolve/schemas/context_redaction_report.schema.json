@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "context_redaction_report.schema.json",
+  "title": "ContextRedactionReport",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "context_item_id", "redaction_type", "safe_to_include", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string"},
+    "context_item_id": {"type": "string"},
+    "redaction_type": {"type": "string"},
+    "location_hint": {"type": "string"},
+    "replacement_token": {"type": "string"},
+    "safe_to_include": {"type": "boolean"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

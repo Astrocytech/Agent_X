@@ -8,7 +8,7 @@ from agentx_evolve.orchestrator.session_models import (
 )
 from agentx_evolve.orchestrator.self_evolution_orchestrator import SelfEvolutionOrchestrator
 from agentx_evolve.context.context_builder import ContextBuilder
-from agentx_evolve.context.task_packet import TaskPacket, TT_IMPLEMENT_PATCH
+from agentx_evolve.context.context_models import TaskPacket, TT_IMPLEMENT_PATCH
 
 
 # ---------------------------------------------------------------------------

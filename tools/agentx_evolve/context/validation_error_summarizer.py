@@ -1,6 +1,5 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
-from typing import Any
 
 
 @dataclass
@@ -36,26 +35,25 @@ class ValidationErrorSummary:
         }
 
 
-class ValidationErrorSummarizer:
-    def summarize(self, test_output: str) -> ValidationErrorSummary:
-        summary = ValidationErrorSummary()
-        if not test_output:
-            summary.summary_text = "No test output to analyze."
-            return summary
-        lines = test_output.split("\n")
-        entries: list[ValidationErrorEntry] = []
-        for line in lines:
-            if "FAILED" in line or "ERROR" in line:
-                entries.append(ValidationErrorEntry(
-                    error_message=line.strip(),
-                ))
-        summary.total_errors = sum(1 for e in entries if "ERROR" in e.error_message)
-        summary.total_failures = sum(1 for e in entries if "FAILED" in e.error_message)
-        summary.entries = entries[:20]
-        if len(entries) > 20:
-            summary.warnings.append(f"Truncated {len(entries)} errors to 20")
-        summary.summary_text = (
-            f"{summary.total_failures} failures, {summary.total_errors} errors "
-            f"across {len(entries)} entries"
-        )
+def summarize_test_output(test_output: str) -> ValidationErrorSummary:
+    summary = ValidationErrorSummary()
+    if not test_output:
+        summary.summary_text = "No test output to analyze."
         return summary
+    lines = test_output.split("\n")
+    entries: list[ValidationErrorEntry] = []
+    for line in lines:
+        if "FAILED" in line or "ERROR" in line:
+            entries.append(ValidationErrorEntry(
+                error_message=line.strip(),
+            ))
+    summary.total_errors = sum(1 for e in entries if "ERROR" in e.error_message)
+    summary.total_failures = sum(1 for e in entries if "FAILED" in e.error_message)
+    summary.entries = entries[:20]
+    if len(entries) > 20:
+        summary.warnings.append(f"Truncated {len(entries)} errors to 20")
+    summary.summary_text = (
+        f"{summary.total_failures} failures, {summary.total_errors} errors "
+        f"across {len(entries)} entries"
+    )
+    return summary

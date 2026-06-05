@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_budget_estimate.schema.json",
+  "max_context_tokens": 8192,
+  "reserved_output_tokens": 1024,
+  "available_input_tokens": 7168,
+  "total_estimated_tokens": 5000,
+  "fits": true,
+  "over_budget_tokens": 0,
+  "warnings": [],
+  "errors": []
+}

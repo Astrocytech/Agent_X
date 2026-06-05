@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "context_item.schema.json",
+  "context_item_id": "ci-002",
+  "created_at": "2026-06-05T00:00:00Z",
+  "source_id": "src-002",
+  "source_component": "unknown",
+  "source_trust_level": "INVALID_TRUST",
+  "item_kind": "FILE_SNIPPET",
+  "title": "test",
+  "content": "some content",
+  "content_hash": "def456",
+  "token_estimate": 5,
+  "priority_score": 0.5,
+  "recency_score": 0.5,
+  "injection_risk_score": 0.1,
+  "sensitive_data_score": 0.0,
+  "inclusion_decision": "INVALID_DECISION",
+  "warnings": [],
+  "errors": []
+}

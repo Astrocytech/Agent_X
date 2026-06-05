@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "completion_record.schema.json",
+  "component_id": "AGENTX_CONTEXT_BUILDER_TASK_PACKER",
+  "component_name": "Context Builder / Task Packer",
+  "status": "COMPLETED",
+  "validated_at": "2026-06-05T01:05:00Z",
+  "canonical_subdirectory": "tools/agentx_evolve/context/",
+  "canonical_schema_subdirectory": "tools/agentx_evolve/schemas/",
+  "canonical_test_subdirectory": "tools/agentx_evolve/tests/",
+  "runtime_artifact_root": ".agentx-init/context_packs/",
+  "basis_documents": ["CONTEXT_BUILDER_TASK_PACKER_IMPLEMENTATION_SPEC_v3"],
+  "files_created_or_changed": [
+    "context/__init__.py", "context/context_models.py", "context/context_source_loader.py",
+    "context/task_input_normalizer.py", "context/priority_scorer.py", "context/recency_scorer.py",
+    "context/deduplication_engine.py", "context/budget_estimator.py", "context/compression_planner.py",
+    "context/summary_selector.py", "context/prompt_injection_filter.py",
+    "context/sensitive_data_redactor.py", "context/task_pack_builder.py",
+    "context/model_context_compatibility.py", "context/tool_context_compatibility.py",
+    "context/context_artifact_writer.py", "context/task_pack_validator.py",
+    "context/context_builder.py",
+    "schemas/context_builder_review_report.schema.json",
+    "schemas/completion_record.schema.json",
+    "tests/test_context_negative_cases.py",
+    "tests/validate_context_builder_schemas.py",
+    "tests/fixtures/context/valid_review_report.json",
+    "tests/fixtures/context/valid_completion_record.json",
+    "tests/fixtures/context/missing_review_report_commit.json"
+  ],
+  "validated_capabilities": [
+    "task_input_normalization", "context_source_loading", "prompt_injection_filtering",
+    "sensitive_data_redaction", "priority_scoring", "recency_scoring", "deduplication",
+    "budget_estimation", "compression_planning", "summary_selection",
+    "model_context_compatibility", "tool_context_compatibility",
+    "task_pack_building", "context_artifact_writing", "task_pack_validation"
+  ],
+  "evidence_artifacts": [
+    ".agentx-init/context_packs/latest_context_pack.json",
+    ".agentx-init/context_packs/latest_task_pack.json",
+    ".agentx-init/context_packs/context_pack_evidence.json",
+    ".agentx-init/context_packs/context_builder_review_report.json",
+    ".agentx-init/context_packs/context_builder_completion_record.json"
+  ],
+  "final_decision": "DONE"
+}

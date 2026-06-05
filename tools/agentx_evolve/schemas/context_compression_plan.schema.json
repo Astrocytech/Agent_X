@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "context_compression_plan.schema.json",
+  "title": "ContextCompressionPlan",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "plan_id", "compressible_item_ids", "must_keep_verbatim_ids", "summary_item_ids", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string"},
+    "plan_id": {"type": "string"},
+    "compressible_item_ids": {"type": "array", "items": {"type": "string"}},
+    "must_keep_verbatim_ids": {"type": "array", "items": {"type": "string"}},
+    "summary_item_ids": {"type": "array", "items": {"type": "string"}},
+    "tokens_saved_estimate": {"type": "integer", "minimum": 0},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

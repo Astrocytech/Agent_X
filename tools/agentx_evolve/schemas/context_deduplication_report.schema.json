@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "context_deduplication_report.schema.json",
+  "title": "ContextDeduplicationReport",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "primary_item_id", "duplicate_item_ids", "decision", "reason", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string"},
+    "primary_item_id": {"type": "string"},
+    "duplicate_item_ids": {"type": "array", "items": {"type": "string"}},
+    "decision": {"type": "string"},
+    "reason": {"type": "string"},
+    "tokens_saved_estimate": {"type": "integer", "minimum": 0},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

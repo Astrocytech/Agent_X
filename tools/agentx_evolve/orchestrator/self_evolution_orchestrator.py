@@ -11,7 +11,7 @@ from agentx_evolve.orchestrator.session_models import (
     SC_ACCEPTED, SC_FAILED, SC_BLOCKED,
 )
 from agentx_evolve.context.context_builder import ContextBuilder
-from agentx_evolve.context.task_packet import TaskPacket
+from agentx_evolve.context.context_models import TaskPacket
 from agentx_evolve.worker.llm_implementation_worker import LLMImplementationWorker
 from agentx_evolve.worker.worker_models import WorkerOutput, WO_PROPOSED, WO_FAILED
 

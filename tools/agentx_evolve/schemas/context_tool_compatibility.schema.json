@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "context_tool_compatibility.schema.json",
+  "title": "ContextToolCompatibility",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "tool_name", "allowed", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string"},
+    "tool_name": {"type": "string"},
+    "tool_type": {"type": "string"},
+    "allowed": {"type": "boolean"},
+    "reason": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

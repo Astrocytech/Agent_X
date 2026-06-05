@@ -1,17 +1,19 @@
 import pytest
-from agentx_evolve.context.task_packet import (
+from agentx_evolve.context.context_models import (
     TaskPacket, TaskPacketBuilder, Snippet, ArtifactRef, ValidationPlan,
     TT_IMPLEMENT_PATCH, TT_FIX_VALIDATION, TT_WRITE_TEST, TT_EXPLAIN_FAILURE,
     ALL_TASK_TYPES,
 )
-from agentx_evolve.context.file_selector import FileSelector, FileMatch, FileSelectionResult
-from agentx_evolve.context.artifact_selector import ArtifactSelector, ArtifactMatch, ArtifactSelectionResult
-from agentx_evolve.context.context_budgeter import ContextBudgeter
-from agentx_evolve.context.context_compressor import ContextCompressor
-from agentx_evolve.context.schema_injector import SchemaInjector
-from agentx_evolve.context.validation_error_summarizer import (
-    ValidationErrorSummarizer, ValidationErrorEntry, ValidationErrorSummary,
+from agentx_evolve.context.context_source_loader import (
+    select_files, select_artifacts,
+    FileMatch, FileSelectionResult, ArtifactMatch, ArtifactSelectionResult,
 )
+from agentx_evolve.context.task_pack_builder import inject_schema, list_available_schemas
+from agentx_evolve.context.validation_error_summarizer import (
+    summarize_test_output, ValidationErrorEntry, ValidationErrorSummary,
+)
+from agentx_evolve.context.budget_estimator import estimate_context_item_budget, estimate_context_pack_budget
+from agentx_evolve.context.context_models import ContextItem
 from agentx_evolve.context.context_builder import ContextBuilder
 
 
@@ -151,66 +153,55 @@ def test_validation_plan_to_dict():
 
 
 # ---------------------------------------------------------------------------
-# FileSelector tests
+# File selection tests
 # ---------------------------------------------------------------------------
 
 def test_file_selector_defaults():
-    fs = FileSelector()
-    result = fs.select("fix bug in parser", "IMPLEMENT_PATCH",
-                       candidate_files=["src/parser.py", "src/main.py", "tests/test_parser.py"])
+    result = select_files("fix bug in parser", "IMPLEMENT_PATCH",
+                          candidate_files=["src/parser.py", "src/main.py", "tests/test_parser.py"])
     assert len(result.allowed) == 3
     assert "src/parser.py" in result.allowed
 
 
 def test_file_selector_scoring():
-    fs = FileSelector()
-    result = fs.select("parser bug", "IMPLEMENT_PATCH",
-                       candidate_files=["src/parser.py", "README.md"])
+    result = select_files("parser bug", "IMPLEMENT_PATCH",
+                          candidate_files=["src/parser.py", "README.md"])
     matches = {m.file_path: m.relevance_score for m in result.matches}
     assert matches.get("src/parser.py", 0) > matches.get("README.md", 0)
 
 
 def test_file_selector_empty():
-    fs = FileSelector()
-    result = fs.select("task", "IMPLEMENT_PATCH")
+    result = select_files("task", "IMPLEMENT_PATCH")
     assert result.allowed == []
     assert result.token_estimate == 0
 
 
 def test_file_selector_test_task():
-    fs = FileSelector()
-    result = fs.select("write unit tests", "WRITE_TEST",
-                       candidate_files=["src/main.py", "tests/test_main.py"])
+    result = select_files("write unit tests", "WRITE_TEST",
+                          candidate_files=["src/main.py", "tests/test_main.py"])
     matches = {m.file_path: m.relevance_score for m in result.matches}
     assert matches.get("tests/test_main.py", 0) > matches.get("src/main.py", 0)
 
 
-def test_file_selector_estimate():
-    fs = FileSelector()
-    assert fs.with_estimate("x" * 100, 100) == 25
-
-
 # ---------------------------------------------------------------------------
-# ArtifactSelector tests
+# Artifact selection tests
 # ---------------------------------------------------------------------------
 
 def test_artifact_selector_selects_relevant():
-    asel = ArtifactSelector()
     available = [
         {"artifact_id": "a1", "artifact_type": "test_output", "description": "parser test results"},
         {"artifact_id": "a2", "artifact_type": "log", "description": "server log"},
     ]
-    result = asel.select("FIX_VALIDATION", "fix parser test results", available)
+    result = select_artifacts("FIX_VALIDATION", "fix parser test results", available)
     ids = [m.artifact_id for m in result.selected]
     assert "a1" in ids
 
 
 def test_artifact_selector_no_match():
-    asel = ArtifactSelector()
     available = [
         {"artifact_id": "a1", "artifact_type": "log", "description": "server log"},
     ]
-    result = asel.select("FIX_VALIDATION", "fix parser test", available)
+    result = select_artifacts("FIX_VALIDATION", "fix parser test", available)
     assert len(result.selected) == 0
 
 
@@ -218,150 +209,77 @@ def test_artifact_selector_no_match():
 # ContextBudgeter tests
 # ---------------------------------------------------------------------------
 
-def test_budgeter_defaults():
-    b = ContextBudgeter()
-    assert b.max_tokens == 8192
-    assert b.used == 0
+# ---------------------------------------------------------------------------
+# Budget estimator tests (replaces old ContextBudgeter tests)
+# ---------------------------------------------------------------------------
+
+def test_budget_estimator_short_vs_long():
+    short = estimate_context_item_budget(ContextItem(source_id="s", content="hello"))
+    long_t = estimate_context_item_budget(ContextItem(source_id="s", content="x" * 1000))
+    assert long_t["token_estimate"] > short["token_estimate"]
 
 
-def test_budgeter_consume():
-    b = ContextBudgeter(max_tokens=100)
-    t = b.consume("hello world")
-    assert t > 0
-    assert b.used > 0
+def test_budget_estimator_reserved_output():
+    items: list = []
+    budget = estimate_context_pack_budget(items, max_context_tokens=1000, reserved_output_tokens=200)
+    assert budget["available_input_tokens"] == 800
 
 
-def test_budgeter_headroom():
-    b = ContextBudgeter(max_tokens=100)
-    b.consume("hello")
-    assert b.headroom() < 100
-
-
-def test_budgeter_over_budget():
-    b = ContextBudgeter(max_tokens=10)
-    b.consume("x" * 100)
-    assert b.is_over_budget()
-
-
-def test_budgeter_fraction():
-    b = ContextBudgeter(max_tokens=100)
-    assert b.fraction_used() == 0.0
-    b.consume("x" * 100)
-    assert b.fraction_used() > 0
-
-
-def test_budgeter_reset():
-    b = ContextBudgeter(max_tokens=100)
-    b.consume("hello")
-    b.reset()
-    assert b.used == 0
+def test_budget_estimator_over_budget_flagged():
+    items = [ContextItem(source_id="s", content="x" * 5000)]
+    budget = estimate_context_pack_budget(items, max_context_tokens=10, reserved_output_tokens=0)
+    assert budget["total_estimated_tokens"] > 10
 
 
 # ---------------------------------------------------------------------------
-# ContextCompressor tests
-# ---------------------------------------------------------------------------
-
-def test_compressor_short_snippet():
-    c = ContextCompressor()
-    text = "line1\nline2\n"
-    assert c.compress_snippet(text) == text
-
-
-def test_compressor_long_snippet():
-    c = ContextCompressor()
-    text = "\n".join(f"line{i}" for i in range(100))
-    compressed = c.compress_snippet(text, max_lines=10)
-    assert "omitted" in compressed
-    assert len(compressed.split("\n")) < 20
-
-
-def test_compressor_summarize_short():
-    c = ContextCompressor()
-    assert c.summarize("short") == "short"
-
-
-def test_compressor_summarize_long():
-    c = ContextCompressor()
-    long_text = "x" * 1000
-    summarized = c.summarize(long_text, max_chars=100)
-    assert len(summarized) <= 103
-    assert summarized.endswith("...")
-
-
-def test_compressor_strip_comments():
-    c = ContextCompressor()
-    code = "# comment\ncode\n# another\nmore"
-    result = c.strip_comments(code)
-    assert "# comment" not in result
-    assert "code" in result
-
-
-def test_compressor_extract_signatures():
-    c = ContextCompressor()
-    code = "def foo():\n    pass\nclass Bar:\n    pass\nx = 1"
-    sigs = c.extract_signatures(code)
-    assert "def foo():" in sigs
-    assert "class Bar:" in sigs
-    assert "x = 1" not in sigs
-
-
-# ---------------------------------------------------------------------------
-# SchemaInjector tests
+# Schema injection tests
 # ---------------------------------------------------------------------------
 
 def test_schema_injector():
-    si = SchemaInjector()
     schemas = {"IMPLEMENT_PATCH": {"type": "object", "required": ["patch"]}}
-    result = si.inject("IMPLEMENT_PATCH", schemas)
+    result = inject_schema("IMPLEMENT_PATCH", schemas)
     assert result == {"type": "object", "required": ["patch"]}
 
 
 def test_schema_injector_none():
-    si = SchemaInjector()
-    assert si.inject("IMPLEMENT_PATCH") is None
+    assert inject_schema("IMPLEMENT_PATCH") is None
 
 
 def test_schema_injector_missing():
-    si = SchemaInjector()
     schemas = {"WRITE_TEST": {}}
-    assert si.inject("IMPLEMENT_PATCH", schemas) is None
+    assert inject_schema("IMPLEMENT_PATCH", schemas) is None
 
 
 def test_schema_list_available():
-    si = SchemaInjector()
     schemas = {"a": {}, "b": {}}
-    assert sorted(si.list_available(schemas)) == ["a", "b"]
+    assert sorted(list_available_schemas(schemas)) == ["a", "b"]
 
 
 # ---------------------------------------------------------------------------
-# ValidationErrorSummarizer tests
+# Validation error summarizer tests
 # ---------------------------------------------------------------------------
 
 def test_summarizer_empty():
-    vs = ValidationErrorSummarizer()
-    s = vs.summarize("")
+    s = summarize_test_output("")
     assert s.total_errors == 0
     assert s.total_failures == 0
 
 
 def test_summarizer_no_errors():
-    vs = ValidationErrorSummarizer()
-    s = vs.summarize("All tests passed!")
+    s = summarize_test_output("All tests passed!")
     assert s.total_errors == 0
     assert s.total_failures == 0
 
 
 def test_summarizer_with_errors():
-    vs = ValidationErrorSummarizer()
-    s = vs.summarize("FAILED test_foo\nERROR test_bar\nSome output\nFAILED test_baz")
+    s = summarize_test_output("FAILED test_foo\nERROR test_bar\nSome output\nFAILED test_baz")
     assert s.total_failures == 2
     assert s.total_errors == 1
 
 
 def test_summarizer_truncates():
-    vs = ValidationErrorSummarizer()
     lines = "\n".join([f"FAILED test_{i}" for i in range(50)])
-    s = vs.summarize(lines)
+    s = summarize_test_output(lines)
     assert len(s.entries) <= 20
     assert "Truncated" in s.warnings[0]
 
@@ -384,7 +302,7 @@ def test_validation_error_summary_to_dict():
 
 def test_context_builder_defaults():
     cb = ContextBuilder()
-    assert cb.budgeter.max_tokens == 8192
+    assert cb.budgeter["max_tokens"] == 8192
 
 
 def test_context_builder_build_minimal():

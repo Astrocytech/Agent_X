@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "task_input.schema.json",
+  "title": "TaskInput",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "task_input_id", "created_at", "task_title", "warnings", "errors"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "pattern": "^task_input\\.schema\\.json$"},
+    "task_input_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "source_component": {"type": "string"},
+    "task_title": {"type": "string"},
+    "task_description": {"type": "string"},
+    "task_type": {"type": "string"},
+    "user_constraints": {"type": "array", "items": {"type": "string"}},
+    "system_constraints": {"type": "array", "items": {"type": "string"}},
+    "required_outputs": {"type": "array", "items": {"type": "string"}},
+    "forbidden_actions": {"type": "array", "items": {"type": "string"}},
+    "target_component_id": {"type": "string"},
+    "target_files": {"type": "array", "items": {"type": "string"}},
+    "requested_tools": {"type": "array", "items": {"type": "string"}},
+    "requested_model_profile_id": {"type": "string"},
+    "requested_runtime_profile_id": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}
