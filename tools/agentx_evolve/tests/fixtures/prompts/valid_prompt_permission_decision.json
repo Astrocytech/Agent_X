@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_permission_decision.schema.json","decision_id":"ppd-001","timestamp":"2026-06-05T00:00:00","source_component":"PromptPermission","prompt_contract_id":"pc-001","caller_role":"developer","task_type":"IMPLEMENT_PATCH","decision":"ALLOW","reason":"all checks passed","warnings":[],"errors":[]}

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_audit.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "audit_id", "timestamp",
+    "source_component", "event_type", "status", "message"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_audit.schema.json"},
+    "audit_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "source_component": {"type": "string"},
+    "event_type": {"type": "string"},
+    "prompt_contract_id": {"type": "string"},
+    "prompt_version_id": {"type": "string"},
+    "status": {"type": "string"},
+    "message": {"type": "string"},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

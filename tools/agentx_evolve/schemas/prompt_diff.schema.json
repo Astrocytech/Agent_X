@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_diff.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "diff_id", "from_prompt_version_id",
+    "to_prompt_version_id", "created_at", "summary", "compatibility_result"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_diff.schema.json"},
+    "diff_id": {"type": "string"},
+    "from_prompt_version_id": {"type": "string"},
+    "to_prompt_version_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "summary": {"type": "string"},
+    "added_sections": {"type": "array", "items": {"type": "string"}},
+    "removed_sections": {"type": "array", "items": {"type": "string"}},
+    "changed_sections": {"type": "array", "items": {"type": "string"}},
+    "compatibility_result": {"type": "string", "enum": ["COMPATIBLE", "BREAKING", "REQUIRES_MIGRATION", "UNKNOWN"]},
+    "breaking_reasons": {"type": "array", "items": {"type": "string"}},
+    "diff_sha256": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

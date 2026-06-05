@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_evidence_manifest.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "component_id", "validated_commit",
+    "validated_at", "commands", "dependency_state", "final_decision"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_evidence_manifest.schema.json"},
+    "component_id": {"type": "string"},
+    "validated_commit": {"type": "string"},
+    "validated_at": {"type": "string"},
+    "review_environment": {"type": "object"},
+    "commands": {"type": "array", "items": {"type": "object"}},
+    "dependency_state": {
+      "type": "object",
+      "required": ["policy_registry_status", "tool_adapter_status", "model_adapter_status", "context_builder_status", "llm_worker_status"],
+      "properties": {
+        "policy_registry_status": {"type": "string"},
+        "tool_adapter_status": {"type": "string"},
+        "model_adapter_status": {"type": "string"},
+        "context_builder_status": {"type": "string"},
+        "llm_worker_status": {"type": "string"}
+      }
+    },
+    "runtime_artifacts": {"type": "array", "items": {"type": "string"}},
+    "evidence_file_hashes": {"type": "array", "items": {"type": "object"}},
+    "prompt_body_hashes_verified": {"type": "array", "items": {"type": "string"}},
+    "registry_snapshot_hashes_verified": {"type": "array", "items": {"type": "string"}},
+    "diff_hashes_verified": {"type": "array", "items": {"type": "string"}},
+    "redaction_status": {"type": "string"},
+    "runtime_boundary_status": {"type": "string"},
+    "source_mutation_status": {"type": "string"},
+    "deviation_register": {"type": "array", "items": {"type": "object"}},
+    "final_decision": {"type": "string"}
+  }
+}

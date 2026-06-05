@@ -1,0 +1,1 @@
+{"schema_version":"1.0","schema_id":"prompt_safety_rule.schema.json","safety_rule_id":"sr-001","name":"no-bypass","safety_level":"HIGH","description":"Must not bypass policy controls","warnings":[],"errors":[]}

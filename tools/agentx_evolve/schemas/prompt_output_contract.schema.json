@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "prompt_output_contract.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "output_contract_id", "required_format",
+    "required_fields"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "prompt_output_contract.schema.json"},
+    "output_contract_id": {"type": "string"},
+    "required_format": {"type": "string"},
+    "required_fields": {"type": "array", "items": {"type": "string"}},
+    "forbidden_fields": {"type": "array", "items": {"type": "string"}},
+    "max_output_chars": {"type": "integer", "minimum": 0},
+    "schema_ref": {"type": "string"},
+    "requires_json": {"type": "boolean"},
+    "requires_evidence_refs": {"type": "boolean"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}
