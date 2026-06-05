@@ -68,6 +68,8 @@ HUMAN_REVIEW_SCHEMAS = [
     "human_review_validation_result.schema.json",
     "human_review_evidence_manifest.schema.json",
     "human_review_review_report.schema.json",
+    "human_review_report.schema.json",
+    "human_review_decision.schema.json",
     "completion_record.schema.json",
 ]
 
@@ -324,7 +326,7 @@ def valid_instance(schema_name: str) -> dict:
             "created_at": "now",
             "runtime_artifact_root": ".agentx-init/human_review/",
         })
-    elif schema_name == "human_review_review_report.schema.json":
+    elif schema_name in ("human_review_review_report.schema.json", "human_review_report.schema.json"):
         base.update({
             "component_id": "AGENTX_HUMAN_REVIEW_APPROVAL",
             "review_document_id": "rr-001",
@@ -366,11 +368,26 @@ def valid_instance(schema_name: str) -> dict:
             "final_decision": "DONE",
             "deviations_from_contract": [],
         })
+    if schema_name == "human_review_decision.schema.json":
+        base.update({
+            "source_component": "HumanReviewApproval",
+            "decision_id": "hdec-001",
+            "request_id": "hreq-001",
+            "decided_at": "now",
+            "reviewer": {"schema_version": "1.0", "schema_id": "human_reviewer_identity.schema.json", "reviewer_id": "rev-001", "reviewer_label": "Alice", "reviewer_role": "dev", "auth_method": "LOCAL_CONFIG", "auth_evidence_refs": [], "created_at": "now", "warnings": [], "errors": []},
+            "decision": "APPROVED",
+            "reason": "ok",
+            "scope": {"schema_version": "1.0", "schema_id": "human_approval_scope.schema.json", "scope_id": "s-001", "scope_type": "ACTION"},
+            "artifact_refs": [],
+            "evidence_refs": [],
+        })
     if "source_component" not in base and schema_name not in (
         "human_approval_scope.schema.json",
         "human_reviewer_identity.schema.json",
         "human_review_evidence_manifest.schema.json",
         "human_review_review_report.schema.json",
+        "human_review_report.schema.json",
+        "human_review_decision.schema.json",
         "completion_record.schema.json",
     ):
         base["source_component"] = "HumanReviewApproval"

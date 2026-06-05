@@ -446,6 +446,29 @@ def human_review_runs_dir(repo_root: Path) -> Path:
     return repo_root / ".agentx-init" / "human_review"
 
 
+def from_dict(model_type: type, data: dict) -> object:
+    field_types = {}
+    if hasattr(model_type, "__dataclass_fields__"):
+        for f_name, f_def in model_type.__dataclass_fields__.items():
+            field_types[f_name] = f_def.type
+    field_values = {}
+    for f_name in getattr(model_type, "__dataclass_fields__", {}):
+        if f_name in data:
+            val = data[f_name]
+            f_type = field_types.get(f_name)
+            if hasattr(f_type, "__args__"):
+                import typing
+                args = typing.get_args(f_type)
+                if args and hasattr(args[0], "__dataclass_fields__") and isinstance(val, list):
+                    val = [from_dict(args[0], v) if isinstance(v, dict) else v for v in val]
+                elif args and hasattr(args[0], "__dataclass_fields__") and isinstance(val, dict):
+                    val = from_dict(args[0], val)
+            elif hasattr(f_type, "__dataclass_fields__") and isinstance(val, dict):
+                val = from_dict(f_type, val)
+            field_values[f_name] = val
+    return model_type(**field_values)
+
+
 def atomic_write_json(path: Path, payload: dict) -> dict:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp")

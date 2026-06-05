@@ -43,6 +43,54 @@ def _decision_from_dict(data: dict) -> HumanApprovalDecision:
     )
 
 
+def find_active_approval_for_action(
+    requested_action: str,
+    requested_effect: str,
+    scope_context: dict,
+    repo_root: Path,
+) -> HumanApprovalDecision | None:
+    import json
+    path = human_review_runs_dir(repo_root) / "approval_decision_history.jsonl"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            data = json.loads(line)
+            if data.get("decision") != "APPROVED":
+                continue
+            decision = _decision_from_dict(data)
+            if is_revoked(decision.decision_id, repo_root):
+                continue
+            expiry = check_expiry(decision.decision_id, repo_root)
+            if expiry.expired:
+                continue
+            return decision
+    return None
+
+
+def validate_approval_id(
+    approval_decision_id: str | None,
+    required_action: str,
+    required_effect: str,
+    scope_context: dict,
+    repo_root: Path,
+) -> HumanReviewValidationResult:
+    if not approval_decision_id:
+        return HumanReviewValidationResult(
+            validation_id=new_id("val"),
+            validated_at=utc_now_iso(),
+            requested_action=required_action,
+            requested_effect=required_effect,
+            status=VALIDATION_MISSING,
+            reason="No approval_decision_id provided",
+            allowed=False,
+        )
+    return validate_approval(approval_decision_id, required_action, required_effect, None, repo_root)
+
+
 def validate_approval(
     approval_id: str,
     requested_action: str,

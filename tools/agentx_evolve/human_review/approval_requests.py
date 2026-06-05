@@ -36,6 +36,13 @@ def create_review_request(
     return request
 
 
+def add_request_to_queue(
+    request: HumanReviewRequest,
+    repo_root: Path,
+) -> dict:
+    return enqueue_request(request, repo_root)
+
+
 def validate_review_request(
     request: HumanReviewRequest,
 ) -> HumanReviewValidationResult:

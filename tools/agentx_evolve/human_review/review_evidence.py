@@ -101,6 +101,18 @@ def write_completion_record(
     return record
 
 
+def collect_human_review_evidence_files(repo_root: Path) -> list[Path]:
+    evidence_dir = human_review_runs_dir(repo_root)
+    if not evidence_dir.exists():
+        return []
+    return sorted(f for f in evidence_dir.iterdir() if f.is_file() and f.suffix in (".json", ".jsonl"))
+
+
+def hash_human_review_evidence(repo_root: Path) -> list[dict]:
+    files = collect_human_review_evidence_files(repo_root)
+    return [{"path": str(f.relative_to(repo_root)), "sha256": sha256_file(f)} for f in files]
+
+
 def write_integrity_record(
     prior_record_hash: str,
     payload_hash: str,
