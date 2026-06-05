@@ -19,6 +19,7 @@ MODEL_SCHEMA_NAMES = [
     "model_retry_record.schema",
     "model_runtime_profile.schema",
     "model_selection_decision.schema",
+    "invalid_model_request.schema",
 ]
 
 
