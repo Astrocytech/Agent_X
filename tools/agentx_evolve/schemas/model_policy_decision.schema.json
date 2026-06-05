@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_policy_decision.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "decision_id", "timestamp",
+    "source_component", "model_id", "caller_role", "task_type",
+    "decision", "reason", "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "decision_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "model_id": { "type": "string" },
+    "caller_role": { "type": "string" },
+    "task_type": { "type": "string" },
+    "decision": { "type": "string" },
+    "reason": { "type": "string" },
+    "required_checks": { "type": "array", "items": { "type": "string" } },
+    "missing_checks": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

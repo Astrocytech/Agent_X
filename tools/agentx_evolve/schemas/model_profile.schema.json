@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_profile.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "model_id", "display_name",
+    "provider_id", "capability_class", "enabled", "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "model_id": { "type": "string" },
+    "display_name": { "type": "string" },
+    "provider_id": { "type": "string" },
+    "capability_class": { "type": "string" },
+    "model_family": { "type": "string" },
+    "context_window": { "type": "integer" },
+    "max_output_tokens": { "type": "integer" },
+    "enabled": { "type": "boolean" },
+    "supports_json_only": { "type": "boolean" },
+    "supports_streaming": { "type": "boolean" },
+    "supports_tool_calling": { "type": "boolean" },
+    "write_source": { "type": "boolean" },
+    "runs_tools": { "type": "boolean" },
+    "runs_commands": { "type": "boolean" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

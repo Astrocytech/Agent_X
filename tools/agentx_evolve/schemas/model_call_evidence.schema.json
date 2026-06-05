@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_call_evidence.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "evidence_id", "timestamp",
+    "source_component", "model_request_id", "model_response_id",
+    "model_id", "provider_id", "prompt_hash", "output_hash", "status",
+    "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "evidence_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "model_request_id": { "type": "string" },
+    "model_response_id": { "type": "string" },
+    "model_id": { "type": "string" },
+    "provider_id": { "type": "string" },
+    "prompt_hash": { "type": "string" },
+    "output_hash": { "type": "string" },
+    "status": { "type": "string" },
+    "token_count_input": { "type": "integer" },
+    "token_count_output": { "type": "integer" },
+    "latency_seconds": { "type": "number" },
+    "artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "failure_class": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

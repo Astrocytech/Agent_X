@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "model_retry_record.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "schema_id", "retry_id", "original_request_id",
+    "model_request_id", "model_response_id", "timestamp",
+    "source_component", "attempt_number", "retry_reason", "decision",
+    "warnings", "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "retry_id": { "type": "string" },
+    "original_request_id": { "type": "string" },
+    "model_request_id": { "type": "string" },
+    "model_response_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "attempt_number": { "type": "integer" },
+    "retry_reason": { "type": "string" },
+    "decision": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}
