@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_runtime_compatibility_decision.schema.json",
+  "title": "Local Runtime Compatibility Decision",
+  "type": "object",
+  "required": ["decision_id", "timestamp", "model_id", "runtime_id", "compatibility"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_runtime_compatibility_decision.schema.json"},
+    "decision_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "model_id": {"type": "string"},
+    "runtime_id": {"type": "string"},
+    "compatibility": {"type": "string", "enum": ["COMPATIBLE", "INCOMPATIBLE", "DEGRADED", "BLOCKED", "INVALID"]},
+    "device": {"type": "string"},
+    "format_compatible": {"type": "boolean"},
+    "quantization_compatible": {"type": "boolean"},
+    "context_compatible": {"type": "boolean"},
+    "memory_compatible": {"type": "boolean"},
+    "policy_allowed": {"type": "boolean"},
+    "fallback_applied": {"type": "boolean"},
+    "fallback_reason": {"type": ["string", "null"]},
+    "profile_repository_hash": {"type": "string"},
+    "failure_class": {"type": ["string", "null"]},
+    "reason": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

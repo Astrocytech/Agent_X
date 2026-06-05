@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_runtime_artifact.schema.json",
+  "title": "Runtime Artifact Record",
+  "type": "object",
+  "required": ["artifact_path", "artifact_type", "sha256"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_runtime_artifact.schema.json"},
+    "artifact_path": {"type": "string"},
+    "artifact_type": {"type": "string"},
+    "sha256": {"type": "string"},
+    "created_at": {"type": "string"},
+    "size_bytes": {"type": "integer", "minimum": 0}
+  }
+}

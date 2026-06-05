@@ -1,0 +1,1 @@
+{"schema_id": "policy_allows_local_model.json", "decision": "ALLOW", "reason": "Policy allows local model use", "allowed_runtime_mode": "LOCAL_ONLY"}

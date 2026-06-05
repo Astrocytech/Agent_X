@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_model_selection_constraints.schema.json",
+  "title": "Local Model Selection Constraints",
+  "type": "object",
+  "required": ["local_only"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_model_selection_constraints.schema.json"},
+    "allowed_model_ids": {"type": "array", "items": {"type": "string"}},
+    "blocked_model_ids": {"type": "array", "items": {"type": "string"}},
+    "allowed_runtime_ids": {"type": "array", "items": {"type": "string"}},
+    "blocked_runtime_ids": {"type": "array", "items": {"type": "string"}},
+    "allowed_quantizations": {"type": "array", "items": {"type": "string"}},
+    "blocked_quantizations": {"type": "array", "items": {"type": "string"}},
+    "allowed_devices": {"type": "array", "items": {"type": "string"}},
+    "max_model_size_bytes": {"type": "integer", "minimum": 0},
+    "max_context_tokens": {"type": "integer", "minimum": 0},
+    "max_estimated_memory_bytes": {"type": "integer", "minimum": 0},
+    "local_only": {"type": "boolean"},
+    "network_allowed": {"type": "boolean"},
+    "allow_model_download": {"type": "boolean"},
+    "allow_server_start": {"type": "boolean"},
+    "allow_cpu_fallback": {"type": "boolean"},
+    "allow_gpu_fallback": {"type": "boolean"},
+    "allow_hosted_fallback": {"type": "boolean"},
+    "preferred_runtime_order": {"type": "array", "items": {"type": "string"}},
+    "preferred_quantization_order": {"type": "array", "items": {"type": "string"}},
+    "preferred_model_order": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

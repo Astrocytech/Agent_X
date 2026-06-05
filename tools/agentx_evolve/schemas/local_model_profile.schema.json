@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_model_profile.schema.json",
+  "title": "Local Model Profile",
+  "type": "object",
+  "required": ["model_id", "model_name", "model_family", "model_format", "quantization"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_model_profile.schema.json"},
+    "model_id": {"type": "string"},
+    "model_name": {"type": "string"},
+    "model_family": {"type": "string"},
+    "model_format": {"type": "string"},
+    "model_path": {"type": ["string", "null"]},
+    "model_size_bytes": {"type": ["integer", "null"]},
+    "parameter_count": {"type": ["integer", "null"]},
+    "quantization": {"type": "string", "enum": ["F32", "F16", "Q8", "Q6", "Q5", "Q4", "UNKNOWN"]},
+    "max_context_tokens": {"type": "integer", "minimum": 0},
+    "supported_task_types": {"type": "array", "items": {"type": "string"}},
+    "supported_output_modes": {"type": "array", "items": {"type": "string"}},
+    "supported_runtime_ids": {"type": "array", "items": {"type": "string"}},
+    "preferred_runtime_ids": {"type": "array", "items": {"type": "string"}},
+    "requires_gpu": {"type": "boolean"},
+    "supports_cpu": {"type": "boolean"},
+    "supports_gpu": {"type": "boolean"},
+    "enabled": {"type": "boolean"},
+    "priority": {"type": "integer"},
+    "profile_source_path": {"type": ["string", "null"]},
+    "profile_hash": {"type": ["string", "null"]},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

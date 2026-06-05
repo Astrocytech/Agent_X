@@ -26,8 +26,9 @@ def get_local_runtime_config() -> dict:
 
 def check_runtime_limits(profile: RuntimeProfile, request_context_tokens: int) -> list[str]:
     issues: list[str] = []
-    if request_context_tokens > profile.max_total_context_tokens:
+    limit = getattr(profile, "max_context_tokens", getattr(profile, "max_total_context_tokens", 0))
+    if request_context_tokens > limit:
         issues.append(
-            f"Request context {request_context_tokens} exceeds runtime max {profile.max_total_context_tokens}"
+            f"Request context {request_context_tokens} exceeds runtime max {limit}"
         )
     return issues

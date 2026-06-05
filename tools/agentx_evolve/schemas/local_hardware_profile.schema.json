@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_hardware_profile.schema.json",
+  "title": "Local Hardware Profile",
+  "type": "object",
+  "required": ["hardware_profile_id", "probe_mode"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_hardware_profile.schema.json"},
+    "hardware_profile_id": {"type": "string"},
+    "probe_mode": {"type": "string", "enum": ["STATIC_ONLY", "SAFE_READ_ONLY", "COMMAND_PROBE", "DISABLED"]},
+    "cpu_arch": {"type": ["string", "null"]},
+    "os_name": {"type": ["string", "null"]},
+    "ram_total_bytes": {"type": ["integer", "null"], "minimum": 0},
+    "ram_available_bytes": {"type": ["integer", "null"], "minimum": 0},
+    "gpu_present": {"type": "boolean"},
+    "gpu_name": {"type": ["string", "null"]},
+    "gpu_vram_total_bytes": {"type": ["integer", "null"], "minimum": 0},
+    "gpu_vram_available_bytes": {"type": ["integer", "null"], "minimum": 0},
+    "conservative_ram_limit_bytes": {"type": "integer", "minimum": 0},
+    "conservative_vram_limit_bytes": {"type": ["integer", "null"], "minimum": 0},
+    "probe_timestamp": {"type": ["string", "null"]},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

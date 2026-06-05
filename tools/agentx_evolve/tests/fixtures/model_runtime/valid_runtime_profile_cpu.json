@@ -1,0 +1,1 @@
+{"schema_id": "local_runtime_profile.schema.json", "runtime_id": "llama-cpp", "runtime_name": "llama.cpp", "runtime_kind": "local", "supported_model_formats": ["gguf"], "supported_quantizations": ["Q4", "Q5", "Q6", "Q8"], "supported_devices": ["CPU"], "max_context_tokens": 8192, "enabled": true}

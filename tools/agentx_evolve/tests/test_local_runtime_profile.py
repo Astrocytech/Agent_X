@@ -11,7 +11,7 @@ class TestGetLocalRuntimeProfile:
     def test_returns_local_profile(self):
         profile = get_local_runtime_profile()
         assert isinstance(profile, LocalRuntimeProfile)
-        assert profile.profile_id == "local_default"
+        assert profile.runtime_id == "local_default"
 
 
 class TestGetLocalRuntimeConfig:
@@ -30,16 +30,16 @@ class TestGetLocalRuntimeConfig:
 
 class TestCheckRuntimeLimits:
     def test_within_limits(self):
-        profile = LocalRuntimeProfile(max_total_context_tokens=8192)
+        profile = LocalRuntimeProfile(max_context_tokens=8192)
         issues = check_runtime_limits(profile, 100)
         assert issues == []
 
     def test_exceeds_limits(self):
-        profile = LocalRuntimeProfile(max_total_context_tokens=4096)
+        profile = LocalRuntimeProfile(max_context_tokens=4096)
         issues = check_runtime_limits(profile, 5000)
         assert len(issues) >= 1
 
-    def test_empty_profile(self):
-        profile = RuntimeProfile()
+    def test_low_limit_profile(self):
+        profile = RuntimeProfile(max_total_context_tokens=50)
         issues = check_runtime_limits(profile, 100)
-        assert issues == []
+        assert len(issues) >= 1

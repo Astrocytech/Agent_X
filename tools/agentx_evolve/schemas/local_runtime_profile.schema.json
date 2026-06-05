@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_runtime_profile.schema.json",
+  "title": "Local Runtime Profile",
+  "type": "object",
+  "required": ["runtime_id", "runtime_name", "runtime_kind"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_runtime_profile.schema.json"},
+    "runtime_id": {"type": "string"},
+    "runtime_name": {"type": "string"},
+    "runtime_kind": {"type": "string"},
+    "supported_model_formats": {"type": "array", "items": {"type": "string"}},
+    "supported_quantizations": {"type": "array", "items": {"type": "string"}},
+    "supported_devices": {"type": "array", "items": {"type": "string"}},
+    "max_context_tokens": {"type": "integer", "minimum": 0},
+    "requires_server": {"type": "boolean"},
+    "can_start_server": {"type": "boolean"},
+    "uses_network": {"type": "boolean"},
+    "supports_cpu_fallback": {"type": "boolean"},
+    "supports_gpu_fallback": {"type": "boolean"},
+    "command_probe_allowed": {"type": "boolean"},
+    "enabled": {"type": "boolean"},
+    "priority": {"type": "integer"},
+    "profile_source_path": {"type": ["string", "null"]},
+    "profile_hash": {"type": ["string", "null"]},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

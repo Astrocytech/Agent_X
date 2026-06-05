@@ -26,21 +26,21 @@ class TestCheckContextBudget:
     def test_within_budget(self):
         req = ModelRequest(prompt="hello world")
         profile = ModelProfile(context_window=4096)
-        runtime = LocalRuntimeProfile(max_total_context_tokens=8192)
+        runtime = LocalRuntimeProfile(max_context_tokens=8192)
         errors = check_context_budget(req, profile, runtime)
         assert errors == []
 
     def test_exceeds_budget(self):
         req = ModelRequest(prompt="x" * 50000)
         profile = ModelProfile(context_window=100)
-        runtime = LocalRuntimeProfile(max_total_context_tokens=200)
+        runtime = LocalRuntimeProfile(max_context_tokens=200)
         errors = check_context_budget(req, profile, runtime)
         assert len(errors) >= 1
 
     def test_output_tokens_exceed(self):
         req = ModelRequest(prompt="hello", max_output_tokens=9999)
         profile = ModelProfile(max_output_tokens=100)
-        runtime = LocalRuntimeProfile(max_total_context_tokens=8192)
+        runtime = LocalRuntimeProfile(max_context_tokens=8192)
         errors = check_context_budget(req, profile, runtime)
         assert len(errors) >= 1
 

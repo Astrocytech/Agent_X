@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_id": "local_model_eligibility_decision.schema.json",
+  "title": "Local Model Eligibility Decision",
+  "type": "object",
+  "required": ["decision_id", "timestamp", "eligibility"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "local_model_eligibility_decision.schema.json"},
+    "decision_id": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "request_id": {"type": ["string", "null"]},
+    "selected_model_id": {"type": ["string", "null"]},
+    "selected_runtime_id": {"type": ["string", "null"]},
+    "eligibility": {"type": "string", "enum": ["ELIGIBLE", "INELIGIBLE", "BLOCKED", "DEGRADED"]},
+    "requested_task_type": {"type": ["string", "null"]},
+    "requested_context_tokens": {"type": "integer", "minimum": 0},
+    "runtime_mode": {"type": "string"},
+    "device": {"type": "string"},
+    "availability_decision_id": {"type": ["string", "null"]},
+    "compatibility_decision_id": {"type": ["string", "null"]},
+    "estimated_memory": {"type": "object"},
+    "ranking_score": {"type": "object"},
+    "rejected_candidates": {"type": "array", "items": {"type": "object"}},
+    "fallbacks_applied": {"type": "array", "items": {"type": "object"}},
+    "profile_repository_hash": {"type": "string"},
+    "failure_class": {"type": ["string", "null"]},
+    "reason": {"type": "string"},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}
