@@ -1,30 +1,26 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "schema_version": "1.0",
-  "schema_id": "tool_policy.schema.json",
+  "schema_id": "tool_registry.schema.json",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema_version",
     "schema_id",
-    "policy_id",
-    "timestamp",
+    "registry_id",
+    "created_at",
     "source_component",
-    "tool_name",
-    "decision",
-    "reason",
+    "tools",
     "warnings",
     "errors"
   ],
   "properties": {
     "schema_version": { "type": "string" },
     "schema_id": { "type": "string" },
-    "policy_id": { "type": "string" },
-    "timestamp": { "type": "string" },
+    "registry_id": { "type": "string" },
+    "created_at": { "type": "string" },
     "source_component": { "type": "string" },
-    "tool_name": { "type": "string" },
-    "decision": { "type": "string" },
-    "reason": { "type": "string" },
+    "tools": { "type": "array", "items": { "$ref": "tool_definition.schema.json" } },
     "warnings": { "type": "array", "items": { "type": "string" } },
     "errors": { "type": "array", "items": { "type": "string" } }
   }
