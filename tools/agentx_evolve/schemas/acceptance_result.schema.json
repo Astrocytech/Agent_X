@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "schema_version": "1.0",
+  "schema_id": "acceptance_result.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["report_id", "checks"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "report_id": {"type": "string"},
+    "checks": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/AcceptanceCheckResult"}
+    },
+    "total": {"type": "integer"},
+    "passed": {"type": "integer"},
+    "failed": {"type": "integer"},
+    "skipped": {"type": "integer"},
+    "all_passed": {"type": "boolean"},
+    "checked_at": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "AcceptanceCheckResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_name", "status"],
+      "properties": {
+        "check_name": {"type": "string"},
+        "status": {"type": "string", "enum": ["PASS", "FAIL", "SKIP"]},
+        "details": {"type": "string"},
+        "warnings": {"type": "array", "items": {"type": "string"}},
+        "errors": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
