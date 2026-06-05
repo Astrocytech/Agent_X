@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "policy_audit.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "policy_audit",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "audit_id",
+    "timestamp",
+    "source_component",
+    "event_type",
+    "decision_id",
+    "caller_role",
+    "tool_name",
+    "requested_effect",
+    "decision",
+    "reason",
+    "success",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "policy_audit.schema.json"
+    },
+    "audit_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "decision_id": {
+      "type": "string"
+    },
+    "caller_role": {
+      "type": "string"
+    },
+    "tool_name": {
+      "type": "string"
+    },
+    "requested_effect": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

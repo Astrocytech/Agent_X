@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "capability_policy.schema.json",
+  "owner_component": "PolicyCapabilityRegistry",
+  "artifact_type": "capability_policy",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "timestamp",
+    "source_component",
+    "default_decision",
+    "roles",
+    "tools",
+    "capabilities",
+    "blocked_effects",
+    "approval_required_effects",
+    "governance_required_effects",
+    "sandbox_required_effects",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "capability_policy.schema.json"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "default_decision": {
+      "type": "string"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CapabilityEntry"
+      }
+    },
+    "blocked_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval_required_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "governance_required_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sandbox_required_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "CapabilityEntry": {
+      "type": "object",
+      "properties": {
+        "capability_id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "tool_name": {
+          "type": "string"
+        },
+        "allowed_effects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocked_effects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "requires_governance": {
+          "type": "boolean"
+        },
+        "requires_sandbox": {
+          "type": "boolean"
+        },
+        "requires_risk_review": {
+          "type": "boolean"
+        },
+        "allowed_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blocked_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowed_commands": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allowed_model_profiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
