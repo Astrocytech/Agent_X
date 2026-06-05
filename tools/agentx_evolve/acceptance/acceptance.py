@@ -1,19 +1,55 @@
 from __future__ import annotations
+import hashlib
 import importlib
+import json
 import os
 import subprocess
 import sys
+import tempfile
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Generator
 from agentx_evolve.model.model_models import new_id, to_dict
 
 AC_SCHEMA_VERSION = "1.0"
+AC_SCHEMA_ID = "acceptance_check_result.schema.json"
 AC_CHECK_PASS = "PASS"
 AC_CHECK_FAIL = "FAIL"
 AC_CHECK_SKIP = "SKIP"
 ALL_ACCEPTANCE_CHECK_RESULTS = [AC_CHECK_PASS, AC_CHECK_FAIL, AC_CHECK_SKIP]
+
+ACCEPTANCE_DIR = Path(".agentx-init") / "acceptance"
+ACCEPTANCE_HISTORY_FILE = "history.jsonl"
+ACCEPTANCE_LOCK_FILE = ".acceptance.lock"
+
+
+def canonical_json(data: dict) -> str:
+    return json.dumps(data, sort_keys=True, separators=(",", ":"))
+
+
+def sha256_dict(data: dict) -> str:
+    return hashlib.sha256(canonical_json(data).encode("utf-8")).hexdigest()
+
+
+def write_json_atomic(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(".tmp." + os.urandom(4).hex())
+    try:
+        with open(tmp, "w") as f:
+            json.dump(data, f, indent=2, sort_keys=True)
+            f.write("\n")
+        tmp.replace(path)
+    except BaseException:
+        tmp.unlink(missing_ok=True)
+        raise
+
+
+def append_jsonl(path: Path, data: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a") as f:
+        f.write(canonical_json(data) + "\n")
 
 
 @dataclass
@@ -31,6 +67,7 @@ class AcceptanceCheckResult:
 @dataclass
 class AcceptanceReport:
     schema_version: str = AC_SCHEMA_VERSION
+    schema_id: str = AC_SCHEMA_ID
     report_id: str = ""
     checks: list[AcceptanceCheckResult] = field(default_factory=list)
     total: int = 0
@@ -46,7 +83,24 @@ class AcceptanceReport:
         return to_dict(self)
 
 
+@dataclass
+class AcceptanceReportHash:
+    report: AcceptanceReport
+    hash: str = ""
+
+    def __post_init__(self):
+        if not self.hash:
+            self.hash = sha256_dict(self.report.to_dict())
+
+    def to_dict(self) -> dict:
+        d = self.report.to_dict()
+        d["_hash"] = self.hash
+        return d
+
+
 class AcceptanceCheck:
+    SCHEMA_PATH = Path(__file__).resolve().parent.parent / "schemas" / "acceptance_check_result.schema.json"
+
     CHECK_NAMES = [
         "fresh_clone_install",
         "initiator_commands",
@@ -136,7 +190,6 @@ class AcceptanceCheck:
 
     def _run_check(self, name: str) -> AcceptanceCheckResult:
         result = AcceptanceCheckResult(check_name=name)
-        # Dispatch real checks
         if name == "fresh_clone_install":
             ok = (self.ROOT / "pyproject.toml").exists() and (self.ROOT / "tools" / "agentx_evolve").exists()
             result.status = AC_CHECK_PASS if ok else AC_CHECK_FAIL
@@ -269,3 +322,62 @@ class AcceptanceCheck:
         report.skipped = sum(1 for c in report.checks if c.status == AC_CHECK_SKIP)
         report.all_passed = report.failed == 0
         return report
+
+    def validate_report_schema(self, report: AcceptanceReport) -> list[str]:
+        import jsonschema
+        errors: list[str] = []
+        schema_path = self.SCHEMA_PATH
+        if not schema_path.exists():
+            errors.append(f"Schema file not found: {schema_path}")
+            return errors
+        try:
+            with open(schema_path) as f:
+                schema = json.load(f)
+            jsonschema.validate(report.to_dict(), schema)
+        except jsonschema.ValidationError as e:
+            errors.append(f"Schema validation failed: {e.message}")
+        except json.JSONDecodeError as e:
+            errors.append(f"Schema file is invalid JSON: {e}")
+        return errors
+
+    def get_acceptance_base(self) -> Path:
+        return self.ROOT / ACCEPTANCE_DIR
+
+    def write_acceptance_report(self, report: AcceptanceReport, base: Path | None = None) -> Path:
+        base = base or self.get_acceptance_base()
+        report_path = base / f"acceptance_report_{report.report_id}.json"
+        write_json_atomic(report_path, report.to_dict())
+        return report_path
+
+    def append_acceptance_history(self, report: AcceptanceReport, base: Path | None = None) -> Path:
+        base = base or self.get_acceptance_base()
+        history_path = base / ACCEPTANCE_HISTORY_FILE
+        append_jsonl(history_path, report.to_dict())
+        return history_path
+
+    @contextmanager
+    def acquire_acceptance_lock(self, base: Path | None = None) -> Generator[Path, None, None]:
+        base = base or self.get_acceptance_base()
+        base.mkdir(parents=True, exist_ok=True)
+        lock_path = base / ACCEPTANCE_LOCK_FILE
+        lock_fd: int | None = None
+        try:
+            lock_fd = os.open(str(lock_path), os.O_CREAT | os.O_WRONLY | os.O_TRUNC, 0o644)
+            try:
+                import fcntl
+                fcntl.flock(lock_fd, fcntl.LOCK_EX)
+            except ImportError:
+                pass
+            yield lock_path
+        finally:
+            if lock_fd is not None:
+                try:
+                    import fcntl
+                    fcntl.flock(lock_fd, fcntl.LOCK_UN)
+                except ImportError:
+                    pass
+                os.close(lock_fd)
+                try:
+                    lock_path.unlink()
+                except FileNotFoundError:
+                    pass

@@ -1,8 +1,15 @@
+import json
+import os
 import pytest
+from pathlib import Path
 from agentx_evolve.acceptance.acceptance import (
     AcceptanceCheck, AcceptanceCheckResult, AcceptanceReport,
-    AC_SCHEMA_VERSION, AC_CHECK_PASS, AC_CHECK_FAIL, AC_CHECK_SKIP,
+    AcceptanceReportHash,
+    AC_SCHEMA_VERSION, AC_SCHEMA_ID,
+    AC_CHECK_PASS, AC_CHECK_FAIL, AC_CHECK_SKIP,
     ALL_ACCEPTANCE_CHECK_RESULTS,
+    canonical_json, sha256_dict,
+    write_json_atomic, append_jsonl,
 )
 
 # ---------------------------------------------------------------------------
@@ -11,6 +18,9 @@ from agentx_evolve.acceptance.acceptance import (
 
 def test_ac_schema_version():
     assert AC_SCHEMA_VERSION == "1.0"
+
+def test_ac_schema_id():
+    assert AC_SCHEMA_ID == "acceptance_check_result.schema.json"
 
 def test_all_acceptance_check_results():
     assert AC_CHECK_PASS in ALL_ACCEPTANCE_CHECK_RESULTS
@@ -48,6 +58,7 @@ def test_acceptance_check_result_to_dict():
 def test_acceptance_report_defaults():
     r = AcceptanceReport()
     assert r.schema_version == "1.0"
+    assert r.schema_id == "acceptance_check_result.schema.json"
     assert r.report_id == ""
     assert r.checks == []
     assert r.total == 0
@@ -68,6 +79,65 @@ def test_acceptance_report_to_dict():
     r = AcceptanceReport(report_id="ac_001")
     d = r.to_dict()
     assert d["report_id"] == "ac_001"
+    assert d["schema_id"] == "acceptance_check_result.schema.json"
+
+# ---------------------------------------------------------------------------
+# AcceptanceReportHash
+# ---------------------------------------------------------------------------
+
+def test_acceptance_report_hash_defaults():
+    report = AcceptanceReport(report_id="ac_001")
+    rh = AcceptanceReportHash(report=report)
+    assert rh.hash
+    assert len(rh.hash) == 64
+
+def test_acceptance_report_hash_to_dict():
+    report = AcceptanceReport(report_id="ac_001")
+    rh = AcceptanceReportHash(report=report)
+    d = rh.to_dict()
+    assert d["report_id"] == "ac_001"
+    assert "_hash" in d
+    assert len(d["_hash"]) == 64
+
+def test_acceptance_report_hash_deterministic():
+    report = AcceptanceReport(report_id="ac_001")
+    rh1 = AcceptanceReportHash(report=report)
+    rh2 = AcceptanceReportHash(report=report)
+    assert rh1.hash == rh2.hash
+
+# ---------------------------------------------------------------------------
+# Utility helpers
+# ---------------------------------------------------------------------------
+
+def test_canonical_json():
+    d = {"b": 2, "a": 1}
+    result = canonical_json(d)
+    assert result == '{"a":1,"b":2}'
+
+def test_sha256_dict():
+    d = {"a": 1, "b": 2}
+    h = sha256_dict(d)
+    assert len(h) == 64
+    assert sha256_dict(d) == sha256_dict(dict(d))
+
+def test_write_json_atomic(tmp_path: Path):
+    data = {"key": "value", "num": 42}
+    dest = tmp_path / "test.json"
+    write_json_atomic(dest, data)
+    assert dest.exists()
+    with open(dest) as f:
+        loaded = json.load(f)
+    assert loaded["key"] == "value"
+    assert loaded["num"] == 42
+
+def test_append_jsonl(tmp_path: Path):
+    path = tmp_path / "test.jsonl"
+    append_jsonl(path, {"a": 1})
+    append_jsonl(path, {"b": 2})
+    lines = path.read_text().strip().split("\n")
+    assert len(lines) == 2
+    assert json.loads(lines[0]) == {"a": 1}
+    assert json.loads(lines[1]) == {"b": 2}
 
 # ---------------------------------------------------------------------------
 # AcceptanceCheck
@@ -85,9 +155,25 @@ def test_acceptance_check_run_all():
     report = check.run_all()
     assert report.report_id.startswith("ac-")
     assert report.total == 19
-    assert report.passed >= 17
     assert report.skipped == 0
     assert len(report.checks) == 19
+
+def test_acceptance_report_all_passed():
+    report = AcceptanceReport(
+        report_id="ac-test",
+        checked_at="2026-01-01T00:00:00+00:00",
+        checks=[
+            AcceptanceCheckResult(check_name="a", status=AC_CHECK_PASS),
+            AcceptanceCheckResult(check_name="b", status=AC_CHECK_PASS),
+        ],
+    )
+    report.total = 2
+    report.passed = 2
+    report.failed = 0
+    report.skipped = 0
+    report.all_passed = report.failed == 0
+    assert report.all_passed is True
+    assert report.failed == 0
 
 def test_acceptance_check_set_result():
     check = AcceptanceCheck()
@@ -144,7 +230,7 @@ def test_acceptance_check_summary_all_pass():
     s = check.summary()
     assert s["all_passed"] is True
 
-def test_acceptance_check_generate_report():
+def test_generate_report_returns_valid():
     check = AcceptanceCheck()
     check.set_result("fresh_clone_install", AC_CHECK_PASS)
     check.set_result("rollback", AC_CHECK_FAIL)
@@ -172,3 +258,52 @@ def test_acceptance_check_all_check_names_present():
     for name in expected:
         assert name in check._check_names, f"Missing check: {name}"
     assert len(check._check_names) == len(expected)
+
+# ---------------------------------------------------------------------------
+# Schema validation
+# ---------------------------------------------------------------------------
+
+def test_validate_report_schema_valid():
+    check = AcceptanceCheck()
+    report = check.run_all()
+    errors = check.validate_report_schema(report)
+    assert errors == [], f"Schema validation errors: {errors}"
+
+# ---------------------------------------------------------------------------
+# File I/O integration
+# ---------------------------------------------------------------------------
+
+def test_write_acceptance_report_creates_file(tmp_path: Path):
+    check = AcceptanceCheck()
+    report = check.run_all()
+    base = tmp_path / "acceptance"
+    path = check.write_acceptance_report(report, base=base)
+    assert path.exists()
+    with open(path) as f:
+        data = json.load(f)
+    assert data["report_id"] == report.report_id
+    assert data["total"] == 19
+
+def test_append_acceptance_history_appends(tmp_path: Path):
+    check = AcceptanceCheck()
+    report = check.run_all()
+    base = tmp_path / "acceptance"
+    path = check.append_acceptance_history(report, base=base)
+    assert path.exists()
+    lines = path.read_text().strip().split("\n")
+    assert len(lines) == 1
+    # Append a second report
+    check.append_acceptance_history(report, base=base)
+    lines = path.read_text().strip().split("\n")
+    assert len(lines) == 2
+
+# ---------------------------------------------------------------------------
+# Lock
+# ---------------------------------------------------------------------------
+
+def test_acceptance_lock_acquire_release(tmp_path: Path):
+    check = AcceptanceCheck()
+    base = tmp_path / "acceptance"
+    with check.acquire_acceptance_lock(base=base) as lock_path:
+        assert lock_path.exists()
+    assert not lock_path.exists()

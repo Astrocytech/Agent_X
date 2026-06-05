@@ -1,6 +1,6 @@
 from agentx_evolve.backup.backup_recovery import (
-    BackupRecord, BackupManifest, BackupManager,
-    BK_SCHEMA_VERSION, BK_PENDING, BK_COMPLETED, BK_FAILED,
+    BackupRecord, BackupManifest, BackupManager, BackupRecordHash,
+    BK_SCHEMA_VERSION, BK_SCHEMA_ID, BK_PENDING, BK_COMPLETED, BK_FAILED,
     ALL_BACKUP_STATUSES,
     BC_AUDIT_HISTORY, BC_IMPLEMENTATION_SESSIONS, BC_ROLLBACK_SNAPSHOTS,
     BC_APPROVALS, BC_PROMOTION_RECORDS, BC_POLICIES,
@@ -10,11 +10,12 @@ from agentx_evolve.backup.backup_recovery import (
     RS_INTERRUPTED_PATCH_SESSION, RS_INTERRUPTED_VALIDATION, RS_PARTIAL_TOOL_CALL_RECORD,
     RS_STALE_LOCK, RS_FAILED_MIGRATION, RS_LOST_POLICY_FILE,
     ALL_RECOVERY_SCENARIOS,
+    canonical_json, sha256_dict, write_json_atomic, append_jsonl,
 )
 
 __all__ = [
-    "BackupRecord", "BackupManifest", "BackupManager",
-    "BK_SCHEMA_VERSION", "BK_PENDING", "BK_COMPLETED", "BK_FAILED",
+    "BackupRecord", "BackupManifest", "BackupManager", "BackupRecordHash",
+    "BK_SCHEMA_VERSION", "BK_SCHEMA_ID", "BK_PENDING", "BK_COMPLETED", "BK_FAILED",
     "ALL_BACKUP_STATUSES",
     "BC_AUDIT_HISTORY", "BC_IMPLEMENTATION_SESSIONS", "BC_ROLLBACK_SNAPSHOTS",
     "BC_APPROVALS", "BC_PROMOTION_RECORDS", "BC_POLICIES",
@@ -24,4 +25,5 @@ __all__ = [
     "RS_INTERRUPTED_PATCH_SESSION", "RS_INTERRUPTED_VALIDATION", "RS_PARTIAL_TOOL_CALL_RECORD",
     "RS_STALE_LOCK", "RS_FAILED_MIGRATION", "RS_LOST_POLICY_FILE",
     "ALL_RECOVERY_SCENARIOS",
+    "canonical_json", "sha256_dict", "write_json_atomic", "append_jsonl",
 ]
