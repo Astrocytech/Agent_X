@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "patch_operation.schema.json",
+  "owner_component": "GovernedPatchExecution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "operation_id",
+    "operation_type",
+    "target_path",
+    "requires_rollback_snapshot",
+    "approved"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "operation_id": { "type": "string" },
+    "operation_type": { "type": "string" },
+    "target_path": { "type": "string" },
+    "requires_rollback_snapshot": { "type": "boolean" },
+    "approved": { "type": "boolean" },
+    "old_text": { "type": "string" },
+    "new_text": { "type": "string" },
+    "content": { "type": "string" },
+    "allow_create": { "type": "boolean" },
+    "allow_delete": { "type": "boolean" },
+    "expected_before_hash": { "type": "string" }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "implementation_lock.schema.json",
+  "owner_component": "GovernedPatchExecution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "lock_id",
+    "session_id",
+    "lock_type",
+    "owner_component",
+    "created_at",
+    "pid",
+    "repo_root",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "lock_id": { "type": "string" },
+    "session_id": { "type": ["string", "null"] },
+    "lock_type": { "type": "string", "enum": ["IMPLEMENTATION_SESSION", "PATCH_APPLY", "ROLLBACK"] },
+    "owner_component": { "type": "string" },
+    "created_at": { "type": "string" },
+    "pid": { "type": ["integer", "null"] },
+    "repo_root": { "type": "string" },
+    "status": { "type": "string", "enum": ["ACTIVE", "STALE", "RELEASED"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}
