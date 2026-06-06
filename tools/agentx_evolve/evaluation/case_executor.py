@@ -16,6 +16,7 @@ from agentx_evolve.evaluation.fixture_validator import (
 from agentx_evolve.evaluation.evaluation_errors import (
     EVAL_FIXTURE_INVALID, EVAL_POLICY_DENIED, EVAL_TOOL_CALL_BLOCKED,
     EVAL_TOOL_ADAPTER_UNAVAILABLE, EVAL_UNKNOWN_FAILURE,
+    EVAL_UNSUPPORTED_CASE_TYPE, EVAL_TOOL_CALL_FAILED,
 )
 
 
@@ -43,7 +44,7 @@ def execute_benchmark_case(
     else:
         return EvaluationCaseResult(
             case_result_id=result_id, case_id=case.case_id,
-            status=EVAL_ERROR, failure_class=EVAL_UNKNOWN_FAILURE,
+            status=EVAL_ERROR, failure_class=EVAL_UNSUPPORTED_CASE_TYPE,
             message=f"Unknown case_type: {case.case_type}",
         )
 
@@ -90,14 +91,21 @@ def execute_tool_call_case(
                 observed_result={"status": "INVALID"},
                 expected_result=dict(case.expected_result),
             )
-    except Exception:
-        pass
-    return EvaluationCaseResult(
-        case_result_id=rid, case_id=case.case_id,
-        status=EVAL_BLOCKED, failure_class=EVAL_TOOL_ADAPTER_UNAVAILABLE,
-        message="Tool adapter not available",
-        expected_result=dict(case.expected_result),
-    )
+        result = execute_tool_call(tool_name, case.input_payload)
+        return EvaluationCaseResult(
+            case_result_id=rid, case_id=case.case_id,
+            status=EVAL_ERROR, failure_class=EVAL_TOOL_CALL_FAILED,
+            message=f"Tool call execution failed for {tool_name}",
+            observed_result=result,
+            expected_result=dict(case.expected_result),
+        )
+    except Exception as exc:
+        return EvaluationCaseResult(
+            case_result_id=rid, case_id=case.case_id,
+            status=EVAL_BLOCKED, failure_class=EVAL_TOOL_ADAPTER_UNAVAILABLE,
+            message=f"Tool adapter not available: {exc}",
+            expected_result=dict(case.expected_result),
+        )
 
 
 def tool_registry_has_tool(name: str) -> bool:

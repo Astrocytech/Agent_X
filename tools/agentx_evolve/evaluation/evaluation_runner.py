@@ -10,7 +10,7 @@ from agentx_evolve.evaluation.evaluation_models import (
 )
 from agentx_evolve.evaluation.evaluation_errors import (
     EVAL_FIXTURE_INVALID, EVAL_SUITE_NOT_FOUND,
-    EVAL_BASELINE_MISSING,
+    EVAL_BASELINE_MISSING, EVAL_NOT_REPRODUCIBLE,
 )
 from agentx_evolve.evaluation.fixture_validator import validate_benchmark_case
 from agentx_evolve.evaluation.benchmark_loader import (
@@ -169,7 +169,7 @@ def run_evaluation(
     after_state = capture_source_state(repo_root)
     mutation_result = compare_source_state(before_state, after_state, repo_root / ".agentx-init")
     if mutation_result["source_mutated"]:
-        run.warnings.append(f"Source mutation detected: {mutation_result['changes']}")
+        run.warnings.append(f"{EVAL_NOT_REPRODUCIBLE}: Source mutation detected: {mutation_result['changes']}")
 
     if write_evidence:
         write_evaluation_evidence_manifest(run, repo_root)

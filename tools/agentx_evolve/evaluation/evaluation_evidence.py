@@ -7,6 +7,7 @@ from agentx_evolve.evaluation.evaluation_models import (
     EvaluationRun, EvaluationCaseResult,
     utc_now_iso, new_eval_id, to_dict, stable_json_hash,
 )
+from agentx_evolve.evaluation.evaluation_errors import EVAL_REQUIRED_ARTIFACT_MISSING
 
 
 def write_evaluation_evidence_manifest(run: EvaluationRun, repo_root: Path) -> dict:
@@ -216,6 +217,8 @@ def write_evidence_index(run: EvaluationRun, repo_root: Path) -> Path:
                     "case_id": case_result.case_id,
                     "hash": hash_evidence_file(art_path),
                 })
+            else:
+                run.warnings.append(f"{EVAL_REQUIRED_ARTIFACT_MISSING}: case_evidence_ref {ref} not found")
 
     for ref in getattr(run, 'artifact_refs', []):
         ref_path = Path(ref)
@@ -226,6 +229,8 @@ def write_evidence_index(run: EvaluationRun, repo_root: Path) -> Path:
                 "type": "run_artifact_ref",
                 "hash": hash_evidence_file(art_path),
             })
+        else:
+            run.warnings.append(f"{EVAL_REQUIRED_ARTIFACT_MISSING}: run_artifact_ref {ref} not found")
 
     for report in getattr(run, 'reports', []):
         report_path = Path(report)
@@ -236,6 +241,8 @@ def write_evidence_index(run: EvaluationRun, repo_root: Path) -> Path:
                 "type": "report",
                 "hash": hash_evidence_file(art_path),
             })
+        else:
+            run.warnings.append(f"{EVAL_REQUIRED_ARTIFACT_MISSING}: report {report} not found")
 
     index = {
         "run_id": run.run_id,
@@ -254,6 +261,16 @@ def finalize_evidence(run: EvaluationRun, repo_root: Path) -> dict:
     manifest = write_evaluation_evidence_manifest(run, repo_root)
     index_path = write_evidence_index(run, repo_root)
     manifest_path = repo_root / ".agentx-init" / "evaluation" / "evaluation_evidence_manifest.json"
+    if not manifest_path.exists():
+        run.warnings.append(f"{EVAL_REQUIRED_ARTIFACT_MISSING}: manifest not written at {manifest_path}")
+        return {
+            "manifest": manifest,
+            "index_path": str(index_path),
+            "manifest_path": str(manifest_path),
+            "manifest_hash": "",
+            "artifact_paths": [],
+            "artifact_hashes": [],
+        }
     manifest_hash = hash_evidence_file(manifest_path)
 
     return {

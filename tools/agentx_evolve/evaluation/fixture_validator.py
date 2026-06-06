@@ -2,6 +2,8 @@ from __future__ import annotations
 from pathlib import Path
 import json
 
+from agentx_evolve.evaluation.evaluation_errors import EVAL_SCHEMA_INVALID
+
 
 def _load_schema(path: str) -> dict | None:
     try:
@@ -41,7 +43,9 @@ def validate_benchmark_suite(suite: dict) -> tuple[bool, list[str]]:
 
 def validate_benchmark_case(case: dict) -> tuple[bool, list[str]]:
     errors = _validate_against_schema(case, "evaluation_benchmark_case.schema.json")
-    if not errors:
+    if errors:
+        errors.append(EVAL_SCHEMA_INVALID)
+    else:
         case_type = case.get("case_type", "")
         if case_type not in (
             "STATIC_EXPECTED_RESULT", "TOOL_CALL_EXPECTED_RESULT", "POLICY_DENIAL_EXPECTED_RESULT",
@@ -49,6 +53,7 @@ def validate_benchmark_case(case: dict) -> tuple[bool, list[str]]:
             "REPORT_GENERATION_EXPECTED_RESULT", "NEGATIVE_FIXTURE_VALIDATION",
         ):
             errors.append(f"Unknown case_type: {case_type}")
+            errors.append(EVAL_SCHEMA_INVALID)
     return (len(errors) == 0, errors)
 
 
