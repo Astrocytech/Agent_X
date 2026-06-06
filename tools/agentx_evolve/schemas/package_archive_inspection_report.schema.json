@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "package_archive_inspection_report.schema.json",
+  "title": "Package Archive Inspection Report",
+  "description": "Schema for the package archive inspection report",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "package_archive_inspection_report.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_at",
+    "source_component",
+    "package_artifact",
+    "archive_format",
+    "member_count",
+    "has_absolute_paths",
+    "has_path_traversal",
+    "has_symlink_escape",
+    "has_hardlink_escape",
+    "has_device_files",
+    "has_unsafe_permissions",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "package_archive_inspection_report.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "report_id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "description": "Name of the source component"
+    },
+    "package_artifact": {
+      "type": "string",
+      "description": "Path to the package artifact being inspected"
+    },
+    "archive_format": {
+      "type": "string",
+      "description": "Format of the archive (e.g. tar, zip)"
+    },
+    "member_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of members in the archive"
+    },
+    "has_absolute_paths": {
+      "type": "boolean",
+      "description": "Whether the archive contains absolute paths"
+    },
+    "has_path_traversal": {
+      "type": "boolean",
+      "description": "Whether the archive contains path traversal entries"
+    },
+    "has_symlink_escape": {
+      "type": "boolean",
+      "description": "Whether the archive contains symlink escape entries"
+    },
+    "has_hardlink_escape": {
+      "type": "boolean",
+      "description": "Whether the archive contains hardlink escape entries"
+    },
+    "has_device_files": {
+      "type": "boolean",
+      "description": "Whether the archive contains device files"
+    },
+    "has_unsafe_permissions": {
+      "type": "boolean",
+      "description": "Whether the archive contains unsafe permissions"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED", "NOT CHECKED", "NOT RUN", "NOT APPLICABLE", "DEFERRED SAFELY"],
+      "description": "Inspection status"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

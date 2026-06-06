@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "artifact_hash_manifest.schema.json",
+  "title": "Artifact Hash Manifest",
+  "description": "Schema for the artifact hash manifest",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "artifact_hash_manifest.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "hash_manifest_id",
+    "created_at",
+    "source_component",
+    "hash_algorithm",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "artifact_hash_manifest.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "hash_manifest_id": {
+      "type": "string",
+      "description": "Unique hash manifest identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "description": "Name of the source component"
+    },
+    "hash_algorithm": {
+      "type": "string",
+      "const": "sha256",
+      "description": "Hash algorithm used"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_path", "artifact_kind", "sha256", "size_bytes", "hash_algorithm"],
+        "properties": {
+          "artifact_path": { "type": "string", "description": "Path to the artifact" },
+          "artifact_kind": { "type": "string", "description": "Kind or type of artifact" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "SHA-256 hash of the artifact" },
+          "size_bytes": { "type": "integer", "minimum": 0, "description": "Size of the artifact in bytes" },
+          "created_at": { "type": "string", "format": "date-time", "description": "ISO 8601 timestamp of artifact creation" },
+          "hash_algorithm": { "type": "string", "const": "sha256", "description": "Hash algorithm used" },
+          "warnings": { "type": "array", "items": { "type": "string" }, "description": "Warning messages" },
+          "errors": { "type": "array", "items": { "type": "string" }, "description": "Error messages" }
+        }
+      },
+      "description": "List of artifact hash records"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

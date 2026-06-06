@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "distribution_review_report.schema.json",
+  "title": "Distribution Review Report",
+  "description": "Schema for the distribution review report per CONTRACT section 26",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "review_report_id",
+    "created_at",
+    "source_component",
+    "reviewed_commit",
+    "package_name",
+    "package_version",
+    "final_verdict"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "distribution_review_report.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "review_report_id": {
+      "type": "string",
+      "description": "Unique review report identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "const": "PackagingDistribution",
+      "description": "Name of the source component"
+    },
+    "reviewed_commit": {
+      "type": "string",
+      "description": "Git commit hash that was reviewed"
+    },
+    "reviewed_branch": {
+      "type": "string",
+      "description": "Git branch that was reviewed"
+    },
+    "package_name": {
+      "type": "string",
+      "description": "Name of the package under review"
+    },
+    "package_version": {
+      "type": "string",
+      "description": "Version of the package under review"
+    },
+    "package_type": {
+      "type": "string",
+      "description": "Type of the package (SOURCE_ARCHIVE, WHEEL, SDIST, INTERNAL_BUNDLE)"
+    },
+    "package_artifact_path": {
+      "type": "string",
+      "description": "Path to the package artifact"
+    },
+    "package_sha256": {
+      "type": "string",
+      "description": "SHA-256 hash of the package artifact"
+    },
+    "manifest_sha256": {
+      "type": "string",
+      "description": "SHA-256 hash of the package manifest"
+    },
+    "provenance_sha256": {
+      "type": "string",
+      "description": "SHA-256 hash of the provenance record"
+    },
+    "installation_validation_status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "NOT CHECKED", "NOT RUN"],
+      "description": "Installation validation status"
+    },
+    "secret_exclusion_status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "NOT CHECKED", "NOT RUN"],
+      "description": "Secret exclusion validation status"
+    },
+    "runtime_artifact_exclusion_status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "NOT CHECKED", "NOT RUN"],
+      "description": "Runtime artifact exclusion status"
+    },
+    "dependency_policy_status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "PARTIAL", "NOT CHECKED", "NOT RUN"],
+      "description": "Dependency policy validation status"
+    },
+    "source_mutation_status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "NOT CHECKED"],
+      "description": "Source mutation check status"
+    },
+    "reproducibility_status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "PARTIAL", "NOT CHECKED", "NOT RUN"],
+      "description": "Reproducibility validation status"
+    },
+    "deviation_register_ref": {
+      "type": ["string", "null"],
+      "description": "Reference to the deviation register"
+    },
+    "accepted_deviations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of accepted deviation identifiers"
+    },
+    "rejected_deviations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of rejected deviation identifiers"
+    },
+    "final_verdict": {
+      "type": "string",
+      "enum": ["DONE", "NOT DONE"],
+      "description": "Final verdict of the review"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

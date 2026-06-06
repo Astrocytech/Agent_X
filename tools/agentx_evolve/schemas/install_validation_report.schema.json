@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "install_validation_report.schema.json",
+  "title": "Install Validation Report",
+  "description": "Schema for the install validation report",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "install_validation_report.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_at",
+    "source_component",
+    "package_artifact",
+    "validation_mode",
+    "network_allowed",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "install_validation_report.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "report_id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "description": "Name of the source component"
+    },
+    "package_artifact": {
+      "type": "string",
+      "description": "Path to the package artifact being validated"
+    },
+    "validation_mode": {
+      "type": "string",
+      "enum": ["archive_extract_only", "python_compile_only", "local_pip_install_no_deps"],
+      "description": "Mode used for validation"
+    },
+    "network_allowed": {
+      "type": "boolean",
+      "description": "Whether network access was allowed during validation"
+    },
+    "temp_validation_root": {
+      "type": "string",
+      "description": "Temporary root directory used for validation"
+    },
+    "commands_run": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of commands executed during validation"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED", "NOT CHECKED", "NOT RUN", "NOT APPLICABLE", "DEFERRED SAFELY"],
+      "description": "Validation status"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

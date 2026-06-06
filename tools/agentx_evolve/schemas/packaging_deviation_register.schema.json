@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "packaging_deviation_register.schema.json",
+  "title": "Packaging Deviation Register",
+  "description": "Schema for deviation register per CONTRACT section 27",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "deviation_register_id",
+    "created_at",
+    "source_component",
+    "source_commit",
+    "deviations"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "packaging_deviation_register.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "deviation_register_id": {
+      "type": "string",
+      "description": "Unique deviation register identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of creation"
+    },
+    "source_component": {
+      "type": "string",
+      "const": "PackagingDistribution",
+      "description": "Name of the source component"
+    },
+    "source_commit": {
+      "type": "string",
+      "description": "Git commit hash of the source"
+    },
+    "deviations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "area",
+          "description",
+          "reason",
+          "safety_impact",
+          "accepted_status",
+          "reviewer_decision"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique deviation identifier (e.g. PKG-DEV-001)"
+          },
+          "area": {
+            "type": "string",
+            "description": "Contract area the deviation applies to"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the deviation"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for the deviation"
+          },
+          "safety_impact": {
+            "type": "string",
+            "enum": ["none", "low", "medium", "high", "critical"],
+            "description": "Safety impact of the deviation"
+          },
+          "compensating_control": {
+            "type": "string",
+            "description": "Compensating control mitigating the deviation"
+          },
+          "accepted_status": {
+            "type": "string",
+            "enum": ["NOT APPLICABLE", "DEFERRED SAFELY", "NON-BLOCKING FOLLOW-UP"],
+            "description": "Status of the deviation acceptance"
+          },
+          "reviewer_decision": {
+            "type": "string",
+            "enum": ["ACCEPTED", "REJECTED"],
+            "description": "Reviewer decision on the deviation"
+          }
+        }
+      },
+      "description": "List of registered deviations"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

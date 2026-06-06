@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "packaging_completion_record.schema.json",
+  "title": "Packaging Completion Record",
+  "description": "Schema for the packaging completion record",
+  "schema_version": "1.0",
+  "schema_id": {
+    "const": "packaging_completion_record.schema.json"
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "component_id",
+    "component_name",
+    "status",
+    "validated_commit",
+    "validated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^1\\.0$",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "packaging_completion_record.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "component_id": {
+      "type": "string",
+      "const": "AGENTX_PACKAGING_DISTRIBUTION",
+      "description": "Identifier of the component"
+    },
+    "component_name": {
+      "type": "string",
+      "description": "Human-readable component name"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "PARTIAL", "FAIL", "BLOCKED", "NOT CHECKED", "NOT RUN", "NOT APPLICABLE", "DEFERRED SAFELY"],
+      "description": "Completion status"
+    },
+    "validated_commit": {
+      "type": "string",
+      "description": "Commit hash that was validated"
+    },
+    "validated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of validation"
+    },
+    "package_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of package artifact paths"
+    },
+    "release_bundle_artifacts": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of release bundle artifact paths"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to evidence records"
+    },
+    "hash_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to hash records"
+    },
+    "commands_run": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of commands executed"
+    },
+    "validated_capabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of validated capabilities"
+    },
+    "deviations_from_contract": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Deviations from the packaging contract"
+    },
+    "unresolved_risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Unresolved risks identified"
+    },
+    "final_decision": {
+      "type": "string",
+      "description": "Final decision or verdict"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}
