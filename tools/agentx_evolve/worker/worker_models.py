@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
-from agentx_evolve.model.model_models import new_id, to_dict
+from agentx_evolve.models.model_models import new_id, to_dict
 
 WO_SCHEMA_VERSION = "1.0"
 WO_PROPOSED = "PROPOSED"

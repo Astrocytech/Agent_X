@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from agentx_evolve.model.model_models import new_id, to_dict
+from agentx_evolve.models.model_models import new_id, to_dict
 
 TQ_SCHEMA_VERSION = "1.0"
 TQ_SCHEMA_ID = "task_queue_item.schema.json"

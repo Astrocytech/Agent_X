@@ -7,7 +7,7 @@ from uuid import uuid4
 from typing import Any, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from agentx_evolve.patch.patch_models import MutationAllowlist
+    from agentx_evolve.patch_execution.patch_models import MutationAllowlist
 
 _INITIATOR_IMPORT_ERRORS: list[str] = []
 

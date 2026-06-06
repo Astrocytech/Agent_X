@@ -1,6 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
-from agentx_evolve.model.model_models import new_id, utc_now_iso
+from agentx_evolve.models.model_models import new_id, utc_now_iso
 from agentx_evolve.promotion.promotion_models import (
     ReleaseCandidate, canonical_json, sha256_dict, from_dict, to_dict,
     write_json_atomic,

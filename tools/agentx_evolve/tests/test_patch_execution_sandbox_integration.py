@@ -19,7 +19,7 @@ from agentx_evolve.patch_execution.patch_applier import apply_patch_operations
 from agentx_evolve.security.safe_file_ops import safe_read_file, safe_write_file, safe_exact_edit
 from agentx_evolve.security.sandbox_policy import default_sandbox_policy, merge_sandbox_policy
 from agentx_evolve.security.initiator_compat import InitiatorCompat
-from agentx_evolve.patch.patch_models import MutationAllowlist, ApprovedMutation
+from agentx_evolve.patch_execution.patch_models import MutationAllowlist, ApprovedMutation
 
 
 class TestGovernedPatchExecutionSandboxIntegration:

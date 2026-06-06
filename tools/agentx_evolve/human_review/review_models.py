@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 import hashlib
 import json
-from agentx_evolve.model.model_models import new_id, utc_now_iso
+from agentx_evolve.models.model_models import new_id, utc_now_iso
 
 # Decision constants
 DECISION_REQUESTED = "REQUESTED"

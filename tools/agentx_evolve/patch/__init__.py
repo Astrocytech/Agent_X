@@ -1,3 +1,21 @@
+"""
+[DEPRECATED] agentx_evolve.patch — legacy v1 governed patch execution.
+
+This package is the v1 OOP-based patch execution system.
+It has been superseded by the v2 system at ``agentx_evolve.patch_execution``
+(dataclass + functional API with dry-run/live modes, session locking,
+policy bridges, and audit events).
+
+New code should use ``agentx_evolve.patch_execution`` instead.
+This package is preserved for existing consumers until all tests
+are migrated.
+"""
+import warnings
+warnings.warn(
+    "agentx_evolve.patch is deprecated; use agentx_evolve.patch_execution instead",
+    DeprecationWarning, stacklevel=2,
+)
+
 from .patch_models import (
     PatchSession, PatchAction, RollbackSnapshot,
     ImplementationEvidence, ImplementationSessionStatus,

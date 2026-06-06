@@ -11,7 +11,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Generator
-from agentx_evolve.model.model_models import new_id, to_dict
+from agentx_evolve.models.model_models import new_id, to_dict
 
 AC_SCHEMA_VERSION = "1.0"
 AC_SCHEMA_ID = "acceptance_check_result.schema.json"

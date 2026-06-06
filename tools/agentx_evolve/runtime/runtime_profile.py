@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
-from agentx_evolve.model.model_models import to_dict
+from agentx_evolve.models.model_models import to_dict
 
 RP_CPU_ONLY_SAFE = "cpu_only_safe"
 RP_SMALL_GPU_8GB = "small_gpu_8gb"

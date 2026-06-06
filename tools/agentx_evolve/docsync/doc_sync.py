@@ -6,7 +6,7 @@ import json
 import os
 import time
 from typing import Any
-from agentx_evolve.model.model_models import new_id, utc_now_iso, to_dict
+from agentx_evolve.models.model_models import new_id, utc_now_iso, to_dict
 
 DS_SCHEMA_VERSION = "1.0"
 DS_SCHEMA_ID = "doc_sync_check.schema.json"

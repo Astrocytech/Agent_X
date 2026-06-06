@@ -560,6 +560,9 @@ tool_trust_tier.schema.json
 mcp_tool_manifest.schema.json
 invalid_tool_record.schema.json
 tool_audit.schema.json
+evidence_manifest.schema.json
+review_report.schema.json
+completion_record.schema.json
 ```
 
 ## 5.4 Test Directory
@@ -581,8 +584,12 @@ test_invalid_tool.py
 test_initiator_tools.py
 test_security_tools.py
 test_patch_tools.py
+test_git_tools.py
+test_human_tools.py
 test_mcp_adapter.py
+test_mcp_safe_deferred.py
 test_tool_negative_cases.py
+test_tool_mcp_schema_validation.py
 ```
 
 ## 5.5 Runtime Artifacts
@@ -594,6 +601,9 @@ test_tool_negative_cases.py
 .agentx-init/tool_calls/invalid_tool_history.jsonl
 .agentx-init/tool_calls/latest_tool_call.json
 .agentx-init/tool_calls/latest_tool_result.json
+.agentx-init/tool_calls/tool_mcp_adapter_evidence_manifest.json
+.agentx-init/tool_calls/tool_mcp_adapter_review_report.json
+.agentx-init/tool_calls/tool_mcp_adapter_completion_record.json
 ```
 
 ---
@@ -1609,6 +1619,8 @@ completion_record:
   governed_patch_integration_verified: []
   opencode_patterns_borrowed: []
   opencode_patterns_rejected_or_restricted: []
+  evidence_manifest_sha256: ""
+  review_report_sha256: ""
   deviations_from_contract: []
   unresolved_risks: []
 ```
@@ -1669,8 +1681,11 @@ no Git write is enabled by default
 Final command proof:
 
 ```bash
+git status --short
+python --version
 PYTHONPATH=tools python -m compileall tools/agentx_evolve
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests
+PYTHONPATH=tools python tools/agentx_evolve/tests/validate_tool_mcp_schemas.py
 git status --short
 ```
 
@@ -1679,6 +1694,7 @@ Expected:
 ```text
 compileall PASS
 pytest PASS
+schema validation PASS
 git status CLEAN or only expected runtime artifacts
 ```
 

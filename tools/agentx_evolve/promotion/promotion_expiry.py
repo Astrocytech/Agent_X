@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 from datetime import datetime, timezone
-from agentx_evolve.model.model_models import utc_now_iso
+from agentx_evolve.models.model_models import utc_now_iso
 from agentx_evolve.promotion.promotion_models import (
     ReleaseCandidate, ValidationEvidence, RiskAcceptance, ApprovalReference,
 )

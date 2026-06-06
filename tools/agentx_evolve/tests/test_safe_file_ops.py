@@ -5,7 +5,7 @@ from agentx_evolve.security.safe_file_ops import (
 )
 from agentx_evolve.security.sandbox_policy import default_sandbox_policy
 from agentx_evolve.security.initiator_compat import InitiatorCompat
-from agentx_evolve.patch.patch_models import MutationAllowlist, ApprovedMutation
+from agentx_evolve.patch_execution.patch_models import MutationAllowlist, ApprovedMutation
 
 
 @pytest.fixture

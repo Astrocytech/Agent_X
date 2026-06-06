@@ -474,6 +474,10 @@ tools/agentx_evolve/schemas/tool_trust_tier.schema.json
 tools/agentx_evolve/schemas/mcp_tool_manifest.schema.json
 tools/agentx_evolve/schemas/invalid_tool_record.schema.json
 tools/agentx_evolve/schemas/tool_audit.schema.json
+tools/agentx_evolve/schemas/evidence_manifest.schema.json
+tools/agentx_evolve/schemas/review_report.schema.json
+tools/agentx_evolve/schemas/completion_record.schema.json
+```
 ```
 
 ## 4.4 Tests
@@ -489,8 +493,13 @@ tools/agentx_evolve/tests/test_invalid_tool.py
 tools/agentx_evolve/tests/test_initiator_tools.py
 tools/agentx_evolve/tests/test_security_tools.py
 tools/agentx_evolve/tests/test_patch_tools.py
+tools/agentx_evolve/tests/test_git_tools.py
+tools/agentx_evolve/tests/test_human_tools.py
 tools/agentx_evolve/tests/test_mcp_adapter.py
+tools/agentx_evolve/tests/test_mcp_safe_deferred.py
 tools/agentx_evolve/tests/test_tool_negative_cases.py
+tools/agentx_evolve/tests/test_tool_mcp_schema_validation.py
+```
 ```
 
 ---
@@ -1738,6 +1747,9 @@ blocked_tool_history.jsonl
 invalid_tool_history.jsonl
 latest_tool_call.json
 latest_tool_result.json
+tool_mcp_adapter_evidence_manifest.json
+tool_mcp_adapter_review_report.json
+tool_mcp_adapter_completion_record.json
 ```
 
 Rules:
@@ -1895,8 +1907,11 @@ test_tool_wrapper_does_not_modify_source_directly
 Run from repository root:
 
 ```bash
+git status --short
+python --version
 PYTHONPATH=tools python -m compileall tools/agentx_evolve
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests
+PYTHONPATH=tools python tools/agentx_evolve/tests/validate_tool_mcp_schemas.py
 git status --short
 ```
 
@@ -1905,6 +1920,7 @@ Required result:
 ```text
 compileall PASS
 pytest PASS
+schema validation PASS
 git status CLEAN or only expected runtime artifacts
 ```
 
@@ -1960,6 +1976,8 @@ Required fields:
   "governed_patch_integration_verified": [],
   "opencode_patterns_borrowed": [],
   "opencode_patterns_rejected_or_restricted": [],
+  "evidence_manifest_sha256": "",
+  "review_report_sha256": "",
   "deviations_from_contract": [],
   "unresolved_risks": [],
   "final_decision": "DONE"

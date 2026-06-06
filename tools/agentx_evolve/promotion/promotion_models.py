@@ -6,7 +6,7 @@ import hashlib
 import json
 from typing import Any
 
-from agentx_evolve.model.model_models import new_id, utc_now_iso
+from agentx_evolve.models.model_models import new_id, utc_now_iso
 
 SCHEMA_VERSION = "1.0"
 

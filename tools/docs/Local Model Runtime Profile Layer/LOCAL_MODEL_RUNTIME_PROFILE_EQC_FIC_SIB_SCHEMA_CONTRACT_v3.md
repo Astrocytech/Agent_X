@@ -402,17 +402,19 @@ Expected files:
 ```text
 __init__.py
 runtime_models.py
+profile_loader.py
+profile_repository.py
+runtime_registry.py
 hardware_profile.py
 model_inventory.py
-runtime_profile_registry.py
-compatibility_checker.py
-memory_budget.py
 availability_checker.py
-runtime_health.py
-runtime_policy.py
+compatibility_checker.py
+model_selector.py
+memory_budget.py
+runtime_mode.py
+profile_validator.py
+schema_validator.py
 runtime_artifacts.py
-profile_provenance.py
-runtime_decision_engine.py
 ```
 
 ## 5.2 Schema Directory
@@ -424,25 +426,19 @@ tools/agentx_evolve/schemas/
 Expected schemas:
 
 ```text
+local_model_profile.schema.json
+local_runtime_profile.schema.json
+local_hardware_profile.schema.json
 local_model_inventory.schema.json
-local_model_entry.schema.json
-local_model_runtime_profile.schema.json
-hardware_capability_profile.schema.json
-quantization_profile.schema.json
-context_window_profile.schema.json
-model_capability_profile.schema.json
-model_selection_constraint.schema.json
-model_runtime_health.schema.json
-model_availability_result.schema.json
-local_model_runtime_decision.schema.json
-local_model_runtime_audit.schema.json
-local_model_memory_estimate.schema.json
-local_model_runtime_compatibility.schema.json
-local_model_profile_provenance.schema.json
+local_model_availability.schema.json
+local_runtime_compatibility_decision.schema.json
+local_model_selection_constraints.schema.json
+local_runtime_request_limits.schema.json
+local_runtime_artifact.schema.json
+local_model_eligibility_decision.schema.json
 local_model_runtime_evidence_manifest.schema.json
 local_model_runtime_review_report.schema.json
 local_model_runtime_completion_record.schema.json
-local_model_root_registry.schema.json
 ```
 
 ## 5.3 Test Directory
@@ -454,26 +450,36 @@ tools/agentx_evolve/tests/
 Expected tests:
 
 ```text
-test_local_model_inventory_schema.py
-test_local_model_runtime_profile_schema.py
-test_hardware_capability_profile_schema.py
-test_quantization_profile_schema.py
-test_context_window_profile_schema.py
-test_model_inventory_loader.py
-test_runtime_profile_registry.py
-test_model_availability_checker.py
-test_runtime_compatibility_checker.py
-test_memory_budget.py
-test_runtime_policy.py
-test_runtime_artifacts.py
+test_local_runtime_models.py
+test_local_model_profile_schema.py
+test_local_runtime_profile_schema.py
+test_local_hardware_profile_schema.py
+test_local_model_inventory.py
+test_local_profile_loader.py
+test_local_profile_repository.py
+test_local_runtime_registry.py
+test_local_hardware_profile.py
+test_local_model_availability.py
+test_local_runtime_compatibility.py
+test_local_model_selector.py
+test_local_quantization_compatibility.py
+test_local_context_window_compatibility.py
+test_local_memory_budget.py
+test_local_runtime_mode.py
+test_local_selection_constraints.py
+test_local_request_limits.py
+test_local_schema_validation.py
+test_local_runtime_artifacts.py
 test_local_model_runtime_negative_cases.py
-test_local_model_path_boundary.py
-test_local_model_profile_provenance.py
-test_local_model_runtime_idempotency.py
-test_local_model_runtime_evidence_manifest.py
 ```
 
-## 5.4 Runtime Artifacts
+## 5.4 Validation Utility
+
+```text
+tools/agentx_evolve/tests/validate_local_model_runtime_schemas.py
+```
+
+## 5.5 Runtime Artifacts
 
 ```text
 .agentx-init/model_runtime/

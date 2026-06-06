@@ -7,7 +7,7 @@ import hashlib
 import json
 import os
 import time
-from agentx_evolve.model.model_models import new_id
+from agentx_evolve.models.model_models import new_id
 
 LEARNING_SCHEMA_VERSION = "1.0"
 LEARNING_SCHEMA_ID = "learning_outcome_record.schema.json"

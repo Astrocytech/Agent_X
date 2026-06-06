@@ -64,6 +64,8 @@ from agentx_evolve.context.context_artifact_writer import (
     write_completion_record,
 )
 
+from agentx_evolve.context.cli import main as cli_main
+
 from agentx_evolve.context.context_models import (
     Snippet,
     ArtifactRef,

@@ -7,7 +7,7 @@ import json
 import os
 import threading
 
-from agentx_evolve.model.model_models import new_id, to_dict
+from agentx_evolve.models.model_models import new_id, to_dict
 
 ES_PASS = "PASS"
 ES_FAIL = "FAIL"

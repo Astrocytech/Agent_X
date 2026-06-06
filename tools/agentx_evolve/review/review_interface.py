@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
-from agentx_evolve.model.model_models import new_id, to_dict
+from agentx_evolve.models.model_models import new_id, to_dict
 
 AD_PENDING = "PENDING"
 AD_APPROVED = "APPROVED"

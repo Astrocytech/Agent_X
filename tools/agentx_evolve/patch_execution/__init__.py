@@ -53,6 +53,8 @@ from .patch_models import (
     SourceInventory,
     TemporaryPolicyBridge,
     PatchLimits,
+    ApprovedMutation,
+    MutationAllowlist,
     utc_now_iso,
     new_id,
     to_dict,

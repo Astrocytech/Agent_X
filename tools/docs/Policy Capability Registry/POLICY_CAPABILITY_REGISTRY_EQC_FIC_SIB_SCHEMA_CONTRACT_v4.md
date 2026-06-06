@@ -230,6 +230,7 @@ policy_request.schema.json
 policy_decision.schema.json
 policy_violation.schema.json
 policy_audit.schema.json
+policy_enforcement_result.schema.json
 ```
 
 ## 3.5 Required Supporting Standard: Evidence / Audit Rules
@@ -385,17 +386,19 @@ Required files:
 ```text
 tools/agentx_evolve/policy/__init__.py
 tools/agentx_evolve/policy/policy_models.py
+tools/agentx_evolve/policy/policy_defaults.py
+tools/agentx_evolve/policy/role_matrix.py
 tools/agentx_evolve/policy/capability_policy.py
 tools/agentx_evolve/policy/tool_policy.py
 tools/agentx_evolve/policy/model_policy.py
-tools/agentx_evolve/policy/role_matrix.py
-tools/agentx_evolve/policy/policy_request.py
 tools/agentx_evolve/policy/policy_decision.py
 tools/agentx_evolve/policy/policy_registry.py
 tools/agentx_evolve/policy/policy_evidence.py
-tools/agentx_evolve/policy/policy_defaults.py
-tools/agentx_evolve/policy/policy_loader.py
 tools/agentx_evolve/policy/initiator_policy_compat.py
+tools/agentx_evolve/policy/policy_request.py
+tools/agentx_evolve/policy/policy_enforcer.py
+tools/agentx_evolve/policy/policy_loader.py
+tools/agentx_evolve/policy/capability_registry.py
 tools/agentx_evolve/policy/sandbox_policy_compat.py
 ```
 
@@ -410,16 +413,18 @@ tools/agentx_evolve/schemas/policy_request.schema.json
 tools/agentx_evolve/schemas/policy_decision.schema.json
 tools/agentx_evolve/schemas/policy_violation.schema.json
 tools/agentx_evolve/schemas/policy_audit.schema.json
+tools/agentx_evolve/schemas/policy_enforcement_result.schema.json
 ```
 
 Test files:
 
 ```text
+tools/agentx_evolve/tests/test_policy_models.py
+tools/agentx_evolve/tests/test_policy_defaults.py
 tools/agentx_evolve/tests/test_capability_policy.py
 tools/agentx_evolve/tests/test_tool_policy.py
 tools/agentx_evolve/tests/test_model_policy.py
 tools/agentx_evolve/tests/test_role_matrix.py
-tools/agentx_evolve/tests/test_policy_request.py
 tools/agentx_evolve/tests/test_policy_decision.py
 tools/agentx_evolve/tests/test_policy_registry.py
 tools/agentx_evolve/tests/test_policy_evidence.py
@@ -427,6 +432,8 @@ tools/agentx_evolve/tests/test_policy_schema.py
 tools/agentx_evolve/tests/test_policy_negative_cases.py
 tools/agentx_evolve/tests/test_policy_sandbox_integration.py
 tools/agentx_evolve/tests/test_policy_initiator_integration.py
+tools/agentx_evolve/tests/test_policy_integration.py
+tools/agentx_evolve/tests/test_capability_registry.py
 ```
 
 Runtime artifacts:
@@ -440,6 +447,9 @@ Runtime artifacts:
 .agentx-init/policies/policy_violations.jsonl
 .agentx-init/policies/latest_policy_decision.json
 .agentx-init/policies/latest_policy_violation.json
+.agentx-init/policies/policy_evidence_manifest.json
+.agentx-init/policies/policy_review_report.json
+.agentx-init/policies/policy_completion_record.json
 ```
 
 

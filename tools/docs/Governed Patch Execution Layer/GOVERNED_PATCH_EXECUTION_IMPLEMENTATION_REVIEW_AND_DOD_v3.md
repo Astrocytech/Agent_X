@@ -16,8 +16,9 @@ target_language: Python
 canonical_subdirectory: tools/agentx_evolve/patch_execution/
 runtime_state_root: .agentx-init/implementation/
 basis_documents:
-  - GOVERNED_PATCH_EXECUTION_EQC_FIC_SIB_SCHEMA_CONTRACT_v1
-  - GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_SPEC_v1
+  - GOVERNED_PATCH_EXECUTION_EQC_FIC_SIB_SCHEMA_CONTRACT_v5
+  - GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_SPEC_v5
+  - GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_REVIEW_AND_DOD_v3
 review_time: after code is committed
 final_verdict_options:
   - VALIDATED — DONE
@@ -317,6 +318,10 @@ PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_negative_cases.py
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_sandbox_integration.py
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_initiator_integration.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_rollback.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_policy_integration.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_limits.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_idempotency.py
 git status --short
 ```
 
@@ -556,6 +561,11 @@ PASS
 [X] tools/agentx_evolve/schemas/implementation_validation_gate.schema.json
 [X] tools/agentx_evolve/schemas/patch_execution_decision.schema.json
 [X] tools/agentx_evolve/schemas/patch_execution_audit.schema.json
+[X] tools/agentx_evolve/schemas/patch_execution_completion_record.schema.json
+[X] tools/agentx_evolve/schemas/dry_run_result.schema.json
+[X] tools/agentx_evolve/schemas/source_inventory.schema.json
+[X] tools/agentx_evolve/schemas/patch_limits.schema.json
+[X] tools/agentx_evolve/schemas/temporary_policy_bridge.schema.json
 ```
 
 Status: PASS
@@ -577,6 +587,10 @@ PASS
 [X] tools/agentx_evolve/tests/test_patch_execution_negative_cases.py
 [X] tools/agentx_evolve/tests/test_patch_execution_sandbox_integration.py
 [X] tools/agentx_evolve/tests/test_patch_execution_initiator_integration.py
+[X] tools/agentx_evolve/tests/test_patch_execution_rollback.py
+[X] tools/agentx_evolve/tests/test_patch_execution_policy_integration.py
+[X] tools/agentx_evolve/tests/test_patch_execution_limits.py
+[X] tools/agentx_evolve/tests/test_patch_execution_idempotency.py
 ```
 
 Status: PASS
@@ -676,7 +690,10 @@ PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_negative_cases.py
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_sandbox_integration.py
 PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_initiator_integration.py
-```
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_rollback.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_policy_integration.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_limits.py
+PYTHONPATH=tools python -m pytest tools/agentx_evolve/tests/test_patch_execution_idempotency.py
 
 Full suite command:
 
@@ -828,6 +845,9 @@ Required artifacts:
 [X] .agentx-init/implementation/latest_patch_result.json
 [X] .agentx-init/implementation/latest_rollback_record.json
 [X] .agentx-init/implementation/governed_patch_execution_completion_record.json
+[X] .agentx-init/implementation/dry_run_results.jsonl
+[X] .agentx-init/implementation/source_inventories.jsonl
+[X] .agentx-init/implementation/latest_dry_run_result.json
 ```
 
 Required behavior:
@@ -1129,9 +1149,9 @@ Required content:
   "validated_at": "2026-06-05T16:29:53Z",
   "canonical_subdirectory": "tools/agentx_evolve/patch_execution/",
   "basis_documents": [
-    "GOVERNED_PATCH_EXECUTION_EQC_FIC_SIB_SCHEMA_CONTRACT_v1",
-    "GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_SPEC_v1",
-    "GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_REVIEW_AND_DOD_v1"
+    "GOVERNED_PATCH_EXECUTION_EQC_FIC_SIB_SCHEMA_CONTRACT_v5",
+    "GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_SPEC_v5",
+    "GOVERNED_PATCH_EXECUTION_IMPLEMENTATION_REVIEW_AND_DOD_v3"
   ],
   "commands_run": [],
   "files_created_or_changed": [],
@@ -1253,6 +1273,7 @@ Required CLI exit code style:
 4 = validation failed
 5 = rollback required or rollback failed
 6 = schema validation failed
+7 = precondition missing
 ```
 
 If no CLI is exposed, mark this section:
@@ -1294,6 +1315,10 @@ Tests:
 [X] negative safety tests -> PASS
 [X] sandbox integration tests -> PASS
 [X] Initiator integration tests -> PASS
+[X] patch execution rollback tests -> PASS
+[X] policy integration tests -> PASS
+[X] execution limits tests -> PASS
+[X] idempotency tests -> PASS
 
 Safety:
 [X] dry-run changes nothing

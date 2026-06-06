@@ -284,7 +284,7 @@ def _build_failed_decision(
     dry_run: bool,
     errors: list[str] | None = None,
 ) -> PromotionGateDecision:
-    from agentx_evolve.model.model_models import new_id, utc_now_iso
+    from agentx_evolve.models.model_models import new_id, utc_now_iso
     decision = PromotionGateDecision(
         decision_id=new_id("gd-"),
         created_at=utc_now_iso(),

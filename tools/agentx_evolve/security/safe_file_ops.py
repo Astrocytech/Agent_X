@@ -16,7 +16,7 @@ from agentx_evolve.security.path_boundary import check_path_boundary
 from agentx_evolve.security.initiator_compat import InitiatorCompat
 
 if TYPE_CHECKING:
-    from agentx_evolve.patch.patch_models import MutationAllowlist
+    from agentx_evolve.patch_execution.patch_models import MutationAllowlist
 
 
 def check_read_allowed(

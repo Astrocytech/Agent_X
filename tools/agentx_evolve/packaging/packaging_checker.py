@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from agentx_evolve.model.model_models import new_id, to_dict
+from agentx_evolve.models.model_models import new_id, to_dict
 
 PKG_SCHEMA_VERSION = "1.0"
 PKG_SCHEMA_ID = "packaging_distribution_check.schema.json"
