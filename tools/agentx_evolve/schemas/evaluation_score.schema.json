@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_score.schema.json",
+  "title": "EvaluationScore",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "score_id",
+    "run_id",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "type": "string"
+    },
+    "score_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "total_cases": {
+      "type": "integer"
+    },
+    "passed_cases": {
+      "type": "integer"
+    },
+    "failed_cases": {
+      "type": "integer"
+    },
+    "blocked_cases": {
+      "type": "integer"
+    },
+    "error_cases": {
+      "type": "integer"
+    },
+    "skipped_cases": {
+      "type": "integer"
+    },
+    "raw_score": {
+      "type": "number"
+    },
+    "normalized_score": {
+      "type": "number"
+    },
+    "weighted_score": {
+      "type": "number"
+    },
+    "pass_rate": {
+      "type": "number"
+    },
+    "failure_rate": {
+      "type": "number"
+    },
+    "blocked_rate": {
+      "type": "number"
+    },
+    "error_rate": {
+      "type": "number"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

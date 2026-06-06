@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_resource_budget.schema.json",
+  "title": "EvaluationResourceBudget",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "budget_id",
+    "suite_id",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "schema_id": {
+      "const": "evaluation_resource_budget.schema.json",
+      "description": "Unique identifier for this schema document"
+    },
+    "budget_id": {
+      "type": "string",
+      "description": "Unique identifier for this budget"
+    },
+    "suite_id": {
+      "type": "string",
+      "description": "The suite this budget applies to"
+    },
+    "max_case_count": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 100,
+      "description": "Maximum number of test cases allowed in a single run"
+    },
+    "max_execution_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 300,
+      "description": "Maximum wall-clock time in seconds for the evaluation run"
+    },
+    "max_tool_calls": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum number of tool invocations allowed"
+    },
+    "max_network_requests": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Maximum number of outbound network requests permitted"
+    },
+    "max_disk_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Maximum disk space in bytes the evaluation may consume"
+    },
+    "allow_network": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether network access is permitted during evaluation"
+    },
+    "allow_subprocess": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether subprocess spawning is permitted during evaluation"
+    },
+    "allowed_tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Explicitly allowed tool identifiers; empty means all tools are disallowed"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Non-fatal issues detected during budget definition"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fatal issues detected during budget definition"
+    }
+  }
+}

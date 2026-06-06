@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_baseline_change.schema.json",
+  "title": "EvaluationBaselineChange",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "change_id",
+    "baseline_id",
+    "previous_baseline_sha256",
+    "new_baseline_sha256",
+    "changed_at",
+    "changed_by",
+    "reason",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "schema_id": {
+      "const": "evaluation_baseline_change.schema.json",
+      "description": "Unique identifier for this schema document"
+    },
+    "change_id": {
+      "type": "string",
+      "description": "Unique identifier for this change record"
+    },
+    "baseline_id": {
+      "type": "string",
+      "description": "Identifier of the baseline that was changed"
+    },
+    "previous_baseline_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the baseline before the change"
+    },
+    "new_baseline_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the baseline after the change"
+    },
+    "changed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the change was applied"
+    },
+    "changed_by": {
+      "type": "string",
+      "description": "Entity (user or component) that performed the change"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Rationale for why the baseline was changed"
+    },
+    "score_delta": {
+      "type": "number",
+      "description": "Overall score difference introduced by the change"
+    },
+    "case_changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "case_id": {
+            "type": "string"
+          },
+          "previous_status": {
+            "type": "string"
+          },
+          "new_status": {
+            "type": "string"
+          },
+          "score_delta": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "case_id",
+          "previous_status",
+          "new_status"
+        ]
+      },
+      "description": "Per-case breakdown of status and score changes"
+    },
+    "approval_ref": {
+      "type": "string",
+      "description": "Reference to an approval record that authorised this change"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Non-fatal issues detected during the baseline change"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fatal issues detected during the baseline change"
+    }
+  }
+}

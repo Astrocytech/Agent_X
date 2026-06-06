@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_benchmark_lockfile.schema.json",
+  "title": "EvaluationBenchmarkLockfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "lockfile_id",
+    "suite_id",
+    "created_at",
+    "suite_sha256",
+    "case_hashes",
+    "source_component",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "description": "Schema version identifier"
+    },
+    "schema_id": {
+      "const": "evaluation_benchmark_lockfile.schema.json",
+      "description": "Unique identifier for this schema document"
+    },
+    "lockfile_id": {
+      "type": "string",
+      "description": "Unique identifier for this lockfile entry"
+    },
+    "suite_id": {
+      "type": "string",
+      "description": "The suite this lockfile locks"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the lockfile was created"
+    },
+    "suite_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the full benchmark suite definition"
+    },
+    "case_hashes": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "description": "Map of case identifiers to their SHA-256 hashes"
+    },
+    "baseline_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the associated baseline"
+    },
+    "threshold_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "default": "0000000000000000000000000000000000000000000000000000000000000000",
+      "description": "SHA-256 hash of the associated threshold set"
+    },
+    "previous_lockfile_sha256": {
+      "type": "string",
+      "description": "SHA-256 hash of the previous lockfile in the chain"
+    },
+    "source_component": {
+      "type": "string",
+      "description": "Component that generated this lockfile"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Non-fatal issues detected during lockfile generation"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fatal issues detected during lockfile generation"
+    }
+  }
+}

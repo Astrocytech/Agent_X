@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_benchmark_suite.schema.json",
+  "title": "BenchmarkSuite",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "suite_id",
+    "case_refs",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "type": "string"
+    },
+    "suite_id": {
+      "type": "string"
+    },
+    "suite_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "case_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "default_threshold_id": {
+      "type": "string"
+    },
+    "baseline_ref": {
+      "type": "string"
+    },
+    "first_run_allowed": {
+      "type": "boolean"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

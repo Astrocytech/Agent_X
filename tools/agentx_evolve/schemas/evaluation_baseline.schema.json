@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_baseline.schema.json",
+  "title": "EvaluationBaseline",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "baseline_id",
+    "suite_id",
+    "baseline_run_id",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "type": "string"
+    },
+    "baseline_id": {
+      "type": "string"
+    },
+    "suite_id": {
+      "type": "string"
+    },
+    "baseline_run_id": {
+      "type": "string"
+    },
+    "baseline_commit": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "score_summary": {
+      "type": "object"
+    },
+    "case_result_index": {
+      "type": "object"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

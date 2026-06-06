@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "evaluation_benchmark_case.schema.json",
+  "case_id": "missing_expected_result_case",
+  "case_name": "Case with missing expected_result",
+  "description": "Negative fixture: a case without expected_result must be rejected.",
+  "case_type": "NEGATIVE_FIXTURE_VALIDATION",
+  "target_component": "EvaluationHarness",
+  "severity": "high",
+  "weight": 1.0,
+  "input_ref": null,
+  "input_payload": {"dummy": true},
+  "expected_result": {},
+  "threshold_id": null,
+  "timeout_seconds": 10,
+  "tags": ["negative", "validation"],
+  "warnings": [],
+  "errors": []
+}

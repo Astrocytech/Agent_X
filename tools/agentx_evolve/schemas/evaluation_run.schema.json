@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "evaluation_run.schema.json",
+  "title": "EvaluationRun",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "run_id",
+    "suite_id",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "suite_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "source_component": {
+      "type": "string"
+    },
+    "repo_commit": {
+      "type": "string"
+    },
+    "runner_version": {
+      "type": "string"
+    },
+    "execution_mode": {
+      "type": "string"
+    },
+    "case_results": {
+      "type": "array",
+      "items": {
+        "$ref": "evaluation_case_result.schema.json"
+      }
+    },
+    "score_summary": {
+      "type": "object"
+    },
+    "threshold_summary": {
+      "type": "object"
+    },
+    "regression_summary": {
+      "type": "object"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

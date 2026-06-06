@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "evaluation_benchmark_case.schema.json",
+  "case_id": "malformed_case",
+  "case_name": "Malformed case missing required fields",
+  "description": "Negative fixture: a case with missing required fields must be rejected.",
+  "case_type": "NEGATIVE_FIXTURE_VALIDATION",
+  "target_component": "EvaluationHarness",
+  "severity": "high",
+  "weight": 1.0,
+  "input_ref": null,
+  "input_payload": {},
+  "expected_result": {
+    "expected_status": "EVAL_ERROR",
+    "expected_failure_class": "EVAL_FIXTURE_INVALID",
+    "comparators": [
+      {
+        "type": "STATUS_MATCH",
+        "path": "status",
+        "expected": "EVAL_ERROR"
+      }
+    ],
+    "required_artifacts": []
+  },
+  "threshold_id": null,
+  "timeout_seconds": 10,
+  "tags": ["negative", "validation"],
+  "warnings": [],
+  "errors": ["missing required field: case_id"]
+}

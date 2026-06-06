@@ -1,1 +1,119 @@
-{"$schema":"http://json-schema.org/draft-07/schema#","additionalProperties":false,"properties":{"schema_version":{"type":"string"},"schema_id":{"const":"human_review_request.schema.json"},"source_component":{"type":"string","default":"HumanReviewApproval"},"request_id":{"type":"string"},"created_at":{"type":"string"},"requested_by":{"type":"string"},"requested_action":{"type":"string"},"requested_effect":{"type":"string"},"risk_level":{"enum":["LOW","MEDIUM","HIGH","CRITICAL"]},"reason":{"type":"string"},"scope":{"$ref":"#/definitions/Scope"},"policy_decision_id":{"type":"string"},"tool_call_id":{"type":"string"},"patch_session_id":{"type":"string"},"promotion_request_id":{"type":"string"},"artifact_refs":{"items":{"type":"string"},"type":"array"},"evidence_refs":{"items":{"type":"string"},"type":"array"},"status":{"enum":["PENDING","APPROVED","REJECTED","DEFERRED","NEEDS_CLARIFICATION","CLOSED","EXPIRED","REVOKED","INVALID"]},"request_hash":{"type":"string"},"warnings":{"items":{"type":"string"},"type":"array"},"errors":{"items":{"type":"string"},"type":"array"}},"required":["schema_version","schema_id","source_component","request_id","created_at","requested_by","requested_action","requested_effect","risk_level","reason","scope","status","warnings","errors"],"type":"object"}
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "human_review_request.schema.json",
+  "title": "HumanReviewRequest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "source_component",
+    "request_id",
+    "created_at",
+    "requested_by",
+    "requested_action",
+    "requested_effect",
+    "risk_level",
+    "reason",
+    "scope",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "human_review_request.schema.json"
+    },
+    "source_component": {
+      "type": "string",
+      "default": "HumanReviewApproval"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "requested_by": {
+      "type": "string"
+    },
+    "requested_action": {
+      "type": "string"
+    },
+    "requested_effect": {
+      "type": "string"
+    },
+    "risk_level": {
+      "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/Scope"
+    },
+    "policy_decision_id": {
+      "type": "string"
+    },
+    "tool_call_id": {
+      "type": "string"
+    },
+    "patch_session_id": {
+      "type": "string"
+    },
+    "promotion_request_id": {
+      "type": "string"
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "enum": ["PENDING", "APPROVED", "REJECTED", "DEFERRED", "NEEDS_CLARIFICATION", "CLOSED", "EXPIRED", "REVOKED", "INVALID"]
+    },
+    "request_hash": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "Scope": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["file", "function", "class", "package", "configuration", "policy"]
+        },
+        "path": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["type"]
+    }
+  }
+}

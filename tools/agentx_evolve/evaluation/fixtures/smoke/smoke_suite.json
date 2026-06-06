@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "evaluation_benchmark_suite.schema.json",
+  "suite_id": "smoke_suite",
+  "suite_name": "Evaluation Harness Smoke Suite",
+  "description": "Minimal deterministic smoke suite for evaluation harness validation.",
+  "created_at": "2026-06-05T00:00:00Z",
+  "source_component": "EvaluationHarness",
+  "case_refs": [
+    "tool_registry_smoke_case.json",
+    "policy_denial_smoke_case.json"
+  ],
+  "default_threshold_id": "default_smoke_threshold",
+  "baseline_ref": null,
+  "first_run_allowed": true,
+  "tags": ["smoke", "offline"],
+  "warnings": [],
+  "errors": []
+}
