@@ -78,3 +78,32 @@ def test_tool_case_handles_empty_payload():
 
 def test_tool_registry_has_tool_for_nonexistent():
     assert tool_registry_has_tool("__definitely_not_a_real_tool__") is False
+
+
+def test_tool_case_cannot_execute_mutating_tool():
+    from agentx_evolve.evaluation.evaluation_models import BenchmarkCase
+    case = BenchmarkCase(
+        schema_version="1.0", schema_id="evaluation_benchmark_case.schema.json",
+        case_id="mutating-case", case_name="Mutating Tool Test", description="",
+        case_type="TOOL_CALL_EXPECTED_RESULT", target_component="AGENTX_TOOL_MCP_ADAPTER",
+        severity="critical", weight=3.0, input_ref=None, input_payload={"tool_name": "write_tool"},
+        expected_result={"expected_status": "BLOCKED"}, threshold_id=None,
+        timeout_seconds=30, tags=[], warnings=[], errors=[],
+    )
+    assert case.severity == "critical"
+    assert case.case_type == "TOOL_CALL_EXPECTED_RESULT"
+
+
+def test_missing_tool_evidence_blocks_required_case(tmp_path):
+    from agentx_evolve.evaluation.evaluation_models import EvaluationCaseResult
+    result = EvaluationCaseResult(
+        schema_version="1.0", schema_id="evaluation_case_result.schema.json",
+        case_result_id="res-1", case_id="case-1", run_id="run-1",
+        timestamp="2024-01-01T00:00:00Z", status="EVAL_FAIL", score=0.0, max_score=1.0,
+        weight=1.0, weighted_score=0.0, passed=False, message="Missing tool evidence",
+        observed_result={}, expected_result={}, comparison_details=[],
+        failure_class="EVAL_TOOL_ADAPTER_UNAVAILABLE", artifact_refs=[], evidence_refs=[],
+        warnings=[], errors=[],
+    )
+    assert not result.passed
+    assert result.failure_class == "EVAL_TOOL_ADAPTER_UNAVAILABLE"

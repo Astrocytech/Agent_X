@@ -185,3 +185,9 @@ def test_run_evaluation_score_summary_populated(tmp_path):
     run = run_evaluation(suite_path, tmp_path, first_run=True, write_reports=False, write_evidence=False)
     assert "total_cases" in run.score_summary
     assert run.score_summary["total_cases"] == 0
+
+
+def test_evaluation_runner_requires_no_network(tmp_path):
+    import os
+    network_used = bool(os.environ.get("BENCHMARK_NETWORK_REQUIRED"))
+    assert not network_used

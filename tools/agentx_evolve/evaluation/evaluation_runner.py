@@ -25,7 +25,16 @@ from agentx_evolve.evaluation.report_writer import write_evaluation_report
 from agentx_evolve.evaluation.evaluation_evidence import (
     write_evaluation_evidence_manifest,
     append_evaluation_run_history,
+    append_evaluation_result_history,
     append_evaluation_case_history,
+    append_regression_comparison_history,
+    append_threshold_decision_history,
+    write_latest_run_artifact,
+    write_latest_result_artifact,
+    write_latest_regression_artifact,
+    write_latest_threshold_artifact,
+    write_benchmark_lockfile,
+    write_promotion_gate_summary,
     write_completion_record,
 )
 from agentx_evolve.evaluation.baseline_manager import write_candidate_baseline
@@ -173,6 +182,28 @@ def run_evaluation(
             completion_sha256 = hashlib.sha256(completion_path.read_bytes()).hexdigest()
             completion["completion_record_sha256"] = completion_sha256
             completion_path.write_text(json.dumps(completion, indent=2))
+        for cr in case_results:
+            append_evaluation_result_history(cr, repo_root)
+        if regression_summary:
+            append_regression_comparison_history(regression_summary, repo_root)
+        if threshold_summary:
+            append_threshold_decision_history(threshold_summary, repo_root)
+        write_latest_run_artifact(run, repo_root)
+        write_latest_result_artifact(run, repo_root)
+        if regression_summary:
+            write_latest_regression_artifact(regression_summary, repo_root)
+        if threshold_summary:
+            write_latest_threshold_artifact(threshold_summary, repo_root)
+        write_benchmark_lockfile(to_dict(fixture_lock), repo_root)
+        if regression_summary:
+            gate_data = {
+                "gate_id": f"gate_{run.run_id}",
+                "suite_id": run.suite_id,
+                "run_id": run.run_id,
+                "timestamp": utc_now_iso(),
+                "status": "PASS" if regression_summary.get("status") == "REGRESSION_PASS" else "BLOCKED",
+            }
+            write_promotion_gate_summary(gate_data, repo_root)
 
     if write_reports:
         write_evaluation_report(run, repo_root)

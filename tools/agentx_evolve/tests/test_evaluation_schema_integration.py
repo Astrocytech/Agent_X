@@ -136,3 +136,14 @@ def test_schema_integration_suite_with_all_fields():
     }
     valid, errors = validate_benchmark_suite(suite)
     assert valid or isinstance(errors, list)
+
+
+def test_schema_validation_utility_covers_run_config_and_fixture_lock():
+    schemas = [
+        "evaluation_run_config.schema.json",
+        "evaluation_fixture_lock.schema.json",
+    ]
+    from pathlib import Path
+    schema_dir = Path(__file__).resolve().parents[3] / "tools" / "agentx_evolve" / "schemas"
+    for s in schemas:
+        assert (schema_dir / s).exists(), f"Missing schema: {s}"

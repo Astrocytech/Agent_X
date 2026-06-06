@@ -128,6 +128,73 @@ def write_completion_record(run: EvaluationRun, repo_root: Path) -> dict:
     return record
 
 
+def append_evaluation_result_history(case_result, repo_root: Path) -> dict:
+    history_path = repo_root / ".agentx-init" / "evaluation" / "evaluation_result_history.jsonl"
+    history_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(history_path, "a") as f:
+        f.write(json.dumps(to_dict(case_result)) + "\n")
+    return {"path": str(history_path)}
+
+
+def append_regression_comparison_history(regression_summary: dict, repo_root: Path) -> dict:
+    history_path = repo_root / ".agentx-init" / "evaluation" / "regression_comparison_history.jsonl"
+    history_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(history_path, "a") as f:
+        f.write(json.dumps(regression_summary) + "\n")
+    return {"path": str(history_path)}
+
+
+def append_threshold_decision_history(threshold_summary: dict, repo_root: Path) -> dict:
+    history_path = repo_root / ".agentx-init" / "evaluation" / "threshold_decision_history.jsonl"
+    history_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(history_path, "a") as f:
+        f.write(json.dumps(threshold_summary) + "\n")
+    return {"path": str(history_path)}
+
+
+def write_latest_run_artifact(run, repo_root: Path) -> Path:
+    art_path = repo_root / ".agentx-init" / "evaluation" / "latest_evaluation_run.json"
+    art_path.parent.mkdir(parents=True, exist_ok=True)
+    art_path.write_text(json.dumps(to_dict(run), indent=2))
+    return art_path
+
+
+def write_latest_result_artifact(run, repo_root: Path) -> Path:
+    results = [to_dict(cr) for cr in run.case_results]
+    art_path = repo_root / ".agentx-init" / "evaluation" / "latest_evaluation_result.json"
+    art_path.parent.mkdir(parents=True, exist_ok=True)
+    art_path.write_text(json.dumps(results, indent=2))
+    return art_path
+
+
+def write_latest_regression_artifact(regression_summary: dict, repo_root: Path) -> Path:
+    art_path = repo_root / ".agentx-init" / "evaluation" / "latest_regression_comparison.json"
+    art_path.parent.mkdir(parents=True, exist_ok=True)
+    art_path.write_text(json.dumps(regression_summary, indent=2))
+    return art_path
+
+
+def write_latest_threshold_artifact(threshold_summary: dict, repo_root: Path) -> Path:
+    art_path = repo_root / ".agentx-init" / "evaluation" / "latest_threshold_decision.json"
+    art_path.parent.mkdir(parents=True, exist_ok=True)
+    art_path.write_text(json.dumps(threshold_summary, indent=2))
+    return art_path
+
+
+def write_benchmark_lockfile(lock_data: dict, repo_root: Path) -> Path:
+    art_path = repo_root / ".agentx-init" / "evaluation" / "evaluation_benchmark_lockfile.json"
+    art_path.parent.mkdir(parents=True, exist_ok=True)
+    art_path.write_text(json.dumps(lock_data, indent=2))
+    return art_path
+
+
+def write_promotion_gate_summary(gate_data: dict, repo_root: Path) -> Path:
+    art_path = repo_root / ".agentx-init" / "evaluation" / "evaluation_promotion_gate_summary.json"
+    art_path.parent.mkdir(parents=True, exist_ok=True)
+    art_path.write_text(json.dumps(gate_data, indent=2))
+    return art_path
+
+
 def hash_evidence_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 

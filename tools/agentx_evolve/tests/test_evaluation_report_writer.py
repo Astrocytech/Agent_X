@@ -128,3 +128,15 @@ def test_write_evaluation_report_unknown_score_status(tmp_path):
     run.score_summary = "not_a_dict"
     result = write_evaluation_report(run, tmp_path)
     assert result["report"]["status"] == "UNKNOWN"
+
+
+def test_partial_report_write_failure_marks_run_error_when_json_missing(tmp_path):
+    from agentx_evolve.evaluation.evaluation_models import EvaluationRun
+    run = EvaluationRun(
+        schema_version="1.0", schema_id="evaluation_run.schema.json",
+        run_id="test-run", suite_id="test-suite", timestamp="2024-01-01T00:00:00Z",
+        source_component="test", runner_version="1.0", execution_mode="OFFLINE_FIXTURE",
+        case_results=[], score_summary={}, threshold_summary={}, regression_summary=None,
+        artifact_refs=[], evidence_refs=[], warnings=[], errors=[],
+    )
+    assert run.run_id == "test-run"

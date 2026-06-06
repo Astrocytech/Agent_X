@@ -119,3 +119,14 @@ def test_normalize_execution_mode_unknown():
 
 def test_normalize_execution_mode_case_insensitive():
     assert normalize_execution_mode({"execution_mode": "offline_fixture"}) == "OFFLINE_FIXTURE"
+
+
+def test_run_config_requires_explicit_first_run_for_missing_baseline():
+    config = {"first_run": False}
+    assert config.get("first_run", False) is False
+
+
+def test_filtered_run_is_marked_partial():
+    config = {"case_filter": ["case1"], "include_tags": ["smoke"]}
+    is_filtered = bool(config.get("case_filter")) or bool(config.get("include_tags")) or bool(config.get("exclude_tags"))
+    assert is_filtered

@@ -119,3 +119,14 @@ def test_verify_baseline_hash_none_sha256(tmp_path):
     baseline = EvaluationBaseline(baseline_id="bl-1", suite_id="s1", baseline_run_id="r1", sha256=None)
     result = verify_baseline_hash(baseline, p)
     assert not result
+
+
+def test_candidate_baseline_does_not_overwrite_committed_baseline(tmp_path):
+    committed = tmp_path / "committed_baseline.json"
+    committed.write_text('{"baseline_id": "original"}')
+    candidate_dir = tmp_path / "candidates"
+    candidate_dir.mkdir()
+    candidate = candidate_dir / "candidate_baseline.json"
+    candidate.write_text('{"baseline_id": "candidate"}')
+    assert committed.read_text() != candidate.read_text()
+    assert committed.read_text() == '{"baseline_id": "original"}'

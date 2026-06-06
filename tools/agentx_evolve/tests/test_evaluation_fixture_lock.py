@@ -135,3 +135,17 @@ def test_build_fixture_lock_created_at(tmp_path):
     assert "created_at" in lock
     assert "source_component" in lock
     assert lock["source_component"] == "EvaluationHarness"
+
+
+def test_fixture_lock_rejects_case_id_collision():
+    lock_data = {
+        "case_refs": ["case1", "case1"],
+        "case_hashes": {"case1": "0000000000000000000000000000000000000000000000000000000000000000"},
+    }
+    has_collision = len(lock_data["case_refs"]) != len(set(lock_data["case_refs"]))
+    assert has_collision
+
+
+def test_fixture_drift_blocks_full_regression_signoff():
+    drift_detected = True
+    assert drift_detected

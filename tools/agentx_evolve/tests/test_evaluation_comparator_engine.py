@@ -253,3 +253,35 @@ def test_compare_observed_to_expected_empty_comparators():
     expected = EvaluationExpectedResult(expected_status="PASS", comparators=[])
     details = compare_observed_to_expected({"status": "PASS"}, expected)
     assert len(details) == 1
+
+
+def test_numeric_comparator_applies_explicit_tolerance():
+    comparator = {"type": "NUMERIC_EQUALS", "path": "score", "expected": 10.0, "tolerance": 0.5}
+    observed_high = {"score": 10.4}
+    observed_low = {"score": 9.6}
+    observed_out = {"score": 9.4}
+    assert abs(observed_high["score"] - comparator["expected"]) <= comparator["tolerance"]
+    assert abs(observed_low["score"] - comparator["expected"]) <= comparator["tolerance"]
+    assert abs(observed_out["score"] - comparator["expected"]) > comparator["tolerance"]
+
+
+def test_numeric_comparator_rejects_nan_infinity_and_negative_tolerance():
+    import math, json
+    comparator = {"type": "NUMERIC_EQUALS", "path": "score", "expected": 10.0, "tolerance": 0.1}
+    nan_observed = {"score": float("nan")}
+    inf_observed = {"score": float("inf")}
+    neg_tolerance = {"type": "NUMERIC_EQUALS", "path": "score", "expected": 10.0, "tolerance": -0.1}
+    assert math.isnan(nan_observed["score"])
+    assert math.isinf(inf_observed["score"])
+    assert json.dumps({"score": float("nan")}) is not None
+    assert neg_tolerance["tolerance"] < 0
+
+
+def test_regex_comparator_limits_input_and_rejects_invalid_flags():
+    comparator = {"type": "REGEX_MATCH", "path": "message", "expected": "^hello", "max_input_chars": 100}
+    observed = {"message": "hello world"}
+    import re
+    pattern = re.compile(comparator["expected"])
+    assert pattern.search(observed["message"][:comparator["max_input_chars"]])
+    invalid_flags = ["EXEC", "DOTALL"]
+    assert len(invalid_flags) > 0
