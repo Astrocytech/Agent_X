@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GeneratedDocumentSection",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "section_id", "target_path", "start_marker", "end_marker", "generator_component", "status"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["generated_document_section.schema.json"]},
+    "section_id": {"type": "string"},
+    "target_path": {"type": "string"},
+    "start_marker": {"type": "string"},
+    "end_marker": {"type": "string"},
+    "generator_component": {"type": "string"},
+    "source_scan_id": {"type": "string"},
+    "source_plan_id": {"type": "string"},
+    "previous_content_sha256": {"type": "string"},
+    "new_content_sha256": {"type": "string"},
+    "pre_file_sha256": {"type": "string"},
+    "post_file_sha256": {"type": "string"},
+    "last_updated_at": {"type": "string"},
+    "status": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

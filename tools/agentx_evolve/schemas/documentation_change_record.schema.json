@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentationChangeRecord",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "change_id", "run_id", "created_at", "source_component", "target_document", "action", "decision_id"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_change_record.schema.json"]},
+    "change_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "source_component": {"type": "string"},
+    "target_document": {"type": "string"},
+    "document_category": {"type": "string"},
+    "action": {"type": "string"},
+    "decision_id": {"type": "string"},
+    "before_hash": {"type": "string"},
+    "after_hash": {"type": "string"},
+    "source_input_hashes": {"type": "array", "items": {"type": "string"}},
+    "changed_sections": {"type": "array", "items": {"type": "string"}},
+    "drift_records_resolved": {"type": "array", "items": {"type": "string"}},
+    "drift_records_remaining": {"type": "array", "items": {"type": "string"}},
+    "evidence_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

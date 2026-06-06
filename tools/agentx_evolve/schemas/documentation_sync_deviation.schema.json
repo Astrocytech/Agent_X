@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentationSyncDeviation",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "deviation_id", "created_at", "area", "description", "reason", "accepted_status"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_sync_deviation.schema.json"]},
+    "deviation_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "area": {"type": "string"},
+    "description": {"type": "string"},
+    "reason": {"type": "string"},
+    "safety_impact": {"type": "string"},
+    "compensating_control": {"type": "string"},
+    "accepted_status": {"type": "string"},
+    "reviewer_decision": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentLinkRecord",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "link_id", "source_path", "target"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_link_validation.schema.json"]},
+    "link_id": {"type": "string"},
+    "source_path": {"type": "string"},
+    "target": {"type": "string"},
+    "resolved_path": {"type": "string"},
+    "link_type": {"type": "string"},
+    "status": {"type": "string"},
+    "reason": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

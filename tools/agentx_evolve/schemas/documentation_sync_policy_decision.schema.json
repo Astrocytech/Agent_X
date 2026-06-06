@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentationSyncPolicyDecision",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "decision_id", "created_at", "source_component", "target_document", "operation_type", "decision", "requires_human_approval"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_sync_policy_decision.schema.json"]},
+    "decision_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "source_component": {"type": "string"},
+    "target_document": {"type": "string"},
+    "operation_type": {"type": "string"},
+    "decision": {"type": "string"},
+    "reason": {"type": "string"},
+    "requires_human_approval": {"type": "boolean"},
+    "requires_governed_patch": {"type": "boolean"},
+    "policy_refs": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}

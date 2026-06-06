@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DocumentationRegistry",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "registry_id", "created_at", "component_id", "entries"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"type": "string", "enum": ["documentation_registry.schema.json"]},
+    "registry_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "component_id": {"type": "string"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["document_path", "document_id", "document_type", "authority"],
+        "properties": {
+          "document_path": {"type": "string"},
+          "document_id": {"type": "string"},
+          "document_type": {"type": "string"},
+          "authority": {"type": "string"},
+          "component_id": {"type": "string"},
+          "source_of_truth_ref": {"type": "string"},
+          "expected_update_authority": {"type": "string"},
+          "contains_generated_markers": {"type": "boolean"},
+          "sha256": {"type": "string"},
+          "last_scan_utc": {"type": "string"},
+          "warnings": {"type": "array", "items": {"type": "string"}},
+          "errors": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  }
+}
