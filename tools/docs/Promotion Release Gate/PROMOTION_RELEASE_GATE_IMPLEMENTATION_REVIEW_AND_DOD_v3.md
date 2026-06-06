@@ -2,7 +2,7 @@
 
 ```text
 document_id: PROMOTION_RELEASE_GATE_IMPLEMENTATION_REVIEW_AND_DOD
-version: v3.0
+version: v4.0
 status: final post-implementation review template and Definition of Done
 component_id: AGENTX_PROMOTION_RELEASE_GATE
 component_name: Promotion / Release Gate
@@ -34,9 +34,9 @@ final_verdict_field: DONE | NOT DONE
 
 ---
 
-# 0. v3 Review and Upgrade Summary
+# 0. v4 Review and Upgrade Summary
 
-The v2 Promotion / Release Gate review / DoD document was very strong. I would rate it:
+The v3 Promotion / Release Gate review / DoD document was very strong. I would rate it:
 
 ```text
 9.8/10
@@ -97,7 +97,7 @@ It was not fully 10/10 because a few final promotion-control details were still 
 10. It did not define a final freeze rule to prevent repeated broad expansion of the review template.
 ```
 
-This v3 adds those controls and is the final 10/10 review / DoD template.
+This v4 adds those controls and is the final 10/10 review / DoD template.
 ---
 
 # 1. Purpose
@@ -548,14 +548,19 @@ Expected files:
 ```text
 tools/agentx_evolve/promotion/__init__.py
 tools/agentx_evolve/promotion/promotion_models.py
-tools/agentx_evolve/promotion/promotion_gate.py
 tools/agentx_evolve/promotion/release_candidate.py
 tools/agentx_evolve/promotion/validation_evidence.py
 tools/agentx_evolve/promotion/risk_acceptance.py
 tools/agentx_evolve/promotion/approval_lookup.py
-tools/agentx_evolve/promotion/promotion_policy.py
-tools/agentx_evolve/promotion/promotion_audit.py
+tools/agentx_evolve/promotion/git_evidence.py
+tools/agentx_evolve/promotion/gate_policy.py
+tools/agentx_evolve/promotion/gate_decision.py
+tools/agentx_evolve/promotion/gate_recorder.py
+tools/agentx_evolve/promotion/promotion_expiry.py
 tools/agentx_evolve/promotion/promotion_report.py
+tools/agentx_evolve/promotion/promotion_dispatcher.py
+tools/agentx_evolve/promotion/dependency_adapters.py
+tools/agentx_evolve/promotion/schema_validation.py
 ```
 
 ## 6.2 Required Schemas
@@ -569,17 +574,17 @@ tools/agentx_evolve/schemas/
 Expected schemas:
 
 ```text
-promotion_gate.schema.json
-release_candidate.schema.json
-promotion_decision.schema.json
-validation_evidence.schema.json
-risk_acceptance.schema.json
-approval_linkage.schema.json
-promotion_policy.schema.json
-promotion_audit.schema.json
+promotion_release_candidate.schema.json
+promotion_validation_evidence.schema.json
+promotion_risk_acceptance.schema.json
+promotion_approval_reference.schema.json
+promotion_git_evidence.schema.json
+promotion_gate_decision.schema.json
+promotion_gate_policy.schema.json
+promotion_expiry.schema.json
+promotion_evidence_manifest.schema.json
 promotion_review_report.schema.json
 promotion_completion_record.schema.json
-promotion_evidence_manifest.schema.json
 ```
 
 ## 6.3 Required Tests
@@ -593,21 +598,21 @@ tools/agentx_evolve/tests/
 Expected tests:
 
 ```text
-test_promotion_gate.py
+test_promotion_models.py
 test_release_candidate.py
-test_promotion_decision_schema.py
 test_validation_evidence.py
 test_risk_acceptance.py
-test_approval_linkage.py
-test_promotion_policy_integration.py
-test_promotion_patch_integration.py
-test_promotion_git_integration.py
-test_promotion_failure_taxonomy.py
-test_blocked_promotion.py
-test_invalid_promotion.py
-test_promotion_audit_evidence.py
-test_promotion_negative_cases.py
+test_approval_lookup.py
+test_git_evidence.py
+test_gate_policy.py
+test_gate_decision.py
+test_gate_recorder.py
+test_promotion_expiry.py
+test_promotion_report.py
+test_promotion_dispatcher.py
 test_promotion_schema_validation.py
+test_promotion_negative_cases.py
+test_promotion_integration_cases.py
 ```
 
 ## 6.4 Required Runtime Artifacts
@@ -621,12 +626,15 @@ Expected location:
 Expected artifacts:
 
 ```text
-promotion_decision_history.jsonl
-release_candidate_history.jsonl
+release_candidate.json
+validation_evidence.json
+risk_acceptance.json
+approval_references.json
+git_evidence.json
+latest_gate_decision.json
+gate_decision_history.jsonl
 blocked_promotion_history.jsonl
 invalid_promotion_history.jsonl
-latest_promotion_decision.json
-latest_release_candidate.json
 promotion_evidence_manifest.json
 promotion_review_report.json
 promotion_completion_record.json
@@ -761,14 +769,19 @@ The implementation must be traceable from contract to code to test to evidence.
 ```text
 [ ] tools/agentx_evolve/promotion/__init__.py
 [ ] tools/agentx_evolve/promotion/promotion_models.py
-[ ] tools/agentx_evolve/promotion/promotion_gate.py
 [ ] tools/agentx_evolve/promotion/release_candidate.py
 [ ] tools/agentx_evolve/promotion/validation_evidence.py
 [ ] tools/agentx_evolve/promotion/risk_acceptance.py
 [ ] tools/agentx_evolve/promotion/approval_lookup.py
-[ ] tools/agentx_evolve/promotion/promotion_policy.py
-[ ] tools/agentx_evolve/promotion/promotion_audit.py
+[ ] tools/agentx_evolve/promotion/git_evidence.py
+[ ] tools/agentx_evolve/promotion/gate_policy.py
+[ ] tools/agentx_evolve/promotion/gate_decision.py
+[ ] tools/agentx_evolve/promotion/gate_recorder.py
+[ ] tools/agentx_evolve/promotion/promotion_expiry.py
 [ ] tools/agentx_evolve/promotion/promotion_report.py
+[ ] tools/agentx_evolve/promotion/promotion_dispatcher.py
+[ ] tools/agentx_evolve/promotion/dependency_adapters.py
+[ ] tools/agentx_evolve/promotion/schema_validation.py
 ```
 
 Status:
@@ -780,17 +793,17 @@ PASS | PARTIAL | FAIL | NOT CHECKED
 ## 10.2 Schema Files
 
 ```text
-[ ] promotion_gate.schema.json
-[ ] release_candidate.schema.json
-[ ] promotion_decision.schema.json
-[ ] validation_evidence.schema.json
-[ ] risk_acceptance.schema.json
-[ ] approval_linkage.schema.json
-[ ] promotion_policy.schema.json
-[ ] promotion_audit.schema.json
+[ ] promotion_release_candidate.schema.json
+[ ] promotion_validation_evidence.schema.json
+[ ] promotion_risk_acceptance.schema.json
+[ ] promotion_approval_reference.schema.json
+[ ] promotion_git_evidence.schema.json
+[ ] promotion_gate_decision.schema.json
+[ ] promotion_gate_policy.schema.json
+[ ] promotion_expiry.schema.json
+[ ] promotion_evidence_manifest.schema.json
 [ ] promotion_review_report.schema.json
 [ ] promotion_completion_record.schema.json
-[ ] promotion_evidence_manifest.schema.json
 ```
 
 Status:
@@ -802,21 +815,21 @@ PASS | PARTIAL | FAIL | NOT CHECKED
 ## 10.3 Test Files
 
 ```text
-[ ] test_promotion_gate.py
+[ ] test_promotion_models.py
 [ ] test_release_candidate.py
-[ ] test_promotion_decision_schema.py
 [ ] test_validation_evidence.py
 [ ] test_risk_acceptance.py
-[ ] test_approval_linkage.py
-[ ] test_promotion_policy_integration.py
-[ ] test_promotion_patch_integration.py
-[ ] test_promotion_git_integration.py
-[ ] test_promotion_failure_taxonomy.py
-[ ] test_blocked_promotion.py
-[ ] test_invalid_promotion.py
-[ ] test_promotion_audit_evidence.py
-[ ] test_promotion_negative_cases.py
+[ ] test_approval_lookup.py
+[ ] test_git_evidence.py
+[ ] test_gate_policy.py
+[ ] test_gate_decision.py
+[ ] test_gate_recorder.py
+[ ] test_promotion_expiry.py
+[ ] test_promotion_report.py
+[ ] test_promotion_dispatcher.py
 [ ] test_promotion_schema_validation.py
+[ ] test_promotion_negative_cases.py
+[ ] test_promotion_integration_cases.py
 ```
 
 Status:
@@ -828,12 +841,15 @@ PASS | PARTIAL | FAIL | NOT CHECKED
 ## 10.4 Runtime Artifacts
 
 ```text
-[ ] promotion_decision_history.jsonl
-[ ] release_candidate_history.jsonl
+[ ] release_candidate.json
+[ ] validation_evidence.json
+[ ] risk_acceptance.json
+[ ] approval_references.json
+[ ] git_evidence.json
+[ ] latest_gate_decision.json
+[ ] gate_decision_history.jsonl
 [ ] blocked_promotion_history.jsonl
 [ ] invalid_promotion_history.jsonl
-[ ] latest_promotion_decision.json
-[ ] latest_release_candidate.json
 [ ] promotion_evidence_manifest.json
 [ ] promotion_review_report.json
 [ ] promotion_completion_record.json
@@ -1694,7 +1710,7 @@ Required fields:
   "schema_id": "promotion_review_report.schema.json",
   "component_id": "AGENTX_PROMOTION_RELEASE_GATE",
   "review_document_id": "PROMOTION_RELEASE_GATE_IMPLEMENTATION_REVIEW_AND_DOD",
-  "review_document_version": "v3.0",
+  "review_document_version": "v4.0",
   "reviewed_commit": "<commit hash>",
   "reviewed_branch": "<branch name>",
   "reviewed_at": "<UTC timestamp>",
@@ -1781,7 +1797,7 @@ Required fields:
   "basis_documents": [
     "PROMOTION_RELEASE_GATE_EQC_FIC_SIB_SCHEMA_CONTRACT",
     "PROMOTION_RELEASE_GATE_IMPLEMENTATION_SPEC",
-    "PROMOTION_RELEASE_GATE_IMPLEMENTATION_REVIEW_AND_DOD_v3"
+    "PROMOTION_RELEASE_GATE_IMPLEMENTATION_REVIEW_AND_DOD_v4"
   ],
   "commands_run": [],
   "files_created_or_changed": [],
@@ -2450,7 +2466,7 @@ Accepted non-blocking follow-ups:
 
 # 47. Final Freeze Rule
 
-This v3 document is frozen as the Promotion / Release Gate post-implementation review / DoD template.
+This v4 document is frozen as the Promotion / Release Gate post-implementation review / DoD template.
 
 Allowed future changes:
 
@@ -2478,7 +2494,7 @@ removing source-state checks
 
 # 48. Final Rating
 
-This v3 review / DoD document is rated:
+This v4 review / DoD document is rated:
 
 ```text
 10/10

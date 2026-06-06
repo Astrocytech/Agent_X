@@ -2,7 +2,7 @@
 
 ```text
 document_id: SELF_EVOLUTION_ORCHESTRATOR_IMPLEMENTATION_SPEC
-version: v3.0
+version: v4.0
 status: implementation-ready, final frozen handoff
 component_id: AGENTX_SELF_EVOLUTION_ORCHESTRATOR
 component_name: Self-Evolution Orchestrator
@@ -24,7 +24,7 @@ current_version_rating: 10/10
 
 ---
 
-# 0. v3 Review and Upgrade Summary
+# 0. v4 Review and Upgrade Summary
 
 ## 0.1 Earlier Document Rating
 
@@ -83,7 +83,7 @@ The v1 document was not fully 10/10 because it needed more precision in several 
 12. It rated itself 10/10 without clearly separating document rating from future implementation rating.
 ```
 
-## 0.3 v2 Improvements and v3 Finalization
+## 0.3 v3 Improvements and v4 Finalization
 
 The v2 upgrade added:
 
@@ -111,9 +111,9 @@ On stricter review, v2 should be rated:
 9.8/10
 ```
 
-It was very strong, but still needed a few final production-control details before being treated as a frozen coding-agent handoff. This v3 keeps all v2 improvements and adds final production controls for run modes, dependency graph validation, source snapshots, execution budgets, cancellation, model-output quarantine, authority rechecks, provenance propagation, replay, and stale-plan invalidation.
+It was very strong, but still needed a few final production-control details before being treated as a frozen coding-agent handoff. This v4 keeps all v3 improvements and adds final production controls for run modes, dependency graph validation, source snapshots, execution budgets, cancellation, model-output quarantine, authority rechecks, provenance propagation, replay, and stale-plan invalidation.
 
-This v3 is rated:
+This v4 is rated:
 
 ```text
 10/10
@@ -2382,7 +2382,7 @@ Required fields:
   "runtime_artifact_root": ".agentx-init/orchestrator/",
   "basis_documents": [
     "SELF_EVOLUTION_ORCHESTRATOR_EQC_FIC_SIB_SCHEMA_CONTRACT",
-    "SELF_EVOLUTION_ORCHESTRATOR_IMPLEMENTATION_SPEC_v3"
+    "SELF_EVOLUTION_ORCHESTRATOR_IMPLEMENTATION_SPEC_v4"
   ],
   "commands_run": [],
   "files_created_or_changed": [],
@@ -2686,11 +2686,11 @@ Before implementation begins, confirm:
 
 ---
 
-# 40. v3 Review and Upgrade Summary
+# 40. v4 Review and Upgrade Summary
 
-## 40.1 v2 Rating
+## 40.1 v3 Rating
 
-The v2 implementation spec was very strong and close to final. On stricter review, I would rate it:
+The v3 implementation spec was very strong and close to final. On stricter review, I would rate it:
 
 ```text
 9.8/10
@@ -2698,7 +2698,7 @@ The v2 implementation spec was very strong and close to final. On stricter revie
 
 It already covered exact subdirectories, files, schemas, dataclasses, runtime artifacts, state machine, sessions, task decomposition, step execution, tool/model invocation, approval, promotion, recovery, dependency modes, evidence, hashes, validation commands, scoring caps, and Definition of Done.
 
-## 40.2 Why v2 Was Not Fully 10/10
+## 40.2 Why v3 Was Not Fully 10/10
 
 The remaining gaps were not broad structural gaps. They were final production-control details that matter for a self-evolution coordinator:
 
@@ -2715,9 +2715,9 @@ The remaining gaps were not broad structural gaps. They were final production-co
 10. It did not define explicit stale-plan invalidation when policy, prompt contract, model profile, tool registry, source snapshot, or dependency mode changes after planning.
 ```
 
-## 40.3 v3 Improvements
+## 40.3 v4 Improvements
 
-This v3 adds:
+This v4 adds:
 
 ```text
 orchestrator run modes
@@ -3228,13 +3228,13 @@ The implementation order in Section 28 still applies, with these additions:
 | Artifact provenance | Step inputs/outputs, ledger, manifest, report, and completion record have hashes/provenance. |
 | Replay | Planning and dry-run replay are deterministic for the same snapshots. |
 | Stale plans | Changed authority/input snapshots invalidate affected steps and block DONE. |
-| Base v2 requirements | All v2 files, schemas, tests, artifacts, state/session/locking/planning/execution/evidence requirements still apply. |
+| Base v3 requirements | All v3 files, schemas, tests, artifacts, state/session/locking/planning/execution/evidence requirements still apply. |
 
 ---
 
 # 53. Final Rating
 
-This v3 implementation spec is rated:
+This v4 implementation spec is rated:
 
 ```text
 10/10
@@ -3243,5 +3243,5 @@ This v3 implementation spec is rated:
 Reason:
 
 ```text
-It preserves the complete v2 implementation-ready structure and adds the remaining production controls needed for a self-evolution coordinator: explicit run modes, dependency graph validation, source snapshot and TOCTOU protections, bounded execution budgets, cancellation and abort semantics, prompt-injection/model-output quarantine, pre-execution authority rechecks, artifact provenance and hash propagation, deterministic replay, and stale-plan invalidation.
+It preserves the complete v3 implementation-ready structure and adds the remaining production controls needed for a self-evolution coordinator: explicit run modes, dependency graph validation, source snapshot and TOCTOU protections, bounded execution budgets, cancellation and abort semantics, prompt-injection/model-output quarantine, pre-execution authority rechecks, artifact provenance and hash propagation, deterministic replay, and stale-plan invalidation.
 ```

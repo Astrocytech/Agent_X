@@ -375,12 +375,11 @@ def collect_existing_schemas(schemas_dir: Path) -> set:
         sys.exit(1)
 
     existing = set()
-    for f in schemas_dir.iterdir():
-        if f.is_file() and f.suffix == ".json":
-            name = f.stem
-            if name.endswith(".schema"):
-                name = name[:-7]
-            existing.add(name)
+    for f in schemas_dir.rglob("*.schema.json"):
+        name = f.stem
+        if name.endswith(".schema"):
+            name = name[:-7]
+        existing.add(name)
     return existing
 
 

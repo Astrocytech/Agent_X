@@ -2,8 +2,8 @@
 
 ```text
 document_id: TASK_QUEUE_SESSION_SCHEDULER_IMPLEMENTATION_SPEC
-version: v3.0
-status: implementation-ready, final frozen handoff with v3 precision controls
+version: v4.0
+status: implementation-ready, final frozen handoff with v4 precision controls
 component_id: AGENTX_TASK_QUEUE_SESSION_SCHEDULER
 component_name: Task Queue / Session Scheduler
 roadmap_layer: 18
@@ -24,9 +24,9 @@ current_version_rating: 10/10
 
 ---
 
-# 0. v3 Review and Upgrade Summary
+# 0. v4 Review and Upgrade Summary
 
-The v2 implementation spec was strong and close to final. I would rate it:
+The v3 implementation spec was strong and close to final. I would rate it:
 
 ```text
 9.7/10
@@ -74,7 +74,7 @@ It was not fully 10/10 because a few coding-agent precision gaps remained:
 12. It did not include a final freeze rule for the implementation spec itself.
 ```
 
-This v3 adds those precision controls and is the final 10/10 implementation-ready handoff.
+This v4 adds those precision controls and is the final 10/10 implementation-ready handoff.
 
 ---
 
@@ -2110,7 +2110,7 @@ Required fields:
   "component_id": "AGENTX_TASK_QUEUE_SESSION_SCHEDULER",
   "review_document_id": "TASK_QUEUE_SESSION_SCHEDULER_IMPLEMENTATION_REVIEW_AND_DOD",
   "implementation_spec_id": "TASK_QUEUE_SESSION_SCHEDULER_IMPLEMENTATION_SPEC",
-  "implementation_spec_version": "v3.0",
+  "implementation_spec_version": "v4.0",
   "reviewed_commit": "<commit hash>",
   "reviewed_at": "<UTC timestamp>",
   "commands_run": [],
@@ -2156,7 +2156,7 @@ Required fields:
   "runtime_artifact_root": ".agentx-init/scheduler/",
   "basis_documents": [
     "TASK_QUEUE_SESSION_SCHEDULER_EQC_FIC_SIB_SCHEMA_CONTRACT",
-    "TASK_QUEUE_SESSION_SCHEDULER_IMPLEMENTATION_SPEC_v3"
+    "TASK_QUEUE_SESSION_SCHEDULER_IMPLEMENTATION_SPEC_v4"
   ],
   "commands_run": [],
   "files_created_or_changed": [],
@@ -2273,7 +2273,7 @@ git status CLEAN or only expected runtime artifacts under .agentx-init/scheduler
 
 ---
 
-# 36. v3 Precision Controls
+# 36. v4 Precision Controls
 
 ## 36.1 Canonical State Reconstruction
 
@@ -2427,7 +2427,7 @@ The implementation must include `scheduler_dispatcher.py`. This is the external 
 
 ## 36.11 Implementation Freeze Rule
 
-This v3 spec is frozen as the implementation handoff.
+This v4 spec is frozen as the implementation handoff.
 
 Allowed future changes:
 
@@ -2457,7 +2457,7 @@ removing SHA-256 evidence hashing
 
 # 37. Final Rating
 
-This v3 implementation spec is rated:
+This v4 implementation spec is rated:
 
 ```text
 10/10
@@ -2466,5 +2466,5 @@ This v3 implementation spec is rated:
 Reason:
 
 ```text
-It preserves the strong v2 coverage and fixes the remaining implementation-handoff gaps: canonical state reconstruction, task revisioning, claim/lease separation, scheduler policy module, scheduler dispatcher module, UTC clock rules, exclusive lock creation, state hash rules, corruption quarantine, real-integration fail-closed behavior, payload non-execution tests, and a final freeze rule. It now defines exact subdirectories, files, schemas, classes, functions, runtime artifacts, queue/session formats, locks, leases, claims, retries, recovery, integrations, observability, evidence, tests, acceptance criteria, drift blockers, and Definition of Done at implementation-ready precision.
+It preserves the strong v3 coverage and fixes the remaining implementation-handoff gaps: canonical state reconstruction, task revisioning, claim/lease separation, scheduler policy module, scheduler dispatcher module, UTC clock rules, exclusive lock creation, state hash rules, corruption quarantine, real-integration fail-closed behavior, payload non-execution tests, and a final freeze rule. It now defines exact subdirectories, files, schemas, classes, functions, runtime artifacts, queue/session formats, locks, leases, claims, retries, recovery, integrations, observability, evidence, tests, acceptance criteria, drift blockers, and Definition of Done at implementation-ready precision.
 ```

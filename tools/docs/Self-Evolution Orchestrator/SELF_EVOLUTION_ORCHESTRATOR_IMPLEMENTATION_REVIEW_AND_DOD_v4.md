@@ -31,7 +31,7 @@ optional_standards:
 canonical_orchestrator_subdirectory: tools/agentx_evolve/orchestrator/
 canonical_schema_subdirectory: tools/agentx_evolve/schemas/
 canonical_test_subdirectory: tools/agentx_evolve/tests/
-runtime_artifact_root: .agentx-init/orchestration/
+runtime_artifact_root: .agentx-init/orchestrator/
 review_document_rating: 10/10
 final_verdict_field: DONE | NOT DONE
 ```
@@ -524,7 +524,7 @@ test_self_evolution_session_isolation.py
 Expected location:
 
 ```text
-.agentx-init/orchestration/
+.agentx-init/orchestrator/
 ```
 
 Expected artifacts:
@@ -1319,7 +1319,7 @@ required hashes are missing
 Create:
 
 ```text
-.agentx-init/orchestration/self_evolution_orchestrator_evidence_manifest.json
+.agentx-init/orchestrator/self_evolution_orchestrator_evidence_manifest.json
 ```
 
 Required fields:
@@ -1414,7 +1414,7 @@ A final DONE verdict is invalid if required final evidence hashes are missing.
 Approved runtime artifact boundary:
 
 ```text
-.agentx-init/orchestration/
+.agentx-init/orchestrator/
 ```
 
 Evidence artifacts for this layer must not be written outside that root unless the review records the exception in the deviation register. Unapproved evidence writes outside the runtime root are a source-mutation or artifact-boundary failure.
@@ -1426,7 +1426,7 @@ Evidence artifacts for this layer must not be written outside that root unless t
 Create:
 
 ```text
-.agentx-init/orchestration/self_evolution_orchestrator_review_report.json
+.agentx-init/orchestrator/self_evolution_orchestrator_review_report.json
 ```
 
 Required fields:
@@ -1456,11 +1456,11 @@ Required fields:
   "high_issues": [],
   "non_blocking_followups": [],
   "deviation_register": [],
-  "evidence_manifest_path": ".agentx-init/orchestration/self_evolution_orchestrator_evidence_manifest.json",
+  "evidence_manifest_path": ".agentx-init/orchestrator/self_evolution_orchestrator_evidence_manifest.json",
   "evidence_manifest_sha256": "<sha256>",
-  "review_report_path": ".agentx-init/orchestration/self_evolution_orchestrator_review_report.json",
+  "review_report_path": ".agentx-init/orchestrator/self_evolution_orchestrator_review_report.json",
   "review_report_sha256": "<sha256>",
-  "completion_record_path": ".agentx-init/orchestration/self_evolution_orchestrator_completion_record.json",
+  "completion_record_path": ".agentx-init/orchestrator/self_evolution_orchestrator_completion_record.json",
   "completion_record_sha256": "<sha256>",
   "implementation_rating": 10.0,
   "final_verdict": "DONE"
@@ -1984,7 +1984,7 @@ clean working tree
 or:
 
 ```text
-only expected runtime artifacts under .agentx-init/orchestration/
+only expected runtime artifacts under .agentx-init/orchestrator/
 ```
 
 Status:
@@ -2071,7 +2071,7 @@ Rules:
 ```text
 BLOCKER items cannot be accepted as deviations.
 HIGH items cannot be accepted for DONE unless the review explicitly proves they are not part of the active runtime path.
-Runtime artifact writes outside `.agentx-init/orchestration/` require a deviation entry.
+Runtime artifact writes outside `.agentx-init/orchestrator/` require a deviation entry.
 Model, prompt, approval, patch, and promotion deferrals require deviation entries.
 Missing evidence hashes cannot be accepted as a deviation for DONE.
 ```
@@ -2541,7 +2541,7 @@ hashes for final evidence artifacts
 After validation, create:
 
 ```text
-.agentx-init/orchestration/self_evolution_orchestrator_completion_record.json
+.agentx-init/orchestrator/self_evolution_orchestrator_completion_record.json
 ```
 
 Required fields:
@@ -2564,7 +2564,7 @@ Required fields:
   "canonical_orchestrator_subdirectory": "tools/agentx_evolve/orchestrator/",
   "canonical_schema_subdirectory": "tools/agentx_evolve/schemas/",
   "canonical_test_subdirectory": "tools/agentx_evolve/tests/",
-  "runtime_artifact_root": ".agentx-init/orchestration/",
+  "runtime_artifact_root": ".agentx-init/orchestrator/",
   "basis_documents": [
     "SELF_EVOLUTION_ORCHESTRATOR_EQC_FIC_SIB_SCHEMA_CONTRACT",
     "SELF_EVOLUTION_ORCHESTRATOR_IMPLEMENTATION_SPEC",
@@ -2592,9 +2592,9 @@ Required fields:
   "emergency_stop_controls_verified": [],
   "session_isolation_verified": [],
   "data_minimization_verified": [],
-  "evidence_manifest_path": ".agentx-init/orchestration/self_evolution_orchestrator_evidence_manifest.json",
+  "evidence_manifest_path": ".agentx-init/orchestrator/self_evolution_orchestrator_evidence_manifest.json",
   "evidence_manifest_sha256": "<sha256>",
-  "review_report_path": ".agentx-init/orchestration/self_evolution_orchestrator_review_report.json",
+  "review_report_path": ".agentx-init/orchestrator/self_evolution_orchestrator_review_report.json",
   "review_report_sha256": "<sha256>",
   "completion_record_sha256": "<sha256>",
   "deviation_register": [],

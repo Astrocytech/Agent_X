@@ -2,8 +2,8 @@
 
 ```text
 document_id: PROMOTION_RELEASE_GATE_EQC_FIC_SIB_SCHEMA_CONTRACT
-version: v3.0
-status: final frozen controlling contract, implementation-ready
+version: v4.0
+status: final frozen controlling contract, implementation-ready, v4 promotion-safety hardening
 component_id: AGENTX_PROMOTION_RELEASE_GATE
 component_name: Promotion / Release Gate
 roadmap_layer: 13
@@ -23,9 +23,9 @@ contract_rating: 10/10
 
 ---
 
-# 0. v3 Review and Upgrade Summary
+# 0. v4 Review and Upgrade Summary
 
-The v2 contract was strong and implementation-ready. I would rate v2:
+The v3 contract was strong and implementation-ready. I would rate v3:
 
 ```text
 9.7/10
@@ -69,7 +69,7 @@ It was not fully 10/10 because several final production-control details were sti
 10. Date/time and freshness handling needed a UTC-only clock-skew rule.
 ```
 
-This v2 added those controls. This v3 closes the remaining precision gaps around deterministic hashing, upstream evidence trust, command admissibility, schema examples, decision supersession, redaction/output bounds, reviewer independence, and release-action boundaries. This v3 is the final 10/10 controlling contract for the Promotion / Release Gate layer.
+This v3 added those controls. This v4 closes the remaining precision gaps around deterministic hashing, upstream evidence trust, command admissibility, schema examples, decision supersession, redaction/output bounds, reviewer independence, and release-action boundaries. This v4 is the final 10/10 controlling contract for the Promotion / Release Gate layer.
 
 ---
 
@@ -1004,7 +1004,7 @@ Required fields:
   "schema_id": "promotion_review_report.schema.json",
   "component_id": "AGENTX_PROMOTION_RELEASE_GATE",
   "review_document_id": "PROMOTION_RELEASE_GATE_EQC_FIC_SIB_SCHEMA_CONTRACT",
-  "review_document_version": "v3.0",
+  "review_document_version": "v4.0",
   "reviewed_commit": "string",
   "reviewed_branch": "string|null",
   "reviewed_at": "string",
@@ -1050,7 +1050,7 @@ Required fields:
   "schema_subdirectory": "tools/agentx_evolve/schemas/",
   "runtime_artifact_root": ".agentx-init/promotion/",
   "basis_documents": [
-    "PROMOTION_RELEASE_GATE_EQC_FIC_SIB_SCHEMA_CONTRACT_v3"
+    "PROMOTION_RELEASE_GATE_EQC_FIC_SIB_SCHEMA_CONTRACT_v4"
   ],
   "commands_run": [],
   "files_created_or_changed": [],
@@ -2033,7 +2033,7 @@ an old APPROVED decision is requested for a changed commit
 
 # 42. Final Freeze Rule
 
-This v3 document is frozen as the controlling contract for the Promotion / Release Gate layer.
+This v4 document is frozen as the controlling contract for the Promotion / Release Gate layer.
 
 Allowed future changes:
 
@@ -2072,7 +2072,7 @@ PROMOTION_RELEASE_GATE_IMPLEMENTATION_SPEC.md
 
 # 43. Final Rating
 
-This v3 controlling contract is rated:
+This v4 controlling contract is rated:
 
 ```text
 10/10
