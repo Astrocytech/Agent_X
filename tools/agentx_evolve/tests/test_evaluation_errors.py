@@ -79,7 +79,7 @@ def test_unknown_failure():
 
 
 def test_all_failure_classes():
-    assert len(ALL_EVAL_FAILURE_CLASSES) == 28
+    assert len(ALL_EVAL_FAILURE_CLASSES) == 32
     assert EVAL_FIXTURE_INVALID in ALL_EVAL_FAILURE_CLASSES
     assert EVAL_SUITE_NOT_FOUND in ALL_EVAL_FAILURE_CLASSES
     assert EVAL_CASE_NOT_FOUND in ALL_EVAL_FAILURE_CLASSES
