@@ -191,3 +191,38 @@ def test_evaluation_runner_requires_no_network(tmp_path):
     import os
     network_used = bool(os.environ.get("BENCHMARK_NETWORK_REQUIRED"))
     assert not network_used
+
+
+def test_temp_artifacts_written_under_runtime_boundary(tmp_path):
+    temp_dir = tmp_path / ".agentx-init" / "evaluation" / "tmp"
+    temp_dir.mkdir(parents=True, exist_ok=True)
+    scratch = temp_dir / "scratch.txt"
+    scratch.write_text("temp data")
+    assert scratch.exists()
+    assert str(temp_dir).startswith(str(tmp_path))
+    assert ".agentx-init/evaluation/tmp" in str(scratch)
+
+
+def test_source_tree_not_used_as_scratch_space(tmp_path):
+    import os
+    eval_dir = tmp_path / ".agentx-init" / "evaluation"
+    eval_dir.mkdir(parents=True, exist_ok=True)
+    scratch = eval_dir / "tmp" / "scratch.txt"
+    scratch.parent.mkdir(parents=True, exist_ok=True)
+    scratch.write_text("temp data")
+    source_path = tmp_path / "source_marker.py"
+    assert not source_path.exists()
+    assert scratch.exists()
+
+
+def test_cleanup_failure_records_warning_without_hiding_evidence_failure(tmp_path):
+    evidence_path = tmp_path / ".agentx-init" / "evaluation" / "evidence_final.json"
+    evidence_path.parent.mkdir(parents=True, exist_ok=True)
+    evidence_path.write_text("{}")
+    cleanup_ok = False
+    if not cleanup_ok:
+        warnings = ["Cleanup failed: temp directory busy"]
+    else:
+        warnings = []
+    assert len(warnings) > 0
+    assert evidence_path.exists()

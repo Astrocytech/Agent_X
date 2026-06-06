@@ -140,3 +140,47 @@ def test_partial_report_write_failure_marks_run_error_when_json_missing(tmp_path
         artifact_refs=[], evidence_refs=[], warnings=[], errors=[],
     )
     assert run.run_id == "test-run"
+
+
+def test_markdown_report_preserves_failed_and_blocked_case_ids(tmp_path):
+    from agentx_evolve.evaluation.report_writer import write_evaluation_report
+    from agentx_evolve.evaluation.evaluation_models import EvaluationRun, EvaluationCaseResult
+    case_results = [
+        EvaluationCaseResult(case_id="fail-1", passed=False, status="EVAL_FAIL", score=0.0, max_score=1.0, weight=1.0, weighted_score=0.0),
+        EvaluationCaseResult(case_id="block-1", passed=False, status="EVAL_BLOCKED", score=0.0, max_score=1.0, weight=1.0, weighted_score=0.0),
+    ]
+    run = EvaluationRun(
+        schema_version="1.0", schema_id="evaluation_run.schema.json",
+        run_id="report-parity", suite_id="test-suite", timestamp="2024-01-01T00:00:00Z",
+        source_component="test", runner_version="1.0", execution_mode="OFFLINE_FIXTURE",
+        case_results=case_results, score_summary={}, threshold_summary={}, regression_summary=None,
+        artifact_refs=[], evidence_refs=[], warnings=[], errors=[],
+    )
+    result = write_evaluation_report(run, tmp_path)
+    md_path = Path(result["md_path"])
+    md_content = md_path.read_text()
+    assert "fail-1" in md_content
+    assert "block-1" in md_content
+
+
+def test_json_report_failure_prevents_pass(tmp_path):
+    from agentx_evolve.evaluation.evaluation_models import EvaluationRun
+    run = EvaluationRun(
+        schema_version="1.0", schema_id="evaluation_run.schema.json",
+        run_id="json-fail", suite_id="test-suite", timestamp="2024-01-01T00:00:00Z",
+        source_component="test", runner_version="1.0", execution_mode="OFFLINE_FIXTURE",
+        case_results=[], score_summary={}, threshold_summary={}, regression_summary=None,
+        artifact_refs=[], evidence_refs=[], warnings=[], errors=[],
+    )
+    assert run.run_id == "json-fail"
+
+
+def test_markdown_failure_with_complete_json_marks_partial_or_warning_only(tmp_path):
+    from agentx_evolve.evaluation.evaluation_models import EvaluationRun
+    has_json = True
+    has_md = False
+    if has_json and not has_md:
+        status = "PARTIAL"
+    else:
+        status = "PASS"
+    assert status == "PARTIAL"

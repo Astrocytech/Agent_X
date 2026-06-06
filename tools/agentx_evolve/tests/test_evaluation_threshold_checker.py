@@ -4,7 +4,7 @@ from agentx_evolve.evaluation.threshold_checker import (
 )
 from agentx_evolve.evaluation.evaluation_models import (
     EvaluationScore, EvaluationThreshold, EvaluationCaseResult, RegressionComparison,
-    EVAL_PASS, EVAL_FAIL,
+    EVAL_PASS, EVAL_FAIL, EVAL_BLOCKED,
 )
 
 
@@ -157,3 +157,61 @@ def test_check_required_cases_missing_required():
     ]
     result = check_required_cases(results, ["c1", "c2"])
     assert result["missing"] == ["c2"]
+
+
+def test_critical_case_failure_blocks_threshold_pass():
+    score = EvaluationScore(
+        total_cases=2, passed_cases=1,
+        pass_rate=0.5, weighted_score=0.5,
+        blocked_cases=0, error_cases=0,
+    )
+    th = EvaluationThreshold(
+        threshold_id="th-crit", minimum_pass_rate=0.0, minimum_weighted_score=0.0,
+        allow_blocked_cases=True, allow_error_cases=True,
+        maximum_blocked_count=99, maximum_error_count=99,
+        maximum_regression_count=99, required_case_ids=[],
+    )
+    result = check_thresholds(score, th, [], severity="CRITICAL")
+    assert not result["passed"]
+    assert result["severity"] == "CRITICAL"
+
+
+def test_required_case_failure_blocks_threshold_pass():
+    score = make_score()
+    th = EvaluationThreshold(
+        threshold_id="th-req", minimum_pass_rate=0.0, minimum_weighted_score=0.0,
+        allow_blocked_cases=True, allow_error_cases=True,
+        maximum_blocked_count=99, maximum_error_count=99,
+        maximum_regression_count=99, required_case_ids=["must-pass"],
+    )
+    results = [
+        EvaluationCaseResult(case_id="must-pass", passed=False, status=EVAL_FAIL, score=0.0, max_score=1.0, weight=1.0, weighted_score=0.0),
+        EvaluationCaseResult(case_id="other", passed=True, status=EVAL_PASS, score=1.0, max_score=1.0, weight=1.0, weighted_score=1.0),
+    ]
+    result = check_thresholds(score, th, results)
+    assert not result["passed"]
+    assert any(c["check"] == "required_case_ids" and not c["passed"] for c in result["checks"])
+
+
+def test_expected_blocked_case_can_pass_when_explicitly_expected():
+    from agentx_evolve.evaluation.comparator_engine import compare_observed_to_expected
+    from agentx_evolve.evaluation.evaluation_models import EvaluationExpectedResult
+    expected = EvaluationExpectedResult(
+        comparators=[{"type": "STATUS_MATCH", "path": "status", "expected": "EVAL_BLOCKED"}], expected_status="EVAL_BLOCKED",
+    )
+    observed = {"status": "EVAL_BLOCKED"}
+    details = compare_observed_to_expected(observed, expected)
+    assert any(d.get("passed", False) for d in details)
+
+
+def test_waiver_must_be_recorded_to_ignore_noncritical_case():
+    from agentx_evolve.evaluation.run_config import validate_run_config
+    config = {
+        "run_config_id": "test-waiver",
+        "suite_path": "suite.json",
+        "execution_mode": "OFFLINE_FIXTURE",
+        "waived_case_ids": ["noncritical-fail"],
+    }
+    valid, errors = validate_run_config(config)
+    assert valid
+    assert "noncritical-fail" in config.get("waived_case_ids", [])

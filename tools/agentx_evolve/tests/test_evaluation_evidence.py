@@ -5,7 +5,7 @@ from pathlib import Path
 from agentx_evolve.evaluation.evaluation_evidence import (
     write_evaluation_evidence_manifest, append_evaluation_run_history,
     append_evaluation_case_history, write_run_artifact,
-    write_completion_record, hash_evidence_file,
+    write_completion_record, hash_evidence_file, write_latest_run_artifact,
 )
 from agentx_evolve.evaluation.evaluation_models import (
     EvaluationRun, EvaluationCaseResult,
@@ -130,3 +130,41 @@ def test_hash_evidence_file_empty(tmp_path):
     f.write_text("")
     h = hash_evidence_file(f)
     assert len(h) == 64
+
+
+def test_finalized_evidence_hash_change_invalidates_status(tmp_path):
+    from agentx_evolve.evaluation.evaluation_evidence import write_evaluation_evidence_manifest, hash_evidence_file
+    from agentx_evolve.evaluation.evaluation_models import EvaluationRun
+    run = EvaluationRun(
+        schema_version="1.0", schema_id="evaluation_run.schema.json",
+        run_id="hash-check-run", suite_id="test-suite", timestamp="2024-01-01T00:00:00Z",
+        source_component="test", runner_version="1.0", execution_mode="OFFLINE_FIXTURE",
+        case_results=[], score_summary={}, threshold_summary={}, regression_summary=None,
+        artifact_refs=[], evidence_refs=[], warnings=[], errors=[],
+    )
+    manifest = write_evaluation_evidence_manifest(run, tmp_path)
+    manifest_path = tmp_path / ".agentx-init" / "evaluation" / "evaluation_evidence_manifest.json"
+    original_hash = hash_evidence_file(manifest_path)
+    manifest["final_decision"] = "MODIFIED"
+    manifest_path.write_text(__import__("json").dumps(manifest, indent=2))
+    new_hash = hash_evidence_file(manifest_path)
+    assert original_hash != new_hash
+
+
+def test_latest_artifacts_do_not_replace_run_specific_artifacts(tmp_path):
+    from agentx_evolve.evaluation.evaluation_evidence import write_run_artifact, write_latest_run_artifact
+    from agentx_evolve.evaluation.evaluation_models import EvaluationRun
+    run = EvaluationRun(
+        schema_version="1.0", schema_id="evaluation_run.schema.json",
+        run_id="run-specific", suite_id="test-suite", timestamp="2024-01-01T00:00:00Z",
+        source_component="test", runner_version="1.0", execution_mode="OFFLINE_FIXTURE",
+        case_results=[], score_summary={}, threshold_summary={}, regression_summary=None,
+        artifact_refs=[], evidence_refs=[], warnings=[], errors=[],
+    )
+    run_artifact = write_run_artifact(run, tmp_path)
+    latest_artifact = write_latest_run_artifact(run, tmp_path)
+    assert run_artifact.exists()
+    assert latest_artifact.exists()
+    assert run_artifact.name != latest_artifact.name
+    assert "run-specific" in run_artifact.name
+    assert "latest" in latest_artifact.name
