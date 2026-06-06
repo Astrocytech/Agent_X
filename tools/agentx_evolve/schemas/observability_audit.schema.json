@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "observability_audit.schema.json",
+  "title": "Observability Audit",
+  "description": "Schema for the observability audit trail record within the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "audit_id",
+    "event_id",
+    "action",
+    "component",
+    "timestamp",
+    "actor"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "observability_audit.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "audit_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique audit record identifier"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Reference to the monitored event"
+    },
+    "action": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Action that was audited"
+    },
+    "component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component that performed the action"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the audit record"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Entity that triggered the audited action"
+    },
+    "decision": {
+      "type": "string",
+      "description": "Decision made during the action"
+    },
+    "details": {
+      "type": "object",
+      "description": "Detailed information about the audited action"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

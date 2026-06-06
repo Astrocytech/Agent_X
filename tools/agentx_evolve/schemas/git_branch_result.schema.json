@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "git_branch_result.schema.json",
+  "title": "Git Branch Result",
+  "description": "Records the result of a git branch operation within Agent X's Git Integration Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "result_id",
+    "timestamp",
+    "operation",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "result_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "operation": { "type": "string" },
+    "status": { "type": "string" },
+    "message": { "type": "string" },
+    "stdout": { "type": "string" },
+    "stderr": { "type": "string" },
+    "returncode": { "type": "integer" },
+    "current_branch": { "type": "string" },
+    "branches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "is_current": { "type": "boolean" },
+          "commit_hash": { "type": "string" },
+          "is_remote": { "type": "boolean" }
+        },
+        "required": ["name", "is_current"]
+      }
+    },
+    "data": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

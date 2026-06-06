@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scheduler_claim.schema.json",
+  "title": "Scheduler Task Claim",
+  "description": "Records a worker's claim on a scheduler task including lease metadata within Agent X's Task Queue / Session Scheduler Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "claim_id",
+    "task_id",
+    "session_id",
+    "lease_id",
+    "claim_status",
+    "claimed_at",
+    "expires_at",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "claim_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "session_id": { "type": "string" },
+    "lease_id": { "type": "string" },
+    "claim_status": {
+      "type": "string",
+      "enum": ["ACTIVE", "RELEASED", "EXPIRED", "FAILED"]
+    },
+    "claimed_at": { "type": "string" },
+    "expires_at": { "type": "string" },
+    "released_at": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

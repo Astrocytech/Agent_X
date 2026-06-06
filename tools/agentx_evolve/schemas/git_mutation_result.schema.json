@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "git_mutation_result.schema.json",
+  "title": "Git Mutation Result",
+  "description": "Records the result of a git mutation operation (stage, commit, tag, push, revert) within Agent X's Git Integration Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "result_id",
+    "timestamp",
+    "operation",
+    "status",
+    "request_id",
+    "repo_path",
+    "target",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "result_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "operation": { "type": "string" },
+    "status": { "type": "string" },
+    "message": { "type": "string" },
+    "request_id": { "type": "string" },
+    "repo_path": { "type": "string" },
+    "target": { "type": "string" },
+    "policy_decision_id": { "type": "string" },
+    "sandbox_decision_id": { "type": "string" },
+    "promotion_gate_id": { "type": "string" },
+    "human_approval_id": { "type": "string" },
+    "commit_hash": { "type": "string" },
+    "ref_name": { "type": "string" },
+    "metadata": { "type": "object" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

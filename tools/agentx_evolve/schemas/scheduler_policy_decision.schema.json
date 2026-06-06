@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scheduler_policy_decision.schema.json",
+  "title": "Scheduler Policy Decision",
+  "description": "Records a policy decision made by the scheduler's policy engine within Agent X's Task Queue / Session Scheduler Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "reason",
+    "policy_source"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "DENY", "BLOCKED", "NOT_APPLICABLE"]
+    },
+    "reason": { "type": "string" },
+    "policy_source": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

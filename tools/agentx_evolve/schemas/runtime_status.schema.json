@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "runtime_status.schema.json",
+  "title": "Runtime Status",
+  "description": "Schema for runtime component status within the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "component",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "runtime_status.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component name"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["RUNNING", "DEGRADED", "STOPPED", "STARTING"],
+      "description": "Runtime status of the component"
+    },
+    "version": {
+      "type": "string",
+      "description": "Component version string"
+    },
+    "uptime_seconds": {
+      "type": "number",
+      "description": "Uptime of the component in seconds"
+    },
+    "active_sessions": {
+      "type": "integer",
+      "description": "Number of active sessions"
+    },
+    "last_event_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the last event"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional metadata associated with the runtime status"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

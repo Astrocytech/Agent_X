@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "health_check.schema.json",
+  "title": "Health Check",
+  "description": "Schema for a single health check result within the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "check_id",
+    "name",
+    "component",
+    "status",
+    "timestamp"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "health_check.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "check_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique health check identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Health check name"
+    },
+    "component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component being checked"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["HEALTHY", "DEGRADED", "UNHEALTHY", "UNKNOWN"],
+      "description": "Health check status"
+    },
+    "detail": {
+      "type": "string",
+      "description": "Detailed message about the health check result"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the health check"
+    },
+    "duration_ms": {
+      "type": "number",
+      "description": "Duration of the health check in milliseconds"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}

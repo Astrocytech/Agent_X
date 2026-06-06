@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "scheduler_queue.schema.json",
+  "title": "Scheduler Queue State",
+  "description": "Captures the snapshot state of the scheduler task queue within Agent X's Task Queue / Session Scheduler Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "queue_id",
+    "snapshot_at",
+    "total_tasks",
+    "by_status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "queue_id": { "type": "string" },
+    "snapshot_at": { "type": "string" },
+    "total_tasks": { "type": "integer" },
+    "by_status": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "queue_hash": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

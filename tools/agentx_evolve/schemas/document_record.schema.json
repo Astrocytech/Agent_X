@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "document_record.schema.json",
+  "title": "DocumentRecord",
+  "description": "Represents a single documentation file discovered during a scan within the Documentation Synchronization Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "document_id",
+    "path",
+    "document_type",
+    "authority"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string", "enum": ["document_record.schema.json"] },
+    "document_id": { "type": "string" },
+    "path": { "type": "string" },
+    "title": { "type": "string" },
+    "document_type": { "type": "string" },
+    "authority": { "type": "string" },
+    "component_id": { "type": "string" },
+    "layer_id": { "type": "string" },
+    "version": { "type": "string" },
+    "status": { "type": "string" },
+    "sha256": { "type": "string" },
+    "last_modified_utc": { "type": "string" },
+    "contains_generated_markers": { "type": "boolean" },
+    "protected": { "type": "boolean" },
+    "links_out": { "type": "array", "items": { "type": "string" } },
+    "links_in": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

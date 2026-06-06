@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "trace_span.schema.json",
+  "title": "Trace Span",
+  "description": "Schema for a distributed tracing span within the Monitoring Observability Layer.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "span_id",
+    "trace_id",
+    "operation",
+    "component",
+    "status",
+    "started_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "trace_span.schema.json",
+      "description": "Unique schema identifier"
+    },
+    "span_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique span identifier"
+    },
+    "parent_span_id": {
+      "type": "string",
+      "description": "Parent span identifier for nested spans"
+    },
+    "trace_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Trace identifier grouping related spans"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Operation name being traced"
+    },
+    "component": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Component that created the span"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["OK", "ERROR", "TIMEOUT"],
+      "description": "Span completion status"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the span started"
+    },
+    "ended_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the span ended"
+    },
+    "duration_ms": {
+      "type": "number",
+      "description": "Span duration in milliseconds"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional metadata associated with the span"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Warning messages"
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Error messages"
+    }
+  }
+}
