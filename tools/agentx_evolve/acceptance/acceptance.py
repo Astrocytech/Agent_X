@@ -99,7 +99,7 @@ class AcceptanceReportHash:
 
 
 class AcceptanceCheck:
-    SCHEMA_PATH = Path(__file__).resolve().parent.parent / "schemas" / "acceptance_check_result.schema.json"
+    SCHEMA_PATH = Path(__file__).resolve().parent.parent / "schemas" / "06_final_acceptance" / "acceptance_check_result.schema.json"
 
     CHECK_NAMES = [
         "fresh_clone_install",

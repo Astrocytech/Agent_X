@@ -1,7 +1,7 @@
 from __future__ import annotations
 import json
 from pathlib import Path
-from agentx_evolve.patch.patch_models import ImplementationEvidence, to_dict
+from agentx_evolve.patch_execution._v1.patch_models import ImplementationEvidence, to_dict
 
 
 class ImplementationEvidenceWriter:

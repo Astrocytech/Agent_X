@@ -18,7 +18,8 @@ from agentx_evolve.runtime.runtime_profile import (
     RuntimeProfile, ModelResourceBudget, DEFAULT_PROFILES,
     RP_CPU_ONLY_SAFE, RP_SMALL_GPU_8GB, RP_BALANCED_LOCAL, RP_HOSTED_FALLBACK,
 )
-from agentx_evolve.monitoring.monitoring import AuditEvent, AuditLog, SessionInspector
+from agentx_evolve.monitoring.monitoring_events import MonitoringEvent as AuditEvent
+from agentx_evolve.monitoring.monitoring_audit import AuditLog, SessionInspector
 from agentx_evolve.acceptance.acceptance import AcceptanceCheck, AC_CHECK_PASS
 from agentx_evolve.orchestrator.orchestrator_models import (
     OrchestrationSession,

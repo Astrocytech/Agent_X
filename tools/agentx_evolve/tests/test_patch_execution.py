@@ -3,7 +3,7 @@ import json
 import os
 import subprocess
 from pathlib import Path
-from agentx_evolve.patch.patch_models import (
+from agentx_evolve.patch_execution._v1.patch_models import (
     PatchSession, PatchAction, RollbackSnapshot,
     ImplementationEvidence, ImplementationSessionStatus,
     ApprovedMutation, MutationAllowlist,
@@ -15,13 +15,13 @@ from agentx_evolve.patch.patch_models import (
     utc_now_iso, new_id, sha256_text, sha256_file, to_dict,
     _validate_transition, VALID_TRANSITIONS,
 )
-from agentx_evolve.patch.file_change_guard import FileChangeGuard
-from agentx_evolve.patch.git_diff_guard import GitDiffGuard
-from agentx_evolve.patch.rollback_manager import RollbackManager
-from agentx_evolve.patch.patch_applier import PatchApplier
-from agentx_evolve.patch.implementation_session import ImplementationSession
-from agentx_evolve.patch.implementation_evidence import ImplementationEvidenceWriter
-from agentx_evolve.patch.implementation_validation_gate import ImplementationValidationGate
+from agentx_evolve.patch_execution._v1.file_change_guard import FileChangeGuard
+from agentx_evolve.patch_execution._v1.git_diff_guard import GitDiffGuard
+from agentx_evolve.patch_execution._v1.rollback_manager import RollbackManager
+from agentx_evolve.patch_execution._v1.patch_applier import PatchApplier
+from agentx_evolve.patch_execution._v1.implementation_session import ImplementationSession
+from agentx_evolve.patch_execution._v1.implementation_evidence import ImplementationEvidenceWriter
+from agentx_evolve.patch_execution._v1.implementation_validation_gate import ImplementationValidationGate
 from agentx_evolve.security.initiator_compat import InitiatorCompat
 from agentx_evolve.security.sandbox_policy import default_sandbox_policy, merge_sandbox_policy
 from agentx_evolve.security.security_models import (

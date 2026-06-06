@@ -1,6 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
-from agentx_evolve.patch.patch_models import PatchAction, MutationAllowlist, sha256_file, utc_now_iso
+from agentx_evolve.patch_execution._v1.patch_models import PatchAction, MutationAllowlist, sha256_file, utc_now_iso
 from agentx_evolve.security.safe_file_ops import safe_exact_edit, safe_write_file
 from agentx_evolve.security.sandbox_policy import SandboxPolicy
 from agentx_evolve.security.initiator_compat import InitiatorCompat

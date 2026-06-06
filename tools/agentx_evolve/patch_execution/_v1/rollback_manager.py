@@ -3,7 +3,7 @@ import json
 import os
 import shutil
 from pathlib import Path
-from agentx_evolve.patch.patch_models import (
+from agentx_evolve.patch_execution._v1.patch_models import (
     RollbackSnapshot, new_id, sha256_file, utc_now_iso, to_dict,
 )
 from agentx_evolve.security.security_models import (

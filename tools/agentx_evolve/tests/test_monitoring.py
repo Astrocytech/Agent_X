@@ -3,13 +3,15 @@ from pathlib import Path
 
 import pytest
 
-from agentx_evolve.monitoring.monitoring import (
-    AuditEvent, AuditEventHash, AuditLog, SessionInspector,
+from agentx_evolve.monitoring.monitoring_events import (
+    MonitoringEvent, EventHash,
     MN_SCHEMA_VERSION, MN_SCHEMA_ID,
     MN_EVENT_AUDIT, MN_EVENT_ERROR, MN_EVENT_WARN, MN_EVENT_INFO,
     ALL_EVENT_TYPES,
-    canonical_json, sha256_dict, write_json_atomic, append_jsonl,
+    canonical_json, sha256_dict,
 )
+from agentx_evolve.monitoring.monitoring_audit import AuditLog, SessionInspector
+from agentx_evolve.monitoring.monitoring_utils import write_json_atomic, append_jsonl
 
 
 def test_constants():
@@ -64,7 +66,7 @@ def test_append_jsonl(tmp_path):
 
 
 def test_audit_event_creation():
-    event = AuditEvent(
+    event = MonitoringEvent(
         event_id="evt-001",
         event_type=MN_EVENT_AUDIT,
         session_id="sess-1",
@@ -86,7 +88,7 @@ def test_audit_event_creation():
 
 
 def test_audit_event_hash():
-    event = AuditEvent(
+    event = MonitoringEvent(
         event_id="evt-001",
         event_type=MN_EVENT_INFO,
         session_id="sess-1",
@@ -94,7 +96,7 @@ def test_audit_event_hash():
         message="msg",
         timestamp="2025-01-01T00:00:00",
     )
-    h = AuditEventHash.from_event(event)
+    h = EventHash.from_event(event)
     assert isinstance(h.event_hash, str)
     assert len(h.event_hash) == 64
     assert h.event_hash == sha256_dict(event.to_dict())

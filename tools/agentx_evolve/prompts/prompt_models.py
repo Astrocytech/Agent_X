@@ -5,6 +5,12 @@ from dataclasses import dataclass, field, asdict
 from datetime import datetime, timezone
 from typing import Any
 
+PC_SCHEMA_VERSION = "1.0"
+PC_ACTIVE = "ACTIVE"
+PC_DEPRECATED = "DEPRECATED"
+PC_RETIRED = "RETIRED"
+ALL_PROMPT_CONTRACT_STATUSES = [PC_ACTIVE, PC_DEPRECATED, PC_RETIRED]
+
 PROMPT_STATUS_DRAFT = "DRAFT"
 PROMPT_STATUS_ACTIVE = "ACTIVE"
 PROMPT_STATUS_DEPRECATED = "DEPRECATED"

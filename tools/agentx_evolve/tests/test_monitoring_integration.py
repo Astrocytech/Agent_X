@@ -1,5 +1,5 @@
 import pytest
-from agentx_evolve.monitoring.monitoring import AuditLog, SessionInspector
+from agentx_evolve.monitoring.monitoring_audit import AuditLog, SessionInspector
 
 
 class TestAuditLogIntegration:

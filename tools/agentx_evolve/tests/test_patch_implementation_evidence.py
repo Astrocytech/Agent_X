@@ -1,6 +1,6 @@
 from pathlib import Path
-from agentx_evolve.patch.patch_models import ImplementationEvidence
-from agentx_evolve.patch.implementation_evidence import ImplementationEvidenceWriter
+from agentx_evolve.patch_execution._v1.patch_models import ImplementationEvidence
+from agentx_evolve.patch_execution._v1.implementation_evidence import ImplementationEvidenceWriter
 
 
 class TestImplementationEvidenceWriter:

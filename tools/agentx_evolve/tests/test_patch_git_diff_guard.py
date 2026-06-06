@@ -1,5 +1,5 @@
 from pathlib import Path
-from agentx_evolve.patch.git_diff_guard import GitDiffGuard
+from agentx_evolve.patch_execution._v1.git_diff_guard import GitDiffGuard
 
 
 class TestGitDiffGuard:

@@ -1,6 +1,6 @@
 import pytest
 from pathlib import Path
-from agentx_evolve.monitoring.monitoring import AuditLog
+from agentx_evolve.monitoring.monitoring_audit import AuditLog
 
 
 class TestMonitoringNegativeCases:

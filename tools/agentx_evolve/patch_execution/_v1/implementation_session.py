@@ -1,18 +1,18 @@
 from __future__ import annotations
 import json
 from pathlib import Path
-from agentx_evolve.patch.patch_models import (
+from agentx_evolve.patch_execution._v1.patch_models import (
     PatchSession, PatchAction, ImplementationEvidence,
     MutationAllowlist, ApprovedMutation,
     SESSION_CREATED, SESSION_LOADED, SESSION_ACCEPTED, SESSION_ROLLED_BACK,
     SESSION_FAILED, SESSION_BLOCKED,
     new_id, utc_now_iso, to_dict,
 )
-from agentx_evolve.patch.file_change_guard import FileChangeGuard
-from agentx_evolve.patch.patch_applier import PatchApplier
-from agentx_evolve.patch.rollback_manager import RollbackManager
-from agentx_evolve.patch.implementation_validation_gate import ImplementationValidationGate
-from agentx_evolve.patch.implementation_evidence import ImplementationEvidenceWriter
+from agentx_evolve.patch_execution._v1.file_change_guard import FileChangeGuard
+from agentx_evolve.patch_execution._v1.patch_applier import PatchApplier
+from agentx_evolve.patch_execution._v1.rollback_manager import RollbackManager
+from agentx_evolve.patch_execution._v1.implementation_validation_gate import ImplementationValidationGate
+from agentx_evolve.patch_execution._v1.implementation_evidence import ImplementationEvidenceWriter
 from agentx_evolve.security.initiator_compat import InitiatorCompat
 from agentx_evolve.security.sandbox_policy import SandboxPolicy
 from agentx_evolve.security.security_models import (

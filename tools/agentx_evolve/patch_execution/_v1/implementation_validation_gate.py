@@ -5,7 +5,7 @@ from agentx_evolve.security.secret_redactor import redact_secrets
 from agentx_evolve.security.safe_subprocess import check_subprocess_allowed
 from agentx_evolve.security.sandbox_policy import SandboxPolicy
 from agentx_evolve.security.security_models import STATUS_SUCCESS
-from agentx_evolve.patch.patch_models import utc_now_iso, new_id
+from agentx_evolve.patch_execution._v1.patch_models import utc_now_iso, new_id
 
 
 class ImplementationValidationGate:

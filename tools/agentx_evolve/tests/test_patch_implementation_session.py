@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from agentx_evolve.patch.patch_models import (
+from agentx_evolve.patch_execution._v1.patch_models import (
     PatchSession, PatchAction, ImplementationEvidence,
     MutationAllowlist, ApprovedMutation,
     SESSION_CREATED, SESSION_LOADED, SESSION_ACCEPTED, SESSION_FAILED,
@@ -8,7 +8,7 @@ from agentx_evolve.patch.patch_models import (
 from agentx_evolve.security.security_models import (
     SandboxPolicy, DECISION_ALLOW, DECISION_BLOCK,
 )
-from agentx_evolve.patch.implementation_session import ImplementationSession
+from agentx_evolve.patch_execution._v1.implementation_session import ImplementationSession
 
 
 def _make_default_policy() -> SandboxPolicy:

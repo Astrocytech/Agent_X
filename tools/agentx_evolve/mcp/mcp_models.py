@@ -14,7 +14,7 @@ def utc_now_iso() -> str:
 
 def new_id(prefix: str = "") -> str:
     if prefix:
-        return f"{prefix}{uuid4().hex}"
+        return f"{prefix}-{uuid4().hex}"
     return uuid4().hex
 
 

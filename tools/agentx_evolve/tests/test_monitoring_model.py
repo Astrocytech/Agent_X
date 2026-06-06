@@ -1,5 +1,5 @@
 import pytest
-from agentx_evolve.monitoring.monitoring import MonitoringEvent, ME_INFO, ME_WARN, ME_ERROR
+from agentx_evolve.monitoring.monitoring_events import MonitoringEvent, MN_EVENT_INFO as ME_INFO, MN_EVENT_WARN as ME_WARN, MN_EVENT_ERROR as ME_ERROR
 
 
 class TestMonitoringEvent:
