@@ -276,17 +276,15 @@ Expected implementation files include:
 ```text
 tools/agentx_evolve/backup/__init__.py
 tools/agentx_evolve/backup/backup_models.py
-tools/agentx_evolve/backup/backup_policy.py
-tools/agentx_evolve/backup/snapshot_manifest.py
+tools/agentx_evolve/backup/backup_manifest.py
 tools/agentx_evolve/backup/snapshot_creator.py
 tools/agentx_evolve/backup/snapshot_verifier.py
 tools/agentx_evolve/backup/restore_planner.py
 tools/agentx_evolve/backup/restore_executor.py
 tools/agentx_evolve/backup/retention_manager.py
-tools/agentx_evolve/backup/disaster_recovery_plan.py
+tools/agentx_evolve/backup/disaster_recovery_planner.py
 tools/agentx_evolve/backup/backup_audit_logger.py
 tools/agentx_evolve/backup/backup_locks.py
-tools/agentx_evolve/backup/backup_hashing.py
 ```
 
 Each file must have a clear responsibility, public API, inputs, outputs, invariants, tests, and safety limits.

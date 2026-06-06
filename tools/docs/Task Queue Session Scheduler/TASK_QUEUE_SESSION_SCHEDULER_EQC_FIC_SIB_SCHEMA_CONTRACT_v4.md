@@ -254,7 +254,7 @@ Required schemas include:
 
 ```text
 task_record.schema.json
-session_record.schema.json
+scheduler_session.schema.json
 queue_state.schema.json
 scheduler_state.schema.json
 task_dependency.schema.json
@@ -649,7 +649,7 @@ Expected schemas:
 
 ```text
 task_record.schema.json
-session_record.schema.json
+scheduler_session.schema.json
 queue_state.schema.json
 scheduler_state.schema.json
 task_dependency.schema.json
@@ -835,7 +835,7 @@ A session record must include:
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "session_record.schema.json",
+  "schema_id": "scheduler_session.schema.json",
   "session_id": "string",
   "created_at": "string",
   "updated_at": "string",

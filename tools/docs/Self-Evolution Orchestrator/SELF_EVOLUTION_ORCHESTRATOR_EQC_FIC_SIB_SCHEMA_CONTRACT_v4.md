@@ -247,7 +247,7 @@ tools/agentx_evolve/orchestrator/run_ledger.py
 tools/agentx_evolve/orchestrator/orchestrator_logger.py
 tools/agentx_evolve/orchestrator/session_controller.py
 tools/agentx_evolve/orchestrator/replay.py
-tools/agentx_evolve/orchestrator/locking.py
+tools/agentx_evolve/orchestrator/orchestrator_locks.py
 ```
 
 Each file must have one clear responsibility, public API, safety invariants, tests, and evidence expectations.
@@ -290,12 +290,12 @@ run_admission.schema.json
 orchestration_state.schema.json
 task_plan.schema.json
 execution_step.schema.json
-tool_call_binding.schema.json
-model_call_binding.schema.json
-human_approval_binding.schema.json
+orchestration_tool_binding.schema.json
+orchestration_model_binding.schema.json
+orchestration_approval_gate.schema.json
 governance_gate.schema.json
-promotion_gate_binding.schema.json
-failure_recovery_binding.schema.json
+orchestration_promotion_gate.schema.json
+orchestration_recovery_action.schema.json
 session_state.schema.json
 run_ledger.schema.json
 orchestrator_audit.schema.json
@@ -1110,7 +1110,7 @@ Required fields:
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "tool_call_binding.schema.json",
+  "schema_id": "orchestration_tool_binding.schema.json",
   "binding_id": "string",
   "execution_step_id": "string",
   "tool_name": "string",
@@ -1146,7 +1146,7 @@ Required fields:
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "model_call_binding.schema.json",
+  "schema_id": "orchestration_model_binding.schema.json",
   "binding_id": "string",
   "execution_step_id": "string",
   "model_profile_id": "string",
@@ -1183,7 +1183,7 @@ Required fields:
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "human_approval_binding.schema.json",
+  "schema_id": "orchestration_approval_gate.schema.json",
   "approval_binding_id": "string",
   "execution_step_id": "string",
   "approval_type": "SOURCE_MUTATION|PATCH_APPLY|ROLLBACK|PROMOTION|HIGH_RISK_MODEL_OUTPUT|OTHER",
@@ -1248,7 +1248,7 @@ Required fields:
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "promotion_gate_binding.schema.json",
+  "schema_id": "orchestration_promotion_gate.schema.json",
   "promotion_binding_id": "string",
   "run_id": "string",
   "candidate_artifact_refs": [],
@@ -1280,7 +1280,7 @@ Required fields:
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "failure_recovery_binding.schema.json",
+  "schema_id": "orchestration_recovery_action.schema.json",
   "recovery_binding_id": "string",
   "execution_step_id": "string",
   "failure_class": "string",

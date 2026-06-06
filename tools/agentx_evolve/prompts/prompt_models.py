@@ -37,6 +37,10 @@ PROMPT_SAFETY_MEDIUM = "MEDIUM"
 PROMPT_SAFETY_HIGH = "HIGH"
 PROMPT_SAFETY_CRITICAL = "CRITICAL"
 
+INJECTION_RISK_SAFE = "safe"
+INJECTION_RISK_SUSPICIOUS = "suspicious"
+INJECTION_RISK_DANGEROUS = "dangerous"
+
 MIGRATION_STATUS_REQUIRED = "REQUIRED"
 MIGRATION_STATUS_IN_PROGRESS = "IN_PROGRESS"
 MIGRATION_STATUS_COMPLETE = "COMPLETE"
@@ -79,6 +83,11 @@ ALL_SAFETY_LEVELS = [
     PROMPT_SAFETY_MEDIUM,
     PROMPT_SAFETY_HIGH,
     PROMPT_SAFETY_CRITICAL,
+]
+ALL_INJECTION_RISK_LEVELS = [
+    INJECTION_RISK_SAFE,
+    INJECTION_RISK_SUSPICIOUS,
+    INJECTION_RISK_DANGEROUS,
 ]
 ALL_MIGRATION_STATUSES = [
     MIGRATION_STATUS_REQUIRED,
@@ -396,5 +405,47 @@ class PromptAuditEvent:
     message: str = ""
     artifact_refs: list[str] = field(default_factory=list)
     evidence_refs: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+
+PromptDiff = PromptDiffRecord
+PromptMigration = PromptMigrationRecord
+
+
+@dataclass
+class PromptEvidenceManifest:
+    schema_version: str = "1.0"
+    schema_id: str = "prompt_evidence_manifest.schema.json"
+    component_id: str = ""
+    validated_commit: str = ""
+    validated_at: str = ""
+    review_environment: dict = field(default_factory=dict)
+    commands: list[dict] = field(default_factory=list)
+    dependency_state: dict = field(default_factory=dict)
+    runtime_artifacts: list[str] = field(default_factory=list)
+    evidence_file_hashes: list[dict] = field(default_factory=list)
+    prompt_body_hashes_verified: list[str] = field(default_factory=list)
+    registry_snapshot_hashes_verified: list[str] = field(default_factory=list)
+    diff_hashes_verified: list[str] = field(default_factory=list)
+    redaction_status: str = ""
+    runtime_boundary_status: str = ""
+    source_mutation_status: str = ""
+    deviation_register: list[dict] = field(default_factory=list)
+    final_decision: str = ""
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class PromptInjectionAssessment:
+    schema_version: str = "1.0"
+    schema_id: str = "prompt_injection_assessment.schema.json"
+    assessment_id: str = ""
+    prompt_id: str = ""
+    risk_level: str = INJECTION_RISK_SAFE
+    indicators: list[str] = field(default_factory=list)
+    passed: bool = True
+    assessed_at: str = ""
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0",
+  "schema_id": "review_report.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "timestamp",
+    "source_component",
+    "tool_call_id",
+    "review_action",
+    "decision",
+    "reviewed_by",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "report_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "source_component": { "type": "string" },
+    "tool_call_id": { "type": "string" },
+    "tool_name": { "type": "string" },
+    "review_action": { "type": "string" },
+    "decision": { "type": "string" },
+    "reviewed_by": { "type": "string" },
+    "reason": { "type": "string" },
+    "risk_level": { "type": "string" },
+    "findings": { "type": "array", "items": { "type": "string" } },
+    "recommendations": { "type": "array", "items": { "type": "string" } },
+    "evidence_manifest_ref": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -8,11 +8,15 @@ from agentx_evolve.prompts.prompt_models import (
     PromptSafetyRule,
     PromptProvenance,
     PromptDiffRecord,
+    PromptDiff,
     PromptMigrationRecord,
+    PromptMigration,
     PromptRuntimeBinding,
     PromptWorkerPayload,
     PromptPermissionDecision,
     PromptAuditEvent,
+    PromptEvidenceManifest,
+    PromptInjectionAssessment,
 )
 
 from agentx_evolve.prompts.prompt_registry import (
@@ -33,4 +37,10 @@ from agentx_evolve.prompts.prompt_runtime_binding import (
     bind_prompt_for_runtime,
     resolve_prompt_body,
     render_prompt_for_worker,
+)
+
+from agentx_evolve.prompts.prompt_permissions import (
+    check_prompt_permission as check_permission,
+    get_role_permissions,
+    load_permission_matrix,
 )

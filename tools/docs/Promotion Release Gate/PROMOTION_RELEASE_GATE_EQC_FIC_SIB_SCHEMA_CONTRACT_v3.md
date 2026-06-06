@@ -253,12 +253,12 @@ Every promotion-related decision must be schema-valid and reproducible.
 Required schemas:
 
 ```text
-promotion_decision.schema.json
-release_gate.schema.json
-release_candidate.schema.json
+promotion_gate_decision.schema.json
+promotion_gate_policy.schema.json
+promotion_release_candidate.schema.json
 validation_evidence.schema.json
 risk_acceptance.schema.json
-human_approval_link.schema.json
+promotion_approval_reference.schema.json
 promotion_policy_check.schema.json
 promotion_evidence_manifest.schema.json
 promotion_review_report.schema.json
@@ -431,7 +431,7 @@ The promotion decision schema records the final gate decision for a release cand
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "promotion_decision.schema.json",
+  "schema_id": "promotion_gate_decision.schema.json",
   "promotion_decision_id": "string",
   "timestamp": "string",
   "source_component": "PromotionReleaseGate",
@@ -500,7 +500,7 @@ The release gate schema defines a named gate with required checks and pass/fail 
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "release_gate.schema.json",
+  "schema_id": "promotion_gate_policy.schema.json",
   "release_gate_id": "string",
   "gate_name": "string",
   "gate_version": "string",
@@ -559,7 +559,7 @@ The release candidate schema identifies the unit being considered for promotion.
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "release_candidate.schema.json",
+  "schema_id": "promotion_release_candidate.schema.json",
   "release_candidate_id": "string",
   "timestamp": "string",
   "source_component": "PromotionReleaseGate",
@@ -732,7 +732,7 @@ Human approval linkage connects promotion decisions to valid human approval reco
 ```json
 {
   "schema_version": "1.0",
-  "schema_id": "human_approval_link.schema.json",
+  "schema_id": "promotion_approval_reference.schema.json",
   "approval_link_id": "string",
   "timestamp": "string",
   "source_component": "PromotionReleaseGate",
