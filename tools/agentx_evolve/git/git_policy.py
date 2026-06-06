@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 from agentx_evolve.git.git_models import (
-    GitOperation, GitResult,
+    GitOperation, GitResult, GitPolicyRule, GitPolicyResult,
     GIT_OP_STATUS, GIT_OP_DIFF, GIT_OP_DIFF_NAME_ONLY, GIT_OP_DIFF_STAT,
     GIT_OP_LOG, GIT_OP_SHOW, GIT_OP_BRANCH,
     GIT_OP_STAGE, GIT_OP_COMMIT, GIT_OP_TAG,
@@ -9,31 +9,13 @@ from agentx_evolve.git.git_models import (
     GitOpType, new_id, utc_now_iso,
 )
 
+
 _READ_ONLY_OPS = {
     GIT_OP_STATUS, GIT_OP_DIFF, GIT_OP_DIFF_NAME_ONLY,
     GIT_OP_DIFF_STAT, GIT_OP_LOG, GIT_OP_SHOW, GIT_OP_BRANCH,
 }
 
 _WRITE_OPS = {GIT_OP_STAGE, GIT_OP_COMMIT, GIT_OP_TAG}
-
-
-@dataclass
-class GitPolicyRule:
-    rule_id: str = ""
-    operation: str = ""
-    effect: str = "ALLOW"
-    reason: str = ""
-    warnings: list[str] = field(default_factory=list)
-    errors: list[str] = field(default_factory=list)
-
-
-@dataclass
-class GitPolicyResult:
-    result_id: str = ""
-    operation: str = ""
-    allowed: bool = True
-    message: str = ""
-    matched_rules: list[GitPolicyRule] = field(default_factory=list)
 
 
 class GitPolicyEnforcer:
