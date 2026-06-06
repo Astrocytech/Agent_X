@@ -269,20 +269,20 @@ tools/agentx_evolve/context/context_artifact_writer.py
 Create:
 
 ```text
-tools/agentx_evolve/schemas/context_source.schema.json
-tools/agentx_evolve/schemas/task_input.schema.json
-tools/agentx_evolve/schemas/context_item.schema.json
-tools/agentx_evolve/schemas/context_pack.schema.json
-tools/agentx_evolve/schemas/context_priority_score.schema.json
-tools/agentx_evolve/schemas/context_budget_estimate.schema.json
-tools/agentx_evolve/schemas/context_deduplication_report.schema.json
-tools/agentx_evolve/schemas/context_compression_plan.schema.json
-tools/agentx_evolve/schemas/context_redaction_report.schema.json
-tools/agentx_evolve/schemas/context_injection_filter_report.schema.json
-tools/agentx_evolve/schemas/task_pack.schema.json
-tools/agentx_evolve/schemas/context_model_compatibility.schema.json
-tools/agentx_evolve/schemas/context_tool_compatibility.schema.json
-tools/agentx_evolve/schemas/context_pack_evidence.schema.json
+tools/agentx_evolve/schemas/02_context/context_source.schema.json
+tools/agentx_evolve/schemas/02_context/task_input.schema.json
+tools/agentx_evolve/schemas/02_context/context_item.schema.json
+tools/agentx_evolve/schemas/02_context/context_pack.schema.json
+tools/agentx_evolve/schemas/02_context/context_priority_score.schema.json
+tools/agentx_evolve/schemas/02_context/context_budget_estimate.schema.json
+tools/agentx_evolve/schemas/02_context/context_deduplication_report.schema.json
+tools/agentx_evolve/schemas/02_context/context_compression_plan.schema.json
+tools/agentx_evolve/schemas/02_context/context_redaction_report.schema.json
+tools/agentx_evolve/schemas/02_context/context_injection_filter_report.schema.json
+tools/agentx_evolve/schemas/02_context/task_pack.schema.json
+tools/agentx_evolve/schemas/02_context/context_model_compatibility.schema.json
+tools/agentx_evolve/schemas/02_context/context_tool_compatibility.schema.json
+tools/agentx_evolve/schemas/02_context/context_pack_evidence.schema.json
 ```
 
 ## 4.3 Test Files
@@ -2553,7 +2553,7 @@ Required fields:
 Add schema:
 
 ```text
-tools/agentx_evolve/schemas/context_builder_review_report.schema.json
+tools/agentx_evolve/schemas/02_context/context_builder_review_report.schema.json
 ```
 
 Add test coverage:

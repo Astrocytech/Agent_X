@@ -1,10 +1,10 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.report_generator import (
+from agentx_evolve.final_acceptance.report_generator import (
     build_final_acceptance_report, _report_to_dict,
     write_final_acceptance_report, _completion_record_to_dict,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceReport, FinalAcceptanceCompletionRecord,
     FinalAcceptanceLayerRegistry, FinalAcceptanceLayer,
     FinalAcceptanceEvidenceManifest, FinalAcceptanceEvidenceItem,
@@ -13,7 +13,7 @@ from tools.agentx_evolve.final_acceptance.acceptance_models import (
     VERDICT_ACCEPTED, VERDICT_NOT_ACCEPTED,
     STATUS_PASS, STATUS_FAIL,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestBuildFinalAcceptanceReport:

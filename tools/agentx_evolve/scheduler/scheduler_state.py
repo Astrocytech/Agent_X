@@ -9,6 +9,35 @@ from .session_store import SessionStore
 from .lease_manager import LeaseManager
 
 
+S_CREATED = "CREATED"
+S_RUNNING = "RUNNING"
+S_COMPLETED = "COMPLETED"
+
+_SCHEDULER_STATE_TRANSITIONS = {
+    S_CREATED: [S_RUNNING],
+    S_RUNNING: [S_COMPLETED],
+    S_COMPLETED: [],
+}
+
+
+class SchedulerState:
+    def __init__(self, state: str = S_CREATED):
+        self.state = state
+
+    def transition_to(self, new_state: str) -> "SchedulerState":
+        if new_state not in _SCHEDULER_STATE_TRANSITIONS.get(self.state, []):
+            raise ValueError(f"Cannot transition from {self.state} to {new_state}")
+        self.state = new_state
+        return self
+
+
+def migrate_state(current: str, target: str) -> str:
+    allowed = _SCHEDULER_STATE_TRANSITIONS.get(current, [])
+    if target not in allowed:
+        raise ValueError(f"Cannot migrate from {current} to {target}")
+    return target
+
+
 STATE_FILE = "scheduler_state.json"
 
 

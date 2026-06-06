@@ -340,6 +340,23 @@ class GitCompletionRecord:
 
 
 @dataclass
+class GitCommand:
+    command: str = "git"
+    args: list[str] = field(default_factory=list)
+    repo_path: str = ""
+    env: dict[str, str] = field(default_factory=dict)
+
+
+@dataclass
+class GitDiff:
+    diff_id: str = ""
+    timestamp: str = ""
+    target: str = ""
+    entries: list[GitDiffEntry] = field(default_factory=list)
+    files_changed: int = 0
+
+
+@dataclass
 class GitCommandPolicy:
     schema_version: str = "1.0"
     schema_id: str = "git_command_policy.schema.json"

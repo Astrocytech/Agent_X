@@ -464,19 +464,19 @@ tools/agentx_evolve/mcp/mcp_server.py
 ## 4.3 Schemas
 
 ```text
-tools/agentx_evolve/schemas/tool_registry.schema.json
-tools/agentx_evolve/schemas/tool_definition.schema.json
-tools/agentx_evolve/schemas/tool_call.schema.json
-tools/agentx_evolve/schemas/tool_result.schema.json
-tools/agentx_evolve/schemas/tool_permission_decision.schema.json
-tools/agentx_evolve/schemas/tool_policy.schema.json
-tools/agentx_evolve/schemas/tool_trust_tier.schema.json
-tools/agentx_evolve/schemas/mcp_tool_manifest.schema.json
-tools/agentx_evolve/schemas/invalid_tool_record.schema.json
-tools/agentx_evolve/schemas/tool_audit.schema.json
-tools/agentx_evolve/schemas/evidence_manifest.schema.json
-tools/agentx_evolve/schemas/review_report.schema.json
-tools/agentx_evolve/schemas/completion_record.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_registry.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_definition.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_call.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_result.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_permission_decision.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_policy.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_trust_tier.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/mcp_tool_manifest.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/invalid_tool_record.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_audit.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/evidence_manifest.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/review_report.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/completion_record.schema.json
 ```
 ```
 

@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.cli import main
+from agentx_evolve.final_acceptance.cli import main
 
 
 class TestCLI:

@@ -196,6 +196,60 @@ class PolicyEnforcementResult:
         return to_dict(self)
 
 
+PAE_ALLOW = "ALLOW"
+PAE_BLOCK = "BLOCK"
+PAE_WARN = "WARN"
+ALL_POLICY_AUDIT_EFFECTS = {PAE_ALLOW, PAE_BLOCK, PAE_WARN}
+
+
+@dataclass
+class PolicyAuditEntry:
+    entry_id: str = ""
+    timestamp: str = ""
+    session_id: str = ""
+    decision: str = PAE_BLOCK
+    reason: str = ""
+    metadata: dict = field(default_factory=dict)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return to_dict(self)
+
+
+_audit_log: list[PolicyAuditEntry] = []
+
+
+def log_policy_decision(
+    session_id: str,
+    decision: str = PAE_BLOCK,
+    reason: str = "",
+    metadata: dict | None = None,
+) -> PolicyAuditEntry:
+    entry = PolicyAuditEntry(
+        entry_id=new_id("pae"),
+        timestamp=utc_now_iso(),
+        session_id=session_id,
+        decision=decision,
+        reason=reason,
+        metadata=metadata or {},
+    )
+    _audit_log.append(entry)
+    return entry
+
+
+def get_policy_audit_log() -> list[PolicyAuditEntry]:
+    return list(_audit_log)
+
+
+def get_policy_audit_by_session(session_id: str) -> list[PolicyAuditEntry]:
+    return [e for e in _audit_log if e.session_id == session_id]
+
+
+def clear_policy_audit_log() -> None:
+    _audit_log.clear()
+
+
 # ── Policy / Capability Registry (spec v5) constants and dataclasses ──────────
 
 # Decision constants

@@ -1,4 +1,4 @@
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceLayer, FinalAcceptanceLayerRegistry,
     FinalAcceptanceEvidenceItem, FinalAcceptanceEvidenceManifest,
     CrossLayerCheck, FinalAcceptanceValidationResult,

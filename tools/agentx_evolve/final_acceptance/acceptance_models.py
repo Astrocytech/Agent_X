@@ -245,3 +245,27 @@ class FinalAcceptanceCompletionRecord:
     unresolved_high_issues: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+
+
+LCM_PASS = "PASS"
+LCM_FAIL = "FAIL"
+
+
+@dataclass
+class LayerCompletionMatrix:
+    layer_id: str = ""
+    layer_name: str = ""
+    status: str = LCM_PASS
+    total_checks: int = 0
+    passed_checks: int = 0
+    failed_checks: int = 0
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    @property
+    def summary(self) -> dict[str, int]:
+        return {
+            "total": self.total_checks,
+            "passed": self.passed_checks,
+            "failed": self.failed_checks,
+        }

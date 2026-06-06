@@ -143,8 +143,8 @@ def test_patch_candidate_generator():
 def test_patch_candidate_insufficient_context():
     g = PatchCandidateGenerator()
     packet = TaskPacket(task_type=TT_IMPLEMENT_PATCH, objective="fix")
-    from agentx_evolve.model.model_models import ModelResponse, MD_INSUFFICIENT_CONTEXT
-    resp = ModelResponse(status=MD_INSUFFICIENT_CONTEXT)
+    from agentx_evolve.models.model_models import ModelResponse, MODEL_STATUS_RETRYABLE
+    resp = ModelResponse(status=MODEL_STATUS_RETRYABLE)
     output = g.generate(packet, "plan", resp)
     assert output.status == WO_NEEDS_MORE_CONTEXT
 
@@ -254,10 +254,10 @@ def test_worker_propagates_packet_errors():
     assert any("packet error" in e for e in output.errors)
 
 
-def test_worker_with_custom_prompt_runner():
-    from agentx_evolve.model.prompt_runner import PromptRunner
-    runner = PromptRunner()
-    worker = LLMImplementationWorker(prompt_runner=runner)
+def test_worker_with_custom_registry():
+    from agentx_evolve.models.model_models import ModelRegistry
+    registry = ModelRegistry()
+    worker = LLMImplementationWorker(registry=registry)
     packet = TaskPacket(task_type=TT_IMPLEMENT_PATCH, objective="fix",
                         allowed_files=["a.py"])
     output = worker.process(packet)

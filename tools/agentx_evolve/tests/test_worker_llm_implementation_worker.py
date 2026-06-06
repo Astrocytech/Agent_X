@@ -12,7 +12,7 @@ from agentx_evolve.worker.worker_models import (
     CT_UPDATE, CT_CREATE,
 )
 from agentx_evolve.context.context_models import TaskPacket, TT_IMPLEMENT_PATCH, TT_FIX_VALIDATION, TT_WRITE_TEST, TT_EXPLAIN_FAILURE
-from agentx_evolve.model.model_models import ModelResponse, MD_SUCCESS, MD_INSUFFICIENT_CONTEXT
+from agentx_evolve.models.model_models import ModelResponse, MODEL_STATUS_SUCCESS, MODEL_STATUS_RETRYABLE
 
 
 # ---------------------------------------------------------------------------
@@ -83,7 +83,7 @@ def test_patch_candidate_with_model_response_success():
         objective="fix",
         allowed_files=["a.py"],
     )
-    resp = ModelResponse(status=MD_SUCCESS, content="patch content")
+    resp = ModelResponse(status=MODEL_STATUS_SUCCESS, raw_output="patch content")
     output = g.generate(packet, "plan", resp)
     assert output.status == WO_PROPOSED
     assert len(output.changes) == 1
@@ -92,7 +92,7 @@ def test_patch_candidate_with_model_response_success():
 def test_patch_candidate_insufficient_context():
     g = PatchCandidateGenerator()
     packet = TaskPacket(task_type=TT_IMPLEMENT_PATCH, objective="fix")
-    resp = ModelResponse(status=MD_INSUFFICIENT_CONTEXT)
+    resp = ModelResponse(status=MODEL_STATUS_RETRYABLE)
     output = g.generate(packet, "plan", resp)
     assert output.status == WO_NEEDS_MORE_CONTEXT
     assert len(output.changes) == 0
@@ -292,10 +292,10 @@ def test_worker_output_has_explanation_for_patch():
     assert output.edit_plan != ""
 
 
-def test_worker_with_custom_prompt_runner():
-    from agentx_evolve.model.prompt_runner import PromptRunner
-    runner = PromptRunner()
-    worker = LLMImplementationWorker(prompt_runner=runner)
+def test_worker_with_custom_registry():
+    from agentx_evolve.models.model_models import ModelRegistry
+    registry = ModelRegistry()
+    worker = LLMImplementationWorker(registry=registry)
     packet = TaskPacket(
         task_type=TT_IMPLEMENT_PATCH,
         objective="fix",

@@ -264,17 +264,17 @@ tools/agentx_evolve/promotion/schema_validation.py
 ## 5.2 Schema Files
 
 ```text
-tools/agentx_evolve/schemas/promotion_release_candidate.schema.json
-tools/agentx_evolve/schemas/promotion_validation_evidence.schema.json
-tools/agentx_evolve/schemas/promotion_risk_acceptance.schema.json
-tools/agentx_evolve/schemas/promotion_approval_reference.schema.json
-tools/agentx_evolve/schemas/promotion_git_evidence.schema.json
-tools/agentx_evolve/schemas/promotion_gate_decision.schema.json
-tools/agentx_evolve/schemas/promotion_gate_policy.schema.json
-tools/agentx_evolve/schemas/promotion_expiry.schema.json
-tools/agentx_evolve/schemas/promotion_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/promotion_review_report.schema.json
-tools/agentx_evolve/schemas/promotion_completion_record.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_release_candidate.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_validation_evidence.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_risk_acceptance.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_approval_reference.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_git_evidence.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_gate_decision.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_gate_policy.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_expiry.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_review_report.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_completion_record.schema.json
 ```
 
 ## 5.3 Test Files

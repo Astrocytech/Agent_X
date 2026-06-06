@@ -8,12 +8,13 @@ from agentx_evolve.worker.worker_models import (
 from agentx_evolve.context.context_models import (
     TaskPacket, TT_FIX_VALIDATION, TT_WRITE_TEST, TT_EXPLAIN_FAILURE,
 )
-from agentx_evolve.model.prompt_runner import PromptRunner
-from agentx_evolve.model.model_models import (
-    PromptRequest, ModelResponse,
-    MD_SUCCESS, MD_INSUFFICIENT_CONTEXT,
+from agentx_evolve.models.model_models import (
+    ModelRequest, ModelResponse,
+    MODEL_STATUS_SUCCESS, MODEL_STATUS_RETRYABLE,
     TASK_IMPLEMENT_PATCH, TASK_FIX_VALIDATION, TASK_WRITE_TEST, TASK_EXPLAIN_FAILURE,
 )
+from agentx_evolve.models.prompt_runner import run_prompt
+from agentx_evolve.models.model_models import ModelRegistry
 
 
 class EditPlanGenerator:
@@ -40,7 +41,7 @@ class PatchCandidateGenerator:
             status=WO_PROPOSED,
             edit_plan=plan,
         )
-        if model_response and model_response.status == MD_INSUFFICIENT_CONTEXT:
+        if model_response and model_response.status == MODEL_STATUS_RETRYABLE:
             output.status = WO_NEEDS_MORE_CONTEXT
             output.warnings.append("Model reported insufficient context")
             return output
@@ -96,8 +97,8 @@ class ValidationFixGenerator:
 
 
 class LLMImplementationWorker:
-    def __init__(self, prompt_runner: PromptRunner | None = None):
-        self._prompt_runner = prompt_runner or PromptRunner()
+    def __init__(self, registry: ModelRegistry | None = None):
+        self._registry = registry or ModelRegistry()
         self._plan_generator = EditPlanGenerator()
         self._patch_generator = PatchCandidateGenerator()
         self._test_generator = TestCandidateGenerator()
@@ -117,20 +118,17 @@ class LLMImplementationWorker:
                 kwargs["test_output"] = test_output
             output = task_map[packet.task_type](packet, plan, **kwargs)
         else:
-            model_request = PromptRequest(
+            model_request = ModelRequest(
                 task_type=TASK_IMPLEMENT_PATCH,
                 system_prompt=f"You are implementing: {packet.objective}",
-                user_prompt=plan,
-                profile_id=packet.task_type,
-                json_mode=True,
-                expected_schema=packet.output_schema,
-                token_budget=packet.token_budget,
+                prompt=plan,
+                json_only=True,
             )
-            model_response = self._prompt_runner.run(model_request)
+            model_response = run_prompt(model_request, self._registry)
             output = self._patch_generator.generate(packet, plan, model_response)
 
-            if model_response.content:
-                output.explanation = model_response.content
+            if model_response.raw_output:
+                output.explanation = model_response.raw_output
 
         if packet.errors:
             for err in packet.errors:

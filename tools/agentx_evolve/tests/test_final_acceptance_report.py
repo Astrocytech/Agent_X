@@ -2,11 +2,11 @@ import pytest
 from pathlib import Path
 from datetime import datetime, timezone
 
-from tools.agentx_evolve.final_acceptance.report_generator import (
+from agentx_evolve.final_acceptance.report_generator import (
     build_final_acceptance_report, write_final_acceptance_report,
     _report_to_dict, _completion_record_to_dict,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceReport, FinalAcceptanceCompletionRecord,
     FinalAcceptanceLayerRegistry, FinalAcceptanceEvidenceManifest,
     FinalAcceptanceEvidenceItem, CrossLayerCheck, FinalAcceptanceValidationResult,

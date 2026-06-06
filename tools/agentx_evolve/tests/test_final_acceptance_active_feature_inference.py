@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.active_feature_inference import (
+from agentx_evolve.final_acceptance.active_feature_inference import (
     is_feature_active, infer_active_features,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceLayer
+from agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceLayer
 
 
 class TestIsFeatureActive:

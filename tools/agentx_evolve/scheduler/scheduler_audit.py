@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from .scheduler_models import (
-    utc_now_iso, to_dict,
+    utc_now_iso, new_id, to_dict,
     SchedulerAudit,
 )
 
@@ -85,6 +85,28 @@ def _count_by_outcome(audits: list[SchedulerAudit]) -> dict[str, int]:
     for a in audits:
         counts[a.outcome] = counts.get(a.outcome, 0) + 1
     return counts
+
+
+class SchedulerAuditLog:
+    def __init__(self, repo_root: str | Path):
+        self.repo_root = Path(repo_root)
+
+    def record_event(self, action: str, performed_by: str, outcome: str = "SUCCESS",
+                     task_id: str | None = None, session_id: str | None = None,
+                     details: dict | None = None) -> dict:
+        event = SchedulerAudit(
+            audit_id=new_id("audit"),
+            action=action,
+            performed_by=performed_by,
+            outcome=outcome,
+            task_id=task_id,
+            session_id=session_id,
+            details=details,
+        )
+        return append_audit_event(event, self.repo_root)
+
+    def get_events_by_session(self, session_id: str) -> list[SchedulerAudit]:
+        return [a for a in load_audit_history(self.repo_root) if a.session_id == session_id]
 
 
 def _dict_to_audit(data: dict) -> SchedulerAudit | None:

@@ -495,14 +495,14 @@ tools/agentx_evolve/recovery/recovery_decider.py
 Schema files:
 
 ```text
-tools/agentx_evolve/schemas/failure_record.schema.json
+tools/agentx_evolve/schemas/05_recovery/failure_record.schema.json
 tools/agentx_evolve/schemas/failure_group.schema.json
-tools/agentx_evolve/schemas/recovery_action.schema.json
-tools/agentx_evolve/schemas/recovery_decision.schema.json
-tools/agentx_evolve/schemas/safe_mode_trigger.schema.json
-tools/agentx_evolve/schemas/failure_evidence.schema.json
-tools/agentx_evolve/schemas/recovery_playbook.schema.json
-tools/agentx_evolve/schemas/failure_taxonomy.schema.json
+tools/agentx_evolve/schemas/05_recovery/recovery_action.schema.json
+tools/agentx_evolve/schemas/05_recovery/recovery_decision.schema.json
+tools/agentx_evolve/schemas/05_recovery/safe_mode_trigger.schema.json
+tools/agentx_evolve/schemas/05_recovery/failure_evidence.schema.json
+tools/agentx_evolve/schemas/05_recovery/recovery_playbook.schema.json
+tools/agentx_evolve/schemas/05_recovery/failure_taxonomy.schema.json
 ```
 
 Test files:

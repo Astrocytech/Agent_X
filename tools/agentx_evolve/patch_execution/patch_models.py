@@ -101,6 +101,16 @@ FAILURE_TYPES = {
     "UNKNOWN_PATCH_EXECUTION_ERROR",
 }
 
+class PatchLimitError(Exception):
+    def __init__(self, message: str = "", code: str = ""):
+        super().__init__(message)
+        self.code = code
+
+
+PLE_SIZE_EXCEEDED = "SIZE_EXCEEDED"
+PLE_FILES_EXCEEDED = "FILES_EXCEEDED"
+
+
 DEFAULT_LIMITS = {
     "max_changed_files_per_session": 5,
     "max_patch_operations_per_session": 20,

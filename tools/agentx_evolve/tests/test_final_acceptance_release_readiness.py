@@ -1,16 +1,16 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.release_readiness import (
+from agentx_evolve.final_acceptance.release_readiness import (
     build_release_readiness_report, write_release_readiness_report,
     RELEASE_READY, NOT_RELEASE_READY, NOT_CLAIMED,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceEvidenceManifest, FinalAcceptanceEvidenceItem,
     FinalAcceptanceValidationResult,
     VERDICT_ACCEPTED, VERDICT_ACCEPTED_WITH_SAFE_DEFERRALS, VERDICT_NOT_ACCEPTED,
     STATUS_PASS, STATUS_FAIL,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestBuildReleaseReadinessReport:

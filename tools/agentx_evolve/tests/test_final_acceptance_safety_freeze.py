@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.safety_freeze import (
+from agentx_evolve.final_acceptance.safety_freeze import (
     build_safety_freeze_report, write_safety_freeze_report,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import (
+from agentx_evolve.final_acceptance.artifact_writer import (
     runtime_root, ensure_runtime_root,
 )
 

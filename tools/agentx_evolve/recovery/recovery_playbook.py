@@ -117,3 +117,14 @@ def _get_default_actions_for_rule(rule_id: str) -> list[str]:
         "REC-POL-017-UNKNOWN-FAILURE": [ACTION_REQUEST_HUMAN_REVIEW, ACTION_BLOCK_SESSION],
     }
     return rule_map.get(rule_id, [ACTION_BLOCK_SESSION])
+
+
+RA_RETRY = "RETRY"
+RA_ROLLBACK = "ROLLBACK"
+
+RETRY_ACTIONS: set[str] = {ACTION_RETRY}
+ROLLBACK_ACTIONS: set[str] = {ACTION_ROLLBACK}
+
+
+def is_idempotent(action_type: str) -> bool:
+    return action_type in {ACTION_RETRY, ACTION_ROLLBACK, ACTION_REVALIDATE, ACTION_NO_ACTION}

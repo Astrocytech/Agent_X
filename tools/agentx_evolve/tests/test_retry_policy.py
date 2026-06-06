@@ -2,8 +2,8 @@ from pathlib import Path
 
 import pytest
 
-from scheduler.scheduler_retry import RetryPolicy
-from scheduler.scheduler_models import (
+from agentx_evolve.scheduler.scheduler_retry import RetryPolicy
+from agentx_evolve.scheduler.scheduler_models import (
     TaskRecord, new_id,
     SCHEDULER_STATUS_FAILED, SCHEDULER_STATUS_QUEUED,
 )

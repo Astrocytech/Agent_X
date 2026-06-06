@@ -389,13 +389,13 @@ PASS
 Expected:
 
 ```text
-[X] tools/agentx_evolve/schemas/failure_record.schema.json
-[X] tools/agentx_evolve/schemas/recovery_action.schema.json
-[X] tools/agentx_evolve/schemas/recovery_decision.schema.json
-[X] tools/agentx_evolve/schemas/safe_mode_trigger.schema.json
-[X] tools/agentx_evolve/schemas/failure_evidence.schema.json
-[X] tools/agentx_evolve/schemas/recovery_playbook.schema.json
-[X] tools/agentx_evolve/schemas/failure_taxonomy.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/failure_record.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/recovery_action.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/recovery_decision.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/safe_mode_trigger.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/failure_evidence.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/recovery_playbook.schema.json
+[X] tools/agentx_evolve/schemas/05_recovery/failure_taxonomy.schema.json
 ```
 
 Status:

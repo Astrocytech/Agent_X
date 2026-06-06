@@ -2,21 +2,21 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.acceptance_runner import run_final_acceptance
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_runner import run_final_acceptance
+from agentx_evolve.final_acceptance.acceptance_models import (
     VERDICT_NOT_ACCEPTED, MODE_IMPLEMENTATION_ACCEPTANCE, MODE_SOURCE_ONLY_ACCEPTANCE,
     VALIDATED_NOT_ACCEPTED,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import (
+from agentx_evolve.final_acceptance.artifact_writer import (
     runtime_root, ensure_runtime_root, atomic_write_json, write_json_artifact,
 )
-from tools.agentx_evolve.final_acceptance.hash_utils import validate_acyclic_hash_manifest
-from tools.agentx_evolve.final_acceptance.report_generator import (
+from agentx_evolve.final_acceptance.hash_utils import validate_acyclic_hash_manifest
+from agentx_evolve.final_acceptance.report_generator import (
     build_final_acceptance_report, _completion_record_to_dict,
 )
-from tools.agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
-from tools.agentx_evolve.final_acceptance.layer_catalog import build_canonical_layer_catalog
-from tools.agentx_evolve.final_acceptance.layer_registry import (
+from agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
+from agentx_evolve.final_acceptance.layer_catalog import build_canonical_layer_catalog
+from agentx_evolve.final_acceptance.layer_registry import (
     build_final_acceptance_layer_registry,
 )
 
@@ -152,7 +152,7 @@ class TestEdgeModeBoundaries:
 class TestEdgeHashManifest:
     def test_no_artifacts_does_not_crash(self, tmp_path: Path):
         runtime = ensure_runtime_root(tmp_path)
-        from tools.agentx_evolve.final_acceptance.hash_utils import hash_artifacts
+        from agentx_evolve.final_acceptance.hash_utils import hash_artifacts
         hashes = hash_artifacts([])
         assert hashes == []
 
@@ -165,14 +165,14 @@ class TestEdgeHashManifest:
         runtime = ensure_runtime_root(tmp_path)
         (runtime / "a.txt").write_text("data")
         (runtime / "b.txt").write_text("data")
-        from tools.agentx_evolve.final_acceptance.hash_utils import hash_artifacts
+        from agentx_evolve.final_acceptance.hash_utils import hash_artifacts
         hashes = hash_artifacts([runtime / "a.txt", runtime / "a.txt"])
         assert len(hashes) == 1
 
 
 class TestEdgeCompletionRecord:
     def test_validated_not_accepted_status(self):
-        from tools.agentx_evolve.final_acceptance.acceptance_models import (
+        from agentx_evolve.final_acceptance.acceptance_models import (
             FinalAcceptanceCompletionRecord,
         )
         record = FinalAcceptanceCompletionRecord(
@@ -185,7 +185,7 @@ class TestEdgeCompletionRecord:
         assert d["status"] == VALIDATED_NOT_ACCEPTED
 
     def test_all_fields_empty(self):
-        from tools.agentx_evolve.final_acceptance.acceptance_models import (
+        from agentx_evolve.final_acceptance.acceptance_models import (
             FinalAcceptanceCompletionRecord,
         )
         record = FinalAcceptanceCompletionRecord()
@@ -197,7 +197,7 @@ class TestEdgeCompletionRecord:
         assert d["review_environment"] == {}
 
     def test_review_environment_empty_dict(self):
-        from tools.agentx_evolve.final_acceptance.acceptance_models import (
+        from agentx_evolve.final_acceptance.acceptance_models import (
             FinalAcceptanceCompletionRecord,
         )
         record = FinalAcceptanceCompletionRecord(
@@ -264,8 +264,8 @@ class TestEdgeVerdict:
 
 class TestEdgeLayers:
     def test_catalog_empty_layer_id(self):
-        from tools.agentx_evolve.final_acceptance.layer_catalog import validate_layer_catalog
-        from tools.agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceLayer
+        from agentx_evolve.final_acceptance.layer_catalog import validate_layer_catalog
+        from agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceLayer
         layers = [
             FinalAcceptanceLayer(layer_id="", layer_name="Empty ID"),
             FinalAcceptanceLayer(layer_id="FINAL_SYSTEM_ACCEPTANCE", layer_name="FSA"),
@@ -274,7 +274,7 @@ class TestEdgeLayers:
         assert any("empty layer_id" in e.lower() for e in errors)
 
     def test_registry_empty_layers(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceLayerRegistry
+        from agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceLayerRegistry
         reg = FinalAcceptanceLayerRegistry(created_at="t", layers=[])
         assert len(reg.layers) == 0
 
@@ -363,7 +363,7 @@ class TestEdgeCliFlagCombinations:
 
 class TestEdgeImportAll:
     def test_all_exports_accessible(self):
-        from tools.agentx_evolve.final_acceptance import (
+        from agentx_evolve.final_acceptance import (
             cli_main, VALIDATED_NOT_ACCEPTED,
             write_artifact_hashes, validate_acyclic_hash_manifest,
             build_mode_policy, build_canonical_layer_catalog,

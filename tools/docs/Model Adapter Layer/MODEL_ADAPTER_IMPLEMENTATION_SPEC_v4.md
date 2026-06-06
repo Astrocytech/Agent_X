@@ -428,21 +428,21 @@ tools/agentx_evolve/model_runtime/gpu_memory_profile.py
 ## 5.3 Schema Files
 
 ```text
-tools/agentx_evolve/schemas/model_registry.schema.json
-tools/agentx_evolve/schemas/model_profile.schema.json
-tools/agentx_evolve/schemas/model_capability_profile.schema.json
-tools/agentx_evolve/schemas/model_runtime_profile.schema.json
-tools/agentx_evolve/schemas/model_provider_profile.schema.json
-tools/agentx_evolve/schemas/model_request.schema.json
-tools/agentx_evolve/schemas/model_response.schema.json
-tools/agentx_evolve/schemas/model_selection_decision.schema.json
-tools/agentx_evolve/schemas/model_policy_decision.schema.json
-tools/agentx_evolve/schemas/model_retry_record.schema.json
-tools/agentx_evolve/schemas/model_audit.schema.json
-tools/agentx_evolve/schemas/model_call_evidence.schema.json
-tools/agentx_evolve/schemas/model_adapter_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/invalid_model_request.schema.json
-tools/agentx_evolve/schemas/model_adapter_completion_record.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_registry.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_profile.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_capability_profile.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_runtime_profile.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_provider_profile.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_request.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_response.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_selection_decision.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_policy_decision.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_retry_record.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_audit.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_call_evidence.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_adapter_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/invalid_model_request.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_adapter_completion_record.schema.json
 ```
 
 ## 5.4 Test Files

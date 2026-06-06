@@ -164,3 +164,49 @@ def classify_failure(raw_failure: dict) -> FailureRecord:
         retryable=(not is_critical and not is_unknown),
         rollback_required=(failure_class in ("PATCH_APPLY_FAILED", "SOURCE_GUARD_FAILED", "ROLLBACK_FAILED")),
     )
+
+
+FG_TRANSIENT = "TRANSIENT"
+FG_PERMANENT = "PERMANENT"
+
+
+class FailureGroup:
+    TRANSIENT = FG_TRANSIENT
+    PERMANENT = FG_PERMANENT
+
+    TRANSIENT_CLASSES: set[str] = {
+        "MODEL_INVALID_OUTPUT",
+        "MODEL_INSUFFICIENT_CONTEXT",
+        "PATCH_APPLY_FAILED",
+        "VALIDATION_FAILED",
+        "TOOL_FAILURE",
+        "LOCK_CONFLICT",
+        "ATOMIC_WRITE_FAILED",
+        "SCHEMA_VALIDATION_FAILED",
+        "PROMPT_CONTRACT_FAILED",
+    }
+
+    PERMANENT_CLASSES: set[str] = {
+        "ROLLBACK_FAILED",
+        "SOURCE_GUARD_FAILED",
+        "GOVERNANCE_BLOCKED",
+        "RISK_TOO_HIGH",
+        "POLICY_DENIED",
+        "SECRET_REDACTION_FAILED",
+        "UNEXPECTED_FILE_MUTATION",
+        "IMPLEMENTATION_SESSION_FAILED",
+        "UNKNOWN_FAILURE",
+    }
+
+    @classmethod
+    def classify(cls, failure_class: str) -> str:
+        normalized = normalize_failure_class(failure_class)
+        if normalized in cls.TRANSIENT_CLASSES:
+            return FG_TRANSIENT
+        if normalized in cls.PERMANENT_CLASSES:
+            return FG_PERMANENT
+        return FG_PERMANENT
+
+
+def group_failure(failure_class: str) -> str:
+    return FailureGroup.classify(failure_class)

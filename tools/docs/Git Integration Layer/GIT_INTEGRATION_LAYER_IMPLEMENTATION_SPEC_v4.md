@@ -333,22 +333,22 @@ Tool Adapter registration must not bypass Git Integration policy checks
 ## 5.3 Schemas
 
 ```text
-tools/agentx_evolve/schemas/git_operation.schema.json
-tools/agentx_evolve/schemas/git_command_policy.schema.json
-tools/agentx_evolve/schemas/git_command_result.schema.json
-tools/agentx_evolve/schemas/git_status_result.schema.json
-tools/agentx_evolve/schemas/git_diff_result.schema.json
-tools/agentx_evolve/schemas/git_branch_result.schema.json
-tools/agentx_evolve/schemas/git_log_result.schema.json
-tools/agentx_evolve/schemas/git_mutation_request.schema.json
-tools/agentx_evolve/schemas/git_mutation_result.schema.json
-tools/agentx_evolve/schemas/git_commit_evidence.schema.json
-tools/agentx_evolve/schemas/git_audit_event.schema.json
-tools/agentx_evolve/schemas/git_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/git_completion_record.schema.json
-tools/agentx_evolve/schemas/git_review_report.schema.json
-tools/agentx_evolve/schemas/git_lock_record.schema.json
-tools/agentx_evolve/schemas/git_repository_identity.schema.json
+tools/agentx_evolve/schemas/07_git/git_operation.schema.json
+tools/agentx_evolve/schemas/07_git/git_command_policy.schema.json
+tools/agentx_evolve/schemas/07_git/git_command_result.schema.json
+tools/agentx_evolve/schemas/07_git/git_status_result.schema.json
+tools/agentx_evolve/schemas/07_git/git_diff_result.schema.json
+tools/agentx_evolve/schemas/07_git/git_branch_result.schema.json
+tools/agentx_evolve/schemas/07_git/git_log_result.schema.json
+tools/agentx_evolve/schemas/07_git/git_mutation_request.schema.json
+tools/agentx_evolve/schemas/07_git/git_mutation_result.schema.json
+tools/agentx_evolve/schemas/07_git/git_commit_evidence.schema.json
+tools/agentx_evolve/schemas/07_git/git_audit_event.schema.json
+tools/agentx_evolve/schemas/07_git/git_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/07_git/git_completion_record.schema.json
+tools/agentx_evolve/schemas/07_git/git_review_report.schema.json
+tools/agentx_evolve/schemas/07_git/git_lock_record.schema.json
+tools/agentx_evolve/schemas/07_git/git_repository_identity.schema.json
 ```
 
 ## 5.4 Tests
@@ -2380,7 +2380,7 @@ latest artifacts used by the review
 Create schema:
 
 ```text
-tools/agentx_evolve/schemas/git_lock_record.schema.json
+tools/agentx_evolve/schemas/07_git/git_lock_record.schema.json
 ```
 
 Create histories:

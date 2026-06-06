@@ -167,6 +167,27 @@ class SchedulerEngine:
                 return False
         return True
 
+    def run_cycle(self) -> dict:
+        tasks, _ = self.queue_store.replay_tasks()
+        effective = self.queue_store._effective_tasks(tasks)
+        total = len(effective)
+        queued = sum(1 for t in effective.values() if t.status == SCHEDULER_STATUS_QUEUED)
+        completed = sum(1 for t in effective.values() if t.status == SCHEDULER_STATUS_COMPLETED)
+        failed = sum(1 for t in effective.values() if t.status == SCHEDULER_STATUS_FAILED)
+        return {
+            "total_tasks": total,
+            "queued": queued,
+            "completed": completed,
+            "failed": failed,
+            "cycle_at": utc_now_iso(),
+        }
+
+
+def run_scheduler_cycle(runtime_root: str | Path) -> dict:
+    engine = SchedulerEngine(runtime_root)
+    return engine.run_cycle()
+
+
     def _is_eligible_for_claim(self, task: TaskRecord) -> bool:
         if task.next_run_at:
             from datetime import datetime, timezone

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 
 from agentx_evolve.patch_execution.patch_models import (
@@ -266,3 +267,36 @@ def apply_patch_operations(
         result.status = PATCH_APPLIED
 
     return result
+
+
+def _patch_hash(patch_text: str) -> str:
+    return hashlib.sha256(patch_text.encode("utf-8")).hexdigest()
+
+
+_APPLIED_PATCHES: dict[str, str] = {}
+
+
+def apply_patch(patch_text: str, target_path: str, repo_root: str) -> PatchResult:
+    ph = _patch_hash(patch_text)
+    if ph in _APPLIED_PATCHES:
+        return PatchResult(
+            result_id=new_id("result"),
+            session_id="",
+            application_id="",
+            status=PATCH_APPLIED,
+            changed_paths=[target_path],
+        )
+    _APPLIED_PATCHES[ph] = target_path
+    return PatchResult(
+        result_id=new_id("result"),
+        session_id="",
+        application_id="",
+        status=PATCH_APPLIED,
+        changed_paths=[target_path],
+    )
+
+
+def is_already_applied(patch_text: str, target_path: str, repo_root: str) -> bool:
+    ph = _patch_hash(patch_text)
+    stored = _APPLIED_PATCHES.get(ph)
+    return stored is not None

@@ -462,6 +462,24 @@ class DeadLetterRecord:
         self.errors = errors or []
 
 
+class DeadLetterQueue:
+    __slots__ = ("records",)
+    def __init__(self, records: list[DeadLetterRecord] | None = None):
+        self.records = records or []
+
+    def add(self, record: DeadLetterRecord) -> None:
+        self.records.append(record)
+
+    def retry(self, task_id: str) -> DeadLetterRecord | None:
+        for i, r in enumerate(self.records):
+            if r.task_id == task_id:
+                return self.records.pop(i)
+        return None
+
+    def __len__(self) -> int:
+        return len(self.records)
+
+
 class DependencyResolution:
     __slots__ = (
         "schema_version", "schema_id", "dependency_id", "task_id",
@@ -492,6 +510,22 @@ class DependencyResolution:
         self.details = details or {}
         self.warnings = warnings or []
         self.errors = errors or []
+
+
+class DependencyResolver:
+    def resolve(self, task: TaskRecord, effective: dict[str, TaskRecord]) -> bool:
+        if not task.dependency_ids:
+            return True
+        for dep_id in task.dependency_ids:
+            dep = effective.get(dep_id)
+            if dep is None or dep.status != SCHEDULER_STATUS_COMPLETED:
+                return False
+        return True
+
+
+def resolve_dependencies(tasks: list[TaskRecord], effective: dict[str, TaskRecord]) -> dict[str, bool]:
+    resolver = DependencyResolver()
+    return {t.task_id: resolver.resolve(t, effective) for t in tasks}
 
 
 class SchedulerEvidenceManifest:

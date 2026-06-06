@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.review_report import (
+from agentx_evolve.final_acceptance.review_report import (
     build_review_report, write_review_report,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceDeviation,
     VERDICT_ACCEPTED, VERDICT_NOT_ACCEPTED,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestBuildReviewReport:

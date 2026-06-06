@@ -265,26 +265,26 @@ Do not create daemon, watcher, server, MCP runtime, or background process files 
 Create these schema files:
 
 ```text
-tools/agentx_evolve/schemas/document_record.schema.json
-tools/agentx_evolve/schemas/document_scan_report.schema.json
-tools/agentx_evolve/schemas/document_drift_record.schema.json
-tools/agentx_evolve/schemas/document_sync_plan.schema.json
-tools/agentx_evolve/schemas/document_sync_operation.schema.json
-tools/agentx_evolve/schemas/document_sync_result.schema.json
-tools/agentx_evolve/schemas/document_link_record.schema.json
-tools/agentx_evolve/schemas/document_staleness_record.schema.json
-tools/agentx_evolve/schemas/document_index_record.schema.json
-tools/agentx_evolve/schemas/generated_document_section.schema.json
-tools/agentx_evolve/schemas/documentation_sync_policy_decision.schema.json
-tools/agentx_evolve/schemas/documentation_sync_deviation.schema.json
-tools/agentx_evolve/schemas/documentation_sync_command_result.schema.json
-tools/agentx_evolve/schemas/documentation_sync_controller_result.schema.json
-tools/agentx_evolve/schemas/documentation_sync_lock.schema.json
-tools/agentx_evolve/schemas/documentation_sync_traceability_matrix.schema.json
-tools/agentx_evolve/schemas/generated_section_registry.schema.json
-tools/agentx_evolve/schemas/documentation_sync_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/documentation_sync_review_report.schema.json
-tools/agentx_evolve/schemas/documentation_sync_completion_record.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_record.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_scan_report.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_drift_record.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_sync_plan.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_sync_operation.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_sync_result.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_link_record.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_staleness_record.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/document_index_record.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/generated_document_section.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_policy_decision.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_deviation.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_command_result.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_controller_result.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_lock.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_traceability_matrix.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/generated_section_registry.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_review_report.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_completion_record.schema.json
 ```
 
 Each schema must:
@@ -1828,7 +1828,7 @@ tools/agentx_evolve/docs_sync/doc_generated_sections.py
 Required schema:
 
 ```text
-tools/agentx_evolve/schemas/generated_document_section.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/generated_document_section.schema.json
 ```
 
 Runtime artifact:
@@ -1949,7 +1949,7 @@ Required runtime artifact:
 Required schema:
 
 ```text
-tools/agentx_evolve/schemas/documentation_sync_deviation.schema.json
+tools/agentx_evolve/schemas/03_docs_sync/documentation_sync_deviation.schema.json
 ```
 
 Deviation fields:

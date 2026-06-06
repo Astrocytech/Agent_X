@@ -525,6 +525,116 @@ class LearningLockRecord:
         return to_dict(self)
 
 
+LB_OK = "OK"
+LB_EXCEEDED = "EXCEEDED"
+ALL_BOUNDARY_STATUSES = {LB_OK, LB_EXCEEDED}
+
+
+@dataclass
+class LearningBoundary:
+    scope: str = ""
+    max_candidates: int = 10
+    current_count: int = 0
+    status: str = LB_OK
+
+    def accepts(self, scope: str) -> bool:
+        if self.scope and scope != self.scope:
+            return False
+        return self.current_count < self.max_candidates
+
+    def exceeds(self, scope: str) -> bool:
+        return not self.accepts(scope)
+
+
+LL_CREATED = "CREATED"
+LL_PENDING_REVIEW = "PENDING_REVIEW"
+LL_APPROVED = "APPROVED"
+LL_ARCHIVED = "ARCHIVED"
+LL_REJECTED = "REJECTED"
+ALL_LIFECYCLE_STATUSES = {LL_CREATED, LL_PENDING_REVIEW, LL_APPROVED, LL_ARCHIVED, LL_REJECTED}
+
+_VALID_TRANSITIONS: dict[str, set[str]] = {
+    LL_CREATED: {LL_PENDING_REVIEW, LL_REJECTED},
+    LL_PENDING_REVIEW: {LL_APPROVED, LL_REJECTED},
+    LL_APPROVED: {LL_ARCHIVED},
+    LL_ARCHIVED: set(),
+    LL_REJECTED: set(),
+}
+
+
+@dataclass
+class LearningLifecycle:
+    candidate_id: str = ""
+    status: str = LL_CREATED
+
+    def transition(self, new_status: str) -> None:
+        if new_status not in _VALID_TRANSITIONS.get(self.status, set()):
+            raise ValueError(
+                f"Invalid transition from {self.status} to {new_status}"
+            )
+        self.status = new_status
+
+
+def transition(lifecycle: LearningLifecycle, new_status: str) -> LearningLifecycle:
+    lifecycle.transition(new_status)
+    return lifecycle
+
+
+CaA_DIRECT = "DIRECT"
+CaA_INDIRECT = "INDIRECT"
+ALL_CAUSAL_ATTRIBUTION_TYPES = {CaA_DIRECT, CaA_INDIRECT}
+
+
+@dataclass
+class CausalAttribution:
+    cause_id: str = ""
+    outcome_event_id: str = ""
+    attribution_type: str = CaA_DIRECT
+    cause_description: str = ""
+    confidence: float = 0.0
+
+
+def attribute_cause(
+    outcome_event_id: str,
+    cause_description: str,
+    attribution_type: str = CaA_DIRECT,
+    confidence: float = 0.5,
+) -> CausalAttribution:
+    return CausalAttribution(
+        cause_id=new_id("ca"),
+        outcome_event_id=outcome_event_id,
+        attribution_type=attribution_type,
+        cause_description=cause_description,
+        confidence=clamp_confidence(confidence),
+    )
+
+
+FO_FLAKY = "FLAKY"
+FO_STABLE = "STABLE"
+ALL_FLAKY_OUTCOME_STATUSES = {FO_FLAKY, FO_STABLE}
+
+
+@dataclass
+class FlakyOutcomeDetector:
+    history: list[bool] = field(default_factory=list)
+    threshold: float = 0.7
+
+    def record_outcome(self, success: bool) -> None:
+        self.history.append(success)
+
+    def detect(self) -> str:
+        if not self.history:
+            return FO_STABLE
+        success_rate = sum(self.history) / len(self.history)
+        if success_rate < self.threshold:
+            return FO_FLAKY
+        return FO_STABLE
+
+
+def detect_flaky(detector: FlakyOutcomeDetector) -> str:
+    return detector.detect()
+
+
 @dataclass
 class LearningReviewIndex:
     schema_version: str = _LEARNING_SCHEMA_VERSION

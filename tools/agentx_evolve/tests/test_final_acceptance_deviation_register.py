@@ -2,10 +2,10 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.deviation_register import (
+from agentx_evolve.final_acceptance.deviation_register import (
     load_deviation_register, validate_deviation_register, write_deviation_register,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceDeviation,
 )
 

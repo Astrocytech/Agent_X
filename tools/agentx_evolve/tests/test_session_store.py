@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from scheduler.session_store import SessionStore
-from scheduler.scheduler_models import (
+from agentx_evolve.scheduler.session_store import SessionStore
+from agentx_evolve.scheduler.scheduler_models import (
     SessionRecord, new_id, utc_now_iso,
     SCHEDULER_SESSION_STATUS_ACTIVE, SCHEDULER_SESSION_STATUS_HEARTBEAT,
     SCHEDULER_SESSION_STATUS_CLOSED, SCHEDULER_SESSION_STATUS_STALE,

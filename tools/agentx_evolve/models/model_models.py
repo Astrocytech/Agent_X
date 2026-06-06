@@ -450,3 +450,36 @@ class ModelCallEvidence:
     failure_class: str | None = None
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ModelCompletionRecord:
+    record_id: str = ""
+    model_request_id: str = ""
+    model_response_id: str = ""
+    timestamp: str = ""
+    status: str = ""
+    summary: str = ""
+    evidence_refs: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return to_dict(self)
+
+
+@dataclass
+class ModelEvidenceManifest:
+    manifest_id: str = ""
+    timestamp: str = ""
+    source_component: str = SOURCE_COMPONENT
+    completion_records: list[ModelCompletionRecord] = field(default_factory=list)
+    evidence_refs: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def add_record(self, record: ModelCompletionRecord) -> None:
+        self.completion_records.append(record)
+
+    def to_dict(self) -> dict:
+        return to_dict(self)

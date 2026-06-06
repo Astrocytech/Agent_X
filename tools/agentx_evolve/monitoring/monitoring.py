@@ -22,6 +22,7 @@ warnings.warn(
 )
 
 from agentx_evolve.monitoring.monitoring_events import (
+    MonitoringEvent,
     MonitoringEvent as AuditEvent,
     EventHash as AuditEventHash,
     MN_SCHEMA_VERSION, MN_SCHEMA_ID,
@@ -29,6 +30,10 @@ from agentx_evolve.monitoring.monitoring_events import (
     ALL_EVENT_TYPES,
     canonical_json, sha256_dict,
 )
+
+ME_INFO = MN_EVENT_INFO
+ME_WARN = MN_EVENT_WARN
+ME_ERROR = MN_EVENT_ERROR
 
 from agentx_evolve.monitoring.monitoring_audit import AuditLog, SessionInspector
 

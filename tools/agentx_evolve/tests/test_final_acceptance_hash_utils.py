@@ -2,11 +2,11 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.hash_utils import (
+from agentx_evolve.final_acceptance.hash_utils import (
     sha256_file, sha256_text, hash_artifacts,
     write_artifact_hashes, validate_acyclic_hash_manifest,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceArtifactHash,
 )
 

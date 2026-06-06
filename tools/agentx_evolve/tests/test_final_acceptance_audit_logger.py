@@ -1,10 +1,10 @@
 import json
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.audit_logger import (
+from agentx_evolve.final_acceptance.audit_logger import (
     append_event, append_command_record,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestAppendEvent:

@@ -900,7 +900,7 @@ A package manifest must record exactly what is intended to be packaged.
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/package_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_manifest.schema.json
 ```
 
 Required fields:
@@ -1176,7 +1176,7 @@ This layer must either produce basic package metadata or explicitly defer it.
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/packaging_sbom.schema.json
+tools/agentx_evolve/schemas/15_packaging/packaging_sbom.schema.json
 ```
 
 Required fields:
@@ -1204,7 +1204,7 @@ Required fields:
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/packaging_license_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/packaging_license_manifest.schema.json
 ```
 
 Required fields:
@@ -1247,7 +1247,7 @@ full legal approval is outside this layer unless delegated
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/artifact_hash_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/artifact_hash_manifest.schema.json
 ```
 
 Required fields:
@@ -1345,7 +1345,7 @@ redact local private paths
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/package_validation_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_validation_report.schema.json
 ```
 
 Required fields:
@@ -1382,7 +1382,7 @@ Required fields:
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/distribution_review_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/distribution_review_report.schema.json
 ```
 
 Required fields:
@@ -1427,7 +1427,7 @@ A package cannot be marked `PASS` if any required area is `NOT CHECKED` or `NOT 
 Required schema file:
 
 ```text
-tools/agentx_evolve/schemas/packaging_deviation_register.schema.json
+tools/agentx_evolve/schemas/15_packaging/packaging_deviation_register.schema.json
 ```
 
 Required fields:

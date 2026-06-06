@@ -347,20 +347,20 @@ tools/agentx_evolve/learning/memory_adapter.py
 Create:
 
 ```text
-tools/agentx_evolve/schemas/outcome_event.schema.json
-tools/agentx_evolve/schemas/outcome_review.schema.json
-tools/agentx_evolve/schemas/learning_signal.schema.json
-tools/agentx_evolve/schemas/memory_candidate.schema.json
-tools/agentx_evolve/schemas/learning_policy_decision.schema.json
-tools/agentx_evolve/schemas/regression_link.schema.json
-tools/agentx_evolve/schemas/outcome_review_report.schema.json
-tools/agentx_evolve/schemas/learning_audit_event.schema.json
-tools/agentx_evolve/schemas/follow_up_task_proposal.schema.json
-tools/agentx_evolve/schemas/learning_lock.schema.json
-tools/agentx_evolve/schemas/learning_review_index.schema.json
-tools/agentx_evolve/schemas/learning_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/learning_implementation_review_report.schema.json
-tools/agentx_evolve/schemas/learning_completion_record.schema.json
+tools/agentx_evolve/schemas/12_learning/outcome_event.schema.json
+tools/agentx_evolve/schemas/12_learning/outcome_review.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_signal.schema.json
+tools/agentx_evolve/schemas/12_learning/memory_candidate.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_policy_decision.schema.json
+tools/agentx_evolve/schemas/12_learning/regression_link.schema.json
+tools/agentx_evolve/schemas/12_learning/outcome_review_report.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_audit_event.schema.json
+tools/agentx_evolve/schemas/12_learning/follow_up_task_proposal.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_lock.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_review_index.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_implementation_review_report.schema.json
+tools/agentx_evolve/schemas/12_learning/learning_completion_record.schema.json
 ```
 
 ## 5.4 Test Files

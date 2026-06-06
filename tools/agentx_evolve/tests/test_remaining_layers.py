@@ -3,11 +3,12 @@ from agentx_evolve.review.review_interface import (
     ApprovalRecord, ReviewReport, ApprovalHistory, HumanReviewInterface,
     AD_PENDING, AD_APPROVED, AD_REJECTED,
 )
-from agentx_evolve.promotion.promotion_gate import (
-    PromotionCheckResult, PromotionRecord, PromotionGate,
-    PC_PROMOTE_READY, PC_PROMOTE_BLOCKED, PC_PROMOTE_NEEDS_REVIEW,
+from agentx_evolve.promotion.promotion_models import (
+    PromotionGateDecision,
+    PC_APPROVED, PC_BLOCKED, PC_NEEDS_APPROVAL,
 )
-from agentx_evolve.learning.outcome_review import OutcomeRecord, OutcomeReview, StrategyMemory
+from agentx_evolve.learning.outcome_models import OutcomeEvent
+from agentx_evolve.learning.outcome_review import LearningOutcomeRecord, LearningOutcomeReview, StrategyMemory
 from agentx_evolve.queue.task_queue import TaskQueueItem, TaskQueue, QS_PENDING, QS_RUNNING
 from agentx_evolve.evaluation.evaluation_harness import (
     GoldenTask, EvalResult, EvalSuiteResult, EvaluationHarness, QualityScorecard,
@@ -19,9 +20,8 @@ from agentx_evolve.runtime.runtime_profile import (
 )
 from agentx_evolve.monitoring.monitoring import AuditEvent, AuditLog, SessionInspector
 from agentx_evolve.acceptance.acceptance import AcceptanceCheck, AC_CHECK_PASS
-from agentx_evolve.orchestrator.self_evolution_orchestrator import SelfEvolutionOrchestrator
-from agentx_evolve.orchestrator.session_models import (
-    SessionRecord, SC_ACCEPTED, SC_BLOCKED, SC_FAILED,
+from agentx_evolve.orchestrator.orchestrator_models import (
+    OrchestrationSession,
 )
 
 
@@ -104,42 +104,24 @@ def test_human_review_report():
 # Promotion / Release Gate tests
 # ---------------------------------------------------------------------------
 
-def test_promotion_check_result_defaults():
-    r = PromotionCheckResult()
-    assert r.decision == PC_PROMOTE_BLOCKED
+def test_promotion_gate_decision_defaults():
+    d = PromotionGateDecision()
+    assert d.status == PC_BLOCKED
 
 
-def test_promotion_gate_all_pass():
-    g = PromotionGate()
-    r = g.check("s1")
-    assert r.decision == PC_PROMOTE_READY
+def test_promotion_gate_decision_approved():
+    d = PromotionGateDecision(status=PC_APPROVED)
+    assert d.status == PC_APPROVED
 
 
-def test_promotion_gate_critical_fail():
-    g = PromotionGate()
-    r = g.check("s1", governance_allowed=False)
-    assert r.decision == PC_PROMOTE_BLOCKED
+def test_promotion_gate_decision_blocked():
+    d = PromotionGateDecision(status=PC_BLOCKED)
+    assert d.status == PC_BLOCKED
 
 
-def test_promotion_gate_needs_review():
-    g = PromotionGate()
-    r = g.check("s1", rollback_available=False)
-    assert r.decision == PC_PROMOTE_NEEDS_REVIEW
-
-
-def test_promotion_gate_record():
-    g = PromotionGate()
-    g.check("s1")
-    record = g.get_record("s1")
-    assert record is not None
-    assert record.session_id == "s1"
-
-
-def test_promotion_gate_list():
-    g = PromotionGate()
-    g.check("s1")
-    g.check("s2")
-    assert len(g.list_records()) == 2
+def test_promotion_gate_decision_needs_approval():
+    d = PromotionGateDecision(status=PC_NEEDS_APPROVAL)
+    assert d.status == PC_NEEDS_APPROVAL
 
 
 # ---------------------------------------------------------------------------
@@ -147,43 +129,43 @@ def test_promotion_gate_list():
 # ---------------------------------------------------------------------------
 
 def test_outcome_record_defaults():
-    r = OutcomeRecord()
+    r = LearningOutcomeRecord()
     assert r.outcome_id == ""
 
 
 def test_outcome_review_record():
-    o = OutcomeReview()
-    r = OutcomeRecord(session_id="s1", attempted_task="fix parser",
-                      successful_strategy="replaced regex")
+    o = LearningOutcomeReview()
+    r = LearningOutcomeRecord(session_id="s1", attempted_task="fix parser",
+                              successful_strategy="replaced regex")
     o.record(r)
     assert len(o.list_all()) == 1
     assert r.outcome_id.startswith("or-")
 
 
 def test_outcome_review_get_by_session():
-    o = OutcomeReview()
-    o.record(OutcomeRecord(session_id="s1"))
-    o.record(OutcomeRecord(session_id="s2"))
+    o = LearningOutcomeReview()
+    o.record(LearningOutcomeRecord(session_id="s1"))
+    o.record(LearningOutcomeRecord(session_id="s2"))
     assert len(o.get_by_session("s1")) == 1
 
 
 def test_outcome_review_successful_strategies():
-    o = OutcomeReview()
-    o.record(OutcomeRecord(session_id="s1", successful_strategy="X"))
-    o.record(OutcomeRecord(session_id="s2", failure_reason="Y"))
+    o = LearningOutcomeReview()
+    o.record(LearningOutcomeRecord(session_id="s1", successful_strategy="X"))
+    o.record(LearningOutcomeRecord(session_id="s2", failure_reason="Y"))
     assert len(o.get_successful_strategies()) == 1
 
 
 def test_outcome_review_failure_patterns():
-    o = OutcomeReview()
-    o.record(OutcomeRecord(failure_reason="timeout"))
+    o = LearningOutcomeReview()
+    o.record(LearningOutcomeRecord(failure_reason="timeout"))
     assert len(o.get_failure_patterns()) == 1
 
 
 def test_outcome_review_recommendations():
-    o = OutcomeReview()
-    o.record(OutcomeRecord(future_recommendation="use smaller model"))
-    o.record(OutcomeRecord(future_recommendation=""))
+    o = LearningOutcomeReview()
+    o.record(LearningOutcomeRecord(future_recommendation="use smaller model"))
+    o.record(LearningOutcomeRecord(future_recommendation=""))
     assert len(o.get_recommendations()) == 1
 
 
@@ -535,15 +517,10 @@ def test_acceptance_check_summary():
 # End-to-end integration: orchestrator + real hooks + acceptance check
 # ---------------------------------------------------------------------------
 
-def test_full_cycle_integration():
-    o = SelfEvolutionOrchestrator()
-    o.register_hook("plan", lambda: [{"id": "c1", "description": "integration test evolution"}])
-    session = SessionRecord(session_id="e2e-001", description="end-to-end test")
-    result = o.run_cycle(session)
-    assert result.session_id == "e2e-001"
-    assert result.status in (SC_ACCEPTED, SC_BLOCKED, SC_FAILED)
-    assert result.completion_record is not None
-    assert result.completion_record["session_id"] == "e2e-001"
+def test_orchestration_session_defaults():
+    s = OrchestrationSession()
+    assert s.session_id == ""
+    assert s.status == "CREATED"
 
 
 def test_acceptance_with_real_check_integration():

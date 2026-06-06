@@ -551,21 +551,21 @@ PASS
 ## 5.2 Required Schema Files
 
 ```text
-[X] tools/agentx_evolve/schemas/implementation_session.schema.json
-[X] tools/agentx_evolve/schemas/patch_application.schema.json
-[X] tools/agentx_evolve/schemas/patch_operation.schema.json
-[X] tools/agentx_evolve/schemas/patch_result.schema.json
-[X] tools/agentx_evolve/schemas/rollback_snapshot.schema.json
-[X] tools/agentx_evolve/schemas/rollback_record.schema.json
-[X] tools/agentx_evolve/schemas/source_change_guard.schema.json
-[X] tools/agentx_evolve/schemas/implementation_validation_gate.schema.json
-[X] tools/agentx_evolve/schemas/patch_execution_decision.schema.json
-[X] tools/agentx_evolve/schemas/patch_execution_audit.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/implementation_session.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/patch_application.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/patch_operation.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/patch_result.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/rollback_snapshot.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/rollback_record.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/source_change_guard.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/implementation_validation_gate.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/patch_execution_decision.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/patch_execution_audit.schema.json
 [X] tools/agentx_evolve/schemas/patch_execution_completion_record.schema.json
-[X] tools/agentx_evolve/schemas/dry_run_result.schema.json
-[X] tools/agentx_evolve/schemas/source_inventory.schema.json
-[X] tools/agentx_evolve/schemas/patch_limits.schema.json
-[X] tools/agentx_evolve/schemas/temporary_policy_bridge.schema.json
+[X] tools/agentx_evolve/schemas/20_orchestrator/dry_run_result.schema.json
+[X] tools/agentx_evolve/schemas/15_packaging/source_inventory.schema.json
+[X] tools/agentx_evolve/schemas/08_patch/patch_limits.schema.json
+[X] tools/agentx_evolve/schemas/16_policy/temporary_policy_bridge.schema.json
 ```
 
 Status: PASS

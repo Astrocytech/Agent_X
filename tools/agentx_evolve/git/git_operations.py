@@ -10,6 +10,17 @@ from agentx_evolve.git.git_models import (
     new_id, utc_now_iso,
 )
 
+class GitOperationError(Exception):
+    def __init__(self, message: str = "", code: str = "", original: Exception | None = None):
+        super().__init__(message)
+        self.code = code
+        self.original = original
+
+
+GOE_FILE_NOT_FOUND = "FILE_NOT_FOUND"
+GOE_PERMISSION_DENIED = "PERMISSION_DENIED"
+
+
 _READ_ONLY_OPS = {
     GIT_OP_STATUS, GIT_OP_DIFF, GIT_OP_DIFF_NAME_ONLY,
     GIT_OP_DIFF_STAT, GIT_OP_LOG, GIT_OP_SHOW, GIT_OP_BRANCH,

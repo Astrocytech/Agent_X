@@ -296,26 +296,26 @@ restore_transaction.py
 ## 5.2 Schema Files
 
 ```text
-tools/agentx_evolve/schemas/backup_policy.schema.json
-tools/agentx_evolve/schemas/backup_manifest.schema.json
-tools/agentx_evolve/schemas/backup_snapshot_record.schema.json
-tools/agentx_evolve/schemas/backup_snapshot_index.schema.json
-tools/agentx_evolve/schemas/backup_file_record.schema.json
-tools/agentx_evolve/schemas/backup_verification_result.schema.json
-tools/agentx_evolve/schemas/restore_request.schema.json
-tools/agentx_evolve/schemas/restore_decision.schema.json
-tools/agentx_evolve/schemas/restore_plan.schema.json
-tools/agentx_evolve/schemas/restore_result.schema.json
-tools/agentx_evolve/schemas/disaster_recovery_plan.schema.json
-tools/agentx_evolve/schemas/backup_retention_policy.schema.json
-tools/agentx_evolve/schemas/backup_audit_event.schema.json
-tools/agentx_evolve/schemas/backup_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/backup_completion_record.schema.json
-tools/agentx_evolve/schemas/backup_catalog.schema.json
-tools/agentx_evolve/schemas/backup_lock_record.schema.json
-tools/agentx_evolve/schemas/restore_preflight_record.schema.json
-tools/agentx_evolve/schemas/restore_transaction_record.schema.json
-tools/agentx_evolve/schemas/backup_cli_result.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_policy.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_manifest.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_snapshot_record.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_snapshot_index.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_file_record.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_verification_result.schema.json
+tools/agentx_evolve/schemas/01_backup/restore_request.schema.json
+tools/agentx_evolve/schemas/01_backup/restore_decision.schema.json
+tools/agentx_evolve/schemas/01_backup/restore_plan.schema.json
+tools/agentx_evolve/schemas/01_backup/restore_result.schema.json
+tools/agentx_evolve/schemas/01_backup/disaster_recovery_plan.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_retention_policy.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_audit_event.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_completion_record.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_catalog.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_lock_record.schema.json
+tools/agentx_evolve/schemas/01_backup/restore_preflight_record.schema.json
+tools/agentx_evolve/schemas/01_backup/restore_transaction_record.schema.json
+tools/agentx_evolve/schemas/01_backup/backup_cli_result.schema.json
 ```
 
 ## 5.3 Test Files

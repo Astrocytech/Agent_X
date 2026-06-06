@@ -1,10 +1,10 @@
 import pytest
 
-from tools.agentx_evolve.final_acceptance.mode_policy import (
+from agentx_evolve.final_acceptance.mode_policy import (
     build_mode_policy, is_layer_required_for_mode,
     is_deferral_allowed_for_mode, validate_acceptance_mode,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     MODE_IMPLEMENTATION_ACCEPTANCE, MODE_SOURCE_ONLY_ACCEPTANCE,
     MODE_NON_PRODUCTION_ACCEPTANCE, MODE_PRODUCTION_ACCEPTANCE, MODE_RELEASE_ACCEPTANCE,
 )

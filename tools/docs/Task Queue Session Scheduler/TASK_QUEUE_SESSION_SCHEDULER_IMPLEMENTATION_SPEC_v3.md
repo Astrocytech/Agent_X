@@ -290,19 +290,19 @@ scheduler_network.py is not allowed in this implementation pass
 Create:
 
 ```text
-tools/agentx_evolve/schemas/scheduler_task.schema.json
-tools/agentx_evolve/schemas/scheduler_queue.schema.json
-tools/agentx_evolve/schemas/scheduler_session.schema.json
-tools/agentx_evolve/schemas/scheduler_lock.schema.json
-tools/agentx_evolve/schemas/scheduler_lease.schema.json
-tools/agentx_evolve/schemas/scheduler_claim.schema.json
-tools/agentx_evolve/schemas/scheduler_retry_policy.schema.json
-tools/agentx_evolve/schemas/scheduler_event.schema.json
-tools/agentx_evolve/schemas/scheduler_state.schema.json
-tools/agentx_evolve/schemas/scheduler_policy_decision.schema.json
-tools/agentx_evolve/schemas/scheduler_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/scheduler_review_report.schema.json
-tools/agentx_evolve/schemas/scheduler_completion_record.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_task.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_queue.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_session.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_lock.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_lease.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_claim.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_retry_policy.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_event.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_state.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_policy_decision.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_review_report.schema.json
+tools/agentx_evolve/schemas/21_scheduler/scheduler_completion_record.schema.json
 ```
 
 ## 5.4 Test Files

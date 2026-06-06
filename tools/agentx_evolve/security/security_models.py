@@ -30,6 +30,29 @@ OP_NETWORK = "NETWORK"
 OP_REDACT = "REDACT"
 
 
+SV_PATH_ESCAPE = "PATH_ESCAPE"
+SV_SUBPROCESS = "SUBPROCESS"
+SV_REDACTION_FAIL = "REDACTION_FAIL"
+
+
+@dataclass
+class SecurityViolation:
+    schema_version: str = "1.0"
+    schema_id: str = "security_violation.schema.json"
+    violation_id: str = ""
+    violation_type: str = ""
+    timestamp: str = ""
+    source_component: str = "Security"
+    target: str | None = None
+    reason: str = ""
+    severity: str = "medium"
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return to_dict(self)
+
+
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 

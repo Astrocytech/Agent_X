@@ -1,4 +1,4 @@
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     STATUS_PASS, STATUS_FAIL, STATUS_PARTIAL, STATUS_NOT_CHECKED,
     STATUS_NOT_RUN, STATUS_NOT_APPLICABLE, STATUS_DEFERRED_SAFELY, STATUS_STALE,
     VERDICT_ACCEPTED, VERDICT_ACCEPTED_WITH_SAFE_DEFERRALS, VERDICT_NOT_ACCEPTED,

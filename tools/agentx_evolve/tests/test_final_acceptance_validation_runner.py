@@ -2,10 +2,10 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.validation_runner import (
+from agentx_evolve.final_acceptance.validation_runner import (
     run_validation_commands, run_single_validation_command, write_validation_results,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceValidationResult, STATUS_PASS, STATUS_FAIL, STATUS_NOT_RUN,
 )
 

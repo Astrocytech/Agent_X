@@ -271,19 +271,19 @@ tools/agentx_evolve/model_runtime/runtime_artifacts.py
 Create:
 
 ```text
-tools/agentx_evolve/schemas/local_model_profile.schema.json
-tools/agentx_evolve/schemas/local_runtime_profile.schema.json
-tools/agentx_evolve/schemas/local_hardware_profile.schema.json
-tools/agentx_evolve/schemas/local_model_inventory.schema.json
-tools/agentx_evolve/schemas/local_model_availability.schema.json
-tools/agentx_evolve/schemas/local_runtime_compatibility_decision.schema.json
-tools/agentx_evolve/schemas/local_model_selection_constraints.schema.json
-tools/agentx_evolve/schemas/local_runtime_request_limits.schema.json
-tools/agentx_evolve/schemas/local_runtime_artifact.schema.json
-tools/agentx_evolve/schemas/local_model_eligibility_decision.schema.json
-tools/agentx_evolve/schemas/local_model_runtime_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/local_model_runtime_review_report.schema.json
-tools/agentx_evolve/schemas/local_model_runtime_completion_record.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_profile.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_runtime_profile.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_hardware_profile.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_inventory.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_availability.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_runtime_compatibility_decision.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_selection_constraints.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_runtime_request_limits.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_runtime_artifact.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_eligibility_decision.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_runtime_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_runtime_review_report.schema.json
+tools/agentx_evolve/schemas/11_model_runtime/local_model_runtime_completion_record.schema.json
 ```
 
 ## 5.3 Test Files

@@ -1,15 +1,15 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.verdict_writer import (
+from agentx_evolve.final_acceptance.verdict_writer import (
     build_verdict_record, write_verdict_record,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceEvidenceManifest, FinalAcceptanceEvidenceItem,
     FinalAcceptanceArtifactHash,
     VERDICT_ACCEPTED, VERDICT_NOT_ACCEPTED,
     STATUS_PASS, STATUS_FAIL,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestBuildVerdictRecord:

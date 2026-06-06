@@ -2,10 +2,10 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.cross_layer_checker import (
+from agentx_evolve.final_acceptance.cross_layer_checker import (
     run_cross_layer_checks, write_cross_layer_matrix,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceLayerRegistry, FinalAcceptanceEvidenceManifest,
     FinalAcceptanceLayer, CrossLayerCheck,
     MODE_IMPLEMENTATION_ACCEPTANCE, MODE_SOURCE_ONLY_ACCEPTANCE,

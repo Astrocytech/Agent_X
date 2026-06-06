@@ -193,3 +193,8 @@ class SchedulerDispatcher:
 
     def finalize_evidence(self, validated_commit: str = "") -> dict:
         return self.evidence.write_all(str(self.runtime_root), validated_commit)
+
+
+def dispatch_task(dispatcher: SchedulerDispatcher, task_id: str, session_id: str,
+                  payload_ref: str = "", priority: int = 50) -> dict:
+    return dispatcher.create_task(task_id, session_id, payload_ref, priority)

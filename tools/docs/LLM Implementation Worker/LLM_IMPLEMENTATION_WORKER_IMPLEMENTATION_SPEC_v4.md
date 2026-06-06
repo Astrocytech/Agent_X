@@ -279,24 +279,24 @@ tools/agentx_evolve/workers/llm_implementation_worker/worker_dispatcher.py
 Use these exact filenames:
 
 ```text
-tools/agentx_evolve/schemas/llm_worker_task.schema.json
-tools/agentx_evolve/schemas/llm_worker_result.schema.json
-tools/agentx_evolve/schemas/llm_worker_dependency_status.schema.json
-tools/agentx_evolve/schemas/llm_worker_context_package.schema.json
-tools/agentx_evolve/schemas/llm_worker_prompt_package.schema.json
-tools/agentx_evolve/schemas/llm_worker_model_request.schema.json
-tools/agentx_evolve/schemas/llm_worker_model_response.schema.json
-tools/agentx_evolve/schemas/llm_worker_model_output.schema.json
-tools/agentx_evolve/schemas/llm_worker_implementation_plan.schema.json
-tools/agentx_evolve/schemas/llm_worker_patch_proposal.schema.json
-tools/agentx_evolve/schemas/llm_worker_validation_handoff.schema.json
-tools/agentx_evolve/schemas/llm_worker_audit.schema.json
-tools/agentx_evolve/schemas/llm_worker_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/llm_worker_review_report.schema.json
-tools/agentx_evolve/schemas/llm_worker_completion_record.schema.json
-tools/agentx_evolve/schemas/llm_worker_deviation_register.schema.json
-tools/agentx_evolve/schemas/llm_worker_traceability_matrix.schema.json
-tools/agentx_evolve/schemas/llm_worker_static_bypass_scan.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_task.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_result.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_dependency_status.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_context_package.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_prompt_package.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_model_request.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_model_response.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_model_output.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_implementation_plan.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_patch_proposal.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_validation_handoff.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_audit.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_review_report.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_completion_record.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_deviation_register.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_traceability_matrix.schema.json
+tools/agentx_evolve/schemas/10_llm_worker/llm_worker_static_bypass_scan.schema.json
 ```
 
 ## 5.3 Test Files

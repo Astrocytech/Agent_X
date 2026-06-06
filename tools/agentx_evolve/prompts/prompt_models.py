@@ -89,6 +89,25 @@ ALL_INJECTION_RISK_LEVELS = [
     INJECTION_RISK_SUSPICIOUS,
     INJECTION_RISK_DANGEROUS,
 ]
+PR_READ = "READ"
+PR_WRITE = "WRITE"
+PR_ADMIN = "ADMIN"
+
+
+@dataclass
+class RolePermission:
+    role: str = ""
+    permission: str = PR_READ
+    enabled: bool = True
+
+
+@dataclass
+class PromptPermissionMatrix:
+    matrix_id: str = ""
+    roles: dict[str, list[RolePermission]] = field(default_factory=dict)
+    default_permission: str = PR_READ
+
+
 ALL_MIGRATION_STATUSES = [
     MIGRATION_STATUS_REQUIRED,
     MIGRATION_STATUS_IN_PROGRESS,

@@ -381,22 +381,22 @@ tools/agentx_evolve/orchestrator/evidence_manifest.py
 ## 6.2 Schema Files
 
 ```text
-tools/agentx_evolve/schemas/orchestration_session.schema.json
-tools/agentx_evolve/schemas/orchestration_state.schema.json
-tools/agentx_evolve/schemas/orchestration_task.schema.json
-tools/agentx_evolve/schemas/task_plan.schema.json
-tools/agentx_evolve/schemas/execution_step.schema.json
-tools/agentx_evolve/schemas/tool_invocation_binding.schema.json
-tools/agentx_evolve/schemas/model_invocation_binding.schema.json
-tools/agentx_evolve/schemas/prompt_binding.schema.json
-tools/agentx_evolve/schemas/approval_gate_record.schema.json
-tools/agentx_evolve/schemas/promotion_gate_record.schema.json
-tools/agentx_evolve/schemas/recovery_action.schema.json
-tools/agentx_evolve/schemas/orchestrator_evidence_event.schema.json
-tools/agentx_evolve/schemas/run_ledger.schema.json
-tools/agentx_evolve/schemas/orchestrator_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/orchestrator_review_report.schema.json
-tools/agentx_evolve/schemas/orchestrator_completion_record.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestration_session.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestration_state.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestration_task.schema.json
+tools/agentx_evolve/schemas/21_scheduler/task_plan.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/execution_step.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/tool_invocation_binding.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_invocation_binding.schema.json
+tools/agentx_evolve/schemas/18_prompt/prompt_binding.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/approval_gate_record.schema.json
+tools/agentx_evolve/schemas/17_promotion/promotion_gate_record.schema.json
+tools/agentx_evolve/schemas/05_recovery/recovery_action.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestrator_evidence_event.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/run_ledger.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestrator_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestrator_review_report.schema.json
+tools/agentx_evolve/schemas/20_orchestrator/orchestrator_completion_record.schema.json
 ```
 
 ## 6.3 Test Files

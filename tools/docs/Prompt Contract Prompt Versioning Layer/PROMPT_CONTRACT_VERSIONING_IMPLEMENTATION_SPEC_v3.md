@@ -332,22 +332,22 @@ schema-invalid prompt bindings cannot be written as latest valid binding
 ## 6.2 Schema Files
 
 ```text
-[ ] tools/agentx_evolve/schemas/prompt_contract.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_version.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_registry.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_input_contract.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_output_contract.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_safety_rule.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_provenance.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_diff.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_migration.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_runtime_binding.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_worker_payload.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_registry_snapshot.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_permission_decision.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_audit.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_evidence_manifest.schema.json
-[ ] tools/agentx_evolve/schemas/prompt_completion_record.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_contract.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_version.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_registry.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_input_contract.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_output_contract.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_safety_rule.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_provenance.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_diff.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_migration.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_runtime_binding.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_worker_payload.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_registry_snapshot.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_permission_decision.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_audit.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_evidence_manifest.schema.json
+[ ] tools/agentx_evolve/schemas/18_prompt/prompt_completion_record.schema.json
 ```
 
 ## 6.3 Test Files

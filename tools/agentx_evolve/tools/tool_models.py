@@ -286,3 +286,47 @@ class ToolAuditEvent:
     artifact_refs: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ToolEvidenceManifest:
+    schema_version: str = SPEC_SCHEMA_VERSION
+    schema_id: str = "tool_evidence_manifest.schema.json"
+    manifest_id: str = ""
+    component_id: str = SOURCE_COMPONENT
+    validated_commit: str = ""
+    validated_at: str = ""
+    calls: list[ToolCall] = field(default_factory=list)
+    results: list[ToolResult] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ToolReviewReport:
+    schema_version: str = SPEC_SCHEMA_VERSION
+    schema_id: str = "tool_review_report.schema.json"
+    review_report_id: str = ""
+    component_id: str = SOURCE_COMPONENT
+    reviewed_commit: str = ""
+    reviewed_at: str = ""
+    findings: list[str] = field(default_factory=list)
+    blockers: list[str] = field(default_factory=list)
+    final_verdict: str = "NOT_DONE"
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ToolCompletionRecord:
+    schema_version: str = SPEC_SCHEMA_VERSION
+    schema_id: str = "tool_completion_record.schema.json"
+    completion_record_id: str = ""
+    component_id: str = SOURCE_COMPONENT
+    status: str = ""
+    validated_commit: str = ""
+    validated_at: str = ""
+    implementation_score: float = 0.0
+    final_decision: str = "NOT_DONE"
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)

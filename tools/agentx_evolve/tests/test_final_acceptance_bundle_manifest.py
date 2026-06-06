@@ -1,12 +1,12 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.bundle_manifest import (
+from agentx_evolve.final_acceptance.bundle_manifest import (
     compute_hash_of_hashes, build_final_acceptance_bundle, write_bundle_manifest,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceArtifactHash,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestComputeHashOfHashes:

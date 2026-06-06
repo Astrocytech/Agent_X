@@ -1,10 +1,22 @@
 from __future__ import annotations
+from dataclasses import dataclass
 from typing import Any
 from .runtime_models import (
     LocalModelProfile, LocalRuntimeProfile, LocalHardwareProfile,
     RUNTIME_MODE_LOCAL_ONLY, RUNTIME_MODE_LOCAL_PREFERRED, RUNTIME_MODE_DISABLED,
     DEVICE_CPU, DEVICE_GPU, DEVICE_AUTO,
 )
+
+
+RM_LOCAL = "LOCAL"
+RM_HOSTED = "HOSTED"
+
+
+@dataclass
+class RuntimeMode:
+    mode: str = RM_LOCAL
+    hosted_fallback_allowed: bool = False
+    network_allowed: bool = False
 
 
 def resolve_runtime_mode(policy_context: dict, config: dict) -> dict:

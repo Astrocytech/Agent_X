@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from scheduler.crash_recovery import CrashRecovery
-from scheduler.scheduler_models import (
+from agentx_evolve.scheduler.crash_recovery import CrashRecovery
+from agentx_evolve.scheduler.scheduler_models import (
     SessionRecord, new_id, utc_now_iso,
     SCHEDULER_SESSION_STATUS_ACTIVE, SCHEDULER_SESSION_STATUS_STALE,
 )

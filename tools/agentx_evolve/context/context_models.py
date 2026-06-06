@@ -355,3 +355,66 @@ class TaskPacketBuilder:
         if not self._packet.objective:
             self._packet.warnings.append("Task packet has no objective")
         return self._packet
+
+
+FR_PASS = "PASS"
+FR_FAIL = "FAIL"
+
+
+@dataclass
+class FixtureResult:
+    status: str = FR_PASS
+    deviations: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class GoldenFixture:
+    fixture_id: str = ""
+    name: str = ""
+    input_data: dict[str, Any] = field(default_factory=dict)
+    expected_output: dict[str, Any] = field(default_factory=dict)
+    tolerance: float = 0.0
+
+    def validate(self, actual: dict[str, Any]) -> FixtureResult:
+        deviations: list[str] = []
+        for key, expected_val in self.expected_output.items():
+            actual_val = actual.get(key)
+            if actual_val != expected_val:
+                deviations.append(f"Key {key!r}: expected {expected_val!r}, got {actual_val!r}")
+        if deviations:
+            return FixtureResult(status=FR_FAIL, deviations=deviations)
+        return FixtureResult(status=FR_PASS)
+
+
+HI_OVERRIDE = "OVERRIDE"
+HI_APPEND = "APPEND"
+
+
+@dataclass
+class InstructionHierarchy:
+    instructions: list[dict[str, Any]] = field(default_factory=list)
+
+    def add(self, instruction: str, priority: int, merge_mode: str = HI_OVERRIDE) -> None:
+        self.instructions.append({
+            "instruction": instruction,
+            "priority": priority,
+            "merge_mode": merge_mode,
+        })
+        self.instructions.sort(key=lambda x: x["priority"], reverse=True)
+
+    def merge(self) -> list[str]:
+        seen: set[str] = set()
+        result: list[str] = []
+        for item in self.instructions:
+            instr = item["instruction"]
+            if instr not in seen:
+                seen.add(instr)
+                result.append(instr)
+        return result
+
+    def highest_priority(self) -> str | None:
+        if not self.instructions:
+            return None
+        return self.instructions[0]["instruction"]

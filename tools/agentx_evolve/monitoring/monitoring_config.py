@@ -26,6 +26,25 @@ class MonitoringConfig:
 DEFAULT_CONFIG = MonitoringConfig()
 
 
+def redact_sensitive_keys(data: dict, keys: set[str] | None = None) -> dict:
+    if keys is None:
+        keys = {"secret", "password", "token", "api_key", "private_key"}
+    result: dict = {}
+    for k, v in data.items():
+        if k.lower() in keys:
+            result[k] = "***REDACTED***"
+        elif isinstance(v, dict):
+            result[k] = redact_sensitive_keys(v, keys)
+        elif isinstance(v, list):
+            result[k] = [
+                redact_sensitive_keys(item, keys) if isinstance(item, dict) else item
+                for item in v
+            ]
+        else:
+            result[k] = v
+    return result
+
+
 def load_monitoring_config(config_path: Path | None = None) -> MonitoringConfig:
     if config_path is None:
         return DEFAULT_CONFIG

@@ -3,17 +3,17 @@ import pytest
 from pathlib import Path
 from typing import Any
 
-from tools.agentx_evolve.final_acceptance.acceptance_runner import run_final_acceptance
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_runner import run_final_acceptance
+from agentx_evolve.final_acceptance.acceptance_models import (
     VERDICT_NOT_ACCEPTED, MODE_IMPLEMENTATION_ACCEPTANCE,
     MODE_SOURCE_ONLY_ACCEPTANCE, MODE_RELEASE_ACCEPTANCE,
     VALIDATED_NOT_ACCEPTED, STATUS_PASS, STATUS_FAIL,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import (
+from agentx_evolve.final_acceptance.artifact_writer import (
     runtime_root, ensure_runtime_root, write_json_artifact,
 )
-from tools.agentx_evolve.final_acceptance.hash_utils import sha256_file
-from tools.agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
+from agentx_evolve.final_acceptance.hash_utils import sha256_file
+from agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
 
 
 SKIP_ALL = dict(
@@ -113,7 +113,7 @@ class TestUnsafeDeferral:
 # ---- DOD §39.8: Dependency bypass path -> NOT_ACCEPTED ----
 class TestDependencyBypass:
     def test_cross_layer_blocker_not_accepted(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.acceptance_models import CrossLayerCheck
+        from agentx_evolve.final_acceptance.acceptance_models import CrossLayerCheck
         checks = [
             CrossLayerCheck(
                 check_id="dependency_bypass",
@@ -133,7 +133,7 @@ class TestDependencyBypass:
 # ---- DOD §39.9: Runtime artifact outside approved root -> NOT_ACCEPTED ----
 class TestRuntimeArtifactOutsideRoot:
     def test_artifact_outside_runtime_fails_boundary(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.runtime_artifact_report import (
+        from agentx_evolve.final_acceptance.runtime_artifact_report import (
             build_runtime_artifact_report,
         )
         report = build_runtime_artifact_report(tmp_path, [])
@@ -148,7 +148,7 @@ class TestRuntimeArtifactOutsideRoot:
 # ---- DOD §39.10: Source mutation after validation -> NOT_ACCEPTED ----
 class TestSourceMutation:
     def test_git_status_with_source_changes_fails(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.safety_freeze import build_safety_freeze_report
+        from agentx_evolve.final_acceptance.safety_freeze import build_safety_freeze_report
         src = tmp_path / "source_file.py"
         src.write_text("print('hello')")
         report = build_safety_freeze_report(tmp_path)
@@ -163,7 +163,7 @@ class TestSourceMutation:
 # ---- DOD §39.11: ACCEPTED with failing command -> test fails ----
 class TestAcceptedWithFailingCommand:
     def test_verdict_with_failed_validation_is_not_accepted(self):
-        from tools.agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceValidationResult
+        from agentx_evolve.final_acceptance.acceptance_models import FinalAcceptanceValidationResult
         results = [
             FinalAcceptanceValidationResult(
                 command_name="compileall", status="FAIL", exit_code=1,
@@ -180,7 +180,7 @@ class TestAcceptedWithFailingCommand:
 # ---- DOD §39.12: Release-ready without promotion/release evidence -> NOT_ACCEPTED ----
 class TestReleaseReadyWithoutEvidence:
     def test_release_readiness_with_blockers_not_ready(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.release_readiness import (
+        from agentx_evolve.final_acceptance.release_readiness import (
             build_release_readiness_report,
         )
         report = build_release_readiness_report(

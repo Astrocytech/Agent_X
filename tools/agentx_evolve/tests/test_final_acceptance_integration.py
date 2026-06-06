@@ -2,7 +2,7 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     STATUS_PASS, STATUS_FAIL, STATUS_NOT_APPLICABLE, STATUS_DEFERRED_SAFELY,
     STATUS_NOT_CHECKED, STATUS_NOT_RUN, STATUS_STALE,
     VERDICT_ACCEPTED, VERDICT_ACCEPTED_WITH_SAFE_DEFERRALS, VERDICT_NOT_ACCEPTED,
@@ -15,47 +15,47 @@ from tools.agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceDeviation, FinalAcceptanceArtifactHash, FinalAcceptanceModePolicy,
     FinalAcceptanceReport, FinalAcceptanceCompletionRecord,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import (
+from agentx_evolve.final_acceptance.artifact_writer import (
     runtime_root, ensure_runtime_root, atomic_write_json,
     write_json_artifact, is_within_runtime_root, reject_path_traversal,
 )
-from tools.agentx_evolve.final_acceptance.hash_utils import (
+from agentx_evolve.final_acceptance.hash_utils import (
     sha256_file, sha256_text, hash_artifacts,
     write_artifact_hashes, validate_acyclic_hash_manifest,
 )
-from tools.agentx_evolve.final_acceptance.mode_policy import (
+from agentx_evolve.final_acceptance.mode_policy import (
     build_mode_policy, is_layer_required_for_mode,
     is_deferral_allowed_for_mode, validate_acceptance_mode,
 )
-from tools.agentx_evolve.final_acceptance.layer_catalog import (
+from agentx_evolve.final_acceptance.layer_catalog import (
     build_canonical_layer_catalog, validate_layer_catalog,
 )
-from tools.agentx_evolve.final_acceptance.layer_registry import (
+from agentx_evolve.final_acceptance.layer_registry import (
     build_final_acceptance_layer_registry, get_layer_by_id,
     list_required_layers, list_safely_deferred_layers, write_layer_registry,
 )
-from tools.agentx_evolve.final_acceptance.evidence_collector import (
+from agentx_evolve.final_acceptance.evidence_collector import (
     collect_layer_evidence, collect_evidence_item,
     validate_evidence_item_schema_if_json, write_evidence_manifest,
 )
-from tools.agentx_evolve.final_acceptance.deviation_register import (
+from agentx_evolve.final_acceptance.deviation_register import (
     load_deviation_register, validate_deviation_register, write_deviation_register,
 )
-from tools.agentx_evolve.final_acceptance.cross_layer_checker import (
+from agentx_evolve.final_acceptance.cross_layer_checker import (
     run_cross_layer_checks, write_cross_layer_matrix,
 )
-from tools.agentx_evolve.final_acceptance.validation_runner import (
+from agentx_evolve.final_acceptance.validation_runner import (
     run_validation_commands, run_single_validation_command, write_validation_results,
 )
-from tools.agentx_evolve.final_acceptance.schema_validator import (
+from agentx_evolve.final_acceptance.schema_validator import (
     validate_final_acceptance_schemas, validate_json_file_against_schema,
     write_schema_validation_results,
 )
-from tools.agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
-from tools.agentx_evolve.final_acceptance.report_generator import (
+from agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
+from agentx_evolve.final_acceptance.report_generator import (
     build_final_acceptance_report, write_final_acceptance_report,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_runner import (
+from agentx_evolve.final_acceptance.acceptance_runner import (
     run_final_acceptance, write_completion_record, write_latest_result,
 )
 
@@ -520,7 +520,7 @@ class TestAcceptanceRunner:
 
 class TestAllExportable:
     def test_all_classes_importable(self):
-        from tools.agentx_evolve.final_acceptance import (
+        from agentx_evolve.final_acceptance import (
             FinalAcceptanceLayer, FinalAcceptanceLayerRegistry,
             FinalAcceptanceEvidenceItem, FinalAcceptanceEvidenceManifest,
             CrossLayerCheck, FinalAcceptanceValidationResult,
@@ -532,7 +532,7 @@ class TestAllExportable:
         assert FinalAcceptanceReport is not None
 
     def test_all_functions_importable(self):
-        from tools.agentx_evolve.final_acceptance import (
+        from agentx_evolve.final_acceptance import (
             runtime_root, ensure_runtime_root, atomic_write_json,
             write_json_artifact, sha256_file, sha256_text,
             build_mode_policy, is_layer_required_for_mode,

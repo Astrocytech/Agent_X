@@ -3,8 +3,8 @@ import json
 import tempfile
 from pathlib import Path
 
-from scheduler.queue_store import QueueStore
-from scheduler.scheduler_models import (
+from agentx_evolve.scheduler.queue_store import QueueStore
+from agentx_evolve.scheduler.scheduler_models import (
     TaskRecord, new_id,
     SCHEDULER_STATUS_QUEUED, SCHEDULER_STATUS_COMPLETED,
     SCHEDULER_STATUS_FAILED,

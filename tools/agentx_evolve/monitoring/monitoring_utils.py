@@ -42,6 +42,14 @@ def ensure_dir(path: Path) -> Path:
     return path
 
 
+def write_runtime_artifact(path: Path, data: dict) -> Path:
+    return write_json_atomic(path, data)
+
+
+def read_runtime_artifact(path: Path) -> dict | None:
+    return read_json(path)
+
+
 def redact_payload(payload: dict, keys_to_redact: set[str] | None = None) -> dict:
     if keys_to_redact is None:
         keys_to_redact = {"secret", "password", "token", "api_key", "private_key"}

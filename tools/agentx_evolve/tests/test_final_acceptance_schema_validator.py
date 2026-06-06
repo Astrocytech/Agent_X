@@ -2,11 +2,11 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.schema_validator import (
+from agentx_evolve.final_acceptance.schema_validator import (
     validate_final_acceptance_schemas, validate_json_file_against_schema,
     write_schema_validation_results,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceValidationResult, STATUS_PASS, STATUS_FAIL,
 )
 

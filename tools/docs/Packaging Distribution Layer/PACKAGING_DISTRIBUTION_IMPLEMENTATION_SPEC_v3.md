@@ -208,25 +208,25 @@ tools/agentx_evolve/packaging/
 Required schema files:
 
 ```text
-tools/agentx_evolve/schemas/package_manifest.schema.json
-tools/agentx_evolve/schemas/package_inventory.schema.json
-tools/agentx_evolve/schemas/package_rejection.schema.json
-tools/agentx_evolve/schemas/package_build_report.schema.json
-tools/agentx_evolve/schemas/package_validation_report.schema.json
-tools/agentx_evolve/schemas/artifact_hash_manifest.schema.json
-tools/agentx_evolve/schemas/package_provenance.schema.json
-tools/agentx_evolve/schemas/dependency_lock_report.schema.json
-tools/agentx_evolve/schemas/install_validation_report.schema.json
-tools/agentx_evolve/schemas/release_bundle_manifest.schema.json
-tools/agentx_evolve/schemas/distribution_evidence.schema.json
-tools/agentx_evolve/schemas/packaging_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/packaging_completion_record.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_inventory.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_rejection.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_build_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_validation_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/artifact_hash_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/package_provenance.schema.json
+tools/agentx_evolve/schemas/15_packaging/dependency_lock_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/install_validation_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/release_bundle_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/distribution_evidence.schema.json
+tools/agentx_evolve/schemas/15_packaging/packaging_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/15_packaging/packaging_completion_record.schema.json
 dependency_inventory.schema.json
 license_notice_report.schema.json
 reproducibility_report.schema.json
-tools/agentx_evolve/schemas/dependency_inventory.schema.json
-tools/agentx_evolve/schemas/license_notice_report.schema.json
-tools/agentx_evolve/schemas/reproducibility_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/dependency_inventory.schema.json
+tools/agentx_evolve/schemas/15_packaging/license_notice_report.schema.json
+tools/agentx_evolve/schemas/15_packaging/reproducibility_report.schema.json
 ```
 
 Required test files:

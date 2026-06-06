@@ -2,7 +2,7 @@ import pytest
 import tempfile
 from pathlib import Path
 
-from scheduler.lock_manager import LockManager, LOCK_ACQUIRED, LOCK_DENIED, LOCK_STALE_RECOVERED
+from agentx_evolve.scheduler.lock_manager import LockManager, LOCK_ACQUIRED, LOCK_DENIED, LOCK_STALE_RECOVERED
 
 
 @pytest.fixture
@@ -62,7 +62,7 @@ def test_exclusive_create_semantics(lock_manager):
     assert not path.exists()
     fd = None
     import os
-    from scheduler.scheduler_models import utc_now_iso
+    from agentx_evolve.scheduler.scheduler_models import utc_now_iso
     try:
         fd = os.open(str(path), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
         with os.fdopen(fd, "w") as f:

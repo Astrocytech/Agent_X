@@ -3,11 +3,11 @@ from pathlib import Path
 
 import pytest
 
-from scheduler.task_queue import (
+from agentx_evolve.scheduler.task_queue import (
     enqueue_task, get_queue_state, claim_next_task, claim_task,
     evaluate_dependencies, create_task, validate_task,
 )
-from scheduler.scheduler_models import (
+from agentx_evolve.scheduler.scheduler_models import (
     TaskRecord, new_id, utc_now_iso,
     SCHEDULER_STATUS_QUEUED, SCHEDULER_STATUS_COMPLETED,
     SCHEDULER_STATUS_BLOCKED,
@@ -51,12 +51,12 @@ def test_claim_next_task_returns_pending_task(tmp_path: Path):
     )
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
-    from scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.queue_store import QueueStore
     store = QueueStore(store_dir)
     store.append_task(task)
 
-    from scheduler.session_store import SessionStore
-    from scheduler.scheduler_models import SessionRecord
+    from agentx_evolve.scheduler.session_store import SessionStore
+    from agentx_evolve.scheduler.scheduler_models import SessionRecord
     session_store = SessionStore(tmp_path / ".agentx-init" / "scheduler" / "sessions")
     session = SessionRecord(record_id=new_id("sr"), session_id="s1")
     session_store.append_session(session)
@@ -72,12 +72,12 @@ def test_claim_next_task_skips_blocked_tasks(tmp_path: Path):
     )
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
-    from scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.queue_store import QueueStore
     store = QueueStore(store_dir)
     store.append_task(task)
 
-    from scheduler.session_store import SessionStore
-    from scheduler.scheduler_models import SessionRecord
+    from agentx_evolve.scheduler.session_store import SessionStore
+    from agentx_evolve.scheduler.scheduler_models import SessionRecord
     session_store = SessionStore(tmp_path / ".agentx-init" / "scheduler" / "sessions")
     session = SessionRecord(record_id=new_id("sr"), session_id="s1")
     session_store.append_session(session)
@@ -97,7 +97,7 @@ def test_claim_task_creates_claim(tmp_path: Path):
     )
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
-    from scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.queue_store import QueueStore
     store = QueueStore(store_dir)
     store.append_task(task)
 
@@ -112,7 +112,7 @@ def test_claim_task_blocks_duplicate_claim(tmp_path: Path):
     )
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
-    from scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.queue_store import QueueStore
     store = QueueStore(store_dir)
     store.append_task(task)
 
@@ -122,9 +122,9 @@ def test_claim_task_blocks_duplicate_claim(tmp_path: Path):
 
 
 def test_claim_next_respects_dependencies(tmp_path: Path):
-    from scheduler.queue_store import QueueStore
-    from scheduler.session_store import SessionStore
-    from scheduler.scheduler_models import SessionRecord
+    from agentx_evolve.scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.session_store import SessionStore
+    from agentx_evolve.scheduler.scheduler_models import SessionRecord
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
     store = QueueStore(store_dir)
@@ -152,7 +152,7 @@ def test_evaluate_dependencies_returns_satisfied(tmp_path: Path):
     )
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
-    from scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.queue_store import QueueStore
     store = QueueStore(store_dir)
     store.append_task(dep)
     store.append_task(task)
@@ -169,7 +169,7 @@ def test_evaluate_dependencies_returns_blocked(tmp_path: Path):
     )
     store_dir = tmp_path / ".agentx-init" / "scheduler" / "queue"
     store_dir.mkdir(parents=True, exist_ok=True)
-    from scheduler.queue_store import QueueStore
+    from agentx_evolve.scheduler.queue_store import QueueStore
     store = QueueStore(store_dir)
     store.append_task(task)
 

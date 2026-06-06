@@ -405,15 +405,15 @@ tools/agentx_evolve/policy/sandbox_policy_compat.py
 Schema files:
 
 ```text
-tools/agentx_evolve/schemas/capability_policy.schema.json
-tools/agentx_evolve/schemas/tool_policy.schema.json
-tools/agentx_evolve/schemas/model_policy.schema.json
-tools/agentx_evolve/schemas/role_permission_matrix.schema.json
-tools/agentx_evolve/schemas/policy_request.schema.json
-tools/agentx_evolve/schemas/policy_decision.schema.json
-tools/agentx_evolve/schemas/policy_violation.schema.json
-tools/agentx_evolve/schemas/policy_audit.schema.json
-tools/agentx_evolve/schemas/policy_enforcement_result.schema.json
+tools/agentx_evolve/schemas/16_policy/capability_policy.schema.json
+tools/agentx_evolve/schemas/22_tool_mcp/tool_policy.schema.json
+tools/agentx_evolve/schemas/13_model_adapter/model_policy.schema.json
+tools/agentx_evolve/schemas/16_policy/role_permission_matrix.schema.json
+tools/agentx_evolve/schemas/16_policy/policy_request.schema.json
+tools/agentx_evolve/schemas/16_policy/policy_decision.schema.json
+tools/agentx_evolve/schemas/16_policy/policy_violation.schema.json
+tools/agentx_evolve/schemas/16_policy/policy_audit.schema.json
+tools/agentx_evolve/schemas/16_policy/policy_enforcement_result.schema.json
 ```
 
 Test files:

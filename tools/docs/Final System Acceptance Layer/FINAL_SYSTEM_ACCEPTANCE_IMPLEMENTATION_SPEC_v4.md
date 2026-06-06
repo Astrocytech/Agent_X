@@ -369,17 +369,17 @@ tools/agentx_evolve/final_acceptance/cli.py
 Create:
 
 ```text
-tools/agentx_evolve/schemas/final_acceptance_layer.schema.json
-tools/agentx_evolve/schemas/final_acceptance_layer_registry.schema.json
-tools/agentx_evolve/schemas/final_acceptance_evidence_item.schema.json
-tools/agentx_evolve/schemas/final_acceptance_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/final_acceptance_cross_layer_check.schema.json
-tools/agentx_evolve/schemas/final_acceptance_validation_result.schema.json
-tools/agentx_evolve/schemas/final_acceptance_report.schema.json
-tools/agentx_evolve/schemas/final_acceptance_completion_record.schema.json
-tools/agentx_evolve/schemas/final_acceptance_deviation.schema.json
-tools/agentx_evolve/schemas/final_acceptance_artifact_hash.schema.json
-tools/agentx_evolve/schemas/final_acceptance_mode_policy.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_layer.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_layer_registry.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_evidence_item.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_cross_layer_check.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_validation_result.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_report.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_completion_record.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_deviation.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_artifact_hash.schema.json
+tools/agentx_evolve/schemas/06_final_acceptance/final_acceptance_mode_policy.schema.json
 ```
 
 ## 6.3 Test Files

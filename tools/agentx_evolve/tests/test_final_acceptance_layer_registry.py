@@ -2,11 +2,11 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.layer_registry import (
+from agentx_evolve.final_acceptance.layer_registry import (
     build_final_acceptance_layer_registry, get_layer_by_id,
     list_required_layers, list_safely_deferred_layers, write_layer_registry,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     MODE_IMPLEMENTATION_ACCEPTANCE, MODE_SOURCE_ONLY_ACCEPTANCE,
     MODE_NON_PRODUCTION_ACCEPTANCE, MODE_PRODUCTION_ACCEPTANCE, MODE_RELEASE_ACCEPTANCE,
     FinalAcceptanceLayer,

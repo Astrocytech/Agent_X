@@ -448,23 +448,23 @@ tools/agentx_evolve/tests/test_evaluation_baseline_compatibility.py
 Create these schema files:
 
 ```text
-tools/agentx_evolve/schemas/evaluation_benchmark_suite.schema.json
-tools/agentx_evolve/schemas/evaluation_benchmark_case.schema.json
-tools/agentx_evolve/schemas/evaluation_case_input.schema.json
-tools/agentx_evolve/schemas/evaluation_expected_result.schema.json
-tools/agentx_evolve/schemas/evaluation_case_result.schema.json
-tools/agentx_evolve/schemas/evaluation_run.schema.json
-tools/agentx_evolve/schemas/evaluation_score.schema.json
-tools/agentx_evolve/schemas/evaluation_threshold.schema.json
-tools/agentx_evolve/schemas/evaluation_regression_comparison.schema.json
-tools/agentx_evolve/schemas/evaluation_report.schema.json
-tools/agentx_evolve/schemas/evaluation_evidence_manifest.schema.json
-tools/agentx_evolve/schemas/evaluation_completion_record.schema.json
-tools/agentx_evolve/schemas/evaluation_baseline.schema.json
-tools/agentx_evolve/schemas/evaluation_comparator.schema.json
-tools/agentx_evolve/schemas/evaluation_run_config.schema.json
-tools/agentx_evolve/schemas/evaluation_fixture_lock.schema.json
-tools/agentx_evolve/schemas/evaluation_evidence_index.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_benchmark_suite.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_benchmark_case.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_case_input.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_expected_result.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_case_result.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_run.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_score.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_threshold.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_regression_comparison.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_report.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_evidence_manifest.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_completion_record.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_baseline.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_comparator.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_run_config.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_fixture_lock.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_evidence_index.schema.json
 ```
 
 ## 8.1 General Schema Rules
@@ -2478,7 +2478,7 @@ This section is mandatory. It closes the remaining handoff gaps from v2.
 The implementation must create and validate:
 
 ```text
-tools/agentx_evolve/schemas/evaluation_run_config.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_run_config.schema.json
 ```
 
 Run configuration is required because a benchmark run must be reproducible from recorded inputs, not from hidden CLI flags or implicit defaults.
@@ -2500,7 +2500,7 @@ partial runs cannot be used as full regression pass evidence
 The implementation must create and validate:
 
 ```text
-tools/agentx_evolve/schemas/evaluation_fixture_lock.schema.json
+tools/agentx_evolve/schemas/04_evaluation/evaluation_fixture_lock.schema.json
 ```
 
 The fixture lock records the exact benchmark inputs used for a run.

@@ -1,5 +1,5 @@
-from tools.agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.final_verdict import calculate_final_verdict
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceEvidenceManifest, FinalAcceptanceEvidenceItem,
     CrossLayerCheck, FinalAcceptanceValidationResult, FinalAcceptanceDeviation,
     VERDICT_ACCEPTED, VERDICT_ACCEPTED_WITH_SAFE_DEFERRALS, VERDICT_NOT_ACCEPTED,

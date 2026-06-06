@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.artifact_writer import (
+from agentx_evolve.final_acceptance.artifact_writer import (
     runtime_root, ensure_runtime_root, atomic_write_json,
     write_json_artifact, is_within_runtime_root, reject_path_traversal,
 )

@@ -2,11 +2,11 @@ import json
 import pytest
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.evidence_collector import (
+from agentx_evolve.final_acceptance.evidence_collector import (
     collect_evidence_item, collect_layer_evidence,
     validate_evidence_item_schema_if_json, write_evidence_manifest,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceLayer, FinalAcceptanceLayerRegistry,
     MODE_IMPLEMENTATION_ACCEPTANCE, MODE_SOURCE_ONLY_ACCEPTANCE,
 )
@@ -172,7 +172,7 @@ class TestValidateEvidenceItemSchemaIfJson:
 class TestWriteEvidenceManifest:
     def test_writes_file(self, tmp_path: Path):
         reg = FinalAcceptanceLayerRegistry(created_at="t", layers=[])
-        from tools.agentx_evolve.final_acceptance.evidence_collector import FinalAcceptanceEvidenceManifest
+        from agentx_evolve.final_acceptance.evidence_collector import FinalAcceptanceEvidenceManifest
         manifest = FinalAcceptanceEvidenceManifest(
             created_at="t", acceptance_mode=MODE_SOURCE_ONLY_ACCEPTANCE,
         )
@@ -181,7 +181,7 @@ class TestWriteEvidenceManifest:
         assert path.name == "final_acceptance_evidence_manifest.json"
 
     def test_content(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.evidence_collector import FinalAcceptanceEvidenceManifest
+        from agentx_evolve.final_acceptance.evidence_collector import FinalAcceptanceEvidenceManifest
         manifest = FinalAcceptanceEvidenceManifest(
             reviewed_commit="abc", created_at="t",
             acceptance_mode=MODE_IMPLEMENTATION_ACCEPTANCE,
@@ -192,7 +192,7 @@ class TestWriteEvidenceManifest:
         assert data["reviewed_commit"] == "abc"
 
     def test_includes_items(self, tmp_path: Path):
-        from tools.agentx_evolve.final_acceptance.evidence_collector import (
+        from agentx_evolve.final_acceptance.evidence_collector import (
             FinalAcceptanceEvidenceManifest, FinalAcceptanceEvidenceItem,
         )
         item = FinalAcceptanceEvidenceItem(

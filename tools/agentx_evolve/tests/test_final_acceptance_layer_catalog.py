@@ -1,9 +1,9 @@
 import pytest
 
-from tools.agentx_evolve.final_acceptance.layer_catalog import (
+from agentx_evolve.final_acceptance.layer_catalog import (
     build_canonical_layer_catalog, validate_layer_catalog,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceLayer,
 )
 

@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.acceptance_runner import (
+from agentx_evolve.final_acceptance.acceptance_runner import (
     write_completion_record, write_latest_result,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceCompletionRecord, VERDICT_ACCEPTED,
 )
 

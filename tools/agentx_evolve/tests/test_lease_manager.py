@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from scheduler.lease_manager import LeaseManager
+from agentx_evolve.scheduler.lease_manager import LeaseManager
 
 
 @pytest.fixture
@@ -61,7 +61,7 @@ def test_expired_lease_detection(lease_manager):
 def test_load_active_leases(lease_manager):
     lease_manager.create_lease("task1", "session1")
     lease_manager.create_lease("task2", "session2")
-    from scheduler.lease_manager import LEASE_HISTORY_FILE
+    from agentx_evolve.scheduler.lease_manager import LEASE_HISTORY_FILE
     lease_path = lease_manager._lease_path
     assert lease_path.exists()
 

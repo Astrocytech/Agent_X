@@ -1,12 +1,12 @@
 from pathlib import Path
 
-from tools.agentx_evolve.final_acceptance.evidence_freshness import (
+from agentx_evolve.final_acceptance.evidence_freshness import (
     build_evidence_freshness_report, write_evidence_freshness_report,
 )
-from tools.agentx_evolve.final_acceptance.acceptance_models import (
+from agentx_evolve.final_acceptance.acceptance_models import (
     FinalAcceptanceEvidenceManifest, FinalAcceptanceEvidenceItem,
 )
-from tools.agentx_evolve.final_acceptance.artifact_writer import runtime_root
+from agentx_evolve.final_acceptance.artifact_writer import runtime_root
 
 
 class TestBuildEvidenceFreshnessReport:
