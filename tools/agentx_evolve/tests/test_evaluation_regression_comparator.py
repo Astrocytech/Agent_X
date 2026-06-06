@@ -169,3 +169,50 @@ def test_calculate_score_delta():
     delta = calculate_score_delta(current, baseline)
     assert delta["score_delta"] == pytest.approx(0.2)
     assert delta["weighted_score_delta"] == pytest.approx(0.2)
+
+
+def test_baseline_suite_id_mismatch_blocks_comparison():
+    current = make_run(run_id="current", suite_id="suite-a")
+    baseline = make_run(run_id="baseline", suite_id="suite-b")
+    comp = compare_against_baseline(current, baseline, current_suite_id="suite-a")
+    assert comp.status == REGRESSION_FAIL
+    assert len(comp.errors) > 0
+    assert any("SUITE_MISMATCH" in e for e in comp.errors)
+
+
+def test_baseline_major_schema_mismatch_blocks_comparison():
+    current = make_run(run_id="current", suite_id="suite-1")
+    current.schema_version = "2.0"
+    baseline = make_run(run_id="baseline", suite_id="suite-1")
+    baseline.schema_version = "1.0"
+    comp = compare_against_baseline(current, baseline, current_suite_id="suite-1")
+    assert comp.status == REGRESSION_FAIL
+    assert any("VERSION_UNSUPPORTED" in e for e in comp.errors)
+
+
+def test_missing_required_current_case_is_regression():
+    current_results = [
+        EvaluationCaseResult(case_id="c1", status=EVAL_FAIL, passed=False, score=0.0),
+    ]
+    baseline_results = [
+        EvaluationCaseResult(case_id="c1", status=EVAL_PASS, passed=True, score=1.0),
+    ]
+    current = make_run(run_id="current", suite_id="suite-1", results=current_results)
+    baseline = make_run(run_id="baseline", suite_id="suite-1", results=baseline_results)
+    comp = compare_against_baseline(current, baseline, current_suite_id="suite-1")
+    assert comp.regression_count == 1
+    assert "c1" in comp.new_failures
+
+
+def test_extra_baseline_case_recorded_as_removed_case():
+    current_results = [
+        EvaluationCaseResult(case_id="c1", status=EVAL_PASS, passed=True, score=1.0),
+    ]
+    baseline_results = [
+        EvaluationCaseResult(case_id="c1", status=EVAL_PASS, passed=True, score=1.0),
+        EvaluationCaseResult(case_id="c2", status=EVAL_PASS, passed=True, score=1.0),
+    ]
+    current = make_run(run_id="current", suite_id="suite-1", results=current_results)
+    baseline = make_run(run_id="baseline", suite_id="suite-1", results=baseline_results)
+    comp = compare_against_baseline(current, baseline, current_suite_id="suite-1")
+    assert "c2" in comp.new_failures or "c2" in comp.new_blocked_cases
