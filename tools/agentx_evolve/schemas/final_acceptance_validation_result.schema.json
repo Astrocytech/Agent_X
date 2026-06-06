@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinalAcceptanceValidationResult",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "source_component",
+    "command_name", "command_text", "status"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"enum": ["final_acceptance_validation_result.schema.json"]},
+    "source_component": {"type": "string"},
+    "command_name": {"type": "string"},
+    "command_text": {"type": "string"},
+    "exit_code": {"type": ["integer", "null"]},
+    "status": {"type": "string"},
+    "summary": {"type": "string"},
+    "output_artifact_path": {"type": ["string", "null"]},
+    "output_sha256": {"type": ["string", "null"]},
+    "expected_failure": {"type": "boolean"},
+    "expected_failure_condition": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

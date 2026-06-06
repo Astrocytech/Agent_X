@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinalAcceptanceModePolicy",
+  "type": "object",
+  "required": [
+    "schema_version", "schema_id", "source_component",
+    "acceptance_mode"
+  ],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"enum": ["final_acceptance_mode_policy.schema.json"]},
+    "source_component": {"type": "string"},
+    "acceptance_mode": {"type": "string"},
+    "mode_rules": {"type": "object"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}
