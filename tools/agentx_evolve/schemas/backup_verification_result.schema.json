@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_verification_result.schema.json",
+  "title": "Backup Verification Result",
+  "description": "Records the outcome of verifying a backup's integrity by comparing file hashes and checking for missing files.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "verification_id",
+    "backup_id",
+    "verified_at",
+    "manifest_path",
+    "snapshot_path",
+    "status",
+    "files_checked",
+    "files_passed",
+    "files_failed",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "verification_id": { "type": "string" },
+    "backup_id": { "type": "string" },
+    "verified_at": { "type": "string", "format": "date-time" },
+    "manifest_path": { "type": "string" },
+    "snapshot_path": { "type": "string" },
+    "status": { "type": "string", "enum": ["PASS", "FAIL", "PARTIAL", "BLOCKED", "NOT CHECKED"] },
+    "files_checked": { "type": "integer" },
+    "files_passed": { "type": "integer" },
+    "files_failed": { "type": "integer" },
+    "hash_mismatches": { "type": "array", "items": { "type": "string" } },
+    "missing_files": { "type": "array", "items": { "type": "string" } },
+    "partial_snapshot_detected": { "type": "boolean" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

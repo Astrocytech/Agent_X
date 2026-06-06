@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_audit_event.schema.json",
+  "title": "Backup Audit Event",
+  "description": "Captures an auditable event within the Backup/Disaster Recovery Layer for compliance and forensics.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "audit_id",
+    "timestamp",
+    "source_component",
+    "event_type",
+    "status",
+    "message",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "audit_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "source_component": { "const": "BackupDisasterRecovery" },
+    "event_type": { "type": "string" },
+    "backup_id": { "type": ["string", "null"] },
+    "restore_request_id": { "type": ["string", "null"] },
+    "status": { "type": "string" },
+    "message": { "type": "string" },
+    "artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

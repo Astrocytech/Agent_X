@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_retention_policy.schema.json",
+  "title": "Backup Retention Policy",
+  "description": "Defines rules for retaining and pruning backup snapshots based on count, age, and protection flags.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "retention_policy_id",
+    "keep_latest_verified_count",
+    "keep_minimum_total_count",
+    "protect_release_linked",
+    "protect_manually_marked",
+    "dry_run",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "retention_policy_id": { "type": "string" },
+    "keep_latest_verified_count": { "type": "integer", "minimum": 1 },
+    "keep_minimum_total_count": { "type": "integer", "minimum": 1 },
+    "max_snapshot_age_days": { "type": ["integer", "null"] },
+    "protect_release_linked": { "type": "boolean" },
+    "protect_manually_marked": { "type": "boolean" },
+    "dry_run": { "type": "boolean" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

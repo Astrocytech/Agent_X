@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "restore_request.schema.json",
+  "title": "Restore Request",
+  "description": "Captures a request to restore files from a backup, specifying the mode, target root, and governance requirements.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "restore_request_id",
+    "requested_at",
+    "requested_by_role",
+    "backup_id",
+    "restore_mode",
+    "target_root",
+    "dry_run",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "restore_request_id": { "type": "string" },
+    "requested_at": { "type": "string", "format": "date-time" },
+    "requested_by_role": { "type": "string" },
+    "backup_id": { "type": "string" },
+    "restore_mode": { "type": "string", "enum": ["DRY_RUN", "RUNTIME_ONLY", "SOURCE_RESTORE", "RELEASE_RESTORE", "FULL_RECOVERY"] },
+    "target_root": { "type": "string" },
+    "dry_run": { "type": "boolean" },
+    "requested_paths": { "type": "array", "items": { "type": "string" } },
+    "policy_decision_id": { "type": ["string", "null"] },
+    "governance_decision_id": { "type": ["string", "null"] },
+    "human_approval_id": { "type": ["string", "null"] },
+    "promotion_decision_id": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

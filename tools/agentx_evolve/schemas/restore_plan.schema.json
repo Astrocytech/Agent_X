@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "restore_plan.schema.json",
+  "title": "Restore Plan",
+  "description": "Outlines the detailed plan for executing a restore, including files to restore, skip, conflicts, and destructive actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "restore_plan_id",
+    "restore_request_id",
+    "backup_id",
+    "created_at",
+    "restore_mode",
+    "dry_run",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "restore_plan_id": { "type": "string" },
+    "restore_request_id": { "type": "string" },
+    "backup_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "restore_mode": { "type": "string", "enum": ["DRY_RUN", "RUNTIME_ONLY", "SOURCE_RESTORE", "RELEASE_RESTORE", "FULL_RECOVERY"] },
+    "dry_run": { "type": "boolean" },
+    "restore_decision_id": { "type": ["string", "null"] },
+    "files_to_restore": { "type": "array", "items": { "type": "string" } },
+    "files_to_skip": { "type": "array", "items": { "type": "string" } },
+    "conflicts": { "type": "array", "items": { "type": "string" } },
+    "destructive_actions": { "type": "array", "items": { "type": "string" } },
+    "required_approvals": { "type": "array", "items": { "type": "string" } },
+    "blocked_reasons": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string", "enum": ["PLANNED", "DRY_RUN", "BLOCKED", "RESTORED", "FAILED"] },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

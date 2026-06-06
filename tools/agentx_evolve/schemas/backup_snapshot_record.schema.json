@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "backup_snapshot_record.schema.json",
+  "title": "Backup Snapshot Record",
+  "description": "Describes a single snapshot within a backup, tracking its path, file count, size, and protection status.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "snapshot_id",
+    "backup_id",
+    "snapshot_path",
+    "finalized",
+    "file_count",
+    "total_size_bytes",
+    "protected",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "snapshot_id": { "type": "string" },
+    "backup_id": { "type": "string" },
+    "snapshot_path": { "type": "string" },
+    "staging_path": { "type": ["string", "null"] },
+    "finalized": { "type": "boolean" },
+    "file_count": { "type": "integer" },
+    "total_size_bytes": { "type": "integer" },
+    "snapshot_index_path": { "type": "string" },
+    "snapshot_index_sha256": { "type": ["string", "null"] },
+    "protected": { "type": "boolean" },
+    "release_ref": { "type": ["string", "null"] },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

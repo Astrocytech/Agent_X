@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "restore_transaction_record.schema.json",
+  "title": "Restore Transaction Record",
+  "description": "Logs the lifecycle of a single restore transaction, including touched, restored, and skipped paths and rollback availability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "transaction_id",
+    "restore_plan_id",
+    "backup_id",
+    "started_at",
+    "mode",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "transaction_id": { "type": "string" },
+    "restore_plan_id": { "type": "string" },
+    "backup_id": { "type": "string" },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": ["string", "null"] },
+    "mode": { "type": "string" },
+    "pre_restore_checkpoint_path": { "type": ["string", "null"] },
+    "touched_paths": { "type": "array", "items": { "type": "string" } },
+    "restored_paths": { "type": "array", "items": { "type": "string" } },
+    "skipped_paths": { "type": "array", "items": { "type": "string" } },
+    "rollback_available": { "type": "boolean" },
+    "rollback_notes": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}

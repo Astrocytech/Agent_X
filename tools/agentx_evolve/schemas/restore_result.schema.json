@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "restore_result.schema.json",
+  "title": "Restore Result",
+  "description": "Records the outcome of a restore operation, including which files were restored, skipped, or blocked.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "restore_result_id",
+    "restore_plan_id",
+    "backup_id",
+    "completed_at",
+    "status",
+    "warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "schema_id": { "type": "string" },
+    "restore_result_id": { "type": "string" },
+    "restore_plan_id": { "type": "string" },
+    "backup_id": { "type": "string" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["RESTORED", "BLOCKED", "FAILED", "PARTIAL"] },
+    "restored_files": { "type": "array", "items": { "type": "string" } },
+    "skipped_files": { "type": "array", "items": { "type": "string" } },
+    "blocked_reasons": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } }
+  }
+}
