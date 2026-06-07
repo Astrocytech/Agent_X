@@ -83,7 +83,7 @@ def check_runtime_compatibility(
             decision.degradation_reason = "GPU required but unavailable; CPU degradation used"
             return decision
         decision.compatibility = COMPATIBILITY_INCOMPATIBLE
-        decision.reason = "GPU required but unavailable and CPU fallback not allowed"
+        decision.reason = "GPU required but unavailable and CPU degradation is not permitted"
         decision.failure_class = "LOCAL_GPU_UNAVAILABLE"
         return decision
 

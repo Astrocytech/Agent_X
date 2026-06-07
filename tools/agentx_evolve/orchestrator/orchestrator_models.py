@@ -19,7 +19,6 @@ from agentx_evolve.orchestrator.orchestrator_config import (
     ALL_DECISIONS,
     RUN_MODE_EXECUTE_CONTROLLED,
     ALL_RUN_MODES,
-    DEPENDENCY_MODE_FAKE_FOR_TEST,
     ALL_DEPENDENCY_MODES,
     RECOVERY_ACTION_NONE,
     ALL_RECOVERY_ACTIONS,
