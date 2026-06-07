@@ -3,9 +3,12 @@ import json
 import os
 import re
 import subprocess
+import time
 import urllib.error
 import urllib.request
 from typing import Any
+
+from agentx_evolve.runtime.logging_manager import ConversationLogger
 
 BLOCKED_AUTH = "authentication failed (401/403)"
 BLOCKED_SERVER = "opencode server unavailable"
@@ -41,68 +44,112 @@ class OpenCodeProvider:
         self._session_id: str | None = None
         self._provider_id: str = "opencode"
         self._server_proc: subprocess.Popen[str] | None = None
+        self._conversation_logger = ConversationLogger()
 
     def complete(self, messages: list[dict[str, Any]], **kwargs: Any) -> dict[str, Any]:
-        self._ensure_session()
-        last_text = self._last_user_text(messages)
-        parts = [{"type": "text", "text": last_text}]
-        body = {
-            "model": {"providerID": self._provider_id, "modelID": self.model},
-            "parts": parts,
-        }
-        data = self._post_message(body)
-        return self._parse_response(data)
+        self._conversation_logger.log_request(
+            provider=self._provider_id, model=self.model,
+            messages=messages, kwargs=kwargs,
+        )
+        start = time.perf_counter()
+        try:
+            self._ensure_session()
+            last_text = self._last_user_text(messages)
+            parts = [{"type": "text", "text": last_text}]
+            body = {
+                "model": {"providerID": self._provider_id, "modelID": self.model},
+                "parts": parts,
+            }
+            data = self._post_message(body)
+            response = self._parse_response(data)
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_response(
+                provider=self._provider_id, model=self.model,
+                response=response, duration_ms=elapsed,
+            )
+            return response
+        except OpenCodeProviderError:
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_error(
+                provider=self._provider_id, model=self.model,
+                error="OpenCodeProviderError", duration_ms=elapsed,
+            )
+            raise
 
     def complete_structured(
         self, messages: list[dict[str, Any]], **kwargs: Any,
     ) -> dict[str, Any]:
-        self._session_id = None
-        self._ensure_session()
-        system_text = ""
-        user_text = ""
-        for m in messages:
-            if m.get("role") == "system":
-                system_text = m.get("content", "")
-            elif m.get("role") == "user":
-                user_text = m.get("content", "")
-        fmt_instructions = (
-            "\n\nYou MUST respond with ONLY a valid JSON object using this exact schema:\n"
-            '{"schema_version":"agentx.structured_plan.v1",'
-            '"summary":"<short description>",'
-            '"actions":[{"type":"patch|validate|report|noop","description":"<what>","target":"<relative file path>","safety_notes":["<note>"]}],'
-            '"patches":[{"format":"unified_diff","content":"<unified diff with ---/+++ markers>"}],'
-            '"validation_commands":["<command>"]}\n'
-            "Do NOT include markdown code fences, explanations, or any text outside the JSON."
+        self._conversation_logger.log_request(
+            provider=self._provider_id, model=self.model,
+            messages=messages, kwargs=kwargs,
         )
-        if system_text:
-            system_text += fmt_instructions
-        body: dict[str, Any] = {
-            "model": {"providerID": self._provider_id, "modelID": self.model},
-            "parts": [{"type": "text", "text": user_text or "."}],
-        }
-        if system_text:
-            body["system"] = system_text
-        data = self._post_message(body)
-        response = self._parse_response(data)
-        content = response.get("content", "").strip()
-        json_str = content
-        idx = json_str.find("{")
-        if idx != -1:
-            json_str = json_str[idx:]
-        end = json_str.rfind("}")
-        if end != -1:
-            json_str = json_str[:end + 1]
-        if json_str.startswith("```"):
-            json_str = json_str[json_str.find("\n") + 1:json_str.rfind("```")].strip()
-        if json_str.startswith("{"):
-            try:
-                return json.loads(json_str)
-            except json.JSONDecodeError:
-                pass
-        raise OpenCodeProviderError(
-            f"LLM did not return a valid structured plan JSON:\n{content[:500]}",
-            exit_code=1,
-        )
+        start = time.perf_counter()
+        try:
+            self._session_id = None
+            self._ensure_session()
+            system_text = ""
+            user_text = ""
+            for m in messages:
+                if m.get("role") == "system":
+                    system_text = m.get("content", "")
+                elif m.get("role") == "user":
+                    user_text = m.get("content", "")
+            fmt_instructions = (
+                "\n\nYou MUST respond with ONLY a valid JSON object using this exact schema:\n"
+                '{"schema_version":"agentx.structured_plan.v1",'
+                '"summary":"<short description>",'
+                '"actions":[{"type":"patch|validate|report|noop","description":"<what>","target":"<relative file path>","safety_notes":["<note>"]}],'
+                '"patches":[{"format":"unified_diff","content":"<unified diff with ---/+++ markers>"}],'
+                '"validation_commands":["<command>"]}\n'
+                "Do NOT include markdown code fences, explanations, or any text outside the JSON."
+            )
+            if system_text:
+                system_text += fmt_instructions
+            body: dict[str, Any] = {
+                "model": {"providerID": self._provider_id, "modelID": self.model},
+                "parts": [{"type": "text", "text": user_text or "."}],
+            }
+            if system_text:
+                body["system"] = system_text
+            data = self._post_message(body)
+            response = self._parse_response(data)
+            content = response.get("content", "").strip()
+            json_str = content
+            idx = json_str.find("{")
+            if idx != -1:
+                json_str = json_str[idx:]
+            end = json_str.rfind("}")
+            if end != -1:
+                json_str = json_str[:end + 1]
+            if json_str.startswith("```"):
+                json_str = json_str[json_str.find("\n") + 1:json_str.rfind("```")].strip()
+            if json_str.startswith("{"):
+                try:
+                    parsed = json.loads(json_str)
+                    elapsed = (time.perf_counter() - start) * 1000
+                    self._conversation_logger.log_response(
+                        provider=self._provider_id, model=self.model,
+                        response=parsed, duration_ms=elapsed,
+                    )
+                    return parsed
+                except json.JSONDecodeError:
+                    pass
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_error(
+                provider=self._provider_id, model=self.model,
+                error="LLM did not return valid JSON", duration_ms=elapsed,
+            )
+            raise OpenCodeProviderError(
+                f"LLM did not return a valid structured plan JSON:\n{content[:500]}",
+                exit_code=1,
+            )
+        except OpenCodeProviderError:
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_error(
+                provider=self._provider_id, model=self.model,
+                error="OpenCodeProviderError", duration_ms=elapsed,
+            )
+            raise
 
     @staticmethod
     def _last_user_text(messages: list[dict[str, Any]]) -> str:

@@ -27,3 +27,6 @@ coverage/
 htmlcov/
 
 list_test_todo.md
+
+# Logs
+logs/
