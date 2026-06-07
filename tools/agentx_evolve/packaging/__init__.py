@@ -43,3 +43,14 @@ from agentx_evolve.packaging.distribution_evidence import (
 )
 from agentx_evolve.packaging.staging_cleanliness import check_staging_cleanliness, clean_staging, verify_clean_staging
 from agentx_evolve.packaging.package_orchestrator import build_distribution_package
+
+# ── Runtime / Secret exclusion ────────────────────────────────────────────────
+from agentx_evolve.packaging.runtime_exclusion import (
+    scan_runtime_artifacts,
+    verify_no_runtime_artifacts,
+    allowed_paths_only,
+)
+from agentx_evolve.packaging.secret_exclusion import (
+    scan_secrets_in_files,
+    verify_no_secrets,
+)

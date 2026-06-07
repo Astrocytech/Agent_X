@@ -59,3 +59,19 @@ from .runtime_limits import (  # noqa: F401
     check_context_budget,
     truncate_for_evidence,
 )
+from .fallback_resolver import (
+    FallbackDecision,
+    resolve_fallback,
+    select_fallback_strategy,
+    FALLBACK_STRATEGY_RETRY,
+    FALLBACK_STRATEGY_DOWNGRADE,
+    FALLBACK_STRATEGY_CPU_FALLBACK,
+    FALLBACK_STRATEGY_HOSTED_FALLBACK,
+    FALLBACK_STRATEGY_BLOCK,
+    ALL_FALLBACK_STRATEGIES,
+)
+from .runtime_compatibility import (
+    RuntimeCompatibilityResult,
+    check_model_runtime_compatibility,
+    is_quantization_supported,
+)

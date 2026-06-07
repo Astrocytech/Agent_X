@@ -50,6 +50,15 @@ from agentx_evolve.workers.llm_implementation_worker.worker_models import (
     LLMWorkerResult,
     LLMWorkerAuditEvent,
 )
+from agentx_evolve.workers.llm_implementation_worker.validation_request_builder import (
+    ValidationRequest,
+    build_validation_request,
+    build_handoff_from_request,
+    VALIDATION_MODE_FULL,
+    VALIDATION_MODE_QUICK,
+    VALIDATION_MODE_SYNTAX_ONLY,
+    ALL_VALIDATION_MODES,
+)
 
 __all__ = [
     "WORKER_SUCCESS",
@@ -98,4 +107,11 @@ __all__ = [
     "ValidationHandoff",
     "LLMWorkerResult",
     "LLMWorkerAuditEvent",
+    "ValidationRequest",
+    "build_validation_request",
+    "build_handoff_from_request",
+    "VALIDATION_MODE_FULL",
+    "VALIDATION_MODE_QUICK",
+    "VALIDATION_MODE_SYNTAX_ONLY",
+    "ALL_VALIDATION_MODES",
 ]

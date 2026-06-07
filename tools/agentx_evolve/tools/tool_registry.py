@@ -185,13 +185,6 @@ _GIT_WRITE_TOOLS = [
          runs_subprocess=True, uses_network=True, requires_capability_policy=True),
 ]
 
-_HUMAN_STUBS = [
-    _def("ask_human", "Request human review (BLOCKED stub)", "HumanReview",
-         trust_tier=TRUST_TIER_6_BLOCKED, enabled=False,
-         allowed_roles=_ALL_INTERNAL, requested_effects=[EFFECT_READ],
-         requires_human_approval=True),
-]
-
 _INVALID_HANDLER = [
     _def("invalid_tool_handler", "Handle invalid/unknown tool calls", "ToolMCPAdapter",
          allowed_roles=_ALL_INTERNAL, requested_effects=[EFFECT_READ]),
@@ -203,7 +196,6 @@ _ALL_TOOL_DEFS = (
     + _PATCH_STUBS
     + _GIT_READ_TOOLS
     + _GIT_WRITE_TOOLS
-    + _HUMAN_STUBS
     + _INVALID_HANDLER
 )
 

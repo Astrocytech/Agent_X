@@ -8,7 +8,6 @@ from agentx_evolve.tools.tool_models import (
     ToolPermissionDecision,
     STATUS_BLOCKED,
     STATUS_INVALID,
-    STATUS_FAILED,
     DECISION_BLOCK,
     ROLE_UNKNOWN_CALLER,
     TRUST_TIER_6_BLOCKED,
@@ -80,13 +79,6 @@ class TestGitWriteBlocked:
         td = get_tool_definition(registry, tool_name)
         assert td is not None
         assert not td.enabled
-
-
-class TestHumanStub:
-    def test_ask_human_blocked(self):
-        from agentx_evolve.tools.human_tools import ask_human
-        result = ask_human({}, {})
-        assert result.status == STATUS_BLOCKED
 
 
 class TestPermissionDenial:

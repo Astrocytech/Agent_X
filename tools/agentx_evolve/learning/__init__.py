@@ -167,6 +167,33 @@ from agentx_evolve.learning.memory_adapter import (
     check_memory_write_ready,
 )
 
+from agentx_evolve.learning.learning_lifecycle import (
+    LearningLifecycle,
+    create_lifecycle,
+    transition_to,
+    is_terminal,
+    is_blocked,
+    STAGE_INITIAL,
+    STAGE_EVENT_CAPTURED,
+    STAGE_OUTCOME_REVIEWED,
+    STAGE_SIGNAL_EXTRACTED,
+    STAGE_POLICY_CHECKED,
+    STAGE_CANDIDATE_BUILT,
+    STAGE_CANDIDATE_PROPOSED,
+    STAGE_MEMORY_PROMOTED,
+    STAGE_FOLLOW_UP_SUBMITTED,
+    STAGE_FAILED,
+    STAGE_BLOCKED,
+    ALL_STAGES,
+)
+
+from agentx_evolve.learning.learning_locking import (
+    LearningLock,
+    acquire_learning_lock,
+    release_learning_lock,
+    check_learning_lock,
+)
+
 __all__ = [
     "LearningOutcomeRecord", "LearningOutcomeReview", "StrategyMemory",
     "LEARNING_SCHEMA_VERSION", "LEARNING_SCHEMA_ID", "LOCK_TIMEOUT_SECONDS",
@@ -239,4 +266,10 @@ __all__ = [
     "build_follow_up_task_proposal", "submit_follow_up_task_proposal",
     "check_durable_learning_allowed", "check_follow_up_task_allowed", "check_report_write_allowed",
     "build_memory_write_request", "check_memory_write_ready",
+    "LearningLifecycle", "create_lifecycle", "transition_to", "is_terminal", "is_blocked",
+    "STAGE_INITIAL", "STAGE_EVENT_CAPTURED", "STAGE_OUTCOME_REVIEWED",
+    "STAGE_SIGNAL_EXTRACTED", "STAGE_POLICY_CHECKED", "STAGE_CANDIDATE_BUILT",
+    "STAGE_CANDIDATE_PROPOSED", "STAGE_MEMORY_PROMOTED", "STAGE_FOLLOW_UP_SUBMITTED",
+    "STAGE_FAILED", "STAGE_BLOCKED", "ALL_STAGES",
+    "LearningLock", "acquire_learning_lock", "release_learning_lock", "check_learning_lock",
 ]

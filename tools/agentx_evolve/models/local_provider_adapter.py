@@ -1,25 +1,42 @@
 from __future__ import annotations
 
-from agentx_evolve.models.model_adapter import BaseModelProviderAdapter, make_blocked_response
+import logging
+from typing import Any
+
 from agentx_evolve.models.model_models import (
     ModelRequest,
     ModelResponse,
     ModelProviderProfile,
-    MODEL_PROVIDER_UNAVAILABLE,
+    ModelPolicyDecision,
+    PROVIDER_LOCAL,
+    MODEL_STATUS_SUCCESS,
+    MODEL_STATUS_BLOCKED,
+    MODEL_STATUS_FAILED,
+    MODEL_NOT_FOUND,
+    utc_now_iso,
+    new_id,
+    SOURCE_COMPONENT,
 )
+from agentx_evolve.models.model_adapter import BaseModelProviderAdapter, make_blocked_response
+
+logger = logging.getLogger(__name__)
 
 
 class LocalProviderAdapter(BaseModelProviderAdapter):
-
     def is_available(self, context: dict) -> bool:
-        return context.get("local_runtime_available", False)
+        return False
 
-    def run_prompt(self, request: ModelRequest, profile: ModelProviderProfile, context: dict) -> ModelResponse:
-        if not self.is_available(context):
-            return make_blocked_response(request, "Local runtime not available", MODEL_PROVIDER_UNAVAILABLE)
-        return make_blocked_response(request, "Local provider run_prompt not implemented", "COMMAND_NOT_IMPLEMENTED")
+    def validate_request(
+        self, request: ModelRequest, profile: ModelProviderProfile, context: dict
+    ) -> ModelPolicyDecision | None:
+        return None
 
-    def run_json_prompt(self, request: ModelRequest, profile: ModelProviderProfile, context: dict) -> ModelResponse:
-        if not self.is_available(context):
-            return make_blocked_response(request, "Local runtime not available", MODEL_PROVIDER_UNAVAILABLE)
-        return make_blocked_response(request, "Local provider run_json_prompt not implemented", "COMMAND_NOT_IMPLEMENTED")
+    def run_prompt(
+        self, request: ModelRequest, profile: ModelProviderProfile, context: dict
+    ) -> ModelResponse:
+        return make_blocked_response(request, "Local provider not available in this context")
+
+    def run_json_prompt(
+        self, request: ModelRequest, profile: ModelProviderProfile, context: dict
+    ) -> ModelResponse:
+        return make_blocked_response(request, "Local provider not available in this context")

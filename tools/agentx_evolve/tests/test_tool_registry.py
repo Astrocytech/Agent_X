@@ -10,9 +10,9 @@ from agentx_evolve.tools.tool_registry import (
 from agentx_evolve.tools.tool_models import ToolDefinition
 
 
-def test_load_default_registry_has_29_tools():
+def test_load_default_registry_has_28_tools():
     registry = load_default_tool_registry()
-    assert len(registry.tools) == 29
+    assert len(registry.tools) == 28
 
 
 def test_load_default_registry_minimal_keys():
@@ -47,7 +47,7 @@ def test_register_tool_adds():
     td = ToolDefinition(tool_name="custom_tool", description="test")
     register_tool(registry, td)
     assert get_tool_definition(registry, "custom_tool") is not None
-    assert len(registry.tools) == 30
+    assert len(registry.tools) == 29
 
 
 def test_register_tool_rejects_duplicate_name():

@@ -1,10 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Any
 
 __all__ = [
     "SchedulerNetworkConfig",
-    "check_connectivity",
 ]
 
 
@@ -14,6 +12,3 @@ class SchedulerNetworkConfig:
     port: int = 0
     use_ssl: bool = False
 
-
-def check_connectivity(config: SchedulerNetworkConfig) -> dict[str, Any]:
-    raise NotImplementedError("Scheduler network connectivity check is not implemented")

@@ -37,6 +37,15 @@ from .scheduler_models import (
 from .scheduler_evidence import SchedulerEvidenceWriter
 from .scheduler_validation import validate_task_record, validate_session_record, validate_scheduler_event, validate_scheduler_config
 
+from .backoff import (
+    compute_backoff_seconds,
+    compute_next_run_at,
+    jitter_backoff_seconds,
+    linear_backoff_seconds,
+    fibonacci_backoff_seconds,
+)
+from .duplicate_guard import DuplicateGuard
+
 __all__ = [
     "SCHEDULER_STATUS_QUEUED", "SCHEDULER_STATUS_CLAIMED", "SCHEDULER_STATUS_RUNNING",
     "SCHEDULER_STATUS_COMPLETED", "SCHEDULER_STATUS_FAILED", "SCHEDULER_STATUS_CANCELLED",

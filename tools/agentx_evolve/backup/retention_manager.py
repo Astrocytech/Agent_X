@@ -115,12 +115,3 @@ def apply_backup_retention_policy(
     catalog = load_backup_catalog(repo_root=repo_root)
     return _orig_apply_backup_retention_policy(catalog, policy=retention_policy, repo_root=repo_root)
 
-
-def cleanup_stale_staging_snapshots(
-    repo_root: Path,
-    retention_policy: BackupRetentionPolicy,
-    catalog: "BackupCatalog",
-    context: dict,
-) -> dict:
-    """SPEC 10.11: Cleanup stale staging snapshots. Not implemented in v1."""
-    return {"status": "NOT_IMPLEMENTED", "message": "Stale staging cleanup not implemented in v1", "candidates": []}
