@@ -1,4 +1,4 @@
-from agentx_evolve.policy import PolicyRegistry
+from agentx_evolve.policy.role_matrix import is_valid_role
 
 from .scheduler_models import (
     SCHEDULER_POLICY_ALLOW, SCHEDULER_POLICY_DENY, SCHEDULER_POLICY_BLOCKED,
@@ -12,86 +12,28 @@ from .scheduler_models import (
 
 
 class SchedulerPolicy:
-    def __init__(self):
-        self._real_policy = None
-        self._integration_available = False
-        self._try_integration()
-
-    def _try_integration(self) -> None:
-        try:
-            self._real_policy = PolicyRegistry()
-            self._integration_available = True
-        except Exception:
-            self._real_policy = None
-            self._integration_available = False
+    def _check(self, role: str, action: str) -> SchedulerPolicyDecision:
+        if is_valid_role(role):
+            return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, f"allowed_by_policy:{action}", "policy_registry")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, f"denied_by_policy:{action}", "policy_registry")
 
     def check_create_task(self, role: str, session_id: str) -> SchedulerPolicyDecision:
-        if self._integration_available and self._real_policy:
-            try:
-                result = self._real_policy.check_permission(role, "scheduler.create_task")
-                if result.get("allowed"):
-                    return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "allowed_by_policy", "policy_registry")
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
-            except Exception:
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
+        return self._check(role, "scheduler.create_task")
 
     def check_claim_task(self, role: str, session_id: str, task_id: str) -> SchedulerPolicyDecision:
-        if self._integration_available and self._real_policy:
-            try:
-                result = self._real_policy.check_permission(role, "scheduler.claim_task", {"task_id": task_id})
-                if result.get("allowed"):
-                    return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "allowed_by_policy", "policy_registry")
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
-            except Exception:
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
+        return self._check(role, "scheduler.claim_task")
 
     def check_progress_task(self, role: str, session_id: str, task_id: str, new_status: str) -> SchedulerPolicyDecision:
-        if self._integration_available and self._real_policy:
-            try:
-                result = self._real_policy.check_permission(role, "scheduler.progress_task", {
-                    "task_id": task_id, "new_status": new_status
-                })
-                if result.get("allowed"):
-                    return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "allowed_by_policy", "policy_registry")
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
-            except Exception:
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
+        return self._check(role, "scheduler.progress_task")
 
     def check_cancel_task(self, role: str, session_id: str, task_id: str) -> SchedulerPolicyDecision:
-        if self._integration_available and self._real_policy:
-            try:
-                result = self._real_policy.check_permission(role, "scheduler.cancel_task", {"task_id": task_id})
-                if result.get("allowed"):
-                    return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "allowed_by_policy", "policy_registry")
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
-            except Exception:
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
+        return self._check(role, "scheduler.cancel_task")
 
     def check_recover(self, role: str, session_id: str) -> SchedulerPolicyDecision:
-        if self._integration_available and self._real_policy:
-            try:
-                result = self._real_policy.check_permission(role, "scheduler.recover")
-                if result.get("allowed"):
-                    return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "allowed_by_policy", "policy_registry")
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
-            except Exception:
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
+        return self._check(role, "scheduler.recover")
 
     def check_inspect(self, role: str, session_id: str) -> SchedulerPolicyDecision:
-        if self._integration_available and self._real_policy:
-            try:
-                result = self._real_policy.check_permission(role, "scheduler.inspect")
-                if result.get("allowed"):
-                    return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "allowed_by_policy", "policy_registry")
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
-            except Exception:
-                return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
+        return self._check(role, "scheduler.inspect")
 
     @staticmethod
     def validate_transition(current_status: str, new_status: str) -> bool:

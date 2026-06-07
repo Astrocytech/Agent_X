@@ -6,8 +6,6 @@ from agentx_evolve.learning.outcome_review import (
     LEARNING_SCHEMA_ID,
     LOCK_TIMEOUT_SECONDS,
     canonical_json,
-    sha256_dict as _legacy_sha256,
-    to_dict as _legacy_to_dict,
     write_json_atomic,
     append_jsonl,
 )

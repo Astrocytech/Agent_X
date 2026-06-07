@@ -19,8 +19,9 @@ def test_mcp_import_does_not_start_server():
     """Importing mcp package must not start a server."""
     from agentx_evolve.mcp import mcp_models, mcp_adapter, mcp_server
 
-    with pytest.raises(NotImplementedError):
-        mcp_server.start_server()
+    assert hasattr(mcp_server, "build_server_manifest")
+    assert hasattr(mcp_server, "register_mcp_tools")
+    assert not hasattr(mcp_server, "start_server")
 
 
 def test_mcp_manifest_builds_without_server():

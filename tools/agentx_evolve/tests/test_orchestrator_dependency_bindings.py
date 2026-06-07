@@ -17,12 +17,11 @@ from agentx_evolve.orchestrator.dependency_bindings import (
 )
 
 
-def test_resolve_dependency_bindings_defaults_to_fake(tmp_path):
+def test_resolve_dependency_bindings_defaults_to_unavailable(tmp_path):
     result = resolve_dependency_bindings({}, tmp_path)
     assert isinstance(result, dict)
     tool = get_tool_adapter(result)
-    assert tool is not None
-    assert callable(tool)
+    assert tool is None
 
 
 def test_resolve_dependency_bindings_unavailable_returns_none(tmp_path):
@@ -34,50 +33,50 @@ def test_resolve_dependency_bindings_unavailable_returns_none(tmp_path):
     assert model is None
 
 
-def test_get_tool_adapter_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_tool_adapter_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"tool_adapter_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_tool_adapter(result)
     assert fn is not None
     assert callable(fn)
 
 
-def test_get_model_adapter_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_model_adapter_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"model_adapter_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_model_adapter(result)
     assert fn is not None
     assert callable(fn)
 
 
-def test_get_policy_registry_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_policy_registry_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"policy_registry_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_policy_registry(result)
     assert fn is not None
     assert callable(fn)
 
 
-def test_get_prompt_registry_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_prompt_registry_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"prompt_registry_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_prompt_registry(result)
     assert fn is not None
     assert callable(fn)
 
 
-def test_get_human_approval_adapter_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_human_approval_adapter_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"human_approval_adapter_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_human_approval_adapter(result)
     assert fn is not None
     assert callable(fn)
 
 
-def test_get_promotion_gate_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_promotion_gate_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"promotion_gate_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_promotion_gate(result)
     assert fn is not None
     assert callable(fn)
 
 
-def test_get_failure_recovery_returns_adapter(tmp_path):
-    result = resolve_dependency_bindings({}, tmp_path)
+def test_get_failure_recovery_returns_adapter_when_configured(tmp_path):
+    result = resolve_dependency_bindings({"failure_recovery_mode": "FAKE_FOR_TEST"}, tmp_path)
     fn = get_failure_recovery(result)
     assert fn is not None
     assert callable(fn)

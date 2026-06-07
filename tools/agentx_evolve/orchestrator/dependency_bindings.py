@@ -63,7 +63,7 @@ FAKE_ADAPTERS: dict[str, Any] = {
 def resolve_dependency_bindings(context: dict, repo_root: Path) -> dict:
     resolved: dict[str, dict] = {}
     for name, cfg in FAKE_ADAPTERS.items():
-        mode = context.get(f"{name}_mode", DEPENDENCY_MODE_FAKE_FOR_TEST)
+        mode = context.get(f"{name}_mode", DEPENDENCY_MODE_UNAVAILABLE)
         if mode == DEPENDENCY_MODE_UNAVAILABLE:
             resolved[name] = {"adapter": None, "mode": mode, "available": False}
         elif mode == DEPENDENCY_MODE_RESTRICTED:

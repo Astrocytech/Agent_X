@@ -29,6 +29,7 @@ from .scheduler_policy import SchedulerPolicy
 from .scheduler_engine import SchedulerEngine
 from .scheduler_observability import SchedulerObservability
 from .scheduler_evidence import SchedulerEvidenceWriter
+from agentx_evolve.policy.policy_models import ROLE_ORCHESTRATOR
 from .scheduler_validation import (
     validate_task_record, validate_session_record,
     validate_scheduler_event, validate_scheduler_config,
@@ -58,7 +59,7 @@ class SchedulerDispatcher:
         if not self._initialized:
             self.initialize()
         policy = SchedulerPolicy()
-        decision = policy.check_create_task("default", session_id)
+        decision = policy.check_create_task(ROLE_ORCHESTRATOR, session_id)
         if decision.decision == "DENY":
             return {"status": "DENIED", "reason": decision.reason}
         if decision.decision == "BLOCKED":
@@ -93,7 +94,7 @@ class SchedulerDispatcher:
         task = self.engine.claim_next(session_id)
         if task is None:
             return {"status": "NO_TASK_AVAILABLE"}
-        decision = policy.check_claim_task("default", session_id, task["task_id"])
+        decision = policy.check_claim_task(ROLE_ORCHESTRATOR, session_id, task["task_id"])
         if decision.decision == "DENY":
             self.observability.record_event(
                 event_type=SCHEDULER_EVENT_POLICY_DENIED,

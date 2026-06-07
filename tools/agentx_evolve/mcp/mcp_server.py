@@ -24,6 +24,3 @@ def register_mcp_tools() -> list[dict]:
         for t in exposed
     ]
 
-
-def start_server() -> None:
-    raise NotImplementedError("MCP server is not implemented in v1. Use mcp_server.build_server_manifest() or mcp_server.register_mcp_tools() instead.")

@@ -16,9 +16,4 @@ class SchedulerNetworkConfig:
 
 
 def check_connectivity(config: SchedulerNetworkConfig) -> dict[str, Any]:
-    return {
-        "host": config.host,
-        "port": config.port,
-        "reachable": False,
-        "error": "not implemented",
-    }
+    raise NotImplementedError("Scheduler network connectivity check is not implemented")

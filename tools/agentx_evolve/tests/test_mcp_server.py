@@ -3,7 +3,6 @@ import pytest
 from agentx_evolve.mcp.mcp_server import (
     build_server_manifest,
     register_mcp_tools,
-    start_server,
 )
 
 
@@ -37,6 +36,4 @@ def test_register_mcp_tools_all_exposed_have_names():
     assert all(n for n in names)
 
 
-def test_start_server_raises():
-    with pytest.raises(NotImplementedError, match="not implemented"):
-        start_server()
+

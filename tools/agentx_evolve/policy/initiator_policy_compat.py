@@ -83,9 +83,12 @@ class InitiatorPolicyCompat:
             return {"success": False, "error": str(e)}
 
 
+import logging
+
 def get_policy_registry(*args: Any, **kwargs: Any) -> Any | None:
     try:
         from .policy_registry import PolicyRegistry
         return PolicyRegistry(*args, **kwargs)
-    except Exception:
+    except Exception as e:
+        logging.getLogger(__name__).warning("PolicyRegistry construction failed: %s", e)
         return None
