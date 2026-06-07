@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all prove-hygiene run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-all test-smoke test-l0 test-l1 test-l2 test-initiator test-evolve test-integration test-system test-regression prove-hygiene run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -12,12 +12,23 @@ help:
 	@echo "  make prove-seed   Run canonical L0 seed proof"
 	@echo "  make run          Run one governed seed turn"
 	@echo "  make build-seed   Build seed package from manifest"
-	@echo "L1 commands:"
+	@echo "Layer tests:"
 	@echo "  make prove-l1     Run L1 structure tests"
-	@echo "L2 commands:"
 	@echo "  make prove-l2     Run L2 structure tests"
-	@echo "  make prove-format Run formatting guard tests"
-	@echo "  make prove-all    Run all tests across layers"
+	@echo "  make test-l0      Run L0 tests (alias for prove-seed)"
+	@echo "  make test-l1      Run L1 tests (alias for prove-l1)"
+	@echo "  make test-l2      Run L2 tests (alias for prove-l2)"
+	@echo "Tool tests:"
+	@echo "  make test-evolve  Run agentx_evolve tests"
+	@echo "  make test-initiator Run agentx_initiator tests"
+	@echo "Suite tests:"
+	@echo "  make test-smoke       Run smoke tests"
+	@echo "  make test-integration Run integration tests"
+	@echo "  make test-system      Run system tests"
+	@echo "  make test-regression  Run regression tests"
+	@echo "  make prove-format     Run formatting guard tests"
+	@echo "  make prove-all        Run all layer tests"
+	@echo "  make test-all         Run all tests across repo"
 	@echo "  make clean        Remove generated runtime artifacts"
 
 install:
@@ -46,11 +57,38 @@ prove-l2:
 	@echo "=== prove-l2: OK ==="
 
 prove-format:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/test_text_file_formatting.py tests/test_makefile_proof_wiring.py -q --tb=short -p no:cacheprovider
+	PYTHONPATH=. $(PYTHON) -m pytest tests/regression/ -q --tb=short -p no:cacheprovider
 	@echo "=== prove-format: OK ==="
 
 prove-all: prove-seed prove-l1 prove-l2 prove-format
 	@echo "=== prove-all: OK ==="
+
+test-smoke:
+	PYTHONPATH=. $(PYTHON) -m pytest tests/smoke -q --tb=short -p no:cacheprovider
+
+test-l0: prove-seed
+
+test-l1: prove-l1
+
+test-l2: prove-l2
+
+test-initiator:
+	PYTHONPATH=tools/agentx_initiator $(PYTHON) -m pytest tools/agentx_initiator/tests -q --tb=short -p no:cacheprovider
+
+test-evolve:
+	PYTHONPATH=tools/agentx_evolve $(PYTHON) -m pytest tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider
+
+test-integration:
+	PYTHONPATH=. $(PYTHON) -m pytest tests/integration -q --tb=short -p no:cacheprovider
+
+test-system:
+	PYTHONPATH=. $(PYTHON) -m pytest tests/system -q --tb=short -p no:cacheprovider
+
+test-regression:
+	PYTHONPATH=. $(PYTHON) -m pytest tests/regression -q --tb=short -p no:cacheprovider
+
+test-all:
+	$(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests -q --tb=short -p no:cacheprovider
 
 prove-hygiene:
 	PYTHONPATH=L0/CODE ruff check L0/CODE/
