@@ -6,7 +6,7 @@ from agentx_evolve.runtime.session import RunSessionManager, STATE_PASS, STATE_F
 from agentx_evolve.runtime.artifacts import ArtifactWriter, make_placeholder
 from agentx_evolve.runtime.results import (
     CLIResult, FinalVerdict, EvidenceManifest, ImplementationLedger,
-    STATUS_PASS, STATUS_FAIL,
+    STATUS_PASS, STATUS_FAIL, STATUS_BLOCKED,
     EXIT_PASS, EXIT_FAIL,
 )
 from agentx_evolve.providers.provider_router import ProviderRouter

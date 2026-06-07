@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import pytest
 
 from agentx_evolve.runtime.config import ConfigResolver
@@ -146,29 +148,42 @@ class TestSafetyNegative:
 
     # ── Case 8: missing OpenCode API key → BLOCKED, exit 2 ──────────────────
 
-    def test_8_missing_api_key_blocks(self):
-        p = OpenCodeProvider(api_key="")
-        with pytest.raises(OpenCodeProviderError) as exc:
-            p._check_key()
-        assert exc.value.exit_code == EXIT_BLOCKED
-        assert exc.value.status == STATUS_BLOCKED
+    def test_8_server_unavailable_blocks(self):
+        p = OpenCodeProvider(base_url="http://127.0.0.1:1")
+        with patch.object(p, "_ensure_server") as mock:
+            mock.side_effect = OpenCodeProviderError(
+                "opencode server unavailable", exit_code=EXIT_BLOCKED, status=STATUS_BLOCKED,
+            )
+            with pytest.raises(OpenCodeProviderError) as exc:
+                p.complete([{"role": "user", "content": "hi"}])
+            assert exc.value.exit_code == EXIT_BLOCKED
+            assert exc.value.status == STATUS_BLOCKED
 
     # ── Case 9: provider timeout → FAIL, exit 4 ─────────────────────────────
 
     def test_9_provider_timeout(self, tmp_path):
+        import json
         import urllib.error
         from unittest.mock import patch, MagicMock
 
         provider = OpenCodeProvider(
-            api_key="sk-test", base_url="https://example.com",
+            base_url="http://127.0.0.1:14096",
             model="big-pickle",
         )
-        with patch("urllib.request.urlopen") as mock:
-            mock.side_effect = urllib.error.URLError("timed out")
-            with pytest.raises(OpenCodeProviderError) as exc:
-                provider.complete([{"role": "user", "content": "hi"}])
-            assert exc.value.exit_code == EXIT_PROVIDER_ERROR
-            assert "timeout" in str(exc.value).lower()
+        session_cm = MagicMock()
+        session_cm.__enter__.return_value.read.return_value = (
+            json.dumps({"id": "ses_test"}).encode("utf-8")
+        )
+        with patch.object(provider, "_ensure_server"):
+            with patch("urllib.request.urlopen") as mock:
+                mock.side_effect = [
+                    session_cm,
+                    urllib.error.URLError("timed out"),
+                ]
+                with pytest.raises(OpenCodeProviderError) as exc:
+                    provider.complete([{"role": "user", "content": "hi"}])
+                assert exc.value.exit_code == EXIT_PROVIDER_ERROR
+                assert "timeout" in str(exc.value).lower()
 
     # ── Case 10: artifact write failure → FAIL, exit 6 ──────────────────────
 

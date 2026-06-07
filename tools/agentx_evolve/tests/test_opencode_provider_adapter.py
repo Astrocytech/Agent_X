@@ -6,156 +6,161 @@ import pytest
 
 from agentx_evolve.providers.opencode_provider import (
     OpenCodeProvider, OpenCodeProviderError,
-    BLOCKED_MISSING_KEY, BLOCKED_AUTH,
+    BLOCKED_AUTH, BLOCKED_SERVER,
     FAIL_MODEL, FAIL_RATE_LIMIT, FAIL_SERVER, FAIL_TIMEOUT, FAIL_MALFORMED,
 )
+
+SESSION_ID = "ses_test123"
+MESSAGE_TEXT = "Hello!"
+SESSION_RESPONSE = {"id": SESSION_ID}
+MESSAGE_RESPONSE = {
+    "info": {"finish": "stop"},
+    "parts": [
+        {"type": "step-start", "id": "p1"},
+        {"type": "reasoning", "text": "thinking..."},
+        {"type": "text", "text": MESSAGE_TEXT, "id": "p2"},
+        {"type": "step-finish", "reason": "stop"},
+    ],
+}
+
+
+def _mock_cm(data: dict) -> MagicMock:
+    """Build a context manager mock whose __enter__ returns a response mock."""
+    cm = MagicMock()
+    cm.__enter__.return_value.read.return_value = json.dumps(data).encode("utf-8")
+    return cm
 
 
 class TestOpenCodeProvider:
     def setup_method(self):
         self.provider = OpenCodeProvider(
-            api_key="sk-test-key",
-            base_url="https://opencode.ai/zen/v1",
+            base_url="http://127.0.0.1:14096",
             model="big-pickle",
+            timeout_seconds=60,
         )
 
-    def test_chat_url_no_double_v1(self):
-        url = self.provider._chat_url
-        assert url == "https://opencode.ai/zen/v1/chat/completions"
-        assert url.count("/v1") == 1
+    def test_last_user_text_returns_last_user_content(self):
+        msgs = [
+            {"role": "system", "content": "be helpful"},
+            {"role": "user", "content": "first"},
+            {"role": "assistant", "content": "ok"},
+            {"role": "user", "content": "second"},
+        ]
+        assert OpenCodeProvider._last_user_text(msgs) == "second"
 
-    def test_chat_url_without_v1_suffix(self):
-        p = OpenCodeProvider(api_key="k", base_url="https://example.com/api/v2")
-        url = p._chat_url
-        assert url == "https://example.com/api/v2/v1/chat/completions"
+    def test_last_user_text_no_user_message(self):
+        msgs = [{"role": "assistant", "content": "hi"}]
+        assert OpenCodeProvider._last_user_text(msgs) == "hi"
 
-    def test_missing_key_raises_blocked(self):
-        p = OpenCodeProvider(api_key="")
+    def test_last_user_text_empty_list(self):
+        assert OpenCodeProvider._last_user_text([]) == ""
+
+    def test_parse_response_standard(self):
+        result = OpenCodeProvider._parse_response(MESSAGE_RESPONSE)
+        assert result["role"] == "assistant"
+        assert result["content"] == MESSAGE_TEXT
+        assert result["finish_reason"] == "stop"
+        assert result["tool_calls"] == []
+
+    def test_parse_response_no_text_part(self):
+        data = {"info": {"finish": "stop"}, "parts": [{"type": "step-start"}]}
+        result = OpenCodeProvider._parse_response(data)
+        assert result["content"] == ""
+
+    def test_parse_response_missing_parts_returns_empty(self):
+        result = OpenCodeProvider._parse_response({})
+        assert result["content"] == ""
+
+    def test_parse_response_none_data_raises(self):
         with pytest.raises(OpenCodeProviderError) as exc:
-            p._check_key()
+            OpenCodeProvider._parse_response(None)  # type: ignore
+        assert exc.value.exit_code == 1
+
+    @patch("urllib.request.urlopen")
+    def test_complete_success(self, mock_urlopen):
+        mock_urlopen.side_effect = [
+            _mock_cm(SESSION_RESPONSE),
+            _mock_cm(MESSAGE_RESPONSE),
+        ]
+        with patch.object(self.provider, "_ensure_server"):
+            result = self.provider.complete(
+                [{"role": "user", "content": "Say READY"}],
+            )
+        assert result["content"] == MESSAGE_TEXT
+        assert result["finish_reason"] == "stop"
+
+    @patch("urllib.request.urlopen")
+    def test_session_creation_fails_server_unavailable(self, mock_urlopen):
+        mock_urlopen.side_effect = urllib.error.URLError("Connection refused")
+        with patch.object(self.provider, "_ensure_server"):
+            with pytest.raises(OpenCodeProviderError) as exc:
+                self.provider.complete([{"role": "user", "content": "hi"}])
         assert exc.value.exit_code == 2
         assert exc.value.status == "BLOCKED"
-        assert BLOCKED_MISSING_KEY in str(exc.value)
+        assert BLOCKED_SERVER in str(exc.value)
 
-    def test_build_payload(self):
-        messages = [
-            {"role": "system", "content": "you are helpful"},
-            {"role": "user", "content": "Say READY"},
+    @patch("urllib.request.urlopen")
+    def test_session_creation_http_error_401(self, mock_urlopen):
+        mock_urlopen.side_effect = urllib.error.HTTPError(
+            url="", code=401, msg="Unauthorized",
+            hdrs={}, fp=MagicMock(),
+        )
+        with patch.object(self.provider, "_ensure_server"):
+            with pytest.raises(OpenCodeProviderError) as exc:
+                self.provider.complete([{"role": "user", "content": "hi"}])
+        assert exc.value.exit_code == 2
+        assert exc.value.status == "BLOCKED"
+
+    @patch("urllib.request.urlopen")
+    def test_session_creation_http_error_403(self, mock_urlopen):
+        mock_urlopen.side_effect = urllib.error.HTTPError(
+            url="", code=403, msg="Forbidden",
+            hdrs={}, fp=MagicMock(),
+        )
+        with patch.object(self.provider, "_ensure_server"):
+            with pytest.raises(OpenCodeProviderError) as exc:
+                self.provider.complete([{"role": "user", "content": "hi"}])
+        assert exc.value.exit_code == 2
+        assert exc.value.status == "BLOCKED"
+
+    @patch("urllib.request.urlopen")
+    def test_message_post_http_error_404(self, mock_urlopen):
+        mock_urlopen.side_effect = [
+            _mock_cm(SESSION_RESPONSE),
+            urllib.error.HTTPError(url="", code=404, msg="Not Found", hdrs={}, fp=MagicMock()),
         ]
-        payload = self.provider._build_payload(messages)
-        assert payload["model"] == "big-pickle"
-        assert payload["messages"] == messages
-        assert payload["temperature"] == 0.2
-        assert payload["stream"] is False
+        with patch.object(self.provider, "_ensure_server"):
+            with pytest.raises(OpenCodeProviderError) as exc:
+                self.provider.complete([{"role": "user", "content": "hi"}])
+        assert exc.value.exit_code == 4
+
+    @patch("urllib.request.urlopen")
+    def test_message_post_http_error_429(self, mock_urlopen):
+        mock_urlopen.side_effect = [
+            _mock_cm(SESSION_RESPONSE),
+            urllib.error.HTTPError(url="", code=429, msg="Too Many Requests", hdrs={}, fp=MagicMock()),
+        ]
+        with patch.object(self.provider, "_ensure_server"):
+            with pytest.raises(OpenCodeProviderError) as exc:
+                self.provider.complete([{"role": "user", "content": "hi"}])
+        assert exc.value.exit_code == 4
+
+    @patch("urllib.request.urlopen")
+    def test_message_post_timeout(self, mock_urlopen):
+        mock_urlopen.side_effect = [
+            _mock_cm(SESSION_RESPONSE),
+            urllib.error.URLError("timed out"),
+        ]
+        with patch.object(self.provider, "_ensure_server"):
+            with pytest.raises(OpenCodeProviderError) as exc:
+                self.provider.complete([{"role": "user", "content": "hi"}])
+        assert exc.value.exit_code == 4
+        assert "timeout" in str(exc.value).lower()
 
     def test_payload_model_from_opencode_model_id(self):
         from agentx_evolve.providers.provider_router import ProviderRouter
         assert ProviderRouter._payload_model("opencode/big-pickle") == "big-pickle"
         assert ProviderRouter._payload_model("custom/model") == "custom/model"
-
-    def test_parse_response_standard(self):
-        data = {
-            "choices": [
-                {
-                    "message": {"role": "assistant", "content": "Hello"},
-                    "finish_reason": "stop",
-                }
-            ]
-        }
-        result = self.provider._parse_response(data)
-        assert result["role"] == "assistant"
-        assert result["content"] == "Hello"
-        assert result["finish_reason"] == "stop"
-
-    def test_parse_response_empty_choices_raises(self):
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider._parse_response({"choices": []})
-        assert exc.value.exit_code == 1
-
-    def test_parse_response_missing_choices_raises(self):
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider._parse_response({})
-        assert exc.value.exit_code == 1
-
-    @patch("urllib.request.urlopen")
-    def test_complete_success(self, mock_urlopen):
-        mock_response = MagicMock()
-        mock_response.read.return_value = json.dumps({
-            "choices": [
-                {
-                    "message": {"role": "assistant", "content": "READY"},
-                    "finish_reason": "stop",
-                }
-            ]
-        }).encode("utf-8")
-        mock_urlopen.return_value.__enter__.return_value = mock_response
-
-        result = self.provider.complete(
-            [{"role": "user", "content": "Say READY"}],
-        )
-        assert result["content"] == "READY"
-        assert result["finish_reason"] == "stop"
-
-    @patch("urllib.request.urlopen")
-    def test_complete_server_error(self, mock_urlopen):
-        mock_urlopen.side_effect = urllib.error.HTTPError(
-            url="", code=500, msg="Internal Server Error",
-            hdrs={}, fp=MagicMock(),
-        )
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider.complete([{"role": "user", "content": "hi"}])
-        assert exc.value.exit_code == 4
-        assert FAIL_SERVER in str(exc.value)
-
-    @patch("urllib.request.urlopen")
-    def test_complete_401_raises_blocked(self, mock_urlopen):
-        mock_urlopen.side_effect = urllib.error.HTTPError(
-            url="", code=401, msg="Unauthorized",
-            hdrs={}, fp=MagicMock(),
-        )
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider.complete([{"role": "user", "content": "hi"}])
-        assert exc.value.exit_code == 2
-        assert exc.value.status == "BLOCKED"
-
-    @patch("urllib.request.urlopen")
-    def test_complete_403_raises_blocked(self, mock_urlopen):
-        mock_urlopen.side_effect = urllib.error.HTTPError(
-            url="", code=403, msg="Forbidden",
-            hdrs={}, fp=MagicMock(),
-        )
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider.complete([{"role": "user", "content": "hi"}])
-        assert exc.value.exit_code == 2
-        assert exc.value.status == "BLOCKED"
-
-    @patch("urllib.request.urlopen")
-    def test_complete_404_raises_fail(self, mock_urlopen):
-        mock_urlopen.side_effect = urllib.error.HTTPError(
-            url="", code=404, msg="Not Found",
-            hdrs={}, fp=MagicMock(),
-        )
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider.complete([{"role": "user", "content": "hi"}])
-        assert exc.value.exit_code == 4
-
-    @patch("urllib.request.urlopen")
-    def test_complete_429_raises_fail(self, mock_urlopen):
-        mock_urlopen.side_effect = urllib.error.HTTPError(
-            url="", code=429, msg="Too Many Requests",
-            hdrs={}, fp=MagicMock(),
-        )
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider.complete([{"role": "user", "content": "hi"}])
-        assert exc.value.exit_code == 4
-
-    @patch("urllib.request.urlopen")
-    def test_complete_timeout(self, mock_urlopen):
-        import urllib.error
-        mock_urlopen.side_effect = urllib.error.URLError("timed out")
-        with pytest.raises(OpenCodeProviderError) as exc:
-            self.provider.complete([{"role": "user", "content": "hi"}])
-        assert exc.value.exit_code == 4
 
     def test_redacted_api_key_in_config(self):
         from agentx_evolve.runtime.config import RuntimeConfig

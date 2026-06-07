@@ -90,7 +90,7 @@ def _print_help() -> None:
 def _run_chat(argv: list[str]) -> None:
     from agentx_evolve.runtime.config import ConfigResolver
     from agentx_evolve.runtime.results import (
-        EXIT_BLOCKED, EXIT_INVALID_CLI, EXIT_FAIL, EXIT_ARTIFACT_FAIL,
+        EXIT_ARTIFACT_FAIL, EXIT_BLOCKED, EXIT_FAIL, EXIT_INVALID_CLI,
     )
     from agentx_evolve.workflows.chat import ChatWorkflow
 
@@ -99,17 +99,34 @@ def _run_chat(argv: list[str]) -> None:
 
     if config.once_message:
         pass
-    elif not argv:
-        if sys.stdin.isatty():
-            sys.stderr.write("chat> ")
-            sys.stderr.flush()
+    elif sys.stdin.isatty():
+        import readline
+        from agentx_evolve.providers.provider_router import ProviderRouter
+        router = ProviderRouter(config)
+        provider = router.get_provider()
+        while True:
+            try:
+                sys.stderr.write("chat> ")
+                sys.stderr.flush()
+                line = sys.stdin.readline()
+                if not line or line.strip() == "/exit":
+                    sys.exit(0)
+                line = line.strip()
+                if not line:
+                    continue
+                response = provider.complete([{"role": "user", "content": line}])
+                print(response.get('content', ''))
+            except KeyboardInterrupt:
+                print(file=sys.stderr)
+                break
+            except EOFError:
+                break
+        sys.exit(0)
+    else:
         config.once_message = sys.stdin.read().strip()
         if not config.once_message:
             print("chat: empty input", file=sys.stderr)
             sys.exit(EXIT_BLOCKED)
-    else:
-        remaining = " ".join(argv)
-        config.once_message = remaining
 
     workflow = ChatWorkflow(config)
     try:

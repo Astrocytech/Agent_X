@@ -24,7 +24,7 @@ class RuntimeConfig:
     mode: str = BUILTIN_MODE
     dry_run: bool = BUILTIN_DRY_RUN
     command: str = ""
-    opencode_base_url: str = "https://opencode.ai/zen/v1"
+    opencode_base_url: str = "http://127.0.0.1:14096"
     opencode_api_key: str = ""
     once_message: str = ""
     concept_file: str = ""
@@ -122,7 +122,7 @@ class ConfigResolver:
             model=os.environ.get("AGENTX_MODEL", BUILTIN_MODEL),
             run_root=os.environ.get("AGENTX_RUN_ROOT", BUILTIN_RUN_ROOT),
             timeout_seconds=int(os.environ.get("AGENTX_TIMEOUT_SECONDS", str(BUILTIN_TIMEOUT))),
-            opencode_base_url=os.environ.get("AGENTX_OPENCODE_BASE_URL", "https://opencode.ai/zen/v1"),
+            opencode_base_url=os.environ.get("AGENTX_OPENCODE_BASE_URL", "http://127.0.0.1:14096"),
             opencode_api_key=os.environ.get("AGENTX_OPENCODE_API_KEY", ""),
         )
 
