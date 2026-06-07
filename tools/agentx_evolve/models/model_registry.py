@@ -40,7 +40,7 @@ def _make_fake_provider() -> ModelProviderProfile:
     return ModelProviderProfile(
         provider_id="fake_test_provider",
         provider_type=PROVIDER_FAKE,
-        display_name="Fake Test Provider",
+        display_name="Test Double Provider",
         transport_mode=TRANSPORT_TEST_DOUBLE,
         local_only=True,
         network_allowed=False,
@@ -218,7 +218,7 @@ def load_default_model_registry() -> ModelRegistry:
     # Model profiles
     registry.models.append(ModelProfile(
         model_id="fake_test_model",
-        display_name="Fake Test Model",
+        display_name="Test Double Model",
         provider_id="fake_test_provider",
         capability_class=CAPABILITY_TEST_DOUBLE,
         context_window=4096,

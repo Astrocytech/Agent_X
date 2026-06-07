@@ -12,7 +12,7 @@ from agentx_evolve.models.model_models import (
     SOURCE_COMPONENT,
     MODEL_STATUS_BLOCKED,
 )
-from agentx_evolve.tools.tool_models import COMMAND_NOT_IMPLEMENTED
+from agentx_evolve.tools.tool_models import COMMAND_BLOCKED
 
 
 class BaseModelProviderAdapter(ABC):
@@ -38,7 +38,7 @@ class BaseModelProviderAdapter(ABC):
         ...
 
 
-def make_blocked_response(request: ModelRequest, reason: str, failure_class: str = COMMAND_NOT_IMPLEMENTED) -> ModelResponse:
+def make_blocked_response(request: ModelRequest, reason: str, failure_class: str = COMMAND_BLOCKED) -> ModelResponse:
     now = utc_now_iso()
     return ModelResponse(
         model_response_id=new_id("res"),

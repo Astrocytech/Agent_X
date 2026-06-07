@@ -22,7 +22,7 @@ def _fake_tool_adapter(**kwargs: Any) -> dict:
 def _fake_model_adapter(**kwargs: Any) -> dict:
     return {
         "status": "SUCCESS",
-        "safe_summary": "fake model response",
+        "safe_summary": "test model response",
         "raw_response_ref": '{"implementation_summary":"test","steps":[]}',
         "usage_summary": {},
         "mode": "fake_for_test",

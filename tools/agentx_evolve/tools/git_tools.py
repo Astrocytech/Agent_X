@@ -6,7 +6,7 @@ from agentx_evolve.tools.tool_models import (
     STATUS_SUCCESS,
     STATUS_BLOCKED,
     STATUS_FAILED,
-    COMMAND_NOT_IMPLEMENTED,
+    COMMAND_BLOCKED,
     utc_now_iso,
     new_id,
 )
@@ -22,7 +22,7 @@ def _blocked_result(tool_call: ToolCall, message: str) -> ToolResult:
         status=STATUS_BLOCKED,
         exit_code=1,
         message=message,
-        failure_class=COMMAND_NOT_IMPLEMENTED,
+        failure_class=COMMAND_BLOCKED,
     )
 
 
@@ -72,7 +72,7 @@ def _read_only_git(tool_call: ToolCall, args: list[str]) -> ToolResult:
         exit_code=1,
         message=message,
         data=data or {},
-        failure_class=COMMAND_NOT_IMPLEMENTED if status == STATUS_BLOCKED else None,
+        failure_class=COMMAND_BLOCKED if status == STATUS_BLOCKED else None,
     )
 
 

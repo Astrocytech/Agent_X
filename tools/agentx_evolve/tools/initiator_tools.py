@@ -6,7 +6,7 @@ from agentx_evolve.tools.tool_models import (
     STATUS_SUCCESS,
     STATUS_BLOCKED,
     STATUS_FAILED,
-    COMMAND_NOT_IMPLEMENTED,
+    COMMAND_BLOCKED,
     UNKNOWN_TOOL_FAILURE,
     utc_now_iso,
     new_id,
@@ -39,7 +39,7 @@ def _try_call_initiator(action: str, arguments: dict) -> tuple[str, str, dict | 
         pass
     except Exception as e:
         return STATUS_FAILED, f"{action} failed: {e}", {"error": str(e)}, UNKNOWN_TOOL_FAILURE
-    return STATUS_BLOCKED, f"{action} not available", None, COMMAND_NOT_IMPLEMENTED
+    return STATUS_BLOCKED, f"{action} not available", None, COMMAND_BLOCKED
 
 
 def _resolve_call(context: dict, name: str) -> ToolCall:

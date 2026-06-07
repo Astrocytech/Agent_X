@@ -5,7 +5,7 @@ from agentx_evolve.tools.tool_models import (
     ToolResult,
     STATUS_BLOCKED,
     STATUS_PARTIAL,
-    COMMAND_NOT_IMPLEMENTED,
+    COMMAND_BLOCKED,
     utc_now_iso,
     new_id,
 )
@@ -21,7 +21,7 @@ def _blocked_result(tool_call: ToolCall, status: str, message: str) -> ToolResul
         status=status,
         exit_code=1,
         message=message,
-        failure_class=COMMAND_NOT_IMPLEMENTED,
+        failure_class=COMMAND_BLOCKED,
     )
 
 

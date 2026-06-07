@@ -9,7 +9,7 @@ from agentx_evolve.tools.tool_models import (
     ToolCall,
     ToolResult,
     STATUS_BLOCKED,
-    COMMAND_NOT_IMPLEMENTED,
+    COMMAND_BLOCKED,
 )
 
 
@@ -32,7 +32,7 @@ def test_each_patch_blocked():
         result = func(args, {})
         assert result.status == STATUS_BLOCKED or result.status == "PARTIAL"
         assert result.exit_code == 1
-        assert result.failure_class == COMMAND_NOT_IMPLEMENTED
+        assert result.failure_class == COMMAND_BLOCKED
 
 
 def test_each_patch_with_tool_call_context():

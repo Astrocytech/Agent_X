@@ -207,7 +207,7 @@ class TaskPack:
 
 
 # ---------------------------------------------------------------------------
-# Legacy TaskPacket types (absorbed from task_packet.py)
+# Previous TaskPacket types (absorbed from task_packet.py)
 # ---------------------------------------------------------------------------
 
 TP_SCHEMA_VERSION = "1.0"
