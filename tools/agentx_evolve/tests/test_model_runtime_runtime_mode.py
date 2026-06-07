@@ -5,7 +5,7 @@ from agentx_evolve.model_runtime.runtime_models import (
     DEVICE_CPU, DEVICE_GPU, DEVICE_AUTO,
 )
 from agentx_evolve.model_runtime.runtime_mode import (
-    resolve_runtime_mode, resolve_cpu_gpu_fallback, is_hosted_fallback_allowed,
+    resolve_runtime_mode, resolve_cpu_gpu_degradation, is_hosted_fallback_allowed,
 )
 
 
@@ -60,7 +60,7 @@ def test_cpu_fallback_cpu_only():
     model = _make_model(supports_cpu=True, supports_gpu=False)
     runtime = _make_runtime(supports_cpu_fallback=True)
     hw = _make_hw(gpu_present=False)
-    result = resolve_cpu_gpu_fallback(model, runtime, hw, {})
+    result = resolve_cpu_gpu_degradation(model, runtime, hw, {})
     assert result["device"] == DEVICE_CPU
 
 
@@ -68,7 +68,7 @@ def test_cpu_fallback_gpu_only():
     model = _make_model(supports_cpu=False, supports_gpu=True)
     runtime = _make_runtime(supports_gpu_fallback=True)
     hw = _make_hw(gpu_present=True)
-    result = resolve_cpu_gpu_fallback(model, runtime, hw, {})
+    result = resolve_cpu_gpu_degradation(model, runtime, hw, {})
     assert result["device"] == DEVICE_GPU
 
 
@@ -76,7 +76,7 @@ def test_cpu_fallback_both_available_prefer_gpu():
     model = _make_model(supports_cpu=True, supports_gpu=True)
     runtime = _make_runtime(supports_cpu_fallback=True, supports_gpu_fallback=True)
     hw = _make_hw(gpu_present=True)
-    result = resolve_cpu_gpu_fallback(model, runtime, hw, {"preferred_device": DEVICE_GPU})
+    result = resolve_cpu_gpu_degradation(model, runtime, hw, {"preferred_device": DEVICE_GPU})
     assert result["device"] == DEVICE_GPU
 
 
@@ -84,7 +84,7 @@ def test_cpu_fallback_both_available_no_preference():
     model = _make_model(supports_cpu=True, supports_gpu=True)
     runtime = _make_runtime(supports_cpu_fallback=True, supports_gpu_fallback=True)
     hw = _make_hw(gpu_present=True)
-    result = resolve_cpu_gpu_fallback(model, runtime, hw, {})
+    result = resolve_cpu_gpu_degradation(model, runtime, hw, {})
     assert result["device"] == DEVICE_CPU
 
 
@@ -92,6 +92,6 @@ def test_cpu_fallback_neither_available():
     model = _make_model(supports_cpu=False, supports_gpu=False)
     runtime = _make_runtime(supports_cpu_fallback=False, supports_gpu_fallback=False)
     hw = _make_hw(gpu_present=False)
-    result = resolve_cpu_gpu_fallback(model, runtime, hw, {})
+    result = resolve_cpu_gpu_degradation(model, runtime, hw, {})
     assert result["device"] == DEVICE_CPU
     assert "No GPU available" in result["reason"]

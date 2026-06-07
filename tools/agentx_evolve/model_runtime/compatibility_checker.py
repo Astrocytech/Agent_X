@@ -79,8 +79,8 @@ def check_runtime_compatibility(
         if runtime_profile.supports_cpu_fallback and model_profile.supports_cpu:
             decision.compatibility = COMPATIBILITY_DEGRADED
             decision.device = "CPU"
-            decision.fallback_applied = True
-            decision.fallback_reason = "GPU required but unavailable; CPU fallback used"
+            decision.degradation_applied = True
+            decision.degradation_reason = "GPU required but unavailable; CPU degradation used"
             return decision
         decision.compatibility = COMPATIBILITY_INCOMPATIBLE
         decision.reason = "GPU required but unavailable and CPU fallback not allowed"

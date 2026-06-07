@@ -59,11 +59,11 @@ def normalize_decision_status(value: str) -> str:
     upper = value.upper().strip()
     known = {
         "ALLOW", "BLOCK", "BLOCKED", "UNAVAILABLE", "INCOMPATIBLE",
-        "NEEDS_REPACK", "CPU_FALLBACK", "GPU_REQUIRED", "DEGRADED_LOCAL",
+        "NEEDS_REPACK", "CPU_DEGRADATION", "GPU_REQUIRED", "DEGRADED_LOCAL",
         "POLICY_DENIED", "PROFILE_INVALID", "HARDWARE_PROFILE_INVALID",
         "MEMORY_BUDGET_EXCEEDED", "CONTEXT_WINDOW_EXCEEDED",
         "QUANTIZATION_UNSUPPORTED", "BACKEND_UNSUPPORTED",
-        "HOSTED_FALLBACK_FORBIDDEN",
+        "HOSTED_ALTERNATIVE_FORBIDDEN",
     }
     if upper in known:
         return upper
@@ -193,8 +193,8 @@ class LocalRuntimeCompatibilityDecision:
     context_compatible: bool = False
     memory_compatible: bool = False
     policy_allowed: bool = False
-    fallback_applied: bool = False
-    fallback_reason: str | None = None
+    degradation_applied: bool = False
+    degradation_reason: str | None = None
     profile_repository_hash: str = ""
     failure_class: str | None = None
     reason: str = ""
@@ -221,8 +221,8 @@ class LocalModelSelectionConstraints:
     network_allowed: bool = False
     allow_model_download: bool = False
     allow_server_start: bool = False
-    allow_cpu_fallback: bool = False
-    allow_gpu_fallback: bool = False
+    allow_cpu_degradation: bool = False
+    allow_gpu_degradation: bool = False
     allow_hosted_fallback: bool = False
     preferred_runtime_order: list[str] = field(default_factory=list)
     preferred_quantization_order: list[str] = field(default_factory=list)

@@ -402,7 +402,7 @@ tools/agentx_evolve/models/model_call_logger.py
 tools/agentx_evolve/models/model_retry_policy.py
 tools/agentx_evolve/models/prompt_runner.py
 tools/agentx_evolve/models/json_output_validator.py
-tools/agentx_evolve/models/fake_provider_adapter.py
+tools/agentx_evolve/models/dev_provider_adapter.py
 tools/agentx_evolve/models/local_provider_adapter.py
 tools/agentx_evolve/models/ollama_adapter.py
 tools/agentx_evolve/models/lmstudio_adapter.py
@@ -460,7 +460,7 @@ tools/agentx_evolve/tests/test_json_output_validator.py
 tools/agentx_evolve/tests/test_model_retry_policy.py
 tools/agentx_evolve/tests/test_model_call_logger.py
 tools/agentx_evolve/tests/test_model_evidence_manifest.py
-tools/agentx_evolve/tests/test_fake_provider_adapter.py
+tools/agentx_evolve/tests/test_dev_provider_adapter.py
 tools/agentx_evolve/tests/test_local_provider_adapter.py
 tools/agentx_evolve/tests/test_ollama_adapter.py
 tools/agentx_evolve/tests/test_lmstudio_adapter.py
@@ -1065,12 +1065,12 @@ perform remote calls unless endpoint is policy-approved
 
 # 10. Provider Adapter Requirements
 
-## 10.1 Fake Provider Adapter
+## 10.1 Dev Provider Adapter
 
 File:
 
 ```text
-tools/agentx_evolve/models/fake_provider_adapter.py
+tools/agentx_evolve/models/dev_provider_adapter.py
 ```
 
 Purpose:
@@ -1082,7 +1082,7 @@ Provide deterministic test-only model responses without GPU, network, hosted pro
 Rules:
 
 ```text
-available only when provider_kind=FAKE or test context enables fake provider
+available only when provider_kind=DEV or test context enables dev provider
 returns deterministic text/JSON from supplied fixtures
 can produce valid JSON, invalid JSON, timeout-like failure, and provider-error fixtures
 never uses network
@@ -1094,7 +1094,7 @@ never writes source files
 Acceptance:
 
 ```text
-fake provider returns schema-valid SUCCESS response
+dev provider returns schema-valid SUCCESS response
 fake provider can return schema-valid INVALID response
 fake provider supports deterministic JSON-only output tests
 base test suite uses fake provider for live-call simulation
@@ -2013,7 +2013,7 @@ Implement in this order:
 13. tools/agentx_evolve/models/model_call_logger.py
 14. tools/agentx_evolve/models/invalid_model_request.py
 15. tools/agentx_evolve/models/model_adapter.py
-16. tools/agentx_evolve/models/fake_provider_adapter.py
+16. tools/agentx_evolve/models/dev_provider_adapter.py
 17. tools/agentx_evolve/models/local_provider_adapter.py
 18. tools/agentx_evolve/models/ollama_adapter.py
 19. tools/agentx_evolve/models/lmstudio_adapter.py
@@ -2233,7 +2233,7 @@ PYTHONPATH=tools python -m pytest \
   tools/agentx_evolve/tests/test_json_output_validator.py \
   tools/agentx_evolve/tests/test_model_retry_policy.py \
   tools/agentx_evolve/tests/test_model_call_logger.py \
-  tools/agentx_evolve/tests/test_fake_provider_adapter.py \
+  tools/agentx_evolve/tests/test_dev_provider_adapter.py \
   tools/agentx_evolve/tests/test_local_provider_adapter.py \
   tools/agentx_evolve/tests/test_ollama_adapter.py \
   tools/agentx_evolve/tests/test_lmstudio_adapter.py \
@@ -2542,7 +2542,7 @@ Use this sequence:
 12. Implement model-call logger.
 13. Implement invalid_model_request.py.
 14. Implement provider adapter interface.
-15. Implement fake_provider_adapter.py.
+15. Implement dev_provider_adapter.py.
 16. Implement local/provider adapters as fail-closed adapters.
 17. Implement prompt_runner.py.
 18. Create tests.

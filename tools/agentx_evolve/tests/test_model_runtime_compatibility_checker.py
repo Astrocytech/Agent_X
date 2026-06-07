@@ -131,7 +131,7 @@ def test_runtime_compatibility_gpu_unavailable_with_fallback():
     limits = _make_limits()
     decision = check_runtime_compatibility(model, runtime, hw, limits)
     assert decision.compatibility == COMPATIBILITY_DEGRADED
-    assert decision.fallback_applied is True
+    assert decision.degradation_applied is True
 
 
 def test_check_quantization_compatibility():

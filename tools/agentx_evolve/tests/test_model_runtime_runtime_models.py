@@ -68,7 +68,7 @@ def test_normalize_decision_status():
     assert normalize_decision_status("block") == "BLOCK"
     assert normalize_decision_status("  allow  ") == "ALLOW"
     assert normalize_decision_status("unknown_value") == "UNKNOWN"
-    assert normalize_decision_status("HOSTED_FALLBACK_FORBIDDEN") == "HOSTED_FALLBACK_FORBIDDEN"
+    assert normalize_decision_status("HOSTED_ALTERNATIVE_FORBIDDEN") == "HOSTED_ALTERNATIVE_FORBIDDEN"
 
 
 def test_local_model_profile_defaults():
@@ -112,7 +112,7 @@ def test_local_runtime_compatibility_decision():
         compatibility=COMPATIBILITY_COMPATIBLE,
     )
     assert d.compatibility == COMPATIBILITY_COMPATIBLE
-    assert d.fallback_applied is False
+    assert d.degradation_applied is False
 
 
 def test_local_model_selection_constraints():

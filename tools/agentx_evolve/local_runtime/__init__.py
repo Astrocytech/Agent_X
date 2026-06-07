@@ -49,21 +49,21 @@ from agentx_evolve.model_runtime.availability_checker import check_model_availab
 from agentx_evolve.model_runtime.compatibility_checker import check_runtime_compatibility
 from agentx_evolve.model_runtime.model_selector import check_model_eligibility, select_local_model, rank_eligible_models
 from agentx_evolve.model_runtime.memory_budget import estimate_memory_budget
-from agentx_evolve.model_runtime.runtime_mode import resolve_runtime_mode, resolve_cpu_gpu_fallback
+from agentx_evolve.model_runtime.runtime_mode import resolve_runtime_mode, resolve_cpu_gpu_degradation
 from agentx_evolve.model_runtime.profile_validator import validate_runtime_profiles
 from agentx_evolve.model_runtime.schema_validator import validate_local_model_runtime_schemas
 from agentx_evolve.model_runtime.runtime_artifacts import write_runtime_artifact
 from agentx_evolve.model_runtime.runtime_limits import estimate_token_count, check_context_budget, truncate_for_evidence
-from agentx_evolve.model_runtime.fallback_resolver import (
-    FallbackDecision,
-    resolve_fallback,
-    select_fallback_strategy,
-    FALLBACK_STRATEGY_RETRY,
-    FALLBACK_STRATEGY_DOWNGRADE,
-    FALLBACK_STRATEGY_CPU_FALLBACK,
-    FALLBACK_STRATEGY_HOSTED_FALLBACK,
-    FALLBACK_STRATEGY_BLOCK,
-    ALL_FALLBACK_STRATEGIES,
+from agentx_evolve.model_runtime.runtime_mode_resolver import (
+    RuntimeModeDecision,
+    resolve_runtime_decision,
+    select_resolution_strategy,
+    RESOLUTION_STRATEGY_RETRY,
+    RESOLUTION_STRATEGY_DOWNGRADE,
+    RESOLUTION_STRATEGY_CPU_DEGRADATION,
+    RESOLUTION_STRATEGY_HOSTED_ALTERNATIVE,
+    RESOLUTION_STRATEGY_BLOCK,
+    ALL_RESOLUTION_STRATEGIES,
 )
 from agentx_evolve.model_runtime.runtime_compatibility import (
     RuntimeCompatibilityResult,
@@ -125,22 +125,22 @@ __all__ = [
     "rank_eligible_models",
     "estimate_memory_budget",
     "resolve_runtime_mode",
-    "resolve_cpu_gpu_fallback",
+    "resolve_cpu_gpu_degradation",
     "validate_runtime_profiles",
     "validate_local_model_runtime_schemas",
     "write_runtime_artifact",
     "estimate_token_count",
     "check_context_budget",
     "truncate_for_evidence",
-    "FallbackDecision",
-    "resolve_fallback",
-    "select_fallback_strategy",
-    "FALLBACK_STRATEGY_RETRY",
-    "FALLBACK_STRATEGY_DOWNGRADE",
-    "FALLBACK_STRATEGY_CPU_FALLBACK",
-    "FALLBACK_STRATEGY_HOSTED_FALLBACK",
-    "FALLBACK_STRATEGY_BLOCK",
-    "ALL_FALLBACK_STRATEGIES",
+    "RuntimeModeDecision",
+    "resolve_runtime_decision",
+    "select_resolution_strategy",
+    "RESOLUTION_STRATEGY_RETRY",
+    "RESOLUTION_STRATEGY_DOWNGRADE",
+    "RESOLUTION_STRATEGY_CPU_DEGRADATION",
+    "RESOLUTION_STRATEGY_HOSTED_ALTERNATIVE",
+    "RESOLUTION_STRATEGY_BLOCK",
+    "ALL_RESOLUTION_STRATEGIES",
     "RuntimeCompatibilityResult",
     "check_model_runtime_compatibility",
     "is_quantization_supported",

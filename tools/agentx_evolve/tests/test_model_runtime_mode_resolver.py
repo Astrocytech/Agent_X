@@ -1,50 +1,50 @@
 import pytest
 import tempfile
 from pathlib import Path
-from agentx_evolve.model_runtime.fallback_resolver import (
-    FallbackDecision, resolve_fallback, select_fallback_strategy,
-    FALLBACK_STRATEGY_RETRY, FALLBACK_STRATEGY_CPU_FALLBACK,
-    FALLBACK_STRATEGY_HOSTED_FALLBACK, FALLBACK_STRATEGY_BLOCK,
+from agentx_evolve.model_runtime.runtime_mode_resolver import (
+    RuntimeModeDecision, resolve_runtime_decision, select_resolution_strategy,
+    RESOLUTION_STRATEGY_RETRY, RESOLUTION_STRATEGY_CPU_DEGRADATION,
+    RESOLUTION_STRATEGY_HOSTED_ALTERNATIVE, RESOLUTION_STRATEGY_BLOCK,
     RUNTIME_MODE_LOCAL_ONLY, RUNTIME_MODE_LOCAL_PREFERRED,
     RUNTIME_MODE_DISABLED,
 )
 
 
 class TestFallbackResolver:
-    def test_resolve_fallback_disabled(self):
-        decision = resolve_fallback("model-1", RUNTIME_MODE_DISABLED, False, True, False)
-        assert decision.fallback_strategy == FALLBACK_STRATEGY_BLOCK
+    def test_resolve_runtime_decision_disabled(self):
+        decision = resolve_runtime_decision("model-1", RUNTIME_MODE_DISABLED, False, True, False)
+        assert decision.resolution_strategy == RESOLUTION_STRATEGY_BLOCK
 
-    def test_resolve_fallback_local_only_gpu_eligible_no_gpu(self):
-        decision = resolve_fallback("model-1", RUNTIME_MODE_LOCAL_ONLY, False, True, False)
-        assert decision.fallback_strategy == FALLBACK_STRATEGY_CPU_FALLBACK
+    def test_resolve_runtime_decision_local_only_gpu_eligible_no_gpu(self):
+        decision = resolve_runtime_decision("model-1", RUNTIME_MODE_LOCAL_ONLY, False, True, False)
+        assert decision.resolution_strategy == RESOLUTION_STRATEGY_CPU_DEGRADATION
 
-    def test_resolve_fallback_local_only_gpu_available(self):
-        decision = resolve_fallback("model-1", RUNTIME_MODE_LOCAL_ONLY, True, True, False)
-        assert decision.fallback_strategy == FALLBACK_STRATEGY_RETRY
+    def test_resolve_runtime_decision_local_only_gpu_available(self):
+        decision = resolve_runtime_decision("model-1", RUNTIME_MODE_LOCAL_ONLY, True, True, False)
+        assert decision.resolution_strategy == RESOLUTION_STRATEGY_RETRY
 
-    def test_resolve_fallback_local_preferred_no_gpu(self):
-        decision = resolve_fallback("model-1", RUNTIME_MODE_LOCAL_PREFERRED, False, True, False)
-        assert decision.fallback_strategy == FALLBACK_STRATEGY_CPU_FALLBACK
+    def test_resolve_runtime_decision_local_preferred_no_gpu(self):
+        decision = resolve_runtime_decision("model-1", RUNTIME_MODE_LOCAL_PREFERRED, False, True, False)
+        assert decision.resolution_strategy == RESOLUTION_STRATEGY_CPU_DEGRADATION
 
-    def test_resolve_fallback_local_preferred_gpu_available(self):
-        decision = resolve_fallback("model-1", RUNTIME_MODE_LOCAL_PREFERRED, True, True, False)
-        assert decision.fallback_strategy == FALLBACK_STRATEGY_RETRY
+    def test_resolve_runtime_decision_local_preferred_gpu_available(self):
+        decision = resolve_runtime_decision("model-1", RUNTIME_MODE_LOCAL_PREFERRED, True, True, False)
+        assert decision.resolution_strategy == RESOLUTION_STRATEGY_RETRY
 
-    def test_select_fallback_strategy_gpu_failed_cpu_available(self):
-        strategy = select_fallback_strategy("model-1", True, True, False, False)
-        assert strategy == FALLBACK_STRATEGY_CPU_FALLBACK
+    def test_select_resolution_strategy_gpu_failed_cpu_available(self):
+        strategy = select_resolution_strategy("model-1", True, True, False, False)
+        assert strategy == RESOLUTION_STRATEGY_CPU_DEGRADATION
 
-    def test_select_fallback_strategy_gpu_failed_hosted_available(self):
-        strategy = select_fallback_strategy("model-1", True, False, True, True)
-        assert strategy == FALLBACK_STRATEGY_HOSTED_FALLBACK
+    def test_select_resolution_strategy_gpu_failed_hosted_available(self):
+        strategy = select_resolution_strategy("model-1", True, False, True, True)
+        assert strategy == RESOLUTION_STRATEGY_HOSTED_ALTERNATIVE
 
-    def test_select_fallback_strategy_gpu_failed_no_alternative(self):
-        strategy = select_fallback_strategy("model-1", True, False, False, False)
-        assert strategy == FALLBACK_STRATEGY_BLOCK
+    def test_select_resolution_strategy_gpu_failed_no_alternative(self):
+        strategy = select_resolution_strategy("model-1", True, False, False, False)
+        assert strategy == RESOLUTION_STRATEGY_BLOCK
 
     def test_fallback_decision_to_dict(self):
-        decision = FallbackDecision(decision_id="fb-1", model_id="m-1")
+        decision = RuntimeModeDecision(decision_id="fb-1", model_id="m-1")
         d = decision.to_dict()
         assert d["decision_id"] == "fb-1"
         assert d["model_id"] == "m-1"
