@@ -126,12 +126,10 @@ from .model_call_logger import (
 )
 from .invalid_model_request import handle_invalid_model_request
 from .fake_provider_adapter import FakeProviderAdapter
-from .local_provider_adapter import LocalProviderAdapter
 from .local_model_adapter import LocalModelAdapter
 from .ollama_adapter import OllamaAdapter
 from .lmstudio_adapter import LMStudioAdapter
 from .openai_compatible_adapter import OpenAICompatibleAdapter
-from .opencode_provider_adapter import OpenCodeProviderAdapter
 from .hosted_model_adapter import HostedModelAdapter
 from .model_adapter import BaseModelProviderAdapter, make_blocked_response
 from .prompt_runner import run_prompt, run_json_prompt

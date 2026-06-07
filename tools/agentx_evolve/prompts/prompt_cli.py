@@ -22,16 +22,16 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.validate:
-        print("error: --validate is not available (stub)")
+        print("error: --validate is not available")
         return 1
     if args.bind:
-        print("error: --bind is not available (stub)")
+        print("error: --bind is not available")
         return 1
     if args.list:
-        print("error: --list is not available (stub)")
+        print("error: --list is not available")
         return 1
     if args.diff:
-        print("error: --diff is not available (stub)")
+        print("error: --diff is not available")
         return 1
     return 0
 

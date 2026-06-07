@@ -4,12 +4,11 @@ from agentx_evolve.models.model_models import (
     MODEL_STATUS_BLOCKED, MODEL_STATUS_FAILED,
     TASK_IMPLEMENT_PATCH,
     PROVIDER_OLLAMA, PROVIDER_LMSTUDIO, PROVIDER_OPENAI_COMPATIBLE,
-    PROVIDER_OPENCODE_COMPATIBLE, PROVIDER_HOSTED,
+    PROVIDER_HOSTED,
 )
 from agentx_evolve.models.ollama_adapter import OllamaAdapter
 from agentx_evolve.models.lmstudio_adapter import LMStudioAdapter
 from agentx_evolve.models.openai_compatible_adapter import OpenAICompatibleAdapter
-from agentx_evolve.models.opencode_provider_adapter import OpenCodeProviderAdapter
 from agentx_evolve.models.hosted_model_adapter import HostedModelAdapter
 
 
@@ -53,20 +52,6 @@ class TestOpenAICompatibleAdapter:
         provider = ModelProviderProfile(provider_id="openai_compat", provider_type=PROVIDER_OPENAI_COMPATIBLE)
         adapter = OpenAICompatibleAdapter(provider)
         assert adapter.is_available({}) is False
-
-
-class TestOpenCodeProviderAdapter:
-    def test_never_available(self):
-        provider = ModelProviderProfile(provider_id="opencode", provider_type=PROVIDER_OPENCODE_COMPATIBLE)
-        adapter = OpenCodeProviderAdapter(provider)
-        assert adapter.is_available({}) is False
-        assert adapter.is_available({"opencode_available": True}) is False
-
-    def test_run_prompt_returns_blocked(self, model_req):
-        provider = ModelProviderProfile(provider_id="opencode", provider_type=PROVIDER_OPENCODE_COMPATIBLE)
-        adapter = OpenCodeProviderAdapter(provider)
-        resp = adapter.run_prompt(model_req, provider, {})
-        assert resp.status in (MODEL_STATUS_BLOCKED, MODEL_STATUS_FAILED)
 
 
 class TestHostedModelAdapter:

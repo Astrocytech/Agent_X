@@ -9,7 +9,7 @@ from agentx_evolve.models.model_models import (
 )
 from agentx_evolve.models.model_adapter import BaseModelProviderAdapter
 from agentx_evolve.models.fake_provider_adapter import FakeProviderAdapter
-from agentx_evolve.models.local_provider_adapter import LocalProviderAdapter
+from agentx_evolve.models.local_model_adapter import LocalModelAdapter
 from agentx_evolve.models.hosted_model_adapter import HostedModelAdapter
 
 
@@ -33,7 +33,7 @@ class TestHosted:
 class TestLocal:
     def test_local_model_adapter(self):
         profile = ModelProviderProfile(provider_id="local", provider_type=PROVIDER_LOCAL)
-        adapter = LocalProviderAdapter(profile)
+        adapter = LocalModelAdapter(profile)
         assert not adapter.is_available({})
 
     def test_local_provider_adapter(self):

@@ -14,8 +14,7 @@ from agentx_evolve.models.model_models import (
     new_id,
     SOURCE_COMPONENT,
 )
-from agentx_evolve.models.model_adapter import BaseModelProviderAdapter
-from agentx_evolve.models.local_provider_adapter import LocalProviderAdapter
+from agentx_evolve.models.model_adapter import BaseModelProviderAdapter, make_blocked_response
 
 logger = logging.getLogger(__name__)
 
@@ -29,22 +28,21 @@ class LocalModelAdapter(BaseModelProviderAdapter):
                 model_ids=[],
             )
         super().__init__(provider_profile)
-        self._inner = LocalProviderAdapter(provider_profile)
 
     def is_available(self, context: dict) -> bool:
-        return self._inner.is_available(context)
+        return False
 
     def validate_request(
         self, request: ModelRequest, profile: ModelProviderProfile, context: dict
     ) -> ModelPolicyDecision | None:
-        return self._inner.validate_request(request, profile, context)
+        return None
 
     def run_prompt(
         self, request: ModelRequest, profile: ModelProviderProfile, context: dict
     ) -> ModelResponse:
-        return self._inner.run_prompt(request, profile, context)
+        return make_blocked_response(request, "Local provider not available in this context")
 
     def run_json_prompt(
         self, request: ModelRequest, profile: ModelProviderProfile, context: dict
     ) -> ModelResponse:
-        return self._inner.run_json_prompt(request, profile, context)
+        return make_blocked_response(request, "Local provider not available in this context")
