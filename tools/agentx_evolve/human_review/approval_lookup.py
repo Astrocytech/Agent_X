@@ -27,6 +27,30 @@ def lookup_approval(approval_id: str, repo_root: Path) -> HumanApprovalDecision 
     return None
 
 
+def _scope_from_dict(data: dict) -> HumanApprovalScope | None:
+    if not data:
+        return None
+    return HumanApprovalScope(
+        scope_id=data.get("scope_id", ""),
+        scope_type=data.get("scope_type", ""),
+        action_id=data.get("action_id"),
+        tool_call_id=data.get("tool_call_id"),
+        patch_session_id=data.get("patch_session_id"),
+        promotion_request_id=data.get("promotion_request_id"),
+        policy_decision_id=data.get("policy_decision_id"),
+        file_paths=data.get("file_paths", []),
+        commit_hashes=data.get("commit_hashes", []),
+        artifact_hashes=data.get("artifact_hashes", []),
+        session_id=data.get("session_id"),
+        allowed_effects=data.get("allowed_effects", []),
+        blocked_effects=data.get("blocked_effects", []),
+        risk_level=data.get("risk_level"),
+        repo_identity_hash=data.get("repo_identity_hash"),
+        warnings=data.get("warnings", []),
+        errors=data.get("errors", []),
+    )
+
+
 def _decision_from_dict(data: dict) -> HumanApprovalDecision:
     return HumanApprovalDecision(
         decision_id=data.get("decision_id", ""),
@@ -34,6 +58,7 @@ def _decision_from_dict(data: dict) -> HumanApprovalDecision:
         decided_at=data.get("decided_at", ""),
         decision=data.get("decision", "APPROVED"),
         reason=data.get("reason", ""),
+        scope=_scope_from_dict(data.get("scope")),
         expires_at=data.get("expires_at"),
         no_expiry_reason=data.get("no_expiry_reason"),
         request_hash=data.get("request_hash"),
@@ -177,6 +202,23 @@ def validate_approval(
 
 
 def _scope_matches(decision: HumanApprovalDecision, scope: HumanApprovalScope) -> bool:
+    ds = decision.scope
+    if ds is None:
+        return True
+    if ds.action_id and scope.action_id and ds.action_id != scope.action_id:
+        return False
+    if ds.session_id and scope.session_id and ds.session_id != scope.session_id:
+        return False
+    if ds.tool_call_id and scope.tool_call_id and ds.tool_call_id != scope.tool_call_id:
+        return False
+    if ds.patch_session_id and scope.patch_session_id and ds.patch_session_id != scope.patch_session_id:
+        return False
+    if ds.file_paths and scope.file_paths:
+        if not any(p in ds.file_paths for p in scope.file_paths):
+            return False
+    if ds.allowed_effects and scope.allowed_effects:
+        if not any(e in ds.allowed_effects for e in scope.allowed_effects):
+            return False
     return True
 
 

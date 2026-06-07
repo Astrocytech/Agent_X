@@ -367,7 +367,8 @@ class AcceptanceCheck:
                 import fcntl
                 fcntl.flock(lock_fd, fcntl.LOCK_EX)
             except ImportError:
-                pass
+                import logging
+                logging.getLogger(__name__).warning("fcntl not available; lock not acquired")
             yield lock_path
         finally:
             if lock_fd is not None:
@@ -375,7 +376,8 @@ class AcceptanceCheck:
                     import fcntl
                     fcntl.flock(lock_fd, fcntl.LOCK_UN)
                 except ImportError:
-                    pass
+                    import logging
+                    logging.getLogger(__name__).warning("fcntl not available; lock not released")
                 os.close(lock_fd)
                 try:
                     lock_path.unlink()

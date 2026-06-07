@@ -324,7 +324,8 @@ class BackupManager:
                 import fcntl
                 fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
             except ImportError:
-                pass
+                import logging
+                logging.getLogger(__name__).warning("fcntl not available; lock not acquired")
             self._lock_fd = fd
             return True
         except (IOError, OSError):
@@ -337,7 +338,8 @@ class BackupManager:
             import fcntl
             fcntl.flock(self._lock_fd, fcntl.LOCK_UN)
         except ImportError:
-            pass
+            import logging
+            logging.getLogger(__name__).warning("fcntl not available; lock not released")
         os.close(self._lock_fd)
         self._lock_fd = None
         return True

@@ -6,16 +6,6 @@ __all__ = [
     "ModelResourceBudget",
 ]
 
-try:
-    from agentx_evolve.model_runtime.runtime_limits import (
-        check_context_budget,
-        estimate_token_count,
-        truncate_for_evidence,
-    )
-    _HAS_RUNTIME_LIMITS = True
-except ImportError:
-    _HAS_RUNTIME_LIMITS = False
-
 
 @dataclass
 class ModelResourceBudget:
@@ -26,15 +16,13 @@ class ModelResourceBudget:
     errors: list[str] = field(default_factory=list)
 
     def check_budget(self, prompt: str, system_prompt: str | None = None) -> list[str]:
-        if _HAS_RUNTIME_LIMITS:
-            return check_context_budget(
-                prompt,
-                system_prompt or "",
-                self.max_context_tokens,
-            )
-        return []
+        from agentx_evolve.model_runtime.runtime_limits import check_context_budget
+        return check_context_budget(
+            prompt,
+            system_prompt or "",
+            self.max_context_tokens,
+        )
 
     def estimate_tokens(self, text: str) -> int:
-        if _HAS_RUNTIME_LIMITS:
-            return estimate_token_count(text)
-        return len(text.split())
+        from agentx_evolve.model_runtime.runtime_limits import estimate_token_count
+        return estimate_token_count(text)

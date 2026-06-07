@@ -12,7 +12,8 @@ def _load_schema(path: str) -> dict | None:
         if p.exists():
             return json.loads(p.read_text())
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception("Failed to load schema: %s", path)
     return None
 
 

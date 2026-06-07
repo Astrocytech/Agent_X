@@ -414,4 +414,7 @@ def _finalize(
         )
         append_worker_audit(audit, repo_root)
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception(
+            "Worker finalization failed for task %s", task.task_id
+        )

@@ -27,8 +27,8 @@ def capture_source_state(repo_root: Path) -> dict:
             for f in sorted(src.rglob("*.py")):
                 try:
                     state["files"][str(f.relative_to(repo_root))] = hashlib.sha256(f.read_bytes()).hexdigest()
-                except Exception:
-                    pass
+                except Exception as e:
+                    state["errors"].append(f"Failed to hash {f}: {e}")
     return state
 
 

@@ -95,7 +95,7 @@ _ACTIVITY_CHECKS: dict[str, Any] = {
 def is_feature_active(repo_root: Path, layer_id: str) -> bool:
     check = _ACTIVITY_CHECKS.get(layer_id)
     if not check:
-        return True
+        return False
     module = check.get("module")
     if module and _module_exists(repo_root, module):
         return True

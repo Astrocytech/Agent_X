@@ -377,7 +377,8 @@ def safe_write_file(
         try:
             tmp.unlink(missing_ok=True)
         except Exception:
-            pass
+            import logging
+            logging.getLogger(__name__).exception("Failed to clean up temporary file: %s", tmp)
 
     after_hash = sha256_file(p)
 

@@ -60,8 +60,8 @@ class InitiatorCompat:
         if p_reg is not None:
             try:
                 return p_reg.repo_root()
-            except Exception:
-                pass
+            except Exception as e:
+                self._integration_failures.append(f"path_registry.repo_root: {e}")
         if self._repo_root:
             return self._repo_root
         self._degraded = True
@@ -75,8 +75,8 @@ class InitiatorCompat:
         if p_reg is not None:
             try:
                 return p_reg.state_dir()
-            except Exception:
-                pass
+            except Exception as e:
+                self._integration_failures.append(f"path_registry.state_dir: {e}")
         root = self.get_repo_root()
         return root / ".agentx-init"
 

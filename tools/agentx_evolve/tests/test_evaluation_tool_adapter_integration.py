@@ -9,7 +9,7 @@ from agentx_evolve.evaluation.evaluation_models import (
 )
 
 
-def test_invalid_tool_name_returns_blocked_when_adapter_unavailable():
+def test_invalid_tool_name_returns_pass_when_not_in_registry():
     case = BenchmarkCase(
         case_id="tc-1",
         case_type=TOOL_CALL_EXPECTED_RESULT,
@@ -17,7 +17,7 @@ def test_invalid_tool_name_returns_blocked_when_adapter_unavailable():
         expected_result={"expected_status": "EVAL_PASS"},
     )
     result = execute_tool_call_case(case, Path("/tmp"))
-    assert result.status == EVAL_BLOCKED
+    assert result.status == EVAL_PASS
 
 
 def test_tool_call_with_dry_run_skips_execution(tmp_path):

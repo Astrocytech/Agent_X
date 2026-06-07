@@ -94,7 +94,8 @@ def _parse_lock_file_versions(path: Path) -> list[dict]:
                         "resolved_version": ver,
                     })
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception("Failed to parse lock file: %s", path)
     return result
 
 
@@ -154,7 +155,8 @@ def _parse_dependency_file_deps(path: Path) -> list[dict]:
                     if entry:
                         result.append(entry)
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception("Failed to parse dependency file: %s", path)
     return result
 
 

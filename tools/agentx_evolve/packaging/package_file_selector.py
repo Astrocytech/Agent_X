@@ -105,7 +105,7 @@ def _check_secret_like(path: Path) -> bool:
     try:
         text = path.read_text(errors="replace")
         return has_secret_like_content(text)
-    except Exception:
+    except (OSError, UnicodeError):
         return False
 
 
@@ -193,7 +193,8 @@ def select_package_files(
             try:
                 sha256_val = sha256_file(full_path)
             except Exception:
-                pass
+                import logging
+                logging.getLogger(__name__).exception("Failed to compute SHA-256 for %s", full_path)
 
             source_tracked: bool | None = None
             if manifest.require_tracked_files_only and rel_repo_path:

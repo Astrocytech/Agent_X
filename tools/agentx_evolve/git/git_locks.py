@@ -70,8 +70,8 @@ def release_git_lock(repo_root: str, lock_record: GitLockRecord) -> None:
         fd = os.open(str(lock_file), os.O_RDWR)
         fcntl.flock(fd, fcntl.LOCK_UN)
         os.close(fd)
-    except Exception:
-        pass
+    except Exception as e:
+        lock_record.errors = (lock_record.errors or []) + [f"Lock release failed: {e}"]
     finally:
         lock_record.status = GIT_LOCK_RELEASED
         lock_record.released_at = utc_now_iso()
@@ -84,5 +84,5 @@ def is_git_lock_stale(repo_root: str, max_age_seconds: int = 300) -> bool:
     try:
         age = time.time() - lock_file.stat().st_mtime
         return age > max_age_seconds
-    except Exception:
+    except (OSError, PermissionError):
         return False

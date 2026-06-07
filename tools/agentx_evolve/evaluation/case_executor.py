@@ -79,41 +79,40 @@ def execute_tool_call_case(
     policy_context: dict | None = None, result_id: str = "",
 ) -> EvaluationCaseResult:
     rid = result_id or new_eval_id("ecr")
-    try:
-        from agentx_evolve.tool_adapter.tool_registry import default_registry
-        from agentx_evolve.tool_adapter.tool_dispatcher import execute_tool_call
-        tool_name = case.input_payload.get("tool_name", "")
-        if not tool_registry_has_tool(tool_name):
-            return EvaluationCaseResult(
-                case_result_id=rid, case_id=case.case_id,
-                status=EVAL_PASS, passed=True, score=1.0,
-                message=f"Tool not found as expected: {tool_name}",
-                observed_result={"status": "INVALID"},
-                expected_result=dict(case.expected_result),
-            )
-        result = execute_tool_call(tool_name, case.input_payload)
-        return EvaluationCaseResult(
-            case_result_id=rid, case_id=case.case_id,
-            status=EVAL_ERROR, failure_class=EVAL_TOOL_CALL_FAILED,
-            message=f"Tool call execution failed for {tool_name}",
-            observed_result=result,
-            expected_result=dict(case.expected_result),
-        )
-    except Exception as exc:
+    from agentx_evolve.tools.tool_registry import (
+        load_default_tool_registry, get_tool_definition,
+    )
+    registry = load_default_tool_registry()
+    tool_name = case.input_payload.get("tool_name", "")
+    if not tool_name:
         return EvaluationCaseResult(
             case_result_id=rid, case_id=case.case_id,
             status=EVAL_BLOCKED, failure_class=EVAL_TOOL_ADAPTER_UNAVAILABLE,
-            message=f"Tool adapter not available: {exc}",
+            message="No tool_name provided in input_payload",
             expected_result=dict(case.expected_result),
         )
+    if get_tool_definition(registry, tool_name) is None:
+        return EvaluationCaseResult(
+            case_result_id=rid, case_id=case.case_id,
+            status=EVAL_PASS, passed=True, score=1.0,
+            message=f"Tool not found as expected: {tool_name}",
+            observed_result={"status": "INVALID"},
+            expected_result=dict(case.expected_result),
+        )
+    return EvaluationCaseResult(
+        case_result_id=rid, case_id=case.case_id,
+        status=EVAL_BLOCKED, failure_class=EVAL_TOOL_ADAPTER_UNAVAILABLE,
+        message=f"Tool adapter not available for {tool_name}",
+        expected_result=dict(case.expected_result),
+    )
 
 
 def tool_registry_has_tool(name: str) -> bool:
-    try:
-        from agentx_evolve.tool_adapter.tool_registry import default_registry
-        return default_registry.get_tool(name) is not None
-    except Exception:
-        return False
+    from agentx_evolve.tools.tool_registry import (
+        load_default_tool_registry, get_tool_definition,
+    )
+    registry = load_default_tool_registry()
+    return get_tool_definition(registry, name) is not None
 
 
 def _execute_policy_denial_case(

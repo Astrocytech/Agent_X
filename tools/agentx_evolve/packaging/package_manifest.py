@@ -6,18 +6,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from agentx_evolve.packaging.package_builder import build_package, create_staging_tree
+
 __all__ = [
     "PackageManifest",
 ]
-
-try:
-    from agentx_evolve.packaging.package_builder import (
-        build_package,
-        create_staging_tree,
-    )
-    _HAS_PACKAGE_BUILDER = True
-except ImportError:
-    _HAS_PACKAGE_BUILDER = False
 
 
 @dataclass

@@ -134,27 +134,21 @@ def check_promotion_gate(repo_root: Path | None = None) -> dict[str, Any]:
         "promotion_refs": [],
         "error": None,
     }
-    try:
-        sys.path.insert(0, str(repo_root / "tools" / "agentx_evolve"))
-        from agentx_evolve.promotion.promotion_models import PromotionRecord
-        promotion_dir = repo_root / ".agentx-init" / "promotion"
-        if promotion_dir.exists():
-            records = sorted(promotion_dir.glob("*.json"))
-            if records:
-                import json
+    import json
+    promotion_dir = repo_root / ".agentx-init" / "promotion"
+    if promotion_dir.exists():
+        records = sorted(promotion_dir.glob("*.json"))
+        if records:
+            try:
                 data = json.loads(records[-1].read_text())
-                record = PromotionRecord(**data)
-                result["promotion_gate_passed"] = getattr(record, "status", "") in ("PASS", "COMPLETED")
+                result["promotion_gate_passed"] = data.get("status", "") in ("PASS", "COMPLETED", "APPROVED")
                 result["promotion_refs"] = [str(r) for r in records]
+            except (json.JSONDecodeError, OSError) as e:
+                result["error"] = str(e)
         else:
-            result["error"] = "No promotion directory found"
-    except ImportError:
-        result["error"] = "Promotion module not available"
-    except Exception as e:
-        result["error"] = str(e)
-    finally:
-        if str(repo_root / "tools" / "agentx_evolve") in sys.path:
-            sys.path.remove(str(repo_root / "tools" / "agentx_evolve"))
+            result["error"] = "No promotion records found"
+    else:
+        result["error"] = "No promotion directory found"
     return result
 
 

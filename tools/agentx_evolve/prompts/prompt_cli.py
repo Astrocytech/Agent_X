@@ -1,14 +1,8 @@
 from __future__ import annotations
+
 import argparse
 import sys
 from typing import Any
-
-try:
-    from agentx_evolve.prompts import cli as _cli
-
-    _HAS_CLI = True
-except ImportError:
-    _HAS_CLI = False
 
 __all__ = [
     "main",
@@ -28,13 +22,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     if args.validate:
-        print(f"validate: {args.validate} (stub)")
+        print("error: --validate is not available (stub)")
+        return 1
     if args.bind:
-        print(f"bind: {args.bind} (stub)")
+        print("error: --bind is not available (stub)")
+        return 1
     if args.list:
-        print("list: (stub)")
+        print("error: --list is not available (stub)")
+        return 1
     if args.diff:
-        print(f"diff: {args.diff[0]} -> {args.diff[1]} (stub)")
+        print("error: --diff is not available (stub)")
+        return 1
     return 0
 
 

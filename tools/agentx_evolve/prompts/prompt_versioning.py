@@ -115,7 +115,11 @@ def _record_activation_failure(
     version_id: str,
     reason: str,
 ) -> None:
-    pass
+    import logging
+    logging.getLogger(__name__).warning(
+        "Prompt activation failed: contract=%s version=%s reason=%s",
+        contract_id, version_id, reason,
+    )
 
 
 def deprecate_prompt_version(

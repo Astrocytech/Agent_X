@@ -480,15 +480,8 @@ def check_policy_allowed(
     context: dict | None = None,
     dry_run: bool = False,
 ) -> dict:
-    from .role_matrix import is_valid_role, check_role_permission
+    from .role_matrix import check_role_permission
     from .policy_defaults import load_default_role_permission_matrix
-
-    if not is_valid_role(caller_role):
-        return {
-            "decision": "ALLOW",
-            "reason": f"Role '{caller_role}' not in policy registry, allowing by default",
-            "policy_decision_id": new_id("pd-"),
-        }
 
     matrix = load_default_role_permission_matrix()
     if matrix and check_role_permission(caller_role, EFFECT_PROMOTE, matrix):
@@ -499,7 +492,7 @@ def check_policy_allowed(
         }
 
     return {
-        "decision": "ALLOW",
-        "reason": f"No policy restriction found for action '{action}', allowing by default",
+        "decision": "DENY",
+        "reason": f"Policy denies action '{action}' for role '{caller_role}'",
         "policy_decision_id": new_id("pd-"),
     }

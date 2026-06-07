@@ -535,7 +535,8 @@ def build_distribution_package(
             out = evidence_dir(repo_root) / f"evidence_{err_ev.evidence_id}.json"
             write_json_atomic(out, err_ev)
         except Exception:
-            pass
+            import logging
+            logging.getLogger(__name__).exception("Failed to write error evidence")
         return err_ev
 
     finally:

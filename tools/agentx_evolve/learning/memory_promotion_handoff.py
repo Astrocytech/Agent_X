@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from agentx_evolve.promotion.promotion_gate import run_promotion_gate
+
 __all__ = [
     "handoff_to_promotion",
 ]
@@ -20,17 +22,12 @@ def handoff_to_promotion(
         "errors": [],
     }
     try:
-        from agentx_evolve.promotion.promotion_gate import run_promotion_gate
-
         gate_result = run_promotion_gate(
             candidate=memory_entry,
             context={"promotion_gate": promotion_gate} if promotion_gate else {},
         )
         result["decisions"] = [gate_result]
         result["handoff_status"] = "COMPLETED"
-    except ImportError:
-        result["warnings"].append("promotion_gate module not available; handoff recorded without promotion gate")
-        result["handoff_status"] = "DEFERRED"
     except Exception as exc:
         result["errors"].append(str(exc))
         result["handoff_status"] = "FAILED"

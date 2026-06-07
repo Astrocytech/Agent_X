@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import subprocess
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -21,9 +22,6 @@ class GPUMemoryProfile:
 
 def detect_gpu() -> GPUMemoryProfile | None:
     try:
-        import subprocess
-        import re
-
         result = subprocess.run(
             ["nvidia-smi", "--query-gpu=name,memory.total,memory.free,compute_cap",
              "--format=csv,noheader,nounits"],
@@ -42,8 +40,8 @@ def detect_gpu() -> GPUMemoryProfile | None:
                     gpu_name=parts[0],
                 )
         return None
-    except Exception:
-        pass
+    except (FileNotFoundError, subprocess.TimeoutExpired, PermissionError):
+        return None
 
     try:
         import pynvml
@@ -62,5 +60,7 @@ def detect_gpu() -> GPUMemoryProfile | None:
             compute_capability=f"{cap[0]}.{cap[1]}",
             gpu_name=name,
         )
+    except ImportError:
+        return None
     except Exception:
         return None

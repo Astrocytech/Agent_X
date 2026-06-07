@@ -384,7 +384,8 @@ def run_orchestration(
                             finalize_run_ledger(ledger, DECISION_NOT_DONE, repo_root)
                             return _make_failure_result("Approval denied at step", ORCH_HUMAN_APPROVAL_MISSING)
                 except Exception:
-                    pass
+                    finalize_run_ledger(ledger, DECISION_NOT_DONE, repo_root)
+                    return _make_failure_result("Approval check failed", ORCH_HUMAN_APPROVAL_MISSING)
 
                 state = transition_state(state, ORCH_STATUS_RUNNING, f"Approval received for step {step.step_index}")
                 write_state_snapshot(state, repo_root)
@@ -470,7 +471,8 @@ def run_orchestration(
                 state = transition_state(state, ORCH_STATUS_FAILED, str(e))
                 write_state_snapshot(state, repo_root)
             except Exception:
-                pass
+                import logging
+                logging.getLogger(__name__).exception("Failed to update state during error handling")
 
         if ledger is not None:
             finalize_run_ledger(ledger, DECISION_NOT_DONE, repo_root)

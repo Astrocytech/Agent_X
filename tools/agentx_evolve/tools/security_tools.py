@@ -29,23 +29,24 @@ def _make_result(tool_call: ToolCall, status: str, message: str, data: dict | No
     )
 
 
+from agentx_evolve.security import safe_read_file, safe_write_file, safe_exact_edit, safe_patch_precheck, check_subprocess_allowed
+
+_SANDBOX_FUNCS = {
+    "safe_read_file": safe_read_file,
+    "safe_write_file": safe_write_file,
+    "safe_exact_edit": safe_exact_edit,
+    "safe_patch_precheck": safe_patch_precheck,
+    "check_subprocess_allowed": check_subprocess_allowed,
+}
+
+
 def _call_sandbox(func_name: str, *args, **kwargs) -> tuple[str, str, dict | None, str | None]:
     try:
-        from agentx_evolve.security import safe_read_file, safe_write_file, safe_exact_edit, safe_patch_precheck, check_subprocess_allowed
-        sandbox_funcs = {
-            "safe_read_file": safe_read_file,
-            "safe_write_file": safe_write_file,
-            "safe_exact_edit": safe_exact_edit,
-            "safe_patch_precheck": safe_patch_precheck,
-            "check_subprocess_allowed": check_subprocess_allowed,
-        }
-        func = sandbox_funcs.get(func_name)
+        func = _SANDBOX_FUNCS.get(func_name)
         if func is None:
             return STATUS_BLOCKED, f"Sandbox function {func_name} not found", None, UNKNOWN_TOOL_FAILURE
         result = func(*args, **kwargs)
         return STATUS_SUCCESS, f"{func_name} completed", {"result": str(result)}, None
-    except ImportError:
-        return STATUS_BLOCKED, "Sandbox not available", None, TOOL_SANDBOX_DENIED
     except Exception as e:
         return STATUS_BLOCKED, f"Sandbox denied: {e}", {"error": str(e)}, TOOL_SANDBOX_DENIED
 

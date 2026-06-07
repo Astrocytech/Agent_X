@@ -1,11 +1,10 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-
-from agentx_evolve.monitoring.monitoring_utils import ensure_dir
 
 
 @dataclass
@@ -45,7 +44,6 @@ def apply_retention_policy(
                         if not line:
                             continue
                         try:
-                            import json
                             data = json.loads(line)
                             ts = data.get("timestamp", "")
                             if ts and ts >= cutoff_str:
@@ -55,8 +53,8 @@ def apply_retention_policy(
                     if len(kept) < len(lines):
                         f.write_text("\n".join(kept) + "\n")
                         removed[kind] += len(lines) - len(kept)
-                except Exception:
-                    pass
+                except (OSError, ValueError) as e:
+                    removed["errors"] = removed.get("errors", 0) + 1
 
     return removed
 

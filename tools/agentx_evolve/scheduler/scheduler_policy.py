@@ -1,3 +1,5 @@
+from agentx_evolve.policy import PolicyRegistry
+
 from .scheduler_models import (
     SCHEDULER_POLICY_ALLOW, SCHEDULER_POLICY_DENY, SCHEDULER_POLICY_BLOCKED,
     SCHEDULER_POLICY_NOT_APPLICABLE,
@@ -17,12 +19,8 @@ class SchedulerPolicy:
 
     def _try_integration(self) -> None:
         try:
-            from policy import PolicyRegistry
             self._real_policy = PolicyRegistry()
             self._integration_available = True
-        except ImportError:
-            self._real_policy = None
-            self._integration_available = False
         except Exception:
             self._real_policy = None
             self._integration_available = False

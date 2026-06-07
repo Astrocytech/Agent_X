@@ -271,7 +271,8 @@ def run_promotion_gate(
         try:
             release_promotion_lock(repo_root)
         except Exception:
-            pass
+            import logging
+            logging.getLogger(__name__).exception("Failed to release promotion lock during error unwinding")
         return _build_failed_decision(
             str(exc),
             dry_run,
@@ -347,7 +348,8 @@ def _record_decision(decision: PromotionGateDecision, repo_root: Path) -> None:
         elif decision.status == "INVALID":
             append_invalid_promotion(decision, repo_root)
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception("Failed to record promotion decision")
 
 
 def _record_decision_history(decision: PromotionGateDecision, repo_root: Path) -> None:
@@ -358,7 +360,8 @@ def _record_decision_history(decision: PromotionGateDecision, repo_root: Path) -
         elif decision.status == "INVALID":
             append_invalid_promotion(decision, repo_root)
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception("Failed to record promotion decision history")
 
 
 def _collect_evidence_files(repo_root: Path) -> list[Path]:
@@ -371,5 +374,6 @@ def _collect_evidence_files(repo_root: Path) -> list[Path]:
             if f.is_file() and f.suffix in (".json", ".jsonl"):
                 files.append(f)
     except Exception:
-        pass
+        import logging
+        logging.getLogger(__name__).exception("Failed to collect evidence files")
     return files
