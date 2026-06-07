@@ -110,7 +110,7 @@ def build_disaster_recovery_plan(
     verification_results: list["BackupVerificationResult"],
     context: dict,
 ) -> DisasterRecoveryPlan:
-    """SPEC 10.10-compliant wrapper."""
+    """SPEC 10.10-compliant adapter."""
     from agentx_evolve.backup.backup_catalog import load_backup_catalog
     catalog = load_backup_catalog(repo_root=repo_root)
     return _orig_build_disaster_recovery_plan(catalog, trigger, repo_root=repo_root)

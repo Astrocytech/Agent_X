@@ -179,7 +179,7 @@ def build_snapshot_index(
 
 
 def create_backup_snapshot(repo_root: Path, manifest: BackupManifest, policy: BackupPolicy, context: dict) -> dict:
-    """SPEC 10.14-compliant wrapper that delegates to _orig_create_backup_snapshot."""
+    """SPEC 10.14-compliant. Delegates to _orig_create_backup_snapshot."""
     from agentx_evolve.backup.backup_models import to_dict
     result = _orig_create_backup_snapshot(manifest, policy=policy, repo_root=repo_root)
     return to_dict(result)

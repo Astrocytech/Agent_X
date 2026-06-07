@@ -110,7 +110,7 @@ def verify_backup_by_id(
 
 
 def verify_backup_snapshot(repo_root: Path, manifest_path: str, context: dict) -> dict:
-    """SPEC 10.14-compliant wrapper: loads manifest from path, delegates to _orig_verify_backup_snapshot."""
+    """SPEC 10.14-compliant: loads manifest from path, delegates to _orig_verify_backup_snapshot."""
     from agentx_evolve.backup.backup_manifest import load_backup_manifest
     from agentx_evolve.backup.backup_models import to_dict
     manifest_path_obj = Path(manifest_path)

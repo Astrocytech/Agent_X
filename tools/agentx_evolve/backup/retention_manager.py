@@ -110,7 +110,7 @@ def apply_backup_retention_policy(
     manifests: list["BackupManifest"],
     context: dict,
 ) -> dict:
-    """SPEC 10.11-compliant wrapper."""
+    """SPEC 10.11-compliant."""
     from agentx_evolve.backup.backup_catalog import load_backup_catalog
     catalog = load_backup_catalog(repo_root=repo_root)
     return _orig_apply_backup_retention_policy(catalog, policy=retention_policy, repo_root=repo_root)

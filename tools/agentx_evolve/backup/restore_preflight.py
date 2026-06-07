@@ -85,7 +85,7 @@ def build_restore_preflight_record(
     policy: BackupPolicy,
     context: dict,
 ) -> RestorePreflightRecord:
-    """SPEC 10.15-compliant wrapper."""
+    """SPEC 10.15-compliant."""
     from agentx_evolve.backup.backup_catalog import load_backup_catalog
     catalog = load_backup_catalog(repo_root=repo_root)
     return _orig_build_restore_preflight_record(restore_request, manifest, catalog, repo_root=repo_root)

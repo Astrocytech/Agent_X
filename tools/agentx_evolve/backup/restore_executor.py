@@ -124,7 +124,7 @@ def execute_restore_plan(
     policy: BackupPolicy,
     context: dict,
 ) -> RestoreResult:
-    """SPEC 10.9-compliant wrapper. Loads manifest from backup_id in restore_plan."""
+    """SPEC 10.9-compliant. Loads manifest from backup_id in restore_plan."""
     from agentx_evolve.backup.backup_manifest import load_backup_manifest
     manifest = load_backup_manifest(restore_plan.backup_id, repo_root=repo_root)
     if manifest is None:

@@ -41,7 +41,7 @@ def is_non_overridable_block(block_name: str, matrix: RolePermissionMatrix) -> b
     return block_name in matrix.non_overridable_blocks
 
 
-# ── Backward compat wrappers ──────────────────────────────────────────────
+# ── Backward compat aliases ────────────────────────────────────────────────
 
 
 def is_valid_role(role_name: str) -> bool:

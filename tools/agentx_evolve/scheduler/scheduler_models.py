@@ -421,7 +421,7 @@ class SchedulerPolicyDecision:
         self,
         decision: str = SCHEDULER_POLICY_DENY,
         reason: str = "",
-        policy_source: str = "fallback",
+        policy_source: str = "default_policy",
     ):
         self.decision = decision
         self.reason = reason

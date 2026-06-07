@@ -117,7 +117,7 @@ def create_restore_decision(
     policy: BackupPolicy,
     context: dict,
 ) -> RestoreDecision:
-    """SPEC 10.8-compliant wrapper."""
+    """SPEC 10.8-compliant."""
     from agentx_evolve.backup.backup_models import BackupVerificationResult
     from agentx_evolve.backup.restore_preflight import _orig_build_restore_preflight_record as build_restore_preflight_record
     preflight = build_restore_preflight_record(
@@ -134,7 +134,7 @@ def plan_restore(
     policy: BackupPolicy,
     context: dict,
 ) -> RestorePlan:
-    """SPEC 10.8-compliant wrapper."""
+    """SPEC 10.8-compliant."""
     from agentx_evolve.backup.backup_models import BackupVerificationResult
     from agentx_evolve.backup.restore_preflight import _orig_build_restore_preflight_record as build_restore_preflight_record
     preflight = build_restore_preflight_record(repo_root, restore_request, manifest, verification, policy, context)

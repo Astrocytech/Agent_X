@@ -67,12 +67,12 @@ def _orig_complete_restore_transaction(
 
 
 def start_restore_transaction(repo_root: Path, restore_plan: RestorePlan, context: dict) -> RestoreTransactionRecord:
-    """SPEC 10.16-compliant wrapper."""
+    """SPEC 10.16-compliant."""
     return _orig_start_restore_transaction(restore_plan, repo_root=repo_root)
 
 
 def record_restore_transaction_step(transaction: RestoreTransactionRecord, step: dict, repo_root: Path) -> RestoreTransactionRecord:
-    """SPEC 10.16-compliant wrapper."""
+    """SPEC 10.16-compliant."""
     step_desc = step.get("description", str(step))
     touched = step.get("touched_path", "")
     restored = step.get("restored_path", "")
@@ -82,5 +82,5 @@ def record_restore_transaction_step(transaction: RestoreTransactionRecord, step:
 
 
 def complete_restore_transaction(transaction: RestoreTransactionRecord, status: str, repo_root: Path) -> RestoreTransactionRecord:
-    """SPEC 10.16-compliant wrapper."""
+    """SPEC 10.16-compliant."""
     return _orig_complete_restore_transaction(transaction, status=status)

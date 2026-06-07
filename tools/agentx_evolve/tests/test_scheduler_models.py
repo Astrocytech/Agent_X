@@ -84,7 +84,7 @@ def test_scheduler_audit():
 
 
 def test_policy_decision():
-    d = SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "test", "fallback")
+    d = SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "test", "default_policy")
     assert d.decision == SCHEDULER_POLICY_ALLOW
 
 

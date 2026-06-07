@@ -105,7 +105,7 @@ def read_backup_policy(policy_path: Path | None = None) -> BackupPolicy:
         return BackupPolicy(**data)
     except (json.JSONDecodeError, TypeError, KeyError) as e:
         return BackupPolicy(
-            policy_id="fallback_policy",
+            policy_id="backup_default_policy",
             errors=[f"Failed to load policy from {policy_path}: {e}"],
         )
 

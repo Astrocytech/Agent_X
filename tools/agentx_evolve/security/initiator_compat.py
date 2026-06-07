@@ -127,7 +127,7 @@ class InitiatorCompat:
             except (RuntimeError, Exception) as e:
                 self._integration_failures.append(f"source_guard.check: {e}")
         return {
-            "integration": "fallback",
+            "integration": "degraded",
             "before_state_captured": False,
             "paths_checked": target_paths,
             "enforces_approved_mutation_scope": False,
@@ -149,7 +149,7 @@ class InitiatorCompat:
         return {
             "valid": False,
             "errors": ["Schema validation unavailable — failing closed"],
-            "integration": "fallback",
+            "integration": "degraded",
             "warning": "Schema validation unavailable — failing closed",
         }
 
@@ -172,9 +172,9 @@ class InitiatorCompat:
             tmp = path.with_suffix(f".tmp.{uuid4().hex}")
             tmp.write_text(json.dumps(artifact, indent=2, default=str))
             tmp.replace(path)
-            return {"status": "SUCCESS", "path": str(path), "integration": "fallback"}
+            return {"status": "SUCCESS", "path": str(path), "integration": "degraded"}
         except OSError as e:
-            return {"status": "FAILED", "error": str(e), "integration": "fallback"}
+            return {"status": "FAILED", "error": str(e), "integration": "degraded"}
 
     def append_audit_event(self, event: dict) -> dict:
         a_log = self._modules.get("audit_log")
@@ -191,7 +191,7 @@ class InitiatorCompat:
         try:
             runtime = self.get_runtime_state_root()
         except RuntimeError as e:
-            return {"status": "FAILED", "error": str(e), "integration": "fallback"}
+            return {"status": "FAILED", "error": str(e), "integration": "degraded"}
         try:
             path = runtime / "memory" / "audit_events.jsonl"
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -200,7 +200,7 @@ class InitiatorCompat:
             return {
                 "status": "SUCCESS",
                 "event_id": event.get("event_id", str(uuid4())),
-                "integration": "fallback",
+                "integration": "degraded",
             }
         except OSError as e:
-            return {"status": "FAILED", "error": str(e), "integration": "fallback"}
+            return {"status": "FAILED", "error": str(e), "integration": "degraded"}
