@@ -27,22 +27,29 @@ class TestInitiatorPatchCompat:
         compat = InitiatorPatchCompat(self.repo_root)
         assert compat.get_runtime_state_root() == self.repo_root / ".agentx-init"
 
-    def test_load_proposal_returns_not_implemented(self) -> None:
+    def test_load_proposal_raises_not_implemented(self) -> None:
         compat = InitiatorPatchCompat(self.repo_root)
-        result = compat.load_proposal("prop_1")
-        assert result["status"] == "not_implemented"
-        assert result["proposal_id"] == "prop_1"
+        try:
+            compat.load_proposal("prop_1")
+            assert False, "Expected NotImplementedError"
+        except NotImplementedError:
+            pass
 
-    def test_load_governance_decision(self) -> None:
+    def test_load_governance_decision_raises_not_implemented(self) -> None:
         compat = InitiatorPatchCompat(self.repo_root)
-        result = compat.load_governance_decision("gov_1")
-        assert result["status"] == "not_implemented"
-        assert result["governance_decision_id"] == "gov_1"
+        try:
+            compat.load_governance_decision("gov_1")
+            assert False, "Expected NotImplementedError"
+        except NotImplementedError:
+            pass
 
-    def test_validate_schema(self) -> None:
+    def test_validate_schema_raises_not_implemented(self) -> None:
         compat = InitiatorPatchCompat(self.repo_root)
-        result = compat.validate_schema({"test": True}, "test.schema.json")
-        assert result["status"] == "not_implemented"
+        try:
+            compat.validate_schema({"test": True}, "test.schema.json")
+            assert False, "Expected NotImplementedError"
+        except NotImplementedError:
+            pass
 
     def test_write_json_atomic_creates_file(self) -> None:
         compat = InitiatorPatchCompat(self.repo_root)
@@ -74,7 +81,10 @@ class TestInitiatorPatchCompat:
         audit_path = self.repo_root / ".agentx-init/memory/audit_events.jsonl"
         assert audit_path.exists()
 
-    def test_run_validation_command_returns_not_implemented(self) -> None:
+    def test_run_validation_command_raises_not_implemented(self) -> None:
         compat = InitiatorPatchCompat(self.repo_root)
-        result = compat.run_validation_command(["python3", "--version"])
-        assert result["status"] == "not_implemented"
+        try:
+            compat.run_validation_command(["python3", "--version"])
+            assert False, "Expected NotImplementedError"
+        except NotImplementedError:
+            pass

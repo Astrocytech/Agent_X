@@ -1,5 +1,5 @@
 import pytest
-from agentx_evolve.models.runtime_limits import (
+from agentx_evolve.model_runtime.runtime_limits import (
     estimate_token_count,
     check_context_budget,
     truncate_for_evidence,

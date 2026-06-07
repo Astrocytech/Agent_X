@@ -30,13 +30,13 @@ from agentx_evolve.models.json_output_validator import parse_json_output, valida
 from agentx_evolve.models.model_retry_policy import should_retry_model_response, make_retry_record, DEFAULT_MAX_RETRIES
 from agentx_evolve.models.model_call_logger import write_model_call_evidence, append_model_retry
 from agentx_evolve.models.invalid_model_request import handle_invalid_model_request
-from agentx_evolve.models.fake_provider_adapter import FakeProviderAdapter
 from agentx_evolve.models.local_provider_adapter import LocalProviderAdapter
 from agentx_evolve.models.ollama_adapter import OllamaAdapter
 from agentx_evolve.models.lmstudio_adapter import LMStudioAdapter
 from agentx_evolve.models.openai_compatible_adapter import OpenAICompatibleAdapter
 from agentx_evolve.models.opencode_provider_adapter import OpenCodeProviderAdapter
 from agentx_evolve.models.hosted_model_adapter import HostedModelAdapter
+from agentx_evolve.models.fake_provider_adapter import FakeProviderAdapter
 from agentx_evolve.models.model_adapter import BaseModelProviderAdapter, make_blocked_response
 from agentx_evolve.model_runtime.runtime_models import RuntimeProfile
 

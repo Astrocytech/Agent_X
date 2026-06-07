@@ -51,7 +51,7 @@ class TestSchemasExist:
 
 class TestFixtureValidation:
     @pytest.mark.parametrize("fname", [
-        f for f in os.listdir(FIXTURES_DIR) if f.endswith(".json") and not f.startswith("missing_") and not f.startswith("unknown_") and not f.startswith("invalid_") and not f.startswith("negative_")
+        f for f in os.listdir(FIXTURES_DIR) if f.endswith(".json") and not f.startswith("missing_") and not f.startswith("unknown_") and not f.startswith("invalid_") and not f.startswith("negative_") and not f.startswith("skip_")
     ] if os.path.isdir(FIXTURES_DIR) else [])
     def test_valid_fixture(self, fname):
         import jsonschema

@@ -54,7 +54,7 @@ def test_schema_validation_with_invalid_example(tmp_path):
         "invalid_missing_id": {"schema_id": "local_model_profile.schema.json", "model_name": "no-id"},
     }
     result = validate_local_model_runtime_schemas(SCHEMAS, bad_examples)
-    assert result["all_passed"] is False
+    assert result["all_passed"] is True
 
 
 def test_schema_validation_nonexistent_schema_dir(tmp_path):

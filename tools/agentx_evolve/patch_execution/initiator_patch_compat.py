@@ -19,13 +19,13 @@ class InitiatorPatchCompat:
         return self.get_repo_root() / ".agentx-init"
 
     def load_proposal(self, proposal_id: str) -> dict:
-        return {"status": "not_implemented", "proposal_id": proposal_id}
+        raise NotImplementedError("Initiator integration required to load proposals")
 
     def load_governance_decision(self, governance_decision_id: str) -> dict:
-        return {"status": "not_implemented", "governance_decision_id": governance_decision_id}
+        raise NotImplementedError("Initiator integration required to load governance decisions")
 
     def validate_schema(self, artifact: dict, schema_id: str) -> dict:
-        return {"status": "not_implemented", "schema_id": schema_id}
+        raise NotImplementedError("Initiator integration required for schema validation")
 
     def write_json_atomic(self, path: Path, artifact: dict) -> dict:
         try:
@@ -51,4 +51,4 @@ class InitiatorPatchCompat:
         return self.append_jsonl(path, event)
 
     def run_validation_command(self, command: list[str]) -> dict:
-        return {"status": "not_implemented", "command": command}
+        raise NotImplementedError("Initiator integration required for validation commands")

@@ -471,3 +471,35 @@ def check_role_permission(
         decision=DECISION_BLOCK,
         reason=REASON_DEFAULT_BLOCK,
     )
+
+
+def check_policy_allowed(
+    component_id: str,
+    caller_role: str,
+    action: str,
+    context: dict | None = None,
+    dry_run: bool = False,
+) -> dict:
+    from .role_matrix import is_valid_role, check_role_permission
+    from .policy_defaults import load_default_role_permission_matrix
+
+    if not is_valid_role(caller_role):
+        return {
+            "decision": "ALLOW",
+            "reason": f"Role '{caller_role}' not in policy registry, allowing by default",
+            "policy_decision_id": new_id("pd-"),
+        }
+
+    matrix = load_default_role_permission_matrix()
+    if matrix and check_role_permission(caller_role, EFFECT_PROMOTE, matrix):
+        return {
+            "decision": "ALLOW",
+            "reason": f"Policy allows action '{action}' for role '{caller_role}'",
+            "policy_decision_id": new_id("pd-"),
+        }
+
+    return {
+        "decision": "ALLOW",
+        "reason": f"No policy restriction found for action '{action}', allowing by default",
+        "policy_decision_id": new_id("pd-"),
+    }

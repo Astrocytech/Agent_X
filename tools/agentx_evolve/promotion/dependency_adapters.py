@@ -3,6 +3,17 @@ from pathlib import Path
 from agentx_evolve.promotion.promotion_models import (
     ReleaseCandidate, FC_DEPENDENCY_UNAVAILABLE, FC_UNKNOWN_FAILURE,
 )
+from agentx_evolve.policy.policy_decision import check_policy_allowed
+from agentx_evolve.human_review.approval_lookup import (
+    find_active_approval_for_action, validate_approval_id,
+)
+from agentx_evolve.patch_execution.patch_evidence import (
+    load_patch_evidence, validate_patch_evidence,
+)
+from agentx_evolve.tools.tool_evidence import (
+    load_tool_evidence, validate_tool_evidence,
+)
+from agentx_evolve.git.git_operations import check_commit_reachable
 
 
 def _dep_result(
@@ -29,91 +40,59 @@ def check_policy_dependency(
     policy_context: dict,
     dry_run: bool,
 ) -> dict:
-    try:
-        from agentx_evolve.policy.policy_decision import check_policy_allowed
-        policy_decision = check_policy_allowed(
-            component_id=candidate.component_id,
-            caller_role=caller_role,
-            action="promote",
-            context=policy_context,
-            dry_run=dry_run,
-        )
-        if policy_decision and policy_decision.get("decision") == "DENY":
-            return _dep_result(
-                status="BLOCKED",
-                failure_class=FC_DEPENDENCY_UNAVAILABLE,
-                reason=policy_decision.get("reason", "Policy denied promotion"),
-                evidence_refs=[policy_decision.get("policy_decision_id", "")],
-            )
+    policy_decision = check_policy_allowed(
+        component_id=candidate.component_id,
+        caller_role=caller_role,
+        action="promote",
+        context=policy_context,
+        dry_run=dry_run,
+    )
+    if policy_decision and policy_decision.get("decision") == "DENY":
         return _dep_result(
-            status="PASS",
-            reason="Policy check passed",
-            evidence_refs=[policy_decision.get("policy_decision_id", "")] if policy_decision else [],
-        )
-    except ImportError:
-        return _dep_result(
-            status="NOT_AVAILABLE",
+            status="BLOCKED",
             failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason="Policy/Capability Registry module not available",
+            reason=policy_decision.get("reason", "Policy denied promotion"),
+            evidence_refs=[policy_decision.get("policy_decision_id", "")],
         )
-    except Exception as exc:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason=f"Policy dependency check failed: {exc}",
-            errors=[str(exc)],
-        )
+    return _dep_result(
+        status="PASS",
+        reason="Policy check passed",
+        evidence_refs=[policy_decision.get("policy_decision_id", "")] if policy_decision else [],
+    )
 
 
 def check_human_approval_dependency(
     candidate: ReleaseCandidate,
     approvals: list,
 ) -> dict:
-    try:
-        from agentx_evolve.human_review.approval_lookup import (
-            find_active_approval_for_action, validate_approval_id,
-        )
-        if not approvals:
-            return _dep_result(
-                status="NOT_APPLICABLE",
-                reason="No approvals provided to check",
-            )
-        errors: list[str] = []
-        warnings: list[str] = []
-        for approval in approvals:
-            if hasattr(approval, "approval_id"):
-                aid = approval.approval_id
-            elif isinstance(approval, dict):
-                aid = approval.get("approval_id", "")
-            else:
-                aid = ""
-            if not aid:
-                continue
-            try:
-                val_result = validate_approval_id(aid, candidate.candidate_id, Path("."))
-                if not val_result:
-                    warnings.append(f"Approval {aid} could not be validated")
-            except Exception:
-                warnings.append(f"Approval {aid} validation skipped (dependency degraded)")
+    if not approvals:
         return _dep_result(
-            status="PASS" if not errors else "FAILED",
-            reason="Human approval dependency checked" if not errors else "; ".join(errors),
-            warnings=warnings,
-            errors=errors,
+            status="NOT_APPLICABLE",
+            reason="No approvals provided to check",
         )
-    except ImportError:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason="Human approval module not available",
-        )
-    except Exception as exc:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason=f"Human approval dependency check failed: {exc}",
-            errors=[str(exc)],
-        )
+    errors: list[str] = []
+    warnings: list[str] = []
+    for approval in approvals:
+        if hasattr(approval, "approval_id"):
+            aid = approval.approval_id
+        elif isinstance(approval, dict):
+            aid = approval.get("approval_id", "")
+        else:
+            aid = ""
+        if not aid:
+            continue
+        try:
+            val_result = validate_approval_id(aid, candidate.candidate_id, Path("."))
+            if not val_result:
+                warnings.append(f"Approval {aid} could not be validated")
+        except Exception:
+            warnings.append(f"Approval {aid} validation skipped (dependency degraded)")
+    return _dep_result(
+        status="PASS" if not errors else "FAILED",
+        reason="Human approval dependency checked" if not errors else "; ".join(errors),
+        warnings=warnings,
+        errors=errors,
+    )
 
 
 def check_patch_evidence_dependency(
@@ -125,46 +104,29 @@ def check_patch_evidence_dependency(
             status="NOT_APPLICABLE",
             reason="No patch_session_id on candidate",
         )
-    try:
-        from agentx_evolve.patch_session.patch_evidence import (
-            load_patch_evidence, validate_patch_evidence,
-        )
-        evidence_path = repo_root / ".agentx-init" / "patch_evidence" / f"{candidate.patch_session_id}.json"
-        if not evidence_path.exists():
-            return _dep_result(
-                status="FAILED",
-                failure_class="PROMOTION_PATCH_EVIDENCE_MISSING",
-                reason=f"Patch evidence not found at {evidence_path}",
-                errors=[f"File not found: {evidence_path}"],
-            )
-        evidence = load_patch_evidence(evidence_path)
-        val_errors = validate_patch_evidence(evidence, candidate.patch_session_id)
-        if val_errors:
-            return _dep_result(
-                status="FAILED",
-                failure_class="PROMOTION_PATCH_EVIDENCE_INVALID",
-                reason="Patch evidence validation failed",
-                errors=val_errors,
-                evidence_refs=[str(evidence_path)],
-            )
+    evidence_path = repo_root / ".agentx-init" / "patch_evidence" / f"{candidate.patch_session_id}.json"
+    if not evidence_path.exists():
         return _dep_result(
-            status="PASS",
-            reason="Patch evidence validated",
+            status="FAILED",
+            failure_class="PROMOTION_PATCH_EVIDENCE_MISSING",
+            reason=f"Patch evidence not found at {evidence_path}",
+            errors=[f"File not found: {evidence_path}"],
+        )
+    evidence = load_patch_evidence(evidence_path)
+    val_errors = validate_patch_evidence(evidence, candidate.patch_session_id)
+    if val_errors:
+        return _dep_result(
+            status="FAILED",
+            failure_class="PROMOTION_PATCH_EVIDENCE_INVALID",
+            reason="Patch evidence validation failed",
+            errors=val_errors,
             evidence_refs=[str(evidence_path)],
         )
-    except ImportError:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason="Patch evidence module not available (graceful degradation)",
-        )
-    except Exception as exc:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason=f"Patch evidence dependency check failed: {exc}",
-            errors=[str(exc)],
-        )
+    return _dep_result(
+        status="PASS",
+        reason="Patch evidence validated",
+        evidence_refs=[str(evidence_path)],
+    )
 
 
 def check_tool_evidence_dependency(
@@ -176,46 +138,29 @@ def check_tool_evidence_dependency(
             status="NOT_APPLICABLE",
             reason="No tool_session_id on candidate",
         )
-    try:
-        from agentx_evolve.tool_registry.tool_evidence import (
-            load_tool_evidence, validate_tool_evidence,
-        )
-        evidence_path = repo_root / ".agentx-init" / "tool_evidence" / f"{candidate.tool_session_id}.json"
-        if not evidence_path.exists():
-            return _dep_result(
-                status="FAILED",
-                failure_class="PROMOTION_TOOL_EVIDENCE_MISSING",
-                reason=f"Tool evidence not found at {evidence_path}",
-                errors=[f"File not found: {evidence_path}"],
-            )
-        evidence = load_tool_evidence(evidence_path)
-        val_errors = validate_tool_evidence(evidence, candidate.tool_session_id)
-        if val_errors:
-            return _dep_result(
-                status="FAILED",
-                failure_class="PROMOTION_TOOL_EVIDENCE_INVALID",
-                reason="Tool evidence validation failed",
-                errors=val_errors,
-                evidence_refs=[str(evidence_path)],
-            )
+    evidence_path = repo_root / ".agentx-init" / "tool_evidence" / f"{candidate.tool_session_id}.json"
+    if not evidence_path.exists():
         return _dep_result(
-            status="PASS",
-            reason="Tool evidence validated",
+            status="FAILED",
+            failure_class="PROMOTION_TOOL_EVIDENCE_MISSING",
+            reason=f"Tool evidence not found at {evidence_path}",
+            errors=[f"File not found: {evidence_path}"],
+        )
+    evidence = load_tool_evidence(evidence_path)
+    val_errors = validate_tool_evidence(evidence, candidate.tool_session_id)
+    if val_errors:
+        return _dep_result(
+            status="FAILED",
+            failure_class="PROMOTION_TOOL_EVIDENCE_INVALID",
+            reason="Tool evidence validation failed",
+            errors=val_errors,
             evidence_refs=[str(evidence_path)],
         )
-    except ImportError:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason="Tool evidence module not available (graceful degradation)",
-        )
-    except Exception as exc:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason=f"Tool evidence dependency check failed: {exc}",
-            errors=[str(exc)],
-        )
+    return _dep_result(
+        status="PASS",
+        reason="Tool evidence validated",
+        evidence_refs=[str(evidence_path)],
+    )
 
 
 def check_git_dependency(
@@ -223,41 +168,26 @@ def check_git_dependency(
     git_evidence: object,
     repo_root: Path,
 ) -> dict:
-    try:
-        from agentx_evolve.git.git_operations import check_commit_reachable
-        source_commit = candidate.source_commit
-        if not source_commit:
-            return _dep_result(
-                status="FAILED",
-                failure_class="PROMOTION_GIT_STATE_INVALID",
-                reason="No source_commit on candidate to verify",
-                errors=["source_commit is empty"],
-            )
-        reachable = check_commit_reachable(source_commit, repo_root)
-        if not reachable:
-            return _dep_result(
-                status="FAILED",
-                failure_class="PROMOTION_GIT_STATE_INVALID",
-                reason=f"Source commit {source_commit} is not reachable",
-                errors=[f"Commit {source_commit} not found in repository history"],
-            )
+    source_commit = candidate.source_commit
+    if not source_commit:
         return _dep_result(
-            status="PASS",
-            reason=f"Source commit {source_commit} is reachable",
+            status="FAILED",
+            failure_class="PROMOTION_GIT_STATE_INVALID",
+            reason="No source_commit on candidate to verify",
+            errors=["source_commit is empty"],
         )
-    except ImportError:
+    reachable = check_commit_reachable(source_commit, str(repo_root))
+    if not reachable:
         return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason="Git operations module not available (graceful degradation)",
+            status="FAILED",
+            failure_class="PROMOTION_GIT_STATE_INVALID",
+            reason=f"Source commit {source_commit} is not reachable",
+            errors=[f"Commit {source_commit} not found in repository history"],
         )
-    except Exception as exc:
-        return _dep_result(
-            status="NOT_AVAILABLE",
-            failure_class=FC_DEPENDENCY_UNAVAILABLE,
-            reason=f"Git dependency check failed: {exc}",
-            errors=[str(exc)],
-        )
+    return _dep_result(
+        status="PASS",
+        reason=f"Source commit {source_commit} is reachable",
+    )
 
 
 def classify_failure_dependency(blocker: dict) -> dict:

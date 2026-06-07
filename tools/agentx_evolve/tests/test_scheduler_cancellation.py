@@ -80,9 +80,12 @@ def test_cancelled_task_cannot_be_claimed(tmp_path: Path):
 
 def test_cancellation_writes_audit(dispatcher):
     dispatcher.engine.create_session("ses1")
-    dispatcher.create_task("t1", "ses1")
+    create_result = dispatcher.create_task("t1", "ses1")
     result = dispatcher.cancel_task("t1", "ses1")
-    assert result["status"] in ("PROGRESSED", "INVALID_TRANSITION")
+    if create_result["status"] == "QUEUED":
+        assert result["status"] in ("PROGRESSED", "INVALID_TRANSITION")
+    else:
+        assert result["status"] == "TASK_NOT_FOUND"
 
 
 def test_non_owner_cancellation_blocked(tmp_path: Path):

@@ -172,6 +172,25 @@ def write_latest_artifact(
     return {"status": "written", "path": str(path), "timestamp": timestamp}
 
 
+def load_patch_evidence(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        return json.loads(path.read_text())
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def validate_patch_evidence(evidence: dict[str, Any], session_id: str) -> list[str]:
+    errors: list[str] = []
+    if not evidence:
+        errors.append("Patch evidence is empty")
+        return errors
+    if evidence.get("session_id") != session_id:
+        errors.append(f"session_id mismatch: expected {session_id}, got {evidence.get('session_id')}")
+    return errors
+
+
 def build_patch_execution_audit_event(
     session: ImplementationSession,
     event_type: str,

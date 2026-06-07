@@ -3,7 +3,6 @@ from agentx_evolve.policy.policy_defaults import (
     load_default_capability_policy,
     load_default_model_policy,
     load_default_role_permission_matrix,
-    load_default_role_matrix,
     load_default_tool_policy,
 )
 from agentx_evolve.policy.policy_models import (
@@ -73,12 +72,12 @@ class TestLoadDefaultModelPolicy:
 
 class TestLoadDefaultRoleMatrix:
     def test_returns_matrix(self):
-        matrix = load_default_role_matrix()
+        matrix = load_default_role_permission_matrix()
         assert matrix.matrix_id != ""
         assert len(matrix.roles) >= 2
 
     def test_non_overridable_blocks(self):
-        matrix = load_default_role_matrix()
+        matrix = load_default_role_permission_matrix()
         assert len(matrix.non_overridable_blocks) >= 1
 
     def test_long_name_alias(self):

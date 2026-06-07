@@ -350,5 +350,4 @@ def load_default_role_permission_matrix(repo_root: Path | None = None) -> RolePe
     )
 
 
-# backward-compat alias
-load_default_role_matrix = load_default_role_permission_matrix
+

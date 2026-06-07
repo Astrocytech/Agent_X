@@ -36,7 +36,7 @@ class SchedulerPolicy:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
             except Exception:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "fallback_allow_for_create_task", "fallback")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
 
     def check_claim_task(self, role: str, session_id: str, task_id: str) -> SchedulerPolicyDecision:
         if self._integration_available and self._real_policy:
@@ -47,7 +47,7 @@ class SchedulerPolicy:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
             except Exception:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "fallback_allow_for_claim_task", "fallback")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
 
     def check_progress_task(self, role: str, session_id: str, task_id: str, new_status: str) -> SchedulerPolicyDecision:
         if self._integration_available and self._real_policy:
@@ -60,7 +60,7 @@ class SchedulerPolicy:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
             except Exception:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "fallback_allow_for_progress_task", "fallback")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
 
     def check_cancel_task(self, role: str, session_id: str, task_id: str) -> SchedulerPolicyDecision:
         if self._integration_available and self._real_policy:
@@ -71,7 +71,7 @@ class SchedulerPolicy:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
             except Exception:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "fallback_allow_for_cancel_task", "fallback")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
 
     def check_recover(self, role: str, session_id: str) -> SchedulerPolicyDecision:
         if self._integration_available and self._real_policy:
@@ -82,7 +82,7 @@ class SchedulerPolicy:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
             except Exception:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "fallback_allow_for_recover", "fallback")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
 
     def check_inspect(self, role: str, session_id: str) -> SchedulerPolicyDecision:
         if self._integration_available and self._real_policy:
@@ -93,7 +93,7 @@ class SchedulerPolicy:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_DENY, result.get("reason", "denied_by_policy"), "policy_registry")
             except Exception:
                 return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_error_fail_closed", "policy_registry")
-        return SchedulerPolicyDecision(SCHEDULER_POLICY_ALLOW, "fallback_allow_for_inspect", "fallback")
+        return SchedulerPolicyDecision(SCHEDULER_POLICY_BLOCKED, "policy_registry_unavailable_fail_closed", "fallback")
 
     @staticmethod
     def validate_transition(current_status: str, new_status: str) -> bool:

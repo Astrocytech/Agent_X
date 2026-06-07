@@ -25,7 +25,7 @@ def test_constants():
     assert MN_EVENT_ERROR in ALL_EVENT_TYPES
     assert MN_EVENT_WARN in ALL_EVENT_TYPES
     assert MN_EVENT_INFO in ALL_EVENT_TYPES
-    assert len(ALL_EVENT_TYPES) == 4
+    assert len(ALL_EVENT_TYPES) == 9
 
 
 def test_canonical_json():

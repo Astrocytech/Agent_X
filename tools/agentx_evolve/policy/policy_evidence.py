@@ -81,7 +81,4 @@ def write_policy_decision(
     return write_latest_policy_decision(decision, repo_root)
 
 
-# backward-compat aliases
-append_decision_to_evidence = append_policy_decision
-write_decision_evidence = write_latest_policy_decision
-create_audit_entry = build_policy_audit_event
+

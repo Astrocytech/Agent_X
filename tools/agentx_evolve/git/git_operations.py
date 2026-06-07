@@ -169,3 +169,15 @@ def git_knows_repo(repo_path: str = ".") -> bool:
         return proc.returncode == 0
     except Exception:
         return False
+
+
+def check_commit_reachable(commit_hash: str, repo_path: str = ".") -> bool:
+    try:
+        proc = subprocess.run(
+            ["git", "cat-file", "-e", commit_hash],
+            capture_output=True, text=True, timeout=10,
+            cwd=repo_path,
+        )
+        return proc.returncode == 0
+    except Exception:
+        return False

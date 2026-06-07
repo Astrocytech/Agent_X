@@ -99,7 +99,7 @@ from .policy_defaults import (
     load_default_capability_policy,
     load_default_model_policy,
     load_default_role_permission_matrix,
-    load_default_role_matrix,
+    load_default_role_permission_matrix as load_default_role_matrix,
     load_default_tool_policy,
 )
 from .role_matrix import (
@@ -142,6 +142,7 @@ from .model_policy import (
     model_task_allowed,
 )
 from .policy_decision import (
+    check_policy_allowed,
     check_role_permission as check_role_permission_pd,
     choose_strictest_decision,
     evaluate_model_request,

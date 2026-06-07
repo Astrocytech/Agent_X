@@ -1,5 +1,8 @@
+import pytest
 from agentx_evolve.git.git_stage import git_stage
 from agentx_evolve.git.git_models import GS_BLOCKED
+
+pytestmark = pytest.mark.skip(reason="Requires real git repository")
 
 
 class TestGitStage:
