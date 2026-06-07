@@ -14,3 +14,15 @@ repos:
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: detect-private-key
+  - repo: local
+    hooks:
+      - id: audit-structure
+        name: Repository structure audit
+        entry: make audit-structure
+        language: system
+        pass_filenames: false
+      - id: pytest-collect
+        name: Pytest collection check
+        entry: pytest --collect-only -q
+        language: system
+        pass_filenames: false

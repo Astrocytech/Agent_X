@@ -1,4 +1,10 @@
-# EQC-FIC: EQC File Implementation Contract Standard
+Status: ACTIVE
+Owner: L1
+Applies to: FIC governance
+Supersedes: EQC_FIC_Standard_v2_3.md
+Last reviewed: 2026-06-07
+
+# FIC Rules
 
 **Version:** EQC-FIC v2.3  
 **Date:** 2026-05-25  

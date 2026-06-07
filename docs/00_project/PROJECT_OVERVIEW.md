@@ -1,4 +1,9 @@
-# 00_system_goal.md
+Status: ACTIVE
+Owner: L0/L1
+Applies to: system goal
+Last reviewed: 2026-06-07
+
+# System Goal
 
 ```yaml
 document_id: "SYS-GOAL-001"

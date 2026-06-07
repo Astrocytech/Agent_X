@@ -1,4 +1,10 @@
-# Pseudocode-to-FIC-to-Code Workflow Note
+Status: ACTIVE
+Owner: L1
+Applies to: governance workflow
+Supersedes: Pseudocode_to_FIC_to_Code_Workflow_Note_v5.md
+Last reviewed: 2026-06-07
+
+# Safety Boundaries
 
 **Date:** 2026-05-25  
 **Version:** 5.0  

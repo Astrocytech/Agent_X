@@ -1,4 +1,9 @@
-# 01_whole_system_pseudocode.md
+Status: ACTIVE
+Owner: L0/L1
+Applies to: whole system architecture
+Last reviewed: 2026-06-07
+
+# Layer Architecture
 
 ```yaml
 document_id: "WHOLE-SYSTEM-PSEUDOCODE-001"

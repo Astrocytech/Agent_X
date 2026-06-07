@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-all test-smoke test-l0 test-l1 test-l2 test-initiator test-evolve test-integration test-system test-regression prove-hygiene run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-all test-smoke test-live test-l0 test-l1 test-l2 test-initiator test-evolve test-integration test-system test-regression audit-structure prove-organization prove-hygiene run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -26,9 +26,12 @@ help:
 	@echo "  make test-integration Run integration tests"
 	@echo "  make test-system      Run system tests"
 	@echo "  make test-regression  Run regression tests"
+	@echo "  make test-live        Run live provider tests"
 	@echo "  make prove-format     Run formatting guard tests"
-	@echo "  make prove-all        Run all layer tests"
-	@echo "  make test-all         Run all tests across repo"
+	@echo "  make audit-structure  Run repository structure audit"
+	@echo "  make prove-all        Run all layer tests + audit"
+	@echo "  make test-all         Run all tests across repo (excl. live)"
+	@echo "  make prove-organization Run full org acceptance"
 	@echo "  make clean        Remove generated runtime artifacts"
 
 install:
@@ -60,8 +63,19 @@ prove-format:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/regression/ -q --tb=short -p no:cacheprovider
 	@echo "=== prove-format: OK ==="
 
-prove-all: prove-seed prove-l1 prove-l2 prove-format
+prove-all: audit-structure prove-seed prove-l1 prove-l2 prove-format
 	@echo "=== prove-all: OK ==="
+
+audit-structure:
+	PYTHONPATH=tools/repo_audit $(PYTHON) tools/repo_audit/audit_repository_structure.py
+	@echo "=== audit-structure: OK ==="
+
+prove-organization:
+	$(MAKE) audit-structure
+	PYTHONPATH=. $(PYTHON) -m pytest --collect-only -q
+	find . -maxdepth 1 -type f | sort
+	git status --short
+	@echo "=== prove-organization: OK ==="
 
 test-smoke:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/smoke -q --tb=short -p no:cacheprovider
@@ -88,7 +102,10 @@ test-regression:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/regression -q --tb=short -p no:cacheprovider
 
 test-all:
-	$(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests -q --tb=short -p no:cacheprovider
+	$(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests -q --tb=short -p no:cacheprovider -m "not live"
+
+test-live:
+	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider
 
 prove-hygiene:
 	PYTHONPATH=L0/CODE ruff check L0/CODE/

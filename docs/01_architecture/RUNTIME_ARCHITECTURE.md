@@ -1,4 +1,9 @@
-# 02_shared_types_and_interfaces.md
+Status: ACTIVE
+Owner: L0/L1
+Applies to: shared types and interfaces
+Last reviewed: 2026-06-07
+
+# Runtime Architecture
 
 ```yaml
 document_id: "SHARED-TYPES-INTERFACES-001"

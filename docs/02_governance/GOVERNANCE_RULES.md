@@ -1,3 +1,9 @@
+Status: ACTIVE
+Owner: L1
+Applies to: governance standards
+Supersedes: EQC.md
+Last reviewed: 2026-06-07
+
 # EquationCode (EQC) v1.1
 
 **EquationCode (EQC)** is a disciplined specification format where:

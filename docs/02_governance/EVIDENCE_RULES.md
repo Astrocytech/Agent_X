@@ -1,4 +1,10 @@
-# EQC Spec–Implementation Bridge (EQC-SIB) v1.2.1
+Status: ACTIVE
+Owner: L1
+Applies to: evidence/SIB governance
+Supersedes: EQC-SIB.md
+Last reviewed: 2026-06-07
+
+# Evidence Rules
 
 **EQC Spec–Implementation Bridge (EQC-SIB)** is the master governance layer for **code and pseudocode artifacts** that are tied to an EQC document portfolio governed by **EQC Ecosystem Specification (EQC-ES)**. It is explicitly **bidirectional** with EQC-ES:
 
