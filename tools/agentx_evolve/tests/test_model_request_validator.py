@@ -1,7 +1,7 @@
 import pytest
 from agentx_evolve.models.model_models import (
     ModelRequest, ModelRegistry, ModelProfile, ModelProviderProfile,
-    TASK_IMPLEMENT_PATCH, PROVIDER_FAKE,
+    TASK_IMPLEMENT_PATCH, PROVIDER_DEV,
 )
 from agentx_evolve.models.model_request_validator import validate_model_request
 
@@ -10,7 +10,7 @@ from agentx_evolve.models.model_request_validator import validate_model_request
 def registry():
     r = ModelRegistry()
     r.models.append(ModelProfile(model_id="m1", provider_id="fake"))
-    r.provider_profiles.append(ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE))
+    r.provider_profiles.append(ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_DEV))
     return r
 
 

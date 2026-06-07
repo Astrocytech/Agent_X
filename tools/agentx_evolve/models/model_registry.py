@@ -9,7 +9,7 @@ from agentx_evolve.models.model_models import (
     utc_now_iso,
     new_id,
     REGISTRY_SOURCE_COMPONENT,
-    PROVIDER_FAKE,
+    PROVIDER_DEV,
     PROVIDER_LOCAL,
     PROVIDER_OLLAMA,
     PROVIDER_LMSTUDIO,
@@ -28,7 +28,7 @@ from agentx_evolve.models.model_models import (
     CAPABILITY_SMALL_FAST,
     CAPABILITY_SMALL_CODER,
     CAPABILITY_MEDIUM_CODER_OPTIONAL,
-    CAPABILITY_HOSTED_FALLBACK_OPTIONAL,
+    CAPABILITY_HOSTED_PROVIDER_OPTIONAL,
     CAPABILITY_TEST_DOUBLE,
     TRANSPORT_TEST_DOUBLE,
     TRANSPORT_LOCAL_IN_PROCESS,
@@ -36,10 +36,10 @@ from agentx_evolve.models.model_models import (
 )
 
 
-def _make_fake_provider() -> ModelProviderProfile:
+def _make_dev_provider() -> ModelProviderProfile:
     return ModelProviderProfile(
-        provider_id="fake_test_provider",
-        provider_type=PROVIDER_FAKE,
+        provider_id="dev_test_provider",
+        provider_type=PROVIDER_DEV,
         display_name="Test Double Provider",
         transport_mode=TRANSPORT_TEST_DOUBLE,
         local_only=True,
@@ -172,11 +172,11 @@ def _make_capability_medium_coder() -> ModelCapabilityProfile:
     )
 
 
-def _make_capability_hosted_fallback() -> ModelCapabilityProfile:
+def _make_capability_hosted_provider() -> ModelCapabilityProfile:
     return ModelCapabilityProfile(
-        capability_id="hosted_fallback",
-        capability_class=CAPABILITY_HOSTED_FALLBACK_OPTIONAL,
-        description="Hosted fallback for tasks that exceed local capacity",
+        capability_id="hosted_provider",
+        capability_class=CAPABILITY_HOSTED_PROVIDER_OPTIONAL,
+        description="Hosted provider for tasks that exceed local capacity",
         supported_tasks=list(ALL_TASK_TYPES),
         requires_json_output=True,
         requires_output_schema=False,
@@ -196,7 +196,7 @@ def load_default_model_registry() -> ModelRegistry:
 
     # Provider profiles
     for p in [
-        _make_fake_provider(),
+        _make_dev_provider(),
         _make_local_provider(),
         _make_ollama_provider(),
         _make_lmstudio_provider(),
@@ -211,15 +211,15 @@ def load_default_model_registry() -> ModelRegistry:
         _make_capability_small_fast(),
         _make_capability_small_coder(),
         _make_capability_medium_coder(),
-        _make_capability_hosted_fallback(),
+        _make_capability_hosted_provider(),
     ]:
         registry.capability_profiles.append(c)
 
     # Model profiles
     registry.models.append(ModelProfile(
-        model_id="fake_test_model",
+        model_id="dev_test_model",
         display_name="Test Double Model",
-        provider_id="fake_test_provider",
+        provider_id="dev_test_provider",
         capability_class=CAPABILITY_TEST_DOUBLE,
         context_window=4096,
         max_output_tokens=1024,
@@ -257,10 +257,10 @@ def load_default_model_registry() -> ModelRegistry:
     ))
 
     registry.models.append(ModelProfile(
-        model_id="hosted_fallback_optional",
-        display_name="Hosted Fallback (Disabled by Default)",
+        model_id="hosted_provider_optional",
+        display_name="Hosted Provider (Disabled by Default)",
         provider_id="openai_compatible_provider",
-        capability_class=CAPABILITY_HOSTED_FALLBACK_OPTIONAL,
+        capability_class=CAPABILITY_HOSTED_PROVIDER_OPTIONAL,
         context_window=32768,
         max_output_tokens=8192,
         enabled=False,

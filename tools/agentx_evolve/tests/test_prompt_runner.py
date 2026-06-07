@@ -5,7 +5,7 @@ from agentx_evolve.models.model_models import (
     MODEL_STATUS_SUCCESS, MODEL_STATUS_BLOCKED, MODEL_STATUS_FAILED,
     MODEL_STATUS_INVALID, MODEL_STATUS_RETRYABLE,
     TASK_IMPLEMENT_PATCH, TASK_WRITE_TEST, TASK_EXPLAIN_FAILURE,
-    PROVIDER_FAKE, PROVIDER_LOCAL, POLICY_BLOCK, POLICY_ALLOW,
+    PROVIDER_DEV, PROVIDER_LOCAL, POLICY_BLOCK, POLICY_ALLOW,
     SELECTION_ALLOW, SELECTION_BLOCK,
     CAPABILITY_TEST_DOUBLE, ALL_TASK_TYPES,
 )
@@ -19,7 +19,7 @@ def registry():
         model_id="m1", provider_id="fake", context_window=4096, max_output_tokens=1024, enabled=True,
     ))
     r.provider_profiles.append(ModelProviderProfile(
-        provider_id="fake", provider_type=PROVIDER_FAKE, max_retries=1,
+        provider_id="fake", provider_type=PROVIDER_DEV, max_retries=1,
     ))
     r.models.append(ModelProfile(
         model_id="m2", provider_id="local", context_window=2048, max_output_tokens=512, enabled=True,

@@ -4,7 +4,7 @@ from agentx_evolve.models.model_models import (
     MODEL_STATUS_SUCCESS, MODEL_STATUS_BLOCKED, MODEL_STATUS_FAILED,
     MODEL_STATUS_INVALID, MODEL_STATUS_RETRYABLE, MODEL_STATUS_PARTIAL,
     TASK_IMPLEMENT_PATCH, TASK_WRITE_TEST, TASK_REPAIR_JSON,
-    PROVIDER_FAKE, PROVIDER_LOCAL, PROVIDER_DISABLED,
+    PROVIDER_DEV, PROVIDER_LOCAL, PROVIDER_DISABLED,
     POLICY_ALLOW, POLICY_BLOCK,
 )
 from agentx_evolve.models.model_request_validator import validate_model_request
@@ -22,7 +22,7 @@ class TestNegativeRequestValidation:
         req = ModelRequest(timestamp="not-a-date", model_id="m1", provider_id="p1", prompt="test")
         r = ModelRegistry()
         r.models.append(ModelProfile(model_id="m1", provider_id="p1"))
-        r.provider_profiles.append(ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_FAKE))
+        r.provider_profiles.append(ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_DEV))
         errors = validate_model_request(req, r)
         assert len(errors) > 0
 
@@ -30,7 +30,7 @@ class TestNegativeRequestValidation:
         req = ModelRequest(model_id="m1", provider_id="p1", prompt="x" * 100000)
         r = ModelRegistry()
         r.models.append(ModelProfile(model_id="m1", provider_id="p1"))
-        r.provider_profiles.append(ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_FAKE))
+        r.provider_profiles.append(ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_DEV))
         errors = validate_model_request(req, r)
         assert isinstance(errors, list)
 
@@ -77,14 +77,14 @@ class TestNegativePolicy:
     def test_policy_with_empty_context(self):
         req = ModelRequest(model_id="m1", provider_id="p1", prompt="test")
         profile = ModelProfile(model_id="m1", enabled=True)
-        provider = ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_FAKE)
+        provider = ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_DEV)
         d = check_model_permission(req, profile, provider, {})
         assert d.decision in (POLICY_ALLOW, POLICY_BLOCK)
 
     def test_policy_with_none_context(self):
         req = ModelRequest(model_id="m1", provider_id="p1", prompt="test")
         profile = ModelProfile(model_id="m1", enabled=True)
-        provider = ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_FAKE)
+        provider = ModelProviderProfile(provider_id="p1", provider_type=PROVIDER_DEV)
         d = check_model_permission(req, profile, provider, {})
         assert d.decision in (POLICY_ALLOW, POLICY_BLOCK)
 
@@ -120,6 +120,6 @@ class TestNegativePromptRunnerEdgeCases:
         req = ModelRequest(model_request_id="r1", timestamp="2024-01-01T00:00:00", model_id="m1", provider_id="fake", prompt="test")
         r = ModelRegistry()
         r.models.append(ModelProfile(model_id="m1", provider_id="fake", enabled=False))
-        r.provider_profiles.append(ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE))
+        r.provider_profiles.append(ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_DEV))
         resp = run_prompt(req, r)
         assert resp.status in (MODEL_STATUS_BLOCKED, MODEL_STATUS_FAILED)

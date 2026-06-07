@@ -3,15 +3,15 @@ from agentx_evolve.models.model_models import (
     ModelRequest, ModelProviderProfile,
     MODEL_STATUS_SUCCESS, MODEL_STATUS_BLOCKED,
     TASK_IMPLEMENT_PATCH, TASK_GENERATE_PLAN, TASK_EXPLAIN_FAILURE,
-    PROVIDER_FAKE,
+    PROVIDER_DEV,
 )
-from agentx_evolve.models.fake_provider_adapter import FakeProviderAdapter
+from agentx_evolve.models.dev_provider_adapter import DevProviderAdapter
 
 
 @pytest.fixture
 def adapter():
-    provider = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE)
-    return FakeProviderAdapter(provider)
+    provider = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_DEV)
+    return DevProviderAdapter(provider)
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def model_req():
     )
 
 
-class TestFakeProviderAdapter:
+class TestDevProviderAdapter:
     def test_is_available(self, adapter):
         assert adapter.is_available({}) is True
 

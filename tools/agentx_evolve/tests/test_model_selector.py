@@ -4,7 +4,7 @@ from agentx_evolve.models.model_models import (
     SELECTION_ALLOW, SELECTION_BLOCK,
     SELECTION_NEEDS_RUNTIME_PROFILE, SELECTION_NEEDS_CONTEXT_REDUCTION,
     TASK_IMPLEMENT_PATCH, TASK_FIX_VALIDATION, TASK_WRITE_TEST,
-    PROVIDER_FAKE,
+    PROVIDER_DEV,
 )
 from agentx_evolve.models.model_selector import select_model_for_task
 from agentx_evolve.models.model_registry import load_default_model_registry

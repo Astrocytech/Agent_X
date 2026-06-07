@@ -34,7 +34,7 @@ from agentx_evolve.models.ollama_adapter import OllamaAdapter
 from agentx_evolve.models.lmstudio_adapter import LMStudioAdapter
 from agentx_evolve.models.openai_compatible_adapter import OpenAICompatibleAdapter
 from agentx_evolve.models.hosted_model_adapter import HostedModelAdapter
-from agentx_evolve.models.fake_provider_adapter import FakeProviderAdapter
+from agentx_evolve.models.dev_provider_adapter import DevProviderAdapter
 from agentx_evolve.models.model_adapter import BaseModelProviderAdapter, make_blocked_response
 from agentx_evolve.model_runtime.runtime_models import RuntimeProfile
 
@@ -42,7 +42,7 @@ from agentx_evolve.model_runtime.runtime_models import RuntimeProfile
 def _get_adapter(provider_profile: ModelProviderProfile) -> BaseModelProviderAdapter | None:
     kind = provider_profile.provider_type
     mapping = {
-        "FAKE": FakeProviderAdapter,
+        "DEV": DevProviderAdapter,
         "OLLAMA": OllamaAdapter,
         "LMSTUDIO": LMStudioAdapter,
         "OPENAI_COMPATIBLE": OpenAICompatibleAdapter,

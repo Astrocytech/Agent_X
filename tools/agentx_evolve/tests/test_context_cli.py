@@ -87,10 +87,6 @@ class TestMain:
         except SystemExit:
             pass
 
-    def test_inspect_no_target(self):
+    def test_inspect_default_target(self):
         result = main(["inspect"])
-        assert result == 1
-
-    def test_inspect_no_target(self):
-        result = main(["inspect"])
-        assert result == 1
+        assert result == 0

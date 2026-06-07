@@ -2,7 +2,7 @@ import pytest
 
 from agentx_evolve.runtime.runtime_profile import (
     RuntimeProfile, ModelResourceBudget, DEFAULT_PROFILES,
-    RP_CPU_ONLY_SAFE, RP_SMALL_GPU_8GB, RP_BALANCED_LOCAL, RP_HOSTED_FALLBACK,
+    RP_CPU_ONLY_SAFE, RP_SMALL_GPU_8GB, RP_BALANCED_LOCAL, RP_HOSTED_OPTIONAL,
     ALL_RUNTIME_PROFILES,
 )
 
@@ -11,7 +11,7 @@ def test_runtime_profile_constants():
     assert RP_CPU_ONLY_SAFE == "cpu_only_safe"
     assert RP_SMALL_GPU_8GB == "small_gpu_8gb"
     assert RP_BALANCED_LOCAL == "balanced_local"
-    assert RP_HOSTED_FALLBACK == "hosted_fallback_optional"
+    assert RP_HOSTED_OPTIONAL == "hosted_provider_optional"
     assert len(ALL_RUNTIME_PROFILES) == 4
     assert RP_CPU_ONLY_SAFE in ALL_RUNTIME_PROFILES
 
@@ -79,8 +79,8 @@ def test_balanced_local_default():
     assert p.vram_gb == 16.0
 
 
-def test_hosted_fallback_default():
-    p = DEFAULT_PROFILES[RP_HOSTED_FALLBACK]
+def test_hosted_provider_optional_default():
+    p = DEFAULT_PROFILES[RP_HOSTED_OPTIONAL]
     assert p.max_context_tokens == 16384
     assert p.max_retries == 3
 
@@ -110,7 +110,7 @@ def test_switch_profile_invalid():
 
 def test_max_context_for_task():
     budget = ModelResourceBudget()
-    budget.switch_profile(RP_HOSTED_FALLBACK)
+    budget.switch_profile(RP_HOSTED_OPTIONAL)
     assert budget.max_context_for_task("any_task") == 16384
 
 

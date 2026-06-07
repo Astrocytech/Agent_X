@@ -88,7 +88,7 @@ def select_model_for_task(
 
     # 4. Check hosted provider approval
     if not ctx.get("hosted_provider_approved", False):
-        # Filter out hosted fallback models unless explicitly approved
+        # Filter out hosted provider models unless explicitly approved
         local_candidates = []
         for c in candidates:
             prov = get_provider_profile(registry, c.provider_id)

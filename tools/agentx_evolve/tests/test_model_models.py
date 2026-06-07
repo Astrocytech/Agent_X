@@ -9,7 +9,7 @@ from agentx_evolve.models.model_models import (
     TASK_IMPLEMENT_PATCH, TASK_FIX_VALIDATION, TASK_WRITE_TEST,
     TASK_EXPLAIN_FAILURE, TASK_SUMMARIZE_CONTEXT, TASK_CLASSIFY_FAILURE,
     TASK_GENERATE_PLAN, TASK_REVIEW_OUTPUT, TASK_DRY_RUN, TASK_REPAIR_JSON,
-    PROVIDER_FAKE, PROVIDER_LOCAL, PROVIDER_OLLAMA, PROVIDER_LMSTUDIO,
+    PROVIDER_DEV, PROVIDER_LOCAL, PROVIDER_OLLAMA, PROVIDER_LMSTUDIO,
     PROVIDER_OPENAI_COMPATIBLE, PROVIDER_OPENCODE_COMPATIBLE,
     PROVIDER_HOSTED, PROVIDER_DISABLED,
     MODEL_STATUS_SUCCESS, MODEL_STATUS_PARTIAL, MODEL_STATUS_BLOCKED,
@@ -23,7 +23,7 @@ from agentx_evolve.models.model_models import (
     ALL_POLICY_DECISIONS, ALL_SELECTION_DECISIONS, ALL_MODEL_FAILURE_CLASSES,
     ALL_CAPABILITY_CLASSES, ALL_TRANSPORT_MODES,
     CAPABILITY_SMALL_FAST, CAPABILITY_SMALL_CODER,
-    CAPABILITY_MEDIUM_CODER_OPTIONAL, CAPABILITY_HOSTED_FALLBACK_OPTIONAL,
+    CAPABILITY_MEDIUM_CODER_OPTIONAL, CAPABILITY_HOSTED_PROVIDER_OPTIONAL,
     CAPABILITY_TEST_DOUBLE,
     TRANSPORT_NONE, TRANSPORT_TEST_DOUBLE, TRANSPORT_LOCAL_IN_PROCESS,
     TRANSPORT_LOCAL_HTTP_LOOPBACK, TRANSPORT_HOSTED_HTTPS_APPROVED,
@@ -60,13 +60,13 @@ class TestModelProviderProfile:
     def test_defaults(self):
         p = ModelProviderProfile()
         assert p.provider_id == ""
-        assert p.provider_type == PROVIDER_FAKE
+        assert p.provider_type == PROVIDER_DEV
         assert p.max_retries == 1
 
     def test_custom(self):
-        p = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE, max_retries=3)
+        p = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_DEV, max_retries=3)
         assert p.provider_id == "fake"
-        assert p.provider_type == PROVIDER_FAKE
+        assert p.provider_type == PROVIDER_DEV
         assert p.max_retries == 3
 
 
@@ -215,7 +215,7 @@ class TestConstants:
         assert TASK_REPAIR_JSON in ALL_TASK_TYPES
 
     def test_provider_kinds(self):
-        assert PROVIDER_FAKE in ALL_PROVIDER_KINDS
+        assert PROVIDER_DEV in ALL_PROVIDER_KINDS
         assert PROVIDER_DISABLED in ALL_PROVIDER_KINDS
         assert len(ALL_PROVIDER_KINDS) == 8
 

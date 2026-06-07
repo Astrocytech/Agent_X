@@ -3,12 +3,12 @@ from pathlib import Path
 from agentx_evolve.models.model_models import (
     ModelProviderProfile, ModelRequest, ModelResponse, ModelRegistry,
     PROVIDER_LOCAL, PROVIDER_OLLAMA, PROVIDER_LMSTUDIO,
-    PROVIDER_OPENAI_COMPATIBLE, PROVIDER_HOSTED, PROVIDER_FAKE,
+    PROVIDER_OPENAI_COMPATIBLE, PROVIDER_HOSTED, PROVIDER_DEV,
     MODEL_STATUS_BLOCKED,
     TRANSPORT_TEST_DOUBLE, TRANSPORT_LOCAL_HTTP_LOOPBACK,
 )
 from agentx_evolve.models.model_adapter import BaseModelProviderAdapter
-from agentx_evolve.models.fake_provider_adapter import FakeProviderAdapter
+from agentx_evolve.models.dev_provider_adapter import DevProviderAdapter
 from agentx_evolve.models.local_model_adapter import LocalModelAdapter
 from agentx_evolve.models.hosted_model_adapter import HostedModelAdapter
 
@@ -44,19 +44,19 @@ class TestLocal:
         assert profile.provider_type == PROVIDER_LOCAL
 
 
-class TestFake:
-    def test_fake_adapter(self):
-        profile = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE)
-        adapter = FakeProviderAdapter(profile)
+class TestDev:
+    def test_dev_adapter(self):
+        profile = ModelProviderProfile(provider_id="dev", provider_type=PROVIDER_DEV)
+        adapter = DevProviderAdapter(profile)
         assert adapter.is_available({})
 
-    def test_fake_adapter_returns_response(self):
-        profile = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE)
-        adapter = FakeProviderAdapter(profile)
+    def test_dev_adapter_returns_response(self):
+        profile = ModelProviderProfile(provider_id="dev", provider_type=PROVIDER_DEV)
+        adapter = DevProviderAdapter(profile)
         request = ModelRequest(model_request_id="req-1", prompt="Hello")
         response = adapter.run_prompt(request, profile, {})
         assert response.status == "SUCCESS"
-        assert "fake" in response.raw_output.lower()
+        assert "dev" in response.raw_output.lower()
 
 
 class TestOllama:
@@ -87,7 +87,7 @@ class TestPromptRunner:
     def test_run_prompt(self):
         from agentx_evolve.models.prompt_runner import run_prompt
         from agentx_evolve.models.model_models import ModelRegistry
-        profile = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_FAKE)
+        profile = ModelProviderProfile(provider_id="fake", provider_type=PROVIDER_DEV)
         registry = ModelRegistry(models=[], provider_profiles=[profile])
         request = ModelRequest(model_request_id="req-1", prompt="test", model_id="test")
         response = run_prompt(request, registry)

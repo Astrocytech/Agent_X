@@ -28,7 +28,7 @@ from .model_models import (
     TASK_REVIEW_OUTPUT,
     TASK_DRY_RUN,
     TASK_REPAIR_JSON,
-    PROVIDER_FAKE,
+    PROVIDER_DEV,
     PROVIDER_LOCAL,
     PROVIDER_OLLAMA,
     PROVIDER_LMSTUDIO,
@@ -64,7 +64,7 @@ from .model_models import (
     CAPABILITY_SMALL_FAST,
     CAPABILITY_SMALL_CODER,
     CAPABILITY_MEDIUM_CODER_OPTIONAL,
-    CAPABILITY_HOSTED_FALLBACK_OPTIONAL,
+    CAPABILITY_HOSTED_PROVIDER_OPTIONAL,
     CAPABILITY_TEST_DOUBLE,
     TRANSPORT_NONE,
     TRANSPORT_TEST_DOUBLE,
@@ -125,7 +125,7 @@ from .model_call_logger import (
     write_model_call_evidence,
 )
 from .invalid_model_request import handle_invalid_model_request
-from .fake_provider_adapter import FakeProviderAdapter
+from .dev_provider_adapter import DevProviderAdapter
 from .local_provider_adapter import LocalProviderAdapter
 from .opencode_provider_adapter import OpenCodeProviderAdapter
 from .local_model_adapter import LocalModelAdapter

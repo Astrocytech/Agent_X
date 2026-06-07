@@ -6,8 +6,8 @@ from agentx_evolve.models.model_models import to_dict
 RP_CPU_ONLY_SAFE = "cpu_only_safe"
 RP_SMALL_GPU_8GB = "small_gpu_8gb"
 RP_BALANCED_LOCAL = "balanced_local"
-RP_HOSTED_FALLBACK = "hosted_fallback_optional"
-ALL_RUNTIME_PROFILES = [RP_CPU_ONLY_SAFE, RP_SMALL_GPU_8GB, RP_BALANCED_LOCAL, RP_HOSTED_FALLBACK]
+RP_HOSTED_OPTIONAL = "hosted_provider_optional"
+ALL_RUNTIME_PROFILES = [RP_CPU_ONLY_SAFE, RP_SMALL_GPU_8GB, RP_BALANCED_LOCAL, RP_HOSTED_OPTIONAL]
 
 
 @dataclass
@@ -55,8 +55,8 @@ DEFAULT_PROFILES: dict[str, RuntimeProfile] = {
         timeout_seconds=30,
         vram_gb=16.0,
     ),
-    RP_HOSTED_FALLBACK: RuntimeProfile(
-        profile_id=RP_HOSTED_FALLBACK,
+    RP_HOSTED_OPTIONAL: RuntimeProfile(
+        profile_id=RP_HOSTED_OPTIONAL,
         max_models_loaded=1,
         max_context_tokens=16384,
         max_output_tokens=4096,

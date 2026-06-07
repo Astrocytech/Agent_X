@@ -1,7 +1,7 @@
 import pytest
 from agentx_evolve.models.model_models import (
     ModelRegistry, ModelProfile, ModelProviderProfile, ModelCapabilityProfile,
-    PROVIDER_FAKE, PROVIDER_LOCAL, PROVIDER_DISABLED,
+    PROVIDER_DEV, PROVIDER_LOCAL, PROVIDER_DISABLED,
     TASK_IMPLEMENT_PATCH, TASK_FIX_VALIDATION, TASK_WRITE_TEST,
     CAPABILITY_SMALL_FAST, CAPABILITY_TEST_DOUBLE,
 )
@@ -34,28 +34,28 @@ class TestLoadDefault:
         enabled = [m for m in r.models if m.enabled]
         assert len(enabled) >= 4
 
-    def test_hosted_fallback_optional_disabled_by_default(self):
+    def test_hosted_provider_optional_disabled_by_default(self):
         r = load_default_model_registry()
         for m in r.models:
-            if "hosted_fallback_optional" in m.model_id:
+            if "hosted_provider_optional" in m.model_id:
                 assert m.enabled is False
 
     def test_default_model_ids(self):
         r = load_default_model_registry()
         ids = {m.model_id for m in r.models}
         assert ids == {
-            "fake_test_model",
+            "dev_test_model",
             "small_fast_local",
             "small_coder_local",
             "medium_coder_optional",
-            "hosted_fallback_optional",
+            "hosted_provider_optional",
         }
 
     def test_default_provider_ids(self):
         r = load_default_model_registry()
         ids = {p.provider_id for p in r.provider_profiles}
         assert ids == {
-            "fake_test_provider",
+            "dev_test_provider",
             "local_provider",
             "ollama_provider",
             "lmstudio_provider",
@@ -67,12 +67,12 @@ class TestLoadDefault:
 class TestRegisterModel:
     def test_register_new_model_to_defaults(self):
         r = load_default_model_registry()
-        p = ModelProfile(model_id="custom_model", provider_id="fake_test_provider")
+        p = ModelProfile(model_id="custom_model", provider_id="dev_test_provider")
         result = register_model(r, p)
         assert result is r
         matches = [m for m in r.models if m.model_id == "custom_model"]
         assert len(matches) == 1
-        assert matches[0].provider_id == "fake_test_provider"
+        assert matches[0].provider_id == "dev_test_provider"
 
     def test_register_duplicate_rejected(self):
         r = load_default_model_registry()
@@ -80,7 +80,7 @@ class TestRegisterModel:
         assert orig is not None
         orig_provider = orig.provider_id
 
-        p = ModelProfile(model_id="small_fast_local", provider_id="fake_test_provider")
+        p = ModelProfile(model_id="small_fast_local", provider_id="dev_test_provider")
         result = register_model(r, p)
         assert result is r
 
@@ -100,22 +100,22 @@ class TestRegisterModel:
 class TestRegisterProvider:
     def test_register_new_provider(self):
         r = load_default_model_registry()
-        p = ModelProviderProfile(provider_id="custom_prov", provider_type=PROVIDER_FAKE)
+        p = ModelProviderProfile(provider_id="custom_prov", provider_type=PROVIDER_DEV)
         result = register_provider_profile(r, p)
         assert result is r
         assert any(p.provider_id == "custom_prov" for p in r.provider_profiles)
 
     def test_register_duplicate_provider_rejected(self):
         r = load_default_model_registry()
-        orig = get_provider_profile(r, "fake_test_provider")
+        orig = get_provider_profile(r, "dev_test_provider")
         assert orig is not None
         orig_type = orig.provider_type
 
-        p = ModelProviderProfile(provider_id="fake_test_provider", provider_type=PROVIDER_LOCAL)
+        p = ModelProviderProfile(provider_id="dev_test_provider", provider_type=PROVIDER_LOCAL)
         result = register_provider_profile(r, p)
         assert result is r
 
-        updated = get_provider_profile(r, "fake_test_provider")
+        updated = get_provider_profile(r, "dev_test_provider")
         assert updated is not None
         assert updated.provider_type == orig_type
         assert any("Duplicate provider_id" in e for e in r.errors)
@@ -123,7 +123,7 @@ class TestRegisterProvider:
 
     def test_register_provider_returns_registry(self):
         r = load_default_model_registry()
-        p = ModelProviderProfile(provider_id="another_prov", provider_type=PROVIDER_FAKE)
+        p = ModelProviderProfile(provider_id="another_prov", provider_type=PROVIDER_DEV)
         result = register_provider_profile(r, p)
         assert result is r
 
@@ -149,9 +149,9 @@ class TestGetModel:
 class TestGetProvider:
     def test_get_existing(self):
         r = load_default_model_registry()
-        p = get_provider_profile(r, "fake_test_provider")
+        p = get_provider_profile(r, "dev_test_provider")
         assert p is not None
-        assert p.provider_type == PROVIDER_FAKE
+        assert p.provider_type == PROVIDER_DEV
 
     def test_get_nonexistent(self):
         r = load_default_model_registry()
@@ -169,7 +169,7 @@ class TestListEnabled:
     def test_list_enabled_excludes_disabled(self):
         r = load_default_model_registry()
         enabled_ids = {m.model_id for m in list_enabled_models(r)}
-        assert "hosted_fallback_optional" not in enabled_ids
+        assert "hosted_provider_optional" not in enabled_ids
 
 
 class TestListForTask:
