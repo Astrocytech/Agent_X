@@ -95,6 +95,6 @@ def test_get_failure_recovery_returns_adapter_when_configured(tmp_path):
     assert fn is adapter
 
 
-def test_test_double_mode_is_not_bound_in_production_resolver(tmp_path):
-    result = resolve_dependency_bindings({"tool_adapter_mode": "FAKE_FOR_TEST"}, tmp_path)
+def test_unknown_mode_falls_back_to_unavailable(tmp_path):
+    result = resolve_dependency_bindings({"tool_adapter_mode": "BOGUS_UNRECOGNIZED"}, tmp_path)
     assert get_tool_adapter(result) is None

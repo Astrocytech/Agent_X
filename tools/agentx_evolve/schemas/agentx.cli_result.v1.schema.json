@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "agentx.cli_result.v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "command",
+    "status",
+    "exit_code",
+    "run_id",
+    "run_dir",
+    "message",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "agentx.cli_result.v1"
+    },
+    "command": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "BLOCKED"]
+    },
+    "exit_code": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "run_dir": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

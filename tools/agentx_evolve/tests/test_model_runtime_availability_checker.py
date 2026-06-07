@@ -1,3 +1,4 @@
+import os
 import pytest
 from pathlib import Path
 from agentx_evolve.model_runtime.runtime_models import (
@@ -9,6 +10,15 @@ from agentx_evolve.model_runtime.availability_checker import (
 
 
 FIXTURES = Path(__file__).resolve().parent / "fixtures" / "model_runtime"
+MODEL_FILE = Path("/tmp/models/small-q4.gguf")
+
+
+@pytest.fixture(autouse=True)
+def ensure_model_file():
+    MODEL_FILE.parent.mkdir(parents=True, exist_ok=True)
+    MODEL_FILE.touch()
+    yield
+    MODEL_FILE.unlink(missing_ok=True)
 
 
 def _load_inventory(name="valid_model_inventory.json"):

@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "agentx.structured_plan.v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "summary",
+    "actions",
+    "patches",
+    "validation_commands"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "agentx.structured_plan.v1"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "description"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["patch", "validate", "report", "noop"]
+          },
+          "description": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "safety_notes": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        }
+      }
+    },
+    "patches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["format", "content"],
+        "properties": {
+          "format": {
+            "type": "string",
+            "enum": ["unified_diff"]
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "validation_commands": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  }
+}

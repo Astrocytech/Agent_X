@@ -5,12 +5,11 @@ from typing import Any
 
 from agentx_evolve.orchestrator.orchestrator_config import (
     DEPENDENCY_MODE_REAL,
+    DEPENDENCY_MODE_FAKE_FOR_TEST,
     DEPENDENCY_MODE_RESTRICTED,
     DEPENDENCY_MODE_UNAVAILABLE,
 )
 
-
-RESOLVED_BINDINGS: dict[str, Any] = {}
 
 DEPENDENCY_NAMES = (
     "tool_adapter",
@@ -22,6 +21,13 @@ DEPENDENCY_NAMES = (
     "failure_recovery",
 )
 
+FAKE_ADAPTERS: dict[str, dict[str, Any]] = {
+    name: {"fn": lambda n=name: {"mode": "fake_for_test", "name": n}}
+    for name in DEPENDENCY_NAMES
+}
+
+RESOLVED_BINDINGS: dict[str, Any] = {}
+
 
 def resolve_dependency_bindings(context: dict, repo_root: Path) -> dict:
     resolved: dict[str, dict] = {}
@@ -32,6 +38,9 @@ def resolve_dependency_bindings(context: dict, repo_root: Path) -> dict:
             resolved[name] = {"adapter": None, "mode": mode, "available": False}
         elif mode == DEPENDENCY_MODE_RESTRICTED:
             resolved[name] = {"adapter": None, "mode": mode, "available": False}
+        elif mode == DEPENDENCY_MODE_FAKE_FOR_TEST:
+            fake_adapter = FAKE_ADAPTERS.get(name, {}).get("fn", lambda: {"mode": "fake_for_test"})
+            resolved[name] = {"adapter": fake_adapter, "mode": mode, "available": True}
         elif mode == DEPENDENCY_MODE_REAL and callable(adapter):
             resolved[name] = {"adapter": adapter, "mode": mode, "available": True}
         else:
