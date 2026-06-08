@@ -3,10 +3,11 @@ import json
 import os
 import re
 import subprocess
+import threading
 import time
 import urllib.error
 import urllib.request
-from typing import Any
+from typing import Any, Generator
 
 from agentx_evolve.runtime.logging_manager import ConversationLogger
 
@@ -36,15 +37,20 @@ class OpenCodeProvider:
         api_key: str = "",
         model: str = "big-pickle",
         timeout_seconds: int = 120,
+        session_id: str = "",
     ):
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.model = model
         self.timeout_seconds = timeout_seconds
-        self._session_id: str | None = None
+        self._session_id: str | None = session_id or None
         self._provider_id: str = "opencode"
         self._server_proc: subprocess.Popen[str] | None = None
         self._conversation_logger = ConversationLogger()
+
+    @property
+    def session_id(self) -> str | None:
+        return self._session_id
 
     def complete(self, messages: list[dict[str, Any]], **kwargs: Any) -> dict[str, Any]:
         self._conversation_logger.log_request(
@@ -257,6 +263,113 @@ class OpenCodeProvider:
             raise OpenCodeProviderError(FAIL_SERVER, exit_code=4)
         raise OpenCodeProviderError(f"HTTP {code}: {e.reason}", exit_code=4)
 
+    def complete_streaming(
+        self, messages: list[dict[str, Any]], **kwargs: Any,
+    ) -> Generator[dict[str, Any], None, dict[str, Any]]:
+        self._conversation_logger.log_request(
+            provider=self._provider_id, model=self.model,
+            messages=messages, kwargs=kwargs,
+        )
+        start = time.perf_counter()
+        try:
+            self._ensure_session()
+            last_text = self._last_user_text(messages)
+            parts = [{"type": "text", "text": last_text}]
+            body = {
+                "model": {"providerID": self._provider_id, "modelID": self.model},
+                "parts": parts,
+            }
+            payload = json.dumps(body).encode("utf-8")
+            msg_url = f"{self.base_url}/session/{self._session_id}/message"
+            event_url = f"{self.base_url}/event"
+
+            response_data: list[dict | None] = [None]
+            error_data: list[Exception | None] = [None]
+
+            def send() -> None:
+                try:
+                    req = urllib.request.Request(
+                        msg_url, data=payload,
+                        headers={"Content-Type": "application/json"},
+                        method="POST",
+                    )
+                    with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                        response_data[0] = json.loads(resp.read().decode("utf-8"))
+                except Exception as e:
+                    error_data[0] = e
+
+            send_thread = threading.Thread(target=send, daemon=True)
+            event_req = urllib.request.Request(event_url)
+            event_resp = urllib.request.urlopen(event_req, timeout=self.timeout_seconds)
+            send_thread.start()
+
+            _is_user_turn = False
+
+            for evt in _sse_events(event_resp):
+                evt_type = evt.get("type", "")
+                props = evt.get("properties", {})
+
+                if evt_type == "session.next.agent.switched":
+                    _is_user_turn = True
+                    yield {"type": "agent", "agent": props.get("agent", "")}
+
+                elif evt_type == "message.part.updated":
+                    part = props.get("part", {})
+                    ptype = part.get("type", "")
+                    if ptype == "reasoning":
+                        text = part.get("text", "")
+                        if text:
+                            yield {"type": "reasoning", "text": text.strip(), "author": "assistant"}
+                    elif ptype == "text":
+                        text = part.get("text", "")
+                        if text:
+                            if _is_user_turn:
+                                yield {"type": "text", "text": text.strip(), "author": "user"}
+                                _is_user_turn = False
+                            else:
+                                yield {"type": "text", "text": text.strip(), "author": "assistant"}
+                    elif ptype == "tool":
+                        tool_name = part.get("tool", "")
+                        state = part.get("state", {})
+                        status = state.get("status", "")
+                        inp = state.get("input", {})
+                        outp = state.get("output", "")
+                        err = state.get("error", "")
+                        if status == "running":
+                            yield {"type": "tool", "name": tool_name, "status": "running", "input": inp, "author": "assistant"}
+                        elif status == "completed":
+                            yield {"type": "tool", "name": tool_name, "status": "completed", "output": outp, "author": "assistant"}
+                        elif status == "error":
+                            yield {"type": "tool", "name": tool_name, "status": "error", "error": str(err)[:300], "author": "assistant"}
+
+                if response_data[0] is not None or error_data[0] is not None:
+                    break
+
+            send_thread.join(timeout=10)
+
+            if error_data[0]:
+                raise error_data[0]
+
+            data = response_data[0]
+            if data is None:
+                raise OpenCodeProviderError("no response from server", exit_code=4)
+
+            response = self._parse_response(data)
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_response(
+                provider=self._provider_id, model=self.model,
+                response=response, duration_ms=elapsed,
+            )
+            return response
+
+        except OpenCodeProviderError:
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_error(
+                provider=self._provider_id, model=self.model,
+                error="OpenCodeProviderError", duration_ms=elapsed,
+            )
+            raise
+
     @staticmethod
     def _parse_response(data: dict[str, Any]) -> dict[str, Any]:
         try:
@@ -278,3 +391,18 @@ class OpenCodeProvider:
             raise OpenCodeProviderError(
                 f"{FAIL_MALFORMED}: {e}", exit_code=1,
             )
+
+
+def _sse_events(resp: urllib.request.AddInfoHandler) -> Generator[dict[str, Any], None, None]:
+    """Yield parsed SSE events from an HTTP response (bytes-safe)."""
+    buf = b""
+    for chunk in iter(lambda: resp.read(1), b""):
+        buf += chunk
+        while b"\n\n" in buf:
+            line, buf = buf.split(b"\n\n", 1)
+            for l in line.split(b"\n"):
+                if l.startswith(b"data: "):
+                    try:
+                        yield json.loads(l[6:].decode("utf-8"))
+                    except (json.JSONDecodeError, UnicodeDecodeError):
+                        pass

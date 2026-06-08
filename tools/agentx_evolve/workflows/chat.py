@@ -37,6 +37,7 @@ class ChatWorkflow:
             "command": "chat",
             "provider": self.config.provider,
             "model": self.config.model,
+            "opencode_session_id": self.config.opencode_session_id or None,
         }
         writer.write_context(context)
         session.transition("CONTEXT_PACKED")
@@ -68,6 +69,11 @@ class ChatWorkflow:
                 session, writer, run_dir, content, status, exit_code,
             )
         writer.write_model_response(response)
+
+        sid = getattr(provider, "session_id", None)
+        if sid:
+            session.set_metadata("opencode_session_id", sid)
+            writer.write_metadata(session)
 
         writer.write_structured_plan(None)
         writer.write_proposed_patch(None)

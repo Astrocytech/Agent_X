@@ -22,6 +22,7 @@ class ProviderRouter:
                 api_key=self.config.opencode_api_key,
                 model=self._payload_model(self.config.model),
                 timeout_seconds=self.config.timeout_seconds,
+                session_id=self.config.opencode_session_id,
             )
 
         raise OpenCodeProviderError(

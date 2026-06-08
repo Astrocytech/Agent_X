@@ -13,6 +13,7 @@ from agentx_evolve.runtime.results import (
 )
 
 SEED_DIRS = ["L0", "L1", "L2"]
+_SEED_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 NEVER_COPY = {
     ".git", ".venv", "__pycache__", ".pytest_cache",
     ".env", "*.key", "*.pem", ".agentx-init/runs",
@@ -140,10 +141,10 @@ class InitAgentWorkflow:
     def _copy_seed_files(self, dest: Path) -> list[str]:
         copied: list[str] = []
         for seed_dir_name in SEED_DIRS:
-            seed_dir = Path(seed_dir_name)
+            seed_dir = _SEED_ROOT / seed_dir_name
             if not seed_dir.exists() or not seed_dir.is_dir():
                 continue
-            for root, dirs, files in os.walk(seed_dir):
+            for root, dirs, files in os.walk(str(seed_dir)):
                 rel_root = Path(root).relative_to(seed_dir)
                 dirs[:] = [d for d in dirs if d not in NEVER_COPY]
                 for f in files:

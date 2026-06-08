@@ -1,4 +1,7 @@
+import json
+import os
 import sys
+import select
 from pathlib import Path
 
 
@@ -6,6 +9,45 @@ _self_dir = Path(__file__).resolve().parent
 _tools_dir = _self_dir.parent
 if str(_tools_dir) not in sys.path:
     sys.path.insert(0, str(_tools_dir))
+
+
+def _read_input(prompt: str = "chat> ") -> str:
+    """Read input with bracketed paste support."""
+    PASTE_START = "\x1b[200~"
+    PASTE_END = "\x1b[201~"
+
+    sys.stderr.write(prompt)
+    sys.stderr.flush()
+
+    lines: list[str] = []
+    while True:
+        try:
+            raw = sys.stdin.readline()
+        except KeyboardInterrupt:
+            raise
+        if not raw:
+            raise EOFError
+        line = raw.rstrip("\r\n")
+
+        if PASTE_START in line:
+            line = line.replace(PASTE_START, "")
+        is_paste_end = PASTE_END in line
+        if is_paste_end:
+            line = line.replace(PASTE_END, "")
+
+        if not line and not lines:
+            continue
+
+        lines.append(line)
+
+        if is_paste_end:
+            break
+
+        ready, _, _ = select.select([sys.stdin], [], [], 0.08)
+        if not ready:
+            break
+
+    return "\n".join(lines)
 
 
 def main() -> None:
@@ -46,7 +88,7 @@ def main() -> None:
         _run_init_agent(args[1:])
     elif cmd == "evolve-agent":
         _run_evolve_agent(args[1:])
-    elif cmd == "help" or cmd == "--help":
+    elif cmd == "help" or cmd == "--help" or cmd == "-h":
         _print_help()
         sys.exit(0)
     else:
@@ -76,6 +118,7 @@ def _print_help() -> None:
     print("  --model <model-id>         Model identifier")
     print("  --run-root <path>          Run artifacts root")
     print("  --timeout <seconds>        Provider timeout")
+    print("  --session-id <id>          Resume an existing session")
     print()
     print("Self-upgrade / Evolve-agent options:")
     print("  --concept-file <path>      Concept/architecture change file")
@@ -87,6 +130,47 @@ def _print_help() -> None:
     print("  --dest <path>              Destination directory")
 
 
+def _chat_help() -> None:
+    print("Usage: agentx-evolve chat [options]")
+    print()
+    print("Start an interactive chat session, or send a one-shot message.")
+    print()
+    print("Interactive mode:")
+    print("  (no arguments)              Start interactive REPL")
+    print("  /exit                       Exit the REPL")
+    print("  Ctrl+C or Ctrl+D            Exit the REPL")
+    print()
+    print("One-shot mode:")
+    print("  --once <message>            Single message, print response and exit")
+    print("  (pipe stdin)                Read message from stdin")
+    print()
+    print("Options:")
+    print("  --help, -h                  Show this help")
+    print("  --mock                      Use deterministic mock provider")
+    print("  --json                      JSON stdout output")
+    print("  --provider <name>           Provider (mock, opencode)")
+    print("  --model <model-id>          Model identifier")
+    print("  --run-root <path>           Run artifacts root")
+    print("  --timeout <seconds>         Provider timeout")
+    print("  --session-id <id>           Resume an existing session")
+    print("  --gui                       Force GUI popup window")
+    print("  --no-gui                    Force terminal REPL")
+
+
+def _should_use_gui(argv: list[str]) -> bool:
+    if "--no-gui" in argv:
+        return False
+    if "--gui" in argv:
+        return True
+    if not os.environ.get("DISPLAY"):
+        return False
+    try:
+        import PyQt5  # noqa: F401
+        return True
+    except ImportError:
+        return False
+
+
 def _run_chat(argv: list[str]) -> None:
     from agentx_evolve.runtime.config import ConfigResolver
     from agentx_evolve.runtime.results import (
@@ -94,34 +178,68 @@ def _run_chat(argv: list[str]) -> None:
     )
     from agentx_evolve.workflows.chat import ChatWorkflow
 
+    if "--help" in argv or "-h" in argv:
+        _chat_help()
+        sys.exit(0)
+
+    use_gui = _should_use_gui(argv)
+    stripped = [a for a in argv if a not in ("--gui", "--no-gui")]
+
     resolver = ConfigResolver()
-    config = resolver.resolve(argv)
+    config = resolver.resolve(stripped)
 
     if config.once_message:
         pass
     elif sys.stdin.isatty():
-        import readline
         from agentx_evolve.providers.provider_router import ProviderRouter
         router = ProviderRouter(config)
         provider = router.get_provider()
-        while True:
-            try:
-                sys.stderr.write("chat> ")
-                sys.stderr.flush()
-                line = sys.stdin.readline()
-                if not line or line.strip() == "/exit":
-                    sys.exit(0)
-                line = line.strip()
-                if not line:
-                    continue
-                response = provider.complete([{"role": "user", "content": line}])
-                print(response.get('content', ''))
-            except KeyboardInterrupt:
-                print(file=sys.stderr)
-                break
-            except EOFError:
-                break
-        sys.exit(0)
+        sid = getattr(provider, "session_id", None)
+
+        if use_gui:
+            from agentx_evolve.runtime.chat_window import run_chat_window
+            sys.exit(run_chat_window(provider, sid or "", config.model))
+        else:
+            import readline
+            from agentx_evolve.runtime.chat_ui import ChatUI
+            ui = ChatUI(session_id=sid or "", model=config.model, mode=config.mode)
+            ui.print_banner()
+            while True:
+                try:
+                    line = _read_input("chat> ")
+                    stripped = line.strip()
+                    if stripped == "/exit":
+                        sys.exit(0)
+                    if stripped.startswith("/mode"):
+                        parts = stripped.split()
+                        if len(parts) == 1:
+                            mode_label = {"plan": "Planning", "apply": "Build"}.get(ui.mode, ui.mode)
+                            print(f"Current mode: {mode_label}")
+                        elif len(parts) == 2:
+                            try:
+                                ui.set_mode(parts[1])
+                                config.mode = parts[1]
+                                mode_label = {"plan": "Planning", "apply": "Build"}.get(parts[1], parts[1])
+                                print(f"Switched to {mode_label} mode")
+                            except ValueError as e:
+                                print(e)
+                        continue
+                    if not stripped:
+                        continue
+                    ui.add_event({"type": "text", "text": stripped, "author": "user"})
+                    gen = provider.complete_streaming([{"role": "user", "content": stripped}])
+                    try:
+                        while True:
+                            event = next(gen)
+                            ui.add_event(event)
+                    except StopIteration:
+                        pass
+                except KeyboardInterrupt:
+                    print(file=sys.stderr)
+                    break
+                except EOFError:
+                    break
+            sys.exit(0)
     else:
         config.once_message = sys.stdin.read().strip()
         if not config.once_message:
@@ -225,10 +343,25 @@ def _run_self_upgrade(argv: list[str]) -> None:
     sys.exit(result.exit_code)
 
 
+def _init_agent_help() -> None:
+    print("Usage: agentx-evolve init-agent [options]")
+    print()
+    print("Initialize a new agent from a template.")
+    print()
+    print("Options:")
+    print("  --help, -h                  Show this help")
+    print("  --name <agent-name>         Agent name")
+    print("  --dest <path>               Destination directory")
+
+
 def _run_init_agent(argv: list[str]) -> None:
     from agentx_evolve.runtime.config import ConfigResolver
     from agentx_evolve.runtime.results import EXIT_BLOCKED, EXIT_FAIL, EXIT_INVALID_CLI
     from agentx_evolve.workflows.init_agent import InitAgentWorkflow
+
+    if "--help" in argv or "-h" in argv:
+        _init_agent_help()
+        sys.exit(0)
 
     resolver = ConfigResolver()
     try:

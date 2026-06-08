@@ -29,6 +29,7 @@ class RuntimeConfig:
     once_message: str = ""
     concept_file: str = ""
     agent_name: str = ""
+    opencode_session_id: str = ""
     agent_dest: str = ""
     agent_dir: str = ""
     dest: str = ""
@@ -56,6 +57,7 @@ class RuntimeConfig:
             "command": self.command,
             "opencode_base_url": self.opencode_base_url,
             "opencode_api_key": self.opencode_api_key,
+            "opencode_session_id": self.opencode_session_id,
             "once_message": self.once_message,
             "concept_file": self.concept_file,
             "agent_name": self.agent_name,
@@ -78,6 +80,7 @@ class ConfigResolver:
         "--once", "--provider", "--model", "--run-root", "--timeout",
         "--concept-file", "--mode",
         "--name", "--dest", "--agent-dir", "--command",
+        "--session-id",
     }
 
     def _parse_argv(self, argv: list[str]) -> dict[str, Any]:
@@ -112,6 +115,8 @@ class ConfigResolver:
                 args["agent_dir"] = next(it, "")
             elif token == "--command":
                 args["command"] = next(it, "")
+            elif token == "--session-id":
+                args["opencode_session_id"] = next(it, "")
             elif token.startswith("--"):
                 raise ValueError(f"unknown flag: {token}")
         return args
@@ -124,6 +129,7 @@ class ConfigResolver:
             timeout_seconds=int(os.environ.get("AGENTX_TIMEOUT_SECONDS", str(BUILTIN_TIMEOUT))),
             opencode_base_url=os.environ.get("AGENTX_OPENCODE_BASE_URL", "http://127.0.0.1:14096"),
             opencode_api_key=os.environ.get("AGENTX_OPENCODE_API_KEY", ""),
+            opencode_session_id=os.environ.get("AGENTX_OPENCODE_SESSION_ID", ""),
         )
 
     def _apply_args(self, config: RuntimeConfig, args: dict[str, Any]) -> None:

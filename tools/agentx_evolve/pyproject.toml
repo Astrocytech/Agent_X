@@ -11,7 +11,11 @@ requires-python = ">=3.11"
 dependencies = [
     "agentx-init>=1.0.0",
     "jsonschema",
+    "rich",
 ]
+
+[project.optional-dependencies]
+gui = ["PyQt5", "markdown", "Pygments"]
 
 [project.scripts]
 agentx-evolve = "agentx_evolve.__main__:main"

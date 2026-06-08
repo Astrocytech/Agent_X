@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import Any
+import time
+from typing import Any, Generator
 
 MOCK_RESPONSE_CATALOG: dict[str, dict[str, Any]] = {
     "Say READY": {
@@ -34,6 +35,17 @@ class MockProvider:
             "patches": [],
             "validation_commands": ["python -m compileall tools/agentx_evolve"],
         }
+
+    def complete_streaming(
+        self, messages: list[dict[str, Any]], **kwargs: Any,
+    ) -> Generator[dict[str, Any], None, dict[str, Any]]:
+        user_msg = self._last_user_message(messages)
+        time.sleep(0.3)
+        yield {"type": "reasoning", "text": "Mock provider processing...", "author": "assistant"}
+        time.sleep(0.3)
+        response = self._lookup_response(user_msg)
+        yield {"type": "text", "text": response["content"], "author": "assistant"}
+        return response
 
     @staticmethod
     def _last_user_message(messages: list[dict[str, Any]]) -> str:
