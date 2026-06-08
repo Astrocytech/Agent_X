@@ -114,20 +114,40 @@ function mdToHtml(text) {
 function SessionModal({ open, onClose, onSelect }) {
   const [sessions, setSessions] = useState([]);
 
-  useEffect(() => {
-    if (!open) return;
+  const fetchSessions = useCallback(() => {
     fetch("/api/sessions")
       .then((r) => r.json())
       .then(setSessions)
       .catch(() => setSessions([]));
-  }, [open]);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    fetchSessions();
+  }, [open, fetchSessions]);
+
+  const handleDelete = (runId) => {
+    fetch(`/api/sessions/${runId}`, { method: "DELETE" })
+      .then(() => fetchSessions())
+      .catch(() => {});
+  };
+
+  const handleClearAll = () => {
+    fetch("/api/sessions", { method: "DELETE" })
+      .then(() => fetchSessions())
+      .catch(() => {});
+  };
 
   if (!open) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal-header">Open Session</div>
+        <div className="modal-header">
+          <span>Open Session</span>
+          <button className="modal-close" onClick={onClose}>&times;</button>
+        </div>
+        <div className="modal-body">
         {sessions.length === 0 ? (
           <p style={{ padding: 16, color: "#888" }}>No previous sessions found.</p>
         ) : (
@@ -137,27 +157,30 @@ function SessionModal({ open, onClose, onSelect }) {
                 <th>Date</th>
                 <th>Command</th>
                 <th>Session ID</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {sessions.map((s) => (
-                <tr
-                  key={s.run_id}
-                  onClick={() => onSelect(s)}
-                  className="session-row"
-                >
+                <tr key={s.run_id} className="session-row">
                   <td>{s.date}</td>
                   <td>{s.command}</td>
-                  <td>{s.short_id || ""}</td>
+                  <td className="session-id-cell">{s.short_id || ""}</td>
+                  <td className="session-actions">
+                    <button className="btn btn-open" onClick={() => { onSelect(s); onClose(); }}>Open</button>
+                    <button className="btn btn-delete" onClick={() => handleDelete(s.run_id)}>Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         )}
+        </div>
         <div className="modal-footer">
-          <button className="btn" onClick={onClose}>
-            Cancel
-          </button>
+          {sessions.length > 0 && (
+            <button className="btn btn-clear" onClick={handleClearAll}>Clear All</button>
+          )}
+          <button className="btn" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
@@ -376,11 +399,26 @@ export default function App() {
 
   const loadSession = useCallback((s) => {
     setShowSessionModal(false);
+    setActivities([]);
+    try {
+      localStorage.setItem("agentx_chat_state_backup", JSON.stringify({ messages, activities }));
+    } catch {}
     fetch(`/api/sessions/${s.run_id}/messages`)
-      .then((r) => r.json())
-      .then((msgs) => setMessages(msgs))
-      .catch(() => {});
-  }, []);
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((msgs) => {
+        setMessages(msgs);
+        if (!msgs || msgs.length === 0) {
+          setActivities([{ type: "info", text: "No messages in this session.", time: new Date().toLocaleTimeString() }]);
+        }
+      })
+      .catch((err) => {
+        setActivities([{ type: "error", text: `Failed to load session: ${err.message}`, time: new Date().toLocaleTimeString() }]);
+      });
+    fetchStatus();
+  }, [messages, activities, fetchStatus]);
 
   const sendMessage = useCallback(() => {
     const text = input.trim();
@@ -540,9 +578,10 @@ export default function App() {
                       <div
                         key={i}
                         className={`menu-item ${item.disabled ? "disabled" : ""}`}
-                        onClick={() => {
-                          if (!item.disabled) handleMenuAction(item.id);
-                        }}
+                  onMouseDown={(e) => e.stopPropagation()}
+                          onClick={() => {
+                            if (!item.disabled) handleMenuAction(item.id);
+                          }}
                       >
                         <span>{item.label}</span>
                         {item.shortcut && (
@@ -615,14 +654,14 @@ export default function App() {
                     });
                   }}
                 >
-                  Stop
+                  &#9632;
                 </button>
                 <button
                   className="send-btn"
                   onClick={sendMessage}
                   disabled={streaming || !input.trim()}
                 >
-                  Send
+                  &#9654;
                 </button>
               </div>
             </div>

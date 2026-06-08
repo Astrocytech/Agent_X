@@ -98,6 +98,7 @@
 
 .messages {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 
@@ -178,7 +179,9 @@
   font-family: inherit;
   font-size: 14px;
   line-height: 1.4;
-  resize: none;
+  resize: vertical;
+  min-height: 36px;
+  max-height: 240px;
   outline: none;
 }
 
@@ -189,16 +192,17 @@
 
 .send-btn {
   padding: 8px 20px;
-  background: #4a6fa5;
+  background: #27ae60;
   color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
+  line-height: 1;
 }
 
 .send-btn:hover:not(:disabled) {
-  background: #3b5d8f;
+  background: #219a52;
 }
 
 .send-btn:disabled {
@@ -210,17 +214,18 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  align-self: flex-end;
+  align-self: center;
 }
 
 .stop-btn {
-  padding: 4px 20px;
+  padding: 8px 20px;
   background: #c0392b;
   color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 12px;
+  font-size: 16px;
   cursor: pointer;
+  line-height: 1;
 }
 
 .stop-btn:hover:not(:disabled) {
@@ -265,6 +270,31 @@
   font-size: 15px;
   font-weight: 600;
   border-bottom: 1px solid #e0e2e6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #888;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 0;
 }
 
 .modal-footer {
@@ -272,6 +302,8 @@
   border-top: 1px solid #e0e2e6;
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
 .btn {
@@ -285,6 +317,35 @@
 
 .btn:hover {
   background: #f0f1f3;
+}
+
+.btn-open {
+  background: #4a6fa5;
+  color: #fff;
+  border-color: #4a6fa5;
+}
+
+.btn-open:hover {
+  background: #3b5d8f;
+}
+
+.btn-delete {
+  color: #c0392b;
+  border-color: #c0392b;
+}
+
+.btn-delete:hover {
+  background: #fce4e1;
+}
+
+.btn-clear {
+  color: #c0392b;
+  border-color: #c0392b;
+  margin-right: auto;
+}
+
+.btn-clear:hover {
+  background: #fce4e1;
 }
 
 /* ── Session table ──────────────────────────────────────────── */
@@ -307,8 +368,24 @@
   border-bottom: 1px solid #eee;
 }
 
+.session-id-cell {
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
+  font-size: 12px;
+  color: #666;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.session-actions {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
 .session-row {
-  cursor: pointer;
+  cursor: default;
 }
 
 .session-row:hover {
@@ -347,6 +424,7 @@
 
 .status-body {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: 8px 12px;
   display: flex;
@@ -404,21 +482,24 @@
 
 .activity-panel-wrap {
   flex-shrink: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   min-width: 280px;
-  height: 100%;
   overflow: hidden;
+  align-self: stretch;
 }
 
 /* ── Activity panel (right) — dark terminal theme ───────── */
 .activity-panel {
   flex: 1;
+  min-height: 0;
   border-left: 1px solid #1a1a2e;
   background: #0d1117;
   display: flex;
   flex-direction: column;
   color: #c9d1d9;
+  overflow: hidden;
 }
 
 .activity-header {
@@ -436,6 +517,7 @@
 
 .activity-list {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: 4px 0;
   font-size: 12px;
@@ -499,13 +581,15 @@
 
 .activity-status .activity-type,
 .activity-tool .activity-type {
-  background: #0b3d1f;
-  color: #3fb950;
+  background: #2a2a3e;
+  color: #8b949e;
 }
 
 .activity-text {
   color: #c9d1d9;
   word-break: break-word;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .activity-done {
@@ -513,8 +597,72 @@
 }
 
 .activity-type-done {
-  background: #2a2a3e !important;
-  color: #8b949e !important;
+  background: #0b3d1f;
+  color: #3fb950;
+}
+
+/* ── Diff display in activity panel ──────────────────────── */
+.activity-diff {
+  margin: 4px 0;
+}
+
+.activity-diff-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #58a6ff;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 4px;
+}
+
+.activity-diff-toggle input {
+  accent-color: #58a6ff;
+}
+
+.activity-diff-pre {
+  margin: 0;
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre;
+  border: 1px solid #21262d;
+  border-radius: 3px;
+  background: #0d1117;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.activity-diff-line {
+  padding: 0 8px;
+  color: #c9d1d9;
+}
+
+.activity-diff-file {
+  color: #58a6ff;
+  font-weight: 700;
+}
+
+.activity-diff-hunk {
+  color: #d29922;
+}
+
+.activity-diff-add {
+  background: rgba(46, 160, 67, 0.15);
+  color: #3fb950;
+}
+
+.activity-diff-rem {
+  background: rgba(248, 81, 73, 0.15);
+  color: #f85149;
+}
+
+.activity-diff-trunc {
+  padding: 4px 8px;
+  color: #484f58;
+  font-style: italic;
 }
 
 /* custom scrollbar for activity panel */

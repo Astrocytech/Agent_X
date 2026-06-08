@@ -15,53 +15,148 @@ from aiohttp import web
 
 _UI_DIST = Path(__file__).resolve().parent.parent.parent.parent / "ui" / "dist"
 
+_CHAT_ROOT = Path(".agentx-chat")
 
-def _list_sessions():
-    run_root = Path(".agentx-init/runs")
-    if not run_root.exists():
-        return []
+
+def _chat_dir(session_id: str) -> Path:
+    return _CHAT_ROOT / session_id
+
+
+def _chat_messages_path(session_id: str) -> Path:
+    return _chat_dir(session_id) / "messages.jsonl"
+
+
+def _chat_meta_path(session_id: str) -> Path:
+    return _chat_dir(session_id) / "meta.json"
+
+
+def _save_chat_message(session_id: str, role: str, content: str) -> None:
+    """Append a message to the chat session's messages file."""
+    d = _chat_dir(session_id)
+    d.mkdir(parents=True, exist_ok=True)
+    line = json.dumps({"role": role, "content": content})
+    with open(_chat_messages_path(session_id), "a") as f:
+        f.write(line + "\n")
+
+
+def _save_chat_meta(session_id: str, **kw) -> None:
+    """Write metadata for a chat session."""
+    d = _chat_dir(session_id)
+    d.mkdir(parents=True, exist_ok=True)
+    existing = {}
+    p = _chat_meta_path(session_id)
+    if p.exists():
+        existing = json.loads(p.read_text())
+    existing.update(kw)
+    existing.setdefault("created_at", datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+    p.write_text(json.dumps(existing, indent=2))
+
+
+def _list_sessions(provider=None):
     sessions = []
-    for entry in sorted(run_root.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True):
-        if not entry.is_dir():
-            continue
-        meta_path = entry / "run_metadata.json"
-        meta = {}
-        if meta_path.exists():
-            meta = json.loads(meta_path.read_text())
-        command = meta.get("command", "unknown")
-        ts_part = entry.name.split("-")[0]
-        try:
-            dt = datetime.strptime(ts_part, "%Y%m%dT%H%M%SZ")
-            date_str = dt.strftime("%Y-%m-%d %H:%M:%S")
-        except ValueError:
-            date_str = ts_part
-        opencode_sid = meta.get("metadata", {}).get("opencode_session_id", "")
-        short_id = (opencode_sid[:20] + "...") if len(opencode_sid) > 20 else opencode_sid
-        sessions.append({
-            "run_id": entry.name,
-            "command": command,
-            "date": date_str,
-            "short_id": short_id,
-        })
-    return sessions
+    now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Current provider session (always shown)
+    if provider and hasattr(provider, "session_id"):
+        sid = provider.session_id
+        if sid:
+            short_id = (sid[:20] + "...") if len(sid) > 20 else sid
+            sessions.append({
+                "run_id": sid,
+                "command": "chat (current)",
+                "date": now,
+                "short_id": short_id,
+            })
+
+    # CLI task runs
+    run_root = Path(".agentx-init/runs")
+    if run_root.exists():
+        for entry in sorted(run_root.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True):
+            if not entry.is_dir():
+                continue
+            meta_path = entry / "run_metadata.json"
+            meta = {}
+            if meta_path.exists():
+                meta = json.loads(meta_path.read_text())
+            command = meta.get("command", "unknown")
+            ts_part = entry.name.split("-")[0]
+            try:
+                dt = datetime.strptime(ts_part, "%Y%m%dT%H%M%SZ")
+                date_str = dt.strftime("%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                date_str = ts_part
+            opencode_sid = meta.get("metadata", {}).get("opencode_session_id", "")
+            short_id = (opencode_sid[:20] + "...") if len(opencode_sid) > 20 else opencode_sid
+            sessions.append({
+                "run_id": entry.name,
+                "command": command,
+                "date": date_str,
+                "short_id": short_id,
+            })
+
+    # Saved chat sessions
+    if _CHAT_ROOT.exists():
+        for entry in sorted(_CHAT_ROOT.iterdir(), key=lambda p: p.stat().st_mtime, reverse=True):
+            if not entry.is_dir():
+                continue
+            meta = {}
+            mp = entry / "meta.json"
+            if mp.exists():
+                meta = json.loads(mp.read_text())
+            run_id = entry.name
+            date_str = meta.get("created_at", "")
+            short_id = (run_id[:20] + "...") if len(run_id) > 20 else run_id
+            sessions.append({
+                "run_id": run_id,
+                "command": "chat",
+                "date": date_str,
+                "short_id": short_id,
+            })
+
+    # Deduplicate by run_id (current session may duplicate a saved one)
+    seen = set()
+    deduped = []
+    for s in sessions:
+        if s["run_id"] not in seen:
+            seen.add(s["run_id"])
+            deduped.append(s)
+
+    deduped.sort(key=lambda s: s["date"], reverse=True)
+    return deduped
 
 
 def _load_session_messages(run_id: str):
-    run_dir = Path(".agentx-init/runs") / run_id
-    msgs_path = run_dir / "model_messages.jsonl"
-    if not msgs_path.exists():
-        return []
-    msgs = []
-    with open(msgs_path) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                data = json.loads(line)
-                role = data.get("role", "")
-                content = data.get("content", "")
-                if content:
-                    msgs.append({"role": role, "text": content})
-    return msgs
+    # Try CLI task run directory first
+    cli_path = Path(".agentx-init/runs") / run_id / "model_messages.jsonl"
+    if cli_path.exists():
+        msgs = []
+        with open(cli_path) as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    data = json.loads(line)
+                    role = data.get("role", "")
+                    content = data.get("content", "")
+                    if content:
+                        msgs.append({"role": role, "text": content})
+        return msgs
+
+    # Try chat session directory
+    chat_path = _chat_messages_path(run_id)
+    if chat_path.exists():
+        msgs = []
+        with open(chat_path) as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    data = json.loads(line)
+                    role = data.get("role", "")
+                    content = data.get("content", "")
+                    if content:
+                        msgs.append({"role": role, "text": content})
+        return msgs
+
+    return []
 
 
 async def handle_static(request: web.Request) -> web.FileResponse:
@@ -71,11 +166,44 @@ async def handle_static(request: web.Request) -> web.FileResponse:
     filepath = _UI_DIST / path
     if not filepath.exists() or not filepath.is_file():
         filepath = _UI_DIST / "index.html"
-    return web.FileResponse(filepath)
+    resp = web.FileResponse(filepath)
+    resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    resp.headers["Pragma"] = "no-cache"
+    resp.headers["Expires"] = "0"
+    return resp
 
 
 async def handle_sessions(request: web.Request) -> web.Response:
-    return web.json_response(_list_sessions())
+    provider = request.app.get("provider")
+    return web.json_response(_list_sessions(provider=provider))
+
+
+async def handle_delete_session(request: web.Request) -> web.Response:
+    run_id = request.match_info["run_id"]
+    import shutil
+    run_dir = Path(".agentx-init/runs") / run_id
+    if run_dir.exists() and run_dir.is_dir():
+        shutil.rmtree(run_dir)
+        return web.json_response({"ok": True})
+    chat_dir = _chat_dir(run_id)
+    if chat_dir.exists() and chat_dir.is_dir():
+        shutil.rmtree(chat_dir)
+        return web.json_response({"ok": True})
+    return web.json_response({"error": "not found"}, status=404)
+
+
+async def handle_clear_sessions(request: web.Request) -> web.Response:
+    import shutil
+    run_root = Path(".agentx-init/runs")
+    if run_root.exists():
+        for entry in run_root.iterdir():
+            if entry.is_dir():
+                shutil.rmtree(entry)
+    if _CHAT_ROOT.exists():
+        for entry in _CHAT_ROOT.iterdir():
+            if entry.is_dir():
+                shutil.rmtree(entry)
+    return web.json_response({"ok": True})
 
 
 async def handle_session_messages(request: web.Request) -> web.Response:
@@ -107,18 +235,21 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
         await resp.prepare(request)
 
         started = threading.Event()
+        accumulated: list[str] = []
 
         def _feed_queue():
             try:
                 gen = provider.complete_streaming([{"role": "user", "content": message}])
                 started.set()
-                while True:
-                    try:
-                        event = next(gen)
-                        fut = asyncio.run_coroutine_threadsafe(queue.put(event), loop)
-                        fut.result()
-                    except StopIteration:
-                        break
+                for event in gen:
+                    if event.get("type") == "text" and event.get("author") == "assistant":
+                        text = event.get("text", "")
+                        if text:
+                            accumulated.append(text)
+                    fut = asyncio.run_coroutine_threadsafe(queue.put(event), loop)
+                    fut.result()
+            except StopIteration:
+                pass
             except Exception as e:
                 print(f"[feed_queue] error: {type(e).__name__}: {e}", file=sys.stderr)
                 traceback.print_exc()
@@ -159,6 +290,19 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             await resp.write(b"data: [DONE]\n\n")
         except (ConnectionResetError, ConnectionError):
             pass
+
+        # Persist messages after successful streaming
+        try:
+            sid = provider.session_id if hasattr(provider, "session_id") else ""
+            if sid:
+                _save_chat_message(sid, "user", message)
+                assistant_text = "".join(accumulated)
+                if assistant_text:
+                    _save_chat_message(sid, "assistant", assistant_text)
+                _save_chat_meta(sid, session_id=sid)
+        except Exception as e:
+            print(f"[chat] failed to persist messages: {e}", file=sys.stderr)
+
         return resp
     except Exception as e:
         traceback.print_exc()
@@ -172,8 +316,10 @@ def _make_app(provider) -> web.Application:
 
     app.router.add_get("/api/ping", lambda r: web.Response(text="pong"))
     app.router.add_get("/api/sessions", handle_sessions)
+    app.router.add_delete("/api/sessions", handle_clear_sessions)
     app.router.add_get("/api/status", handle_status)
     app.router.add_get("/api/sessions/{run_id}/messages", handle_session_messages)
+    app.router.add_delete("/api/sessions/{run_id}", handle_delete_session)
     app.router.add_post("/api/chat", handle_chat)
 
     ui_exists = _UI_DIST.exists() and (_UI_DIST / "index.html").exists()
