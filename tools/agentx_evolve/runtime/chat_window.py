@@ -39,6 +39,17 @@ def _save_chat_message(session_id: str, role: str, content: str) -> None:
         f.write(line + "\n")
 
 
+def _default_session_name(session_id: str) -> str:
+    """Generate a default session name."""
+    d = _chat_dir(session_id)
+    meta = {}
+    p = _chat_meta_path(session_id)
+    if p.exists():
+        meta = json.loads(p.read_text())
+    created = meta.get("created_at", datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+    return f"Chat {created}"
+
+
 def _save_chat_meta(session_id: str, **kw) -> None:
     """Write metadata for a chat session."""
     d = _chat_dir(session_id)
@@ -49,6 +60,7 @@ def _save_chat_meta(session_id: str, **kw) -> None:
         existing = json.loads(p.read_text())
     existing.update(kw)
     existing.setdefault("created_at", datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"))
+    existing.setdefault("session_name", _default_session_name(session_id))
     p.write_text(json.dumps(existing, indent=2))
 
 
@@ -61,10 +73,15 @@ def _list_sessions(provider=None):
         sid = provider.session_id
         if sid:
             short_id = (sid[:20] + "...") if len(sid) > 20 else sid
+            meta = {}
+            mp = _chat_meta_path(sid)
+            if mp.exists():
+                meta = json.loads(mp.read_text())
+            session_name = meta.get("session_name", "Current session")
             sessions.append({
                 "run_id": sid,
-                "command": "chat (current)",
-                "date": now,
+                "session_name": session_name,
+                "date": meta.get("created_at", now),
                 "short_id": short_id,
             })
 
@@ -89,7 +106,7 @@ def _list_sessions(provider=None):
             short_id = (opencode_sid[:20] + "...") if len(opencode_sid) > 20 else opencode_sid
             sessions.append({
                 "run_id": entry.name,
-                "command": command,
+                "session_name": command,
                 "date": date_str,
                 "short_id": short_id,
             })
@@ -106,9 +123,10 @@ def _list_sessions(provider=None):
             run_id = entry.name
             date_str = meta.get("created_at", "")
             short_id = (run_id[:20] + "...") if len(run_id) > 20 else run_id
+            session_name = meta.get("session_name", "Chat")
             sessions.append({
                 "run_id": run_id,
-                "command": "chat",
+                "session_name": session_name,
                 "date": date_str,
                 "short_id": short_id,
             })
@@ -212,6 +230,19 @@ async def handle_session_messages(request: web.Request) -> web.Response:
     return web.json_response(msgs)
 
 
+async def handle_rename_session(request: web.Request) -> web.Response:
+    run_id = request.match_info["run_id"]
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+    name = (body.get("session_name") or "").strip()
+    if not name:
+        return web.json_response({"error": "session_name required"}, status=400)
+    _save_chat_meta(run_id, session_name=name)
+    return web.json_response({"ok": True, "session_name": name})
+
+
 async def handle_chat(request: web.Request) -> web.StreamResponse:
     try:
         raw = await request.read()
@@ -299,7 +330,15 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
                 assistant_text = "".join(accumulated)
                 if assistant_text:
                     _save_chat_message(sid, "assistant", assistant_text)
-                _save_chat_meta(sid, session_id=sid)
+                # Use first 50 chars of first user message as default session name
+                meta = {}
+                mp = _chat_meta_path(sid)
+                if mp.exists():
+                    meta = json.loads(mp.read_text())
+                kw = {"session_id": sid}
+                if "session_name" not in meta:
+                    kw["session_name"] = message[:50] + ("..." if len(message) > 50 else "")
+                _save_chat_meta(sid, **kw)
         except Exception as e:
             print(f"[chat] failed to persist messages: {e}", file=sys.stderr)
 
@@ -307,6 +346,17 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
     except Exception as e:
         traceback.print_exc()
         return web.Response(status=500, text=f"{type(e).__name__}: {e}")
+
+
+async def handle_new_session(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider is None or not hasattr(provider, "reset_session"):
+        return web.json_response({"error": "provider does not support new sessions"}, status=400)
+    try:
+        new_sid = provider.reset_session()
+        return web.json_response({"session_id": new_sid})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
 
 
 def _make_app(provider) -> web.Application:
@@ -319,8 +369,10 @@ def _make_app(provider) -> web.Application:
     app.router.add_delete("/api/sessions", handle_clear_sessions)
     app.router.add_get("/api/status", handle_status)
     app.router.add_get("/api/sessions/{run_id}/messages", handle_session_messages)
+    app.router.add_patch("/api/sessions/{run_id}", handle_rename_session)
     app.router.add_delete("/api/sessions/{run_id}", handle_delete_session)
     app.router.add_post("/api/chat", handle_chat)
+    app.router.add_post("/api/session/new", handle_new_session)
 
     ui_exists = _UI_DIST.exists() and (_UI_DIST / "index.html").exists()
     if ui_exists:
@@ -343,10 +395,16 @@ async def handle_status(request: web.Request) -> web.Response:
     provider = request.app.get("provider")
     sid = provider.session_id if provider and hasattr(provider, "session_id") else ""
     pname = getattr(provider, "_provider_id", "") if provider else ""
+    session_name = ""
+    if sid:
+        mp = _chat_meta_path(sid)
+        if mp.exists():
+            session_name = json.loads(mp.read_text()).get("session_name", "")
     return web.json_response({
         "model": request.app.get("model", ""),
         "session_id": sid,
         "provider": pname,
+        "session_name": session_name,
     })
 
 

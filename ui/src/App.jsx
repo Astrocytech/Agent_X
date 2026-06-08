@@ -8,14 +8,13 @@ import ActivityPanel from "./components/ActivityPanel";
 
 const MENUS = {
   Session: [
+    { label: "New Session", shortcut: "Ctrl+X N", id: "newSession" },
+    null,
     { label: "Open Session...", shortcut: "Ctrl+O", id: "openSession" },
-    { label: "New Session", shortcut: "Ctrl+X N", disabled: true },
     null,
-    { label: "Open Editor", shortcut: "Ctrl+X E", disabled: true },
+    { label: "Import Session", disabled: true },
+    { label: "Export Session", disabled: true },
     null,
-    { label: "Move Session", disabled: true },
-    { label: "Share Session", disabled: true },
-    { label: "Rename Session", shortcut: "Ctrl+R", disabled: true },
     { label: "Jump to Message", shortcut: "Ctrl+X G", disabled: true },
     { label: "Fork Session", disabled: true },
     { label: "Compact Session", shortcut: "Ctrl+X C", disabled: true },
@@ -31,8 +30,6 @@ const MENUS = {
     null,
     { label: "Copy Last Assistant Message", shortcut: "Ctrl+X Y", disabled: true },
     { label: "Copy Session Transcript", disabled: true },
-    { label: "Export Session Transcript", shortcut: "Ctrl+X X", disabled: true },
-    { label: "Switch Session", shortcut: "Ctrl+X L", disabled: true },
   ],
   Prompt: [
     { label: "Skills", disabled: true },
@@ -111,8 +108,11 @@ function mdToHtml(text) {
 /*  Session list modal                                                 */
 /* ------------------------------------------------------------------ */
 
-function SessionModal({ open, onClose, onSelect }) {
+function SessionModal({ open, onClose, onSelect, onStatusRefresh }) {
   const [sessions, setSessions] = useState([]);
+  const [confirm, setConfirm] = useState(null);
+  const [editing, setEditing] = useState(null);
+  const [editValue, setEditValue] = useState("");
 
   const fetchSessions = useCallback(() => {
     fetch("/api/sessions")
@@ -123,19 +123,59 @@ function SessionModal({ open, onClose, onSelect }) {
 
   useEffect(() => {
     if (!open) return;
+    setConfirm(null);
+    setEditing(null);
     fetchSessions();
   }, [open, fetchSessions]);
 
   const handleDelete = (runId) => {
-    fetch(`/api/sessions/${runId}`, { method: "DELETE" })
-      .then(() => fetchSessions())
-      .catch(() => {});
+    setConfirm({ type: "delete", runId });
+  };
+
+  const confirmDelete = () => {
+    if (!confirm || confirm.type !== "delete") return;
+    fetch(`/api/sessions/${confirm.runId}`, { method: "DELETE" })
+      .then(() => { setConfirm(null); fetchSessions(); })
+      .catch(() => setConfirm(null));
   };
 
   const handleClearAll = () => {
-    fetch("/api/sessions", { method: "DELETE" })
-      .then(() => fetchSessions())
-      .catch(() => {});
+    setConfirm({ type: "clearAll", step: 1 });
+  };
+
+  const confirmClearAll = () => {
+    if (!confirm || confirm.type !== "clearAll") return;
+    if (confirm.step === 1) {
+      setConfirm({ type: "clearAll", step: 2 });
+    } else {
+      fetch("/api/sessions", { method: "DELETE" })
+        .then(() => { setConfirm(null); fetchSessions(); })
+        .catch(() => setConfirm(null));
+    }
+  };
+
+  const cancelConfirm = () => setConfirm(null);
+
+  const startRename = (s) => {
+    setEditing(s.run_id);
+    setEditValue(s.session_name || "");
+  };
+
+  const saveRename = (runId) => {
+    const name = editValue.trim();
+    if (!name) { setEditing(null); return; }
+    fetch(`/api/sessions/${runId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_name: name }),
+    })
+      .then(() => { setEditing(null); fetchSessions(); if (onStatusRefresh) onStatusRefresh(); })
+      .catch(() => setEditing(null));
+  };
+
+  const handleRenameKey = (e, runId) => {
+    if (e.key === "Enter") saveRename(runId);
+    if (e.key === "Escape") setEditing(null);
   };
 
   if (!open) return null;
@@ -155,7 +195,7 @@ function SessionModal({ open, onClose, onSelect }) {
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Command</th>
+                <th>Session Name</th>
                 <th>Session ID</th>
                 <th>Actions</th>
               </tr>
@@ -164,10 +204,24 @@ function SessionModal({ open, onClose, onSelect }) {
               {sessions.map((s) => (
                 <tr key={s.run_id} className="session-row">
                   <td>{s.date}</td>
-                  <td>{s.command}</td>
+                  <td className="session-name-cell">
+                    {editing === s.run_id ? (
+                      <input
+                        className="rename-input"
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        onBlur={() => saveRename(s.run_id)}
+                        onKeyDown={(e) => handleRenameKey(e, s.run_id)}
+                        autoFocus
+                      />
+                    ) : (
+                      <span className="session-name-text">{s.session_name}</span>
+                    )}
+                  </td>
                   <td className="session-id-cell">{s.short_id || ""}</td>
                   <td className="session-actions">
                     <button className="btn btn-open" onClick={() => { onSelect(s); onClose(); }}>Open</button>
+                    <button className="btn btn-rename" onClick={() => startRename(s)}>Rename</button>
                     <button className="btn btn-delete" onClick={() => handleDelete(s.run_id)}>Delete</button>
                   </td>
                 </tr>
@@ -183,6 +237,40 @@ function SessionModal({ open, onClose, onSelect }) {
           <button className="btn" onClick={onClose}>Cancel</button>
         </div>
       </div>
+
+      {confirm && (
+        <div className="confirm-overlay" onClick={cancelConfirm}>
+          <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+            {confirm.type === "delete" && (
+              <>
+                <p>Delete this session?</p>
+                <div className="confirm-actions">
+                  <button className="btn btn-delete" onClick={confirmDelete}>Delete</button>
+                  <button className="btn" onClick={cancelConfirm}>Cancel</button>
+                </div>
+              </>
+            )}
+            {confirm.type === "clearAll" && confirm.step === 1 && (
+              <>
+                <p>Clear all sessions? This cannot be undone.</p>
+                <div className="confirm-actions">
+                  <button className="btn btn-delete" onClick={confirmClearAll}>Yes, clear all</button>
+                  <button className="btn" onClick={cancelConfirm}>Cancel</button>
+                </div>
+              </>
+            )}
+            {confirm.type === "clearAll" && confirm.step === 2 && (
+              <>
+                <p>Are you absolutely sure? All sessions will be permanently deleted.</p>
+                <div className="confirm-actions">
+                  <button className="btn btn-delete" onClick={confirmClearAll}>Yes, delete everything</button>
+                  <button className="btn" onClick={cancelConfirm}>Cancel</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -291,7 +379,9 @@ export default function App() {
     const saved = loadState();
     return saved ? saved.activities : [];
   });
-  const [statusInfo, setStatusInfo] = useState({ model: "", session_id: "", provider: "" });
+  const [statusInfo, setStatusInfo] = useState({ model: "", session_id: "", provider: "", session_name: "" });
+  const [editingName, setEditingName] = useState(false);
+  const nameInputRef = useRef(null);
 
   /* resizable activity panel width */
   const [activityWidth, setActivityWidth] = useState(() => {
@@ -358,6 +448,36 @@ export default function App() {
     fetchStatus();
   }, [fetchStatus]);
 
+  useEffect(() => {
+    if (editingName && nameInputRef.current) {
+      nameInputRef.current.focus();
+      nameInputRef.current.select();
+    }
+  }, [editingName]);
+
+  const saveName = () => {
+    const name = nameInputRef.current?.value?.trim();
+    if (!name) { setEditingName(false); return; }
+    const sid = statusInfo.session_id;
+    if (!sid) { setEditingName(false); return; }
+    fetch(`/api/sessions/${sid}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_name: name }),
+    })
+      .then((r) => r.json())
+      .then(() => {
+        setEditingName(false);
+        fetchStatus();
+      })
+      .catch(() => setEditingName(false));
+  };
+
+  const handleNameKey = (e) => {
+    if (e.key === "Enter") { e.preventDefault(); saveName(); }
+    if (e.key === "Escape") { e.preventDefault(); setEditingName(false); }
+  };
+
   /* close menu on outside click */
   useEffect(() => {
     if (!openMenu) return;
@@ -373,11 +493,13 @@ export default function App() {
   /* keyboard shortcuts */
   useEffect(() => {
     const handler = (e) => {
-      if (e.ctrlKey && e.key === "o") {
+      const mod = e.ctrlKey || e.metaKey;
+      if (mod && e.key.toLowerCase() === "o") {
         e.preventDefault();
         setShowSessionModal(true);
+        return;
       }
-      if (e.ctrlKey && e.key === "c" && window.getSelection().toString()) {
+      if (mod && e.key.toLowerCase() === "c" && window.getSelection().toString()) {
         return;
       }
     };
@@ -388,6 +510,16 @@ export default function App() {
   const handleMenuAction = useCallback((id) => {
     setOpenMenu(null);
     switch (id) {
+      case "newSession":
+        fetch("/api/session/new", { method: "POST" })
+          .then((r) => r.json())
+          .then(() => {
+            setMessages([]);
+            setActivities([]);
+            fetchStatus();
+          })
+          .catch(() => {});
+        break;
       case "openSession":
         setShowSessionModal(true);
         break;
@@ -616,7 +748,24 @@ export default function App() {
             </div>
           </div>
           <div className="chat-area">
-            <div className="chat-header">Chat</div>
+            <div className="chat-header">
+            {editingName ? (
+              <div className="chat-name-edit">
+                <input
+                  ref={nameInputRef}
+                  className="chat-name-input"
+                  defaultValue={statusInfo.session_name || "Session"}
+                  onKeyDown={handleNameKey}
+                  onBlur={saveName}
+                />
+              </div>
+            ) : (
+              <div className="chat-name-display" onClick={() => setEditingName(true)}>
+                <span className="chat-name-text">{statusInfo.session_name || "Session"}</span>
+                <span className="chat-name-hint">click to rename</span>
+              </div>
+            )}
+          </div>
             <div className="messages">
               {messages.map((m, i) => (
                 <Message key={i} role={m.role} text={m.text} />
@@ -677,6 +826,7 @@ export default function App() {
           open={showSessionModal}
           onClose={() => setShowSessionModal(false)}
           onSelect={loadSession}
+          onStatusRefresh={fetchStatus}
         />
         <AboutModal open={showAbout} onClose={() => setShowAbout(false)} />
       </div>

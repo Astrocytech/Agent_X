@@ -48,6 +48,13 @@ class OpenCodeProvider:
         self._server_proc: subprocess.Popen[str] | None = None
         self._conversation_logger = ConversationLogger()
 
+    def reset_session(self) -> str:
+        """Create a new session, discarding the old one."""
+        old = self._session_id
+        self._session_id = None
+        self._ensure_session()
+        return self._session_id or ""
+
     @property
     def _timeout(self) -> float | None:
         return None if self.timeout_seconds == 0 else float(self.timeout_seconds)
