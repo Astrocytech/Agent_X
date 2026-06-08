@@ -153,7 +153,7 @@ def _chat_help() -> None:
     print("  --run-root <path>           Run artifacts root")
     print("  --timeout <seconds>         Provider timeout")
     print("  --session-id <id>           Resume an existing session")
-    print("  --gui                       Force GUI popup window")
+    print("  --gui                       Force browser UI (default when DISPLAY is set)")
     print("  --no-gui                    Force terminal REPL")
 
 
@@ -162,13 +162,7 @@ def _should_use_gui(argv: list[str]) -> bool:
         return False
     if "--gui" in argv:
         return True
-    if not os.environ.get("DISPLAY"):
-        return False
-    try:
-        import PyQt5  # noqa: F401
-        return True
-    except ImportError:
-        return False
+    return bool(os.environ.get("DISPLAY"))
 
 
 def _run_chat(argv: list[str]) -> None:
@@ -203,7 +197,6 @@ def _run_chat(argv: list[str]) -> None:
             import readline
             from agentx_evolve.runtime.chat_ui import ChatUI
             ui = ChatUI(session_id=sid or "", model=config.model, mode=config.mode)
-            ui.print_banner()
             while True:
                 try:
                     line = _read_input("chat> ")

@@ -3,10 +3,10 @@ import os
 from dataclasses import dataclass, field
 from typing import Any
 
-BUILTIN_PROVIDER = "mock"
-BUILTIN_MODEL = "mock/deterministic"
+BUILTIN_PROVIDER = "opencode"
+BUILTIN_MODEL = "big-pickle"
 BUILTIN_RUN_ROOT = ".agentx-init/runs"
-BUILTIN_TIMEOUT = 60
+BUILTIN_TIMEOUT = 0
 BUILTIN_JSON = False
 BUILTIN_MOCK = False
 BUILTIN_MODE = "plan"
@@ -102,7 +102,7 @@ class ConfigResolver:
             elif token == "--run-root":
                 args["run_root"] = next(it, "")
             elif token == "--timeout":
-                args["timeout_seconds"] = int(next(it, "60"))
+                args["timeout_seconds"] = int(next(it, "0"))
             elif token == "--concept-file":
                 args["concept_file"] = next(it, "")
             elif token == "--mode":

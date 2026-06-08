@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-gui = ["PyQt5", "markdown", "Pygments"]
+browser = []
 
 [project.scripts]
 agentx-evolve = "agentx_evolve.__main__:main"

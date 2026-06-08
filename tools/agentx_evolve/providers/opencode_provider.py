@@ -36,7 +36,7 @@ class OpenCodeProvider:
         base_url: str = "http://127.0.0.1:14096",
         api_key: str = "",
         model: str = "big-pickle",
-        timeout_seconds: int = 120,
+        timeout_seconds: int = 0,
         session_id: str = "",
     ):
         self.base_url = base_url.rstrip("/")
@@ -47,6 +47,10 @@ class OpenCodeProvider:
         self._provider_id: str = "opencode"
         self._server_proc: subprocess.Popen[str] | None = None
         self._conversation_logger = ConversationLogger()
+
+    @property
+    def _timeout(self) -> float | None:
+        return None if self.timeout_seconds == 0 else float(self.timeout_seconds)
 
     @property
     def session_id(self) -> str | None:
@@ -213,7 +217,7 @@ class OpenCodeProvider:
             method="POST",
         )
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+            with urllib.request.urlopen(req, timeout=self._timeout) as resp:
                 raw = resp.read().decode("utf-8")
                 data = json.loads(raw)
         except urllib.error.HTTPError as e:
@@ -240,7 +244,7 @@ class OpenCodeProvider:
             method="POST",
         )
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+            with urllib.request.urlopen(req, timeout=self._timeout) as resp:
                 raw = resp.read().decode("utf-8")
                 return json.loads(raw)
         except urllib.error.HTTPError as e:
@@ -293,17 +297,17 @@ class OpenCodeProvider:
                         headers={"Content-Type": "application/json"},
                         method="POST",
                     )
-                    with urllib.request.urlopen(req, timeout=self.timeout_seconds) as resp:
+                    with urllib.request.urlopen(req, timeout=self._timeout) as resp:
                         response_data[0] = json.loads(resp.read().decode("utf-8"))
                 except Exception as e:
                     error_data[0] = e
 
             send_thread = threading.Thread(target=send, daemon=True)
             event_req = urllib.request.Request(event_url)
-            event_resp = urllib.request.urlopen(event_req, timeout=self.timeout_seconds)
+            event_resp = urllib.request.urlopen(event_req, timeout=self._timeout)
             send_thread.start()
 
-            _is_user_turn = False
+            _is_user_turn = True
 
             for evt in _sse_events(event_resp):
                 evt_type = evt.get("type", "")
