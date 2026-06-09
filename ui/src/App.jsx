@@ -6,6 +6,7 @@ import PermissionBlock from "./components/PermissionBlock";
 import AgentModeModal from "./components/AgentModeModal";
 import FicPickerModal from "./components/FicPickerModal";
 import GovernanceBanner from "./components/GovernanceBanner";
+import SuggestionQuestions from "./components/SuggestionQuestions";
 
 /* ------------------------------------------------------------------ */
 /*  Menu data                                                          */
@@ -132,9 +133,16 @@ function SessionModal({ open, onClose, onSelect, onStatusRefresh }) {
 
   useEffect(() => {
     if (!open) return;
-    setConfirm(null);
-    setEditing(null);
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (cancelled) return;
+      setConfirm(null);
+      setEditing(null);
+    });
     fetchSessions();
+    return () => {
+      cancelled = true;
+    };
   }, [open, fetchSessions]);
 
   const handleDelete = (runId) => {
@@ -337,14 +345,27 @@ function ModelModal({ open, onClose, currentModel, currentProvider, onSwitch }) 
 
   useEffect(() => {
     if (!open) return;
-    setSearch("");
-    setModelInput("");
-    setLoading(true);
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (cancelled) return;
+      setSearch("");
+      setModelInput("");
+      setLoading(true);
+    });
     fetch("/api/models")
       .then((r) => r.json())
-      .then((data) => setModels(data.models || []))
-      .catch(() => setModels([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        if (!cancelled) setModels(data.models || []);
+      })
+      .catch(() => {
+        if (!cancelled) setModels([]);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [open]);
 
   const filtered = search
@@ -576,7 +597,9 @@ const STORAGE_KEY = "agentx_chat_state";
 function saveState(messages, activities) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, activities }));
-  } catch {}
+  } catch {
+    /* ignore storage quota/privacy failures */
+  }
 }
 function loadState() {
   try {
@@ -587,7 +610,9 @@ function loadState() {
         return parsed;
       }
     }
-  } catch {}
+  } catch {
+    /* ignore malformed or unavailable storage */
+  }
   return null;
 }
 
@@ -606,6 +631,7 @@ export default function App() {
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
   const abortRef = useRef(null);
+  const cancelledRef = useRef(false);
   const [activities, setActivities] = useState(() => {
     const saved = loadState();
     return saved ? saved.activities : [];
@@ -695,7 +721,9 @@ export default function App() {
       setDragging(false);
       document.body.style.userSelect = "";
       setActivityWidth((w) => {
-        try { localStorage.setItem("agentx_activity_width", String(w)); } catch {}
+        try { localStorage.setItem("agentx_activity_width", String(w)); } catch {
+          /* ignore storage quota/privacy failures */
+        }
         return w;
       });
     };
@@ -718,7 +746,9 @@ export default function App() {
     const onUp = () => {
       setInputDragging(false);
       setInputHeight((h) => {
-        try { localStorage.setItem("agentx_input_height", String(h)); } catch {}
+        try { localStorage.setItem("agentx_input_height", String(h)); } catch {
+          /* ignore storage quota/privacy failures */
+        }
         return h;
       });
     };
@@ -1093,7 +1123,9 @@ export default function App() {
     setActivities([]);
     try {
       localStorage.setItem("agentx_chat_state_backup", JSON.stringify({ messages, activities }));
-    } catch {}
+    } catch {
+      /* ignore storage quota/privacy failures */
+    }
     fetch(`/api/sessions/${s.run_id}/messages`)
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
@@ -1130,19 +1162,25 @@ export default function App() {
     } catch { /* ignore */ }
   }, [questionRequest]);
 
-  const handleQuestionReject = useCallback(async () => {
+  const handleQuestionReject = useCallback(() => {
     if (!questionRequest) return;
     const requestId = questionRequest.request_id;
-    try {
-      await fetch(`/api/questions/${requestId}/reject`, { method: "POST" });
-      setQuestionRequest(null);
-      setMessages((prev) => prev.map((m) => {
-        if (m.questionData && m.questionData.requestId === requestId) {
-          return { ...m, questionData: { ...m.questionData, answered: true, rejected: true } };
-        }
-        return m;
-      }));
-    } catch { /* ignore */ }
+    cancelledRef.current = true;
+    abortRef.current?.abort();
+    setStreaming(false);
+    setQuestionRequest(null);
+    setMessages((prev) => prev.map((m) => {
+      if (m.questionData && m.questionData.requestId === requestId) {
+        return { ...m, questionData: { ...m.questionData, answered: true, rejected: true } };
+      }
+      return m;
+    }));
+
+    fetch(`/api/questions/${requestId}/reject`, { method: "POST" })
+      .catch(() => {})
+      .finally(() => {
+        fetch("/api/chat/cancel", { method: "POST" }).catch(() => {});
+      });
   }, [questionRequest]);
 
   const handlePermissionReply = useCallback(async (requestId, reply, message = "") => {
@@ -1162,11 +1200,12 @@ export default function App() {
     } catch { /* ignore */ }
   }, []);
 
-  const sendMessage = useCallback(() => {
-    const text = input.trim();
+  const sendMessage = useCallback((prefill) => {
+    const text = (typeof prefill === "string" ? prefill : input).trim();
     if (!text || streaming) return;
     setInput("");
     setActivities([]);
+    cancelledRef.current = false;
 
     setMessages((prev) => [...prev, { role: "user", text }]);
 
@@ -1232,6 +1271,7 @@ export default function App() {
               const event = JSON.parse(data);
               if (event.type === "text" && event.author === "user") continue;
               if (event.type === "text") {
+                if (cancelledRef.current) continue;
                 setMessages((prev) => {
                   const copy = [...prev];
                   const last = copy[copy.length - 1];
@@ -1244,6 +1284,7 @@ export default function App() {
                   return copy;
                 });
               } else if (event.type === "error") {
+                if (cancelledRef.current) continue;
                 setMessages((prev) => {
                   const copy = [...prev];
                   const last = copy[copy.length - 1];
@@ -1485,6 +1526,8 @@ export default function App() {
                     <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} />
                   ))
                 )
+              ) : messages.length === 0 ? (
+                <SuggestionQuestions onSelect={(text) => sendMessage(text)} />
               ) : (
                 messages.map((m, i) => (
                   <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} questionData={m.questionData} permissionData={m.permissionData} onQuestionReply={handleQuestionReply} onQuestionReject={handleQuestionReject} onPermissionReply={handlePermissionReply} />
@@ -1541,6 +1584,8 @@ export default function App() {
                   className="stop-btn"
                   disabled={!streaming}
                   onClick={() => {
+                    fetch("/api/chat/cancel", { method: "POST" }).catch(() => {});
+                    cancelledRef.current = true;
                     abortRef.current?.abort();
                     setMessages((prev) => {
                       const copy = [...prev];
@@ -1559,7 +1604,7 @@ export default function App() {
                 </button>
                 <button
                   className="send-btn"
-                  onClick={sendMessage}
+                  onClick={() => sendMessage()}
                   disabled={streaming || !input.trim()}
                 >
                   &#9654;

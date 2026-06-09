@@ -2402,3 +2402,103 @@
     max-height: 50%;
   }
 }
+
+/* ── Suggestion Questions ────────────────────────────────── */
+.suggestion-questions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 40px 20px;
+  gap: 16px;
+}
+
+.suggestion-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.suggestion-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.suggestion-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 14px 16px;
+  border: 1px solid #d0d4da;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.suggestion-card:hover {
+  border-color: #4a6fa5;
+  background: #f0f6ff;
+}
+
+.suggestion-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.suggestion-desc {
+  font-size: 11px;
+  color: #666;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .suggestion-header {
+  color: #6c7086;
+}
+
+[data-theme="dark"] .suggestion-card {
+  background: #1e1e2e;
+  border-color: #313244;
+  color: #cdd6f4;
+}
+
+[data-theme="dark"] .suggestion-card:hover {
+  border-color: #89b4fa;
+  background: #1e1e2e;
+}
+
+[data-theme="dark"] .suggestion-label {
+  color: #cdd6f4;
+}
+
+[data-theme="dark"] .suggestion-desc {
+  color: #a6adc8;
+}
+
+@media (max-width: 520px) {
+  .suggestion-questions {
+    justify-content: flex-start;
+    padding: 38px 20px 24px;
+  }
+
+  .suggestion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .suggestion-card {
+    min-height: 76px;
+  }
+}

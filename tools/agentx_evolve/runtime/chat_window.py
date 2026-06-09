@@ -333,21 +333,24 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
                 if "session_name" not in meta:
                     _save_chat_meta(
                         sid,
-                        session_id=sid,
                         session_name=message[:50] + ("..." if len(message) > 50 else ""),
                     )
             except Exception as e:
                 print(f"[chat] failed to persist user message: {e}", file=sys.stderr)
 
         started = threading.Event()
+        stop_event = threading.Event()
+        request.app["_stop_event"] = stop_event
         accumulated: list[str] = []
         accumulated_reasoning: list[str] = []
 
         def _feed_queue():
             try:
-                gen = provider.complete_streaming(messages_list)
+                gen = provider.complete_streaming(messages_list, cancel_event=stop_event)
                 started.set()
                 for event in gen:
+                    if stop_event.is_set():
+                        break
                     if event.get("type") == "text" and event.get("author") == "assistant":
                         text = event.get("text", "")
                         if text:
@@ -370,6 +373,7 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
                 except Exception:
                     pass
             finally:
+                stop_event.set()
                 try:
                     asyncio.run_coroutine_threadsafe(queue.put(None), loop).result(timeout=5)
                 except Exception:
@@ -394,12 +398,16 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             try:
                 await resp.write(f"data: {data}\n\n".encode())
             except ConnectionResetError:
+                stop_event.set()
                 break
 
         try:
             await resp.write(b"data: [DONE]\n\n")
         except (ConnectionResetError, ConnectionError):
             pass
+        finally:
+            if request.app.get("_stop_event") is stop_event:
+                request.app["_stop_event"] = None
 
         # Persist whatever assistant text was accumulated (even on interrupt)
         if sid and accumulated:
@@ -576,6 +584,26 @@ async def handle_subagent_messages(request: web.Request) -> web.Response:
     return web.json_response({"error": "no provider"}, status=400)
 
 
+async def handle_cancel(request: web.Request) -> web.Response:
+    """Cancel the in-flight chat streaming for the current session."""
+    provider = request.app.get("provider")
+    stop_event = request.app.get("_stop_event")
+    if stop_event is not None:
+        stop_event.set()
+
+    if provider is not None and hasattr(provider, "abandon_session"):
+        try:
+            provider.abandon_session()
+        except Exception as e:
+            print(f"[chat] cancel abandon_session error: {e}", file=sys.stderr)
+    elif provider is not None and hasattr(provider, "cancel_streaming"):
+        try:
+            provider.cancel_streaming()
+        except Exception as e:
+            print(f"[chat] cancel_streaming error: {e}", file=sys.stderr)
+    return web.json_response({"ok": True})
+
+
 async def handle_new_session(request: web.Request) -> web.Response:
     provider = request.app.get("provider")
     if provider is None or not hasattr(provider, "reset_session"):
@@ -702,6 +730,7 @@ def _make_app(provider) -> web.Application:
     app.router.add_patch("/api/sessions/{run_id}", handle_rename_session)
     app.router.add_delete("/api/sessions/{run_id}", handle_delete_session)
     app.router.add_post("/api/chat", handle_chat)
+    app.router.add_post("/api/chat/cancel", handle_cancel)
     app.router.add_post("/api/session/new", handle_new_session)
     app.router.add_post("/api/sessions/import", handle_import_session)
     app.router.add_get("/api/models", handle_models)

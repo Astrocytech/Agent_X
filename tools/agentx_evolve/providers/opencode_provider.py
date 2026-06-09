@@ -2,6 +2,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import socket
 import subprocess
 import threading
 import time
@@ -50,6 +51,29 @@ class OpenCodeProvider:
         self._subagent_sessions: dict[str, list[str]] = {}
         self._agent_mode: str = "general"
         self._fic_document: str = ""
+        self._event_resp: Any = None
+        self._prev_cancel_event: threading.Event | None = None
+
+    def cancel_streaming(self) -> None:
+        """Close the active SSE connection and signal cancellation.
+
+        This causes any in-flight *complete_streaming* generator to break
+        out of its event loop promptly instead of waiting for a socket
+        timeout.
+        """
+        if self._prev_cancel_event is not None:
+            self._prev_cancel_event.set()
+        if self._event_resp is not None:
+            try:
+                self._event_resp.close()
+            except Exception:
+                pass
+            self._event_resp = None
+
+    def abandon_session(self) -> None:
+        """Drop the current provider session without making a network call."""
+        self.cancel_streaming()
+        self._session_id = None
 
     def reset_session(self) -> str:
         """Create a new session, discarding the old one."""
@@ -344,13 +368,14 @@ class OpenCodeProvider:
         raise OpenCodeProviderError(f"HTTP {code}: {e.reason}", exit_code=4)
 
     def complete_streaming(
-        self, messages: list[dict[str, Any]], **kwargs: Any,
+        self, messages: list[dict[str, Any]], cancel_event: threading.Event | None = None, **kwargs: Any,
     ) -> Generator[dict[str, Any], None, dict[str, Any]]:
         self._conversation_logger.log_request(
             provider=self._provider_id, model=self.model,
             messages=messages, kwargs=kwargs,
         )
         start = time.perf_counter()
+        event_resp = None
         try:
             self._ensure_session()
             last_text = self._last_user_text(messages)
@@ -380,12 +405,16 @@ class OpenCodeProvider:
 
             send_thread = threading.Thread(target=send, daemon=True)
             event_req = urllib.request.Request(event_url)
+            if self._prev_cancel_event is not None:
+                self._prev_cancel_event.set()
+            self._prev_cancel_event = cancel_event
             event_resp = urllib.request.urlopen(event_req, timeout=self._timeout)
+            self._event_resp = event_resp
             send_thread.start()
 
             _is_user_turn = True
 
-            for evt in _sse_events(event_resp):
+            for evt in _sse_events(event_resp, cancel_event=cancel_event):
                 evt_type = evt.get("type", "")
                 props = evt.get("properties", {})
 
@@ -505,6 +534,8 @@ class OpenCodeProvider:
 
             data = response_data[0]
             if data is None:
+                if cancel_event is not None and cancel_event.is_set():
+                    return {"role": "assistant", "content": "", "tool_calls": [], "finish_reason": "cancelled"}
                 raise OpenCodeProviderError("no response from server", exit_code=4)
 
             response = self._parse_response(data)
@@ -522,6 +553,14 @@ class OpenCodeProvider:
                 error="OpenCodeProviderError", duration_ms=elapsed,
             )
             raise
+        finally:
+            if event_resp is not None:
+                if self._event_resp is event_resp:
+                    self._event_resp = None
+                try:
+                    event_resp.close()
+                except Exception:
+                    pass
 
     @staticmethod
     def _parse_response(data: dict[str, Any]) -> dict[str, Any]:
@@ -627,10 +666,32 @@ class OpenCodeProvider:
             pass
 
 
-def _sse_events(resp: urllib.request.AddInfoHandler) -> Generator[dict[str, Any], None, None]:
-    """Yield parsed SSE events from an HTTP response (bytes-safe)."""
+def _sse_events(resp: urllib.request.AddInfoHandler, cancel_event: threading.Event | None = None) -> Generator[dict[str, Any], None, None]:
+    """Yield parsed SSE events from an HTTP response (bytes-safe).
+
+    When *cancel_event* is provided, sets a short socket timeout so the
+    generator can be interrupted between events.
+    """
     buf = b""
-    for chunk in iter(lambda: resp.read(1), b""):
+    if cancel_event is not None:
+        try:
+            if hasattr(resp, "fp") and hasattr(resp.fp, "raw"):
+                resp.fp.raw.settimeout(0.5)
+        except Exception:
+            pass
+    while True:
+        if cancel_event is not None and cancel_event.is_set():
+            break
+        try:
+            chunk = resp.readline()
+        except socket.timeout:
+            if cancel_event is not None and cancel_event.is_set():
+                break
+            continue
+        except Exception:
+            break
+        if not chunk:
+            break
         buf += chunk
         while b"\n\n" in buf:
             line, buf = buf.split(b"\n\n", 1)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function AgentModeModal({ open, onClose, currentMode, currentFic, onSave }) {
   const [step, setStep] = useState("pick");
@@ -9,10 +9,17 @@ export default function AgentModeModal({ open, onClose, currentMode, currentFic,
 
   useEffect(() => {
     if (!open) return;
-    setStep("pick");
-    setMode(currentMode || "general");
-    setSelectedFic(currentFic || "");
-    setFicDocs([]);
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (cancelled) return;
+      setStep("pick");
+      setMode(currentMode || "general");
+      setSelectedFic(currentFic || "");
+      setFicDocs([]);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, [open, currentMode, currentFic]);
 
   const fetchFicDocs = () => {

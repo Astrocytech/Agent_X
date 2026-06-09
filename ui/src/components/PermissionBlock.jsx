@@ -11,7 +11,7 @@ const ACTION_LABELS = {
   delete: "Delete File",
 };
 
-export default function PermissionBlock({ action, resources, metadata, save, onReply }) {
+export default function PermissionBlock({ action, resources, onReply }) {
   const [mode, setMode] = useState(null);
   const [message, setMessage] = useState("");
 

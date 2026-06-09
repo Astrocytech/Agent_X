@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export default function FicPickerModal({ open, onClose, currentFic, onSave }) {
   const [ficDocs, setFicDocs] = useState([]);
@@ -7,11 +7,21 @@ export default function FicPickerModal({ open, onClose, currentFic, onSave }) {
 
   useEffect(() => {
     if (!open) return;
-    setSelectedFic(currentFic || "");
+    let cancelled = false;
+    Promise.resolve().then(() => {
+      if (!cancelled) setSelectedFic(currentFic || "");
+    });
     fetch("/api/fic-documents")
       .then((r) => r.json())
-      .then(setFicDocs)
-      .catch(() => setFicDocs([]));
+      .then((docs) => {
+        if (!cancelled) setFicDocs(docs);
+      })
+      .catch(() => {
+        if (!cancelled) setFicDocs([]);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [open, currentFic]);
 
   const handleSave = () => {

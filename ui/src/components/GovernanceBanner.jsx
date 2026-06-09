@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function GovernanceBanner({ governanceInfo }) {
   if (!governanceInfo || governanceInfo.agent_mode !== "governed") return null;
 
