@@ -1656,67 +1656,21 @@
 }
 
 /* ── Docks container ────────────────────────────────────── */
-.docks-container {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 4px 8px 0;
-  flex-shrink: 0;
-  max-height: 40%;
-  overflow-y: auto;
+/* ── Inline Question Block (in messages) ────────────────── */
+.question-block {
+  margin-top: 10px;
+  border-top: 1px solid #e0e2e6;
+  padding-top: 10px;
 }
 
-/* ── Question Dock ──────────────────────────────────────── */
-.question-dock {
-  background: #f8f9fa;
-  border: 1px solid #d0d4da;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+.question-block.answered {
+  border-top: 1px solid #e0e2e6;
+  padding-top: 8px;
+  margin-top: 6px;
 }
 
-.question-tabs {
-  display: flex;
-  border-bottom: 1px solid #d0d4da;
-  background: #f0f1f3;
-  flex-shrink: 0;
-}
-
-.question-tab {
-  padding: 6px 14px;
-  font-size: 12px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: #555;
-  border-bottom: 2px solid transparent;
-}
-
-.question-tab:hover {
-  background: #e0e2e6;
-}
-
-.question-tab.active {
-  color: #1a73e8;
-  border-bottom-color: #1a73e8;
-  background: #fff;
-}
-
-.review-tab {
-  margin-left: auto;
-}
-
-.question-tab-content {
-  padding: 12px;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.question-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.question-item {
+  margin-bottom: 8px;
 }
 
 .question-text {
@@ -1724,6 +1678,7 @@
   font-weight: 600;
   color: #222;
   line-height: 1.4;
+  margin-bottom: 6px;
 }
 
 .question-options {
@@ -1766,6 +1721,26 @@
   margin-top: 2px;
 }
 
+.question-answer-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.answer-chip {
+  background: #e8f0fe;
+  color: #1a73e8;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.answer-skipped {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+}
+
 .question-custom {
   width: 100%;
   padding: 8px;
@@ -1774,6 +1749,7 @@
   font-size: 13px;
   resize: vertical;
   box-sizing: border-box;
+  margin-top: 4px;
 }
 
 .question-custom:focus {
@@ -1781,53 +1757,11 @@
   border-color: #1a73e8;
 }
 
-.review-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.review-item {
-  border: 1px solid #d0d4da;
-  border-radius: 6px;
-  padding: 10px;
-  background: #fff;
-}
-
-.review-question {
-  font-size: 12px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 6px;
-}
-
-.review-answers {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.review-answer {
-  background: #e8f0fe;
-  color: #1a73e8;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.review-unanswered {
-  font-size: 12px;
-  color: #999;
-  font-style: italic;
-}
-
 .question-actions {
   display: flex;
   justify-content: flex-end;
   gap: 6px;
-  padding: 8px 12px;
-  border-top: 1px solid #d0d4da;
-  background: #f0f1f3;
+  padding-top: 8px;
 }
 
 .question-actions .btn-submit {
@@ -1859,30 +1793,6 @@
   background: #f0f1f3;
 }
 
-[data-theme="dark"] .question-dock {
-  background: #1e1e2e;
-  border-color: #313244;
-}
-
-[data-theme="dark"] .question-tabs {
-  background: #181825;
-  border-bottom-color: #313244;
-}
-
-[data-theme="dark"] .question-tab {
-  color: #a6adc8;
-}
-
-[data-theme="dark"] .question-tab:hover {
-  background: #313244;
-}
-
-[data-theme="dark"] .question-tab.active {
-  color: #89b4fa;
-  border-bottom-color: #89b4fa;
-  background: #1e1e2e;
-}
-
 [data-theme="dark"] .question-text {
   color: #cdd6f4;
 }
@@ -1911,6 +1821,15 @@
   color: #a6adc8;
 }
 
+[data-theme="dark"] .answer-chip {
+  background: #313244;
+  color: #89b4fa;
+}
+
+[data-theme="dark"] .answer-skipped {
+  color: #6c7086;
+}
+
 [data-theme="dark"] .question-custom {
   background: #1e1e2e;
   border-color: #313244;
@@ -1919,29 +1838,6 @@
 
 [data-theme="dark"] .question-custom:focus {
   border-color: #89b4fa;
-}
-
-[data-theme="dark"] .review-item {
-  background: #1e1e2e;
-  border-color: #313244;
-}
-
-[data-theme="dark"] .review-question {
-  color: #cdd6f4;
-}
-
-[data-theme="dark"] .review-answer {
-  background: #313244;
-  color: #89b4fa;
-}
-
-[data-theme="dark"] .review-unanswered {
-  color: #6c7086;
-}
-
-[data-theme="dark"] .question-actions {
-  background: #181825;
-  border-top-color: #313244;
 }
 
 [data-theme="dark"] .question-actions .btn-submit {
@@ -1959,29 +1855,40 @@
   background: #313244;
 }
 
-/* ── Permission Dock ────────────────────────────────────── */
-.permission-dock {
-  background: #fff8f0;
-  border: 1px solid #e6c088;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+/* ── Inline Permission Block (in messages) ──────────────── */
+.permission-block {
+  margin-top: 8px;
+  border-top: 1px solid #e6c088;
+  padding-top: 8px;
+}
+
+.permission-block.resolved {
+  margin-top: 4px;
+  border-top: none;
+  padding-top: 0;
+}
+
+.perm-resolved-label {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
 }
 
 .permission-header {
-  padding: 8px 12px;
-  background: #fff3e0;
-  border-bottom: 1px solid #e6c088;
   font-size: 13px;
   font-weight: 600;
   color: #663c00;
+  margin-bottom: 4px;
+}
+
+.permission-label {
+  display: inline-block;
 }
 
 .permission-body {
-  padding: 10px 12px;
   font-size: 13px;
   color: #333;
+  margin-bottom: 8px;
 }
 
 .permission-body code {
@@ -2014,12 +1921,14 @@
 }
 
 .permission-message {
-  margin: 0 12px 8px;
+  margin-bottom: 8px;
   padding: 6px 8px;
   border: 1px solid #d0d4da;
   border-radius: 5px;
   font-size: 12px;
   resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .permission-message:focus {
@@ -2030,9 +1939,6 @@
 .permission-actions {
   display: flex;
   gap: 6px;
-  padding: 8px 12px;
-  border-top: 1px solid #e6c088;
-  background: #fff3e0;
 }
 
 .perm-btn {
@@ -2090,14 +1996,11 @@
   background: #b71c1c;
 }
 
-[data-theme="dark"] .permission-dock {
-  background: #2a1f1a;
-  border-color: #b8874a;
+[data-theme="dark"] .perm-resolved-label {
+  color: #a6adc8;
 }
 
 [data-theme="dark"] .permission-header {
-  background: #3a2a20;
-  border-bottom-color: #b8874a;
   color: #f5c078;
 }
 
@@ -2126,11 +2029,6 @@
 
 [data-theme="dark"] .permission-message:focus {
   border-color: #89b4fa;
-}
-
-[data-theme="dark"] .permission-actions {
-  background: #3a2a20;
-  border-top-color: #b8874a;
 }
 
 [data-theme="dark"] .perm-btn-once {

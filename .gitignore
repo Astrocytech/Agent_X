@@ -30,3 +30,6 @@ list_test_todo.md
 
 # Logs
 logs/
+
+# AgentX chat state
+.agentx-chat

@@ -11,7 +11,7 @@ const ACTION_LABELS = {
   delete: "Delete File",
 };
 
-export default function PermissionDock({ action, resources, metadata, save, onReply }) {
+export default function PermissionBlock({ action, resources, metadata, save, onReply }) {
   const [mode, setMode] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -47,11 +47,23 @@ export default function PermissionDock({ action, resources, metadata, save, onRe
   };
 
   if (mode === "once" || mode === "always") {
-    return null;
+    return (
+      <div className="permission-block resolved">
+        <div className="perm-resolved-label">Permission {mode === "once" ? "allowed once" : "always allowed"}</div>
+      </div>
+    );
+  }
+
+  if (mode === "rejected") {
+    return (
+      <div className="permission-block resolved">
+        <div className="perm-resolved-label">Rejected{message ? ": " + message : ""}</div>
+      </div>
+    );
   }
 
   return (
-    <div className="permission-dock">
+    <div className="permission-block">
       <div className="permission-header">
         <span className="permission-label">{label}</span>
       </div>
@@ -73,22 +85,10 @@ export default function PermissionDock({ action, resources, metadata, save, onRe
       <div className="permission-actions">
         {mode === null && (
           <>
-            <button
-              className="perm-btn perm-btn-once"
-              onClick={() => {
-                setMode("once");
-                onReply("once");
-              }}
-            >
+            <button className="perm-btn perm-btn-once" onClick={() => { setMode("once"); onReply("once"); }}>
               Allow Once
             </button>
-            <button
-              className="perm-btn perm-btn-always"
-              onClick={() => {
-                setMode("always");
-                onReply("always");
-              }}
-            >
+            <button className="perm-btn perm-btn-always" onClick={() => { setMode("always"); onReply("always"); }}>
               Allow Always
             </button>
             <button className="perm-btn perm-btn-reject" onClick={() => setMode("reject")}>
@@ -101,10 +101,7 @@ export default function PermissionDock({ action, resources, metadata, save, onRe
             <button className="perm-btn perm-btn-cancel" onClick={() => setMode(null)}>
               Back
             </button>
-            <button
-              className="perm-btn perm-btn-reject-send"
-              onClick={() => onReply("reject", message)}
-            >
+            <button className="perm-btn perm-btn-reject-send" onClick={() => { setMode("rejected"); onReply("reject", message); }}>
               Send Rejection
             </button>
           </>

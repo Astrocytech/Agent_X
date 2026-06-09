@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./App.css";
 import ActivityPanel from "./components/ActivityPanel";
-import QuestionDock from "./components/QuestionDock";
-import PermissionDock from "./components/PermissionDock";
+import QuestionBlock from "./components/QuestionBlock";
+import PermissionBlock from "./components/PermissionBlock";
 import AgentModeModal from "./components/AgentModeModal";
 import FicPickerModal from "./components/FicPickerModal";
 import GovernanceBanner from "./components/GovernanceBanner";
@@ -487,7 +487,7 @@ function formatTimestamp(ts) {
   } catch { return ""; }
 }
 
-function Message({ role, text, index, reasoning, timestamp, showTimestamps, thinkingMode }) {
+function Message({ role, text, index, reasoning, timestamp, showTimestamps, thinkingMode, questionData, permissionData, onQuestionReply, onQuestionReject, onPermissionReply }) {
   const html = mdToHtml(text);
   const isUser = role === "user";
   return (
@@ -505,6 +505,43 @@ function Message({ role, text, index, reasoning, timestamp, showTimestamps, thin
         </details>
       )}
       <div className="msg-body" dangerouslySetInnerHTML={{ __html: html }} />
+      {questionData && !questionData.answered && (
+        <QuestionBlock
+          questions={questionData.questions}
+          onReply={(answers) => onQuestionReply(answers)}
+          onReject={onQuestionReject}
+        />
+      )}
+      {questionData && questionData.answered && (
+        <div className="question-block answered">
+          {questionData.questions.map((q, i) => (
+            <div key={q.id || i} className="question-item">
+              <div className="question-text">{q.text}</div>
+              <div className="question-answer-summary">
+                {questionData.answers && questionData.answers[i] && questionData.answers[i].length > 0
+                  ? questionData.answers[i].map((a) => <span key={a} className="answer-chip">{a}</span>)
+                  : <span className="answer-skipped">(skipped)</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+      {permissionData && !permissionData.resolved && (
+        <PermissionBlock
+          action={permissionData.action}
+          resources={permissionData.resources}
+          metadata={permissionData.metadata}
+          save={permissionData.save}
+          onReply={(reply, message) => onPermissionReply(permissionData.requestId, reply, message)}
+        />
+      )}
+      {permissionData && permissionData.resolved && (
+        <div className="permission-block resolved">
+          <div className="perm-resolved-label">
+            {permissionData.resolution === "once" ? "Allowed once" : permissionData.resolution === "always" ? "Always allowed" : "Rejected"}{permissionData.message ? ": " + permissionData.message : ""}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1076,21 +1113,35 @@ export default function App() {
 
   const handleQuestionReply = useCallback(async (answers) => {
     if (!questionRequest) return;
+    const requestId = questionRequest.request_id;
     try {
-      await fetch(`/api/questions/${questionRequest.request_id}/reply`, {
+      await fetch(`/api/questions/${requestId}/reply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ answers }),
       });
       setQuestionRequest(null);
+      setMessages((prev) => prev.map((m) => {
+        if (m.questionData && m.questionData.requestId === requestId) {
+          return { ...m, questionData: { ...m.questionData, answered: true, answers } };
+        }
+        return m;
+      }));
     } catch { /* ignore */ }
   }, [questionRequest]);
 
   const handleQuestionReject = useCallback(async () => {
     if (!questionRequest) return;
+    const requestId = questionRequest.request_id;
     try {
-      await fetch(`/api/questions/${questionRequest.request_id}/reject`, { method: "POST" });
+      await fetch(`/api/questions/${requestId}/reject`, { method: "POST" });
       setQuestionRequest(null);
+      setMessages((prev) => prev.map((m) => {
+        if (m.questionData && m.questionData.requestId === requestId) {
+          return { ...m, questionData: { ...m.questionData, answered: true, rejected: true } };
+        }
+        return m;
+      }));
     } catch { /* ignore */ }
   }, [questionRequest]);
 
@@ -1102,6 +1153,12 @@ export default function App() {
         body: JSON.stringify({ reply, message }),
       });
       setPendingPermissions((prev) => prev.filter((p) => p.request_id !== requestId));
+      setMessages((prev) => prev.map((m) => {
+        if (m.permissionData && m.permissionData.requestId === requestId) {
+          return { ...m, permissionData: { ...m.permissionData, resolved: true, resolution: reply, message } };
+        }
+        return m;
+      }));
     } catch { /* ignore */ }
   }, []);
 
@@ -1214,12 +1271,44 @@ export default function App() {
                 });
               } else if (event.type === "question") {
                 setQuestionRequest(event);
+                setMessages((prev) => {
+                  const copy = [...prev];
+                  const last = copy[copy.length - 1];
+                  if (last && last.role === "assistant") {
+                    copy[copy.length - 1] = { ...last, questionData: { requestId: event.request_id, questions: event.questions || [], answered: false } };
+                  } else {
+                    copy.push({ role: "assistant", text: "", questionData: { requestId: event.request_id, questions: event.questions || [], answered: false } });
+                  }
+                  return copy;
+                });
               } else if (event.type === "question_cleared") {
                 setQuestionRequest(null);
+                setMessages((prev) => prev.map((m) => {
+                  if (m.questionData && m.questionData.requestId === event.request_id && !m.questionData.answered) {
+                    return { ...m, questionData: { ...m.questionData, answered: true } };
+                  }
+                  return m;
+                }));
               } else if (event.type === "permission") {
                 setPendingPermissions((prev) => [...prev, event]);
+                setMessages((prev) => {
+                  const copy = [...prev];
+                  const last = copy[copy.length - 1];
+                  if (last && last.role === "assistant") {
+                    copy[copy.length - 1] = { ...last, permissionData: { requestId: event.request_id, action: event.action, resources: event.resources || [], metadata: event.metadata || {}, save: event.save || [], resolved: false } };
+                  } else {
+                    copy.push({ role: "assistant", text: "", permissionData: { requestId: event.request_id, action: event.action, resources: event.resources || [], metadata: event.metadata || {}, save: event.save || [], resolved: false } });
+                  }
+                  return copy;
+                });
               } else if (event.type === "permission_cleared") {
                 setPendingPermissions((prev) => prev.filter((p) => p.request_id !== event.request_id));
+                setMessages((prev) => prev.map((m) => {
+                  if (m.permissionData && m.permissionData.requestId === event.request_id && !m.permissionData.resolved) {
+                    return { ...m, permissionData: { ...m.permissionData, resolved: true } };
+                  }
+                  return m;
+                }));
               } else if (event.type === "todo") {
                 setTodos(event.todos || []);
               } else {
@@ -1398,7 +1487,7 @@ export default function App() {
                 )
               ) : (
                 messages.map((m, i) => (
-                  <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} />
+                  <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} questionData={m.questionData} permissionData={m.permissionData} onQuestionReply={handleQuestionReply} onQuestionReject={handleQuestionReject} onPermissionReply={handlePermissionReply} />
                 ))
               )}
               <div ref={chatEndRef} />
@@ -1434,28 +1523,6 @@ export default function App() {
             </div>
 
             <GovernanceBanner governanceInfo={governanceInfo} />
-
-            {(questionRequest || pendingPermissions.length > 0) && (
-              <div className="docks-container">
-                {questionRequest && (
-                  <QuestionDock
-                    questions={questionRequest.questions || []}
-                    onReply={handleQuestionReply}
-                    onReject={handleQuestionReject}
-                  />
-                )}
-                {pendingPermissions.map((perm) => (
-                  <PermissionDock
-                    key={perm.request_id}
-                    action={perm.action}
-                    resources={perm.resources}
-                    metadata={perm.metadata}
-                    save={perm.save}
-                    onReply={(reply, message) => handlePermissionReply(perm.request_id, reply, message)}
-                  />
-                ))}
-              </div>
-            )}
 
             {/* ── Input bar ─────────────────────────────────── */}
             <div className="input-bar">
