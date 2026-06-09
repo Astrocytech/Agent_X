@@ -48,11 +48,15 @@ class OpenCodeProvider:
         self._server_proc: subprocess.Popen[str] | None = None
         self._conversation_logger = ConversationLogger()
         self._subagent_sessions: dict[str, list[str]] = {}
+        self._agent_mode: str = "general"
+        self._fic_document: str = ""
 
     def reset_session(self) -> str:
         """Create a new session, discarding the old one."""
         old = self._session_id
         self._session_id = None
+        self._agent_mode = "general"
+        self._fic_document = ""
         self._ensure_session()
         return self._session_id or ""
 
@@ -63,6 +67,51 @@ class OpenCodeProvider:
     @property
     def session_id(self) -> str | None:
         return self._session_id
+
+    @property
+    def agent_mode(self) -> str:
+        return self._agent_mode
+
+    @property
+    def fic_document(self) -> str:
+        return self._fic_document
+
+    def set_agent_mode(self, mode: str, fic_document: str = "") -> None:
+        self._agent_mode = mode if mode in ("general", "governed") else "general"
+        self._fic_document = fic_document if mode == "governed" else ""
+
+    def reset_agent_mode(self) -> None:
+        self._agent_mode = "general"
+        self._fic_document = ""
+
+    def get_governance_info(self) -> dict[str, Any]:
+        if self._agent_mode == "governed":
+            return {
+                "agent_mode": "governed",
+                "fic_document": self._fic_document,
+                "ceiling": "P7_PUBLIC_API_CHANGE",
+                "allowed_tools": [
+                    "read", "write", "edit", "glob", "grep",
+                    "bash", "websearch", "webfetch", "question",
+                    "seed.emit_answer",
+                ],
+                "forbidden_tools": [
+                    "shell.run", "filesystem.write", "network.request",
+                    "evolution.promote", "runtime.mutate",
+                ],
+                "phase_0_active": True,
+            }
+        return {
+            "agent_mode": "general",
+            "fic_document": "",
+            "ceiling": "P9_EXTERNAL_SIDE_EFFECT",
+            "allowed_tools": [],
+            "forbidden_tools": [
+                "shell.run", "filesystem.write", "network.request",
+                "evolution.promote", "runtime.mutate",
+            ],
+            "phase_0_active": False,
+        }
 
     def get_models(self) -> list[dict[str, Any]]:
         try:
@@ -344,6 +393,41 @@ class OpenCodeProvider:
                     _is_user_turn = True
                     yield {"type": "agent", "agent": props.get("agent", "")}
 
+                elif evt_type in ("permission.asked", "permission.v2.asked"):
+                    yield {
+                        "type": "permission",
+                        "request_id": evt.get("id", ""),
+                        "action": props.get("action", ""),
+                        "resources": props.get("resources", []),
+                        "metadata": props.get("metadata", {}),
+                        "save": props.get("save", []),
+                    }
+
+                elif evt_type in ("permission.replied", "permission.v2.replied"):
+                    yield {
+                        "type": "permission_cleared",
+                        "request_id": props.get("requestID", props.get("request_id", "")),
+                    }
+
+                elif evt_type in ("question.v2.asked", "question.asked"):
+                    yield {
+                        "type": "question",
+                        "request_id": evt.get("id", ""),
+                        "questions": props.get("questions", []),
+                    }
+
+                elif evt_type in ("question.v2.replied", "question.replied"):
+                    yield {
+                        "type": "question_cleared",
+                        "request_id": props.get("requestID", props.get("request_id", "")),
+                    }
+
+                elif evt_type == "todo.updated":
+                    yield {
+                        "type": "todo",
+                        "todos": props.get("todos", []),
+                    }
+
                 elif evt_type == "message.part.updated":
                     part = props.get("part", {})
                     ptype = part.get("type", "")
@@ -494,6 +578,53 @@ class OpenCodeProvider:
             self._classify_http_error(e)
         except urllib.error.URLError as e:
             raise OpenCodeProviderError(f"provider unavailable: {e}", exit_code=4)
+
+
+    def get_todos(self, session_id: str) -> list[dict[str, Any]]:
+        """Fetch the current todo list for a session."""
+        try:
+            url = f"{self.base_url}/session/{session_id}/todo"
+            req = urllib.request.Request(url)
+            with urllib.request.urlopen(req, timeout=self._timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return []
+            self._classify_http_error(e)
+        except urllib.error.URLError as e:
+            raise OpenCodeProviderError(f"provider unavailable: {e}", exit_code=4)
+
+    def reply_question(self, request_id: str, answers: list[list[str]]) -> None:
+        body = json.dumps({"answers": answers}).encode("utf-8")
+        req = urllib.request.Request(
+            f"{self.base_url}/session/{self._session_id}/question/{request_id}/reply",
+            data=body, headers={"Content-Type": "application/json"}, method="POST",
+        )
+        try:
+            urllib.request.urlopen(req, timeout=self._timeout)
+        except urllib.error.HTTPError:
+            pass
+
+    def reject_question(self, request_id: str) -> None:
+        req = urllib.request.Request(
+            f"{self.base_url}/session/{self._session_id}/question/{request_id}/reject",
+            method="POST",
+        )
+        try:
+            urllib.request.urlopen(req, timeout=self._timeout)
+        except urllib.error.HTTPError:
+            pass
+
+    def reply_permission(self, request_id: str, reply: str, message: str = "") -> None:
+        body = json.dumps({"reply": reply, "message": message}).encode("utf-8")
+        req = urllib.request.Request(
+            f"{self.base_url}/permission/{request_id}/reply",
+            data=body, headers={"Content-Type": "application/json"}, method="POST",
+        )
+        try:
+            urllib.request.urlopen(req, timeout=self._timeout)
+        except urllib.error.HTTPError:
+            pass
 
 
 def _sse_events(resp: urllib.request.AddInfoHandler) -> Generator[dict[str, Any], None, None]:

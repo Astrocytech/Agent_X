@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import "./App.css";
 import ActivityPanel from "./components/ActivityPanel";
+import QuestionDock from "./components/QuestionDock";
+import PermissionDock from "./components/PermissionDock";
+import AgentModeModal from "./components/AgentModeModal";
+import FicPickerModal from "./components/FicPickerModal";
+import GovernanceBanner from "./components/GovernanceBanner";
 
 /* ------------------------------------------------------------------ */
 /*  Menu data                                                          */
@@ -28,6 +33,9 @@ const MENUS = {
   ],
   Agent: [
     { label: "Switch Model", shortcut: "Ctrl+X M", id: "switchModel" },
+    null,
+    { label: "Set Mode...", id: "setAgentMode" },
+    { label: "Change FIC...", id: "changeFic" },
   ],
   System: [
     { label: "View Status", shortcut: "Ctrl+X S", id: "viewStatus" },
@@ -606,8 +614,16 @@ export default function App() {
   const [sidebarPref, setSidebarPref] = useState(() => localStorage.getItem("agentx_sidebar") || "auto");
   const [theme, setTheme] = useState(() => localStorage.getItem("agentx_theme") || "light");
   const [mode, setMode] = useState(() => localStorage.getItem("agentx_mode") || "build");
+  const [questionRequest, setQuestionRequest] = useState(null);
+  const [pendingPermissions, setPendingPermissions] = useState([]);
+  const [todos, setTodos] = useState([]);
   const [showStatus, setShowStatus] = useState(false);
   const [showModelModal, setShowModelModal] = useState(false);
+  const [agentMode, setAgentMode] = useState("general");
+  const [ficDocument, setFicDocument] = useState("");
+  const [governanceInfo, setGovernanceInfo] = useState(null);
+  const [showAgentModeModal, setShowAgentModeModal] = useState(false);
+  const [showFicPicker, setShowFicPicker] = useState(false);
   const leaderRef = useRef(null);
 
   const sidebarVisible = sidebarPref === "auto";
@@ -691,7 +707,19 @@ export default function App() {
   const fetchStatus = useCallback(() => {
     fetch("/api/status")
       .then((r) => r.json())
-      .then(setStatusInfo)
+      .then((info) => {
+        setStatusInfo(info);
+        if (info.agent_mode) setAgentMode(info.agent_mode);
+        if (info.fic_document !== undefined) setFicDocument(info.fic_document);
+      })
+      .catch(() => {});
+    fetch("/api/todos")
+      .then((r) => r.json())
+      .then(setTodos)
+      .catch(() => {});
+    fetch("/api/agent-mode")
+      .then((r) => r.json())
+      .then(setGovernanceInfo)
       .catch(() => {});
   }, []);
 
@@ -863,6 +891,12 @@ export default function App() {
         break;
       case "switchModel":
         setShowModelModal(true);
+        break;
+      case "setAgentMode":
+        setShowAgentModeModal(true);
+        break;
+      case "changeFic":
+        setShowFicPicker(true);
         break;
       case "openDocs":
         window.open("https://opencode.ai/docs", "_blank");
@@ -1040,6 +1074,37 @@ export default function App() {
     fetchStatus();
   }, [messages, activities, fetchStatus]);
 
+  const handleQuestionReply = useCallback(async (answers) => {
+    if (!questionRequest) return;
+    try {
+      await fetch(`/api/questions/${questionRequest.request_id}/reply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ answers }),
+      });
+      setQuestionRequest(null);
+    } catch { /* ignore */ }
+  }, [questionRequest]);
+
+  const handleQuestionReject = useCallback(async () => {
+    if (!questionRequest) return;
+    try {
+      await fetch(`/api/questions/${questionRequest.request_id}/reject`, { method: "POST" });
+      setQuestionRequest(null);
+    } catch { /* ignore */ }
+  }, [questionRequest]);
+
+  const handlePermissionReply = useCallback(async (requestId, reply, message = "") => {
+    try {
+      await fetch(`/api/permissions/${requestId}/reply`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reply, message }),
+      });
+      setPendingPermissions((prev) => prev.filter((p) => p.request_id !== requestId));
+    } catch { /* ignore */ }
+  }, []);
+
   const sendMessage = useCallback(() => {
     const text = input.trim();
     if (!text || streaming) return;
@@ -1147,6 +1212,16 @@ export default function App() {
                   }
                   return [...prev, { ...event, time: new Date().toLocaleTimeString() }];
                 });
+              } else if (event.type === "question") {
+                setQuestionRequest(event);
+              } else if (event.type === "question_cleared") {
+                setQuestionRequest(null);
+              } else if (event.type === "permission") {
+                setPendingPermissions((prev) => [...prev, event]);
+              } else if (event.type === "permission_cleared") {
+                setPendingPermissions((prev) => prev.filter((p) => p.request_id !== event.request_id));
+              } else if (event.type === "todo") {
+                setTodos(event.todos || []);
               } else {
                 setActivities((prev) => [
                   ...prev,
@@ -1245,6 +1320,37 @@ export default function App() {
                 <span className="status-label">Session</span>
                 <span className="status-value">{statusInfo.session_id || "—"}</span>
               </div>
+              <div className="status-row">
+                <span className="status-label">Agent</span>
+                <span className="status-value">
+                  {agentMode === "governed" ? "Governed (P7)" : "General (P9)"}
+                </span>
+              </div>
+              {agentMode === "governed" && ficDocument && (
+                <div className="status-row">
+                  <span className="status-label">FIC</span>
+                  <span className="status-value status-fic-name">{ficDocument.split("/").pop()}</span>
+                </div>
+              )}
+              {todos.length > 0 && (
+                <div className="todo-section">
+                  <div className="todo-header">
+                    <span>Todos</span>
+                    <span className="todo-count">{todos.filter(t => t.status !== "completed").length}</span>
+                  </div>
+                  {todos.map((todo, i) => (
+                    <div key={i} className={`todo-item todo-${todo.status}`}>
+                      <span className={`todo-status todo-status-${todo.status}`}>
+                        {todo.status === "completed" ? "\u2713" : todo.status === "in_progress" ? "\u25D4" : todo.status === "cancelled" ? "\u2014" : "\u25CB"}
+                      </span>
+                      <span className="todo-content">{todo.content}</span>
+                      {todo.priority && todo.priority !== "medium" && (
+                        <span className={`todo-priority todo-priority-${todo.priority}`}>{todo.priority}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
           <div className="chat-area">
@@ -1322,7 +1428,34 @@ export default function App() {
                 Build
               </button>
               <span className="mode-label">{mode === "plan" ? "Read-only analysis" : "Full tool access"}</span>
+              <span className={`agent-badge agent-badge-${agentMode}`}>
+                {agentMode === "governed" ? "Governed" : "General"}
+              </span>
             </div>
+
+            <GovernanceBanner governanceInfo={governanceInfo} />
+
+            {(questionRequest || pendingPermissions.length > 0) && (
+              <div className="docks-container">
+                {questionRequest && (
+                  <QuestionDock
+                    questions={questionRequest.questions || []}
+                    onReply={handleQuestionReply}
+                    onReject={handleQuestionReject}
+                  />
+                )}
+                {pendingPermissions.map((perm) => (
+                  <PermissionDock
+                    key={perm.request_id}
+                    action={perm.action}
+                    resources={perm.resources}
+                    metadata={perm.metadata}
+                    save={perm.save}
+                    onReply={(reply, message) => handlePermissionReply(perm.request_id, reply, message)}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* ── Input bar ─────────────────────────────────── */}
             <div className="input-bar">
@@ -1334,6 +1467,7 @@ export default function App() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 rows={2}
+                disabled={!!questionRequest || pendingPermissions.length > 0}
               />
               <div className="input-actions">
                 <button
@@ -1423,6 +1557,39 @@ export default function App() {
                 setActivities((prev) => [...prev, { type: "error", text: `Switch failed: ${err.message}`, time: new Date().toLocaleTimeString() }]);
               })
               .finally(() => setSwitching(false));
+          }}
+        />
+        <AgentModeModal
+          open={showAgentModeModal}
+          onClose={() => setShowAgentModeModal(false)}
+          currentMode={agentMode}
+          currentFic={ficDocument}
+          onSave={(info) => {
+            setAgentMode(info.agent_mode);
+            setFicDocument(info.fic_document || "");
+            setGovernanceInfo(info);
+            setStatusInfo((prev) => ({
+              ...prev,
+              agent_mode: info.agent_mode,
+              fic_document: info.fic_document || "",
+              ceiling: info.ceiling,
+            }));
+          }}
+        />
+        <FicPickerModal
+          open={showFicPicker}
+          onClose={() => setShowFicPicker(false)}
+          currentFic={ficDocument}
+          onSave={(info) => {
+            setAgentMode(info.agent_mode);
+            setFicDocument(info.fic_document || "");
+            setGovernanceInfo(info);
+            setStatusInfo((prev) => ({
+              ...prev,
+              agent_mode: info.agent_mode,
+              fic_document: info.fic_document || "",
+              ceiling: info.ceiling,
+            }));
           }}
         />
         <AboutModal open={showAbout} onClose={() => setShowAbout(false)} />

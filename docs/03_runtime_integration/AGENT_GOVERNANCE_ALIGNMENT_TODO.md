@@ -2,6 +2,7 @@
 
 **This chat** = this opencode agent session, with tools bash/read/write/edit/glob/grep/websearch/webfetch/question.
 **Goal**: Every session respects L0 kernel governance, follows L1 FIC workflow, stays within L2 proposal-only boundaries.
+**UI status**: Agent mode controls (general/governed) implemented in Phase 0.5. Visual shell ready — enforcement requires Phase 1-2 infrastructure.
 
 ---
 
@@ -23,9 +24,133 @@
 
 ---
 
-## Phase 0: Make This Session Compliant Now (Zero Infra)
+## Current Implementation Status
 
-These are manual discipline rules. Apply them to this chat immediately. No code needed.
+| Item | Status | Notes |
+|------|--------|-------|
+| 0.5.2–0.5.9 — UI Mode Controls | IMPLEMENTED | Agent menu, status panel rows, mode badge, governance banner, two modals. Backend: 3 new endpoints + provider state. |
+| 1.1 — `coding_agent.yaml` profile | MISSING | Needs creation at `L0/CODE/profiles/builtin/` |
+| 1.2 — `general_opencode.yaml` profile | MISSING | Needs creation at `L0/CODE/profiles/builtin/` |
+| 1.3 — `opencode_tool_registry.py` | MISSING | Needs creation at `L0/CODE/tool_gateway/` |
+| 1.4 — `governance_factory.py` | PARTIAL | **Exists** at `L0/CODE/governance/` but uses deprecated `_SeedGovernanceBus` (denies all). Needs `ProfileGovernanceBus` rewrite per spec. |
+| 1.4 — `permission_classes.py` | PARTIAL | **Exists** at `L0/CODE/governance/` with P0–P9 enum and 7 profile ceilings. Missing `general_opencode` (P9) and `coding_agent` (P7) entries. |
+| 1.5 — `opencode_tool_bridge.py` | MISSING | Needs creation at `L0/CODE/bridge/` |
+| 1.7 — `layer_resolver.py` | MISSING | Needs creation at `L0/CODE/bridge/` |
+| 1.8 — `l2_proposal_agent.yaml` | MISSING | Needs creation at `L2/profiles/` |
+| 2.1 — `AGENTS_GENERAL.md` | MISSING | Needs creation at project root |
+| 2.2 — `AGENTS_GOVERNED.md` | MISSING | Needs creation at project root |
+| 2.3 — `l0_gateway.ts` (custom tool) | MISSING | Needs creation at `.opencode/tools/` |
+| 2.4 — `opencode.json` | MISSING | Needs creation at project root |
+| 3.1 — `evidence_collector.py` | PARTIAL | **Exists** at `L1/controller/` with `EvidenceCollector.collect()`, but only in-memory — no sha256 hashing, no filesystem output. |
+| 3.2 — `completion_record_writer.py` | PARTIAL | **Exists** at `L1/controller/` with `CompletionRecordWriter.write()`, but returns in-memory dataclass — no YAML disk output. |
+| 3.3 — `traceability_updater.py` | PARTIAL | **Exists** at `L1/controller/` with `TraceabilityUpdater.add_link()`, but in-memory only — doesn't write to `08_L1_TRACEABILITY_MATRIX.md`. |
+| 3.4 — `handoff_packet_builder.py` | PARTIAL | **Exists** at `L1/controller/` with `HandoffPacketBuilder.build()`, but missing `expected_evidence` and `scope_rules` fields on `HandoffPacket`. |
+
+## Phase 0: Governance Discipline Rules
+
+These rules govern `governed` agent sessions (FIC workflow). During governance infrastructure development (this session), Phase 0 is informational — the rules will be enforced once the `governed` agent is active. No code needed.
+
+## Phase 0.5: UI Mode Controls [IMPLEMENTED]
+
+The UI now has an agent mode switching system and governance status display. This provides the visual shell for mode selection before the enforcement infrastructure (Phase 1-3) is built.
+
+### 0.5.1 — Agent mode state
+
+| State | Values | Persistence | Reset |
+|-------|--------|-------------|-------|
+| `agent_mode` | `general` / `governed` | Provider object (backend) | Reset to `general` on new session |
+| `fic_document` | Path to FIC markdown file | Provider object (backend) | Cleared on new session |
+
+### 0.5.2 — Menu bar: Agent menu
+
+**File**: `ui/src/App.jsx` (MENUS definition, line ~31)
+
+Two new items in the Agent menu:
+- **Set Mode...** (`id: "setAgentMode"`) — opens `AgentModeModal`
+- **Change FIC...** (`id: "changeFic"`) — opens `FicPickerModal` (governed mode only)
+
+### 0.5.3 — Status panel rows
+
+**File**: `ui/src/App.jsx` (status panel, line ~1298)
+
+Two new read-only rows in the left status panel (below Session):
+- **Agent** — shows `General (P9)` or `Governed (P7)`
+- **FIC** — shows short filename (governed only, hyperlink-style color)
+
+### 0.5.4 — Agent mode badge
+
+**File**: `ui/src/App.jsx` (mode-bar, line ~1394)
+
+Small badge in the mode-bar (right-aligned):
+- `General` — green background
+- `Governed` — orange background
+
+### 0.5.5 — Governance banner
+
+**File**: `ui/src/components/GovernanceBanner.jsx` (created)
+
+Appears below the mode-bar only when `agent_mode === "governed"`. Shows:
+- FIC document filename
+- Permission ceiling (P7)
+- "Phase 0 active" badge
+- Allowed tools list
+- Forbidden tools list
+
+### 0.5.6 — AgentModeModal
+
+**File**: `ui/src/components/AgentModeModal.jsx` (created)
+
+Step-based modal:
+1. **Pick mode** — two cards: General (P9) / Governed (P7) with descriptions
+2. **Pick FIC** (governed only) — lists available docs from `GET /api/fic-documents`
+3. **Review** (general only) — shows summary, confirms
+
+On save: `POST /api/agent-mode` with `{agent_mode, fic_document}`.
+
+### 0.5.7 — FicPickerModal
+
+**File**: `ui/src/components/FicPickerModal.jsx` (created)
+
+Standalone FIC document picker. Lists `.md`/`.yaml` files from `L1/docs/` (via `GET /api/fic-documents`). On save: `POST /api/agent-mode`.
+
+### 0.5.8 — Backend API
+
+| Endpoint | Method | Handler | Purpose |
+|----------|--------|---------|---------|
+| `/api/agent-mode` | GET | `handle_agent_mode` | Returns `{agent_mode, fic_document, ceiling, allowed_tools, forbidden_tools, phase_0_active}` |
+| `/api/agent-mode` | POST | `handle_set_agent_mode` | Accepts `{agent_mode, fic_document}`, stores on provider |
+| `/api/fic-documents` | GET | `handle_fic_documents` | Scans `L1/docs/` for markdown/YAML, returns `[{path, name}]` |
+| `/api/status` | GET | `handle_status` (extended) | Now also returns `agent_mode`, `fic_document`, `ceiling` |
+
+### 0.5.9 — Backend state (provider)
+
+**File**: `tools/agentx_evolve/providers/opencode_provider.py`
+
+New methods:
+- `agent_mode` (property)
+- `fic_document` (property)
+- `set_agent_mode(mode, fic_document)` — validates mode, stores
+- `reset_agent_mode()` — resets to general
+- `get_governance_info()` — returns full governance state dict
+
+Hardcoded governance profiles (to be replaced by real profile loading in Phase 1):
+- `general` → ceiling P9, all tools allowed, no Phase 0
+- `governed` → ceiling P7, FIC-scoped tools, Phase 0 active
+
+### 0.5.10 — Hardcoded governance info
+
+Currently hardcoded in `OpenCodeProvider.get_governance_info()`. Will be replaced by real profile loading when 1.1/1.2 are built:
+
+```python
+# General mode
+{agent_mode: "general", ceiling: "P9_EXTERNAL_SIDE_EFFECT", ...}
+
+# Governed mode
+{agent_mode: "governed", ceiling: "P7_PUBLIC_API_CHANGE",
+ allowed_tools: [read, write, edit, glob, grep, bash, websearch, webfetch, question, seed.emit_answer],
+ forbidden_tools: [shell.run, filesystem.write, network.request, evolution.promote, runtime.mutate],
+ phase_0_active: true}
+```
 
 | # | Rule | Why |
 |---|------|-----|
@@ -41,7 +166,7 @@ These are manual discipline rules. Apply them to this chat immediately. No code 
 
 ## Phase 1: Build L0 Governance Pipeline
 
-### 1.1 — Create Agent Profile
+### 1.1 — [MISSING] Create Agent Profile
 
 **File**: `L0/CODE/profiles/builtin/coding_agent.yaml`
 
@@ -107,7 +232,7 @@ print('id:', p.id, 'tools:', p.allowed_tools)
 "
 ```
 
-### 1.2 — Create General Agent Profile (Unrestricted)
+### 1.2 — [MISSING] Create General Agent Profile (Unrestricted)
 
 **File**: `L0/CODE/profiles/builtin/general_opencode.yaml`
 
@@ -169,7 +294,7 @@ print('id:', p.id, 'tools:', p.allowed_tools)
 "
 ```
 
-### 1.3 — Certify opencode tools as L0 ToolContracts
+### 1.3 — [MISSING] Certify opencode tools as L0 ToolContracts
 
 **File**: `L0/CODE/tool_gateway/opencode_tool_registry.py`
 
@@ -340,9 +465,11 @@ for t in r.list_tools():
 "
 ```
 
-### 1.4 — Implement governance decide()
+### 1.4 — [PARTIAL] Implement governance decide()
 
-**File**: `L0/CODE/governance/governance_factory.py`
+**Files**:
+- `L0/CODE/governance/governance_factory.py` — **EXISTS** but uses deprecated `_SeedGovernanceBus` (denies all tools). Must be rewritten to use `ProfileGovernanceBus` per the spec below.
+- `L0/CODE/governance/permission_classes.py` — **EXISTS** with P0–P9 enum and 7 profile ceilings. Missing `general_opencode` (P9) and `coding_agent` (P7) entries — see the "Also update" section below.
 
 The `ToolGateway.invoke()` calls `self.governance_bus.decide(gov_request)` and checks `decision.allowed`. The `GovernanceRequest` has fields: `action_category`, `action_name`, `profile_id`, `client_id`, `run_id`, `task_id`, `target`, `risk_level`, `effective_policy_id`, `payload`, `metadata`, `action`. `PermissionClass` uses integer position ordering (not `.value`). Use `permission_allows()` for ceiling checks.
 
@@ -418,7 +545,7 @@ def create_governance_bus(profile_path: str) -> ProfileGovernanceBus:
 ```
 
 **Also update** `L0/CODE/governance/permission_classes.py`:
-Add entries for both new profiles. `general_opencode` needs the highest ceiling (P9) since it permits unrestricted bash/web access. `coding_agent` needs P7 to allow shell commands under FIC governance.
+Add entries for both new profiles. `general_opencode` needs the highest ceiling (P9) since it permits unrestricted bash/web access. `coding_agent` needs P7 to allow shell commands under FIC governance. **These two entries are currently missing.**
 
 ```python
 _PROFILE_CEILINGS: dict[str, PermissionClass] = {
@@ -454,37 +581,7 @@ print('shell.run:', 'allowed' if dec2.allowed else 'denied:', dec2.reason)
 # Expected: ceiling = P7_PUBLIC_API_CHANGE, seed.emit_answer allowed, shell.run denied
 ```
 
-### 1.7 — Implement layer resolver
-
-**File**: `L0/CODE/bridge/layer_resolver.py`
-
-```python
-"""Detect the current governance layer and return the correct profile."""
-
-import os
-
-LAYER_PROFILES = {
-    "L2": "L2/profiles/l2_proposal_agent.yaml",
-    "L1": "L0/CODE/profiles/builtin/coding_agent.yaml",
-    "L0": "L0/CODE/profiles/builtin/generalist.yaml",
-}
-
-def detect_layer() -> str:
-    env = os.environ.get("AGENT_X_LAYER", "").upper()
-    if env in LAYER_PROFILES:
-        return env
-    cwd = os.getcwd()
-    if "/L2/" in cwd:
-        return "L2"
-    if "/L0/" in cwd and "/L1/" not in cwd:
-        return "L0"
-    return "L1"
-
-def resolve_profile_path() -> str:
-    return LAYER_PROFILES[detect_layer()]
-```
-
-### 1.5 — Build the governance bridge
+### 1.5 — [MISSING] Build the governance bridge
 
 **File**: `L0/CODE/bridge/opencode_tool_bridge.py`
 
@@ -601,7 +698,37 @@ echo '{"tool_name":"seed.emit_answer","arguments":{"answer":"test"},"agent_name"
 # Returns {"governance_allowed": true, "profile_id": "coding_agent", ...}
 ```
 
-### 1.8 — Create L2 proposal profile
+### 1.7 — [MISSING] Implement layer resolver
+
+**File**: `L0/CODE/bridge/layer_resolver.py`
+
+```python
+"""Detect the current governance layer and return the correct profile."""
+
+import os
+
+LAYER_PROFILES = {
+    "L2": "L2/profiles/l2_proposal_agent.yaml",
+    "L1": "L0/CODE/profiles/builtin/coding_agent.yaml",
+    "L0": "L0/CODE/profiles/builtin/generalist.yaml",
+}
+
+def detect_layer() -> str:
+    env = os.environ.get("AGENT_X_LAYER", "").upper()
+    if env in LAYER_PROFILES:
+        return env
+    cwd = os.getcwd()
+    if "/L2/" in cwd:
+        return "L2"
+    if "/L0/" in cwd and "/L1/" not in cwd:
+        return "L0"
+    return "L1"
+
+def resolve_profile_path() -> str:
+    return LAYER_PROFILES[detect_layer()]
+```
+
+### 1.8 — [MISSING] Create L2 proposal profile
 
 **File**: `L2/profiles/l2_proposal_agent.yaml`
 
@@ -642,7 +769,7 @@ prompt:
 
 ## Phase 2: Configuration
 
-### 2.1 — Create AGENTS_GENERAL.md (Unrestricted Agent)
+### 2.1 — [MISSING] Create AGENTS_GENERAL.md (Unrestricted Agent)
 
 **File**: `AGENTS_GENERAL.md` (project root)
 
@@ -676,7 +803,7 @@ When `AGENT_X_LAYER=L0` or `AGENT_X_LAYER=L2` is set, the bridge automatically
 selects the correct profile. No manual action needed.
 ```
 
-### 2.2 — Create AGENTS_GOVERNED.md (FIC-Compliant Agent)
+### 2.2 — [MISSING] Create AGENTS_GOVERNED.md (FIC-Compliant Agent)
 
 **File**: `AGENTS_GOVERNED.md` (project root)
 
@@ -728,7 +855,7 @@ When `AGENT_X_LAYER=L0`:
 - No file tool execution allowed.
 ```
 
-### 2.3 — Create the custom tool definition
+### 2.3 — [MISSING] Create the custom tool definition
 
 **File**: `.opencode/tools/l0_gateway.ts`
 
@@ -825,7 +952,7 @@ export default tool({
 })
 ```
 
-### 2.4 — Configure opencode
+### 2.4 — [MISSING] Configure opencode
 
 **File**: `opencode.json` (project root)
 
@@ -869,15 +996,17 @@ Disable all built-in tools and register two agents: `general` (default) and `gov
 
 ## Phase 3: Evidence Pipeline
 
-### 3.1 — Implement FIC-L1-009 (evidence_collector)
+### 3.1 — [PARTIAL] Upgrade FIC-L1-009 (evidence_collector)
 
-**File**: `L1/CODE/evidence_collector.py`
-**Action**: Implement per `L1/fic/units/FIC-L1-009-evidence-collector.md`. Must collect sha256 hashes of changed files, test output, proof output. Write structured records to `L1/evidence/{session_id}/`.
+**File**: `L1/controller/evidence_collector.py`
+**Status**: **EXISTS** with `EvidenceCollector.collect()` and `EvidenceRecord`/`EvidenceBundle` dataclasses. Currently operates only in-memory — takes `ProofCheckResult` objects and returns `EvidenceBundle`.
+**Needs upgrade**: Must collect sha256 hashes of changed files and write structured records to `L1/evidence/{session_id}/`. Per `L1/fic/units/FIC-L1-009-evidence-collector.md`.
 
-### 3.2 — Implement FIC-L1-010 (completion_record_writer)
+### 3.2 — [PARTIAL] Upgrade FIC-L1-010 (completion_record_writer)
 
-**File**: `L1/CODE/completion_record_writer.py`
-**Action**: Implement per `L1/fic/units/FIC-L1-010-completion-record-writer.md`. Must produce YAML at `L1/evidence/completion/{fic_id}_{timestamp}.yaml`:
+**File**: `L1/controller/completion_record_writer.py`
+**Status**: **EXISTS** with `CompletionRecordWriter.write()`, `CompletionRecord` dataclass. Currently returns in-memory dataclass with fields `unit_id`, `summary`, `evidence_total`, `evidence_passed`, `all_evidence_passed`, `status`.
+**Needs upgrade**: Must produce YAML output at `L1/evidence/completion/{fic_id}_{timestamp}.yaml` and align fields to the spec below (`fic_id`, `outcome`, `files_changed`, `evidence_hashes`, `validation_status`, `timestamp`).
 ```yaml
 fic_id: "FIC-L1-XXX"
 outcome: "IMPLEMENTED"
@@ -887,57 +1016,67 @@ validation_status: "passed"
 timestamp: "2026-06-08T12:00:00Z"
 ```
 
-### 3.3 — Implement FIC-L1-011 (traceability_updater)
+### 3.3 — [PARTIAL] Upgrade FIC-L1-011 (traceability_updater)
 
-**File**: `L1/CODE/traceability_updater.py`
-**Action**: Implement per `L1/fic/units/FIC-L1-011-traceability-updater.md`. Append row to `L1/docs/08_L1_TRACEABILITY_MATRIX.md`.
+**File**: `L1/controller/traceability_updater.py`
+**Status**: **EXISTS** with `TraceabilityUpdater.add_link()`, `TraceLink`, `TraceabilityGraph`. In-memory only — creates `TraceabilityGraph` from `CompletionRecord` and `HandoffPacket` objects.
+**Needs upgrade**: Must append rows to `L1/docs/08_L1_TRACEABILITY_MATRIX.md`.
 
-### 3.4 — Implement FIC-L1-007 (handoff_packet_builder)
+### 3.4 — [PARTIAL] Upgrade FIC-L1-007 (handoff_packet_builder)
 
-**File**: `L1/CODE/handoff_packet_builder.py`
-**Action**: Implement per `L1/fic/units/FIC-L1-007-handoff-packet-builder.md`. Produce `{fic_ref, permitted_files, expected_evidence, scope_rules}`.
+**File**: `L1/controller/handoff_packet_builder.py`
+**Status**: **EXISTS** with `HandoffPacketBuilder.build()`, `HandoffPacket` dataclass. Fields: `fic_id`, `target_file`, `description`, `complexity`, `dependencies`.
+**Needs upgrade**: Must add `expected_evidence` and `scope_rules` fields to `HandoffPacket`. Produce `{fic_ref, permitted_files, expected_evidence, scope_rules}`.
 
 ---
 
 ## Acceptance Criteria
 
-| Layer | Check | How to verify |
-|-------|-------|---------------|
-| L0 | Tools route through governance | Every tool call produces a `record_evidence()` entry in `.local/runtime/evidence/evidence_ledger.jsonl` |
-| L0 | Forbidden tools blocked | Call to `l0_gateway(tool_name="shell.run")` returns `governance_allowed: false` |
-| L0 | Profile loaded | `ProfileLoader(path).load('coding_agent')` succeeds, stop_conditions non-empty |
-| Agent | General agent unrestricted | Running as `general` agent, `l0_gateway(tool_name="bash")` returns `governance_allowed: true` |
-| Agent | Governed agent strict | Running as `governed` agent, the FIC workflow rules are enforced in AGENTS_GOVERNED.md |
-| Agent | Profile auto-selects | Bridge returns different `profile_id` for `agent_name="general"` vs `agent_name="governed"` |
-| L1 | FIC read at session start | Governed agent's first action is reading the FIC file |
-| L1 | Completion record written | File exists at `L1/evidence/completion/` |
-| L1 | Traceability updated | `L1/docs/08_L1_TRACEABILITY_MATRIX.md` has new row |
-| L2 | Zero tools in L2 mode | `ProfileGovernanceBus.decide()` returns `allowed=False` for any tool call |
-| L2 | Proposal-only output | Agent produces markdown, not file edits |
+| Layer | Check | How to verify | Status |
+|-------|-------|---------------|--------|
+| UI | Agent mode selector visible | Agent menu shows "Set Mode..."; status panel shows `Agent: General (P9)` | IMPLEMENTED |
+| UI | Mode switch via modal | Clicking Agent → Set Mode... opens AgentModeModal with two cards | IMPLEMENTED |
+| UI | FIC picker lists docs | Agent → Set Mode... → Governed shows FIC document list from `L1/docs/` | IMPLEMENTED |
+| UI | Governance banner appears | Switching to governed mode shows GovernanceBanner with FIC, ceiling, tools | IMPLEMENTED |
+| UI | Mode persists for session | Refresh page retains agent mode; new session resets to general | IMPLEMENTED |
+| L0 | Tools route through governance | Every tool call produces a `record_evidence()` entry in `.local/runtime/evidence/evidence_ledger.jsonl` | TODO |
+| L0 | Forbidden tools blocked | Call to `l0_gateway(tool_name="shell.run")` returns `governance_allowed: false` | TODO |
+| L0 | Profile loaded | `ProfileLoader(path).load('coding_agent')` succeeds, stop_conditions non-empty | TODO |
+| Agent | General agent unrestricted | Running as `general` agent, `l0_gateway(tool_name="bash")` returns `governance_allowed: true` | TODO |
+| Agent | Governed agent strict | Running as `governed` agent, the FIC workflow rules are enforced in AGENTS_GOVERNED.md | TODO |
+| Agent | Profile auto-selects | Bridge returns different `profile_id` for `agent_name="general"` vs `agent_name="governed"` | TODO |
+| L1 | FIC read at session start | Governed agent's first action is reading the FIC file | TODO |
+| L1 | Completion record written | File exists at `L1/evidence/completion/` | PARTIAL — `CompletionRecordWriter` exists but doesn't write to disk |
+| L1 | Traceability updated | `L1/docs/08_L1_TRACEABILITY_MATRIX.md` has new row | PARTIAL — `TraceabilityUpdater` exists but in-memory only |
+| L2 | Zero tools in L2 mode | `ProfileGovernanceBus.decide()` returns `allowed=False` for any tool call | TODO |
+| L2 | Proposal-only output | Agent produces markdown, not file edits | TODO |
 
 ---
 
 ## Build Order
 
 ```
-1.1 (coding_agent.yaml)         — standalone, 2 min
-1.2 (general_opencode.yaml)     — standalone, 2 min
+0.5.2–0.5.9 (UI controls)          — IMPLEMENTED              [IMPLEMENTED — done]
 ──────────────────────────────────────────
-1.3 (tool contracts)            — standalone, 5 min
-1.4 (governance bus)            — depends on 1.1 + 1.2, 10 min
-1.7 (layer resolver)            — standalone, 2 min
+1.1 (coding_agent.yaml)             — standalone, 2 min       [MISSING]
+1.2 (general_opencode.yaml)         — standalone, 2 min       [MISSING]
 ──────────────────────────────────────────
-1.5 (bridge)                    — depends on 1.7 (layer_resolver) + 1.1 + 1.2, 5 min
-2.1 (AGENTS_GENERAL.md)         — standalone, 3 min
-2.2 (AGENTS_GOVERNED.md)        — depends on 1.1 (FIC workflow reference), 5 min
-2.3 (l0_gateway.ts)             — depends on 1.5, 5 min
-2.4 (opencode.json)             — depends on 2.1 + 2.2 + 2.3, 2 min
+1.3 (tool contracts)                — standalone, 5 min       [MISSING]
+1.4 (governance bus)                — depends on 1.1 + 1.2    [PARTIAL — rewrite _SeedGovernanceBus]
+  └─ permission_classes.py fix      — add 2 ceiling entries  [PARTIAL — missing entries]
+1.7 (layer resolver)                — standalone, 2 min       [MISSING]
 ──────────────────────────────────────────
-3.1 (evidence_collector)        — depends on 1.5, implement FIC-L1-009
-3.2 (completion_recorder)       — depends on 3.1, implement FIC-L1-010
-3.3 (traceability_updater)      — depends on 3.2, implement FIC-L1-011
-3.4 (handoff_builder)           — depends on 1.1, implement FIC-L1-007
-1.8 (L2 profile)                — standalone, 2 min
+1.5 (bridge)                        — depends on 1.7 + 1.1 + 1.2   [MISSING]
+2.1 (AGENTS_GENERAL.md)             — standalone, 3 min       [MISSING]
+2.2 (AGENTS_GOVERNED.md)            — depends on 1.1, 5 min   [MISSING]
+2.3 (l0_gateway.ts)                 — depends on 1.5, 5 min   [MISSING]
+2.4 (opencode.json)                 — depends on 2.1+2.2+2.3  [MISSING]
+──────────────────────────────────────────
+3.1 (evidence_collector)            — depends on 1.5          [PARTIAL — add sha256 + disk output]
+3.2 (completion_recorder)           — depends on 3.1          [PARTIAL — add YAML output]
+3.3 (traceability_updater)          — depends on 3.2          [PARTIAL — add disk writing]
+3.4 (handoff_builder)               — depends on 1.1          [PARTIAL — add missing fields]
+1.8 (L2 profile)                    — standalone, 2 min       [MISSING]
 ```
 
-**Start now**: Apply Phase 0 rules to this session. Then build in the order above.
+**Start now**: Build in the order above. Phase 0 discipline rules apply to governed agent sessions.

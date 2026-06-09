@@ -14,6 +14,8 @@ import webbrowser
 from datetime import datetime
 from pathlib import Path
 
+from typing import Any
+
 from aiohttp import web
 
 
@@ -585,6 +587,106 @@ async def handle_new_session(request: web.Request) -> web.Response:
         return web.json_response({"error": str(e)}, status=500)
 
 
+async def handle_question_reply(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider is None or not hasattr(provider, "reply_question"):
+        return web.json_response({"error": "provider does not support questions"}, status=400)
+    request_id = request.match_info["request_id"]
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+    answers = body.get("answers", [])
+    try:
+        provider.reply_question(request_id, answers)
+        return web.json_response({"ok": True})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+
+async def handle_question_reject(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider is None or not hasattr(provider, "reject_question"):
+        return web.json_response({"error": "provider does not support questions"}, status=400)
+    request_id = request.match_info["request_id"]
+    try:
+        provider.reject_question(request_id)
+        return web.json_response({"ok": True})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+
+async def handle_permission_reply(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider is None or not hasattr(provider, "reply_permission"):
+        return web.json_response({"error": "provider does not support permissions"}, status=400)
+    request_id = request.match_info["request_id"]
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+    reply = body.get("reply", "reject")
+    message = body.get("message", "")
+    try:
+        provider.reply_permission(request_id, reply, message)
+        return web.json_response({"ok": True})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+
+async def handle_todos(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider is None or not hasattr(provider, "get_todos"):
+        return web.json_response([])
+    session_id = getattr(provider, "session_id", "")
+    if not session_id:
+        return web.json_response([])
+    try:
+        todos = provider.get_todos(session_id)
+        return web.json_response(todos)
+    except Exception:
+        return web.json_response([])
+
+
+async def handle_agent_mode(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider and hasattr(provider, "get_governance_info"):
+        return web.json_response(provider.get_governance_info())
+    return web.json_response({
+        "agent_mode": "general",
+        "fic_document": "",
+        "ceiling": "P9_EXTERNAL_SIDE_EFFECT",
+        "allowed_tools": [],
+        "forbidden_tools": [],
+        "phase_0_active": False,
+    })
+
+
+async def handle_set_agent_mode(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    if provider is None or not hasattr(provider, "set_agent_mode"):
+        return web.json_response({"error": "provider does not support agent mode"}, status=400)
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+    mode = body.get("agent_mode", "general")
+    fic_doc = body.get("fic_document", "")
+    provider.set_agent_mode(mode, fic_doc)
+    return web.json_response(provider.get_governance_info())
+
+
+async def handle_fic_documents(request: web.Request) -> web.Response:
+    docs: list[dict[str, str]] = []
+    l1_docs = Path("L1/docs")
+    if l1_docs.exists():
+        for f in sorted(l1_docs.iterdir()):
+            if f.suffix in (".md", ".yaml", ".yml"):
+                title = f.stem.replace("_", " ").replace("-", " ").title()
+                docs.append({"path": str(f), "name": title})
+    return web.json_response(docs)
+
+
 def _make_app(provider) -> web.Application:
     app = web.Application()
 
@@ -605,6 +707,13 @@ def _make_app(provider) -> web.Application:
     app.router.add_get("/api/models", handle_models)
     app.router.add_post("/api/sessions/{session_id}/revert", handle_revert_session)
     app.router.add_post("/api/model/switch", handle_model_switch)
+    app.router.add_post("/api/questions/{request_id}/reply", handle_question_reply)
+    app.router.add_post("/api/questions/{request_id}/reject", handle_question_reject)
+    app.router.add_post("/api/permissions/{request_id}/reply", handle_permission_reply)
+    app.router.add_get("/api/todos", handle_todos)
+    app.router.add_get("/api/agent-mode", handle_agent_mode)
+    app.router.add_post("/api/agent-mode", handle_set_agent_mode)
+    app.router.add_get("/api/fic-documents", handle_fic_documents)
 
     ui_exists = _UI_DIST.exists() and (_UI_DIST / "index.html").exists()
     if ui_exists:
@@ -633,11 +742,15 @@ async def handle_status(request: web.Request) -> web.Response:
         if mp.exists():
             session_name = json.loads(mp.read_text()).get("session_name", "")
     p_model = getattr(provider, "model", "") if provider else ""
+    gov_info = provider.get_governance_info() if provider and hasattr(provider, "get_governance_info") else {}
     return web.json_response({
         "model": p_model or request.app.get("model", ""),
         "session_id": sid,
         "provider": pname,
         "session_name": session_name,
+        "agent_mode": gov_info.get("agent_mode", "general"),
+        "fic_document": gov_info.get("fic_document", ""),
+        "ceiling": gov_info.get("ceiling", "P9_EXTERNAL_SIDE_EFFECT"),
     })
 
 
