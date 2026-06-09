@@ -970,6 +970,9 @@
   overflow: hidden;
 }
 
+.activity-tool {
+  /* reserved for tool-type activity entries */
+}
 .activity-done {
   border-bottom: 1px solid #e0e2e6;
 }
@@ -977,6 +980,200 @@
 .activity-type-done {
   background: #e3f2e9;
   color: #2d8659;
+}
+
+/* ── Activity summary bar ──────────────────────────────── */
+.activity-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
+  color: #888;
+  border-bottom: 1px solid #e0e2e6;
+  background: #f6f7f9;
+  flex-shrink: 0;
+}
+.summary-count {
+  font-weight: 600;
+}
+.summary-count.running { color: #b8860b; }
+.summary-count.done { color: #2d8659; }
+.summary-count.error { color: #c0392b; }
+.summary-sep {
+  color: #ccc;
+}
+
+/* ── Agents zone ───────────────────────────────────────── */
+.activity-agents-zone {
+  border-bottom: 1px solid #e0e2e6;
+  flex-shrink: 0;
+  max-height: 50%;
+  overflow-y: auto;
+}
+.activity-agents-header {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #888;
+  padding: 6px 12px 2px;
+  letter-spacing: 0.5px;
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
+}
+.activity-agents-list {
+  padding: 2px 0 4px;
+}
+
+/* ── Subagent rows (two-line grid) ──────────────────── */
+.activity-subagent-entry {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  gap: 1px 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background 0.12s, border-color 0.12s;
+  align-items: center;
+}
+.activity-subagent-entry:hover {
+  background: #eef0f4;
+}
+.activity-subagent-entry.active {
+  background: #e8f0fe;
+  border-left-color: #4a6fa5;
+}
+.activity-subagent-entry.no-session {
+  cursor: default;
+}
+.activity-subagent-entry.no-session:hover {
+  background: inherit;
+}
+.activity-subagent-icon {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 10px;
+  color: #888;
+  text-align: center;
+  line-height: 1;
+}
+.activity-subagent-name {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.activity-subagent-badge-col {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+.activity-subagent-chevron {
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: end;
+  font-size: 14px;
+  color: #bbb;
+  opacity: 0;
+  transition: opacity 0.12s;
+  line-height: 1;
+}
+.activity-subagent-entry:hover .activity-subagent-chevron {
+  opacity: 1;
+}
+.activity-subagent-entry.active .activity-subagent-chevron {
+  opacity: 0.6;
+  color: #4a6fa5;
+}
+.activity-subagent-desc {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 10px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Subagent badge pills ─────────────────────────────── */
+.activity-subagent-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.activity-subagent-badge.badge-active {
+  background: #dbeafe;
+  color: #1e40af;
+}
+.activity-subagent-badge.badge-running {
+  background: #fef3c7;
+  color: #92400e;
+}
+.activity-subagent-badge.badge-done {
+  background: #dcfce7;
+  color: #166534;
+}
+.activity-subagent-badge.badge-error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ── Event log zone (collapsible) ─────────────────────── */
+.activity-log-zone {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.activity-log-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #888;
+  border-bottom: 1px solid #e0e2e6;
+  background: #f6f7f9;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+  font-family: "SF Mono", Consolas, Monaco, "Courier New", monospace;
+  transition: background 0.12s;
+}
+.activity-log-header:hover {
+  background: #eef0f4;
+}
+.activity-log-arrow {
+  font-size: 10px;
+  color: #aaa;
+  width: 10px;
+  text-align: center;
+}
+.activity-log-count {
+  margin-left: auto;
+  font-weight: 400;
+  color: #bbb;
+  font-size: 10px;
+}
+.activity-log-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 [data-theme="dark"] .activity-panel {
@@ -1150,85 +1347,22 @@
   background: #45475a;
 }
 
-/* ── Subagent entries in activity panel ─────────────────── */
-.activity-subagents {
-  border-bottom: 1px solid #e0e2e6;
-  margin-bottom: 4px;
-}
-.activity-subagents-title {
-  font-size: 10px;
-  text-transform: uppercase;
-  color: #888;
-  padding: 6px 10px 2px;
-  letter-spacing: 0.5px;
-}
-.activity-subagent-entry {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-  margin: 1px 4px;
-  transition: background 0.15s;
-}
-.activity-subagent-entry:hover {
-  background: #f0f1f3;
-}
-.activity-subagent-entry.active {
-  background: #e8f0fe;
-  border-left: 2px solid #4a6fa5;
-}
-.activity-subagent-icon {
-  font-size: 10px;
-  color: #888;
-  width: 14px;
-  text-align: center;
-}
-.activity-subagent-name {
-  flex: 1;
-  font-size: 12px;
-  color: #333;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.activity-subagent-desc {
-  font-size: 10px;
-  color: #999;
-  max-width: 120px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.activity-subagent-status {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.activity-subagent-status.active-dot {
-  background: #4a6fa5;
-}
-.activity-subagent-status.running {
-  background: #d4a72c;
-  animation: pulse 1.5s infinite;
-}
-.activity-subagent-status.done {
-  background: #2d8659;
-}
-.activity-subagent-status.error {
-  background: #c0392b;
-}
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
+/* ── Subagent / Agents zone dark overrides ──────────── */
 
-[data-theme="dark"] .activity-subagents {
+[data-theme="dark"] .activity-summary {
+  border-bottom-color: #313244;
+  background: #181825;
+  color: #a6adc8;
+}
+[data-theme="dark"] .summary-count.running { color: #d29922; }
+[data-theme="dark"] .summary-count.done { color: #3fb950; }
+[data-theme="dark"] .summary-count.error { color: #f85149; }
+[data-theme="dark"] .summary-sep { color: #45475a; }
+
+[data-theme="dark"] .activity-agents-zone {
   border-bottom-color: #313244;
 }
-[data-theme="dark"] .activity-subagents-title {
+[data-theme="dark"] .activity-agents-header {
   color: #a6adc8;
 }
 [data-theme="dark"] .activity-subagent-entry:hover {
@@ -1237,6 +1371,9 @@
 [data-theme="dark"] .activity-subagent-entry.active {
   background: #1e3a2f;
   border-left-color: #4a6fa5;
+}
+[data-theme="dark"] .activity-subagent-entry.no-session:hover {
+  background: inherit;
 }
 [data-theme="dark"] .activity-subagent-icon {
   color: #585b70;
@@ -1247,17 +1384,64 @@
 [data-theme="dark"] .activity-subagent-desc {
   color: #585b70;
 }
-[data-theme="dark"] .activity-subagent-status.active-dot {
-  background: #4a6fa5;
+[data-theme="dark"] .activity-subagent-chevron {
+  color: #585b70;
 }
-[data-theme="dark"] .activity-subagent-status.running {
-  background: #d29922;
+[data-theme="dark"] .activity-subagent-entry.active .activity-subagent-chevron {
+  color: #4a6fa5;
 }
-[data-theme="dark"] .activity-subagent-status.done {
-  background: #2d8659;
+
+[data-theme="dark"] .activity-subagent-badge.badge-active {
+  background: #1e3a5f;
+  color: #60a5fa;
 }
-[data-theme="dark"] .activity-subagent-status.error {
-  background: #da3633;
+[data-theme="dark"] .activity-subagent-badge.badge-running {
+  background: #3d2e00;
+  color: #d29922;
+}
+[data-theme="dark"] .activity-subagent-badge.badge-done {
+  background: #14532d;
+  color: #4ade80;
+}
+[data-theme="dark"] .activity-subagent-badge.badge-error {
+  background: #450a0a;
+  color: #f87171;
+}
+
+[data-theme="dark"] .activity-log-header {
+  border-bottom-color: #313244;
+  background: #181825;
+  color: #a6adc8;
+}
+[data-theme="dark"] .activity-log-header:hover {
+  background: #1e1e2e;
+}
+[data-theme="dark"] .activity-log-arrow {
+  color: #585b70;
+}
+[data-theme="dark"] .activity-log-count {
+  color: #585b70;
+}
+
+/* scrollbar for agents list */
+.activity-agents-list::-webkit-scrollbar {
+  width: 5px;
+}
+.activity-agents-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.activity-agents-list::-webkit-scrollbar-thumb {
+  background: #c8ccd0;
+  border-radius: 3px;
+}
+.activity-agents-list::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+[data-theme="dark"] .activity-agents-list::-webkit-scrollbar-thumb {
+  background: #313244;
+}
+[data-theme="dark"] .activity-agents-list::-webkit-scrollbar-thumb:hover {
+  background: #45475a;
 }
 
 /* ── Back button in chat header ─────────────────────────── */

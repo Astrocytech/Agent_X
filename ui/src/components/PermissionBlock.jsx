@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ACTION_LABELS = {
   read: "Read File",
@@ -11,12 +11,31 @@ const ACTION_LABELS = {
   delete: "Delete File",
 };
 
-export default function PermissionBlock({ action, resources, onReply }) {
+const MUTATION_ACTIONS = new Set(["edit", "write", "delete", "bash"]);
+const PLAN_BLOCK_MESSAGE = "Blocked in PLAN mode — not allowed during read-only analysis.";
+
+export default function PermissionBlock({ action, resources, onReply, planMode }) {
   const [mode, setMode] = useState(null);
   const [message, setMessage] = useState("");
+  const repliedRef = useRef(false);
+
+  useEffect(() => {
+    if (planMode && MUTATION_ACTIONS.has(action) && !repliedRef.current) {
+      repliedRef.current = true;
+      onReply("reject", PLAN_BLOCK_MESSAGE);
+    }
+  }, [planMode, action, onReply]);
 
   const label = ACTION_LABELS[action] || action;
   const resourceText = (resources || []).join(", ");
+
+  if (planMode && MUTATION_ACTIONS.has(action)) {
+    return (
+      <div className="permission-block resolved">
+        <div className="perm-resolved-label">{PLAN_BLOCK_MESSAGE}</div>
+      </div>
+    );
+  }
 
   const renderBody = () => {
     switch (action) {

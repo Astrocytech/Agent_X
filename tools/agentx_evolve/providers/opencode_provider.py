@@ -53,6 +53,7 @@ class OpenCodeProvider:
         self._fic_document: str = ""
         self._event_resp: Any = None
         self._prev_cancel_event: threading.Event | None = None
+        self._subagent_event_meta: dict[str, dict[str, str]] = {}
 
     def cancel_streaming(self) -> None:
         """Close the active SSE connection and signal cancellation.
@@ -164,12 +165,19 @@ class OpenCodeProvider:
         start = time.perf_counter()
         try:
             self._ensure_session()
-            last_text = self._last_user_text(messages)
-            parts = [{"type": "text", "text": last_text}]
-            body = {
+            system_text = ""
+            user_text = ""
+            for m in messages:
+                if m.get("role") == "system":
+                    system_text = m.get("content", "")
+                elif m.get("role") == "user":
+                    user_text = m.get("content", "")
+            body: dict[str, Any] = {
                 "model": {"providerID": self._provider_id, "modelID": self.model},
-                "parts": parts,
+                "parts": [{"type": "text", "text": user_text or "."}],
             }
+            if system_text:
+                body["system"] = system_text
             data = self._post_message(body)
             response = self._parse_response(data)
             elapsed = (time.perf_counter() - start) * 1000
@@ -378,12 +386,19 @@ class OpenCodeProvider:
         event_resp = None
         try:
             self._ensure_session()
-            last_text = self._last_user_text(messages)
-            parts = [{"type": "text", "text": last_text}]
-            body = {
+            system_text = ""
+            user_text = ""
+            for m in messages:
+                if m.get("role") == "system":
+                    system_text = m.get("content", "")
+                elif m.get("role") == "user":
+                    user_text = m.get("content", "")
+            body: dict[str, Any] = {
                 "model": {"providerID": self._provider_id, "modelID": self.model},
-                "parts": parts,
+                "parts": [{"type": "text", "text": user_text or "."}],
             }
+            if system_text:
+                body["system"] = system_text
             payload = json.dumps(body).encode("utf-8")
             msg_url = f"{self.base_url}/session/{self._session_id}/message"
             event_url = f"{self.base_url}/event"
@@ -484,17 +499,29 @@ class OpenCodeProvider:
                             sub_match = re.search(r'<task\s+id="([^"]+)"', outp if outp else "")
                             if sub_match:
                                 subagent_id = sub_match.group(1)
+                            fallback_key = ""
+                            if isinstance(inp, dict):
+                                fallback_key = f"{inp.get('subagent_type', 'subagent')}|{inp.get('description', '')}"
+                            meta_key = subagent_id or fallback_key
                             if status == "running":
+                                subagent_name = inp.get("subagent_type", "subagent") if isinstance(inp, dict) else "subagent"
+                                subagent_desc = inp.get("description", "") if isinstance(inp, dict) else ""
+                                if meta_key:
+                                    self._subagent_event_meta[meta_key] = {
+                                        "name": subagent_name,
+                                        "description": subagent_desc,
+                                    }
                                 yield {
                                     "type": "subagent",
                                     "status": "running",
                                     "session_id": subagent_id or "",
                                     "parent_session_id": self._session_id or "",
-                                    "name": inp.get("subagent_type", "subagent") if isinstance(inp, dict) else "subagent",
-                                    "description": inp.get("description", "") if isinstance(inp, dict) else "",
+                                    "name": subagent_name,
+                                    "description": subagent_desc,
                                     "author": "assistant",
                                 }
                             elif status == "completed":
+                                meta = self._subagent_event_meta.get(meta_key, {})
                                 if subagent_id:
                                     self._subagent_sessions.setdefault(self._session_id or "", [])
                                     if subagent_id not in self._subagent_sessions.get(self._session_id or "", []):
@@ -504,15 +531,20 @@ class OpenCodeProvider:
                                     "status": "completed",
                                     "session_id": subagent_id,
                                     "parent_session_id": self._session_id or "",
+                                    "name": meta.get("name", "subagent"),
+                                    "description": meta.get("description", ""),
                                     "output": outp,
                                     "author": "assistant",
                                 }
                             elif status == "error":
+                                meta = self._subagent_event_meta.get(meta_key, {})
                                 yield {
                                     "type": "subagent",
                                     "status": "error",
                                     "session_id": subagent_id,
                                     "parent_session_id": self._session_id or "",
+                                    "name": meta.get("name", "subagent"),
+                                    "description": meta.get("description", ""),
                                     "error": str(err)[:300],
                                     "author": "assistant",
                                 }

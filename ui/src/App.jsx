@@ -22,7 +22,7 @@ const MENUS = {
     { label: "Export Session", id: "exportSession" },
     null,
     { label: "Jump to Message", shortcut: "Ctrl+X G", id: "jumpToMessage" },
-    { label: "Undo Previous Message", shortcut: "Ctrl+X U", id: "undoMessage" },
+    { label: "Undo Previous Message", shortcut: "Ctrl+Z", id: "undoMessage" },
     null,
     { label: "Hide Sidebar", shortcut: "Ctrl+X B", id: "hideSidebar" },
     { label: "Show Timestamps", id: "showTimestamps" },
@@ -508,7 +508,7 @@ function formatTimestamp(ts) {
   } catch { return ""; }
 }
 
-function Message({ role, text, index, reasoning, timestamp, showTimestamps, thinkingMode, questionData, permissionData, onQuestionReply, onQuestionReject, onPermissionReply }) {
+function Message({ role, text, index, reasoning, timestamp, showTimestamps, thinkingMode, questionData, permissionData, onQuestionReply, onQuestionReject, onPermissionReply, mode }) {
   const html = mdToHtml(text);
   const isUser = role === "user";
   return (
@@ -554,6 +554,7 @@ function Message({ role, text, index, reasoning, timestamp, showTimestamps, thin
           metadata={permissionData.metadata}
           save={permissionData.save}
           onReply={(reply, message) => onPermissionReply(permissionData.requestId, reply, message)}
+          planMode={mode === "plan"}
         />
       )}
       {permissionData && permissionData.resolved && (
@@ -623,6 +624,8 @@ export default function App() {
   });
   const [streaming, setStreaming] = useState(false);
   const [input, setInput] = useState("");
+  const [historyIndex, setHistoryIndex] = useState(null);
+  const [draftInput, setDraftInput] = useState("");
   const [openMenu, setOpenMenu] = useState(null);
   const [showSessionModal, setShowSessionModal] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
@@ -637,6 +640,7 @@ export default function App() {
     return saved ? saved.activities : [];
   });
   const [statusInfo, setStatusInfo] = useState({ model: "", session_id: "", provider: "", session_name: "" });
+  const [loadedSessionId, setLoadedSessionId] = useState(null);
   const [editingName, setEditingName] = useState(false);
   const nameInputRef = useRef(null);
   const importFileRef = useRef(null);
@@ -850,6 +854,11 @@ export default function App() {
       if (mod && e.key.toLowerCase() === "c" && window.getSelection().toString()) {
         return;
       }
+      if (mod && e.key.toLowerCase() === "z") {
+        e.preventDefault();
+        menuActionRef.current("undoMessage");
+        return;
+      }
       /* Ctrl+X leader key */
       if (mod && e.key.toLowerCase() === "x") {
         e.preventDefault();
@@ -863,9 +872,9 @@ export default function App() {
         if (leaderTimeoutRef.current) clearTimeout(leaderTimeoutRef.current);
         const key = e.key.toLowerCase();
         const map = {
-          u: "undoMessage", b: "hideSidebar", m: "switchModel",
-          s: "viewStatus", t: "switchTheme", y: "copyLastMessage",
-          g: "jumpToMessage",
+          b: "hideSidebar", m: "switchModel",
+          n: "newSession", s: "viewStatus", t: "switchTheme",
+          y: "copyLastMessage", g: "jumpToMessage",
         };
         if (map[key]) {
           e.preventDefault();
@@ -885,13 +894,22 @@ export default function App() {
     switch (id) {
       case "newSession":
         fetch("/api/session/new", { method: "POST" })
-          .then((r) => r.json())
+          .then((r) => {
+            if (!r.ok) throw new Error("Failed to create new session");
+            return r.json();
+          })
           .then(() => {
+            cancelledRef.current = true;
+            abortRef.current?.abort();
+            setStreaming(false);
             setMessages([]);
             setActivities([]);
+            setLoadedSessionId(null);
             fetchStatus();
           })
-          .catch(() => {});
+          .catch((err) => {
+            setActivities((prev) => [...prev, { type: "error", text: `New session failed: ${err.message}`, time: new Date().toLocaleTimeString() }]);
+          });
         break;
       case "openSession":
         setShowSessionModal(true);
@@ -1006,25 +1024,38 @@ export default function App() {
         break;
       }
       case "undoMessage": {
-        const sid = statusInfo.session_id;
+        if (streaming) {
+          setActivities((prev) => [...prev, { type: "error", text: "Stop the current response before undoing.", time: new Date().toLocaleTimeString() }]);
+          break;
+        }
+        const sid = loadedSessionId || statusInfo.session_id;
         if (!sid || messages.length === 0) break;
         const lastUserIdx = [...messages].reverse().findIndex((m) => m.role === "user");
         if (lastUserIdx < 0) break;
         const idx = messages.length - 1 - lastUserIdx;
+        cancelledRef.current = true;
+        abortRef.current?.abort();
+        setStreaming(false);
         fetch(`/api/sessions/${sid}/revert`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message_index: idx }),
         })
-          .then((r) => {
-            if (!r.ok) throw new Error("Revert failed");
+          .then(async (r) => {
+            if (!r.ok) {
+              const errBody = await r.json().catch(() => ({}));
+              throw new Error(errBody.error || `HTTP ${r.status}`);
+            }
             return r.json();
           })
-          .then(() => {
-            const restored = messages[idx].text || "";
-            setMessages((prev) => prev.slice(0, idx));
-            setInput(restored);
-            setActivities((prev) => [...prev, { type: "info", text: `Reverted to message #${idx}`, time: new Date().toLocaleTimeString() }]);
+          .then((result) => {
+            setMessages(result.messages || []);
+            setInput(result.restored_message || "");
+            setActivities([]);
+            setSubagents([]);
+            setActiveSubagentId(null);
+            setSubagentMessages(null);
+            setTodos([]);
           })
           .catch((err) => {
             setActivities((prev) => [...prev, { type: "error", text: `Undo failed: ${err.message}`, time: new Date().toLocaleTimeString() }]);
@@ -1032,7 +1063,7 @@ export default function App() {
         break;
       }
     }
-  }, [messages, statusInfo, importFileRef, fetchStatus, hideToolDetails, showTimestamps, thinkingMode, sidebarPref, theme]);
+  }, [messages, statusInfo, importFileRef, fetchStatus, hideToolDetails, showTimestamps, thinkingMode, sidebarPref, theme, streaming, loadedSessionId]);
   menuActionRef.current = handleMenuAction;
 
   const jumpToMessage = useCallback((index) => {
@@ -1133,6 +1164,7 @@ export default function App() {
       })
       .then((msgs) => {
         setMessages(msgs);
+        setLoadedSessionId(s.run_id);
         if (!msgs || msgs.length === 0) {
           setActivities([{ type: "info", text: "No messages in this session.", time: new Date().toLocaleTimeString() }]);
         }
@@ -1204,7 +1236,12 @@ export default function App() {
     const text = (typeof prefill === "string" ? prefill : input).trim();
     if (!text || streaming) return;
     setInput("");
+    setHistoryIndex(null);
+    setDraftInput("");
     setActivities([]);
+    setSubagents([]);
+    setActiveSubagentId(null);
+    setSubagentMessages(null);
     cancelledRef.current = false;
 
     setMessages((prev) => [...prev, { role: "user", text }]);
@@ -1241,7 +1278,14 @@ export default function App() {
         const response = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: text, mode: currentMode }),
+          body: JSON.stringify({
+            message: text,
+            mode: currentMode,
+            session_id: loadedSessionId || statusInfo.session_id,
+            messages: messages
+              .filter((m) => (m.role === "user" || m.role === "assistant") && m.text?.trim())
+              .map(({ role, text }) => ({ role, content: text })),
+          }),
           signal: controller.signal,
         });
 
@@ -1385,12 +1429,92 @@ export default function App() {
         abortRef.current = null;
       }
     })();
-  }, [input, streaming, mode]);
+  }, [input, streaming, mode, loadedSessionId]);
+
+  const userPromptHistory = messages
+    .filter((m) => m.role === "user" && m.text)
+    .map((m) => m.text);
 
   const handleKeyDown = (e) => {
+    const el = e.currentTarget;
+
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
+      return;
+    }
+
+    if (e.key === "ArrowUp") {
+      const atStart = el.selectionStart === 0 && el.selectionEnd === 0;
+
+      if (!atStart) {
+        e.preventDefault();
+        el.setSelectionRange(0, 0);
+        return;
+      }
+
+      if (userPromptHistory.length === 0) return;
+
+      e.preventDefault();
+
+      setHistoryIndex((prev) => {
+        const next = prev === null
+          ? userPromptHistory.length - 1
+          : Math.max(0, prev - 1);
+
+        if (prev === null) setDraftInput(input);
+        setInput(userPromptHistory[next]);
+        requestAnimationFrame(() => {
+          if (inputRef.current) {
+            const len = inputRef.current.value.length;
+            inputRef.current.setSelectionRange(len, len);
+          }
+        });
+        return next;
+      });
+
+      return;
+    }
+
+    if (e.key === "ArrowDown") {
+      const atEnd = el.selectionStart === input.length && el.selectionEnd === input.length;
+
+      if (!atEnd) {
+        e.preventDefault();
+        el.setSelectionRange(input.length, input.length);
+        return;
+      }
+
+      if (historyIndex === null) return;
+
+      e.preventDefault();
+
+      setHistoryIndex((prev) => {
+        if (prev === null) return null;
+
+        const next = prev + 1;
+
+        if (next >= userPromptHistory.length) {
+          setInput(draftInput);
+          setDraftInput("");
+          requestAnimationFrame(() => {
+            if (inputRef.current) {
+              const len = inputRef.current.value.length;
+              inputRef.current.setSelectionRange(len, len);
+            }
+          });
+          return null;
+        }
+
+        setInput(userPromptHistory[next]);
+        requestAnimationFrame(() => {
+          if (inputRef.current) {
+            const len = inputRef.current.value.length;
+            inputRef.current.setSelectionRange(len, len);
+          }
+        });
+        return next;
+      });
     }
   };
 
@@ -1523,14 +1647,14 @@ export default function App() {
                   </div>
                 ) : (
                   subagentMessages.map((m, i) => (
-                    <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} />
+                    <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} mode={mode} />
                   ))
                 )
               ) : messages.length === 0 ? (
                 <SuggestionQuestions onSelect={(text) => sendMessage(text)} />
               ) : (
                 messages.map((m, i) => (
-                  <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} questionData={m.questionData} permissionData={m.permissionData} onQuestionReply={handleQuestionReply} onQuestionReject={handleQuestionReject} onPermissionReply={handlePermissionReply} />
+                  <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} questionData={m.questionData} permissionData={m.permissionData} onQuestionReply={handleQuestionReply} onQuestionReject={handleQuestionReject} onPermissionReply={handlePermissionReply} mode={mode} />
                 ))
               )}
               <div ref={chatEndRef} />
@@ -1574,7 +1698,11 @@ export default function App() {
                 className="input-box"
                 placeholder="Type a message... (Enter to send, Shift+Enter for newline)"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  setHistoryIndex(null);
+                  setDraftInput("");
+                }}
                 onKeyDown={handleKeyDown}
                 rows={2}
                 disabled={!!questionRequest || pendingPermissions.length > 0}

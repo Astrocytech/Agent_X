@@ -62,6 +62,24 @@ def _save_chat_message(session_id: str, role: str, content: str, reasoning: str 
         f.write(line + "\n")
 
 
+def _append_message(session_id: str, role: str, content: str, reasoning: str = "") -> None:
+    """Append a message to the transcript for *session_id*, resolving to an existing
+    transcript path (CLI run dir or chat dir) and falling back to .agentx-chat/."""
+    record = {"role": role, "content": content, "timestamp": datetime.utcnow().isoformat() + "Z"}
+    if reasoning:
+        record["reasoning"] = reasoning
+    line = json.dumps(record)
+    resolved = _resolve_messages_path(session_id)
+    if resolved is not None:
+        target = resolved
+    else:
+        d = _chat_dir(session_id)
+        d.mkdir(parents=True, exist_ok=True)
+        target = d / "messages.jsonl"
+    with open(target, "a") as f:
+        f.write(line + "\n")
+
+
 def _default_session_name(session_id: str) -> str:
     """Generate a default session name."""
     d = _chat_dir(session_id)
@@ -203,6 +221,17 @@ def _load_session_messages(run_id: str):
     return []
 
 
+def _resolve_messages_path(run_id: str) -> Path | None:
+    """Return the first existing messages file for *run_id*."""
+    cli_path = Path(".agentx-init/runs") / run_id / "model_messages.jsonl"
+    if cli_path.exists():
+        return cli_path
+    chat_path = _chat_messages_path(run_id)
+    if chat_path.exists():
+        return chat_path
+    return None
+
+
 async def handle_static(request: web.Request) -> web.FileResponse:
     path = request.match_info.get("path", "")
     if not path:
@@ -279,6 +308,7 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             raise web.HTTPBadRequest(text="missing message")
 
         mode = (body.get("mode") or "build").strip()
+        request.app["_active_chat_mode"] = mode
         provider = request.app.get("provider")
         if provider is None:
             raise RuntimeError("no provider in app")
@@ -307,7 +337,19 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
                     "to implement the user's requests."
                 ),
             })
-        messages_list.append({"role": "user", "content": message})
+
+        # Prepend prior conversation history (sent from frontend)
+        prior_messages = body.get("messages", [])
+        MAX_HISTORY = 200
+        for pm in prior_messages[-MAX_HISTORY:]:
+            role = pm.get("role", "")
+            content = pm.get("content", "")
+            if role in ("user", "assistant") and content:
+                messages_list.append({"role": role, "content": content})
+
+        # Add the new user message, avoiding duplication if the last history message already carries it
+        if not (messages_list and messages_list[-1].get("role") == "user" and messages_list[-1].get("content") == message):
+            messages_list.append({"role": "user", "content": message})
 
         loop = asyncio.get_event_loop()
         queue: asyncio.Queue = asyncio.Queue()
@@ -318,13 +360,13 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
         resp.headers["X-Accel-Buffering"] = "no"
         await resp.prepare(request)
 
-        sid = provider.session_id if hasattr(provider, "session_id") else ""
+        sid = body.get("session_id") or (provider.session_id if hasattr(provider, "session_id") else "")
 
         # Persist user message and meta.json before streaming starts
         # so the session is never empty on reload if streaming fails.
         if sid:
             try:
-                _save_chat_message(sid, "user", message)
+                _append_message(sid, "user", message)
                 # Ensure meta.json exists (session_name defaults to first message)
                 meta = {}
                 mp = _chat_meta_path(sid)
@@ -388,12 +430,20 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             await resp.write(b"data: [DONE]\n\n")
             return resp
 
+        request.app.setdefault("_pending_permissions", {})
         while True:
             event = await queue.get()
             if event is None:
                 break
             if event.get("type") == "text" and event.get("author") == "user":
                 continue
+
+            # Track pending permissions for PLAN mode enforcement
+            if event.get("type") == "permission":
+                rid = event.get("request_id", "")
+                if rid:
+                    request.app["_pending_permissions"][rid] = event
+
             data = json.dumps(event)
             try:
                 await resp.write(f"data: {data}\n\n".encode())
@@ -413,7 +463,7 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
         if sid and accumulated:
             try:
                 reasoning_text = _join_fragments(accumulated_reasoning) if accumulated_reasoning else ""
-                _save_chat_message(sid, "assistant", _join_fragments(accumulated), reasoning=reasoning_text)
+                _append_message(sid, "assistant", _join_fragments(accumulated), reasoning=reasoning_text)
             except Exception as e:
                 print(f"[chat] failed to persist assistant message: {e}", file=sys.stderr)
 
@@ -456,16 +506,76 @@ async def handle_revert_session(request: web.Request) -> web.Response:
     message_index = body.get("message_index")
     if not isinstance(message_index, int) or message_index < 0:
         return web.json_response({"error": "message_index required"}, status=400)
-    chat_path = _chat_messages_path(session_id)
-    if not chat_path.exists():
+    msg_path = _resolve_messages_path(session_id)
+    if msg_path is None:
         return web.json_response({"error": "session not found"}, status=404)
     try:
-        lines = chat_path.read_text().strip().split("\n")
+        lines = msg_path.read_text().strip().split("\n")
         if message_index >= len(lines):
-            return web.json_response({"error": "message_index out of range"}, status=400)
-        kept = lines[:message_index]
-        chat_path.write_text("\n".join(kept) + ("\n" if kept else ""))
-        return web.json_response({"ok": True, "message_count": len(kept)})
+            # Fallback: undo the last user message in the transcript
+            last_user_idx = -1
+            for i in range(len(lines) - 1, -1, -1):
+                try:
+                    if json.loads(lines[i]).get("role") == "user":
+                        last_user_idx = i
+                        break
+                except Exception:
+                    pass
+            if last_user_idx < 0:
+                return web.json_response({"error": "no user message to undo"}, status=400)
+            message_index = last_user_idx
+
+        # Capture the user message text before truncation
+        restored_message = ""
+        try:
+            restored_data = json.loads(lines[message_index])
+            restored_message = restored_data.get("content", "")
+        except Exception:
+            pass
+
+        # Truncate
+        kept_lines = lines[:message_index]
+        msg_path.write_text("\n".join(kept_lines) + ("\n" if kept_lines else ""))
+
+        # Parse remaining messages
+        messages = []
+        for line in kept_lines:
+            try:
+                data = json.loads(line)
+                role = data.get("role", "")
+                content = data.get("content", "")
+                if content:
+                    messages.append({
+                        "role": role,
+                        "text": content,
+                        "timestamp": data.get("timestamp", ""),
+                        "reasoning": data.get("reasoning", ""),
+                    })
+            except Exception:
+                pass
+
+        # Abandon provider session so the next send starts fresh
+        provider = request.app.get("provider")
+        if provider is not None and hasattr(provider, "abandon_session"):
+            try:
+                provider.abandon_session()
+            except Exception:
+                pass
+        elif provider is not None and hasattr(provider, "cancel_streaming"):
+            try:
+                provider.cancel_streaming()
+            except Exception:
+                pass
+
+        # Clear the stop event so a stale cancel does not block the next request
+        request.app["_stop_event"] = None
+
+        return web.json_response({
+            "ok": True,
+            "messages": messages,
+            "restored_message": restored_message,
+            "message_count": len(messages),
+        })
     except Exception as e:
         return web.json_response({"error": str(e)}, status=500)
 
@@ -655,6 +765,22 @@ async def handle_permission_reply(request: web.Request) -> web.Response:
         return web.json_response({"error": "invalid JSON"}, status=400)
     reply = body.get("reply", "reject")
     message = body.get("message", "")
+
+    # PLAN mode enforcement: reject mutation actions
+    mode = request.app.get("_active_chat_mode", "")
+    MUTATION_ACTIONS = {"edit", "write", "delete", "bash"}
+    if mode == "plan" and reply != "reject":
+        # Fetch the permission details to check the action
+        try:
+            pending = request.app.get("_pending_permissions", {})
+            perm = pending.get(request_id, {})
+            action = perm.get("action", "")
+            if action in MUTATION_ACTIONS:
+                reply = "reject"
+                message = "Blocked in PLAN mode — not allowed during read-only analysis."
+        except Exception:
+            pass
+
     try:
         provider.reply_permission(request_id, reply, message)
         return web.json_response({"ok": True})
