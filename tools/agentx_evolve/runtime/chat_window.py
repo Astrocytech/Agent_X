@@ -2,10 +2,14 @@
 
 import asyncio
 import json
+import re
 import signal
+import subprocess
 import sys
 import threading
+import time
 import traceback
+import urllib.request
 import webbrowser
 from datetime import datetime
 from pathlib import Path
@@ -30,11 +34,28 @@ def _chat_meta_path(session_id: str) -> Path:
     return _chat_dir(session_id) / "meta.json"
 
 
-def _save_chat_message(session_id: str, role: str, content: str) -> None:
+def _join_fragments(fragments: list[str]) -> str:
+    """Join text fragments, adding a space after sentence-ending punctuation
+    when the next fragment does not start with whitespace."""
+    if not fragments:
+        return ""
+    result = fragments[0]
+    for frag in fragments[1:]:
+        if frag and result and result[-1] in ".!?" and not frag.startswith((" ", "\t", "\n")):
+            result += " " + frag
+        else:
+            result += frag
+    return result
+
+
+def _save_chat_message(session_id: str, role: str, content: str, reasoning: str = "") -> None:
     """Append a message to the chat session's messages file."""
     d = _chat_dir(session_id)
     d.mkdir(parents=True, exist_ok=True)
-    line = json.dumps({"role": role, "content": content})
+    record = {"role": role, "content": content, "timestamp": datetime.utcnow().isoformat() + "Z"}
+    if reasoning:
+        record["reasoning"] = reasoning
+    line = json.dumps(record)
     with open(_chat_messages_path(session_id), "a") as f:
         f.write(line + "\n")
 
@@ -102,8 +123,8 @@ def _list_sessions(provider=None):
                 date_str = dt.strftime("%Y-%m-%d %H:%M:%S")
             except ValueError:
                 date_str = ts_part
-            opencode_sid = meta.get("metadata", {}).get("opencode_session_id", "")
-            short_id = (opencode_sid[:20] + "...") if len(opencode_sid) > 20 else opencode_sid
+            sess_id = meta.get("metadata", {}).get("opencode_session_id", "") or entry.name
+            short_id = (sess_id[:20] + "...") if len(sess_id) > 20 else sess_id
             sessions.append({
                 "run_id": entry.name,
                 "session_name": command,
@@ -121,7 +142,10 @@ def _list_sessions(provider=None):
             if mp.exists():
                 meta = json.loads(mp.read_text())
             run_id = entry.name
+            # Fall back to directory mtime when meta.json is missing
             date_str = meta.get("created_at", "")
+            if not date_str:
+                date_str = datetime.fromtimestamp(entry.stat().st_mtime).strftime("%Y-%m-%d %H:%M:%S")
             short_id = (run_id[:20] + "...") if len(run_id) > 20 else run_id
             session_name = meta.get("session_name", "Chat")
             sessions.append({
@@ -156,7 +180,7 @@ def _load_session_messages(run_id: str):
                     role = data.get("role", "")
                     content = data.get("content", "")
                     if content:
-                        msgs.append({"role": role, "text": content})
+                        msgs.append({"role": role, "text": content, "timestamp": data.get("timestamp", ""), "reasoning": data.get("reasoning", "")})
         return msgs
 
     # Try chat session directory
@@ -171,7 +195,7 @@ def _load_session_messages(run_id: str):
                     role = data.get("role", "")
                     content = data.get("content", "")
                     if content:
-                        msgs.append({"role": role, "text": content})
+                        msgs.append({"role": role, "text": content, "timestamp": data.get("timestamp", ""), "reasoning": data.get("reasoning", "")})
         return msgs
 
     return []
@@ -252,9 +276,36 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
         if not message:
             raise web.HTTPBadRequest(text="missing message")
 
+        mode = (body.get("mode") or "build").strip()
         provider = request.app.get("provider")
         if provider is None:
             raise RuntimeError("no provider in app")
+
+        # Build messages list with mode-aware system prompts
+        messages_list: list[dict] = []
+        if mode == "plan":
+            messages_list.append({
+                "role": "system",
+                "content": (
+                    "You are in PLAN mode. You are in a read-only phase. "
+                    "You MUST NOT make any edits, run any non-readonly shell commands, "
+                    "or make any changes to the system. "
+                    "You can analyze code, ask clarifying questions, and provide plans, "
+                    "architecture recommendations, and thorough analysis. "
+                    "When you are ready to proceed to implementation, the user will "
+                    "switch to BUILD mode."
+                ),
+            })
+        else:
+            messages_list.append({
+                "role": "system",
+                "content": (
+                    "You are in BUILD mode. You have full tool access and can make "
+                    "file edits, run shell commands, and use all available tools "
+                    "to implement the user's requests."
+                ),
+            })
+        messages_list.append({"role": "user", "content": message})
 
         loop = asyncio.get_event_loop()
         queue: asyncio.Queue = asyncio.Queue()
@@ -265,18 +316,44 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
         resp.headers["X-Accel-Buffering"] = "no"
         await resp.prepare(request)
 
+        sid = provider.session_id if hasattr(provider, "session_id") else ""
+
+        # Persist user message and meta.json before streaming starts
+        # so the session is never empty on reload if streaming fails.
+        if sid:
+            try:
+                _save_chat_message(sid, "user", message)
+                # Ensure meta.json exists (session_name defaults to first message)
+                meta = {}
+                mp = _chat_meta_path(sid)
+                if mp.exists():
+                    meta = json.loads(mp.read_text())
+                if "session_name" not in meta:
+                    _save_chat_meta(
+                        sid,
+                        session_id=sid,
+                        session_name=message[:50] + ("..." if len(message) > 50 else ""),
+                    )
+            except Exception as e:
+                print(f"[chat] failed to persist user message: {e}", file=sys.stderr)
+
         started = threading.Event()
         accumulated: list[str] = []
+        accumulated_reasoning: list[str] = []
 
         def _feed_queue():
             try:
-                gen = provider.complete_streaming([{"role": "user", "content": message}])
+                gen = provider.complete_streaming(messages_list)
                 started.set()
                 for event in gen:
                     if event.get("type") == "text" and event.get("author") == "assistant":
                         text = event.get("text", "")
                         if text:
                             accumulated.append(text)
+                    if event.get("type") == "reasoning" and event.get("author") == "assistant":
+                        rtext = event.get("text", "")
+                        if rtext:
+                            accumulated_reasoning.append(rtext)
                     fut = asyncio.run_coroutine_threadsafe(queue.put(event), loop)
                     fut.result()
             except StopIteration:
@@ -322,30 +399,179 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
         except (ConnectionResetError, ConnectionError):
             pass
 
-        # Persist messages after successful streaming
-        try:
-            sid = provider.session_id if hasattr(provider, "session_id") else ""
-            if sid:
-                _save_chat_message(sid, "user", message)
-                assistant_text = "".join(accumulated)
-                if assistant_text:
-                    _save_chat_message(sid, "assistant", assistant_text)
-                # Use first 50 chars of first user message as default session name
-                meta = {}
-                mp = _chat_meta_path(sid)
-                if mp.exists():
-                    meta = json.loads(mp.read_text())
-                kw = {"session_id": sid}
-                if "session_name" not in meta:
-                    kw["session_name"] = message[:50] + ("..." if len(message) > 50 else "")
-                _save_chat_meta(sid, **kw)
-        except Exception as e:
-            print(f"[chat] failed to persist messages: {e}", file=sys.stderr)
+        # Persist whatever assistant text was accumulated (even on interrupt)
+        if sid and accumulated:
+            try:
+                reasoning_text = _join_fragments(accumulated_reasoning) if accumulated_reasoning else ""
+                _save_chat_message(sid, "assistant", _join_fragments(accumulated), reasoning=reasoning_text)
+            except Exception as e:
+                print(f"[chat] failed to persist assistant message: {e}", file=sys.stderr)
 
         return resp
     except Exception as e:
         traceback.print_exc()
         return web.Response(status=500, text=f"{type(e).__name__}: {e}")
+
+
+async def handle_import_session(request: web.Request) -> web.Response:
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+
+    messages = body.get("messages", [])
+    if not isinstance(messages, list) or not messages:
+        return web.json_response({"error": "messages array required"}, status=400)
+
+    session_name = (body.get("session_name") or "").strip() or "Imported Session"
+    import uuid
+    session_id = str(uuid.uuid4())
+
+    _save_chat_meta(session_id, session_name=session_name)
+    for msg in messages:
+        role = msg.get("role", "")
+        text = msg.get("text", "")
+        if role and text:
+            _save_chat_message(session_id, role, text)
+
+    return web.json_response({"ok": True, "session_id": session_id, "session_name": session_name})
+
+
+async def handle_revert_session(request: web.Request) -> web.Response:
+    session_id = request.match_info["session_id"]
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+    message_index = body.get("message_index")
+    if not isinstance(message_index, int) or message_index < 0:
+        return web.json_response({"error": "message_index required"}, status=400)
+    chat_path = _chat_messages_path(session_id)
+    if not chat_path.exists():
+        return web.json_response({"error": "session not found"}, status=404)
+    try:
+        lines = chat_path.read_text().strip().split("\n")
+        if message_index >= len(lines):
+            return web.json_response({"error": "message_index out of range"}, status=400)
+        kept = lines[:message_index]
+        chat_path.write_text("\n".join(kept) + ("\n" if kept else ""))
+        return web.json_response({"ok": True, "message_count": len(kept)})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+
+async def handle_model_switch(request: web.Request) -> web.Response:
+    try:
+        body = json.loads(await request.read())
+    except Exception:
+        return web.json_response({"error": "invalid JSON"}, status=400)
+    model = (body.get("model") or "").strip()
+    if not model:
+        return web.json_response({"error": "model required"}, status=400)
+    new_provider_name = (body.get("provider") or "").strip()
+    provider = request.app.get("provider")
+    if provider is None:
+        return web.json_response({"error": "no provider"}, status=400)
+    current_provider_name = getattr(provider, "_provider_id", "")
+
+    try:
+        if new_provider_name and new_provider_name != current_provider_name:
+            config = request.app.get("config")
+            if config is None:
+                return web.json_response({"error": "config not available for provider switch"}, status=400)
+            from agentx_evolve.providers.provider_router import ProviderRouter
+            old_config_provider = config.provider
+            config.provider = new_provider_name
+            config.model = model
+            new_provider = ProviderRouter(config).get_provider()
+            config.provider = old_config_provider
+            request.app["provider"] = new_provider
+            request.app["model"] = model
+            return web.json_response({"ok": True, "model": model, "provider": new_provider_name})
+        provider.model = model
+        request.app["model"] = model
+        return web.json_response({"ok": True, "model": model})
+    except Exception as e:
+        return web.json_response({"error": str(e)}, status=500)
+
+
+async def handle_models(request: web.Request) -> web.Response:
+    provider = request.app.get("provider")
+    models: list[dict[str, Any]] = []
+    # Fetch from current provider
+    if provider is not None and hasattr(provider, "get_models"):
+        try:
+            models.extend(provider.get_models())
+        except Exception:
+            pass
+    # Also try fetching from opencode server; start it if not running
+    opencode_base = request.app.get("opencode_base_url", "http://127.0.0.1:14096")
+    _ensure_opencode_server(opencode_base)
+    try:
+        req = urllib.request.Request(f"{opencode_base}/config/providers", method="GET")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            for prov in data.get("providers", []):
+                pid = prov.get("id", "")
+                for mid, minfo in (prov.get("models") or {}).items():
+                    model_entry = {
+                        "id": mid,
+                        "name": minfo.get("name", mid) if isinstance(minfo, dict) else mid,
+                        "provider": pid,
+                    }
+                    if model_entry not in models:
+                        models.append(model_entry)
+    except Exception:
+        pass
+    return web.json_response({"models": models})
+
+
+def _ensure_opencode_server(base_url: str) -> None:
+    """Start the opencode server if it's not already running."""
+    try:
+        hr = urllib.request.Request(f"{base_url}/global/health")
+        urllib.request.urlopen(hr, timeout=2)
+        return
+    except Exception:
+        pass
+    port_match = re.search(r":(\d+)$", base_url)
+    port = port_match.group(1) if port_match else "14096"
+    try:
+        proc = subprocess.Popen(
+            ["opencode", "serve", "--port", port],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        for _ in range(30):
+            try:
+                hr = urllib.request.Request(f"{base_url}/global/health")
+                urllib.request.urlopen(hr, timeout=2)
+                return
+            except Exception:
+                time.sleep(1)
+    except FileNotFoundError:
+        pass
+
+
+async def handle_subagents(request: web.Request) -> web.Response:
+    session_id = request.match_info["session_id"]
+    provider = request.app.get("provider")
+    if provider and hasattr(provider, "get_subagent_sessions"):
+        subs = provider.get_subagent_sessions(session_id)
+        return web.json_response(subs)
+    return web.json_response([])
+
+
+async def handle_subagent_messages(request: web.Request) -> web.Response:
+    session_id = request.match_info["session_id"]
+    provider = request.app.get("provider")
+    if provider and hasattr(provider, "get_session_messages"):
+        try:
+            msgs = provider.get_session_messages(session_id)
+            return web.json_response(msgs)
+        except Exception as e:
+            return web.json_response({"error": str(e)}, status=500)
+    return web.json_response({"error": "no provider"}, status=400)
 
 
 async def handle_new_session(request: web.Request) -> web.Response:
@@ -368,11 +594,17 @@ def _make_app(provider) -> web.Application:
     app.router.add_get("/api/sessions", handle_sessions)
     app.router.add_delete("/api/sessions", handle_clear_sessions)
     app.router.add_get("/api/status", handle_status)
+    app.router.add_get("/api/sessions/{session_id}/subagents", handle_subagents)
+    app.router.add_get("/api/sessions/{session_id}/subagent-messages", handle_subagent_messages)
     app.router.add_get("/api/sessions/{run_id}/messages", handle_session_messages)
     app.router.add_patch("/api/sessions/{run_id}", handle_rename_session)
     app.router.add_delete("/api/sessions/{run_id}", handle_delete_session)
     app.router.add_post("/api/chat", handle_chat)
     app.router.add_post("/api/session/new", handle_new_session)
+    app.router.add_post("/api/sessions/import", handle_import_session)
+    app.router.add_get("/api/models", handle_models)
+    app.router.add_post("/api/sessions/{session_id}/revert", handle_revert_session)
+    app.router.add_post("/api/model/switch", handle_model_switch)
 
     ui_exists = _UI_DIST.exists() and (_UI_DIST / "index.html").exists()
     if ui_exists:
@@ -400,18 +632,22 @@ async def handle_status(request: web.Request) -> web.Response:
         mp = _chat_meta_path(sid)
         if mp.exists():
             session_name = json.loads(mp.read_text()).get("session_name", "")
+    p_model = getattr(provider, "model", "") if provider else ""
     return web.json_response({
-        "model": request.app.get("model", ""),
+        "model": p_model or request.app.get("model", ""),
         "session_id": sid,
         "provider": pname,
         "session_name": session_name,
     })
 
 
-def run_chat_window(provider, session_id="", model="") -> int:
+def run_chat_window(provider, session_id="", model="", config=None) -> int:
     app = _make_app(provider)
     app["session_id"] = session_id
     app["model"] = model
+    if config is not None:
+        app["config"] = config
+        app["opencode_base_url"] = getattr(config, "opencode_base_url", "http://127.0.0.1:14096")
     runner = web.AppRunner(app)
 
     loop = asyncio.new_event_loop()

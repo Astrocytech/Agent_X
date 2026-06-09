@@ -26,16 +26,19 @@ class RuntimeConfig:
     command: str = ""
     opencode_base_url: str = "http://127.0.0.1:14096"
     opencode_api_key: str = ""
+    api_base_url: str = "http://127.0.0.1:11434/v1"
+    api_key: str = ""
     once_message: str = ""
     concept_file: str = ""
     agent_name: str = ""
     opencode_session_id: str = ""
+    session_id: str = ""
     agent_dest: str = ""
     agent_dir: str = ""
     dest: str = ""
     extra: dict[str, Any] = field(default_factory=dict)
 
-    SECRET_KEYS = {"opencode_api_key"}
+    SECRET_KEYS = {"opencode_api_key", "api_key"}
 
     def redacted_dict(self) -> dict[str, Any]:
         d = self.to_dict()
@@ -58,6 +61,9 @@ class RuntimeConfig:
             "opencode_base_url": self.opencode_base_url,
             "opencode_api_key": self.opencode_api_key,
             "opencode_session_id": self.opencode_session_id,
+            "api_base_url": self.api_base_url,
+            "api_key": self.api_key,
+            "session_id": self.session_id,
             "once_message": self.once_message,
             "concept_file": self.concept_file,
             "agent_name": self.agent_name,
@@ -80,7 +86,7 @@ class ConfigResolver:
         "--once", "--provider", "--model", "--run-root", "--timeout",
         "--concept-file", "--mode",
         "--name", "--dest", "--agent-dir", "--command",
-        "--session-id",
+        "--session-id", "--api-base-url", "--api-key",
     }
 
     def _parse_argv(self, argv: list[str]) -> dict[str, Any]:
@@ -116,7 +122,13 @@ class ConfigResolver:
             elif token == "--command":
                 args["command"] = next(it, "")
             elif token == "--session-id":
-                args["opencode_session_id"] = next(it, "")
+                val = next(it, "")
+                args["opencode_session_id"] = val
+                args["session_id"] = val
+            elif token == "--api-base-url":
+                args["api_base_url"] = next(it, "")
+            elif token == "--api-key":
+                args["api_key"] = next(it, "")
             elif token.startswith("--"):
                 raise ValueError(f"unknown flag: {token}")
         return args
@@ -130,6 +142,9 @@ class ConfigResolver:
             opencode_base_url=os.environ.get("AGENTX_OPENCODE_BASE_URL", "http://127.0.0.1:14096"),
             opencode_api_key=os.environ.get("AGENTX_OPENCODE_API_KEY", ""),
             opencode_session_id=os.environ.get("AGENTX_OPENCODE_SESSION_ID", ""),
+            api_base_url=os.environ.get("AGENTX_API_BASE_URL", "http://127.0.0.1:11434/v1"),
+            api_key=os.environ.get("AGENTX_API_KEY", ""),
+            session_id=os.environ.get("AGENTX_SESSION_ID", ""),
         )
 
     def _apply_args(self, config: RuntimeConfig, args: dict[str, Any]) -> None:

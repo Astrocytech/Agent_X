@@ -20,3 +20,8 @@ body {
   color: #1e1e1e;
   background: #fff;
 }
+
+body[data-theme="dark"] {
+  background: #11111b;
+  color: #cdd6f4;
+}

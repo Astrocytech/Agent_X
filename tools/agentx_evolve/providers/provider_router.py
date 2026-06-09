@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Any
 
 from agentx_evolve.runtime.config import RuntimeConfig
+from agentx_evolve.providers.api_provider import APIProvider, APIProviderError
 from agentx_evolve.providers.mock_provider import MockProvider
 from agentx_evolve.providers.opencode_provider import OpenCodeProvider, OpenCodeProviderError
 
@@ -10,7 +11,7 @@ class ProviderRouter:
     def __init__(self, config: RuntimeConfig):
         self.config = config
 
-    def get_provider(self) -> MockProvider | OpenCodeProvider:
+    def get_provider(self) -> MockProvider | OpenCodeProvider | APIProvider:
         provider_name = self.config.provider
 
         if provider_name == "mock":
@@ -23,6 +24,15 @@ class ProviderRouter:
                 model=self._payload_model(self.config.model),
                 timeout_seconds=self.config.timeout_seconds,
                 session_id=self.config.opencode_session_id,
+            )
+
+        if provider_name == "api":
+            return APIProvider(
+                base_url=self.config.api_base_url,
+                api_key=self.config.api_key,
+                model=self.config.model,
+                timeout_seconds=self.config.timeout_seconds,
+                session_id=self.config.session_id,
             )
 
         raise OpenCodeProviderError(

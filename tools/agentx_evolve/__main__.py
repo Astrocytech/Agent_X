@@ -114,11 +114,13 @@ def _print_help() -> None:
     print("  --once <message>           One-shot chat message")
     print("  --mock                     Use deterministic mock provider")
     print("  --json                     JSON stdout output")
-    print("  --provider <name>          Provider (mock, opencode)")
-    print("  --model <model-id>         Model identifier")
+    print("  --provider <name>          Provider (api, opencode, mock)")
+    print("  --model <model-id>         Model identifier (default: qwen2.5-coder:7b)")
     print("  --run-root <path>          Run artifacts root")
     print("  --timeout <seconds>        Provider timeout")
-    print("  --session-id <id>          Resume an existing session")
+    print("  --session-id <id>          Resume an existing session (provider-specific)")
+    print("  --api-base-url <url>       API provider base URL (default: http://127.0.0.1:11434/v1)")
+    print("  --api-key <key>            API provider key")
     print()
     print("Self-upgrade / Evolve-agent options:")
     print("  --concept-file <path>      Concept/architecture change file")
@@ -148,11 +150,13 @@ def _chat_help() -> None:
     print("  --help, -h                  Show this help")
     print("  --mock                      Use deterministic mock provider")
     print("  --json                      JSON stdout output")
-    print("  --provider <name>           Provider (mock, opencode)")
-    print("  --model <model-id>          Model identifier")
+    print("  --provider <name>           Provider (api, opencode, mock)")
+    print("  --model <model-id>          Model identifier (default: qwen2.5-coder:7b)")
     print("  --run-root <path>           Run artifacts root")
     print("  --timeout <seconds>         Provider timeout")
-    print("  --session-id <id>           Resume an existing session")
+    print("  --session-id <id>           Resume an existing session (provider-specific)")
+    print("  --api-base-url <url>        API provider base URL (default: http://127.0.0.1:11434/v1)")
+    print("  --api-key <key>             API provider key")
     print("  --gui                       Force browser UI (default when DISPLAY is set)")
     print("  --no-gui                    Force terminal REPL")
 
@@ -192,7 +196,7 @@ def _run_chat(argv: list[str]) -> None:
 
         if use_gui:
             from agentx_evolve.runtime.chat_window import run_chat_window
-            sys.exit(run_chat_window(provider, sid or "", config.model))
+            sys.exit(run_chat_window(provider, sid or "", config.model, config))
         else:
             import readline
             from agentx_evolve.runtime.chat_ui import ChatUI

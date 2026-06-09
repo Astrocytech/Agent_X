@@ -15,6 +15,10 @@ MOCK_RESPONSE_CATALOG: dict[str, dict[str, Any]] = {
 class MockProvider:
     def __init__(self, model: str = "mock/deterministic"):
         self.model = model
+        self._provider_id: str = "mock"
+
+    def get_models(self) -> list[dict[str, Any]]:
+        return [{"id": "mock/deterministic", "name": "Mock Deterministic", "provider": "mock"}]
 
     def complete(self, messages: list[dict[str, Any]], **kwargs: Any) -> dict[str, Any]:
         user_msg = self._last_user_message(messages)

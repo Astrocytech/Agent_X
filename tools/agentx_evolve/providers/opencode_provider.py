@@ -47,6 +47,7 @@ class OpenCodeProvider:
         self._provider_id: str = "opencode"
         self._server_proc: subprocess.Popen[str] | None = None
         self._conversation_logger = ConversationLogger()
+        self._subagent_sessions: dict[str, list[str]] = {}
 
     def reset_session(self) -> str:
         """Create a new session, discarding the old one."""
@@ -62,6 +63,25 @@ class OpenCodeProvider:
     @property
     def session_id(self) -> str | None:
         return self._session_id
+
+    def get_models(self) -> list[dict[str, Any]]:
+        try:
+            req = urllib.request.Request(f"{self.base_url}/config/providers", method="GET")
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                providers = data.get("providers", [])
+                models = []
+                for prov in providers:
+                    pid = prov.get("id", "")
+                    for mid, minfo in (prov.get("models") or {}).items():
+                        models.append({
+                            "id": mid,
+                            "name": minfo.get("name", mid) if isinstance(minfo, dict) else mid,
+                            "provider": pid,
+                        })
+                return models
+        except Exception:
+            return [{"id": self.model, "name": f"{self.model} (current)", "provider": self._provider_id}]
 
     def complete(self, messages: list[dict[str, Any]], **kwargs: Any) -> dict[str, Any]:
         self._conversation_logger.log_request(
@@ -346,12 +366,50 @@ class OpenCodeProvider:
                         inp = state.get("input", {})
                         outp = state.get("output", "")
                         err = state.get("error", "")
-                        if status == "running":
-                            yield {"type": "tool", "name": tool_name, "status": "running", "input": inp, "author": "assistant"}
-                        elif status == "completed":
-                            yield {"type": "tool", "name": tool_name, "status": "completed", "output": outp, "author": "assistant"}
-                        elif status == "error":
-                            yield {"type": "tool", "name": tool_name, "status": "error", "error": str(err)[:300], "author": "assistant"}
+                        if tool_name == "task":
+                            subagent_id = ""
+                            sub_match = re.search(r'<task\s+id="([^"]+)"', outp if outp else "")
+                            if sub_match:
+                                subagent_id = sub_match.group(1)
+                            if status == "running":
+                                yield {
+                                    "type": "subagent",
+                                    "status": "running",
+                                    "session_id": subagent_id or "",
+                                    "parent_session_id": self._session_id or "",
+                                    "name": inp.get("subagent_type", "subagent") if isinstance(inp, dict) else "subagent",
+                                    "description": inp.get("description", "") if isinstance(inp, dict) else "",
+                                    "author": "assistant",
+                                }
+                            elif status == "completed":
+                                if subagent_id:
+                                    self._subagent_sessions.setdefault(self._session_id or "", [])
+                                    if subagent_id not in self._subagent_sessions.get(self._session_id or "", []):
+                                        self._subagent_sessions[self._session_id or ""].append(subagent_id)
+                                yield {
+                                    "type": "subagent",
+                                    "status": "completed",
+                                    "session_id": subagent_id,
+                                    "parent_session_id": self._session_id or "",
+                                    "output": outp,
+                                    "author": "assistant",
+                                }
+                            elif status == "error":
+                                yield {
+                                    "type": "subagent",
+                                    "status": "error",
+                                    "session_id": subagent_id,
+                                    "parent_session_id": self._session_id or "",
+                                    "error": str(err)[:300],
+                                    "author": "assistant",
+                                }
+                        else:
+                            if status == "running":
+                                yield {"type": "tool", "name": tool_name, "status": "running", "input": inp, "author": "assistant"}
+                            elif status == "completed":
+                                yield {"type": "tool", "name": tool_name, "status": "completed", "output": outp, "author": "assistant"}
+                            elif status == "error":
+                                yield {"type": "tool", "name": tool_name, "status": "error", "error": str(err)[:300], "author": "assistant"}
 
                 if response_data[0] is not None or error_data[0] is not None:
                     break
@@ -402,6 +460,40 @@ class OpenCodeProvider:
             raise OpenCodeProviderError(
                 f"{FAIL_MALFORMED}: {e}", exit_code=1,
             )
+
+    def get_subagent_sessions(self, parent_session_id: str) -> list[str]:
+        """Return subagent session IDs for a given parent session."""
+        return self._subagent_sessions.get(parent_session_id, [])
+
+    def get_session_messages(self, session_id: str) -> list[dict[str, Any]]:
+        """Fetch session messages from opencode API."""
+        self._ensure_server()
+        url = f"{self.base_url}/session/{session_id}/message"
+        req = urllib.request.Request(url)
+        try:
+            with urllib.request.urlopen(req, timeout=self._timeout) as resp:
+                raw = resp.read().decode("utf-8")
+                data = json.loads(raw)
+                msgs = []
+                for item in data if isinstance(data, list) else [data]:
+                    info = item.get("info", {})
+                    role = info.get("role", "assistant")
+                    parts = item.get("parts", [])
+                    text = ""
+                    for p in parts:
+                        if p.get("type") == "text":
+                            pt = p.get("text", "")
+                            if pt:
+                                text += pt
+                    if text:
+                        msgs.append({"role": role, "text": text})
+                return msgs
+        except urllib.error.HTTPError as e:
+            if e.code == 404:
+                return []
+            self._classify_http_error(e)
+        except urllib.error.URLError as e:
+            raise OpenCodeProviderError(f"provider unavailable: {e}", exit_code=4)
 
 
 def _sse_events(resp: urllib.request.AddInfoHandler) -> Generator[dict[str, Any], None, None]:

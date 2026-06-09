@@ -12,6 +12,10 @@ from agentx_evolve.runtime.results import (
 from agentx_evolve.runtime.plan_parser import StructuredPlanParser, PlanParseError
 from agentx_evolve.providers.provider_router import ProviderRouter
 from agentx_evolve.providers.opencode_provider import OpenCodeProviderError
+from agentx_evolve.providers.api_provider import APIProviderError
+
+
+_PROVIDER_ERRORS = (OpenCodeProviderError, APIProviderError)
 
 
 class SelfUpgradeWorkflow:
@@ -77,7 +81,7 @@ class SelfUpgradeWorkflow:
 
         try:
             response = provider.complete_structured(messages)
-        except OpenCodeProviderError as e:
+        except _PROVIDER_ERRORS as e:
             writer.write_model_response({
                 "role": "assistant", "content": e.message,
                 "finish_reason": "error",

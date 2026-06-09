@@ -11,6 +11,10 @@ from agentx_evolve.runtime.results import (
 )
 from agentx_evolve.providers.provider_router import ProviderRouter
 from agentx_evolve.providers.opencode_provider import OpenCodeProviderError
+from agentx_evolve.providers.api_provider import APIProviderError
+
+
+_PROVIDER_ERRORS = (OpenCodeProviderError, APIProviderError)
 
 
 class ChatWorkflow:
@@ -38,6 +42,7 @@ class ChatWorkflow:
             "provider": self.config.provider,
             "model": self.config.model,
             "opencode_session_id": self.config.opencode_session_id or None,
+            "session_id": self.config.session_id or None,
         }
         writer.write_context(context)
         session.transition("CONTEXT_PACKED")
@@ -61,7 +66,7 @@ class ChatWorkflow:
         provider = router.get_provider()
         try:
             response = provider.complete(messages)
-        except OpenCodeProviderError as e:
+        except _PROVIDER_ERRORS as e:
             content = e.message
             status = STATUS_FAIL if e.status == "FAIL" else STATUS_BLOCKED
             exit_code = e.exit_code

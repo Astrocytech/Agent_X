@@ -12,76 +12,52 @@ const MENUS = {
     null,
     { label: "Open Session...", shortcut: "Ctrl+O", id: "openSession" },
     null,
-    { label: "Import Session", disabled: true },
-    { label: "Export Session", disabled: true },
+    { label: "Import Session", id: "importSession" },
+    { label: "Export Session", id: "exportSession" },
     null,
-    { label: "Jump to Message", shortcut: "Ctrl+X G", disabled: true },
-    { label: "Fork Session", disabled: true },
-    { label: "Compact Session", shortcut: "Ctrl+X C", disabled: true },
-    { label: "Undo Previous Message", shortcut: "Ctrl+X U", disabled: true },
+    { label: "Jump to Message", shortcut: "Ctrl+X G", id: "jumpToMessage" },
+    { label: "Undo Previous Message", shortcut: "Ctrl+X U", id: "undoMessage" },
     null,
-    { label: "Hide Sidebar", shortcut: "Ctrl+X B", disabled: true },
-    { label: "Disable Code Concealment", shortcut: "Ctrl+X H", disabled: true },
-    { label: "Show Timestamps", disabled: true },
-    { label: "Collapse Thinking", disabled: true },
-    { label: "Hide Tool Details", disabled: true },
-    { label: "Toggle Session Scrollbar", disabled: true },
-    { label: "Show Generic Tool Output", disabled: true },
+    { label: "Hide Sidebar", shortcut: "Ctrl+X B", id: "hideSidebar" },
+    { label: "Show Timestamps", id: "showTimestamps" },
+    { label: "Collapse Thinking", id: "collapseThinking" },
+    { label: "Hide Tool Details", id: "hideToolDetails" },
     null,
-    { label: "Copy Last Assistant Message", shortcut: "Ctrl+X Y", disabled: true },
-    { label: "Copy Session Transcript", disabled: true },
-  ],
-  Prompt: [
-    { label: "Skills", disabled: true },
-    { label: "Stash Pop", disabled: true },
-    { label: "Stash List", disabled: true },
+    { label: "Copy Last Assistant Message", shortcut: "Ctrl+X Y", id: "copyLastMessage" },
+    { label: "Copy Session Transcript", id: "copyTranscript" },
   ],
   Agent: [
-    { label: "Switch Model", shortcut: "Ctrl+X M", disabled: true },
-    { label: "Switch Agent", shortcut: "Ctrl+X A", disabled: true },
-    { label: "Toggle MCPs", disabled: true },
-    { label: "Variant Cycle", shortcut: "Ctrl+T", disabled: true },
+    { label: "Switch Model", shortcut: "Ctrl+X M", id: "switchModel" },
   ],
-  Provider: [{ label: "Connect Provider", disabled: true }],
   System: [
-    { label: "View Status", shortcut: "Ctrl+X S", disabled: true },
-    { label: "Switch Theme", shortcut: "Ctrl+X T", disabled: true },
-    { label: "Switch to Light Mode", disabled: true },
-    { label: "Lock Theme Mode", disabled: true },
+    { label: "View Status", shortcut: "Ctrl+X S", id: "viewStatus" },
+    { label: "Switch Theme", shortcut: "Ctrl+X T", id: "switchTheme" },
     null,
-    { label: "Open Docs", disabled: true },
-    null,
-    { label: "Exit the App", shortcut: "Ctrl+X Q", disabled: true },
-    null,
-    { label: "Toggle Debug Panel", disabled: true },
-    { label: "Toggle Console", disabled: true },
-    { label: "Write Heap Snapshot", disabled: true },
-    { label: "Disable Terminal Title", disabled: true },
-    { label: "Disable Animations", disabled: true },
-    { label: "Disable File Context", disabled: true },
-    { label: "Disable Diff Wrapping", disabled: true },
-    { label: "Disable Paste Summary", disabled: true },
-    { label: "Disable Session Directory Filtering", disabled: true },
-    null,
-    { label: "Install Plugin", disabled: true },
+    { label: "Open Docs", id: "openDocs" },
   ],
-  VCS: [{ label: "Open Diff Viewer", disabled: true }],
   Help: [{ label: "About", id: "about" }],
 };
 
 const MENU_ORDER = [
   "Session",
-  "Prompt",
   "Agent",
-  "Provider",
   "System",
-  "VCS",
   "Help",
 ];
 
 /* ------------------------------------------------------------------ */
 /*  Markdown → HTML (minimal)                                          */
 /* ------------------------------------------------------------------ */
+
+function joinText(existing, incoming) {
+  if (!incoming) return existing || "";
+  if (!existing) return incoming;
+  const last = existing[existing.length - 1];
+  if (".!?".includes(last) && incoming[0] !== " ") {
+    return existing + " " + incoming;
+  }
+  return existing + incoming;
+}
 
 function mdToHtml(text) {
   if (!text) return "";
@@ -103,6 +79,31 @@ function mdToHtml(text) {
     .join("");
   return paragraphs;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Icon components                                                    */
+/* ------------------------------------------------------------------ */
+
+const IconOpen = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+  </svg>
+);
+
+const IconRename = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+  </svg>
+);
+
+const IconDelete = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6"/>
+    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+    <line x1="10" y1="11" x2="10" y2="17"/>
+    <line x1="14" y1="11" x2="14" y2="17"/>
+  </svg>
+);
 
 /* ------------------------------------------------------------------ */
 /*  Session list modal                                                 */
@@ -220,9 +221,9 @@ function SessionModal({ open, onClose, onSelect, onStatusRefresh }) {
                   </td>
                   <td className="session-id-cell">{s.short_id || ""}</td>
                   <td className="session-actions">
-                    <button className="btn btn-open" onClick={() => { onSelect(s); onClose(); }}>Open</button>
-                    <button className="btn btn-rename" onClick={() => startRename(s)}>Rename</button>
-                    <button className="btn btn-delete" onClick={() => handleDelete(s.run_id)}>Delete</button>
+                    <button className="btn btn-icon btn-open" title="Open session" onClick={() => { onSelect(s); onClose(); }}><IconOpen /></button>
+                    <button className="btn btn-icon btn-rename" title="Rename session" onClick={() => startRename(s)}><IconRename /></button>
+                    <button className="btn btn-icon btn-delete" title="Delete session" onClick={() => handleDelete(s.run_id)}><IconDelete /></button>
                   </td>
                 </tr>
               ))}
@@ -299,18 +300,202 @@ function AboutModal({ open, onClose }) {
   );
 }
 
+function StatusModal({ open, onClose, statusInfo }) {
+  if (!open) return null;
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal modal-sm" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">Status</div>
+        <div style={{ padding: "16px 20px", lineHeight: 1.8 }}>
+          <div className="status-row"><span className="status-label">Provider</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.provider || "—"}</span></div>
+          <div className="status-row" style={{ marginTop: 10 }}><span className="status-label">Model</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.model || "—"}</span></div>
+          <div className="status-row" style={{ marginTop: 10 }}><span className="status-label">Session ID</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.session_id || "—"}</span></div>
+          <div className="status-row" style={{ marginTop: 10 }}><span className="status-label">Session Name</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.session_name || "—"}</span></div>
+        </div>
+        <div className="modal-footer">
+          <button className="btn" onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ModelModal({ open, onClose, currentModel, currentProvider, onSwitch }) {
+  const [models, setModels] = useState([]);
+  const [search, setSearch] = useState("");
+  const [switching, setSwitching] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [modelInput, setModelInput] = useState("");
+
+  useEffect(() => {
+    if (!open) return;
+    setSearch("");
+    setModelInput("");
+    setLoading(true);
+    fetch("/api/models")
+      .then((r) => r.json())
+      .then((data) => setModels(data.models || []))
+      .catch(() => setModels([]))
+      .finally(() => setLoading(false));
+  }, [open]);
+
+  const filtered = search
+    ? models.filter((m) =>
+        `${m.provider}/${m.id}`.toLowerCase().includes(search.toLowerCase()) ||
+        m.name?.toLowerCase().includes(search.toLowerCase())
+      )
+    : models;
+
+  const grouped = {};
+  for (const m of filtered) {
+    if (!grouped[m.provider]) grouped[m.provider] = [];
+    grouped[m.provider].push(m);
+  }
+
+  const isCurrent = (m) => m.id === currentModel && m.provider === currentProvider;
+
+  if (!open) return null;
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <span>Switch Model</span>
+          <span className="modal-subtitle">{currentProvider || "—"} / {currentModel || "—"}</span>
+          <button className="modal-close" onClick={onClose}>&times;</button>
+        </div>
+        <div style={{ padding: "8px 12px", borderBottom: "1px solid #e0e2e6" }}>
+          <input
+            className="chat-name-input" style={{ width: "100%" }}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search models..."
+            autoFocus
+          />
+        </div>
+        <div className="modal-body model-list-body">
+          {loading ? (
+            <p style={{ padding: 16, color: "#888" }}>Loading models...</p>
+          ) : Object.keys(grouped).length === 0 ? (
+            <p style={{ padding: 16, color: "#888" }}>No models found.</p>
+          ) : (
+            Object.entries(grouped).map(([provider, ms]) => (
+              <div key={provider}>
+                <div className="model-group-header">{provider}</div>
+                {ms.map((m) => (
+                  <div
+                    key={`${m.provider}/${m.id}`}
+                    className={`model-row${isCurrent(m) ? " active" : ""}`}
+                    onClick={() => {
+                      if (!isCurrent(m) && !switching) onSwitch(m.id, m.provider, setSwitching, onClose);
+                    }}
+                  >
+                    <span className="model-name">{m.name || m.id}</span>
+                    <span className="model-id">{m.id}</span>
+                    {isCurrent(m) && <span className="model-check">&#10003;</span>}
+                  </div>
+                ))}
+              </div>
+            ))
+          )}
+        </div>
+        <div className="modal-footer" style={{ flexDirection: "column", gap: 8 }}>
+          <div style={{ display: "flex", gap: 8, width: "100%" }}>
+            <input
+              className="chat-name-input" style={{ flex: 1 }}
+              value={modelInput}
+              onChange={(e) => setModelInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") onSwitch(modelInput, "", setSwitching, onClose); }}
+              disabled={switching}
+              placeholder="Or type a custom model ID..."
+            />
+            <button className="btn" style={{ background: "#4a6fa5", color: "#fff", borderColor: "#4a6fa5", whiteSpace: "nowrap" }} onClick={() => onSwitch(modelInput, "", setSwitching, onClose)} disabled={switching || !modelInput.trim()}>
+              {switching ? "Switching..." : "Switch"}
+            </button>
+          </div>
+          <button className="btn" onClick={onClose} disabled={switching} style={{ width: "100%" }}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TimelineModal({ open, onClose, messages, onJump }) {
+  if (!open) return null;
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <span>Jump to Message</span>
+          <span className="modal-subtitle">{messages.length} messages</span>
+          <button className="modal-close" onClick={onClose}>&times;</button>
+        </div>
+        <div className="modal-body timeline-body">
+          {messages.length === 0 ? (
+            <p style={{ padding: 16, color: "#888" }}>No messages.</p>
+          ) : (
+            <table className="session-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Role</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              <tbody>
+                {messages.map((m, i) => (
+                  <tr key={i} className="timeline-row" onClick={() => { onJump(i); onClose(); }}>
+                    <td className="timeline-num">{i + 1}</td>
+                    <td><span className={`tl-role tl-role-${m.role}`}>{m.role}</span></td>
+                    <td className="timeline-text">{(m.text || "").slice(0, 120)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+        <div className="modal-footer">
+          <button className="btn" onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  Message bubble                                                     */
 /* ------------------------------------------------------------------ */
 
-function Message({ role, text }) {
+function formatTimestamp(ts) {
+  if (!ts) return "";
+  try {
+    const d = new Date(ts);
+    const now = new Date();
+    const isToday = d.toDateString() === now.toDateString();
+    const time = d.toLocaleTimeString(undefined, { timeStyle: "short" });
+    if (isToday) return time;
+    return `${time} · ${d.toLocaleDateString()}`;
+  } catch { return ""; }
+}
+
+function Message({ role, text, index, reasoning, timestamp, showTimestamps, thinkingMode }) {
   const html = mdToHtml(text);
   const isUser = role === "user";
   return (
-    <div className={`msg msg-${role}`}>
+    <div className={`msg msg-${role}`} data-message-index={index}>
       <div className={`msg-label msg-label-${role}`}>
         {isUser ? "You" : "Assistant"}
+        {showTimestamps && timestamp && (
+          <span className="msg-timestamp"> · {formatTimestamp(timestamp)}</span>
+        )}
       </div>
+      {reasoning && thinkingMode === "show" && (
+        <details className="thinking-block" open>
+          <summary className="thinking-summary">Thinking</summary>
+          <div className="thinking-body" dangerouslySetInnerHTML={{ __html: mdToHtml(reasoning) }} />
+        </details>
+      )}
       <div className="msg-body" dangerouslySetInnerHTML={{ __html: html }} />
     </div>
   );
@@ -370,6 +555,7 @@ export default function App() {
   const [input, setInput] = useState("");
   const [openMenu, setOpenMenu] = useState(null);
   const [showSessionModal, setShowSessionModal] = useState(false);
+  const [showTimeline, setShowTimeline] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const menuRef = useRef(null);
   const chatEndRef = useRef(null);
@@ -382,8 +568,13 @@ export default function App() {
   const [statusInfo, setStatusInfo] = useState({ model: "", session_id: "", provider: "", session_name: "" });
   const [editingName, setEditingName] = useState(false);
   const nameInputRef = useRef(null);
+  const importFileRef = useRef(null);
 
   /* resizable activity panel width */
+  const [subagents, setSubagents] = useState([]);
+  const [activeSubagentId, setActiveSubagentId] = useState(null);
+  const [subagentMessages, setSubagentMessages] = useState(null);
+
   const [activityWidth, setActivityWidth] = useState(() => {
     try {
       const saved = localStorage.getItem("agentx_activity_width");
@@ -394,12 +585,50 @@ export default function App() {
   const dragStartX = useRef(0);
   const dragStartWidth = useRef(0);
 
+  /* resizable chat input height */
+  const [inputHeight, setInputHeight] = useState(() => {
+    try {
+      const saved = localStorage.getItem("agentx_input_height");
+      const parsed = saved ? parseInt(saved, 10) : 160;
+      return Math.max(80, Math.min(600, parsed));
+    } catch { return 160; }
+  });
+  const [inputDragging, setInputDragging] = useState(false);
+  const inputDragStartY = useRef(0);
+  const inputDragStartHeight = useRef(0);
+
+  const [hideToolDetails, setHideToolDetails] = useState(() => {
+    const v = localStorage.getItem("agentx_tool_details");
+    return v !== null ? v === "true" : true;
+  });
+  const [showTimestamps, setShowTimestamps] = useState(() => localStorage.getItem("agentx_timestamps") === "show");
+  const [thinkingMode, setThinkingMode] = useState(() => localStorage.getItem("agentx_thinking_mode") || "hide");
+  const [sidebarPref, setSidebarPref] = useState(() => localStorage.getItem("agentx_sidebar") || "auto");
+  const [theme, setTheme] = useState(() => localStorage.getItem("agentx_theme") || "light");
+  const [mode, setMode] = useState(() => localStorage.getItem("agentx_mode") || "build");
+  const [showStatus, setShowStatus] = useState(false);
+  const [showModelModal, setShowModelModal] = useState(false);
+  const leaderRef = useRef(null);
+
+  const sidebarVisible = sidebarPref === "auto";
+
+  useEffect(() => {
+    document.body.setAttribute("data-theme", theme);
+  }, [theme]);
+
   const onHandleMouseDown = useCallback((e) => {
     e.preventDefault();
     setDragging(true);
     dragStartX.current = e.clientX;
     dragStartWidth.current = activityWidth;
   }, [activityWidth]);
+
+  const onInputHandleMouseDown = useCallback((e) => {
+    e.preventDefault();
+    setInputDragging(true);
+    inputDragStartY.current = e.clientY;
+    inputDragStartHeight.current = inputHeight;
+  }, [inputHeight]);
 
   useEffect(() => {
     if (!dragging) return;
@@ -425,6 +654,28 @@ export default function App() {
       document.body.style.userSelect = "";
     };
   }, [dragging]);
+
+  useEffect(() => {
+    if (!inputDragging) return;
+    const onMove = (e) => {
+      const newHeight = inputDragStartHeight.current - (e.clientY - inputDragStartY.current);
+      const clamped = Math.max(80, Math.min(600, newHeight));
+      setInputHeight(clamped);
+    };
+    const onUp = () => {
+      setInputDragging(false);
+      setInputHeight((h) => {
+        try { localStorage.setItem("agentx_input_height", String(h)); } catch {}
+        return h;
+      });
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+    };
+  }, [inputDragging]);
 
   /* persist state on changes */
   useEffect(() => {
@@ -491,6 +742,8 @@ export default function App() {
   }, [openMenu]);
 
   /* keyboard shortcuts */
+  const menuActionRef = useRef(null);
+  const leaderTimeoutRef = useRef(null);
   useEffect(() => {
     const handler = (e) => {
       const mod = e.ctrlKey || e.metaKey;
@@ -502,9 +755,34 @@ export default function App() {
       if (mod && e.key.toLowerCase() === "c" && window.getSelection().toString()) {
         return;
       }
+      /* Ctrl+X leader key */
+      if (mod && e.key.toLowerCase() === "x") {
+        e.preventDefault();
+        leaderRef.current = true;
+        if (leaderTimeoutRef.current) clearTimeout(leaderTimeoutRef.current);
+        leaderTimeoutRef.current = setTimeout(() => { leaderRef.current = false; }, 2000);
+        return;
+      }
+      if (leaderRef.current) {
+        leaderRef.current = false;
+        if (leaderTimeoutRef.current) clearTimeout(leaderTimeoutRef.current);
+        const key = e.key.toLowerCase();
+        const map = {
+          u: "undoMessage", b: "hideSidebar", m: "switchModel",
+          s: "viewStatus", t: "switchTheme", y: "copyLastMessage",
+          g: "jumpToMessage",
+        };
+        if (map[key]) {
+          e.preventDefault();
+          menuActionRef.current(map[key]);
+        }
+      }
     };
     document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    return () => {
+      document.removeEventListener("keydown", handler);
+      if (leaderTimeoutRef.current) clearTimeout(leaderTimeoutRef.current);
+    };
   }, []);
 
   const handleMenuAction = useCallback((id) => {
@@ -526,7 +804,217 @@ export default function App() {
       case "about":
         setShowAbout(true);
         break;
+      case "exportSession":
+        {
+          if (messages.length === 0) return;
+          const data = {
+            version: 1,
+            session_name: statusInfo.session_name || "Session",
+            exported_at: new Date().toISOString(),
+            messages: messages.map(({ role, text }) => ({ role, text })),
+          };
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `session-${statusInfo.session_id || "export"}.json`;
+          a.click();
+          URL.revokeObjectURL(url);
+        }
+        break;
+      case "importSession":
+        importFileRef.current?.click();
+        break;
+      case "jumpToMessage":
+        setShowTimeline(true);
+        break;
+      case "hideToolDetails": {
+        const next = !hideToolDetails;
+        localStorage.setItem("agentx_tool_details", next);
+        setHideToolDetails(next);
+        break;
+      }
+      case "showTimestamps": {
+        const next = showTimestamps ? "hide" : "show";
+        localStorage.setItem("agentx_timestamps", next);
+        setShowTimestamps(!showTimestamps);
+        break;
+      }
+      case "collapseThinking": {
+        const next = thinkingMode === "show" ? "hide" : "show";
+        localStorage.setItem("agentx_thinking_mode", next);
+        setThinkingMode(next);
+        break;
+      }
+      case "hideSidebar": {
+        const next = sidebarPref === "auto" ? "hide" : "auto";
+        localStorage.setItem("agentx_sidebar", next);
+        setSidebarPref(next);
+        break;
+      }
+      case "switchTheme": {
+        const next = theme === "light" ? "dark" : "light";
+        localStorage.setItem("agentx_theme", next);
+        setTheme(next);
+        break;
+      }
+      case "viewStatus":
+        setShowStatus(true);
+        break;
+      case "switchModel":
+        setShowModelModal(true);
+        break;
+      case "openDocs":
+        window.open("https://opencode.ai/docs", "_blank");
+        break;
+      case "copyLastMessage": {
+        const last = [...messages].reverse().find((m) => m.role === "assistant");
+        if (last) {
+          navigator.clipboard.writeText(last.text.trim()).then(() => {
+            setActivities((prev) => [...prev, { type: "info", text: "Message copied to clipboard!", time: new Date().toLocaleTimeString() }]);
+          }).catch(() => {});
+        }
+        break;
+      }
+      case "copyTranscript": {
+        const lines = [
+          `# ${statusInfo.session_name || "Session"}`,
+          `**Session ID:** ${statusInfo.session_id || "—"}`,
+          `**Created:** ${new Date().toLocaleString()}`,
+          "",
+          "---",
+          "",
+        ];
+        for (const m of messages) {
+          lines.push(`## ${m.role === "user" ? "User" : "Assistant"}`);
+          lines.push("");
+          lines.push(m.text || "");
+          if (m.reasoning && thinkingMode === "show") {
+            lines.push("");
+            lines.push("_Thinking:_");
+            lines.push("");
+            lines.push(m.reasoning);
+          }
+          lines.push("");
+          lines.push("---");
+          lines.push("");
+        }
+        navigator.clipboard.writeText(lines.join("\n")).then(() => {
+          setActivities((prev) => [...prev, { type: "info", text: "Transcript copied to clipboard!", time: new Date().toLocaleTimeString() }]);
+        }).catch(() => {});
+        break;
+      }
+      case "undoMessage": {
+        const sid = statusInfo.session_id;
+        if (!sid || messages.length === 0) break;
+        const lastUserIdx = [...messages].reverse().findIndex((m) => m.role === "user");
+        if (lastUserIdx < 0) break;
+        const idx = messages.length - 1 - lastUserIdx;
+        fetch(`/api/sessions/${sid}/revert`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message_index: idx }),
+        })
+          .then((r) => {
+            if (!r.ok) throw new Error("Revert failed");
+            return r.json();
+          })
+          .then(() => {
+            const restored = messages[idx].text || "";
+            setMessages((prev) => prev.slice(0, idx));
+            setInput(restored);
+            setActivities((prev) => [...prev, { type: "info", text: `Reverted to message #${idx}`, time: new Date().toLocaleTimeString() }]);
+          })
+          .catch((err) => {
+            setActivities((prev) => [...prev, { type: "error", text: `Undo failed: ${err.message}`, time: new Date().toLocaleTimeString() }]);
+          });
+        break;
+      }
     }
+  }, [messages, statusInfo, importFileRef, fetchStatus, hideToolDetails, showTimestamps, thinkingMode, sidebarPref, theme]);
+  menuActionRef.current = handleMenuAction;
+
+  const jumpToMessage = useCallback((index) => {
+    const el = document.querySelector(`[data-message-index="${index}"]`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  const handleImportFile = useCallback((e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        const msgs = data.messages || [];
+        if (!Array.isArray(msgs) || msgs.length === 0) {
+          setActivities([{ type: "error", text: "No messages found in import file.", time: new Date().toLocaleTimeString() }]);
+          return;
+        }
+        const valid = msgs.every((m) => m.role && m.text);
+        if (!valid) {
+          setActivities([{ type: "error", text: "Invalid message format in import file.", time: new Date().toLocaleTimeString() }]);
+          return;
+        }
+        setActivities([{ type: "info", text: "Importing session...", time: new Date().toLocaleTimeString() }]);
+        fetch("/api/sessions/import", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            session_name: data.session_name || "Imported Session",
+            messages: msgs,
+          }),
+        })
+          .then((r) => r.json())
+          .then((result) => {
+            if (result.error) throw new Error(result.error);
+            setMessages(msgs.map(({ role, text }) => ({ role, text })));
+            fetchStatus();
+            setActivities([{ type: "info", text: `Imported "${result.session_name}"`, time: new Date().toLocaleTimeString() }]);
+          })
+          .catch((err) => {
+            setActivities([{ type: "error", text: `Import failed: ${err.message}`, time: new Date().toLocaleTimeString() }]);
+          });
+      } catch (err) {
+        setActivities([{ type: "error", text: `Invalid file: ${err.message}`, time: new Date().toLocaleTimeString() }]);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  }, [fetchStatus]);
+
+  const selectSubagent = useCallback((sessionId) => {
+    if (!sessionId) {
+      setActiveSubagentId(null);
+      setSubagentMessages(null);
+      return;
+    }
+    setActiveSubagentId(sessionId);
+    setSubagentMessages(null);
+    setActivities((prev) => [
+      ...prev,
+      { type: "info", text: `Loading subagent session...`, time: new Date().toLocaleTimeString() },
+    ]);
+    fetch(`/api/sessions/${sessionId}/subagent-messages`)
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then((msgs) => {
+        setSubagentMessages(msgs || []);
+        setActivities((prev) => {
+          const copy = prev.filter((a) => a.text !== "Loading subagent session...");
+          copy.push({ type: "info", text: `Subagent session loaded (${(msgs || []).length} messages)`, time: new Date().toLocaleTimeString() });
+          return copy;
+        });
+      })
+      .catch((err) => {
+        setSubagentMessages([]);
+        setActivities((prev) => [
+          ...prev,
+          { type: "error", text: `Failed to load subagent: ${err.message}`, time: new Date().toLocaleTimeString() },
+        ]);
+      });
   }, []);
 
   const loadSession = useCallback((s) => {
@@ -585,12 +1073,14 @@ export default function App() {
       }, timeoutMs);
     }
 
+    const currentMode = mode;
+
     (async () => {
       try {
         const response = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: text }),
+          body: JSON.stringify({ message: text, mode: currentMode }),
           signal: controller.signal,
         });
 
@@ -626,7 +1116,7 @@ export default function App() {
                   if (last && last.role === "assistant") {
                     copy[copy.length - 1] = {
                       ...last,
-                      text: last.text + (event.text || ""),
+                      text: joinText(last.text, event.text || ""),
                     };
                   }
                   return copy;
@@ -647,6 +1137,16 @@ export default function App() {
                   ...prev,
                   { type: "error", text: event.text, time: new Date().toLocaleTimeString() },
                 ]);
+              } else if (event.type === "subagent") {
+                setSubagents((prev) => {
+                  const idx = prev.findIndex((s) => s.session_id === (event.session_id || event.description));
+                  if (idx >= 0) {
+                    const copy = [...prev];
+                    copy[idx] = { ...copy[idx], ...event, time: new Date().toLocaleTimeString() };
+                    return copy;
+                  }
+                  return [...prev, { ...event, time: new Date().toLocaleTimeString() }];
+                });
               } else {
                 setActivities((prev) => [
                   ...prev,
@@ -680,7 +1180,7 @@ export default function App() {
         abortRef.current = null;
       }
     })();
-  }, [input, streaming]);
+  }, [input, streaming, mode]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -749,7 +1249,14 @@ export default function App() {
           </div>
           <div className="chat-area">
             <div className="chat-header">
-            {editingName ? (
+            {activeSubagentId ? (
+              <div className="chat-name-display">
+                <button className="btn btn-back" onClick={() => selectSubagent(null)}>
+                  &#8592; Back
+                </button>
+                <span className="chat-name-text">Subagent: {activeSubagentId.slice(0, 20)}...</span>
+              </div>
+            ) : editingName ? (
               <div className="chat-name-edit">
                 <input
                   ref={nameInputRef}
@@ -767,10 +1274,54 @@ export default function App() {
             )}
           </div>
             <div className="messages">
-              {messages.map((m, i) => (
-                <Message key={i} role={m.role} text={m.text} />
-              ))}
+              {activeSubagentId ? (
+                subagentMessages === null ? (
+                  <div className="msg msg-assistant">
+                    <div className="msg-label msg-label-assistant">Subagent</div>
+                    <div className="msg-body">Loading subagent session...</div>
+                  </div>
+                ) : subagentMessages.length === 0 ? (
+                  <div className="msg msg-assistant">
+                    <div className="msg-label msg-label-assistant">Subagent</div>
+                    <div className="msg-body">No messages in this subagent session.</div>
+                  </div>
+                ) : (
+                  subagentMessages.map((m, i) => (
+                    <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} />
+                  ))
+                )
+              ) : (
+                messages.map((m, i) => (
+                  <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} />
+                ))
+              )}
               <div ref={chatEndRef} />
+            </div>
+
+            <div className={`resize-handle-h${inputDragging ? " active" : ""}`} onMouseDown={onInputHandleMouseDown} />
+            <div className="input-area" style={{ height: inputHeight }}>
+
+            {/* ── Mode toggle ──────────────────────────────── */}
+            <div className="mode-bar">
+              <button
+                className={`mode-btn mode-btn-plan${mode === "plan" ? " active" : ""}`}
+                onClick={() => {
+                  localStorage.setItem("agentx_mode", "plan");
+                  setMode("plan");
+                }}
+              >
+                Plan
+              </button>
+              <button
+                className={`mode-btn mode-btn-build${mode === "build" ? " active" : ""}`}
+                onClick={() => {
+                  localStorage.setItem("agentx_mode", "build");
+                  setMode("build");
+                }}
+              >
+                Build
+              </button>
+              <span className="mode-label">{mode === "plan" ? "Read-only analysis" : "Full tool access"}</span>
             </div>
 
             {/* ── Input bar ─────────────────────────────────── */}
@@ -814,11 +1365,21 @@ export default function App() {
                 </button>
               </div>
             </div>
+            </div>
           </div>
           <div className={`resize-handle${dragging ? " active" : ""}`} onMouseDown={onHandleMouseDown} />
-          <div className="activity-panel-wrap" style={{ width: activityWidth }}>
-            <ActivityPanel activities={activities} streaming={streaming} />
-          </div>
+          {sidebarVisible && (
+            <div className="activity-panel-wrap" style={{ width: activityWidth }}>
+              <ActivityPanel
+                activities={activities}
+                streaming={streaming}
+                subagents={subagents}
+                activeSession={activeSubagentId}
+                onSelectSubagent={selectSubagent}
+                hideToolDetails={hideToolDetails}
+              />
+            </div>
+          )}
         </div>
 
         {/* ── Modals ────────────────────────────────────── */}
@@ -828,7 +1389,50 @@ export default function App() {
           onSelect={loadSession}
           onStatusRefresh={fetchStatus}
         />
+        <TimelineModal
+          open={showTimeline}
+          onClose={() => setShowTimeline(false)}
+          messages={activeSubagentId ? (subagentMessages || []) : messages}
+          onJump={jumpToMessage}
+        />
+        <StatusModal open={showStatus} onClose={() => setShowStatus(false)} statusInfo={statusInfo} />
+        <ModelModal
+          open={showModelModal}
+          onClose={() => setShowModelModal(false)}
+          currentModel={statusInfo.model}
+          currentProvider={statusInfo.provider}
+          onSwitch={(model, provider, setSwitching, close) => {
+            setSwitching(true);
+            const payload = { model };
+            if (provider) payload.provider = provider;
+            fetch("/api/model/switch", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload),
+            })
+              .then((r) => {
+                if (!r.ok) throw new Error("Switch failed");
+                return r.json();
+              })
+              .then(() => {
+                setActivities((prev) => [...prev, { type: "info", text: `Switched model to ${model}`, time: new Date().toLocaleTimeString() }]);
+                fetchStatus();
+                close();
+              })
+              .catch((err) => {
+                setActivities((prev) => [...prev, { type: "error", text: `Switch failed: ${err.message}`, time: new Date().toLocaleTimeString() }]);
+              })
+              .finally(() => setSwitching(false));
+          }}
+        />
         <AboutModal open={showAbout} onClose={() => setShowAbout(false)} />
+        <input
+          ref={importFileRef}
+          type="file"
+          accept=".json"
+          style={{ display: "none" }}
+          onChange={handleImportFile}
+        />
       </div>
     </ErrorBoundary>
   );
