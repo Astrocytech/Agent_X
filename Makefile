@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-all test-smoke test-live test-l0 test-l1 test-l2 test-initiator test-evolve test-integration test-system test-regression audit-structure prove-organization prove-hygiene prove-umbrella-agent run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-quick test-dev test-release test-all test-live test-l0 test-l1 test-l2 test-initiator test-evolve audit-structure prove-organization prove-hygiene prove-umbrella-agent run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -21,16 +21,15 @@ help:
 	@echo "Tool tests:"
 	@echo "  make test-evolve  Run agentx_evolve tests"
 	@echo "  make test-initiator Run agentx_initiator tests"
-	@echo "Suite tests:"
-	@echo "  make test-smoke       Run smoke tests"
-	@echo "  make test-integration Run integration tests"
-	@echo "  make test-system      Run system tests"
-	@echo "  make test-regression  Run regression tests"
+	@echo "Tiered test suites:"
+	@echo "  make test-quick       Run fast tests (~4s) — run after every change"
+	@echo "  make test-dev         Run work-in-progress tests (may fail)"
+	@echo "  make test-release     Run full release verification (~5min)"
+	@echo "  make test-all         Run all tests across repo (excl. live)"
 	@echo "  make test-live        Run live provider tests"
 	@echo "  make prove-format     Run formatting guard tests"
 	@echo "  make audit-structure  Run repository structure audit"
 	@echo "  make prove-all        Run all layer tests + audit"
-	@echo "  make test-all         Run all tests across repo (excl. live)"
 	@echo "  make prove-organization Run full org acceptance"
 	@echo "  make clean        Remove generated runtime artifacts"
 
@@ -60,7 +59,7 @@ prove-l2:
 	@echo "=== prove-l2: OK ==="
 
 prove-format:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/regression/test_text_file_formatting.py tests/regression/test_format_guard_self_integrity.py tests/regression/test_makefile_proof_wiring.py -q --tb=short -p no:cacheprovider
+	PYTHONPATH=. $(PYTHON) -m pytest tests/quick/test_text_file_formatting.py tests/quick/test_format_guard_self_integrity.py tests/quick/test_makefile_proof_wiring.py -q --tb=short -p no:cacheprovider
 	@echo "=== prove-format: OK ==="
 
 prove-all: audit-structure prove-seed prove-l1 prove-l2 prove-format
@@ -77,8 +76,36 @@ prove-organization:
 	git status --short
 	@echo "=== prove-organization: OK ==="
 
-test-smoke:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/smoke -q --tb=short -p no:cacheprovider
+# ── Tiered test suites ─────────────────────────────────────────────────────
+
+test-quick:
+	PYTHONPATH=. $(PYTHON) -m pytest tests/quick -q --tb=short -p no:cacheprovider
+
+test-dev:
+	PYTHONPATH=. $(PYTHON) -m pytest tests/dev -q --tb=short -p no:cacheprovider
+
+test-release:
+	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release -q --tb=short -p no:cacheprovider -m "not live"
+
+test-live:
+	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider
+
+test-all:
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests/quick tests/dev tests/release -q --tb=short -p no:cacheprovider -m "not live"
+
+# ── Legacy aliases (deprecated, route to new tiers) ────────────────────────
+
+test-smoke: test-quick
+	@echo "test-smoke is deprecated, use 'make test-quick'"
+
+test-integration: test-release
+	@echo "test-integration is deprecated, use 'make test-release'"
+
+test-system: test-release
+	@echo "test-system is deprecated, use 'make test-release'"
+
+test-regression: test-release
+	@echo "test-regression is deprecated, use 'make test-release'"
 
 test-l0: prove-seed
 
@@ -91,18 +118,6 @@ test-initiator:
 
 test-evolve:
 	PYTHONPATH=tools/agentx_evolve $(PYTHON) -m pytest tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider
-
-test-integration:
-	PYTHONPATH=tools $(PYTHON) -m pytest tests/integration -q --tb=short -p no:cacheprovider
-
-test-system:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/system -q --tb=short -p no:cacheprovider
-
-test-regression:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/regression -q --tb=short -p no:cacheprovider
-
-test-all:
-	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests -q --tb=short -p no:cacheprovider -m "not live"
 
 test-live:
 	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider

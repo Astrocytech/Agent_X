@@ -44,13 +44,13 @@ def test_prove_all_depends_on_prove_format():
 def test_prove_format_runs_top_level_format_guard_directly():
     text = _makefile_text()
     prove_format_block = _target_block(text, "prove-format")
-    assert "tests/regression/test_text_file_formatting.py" in prove_format_block
+    assert "tests/quick/test_text_file_formatting.py" in prove_format_block
 
 
 def test_prove_format_runs_makefile_wiring_guard_directly():
     text = _makefile_text()
     prove_format_block = _target_block(text, "prove-format")
-    assert "tests/regression/test_makefile_proof_wiring.py" in prove_format_block
+    assert "tests/quick/test_makefile_proof_wiring.py" in prove_format_block
 
 
 def test_prove_format_does_not_depend_on_keyword_selection_only():

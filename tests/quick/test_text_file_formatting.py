@@ -21,7 +21,7 @@ CRITICAL_PYTHON_MIN_LINES: dict[str, int] = {
     "L2/validators/validate_target_profiles.py": 120,
     "L2/validators/bootstrap_validate_l2_scaffold.py": 80,
     "L2/tests/test_l2_framework_target.py": 120,
-    "tests/regression/test_text_file_formatting.py": 80,
+    "tests/quick/test_text_file_formatting.py": 80,
 }
 
 CRITICAL_YAML_MIN_LINES: dict[str, int] = {
@@ -37,7 +37,7 @@ CRITICAL_FILES: list[str] = [
     "L2/validators/validate_target_profiles.py",
     "L2/validators/bootstrap_validate_l2_scaffold.py",
     "L2/tests/test_l2_framework_target.py",
-    "tests/regression/test_text_file_formatting.py",
+    "tests/quick/test_text_file_formatting.py",
     "Makefile",
     "README.md",
     "L1/README.md",
@@ -134,7 +134,7 @@ def test_no_docstring_and_import_on_same_line():
         "L2/validators/bootstrap_validate_l2_scaffold.py",
         "L1/tests/test_l1_framework_target.py",
         "L2/tests/test_l2_framework_target.py",
-    "tests/regression/test_text_file_formatting.py",
+    "tests/quick/test_text_file_formatting.py",
     ]
     for rel_path in critical:
         path = REPO_ROOT / rel_path
@@ -219,7 +219,7 @@ def test_critical_files_are_expanded_yaml():
 
 
 def test_format_guard_itself_is_not_collapsed():
-    path = REPO_ROOT / "tests" / "regression" / "test_text_file_formatting.py"
+    path = REPO_ROOT / "tests" / "quick" / "test_text_file_formatting.py"
     assert path.exists()
     text = path.read_text(encoding="utf-8")
     lines = text.splitlines()

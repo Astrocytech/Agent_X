@@ -64,7 +64,7 @@ class TestMakefileTargetCoverage:
         genuine_empty = [t for t in empty_phony_targets if t not in ignored]
         assert not genuine_empty, f"Empty placeholder targets: {genuine_empty}"
 
-    def test_test_integration_target_runs_pytest(self):
+    def test_test_release_target_runs_pytest(self):
         content = MAKEFILE.read_text()
-        assert "test-integration:" in content
-        assert "pytest" in content.split("test-integration:")[1].split("\n\n")[0]
+        assert "test-release:" in content
+        assert "pytest" in content.split("test-release:")[1].split("\n\n")[0]
