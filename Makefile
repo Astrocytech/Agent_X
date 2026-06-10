@@ -119,9 +119,6 @@ test-initiator:
 test-evolve:
 	PYTHONPATH=tools/agentx_evolve $(PYTHON) -m pytest tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider
 
-test-live:
-	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider
-
 prove-hygiene:
 	PYTHONPATH=L0/CODE ruff check L0/CODE/
 	PYTHONPATH=L0/CODE $(PYTHON) -m mypy L0/CODE/core_kernel/ L0/CODE/tool_gateway/ L0/CODE/governance/ --ignore-missing-imports
