@@ -14,7 +14,8 @@ class TestConfigDefaults:
         assert config.model == BUILTIN_MODEL
         assert config.timeout_seconds == BUILTIN_TIMEOUT
         assert config.json is False
-        assert config.mock is True
+        assert config.mock is False
+        assert config.provider == "opencode"
         assert config.run_root == ".agentx-init/runs"
 
     def test_mock_flag_sets_provider(self):

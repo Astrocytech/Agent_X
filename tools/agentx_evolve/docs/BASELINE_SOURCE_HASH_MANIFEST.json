@@ -1,0 +1,90 @@
+{
+  "manifest_version": "1.0",
+  "generated_at": "2026-06-09T00:00:00Z",
+  "repository_url": "https://github.com/Astrocytech/Agent_X",
+  "branch": "main",
+  "commit_hash": "ebe0920e89c28ee294dc3d7c7f1c53a2006dbf74",
+  "working_tree_clean": false,
+  "files": [
+    {
+      "path": "README.md",
+      "type": "governing_document",
+      "sha256": "b2c6a0ae33ffebe856f4d1e3b372c2b883cc62b416a5d12169bcddbf655abc66"
+    },
+    {
+      "path": "Roadmap.md",
+      "type": "governing_document",
+      "sha256": "0c703944343183e44478fbeb27faca0b81f2b7415f1dcdea990787b1dd4c418c"
+    },
+    {
+      "path": "MANIFEST.md",
+      "type": "governing_document",
+      "sha256": "ff5668476f7b028ac0351ff93ff6eceda3e3ff92881875391a197a883255a803"
+    },
+    {
+      "path": "SELF_AUDIT.md",
+      "type": "governing_document",
+      "sha256": "44977ede04e1587566ef40582a3ab01a37379972090455dbc361d8464e200665"
+    },
+    {
+      "path": "Makefile",
+      "type": "governing_document",
+      "sha256": "73c3603ce76281d43e3bb622724ed65a57c0946faf4efd1828b249f640153130"
+    },
+    {
+      "path": "pyproject.toml",
+      "type": "governing_document",
+      "sha256": "0beb1ad646ec6d5f558aac8db4c555578a2ba1b82293b272be65680a7aac9343"
+    },
+    {
+      "path": "tools/agentx_evolve/ARCHITECTURE.md",
+      "type": "governing_document",
+      "sha256": "4a2a178c16c8479be45cd5334dff3085a51444eb29410cb0cba3f814b362bb33"
+    },
+    {
+      "path": "tools/agentx_evolve/__main__.py",
+      "type": "source_file",
+      "sha256": "dced47bd2d848171e1d03d199a8f8c6d909888d5096e9bde15dc4596d6556d63"
+    },
+    {
+      "path": "tools/agentx_evolve/pyproject.toml",
+      "type": "governing_document",
+      "sha256": "73ad6b9dc606c4e851f0e5fa007dec5f318aa3de9b5b6afb597db6daf3de989a"
+    },
+    {
+      "path": "tools/README.md",
+      "type": "governing_document",
+      "sha256": "MISSING"
+    },
+    {
+      "path": "tests/integration/README.md",
+      "type": "test",
+      "sha256": "d2851eb0a1610e82f102fa8c7cb3f7a5e738488dc45e874ce47596603c0b1a5b"
+    },
+    {
+      "path": "tests/system/README.md",
+      "type": "test",
+      "sha256": "452491f7fe920727b2d5e2905ad9cf8353430f9955a6f540c09555b8c02a42fe"
+    },
+    {
+      "path": "tests/smoke/README.md",
+      "type": "test",
+      "sha256": "047fcfda9eec57e6f21f9efe95c824f666f4b411bcf239fba75cc6530ab5422a"
+    },
+    {
+      "path": "tests/regression/README.md",
+      "type": "test",
+      "sha256": "c6cf0a2a69f7e3aeec1eb5d7653d333c1256ef8c93b2267582d5edb126bb5c2a"
+    },
+    {
+      "path": ".gitignore",
+      "type": "config",
+      "sha256": "93afcf484c8c8ecab6cee9e78fca3d7fa1b37405b6f5dca408dab694d202b464"
+    },
+    {
+      "path": "pytest.ini",
+      "type": "config",
+      "sha256": "50fbb89c0e0681d621ab0976e6cfc4aa615e5fb2e1ab499fc97de86e2d262dbd"
+    }
+  ]
+}

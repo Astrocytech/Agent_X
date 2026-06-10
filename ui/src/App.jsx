@@ -24,10 +24,7 @@ const MENUS = {
     { label: "Jump to Message", shortcut: "Ctrl+X G", id: "jumpToMessage" },
     { label: "Undo Previous Message", shortcut: "Ctrl+Z", id: "undoMessage" },
     null,
-    { label: "Hide Sidebar", shortcut: "Ctrl+X B", id: "hideSidebar" },
     { label: "Show Timestamps", id: "showTimestamps" },
-    { label: "Collapse Thinking", id: "collapseThinking" },
-    { label: "Hide Tool Details", id: "hideToolDetails" },
     null,
     { label: "Copy Last Assistant Message", shortcut: "Ctrl+X Y", id: "copyLastMessage" },
     { label: "Copy Session Transcript", id: "copyTranscript" },
@@ -318,6 +315,7 @@ function AboutModal({ open, onClose }) {
 
 function StatusModal({ open, onClose, statusInfo }) {
   if (!open) return null;
+  const providerStatus = statusInfo.provider_status || {};
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal modal-sm" onClick={(e) => e.stopPropagation()}>
@@ -327,6 +325,14 @@ function StatusModal({ open, onClose, statusInfo }) {
           <div className="status-row" style={{ marginTop: 10 }}><span className="status-label">Model</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.model || "—"}</span></div>
           <div className="status-row" style={{ marginTop: 10 }}><span className="status-label">Session ID</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.session_id || "—"}</span></div>
           <div className="status-row" style={{ marginTop: 10 }}><span className="status-label">Session Name</span><span className="status-value" style={{ marginTop: 2 }}>{statusInfo.session_name || "—"}</span></div>
+          {providerStatus.kind === "usage_limited" && (
+            <div className="status-alert status-alert-warning" style={{ marginTop: 12 }}>
+              <div className="status-alert-title">Free usage limit reached</div>
+              <div className="status-alert-text">
+                OpenCode is refusing new model responses until quota resets or the account/model changes.
+              </div>
+            </div>
+          )}
         </div>
         <div className="modal-footer">
           <button className="btn" onClick={onClose}>Close</button>
@@ -508,7 +514,7 @@ function formatTimestamp(ts) {
   } catch { return ""; }
 }
 
-function Message({ role, text, index, reasoning, timestamp, showTimestamps, thinkingMode, questionData, permissionData, onQuestionReply, onQuestionReject, onPermissionReply, mode }) {
+function Message({ role, text, index, timestamp, showTimestamps, questionData, permissionData, onQuestionReply, onQuestionReject, onPermissionReply, mode }) {
   const html = mdToHtml(text);
   const isUser = role === "user";
   return (
@@ -519,12 +525,6 @@ function Message({ role, text, index, reasoning, timestamp, showTimestamps, thin
           <span className="msg-timestamp"> · {formatTimestamp(timestamp)}</span>
         )}
       </div>
-      {reasoning && thinkingMode === "show" && (
-        <details className="thinking-block" open>
-          <summary className="thinking-summary">Thinking</summary>
-          <div className="thinking-body" dangerouslySetInnerHTML={{ __html: mdToHtml(reasoning) }} />
-        </details>
-      )}
       <div className="msg-body" dangerouslySetInnerHTML={{ __html: html }} />
       {questionData && !questionData.answered && (
         <QuestionBlock
@@ -617,10 +617,37 @@ function loadState() {
   return null;
 }
 
+function withMessageTimestamps(messages) {
+  if (!Array.isArray(messages)) return [];
+  return messages.map((m) => (
+    m && typeof m === "object"
+      ? { ...m, timestamp: m.timestamp || new Date().toISOString() }
+      : m
+  ));
+}
+
+function looksLikeUsageLimit(text) {
+  const lower = String(text || "").toLowerCase();
+  return [
+    "free limit reached",
+    "free usage limit",
+    "free usage exceeded",
+    "freeusagelimiterror",
+    "usage limit",
+    "insufficient_quota",
+    "rate limit",
+    "rate limited",
+    "quota",
+    "exceeded your current quota",
+    "opencode go",
+    "too many requests",
+  ].some((pattern) => lower.includes(pattern));
+}
+
 export default function App() {
   const [messages, setMessages] = useState(() => {
     const saved = loadState();
-    return saved ? saved.messages : [];
+    return saved ? withMessageTimestamps(saved.messages) : [];
   });
   const [streaming, setStreaming] = useState(false);
   const [input, setInput] = useState("");
@@ -639,7 +666,7 @@ export default function App() {
     const saved = loadState();
     return saved ? saved.activities : [];
   });
-  const [statusInfo, setStatusInfo] = useState({ model: "", session_id: "", provider: "", session_name: "" });
+  const [statusInfo, setStatusInfo] = useState({ model: "", session_id: "", provider: "", session_name: "", provider_status: {} });
   const [loadedSessionId, setLoadedSessionId] = useState(null);
   const [editingName, setEditingName] = useState(false);
   const nameInputRef = useRef(null);
@@ -672,13 +699,7 @@ export default function App() {
   const inputDragStartY = useRef(0);
   const inputDragStartHeight = useRef(0);
 
-  const [hideToolDetails, setHideToolDetails] = useState(() => {
-    const v = localStorage.getItem("agentx_tool_details");
-    return v !== null ? v === "true" : true;
-  });
   const [showTimestamps, setShowTimestamps] = useState(() => localStorage.getItem("agentx_timestamps") === "show");
-  const [thinkingMode, setThinkingMode] = useState(() => localStorage.getItem("agentx_thinking_mode") || "hide");
-  const [sidebarPref, setSidebarPref] = useState(() => localStorage.getItem("agentx_sidebar") || "auto");
   const [theme, setTheme] = useState(() => localStorage.getItem("agentx_theme") || "light");
   const [mode, setMode] = useState(() => localStorage.getItem("agentx_mode") || "build");
   const [questionRequest, setQuestionRequest] = useState(null);
@@ -693,7 +714,7 @@ export default function App() {
   const [showFicPicker, setShowFicPicker] = useState(false);
   const leaderRef = useRef(null);
 
-  const sidebarVisible = sidebarPref === "auto";
+  const sidebarVisible = true;
 
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
@@ -872,8 +893,7 @@ export default function App() {
         if (leaderTimeoutRef.current) clearTimeout(leaderTimeoutRef.current);
         const key = e.key.toLowerCase();
         const map = {
-          b: "hideSidebar", m: "switchModel",
-          n: "newSession", s: "viewStatus", t: "switchTheme",
+          m: "switchModel", n: "newSession", s: "viewStatus", t: "switchTheme",
           y: "copyLastMessage", g: "jumpToMessage",
         };
         if (map[key]) {
@@ -924,7 +944,7 @@ export default function App() {
             version: 1,
             session_name: statusInfo.session_name || "Session",
             exported_at: new Date().toISOString(),
-            messages: messages.map(({ role, text }) => ({ role, text })),
+            messages: messages.map(({ role, text, timestamp }) => ({ role, text, timestamp })),
           };
           const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
           const url = URL.createObjectURL(blob);
@@ -941,28 +961,10 @@ export default function App() {
       case "jumpToMessage":
         setShowTimeline(true);
         break;
-      case "hideToolDetails": {
-        const next = !hideToolDetails;
-        localStorage.setItem("agentx_tool_details", next);
-        setHideToolDetails(next);
-        break;
-      }
       case "showTimestamps": {
         const next = showTimestamps ? "hide" : "show";
         localStorage.setItem("agentx_timestamps", next);
         setShowTimestamps(!showTimestamps);
-        break;
-      }
-      case "collapseThinking": {
-        const next = thinkingMode === "show" ? "hide" : "show";
-        localStorage.setItem("agentx_thinking_mode", next);
-        setThinkingMode(next);
-        break;
-      }
-      case "hideSidebar": {
-        const next = sidebarPref === "auto" ? "hide" : "auto";
-        localStorage.setItem("agentx_sidebar", next);
-        setSidebarPref(next);
         break;
       }
       case "switchTheme": {
@@ -1008,12 +1010,6 @@ export default function App() {
           lines.push(`## ${m.role === "user" ? "User" : "Assistant"}`);
           lines.push("");
           lines.push(m.text || "");
-          if (m.reasoning && thinkingMode === "show") {
-            lines.push("");
-            lines.push("_Thinking:_");
-            lines.push("");
-            lines.push(m.reasoning);
-          }
           lines.push("");
           lines.push("---");
           lines.push("");
@@ -1049,7 +1045,7 @@ export default function App() {
             return r.json();
           })
           .then((result) => {
-            setMessages(result.messages || []);
+            setMessages(withMessageTimestamps(result.messages || []));
             setInput(result.restored_message || "");
             setActivities([]);
             setSubagents([]);
@@ -1063,7 +1059,7 @@ export default function App() {
         break;
       }
     }
-  }, [messages, statusInfo, importFileRef, fetchStatus, hideToolDetails, showTimestamps, thinkingMode, sidebarPref, theme, streaming, loadedSessionId]);
+  }, [messages, statusInfo, importFileRef, fetchStatus, showTimestamps, theme, streaming, loadedSessionId]);
   menuActionRef.current = handleMenuAction;
 
   const jumpToMessage = useCallback((index) => {
@@ -1100,7 +1096,7 @@ export default function App() {
           .then((r) => r.json())
           .then((result) => {
             if (result.error) throw new Error(result.error);
-            setMessages(msgs.map(({ role, text }) => ({ role, text })));
+            setMessages(withMessageTimestamps(msgs.map(({ role, text, timestamp }) => ({ role, text, timestamp }))));
             fetchStatus();
             setActivities([{ type: "info", text: `Imported "${result.session_name}"`, time: new Date().toLocaleTimeString() }]);
           })
@@ -1163,7 +1159,7 @@ export default function App() {
         return r.json();
       })
       .then((msgs) => {
-        setMessages(msgs);
+        setMessages(withMessageTimestamps(msgs));
         setLoadedSessionId(s.run_id);
         if (!msgs || msgs.length === 0) {
           setActivities([{ type: "info", text: "No messages in this session.", time: new Date().toLocaleTimeString() }]);
@@ -1244,12 +1240,13 @@ export default function App() {
     setSubagentMessages(null);
     cancelledRef.current = false;
 
-    setMessages((prev) => [...prev, { role: "user", text }]);
+    const sentAt = new Date().toISOString();
+    setMessages((prev) => [...prev, { role: "user", text, timestamp: sentAt }]);
 
     const controller = new AbortController();
     abortRef.current = controller;
     setStreaming(true);
-    setMessages((prev) => [...prev, { role: "assistant", text: "" }]);
+    setMessages((prev) => [...prev, { role: "assistant", text: "", timestamp: new Date().toISOString() }]);
 
     const timeoutMs = 0;
     let timeoutId;
@@ -1261,8 +1258,10 @@ export default function App() {
           const last = copy[copy.length - 1];
           if (last && last.role === "assistant" && last.text === "") {
             copy[copy.length - 1] = {
+              ...last,
               role: "assistant",
               text: "[No response within 60s — provider may be unavailable]",
+              timestamp: last.timestamp || new Date().toISOString(),
             };
           }
           return copy;
@@ -1316,6 +1315,7 @@ export default function App() {
               if (event.type === "text" && event.author === "user") continue;
               if (event.type === "text") {
                 if (cancelledRef.current) continue;
+                setStatusInfo((prev) => prev.provider_status?.kind ? { ...prev, provider_status: {} } : prev);
                 setMessages((prev) => {
                   const copy = [...prev];
                   const last = copy[copy.length - 1];
@@ -1334,8 +1334,10 @@ export default function App() {
                   const last = copy[copy.length - 1];
                   if (last && last.role === "assistant" && last.text === "") {
                     copy[copy.length - 1] = {
+                      ...last,
                       role: "assistant",
                       text: `[Error: ${event.text}]`,
+                      timestamp: last.timestamp || new Date().toISOString(),
                     };
                   }
                   return copy;
@@ -1343,6 +1345,33 @@ export default function App() {
                 setActivities((prev) => [
                   ...prev,
                   { type: "error", text: event.text, time: new Date().toLocaleTimeString() },
+                ]);
+              } else if (event.type === "usage_limit") {
+                if (cancelledRef.current) continue;
+                setStatusInfo((prev) => ({
+                  ...prev,
+                  provider_status: {
+                    kind: "usage_limited",
+                    message: "Free usage limit reached",
+                    detail: event.detail || event.text || "",
+                    updated_at: new Date().toISOString(),
+                  },
+                }));
+                setMessages((prev) => {
+                  const copy = [...prev];
+                  const last = copy[copy.length - 1];
+                  if (last && last.role === "assistant" && last.text === "") {
+                    copy[copy.length - 1] = {
+                      ...last,
+                      text: "[Free usage limit reached. OpenCode is refusing new model responses until quota resets or the account/model changes.]",
+                      timestamp: last.timestamp || new Date().toISOString(),
+                    };
+                  }
+                  return copy;
+                });
+                setActivities((prev) => [
+                  ...prev,
+                  { type: "error", text: event.text || "Free usage limit reached", time: new Date().toLocaleTimeString() },
                 ]);
               } else if (event.type === "subagent") {
                 setSubagents((prev) => {
@@ -1362,7 +1391,7 @@ export default function App() {
                   if (last && last.role === "assistant") {
                     copy[copy.length - 1] = { ...last, questionData: { requestId: event.request_id, questions: event.questions || [], answered: false } };
                   } else {
-                    copy.push({ role: "assistant", text: "", questionData: { requestId: event.request_id, questions: event.questions || [], answered: false } });
+                    copy.push({ role: "assistant", text: "", timestamp: new Date().toISOString(), questionData: { requestId: event.request_id, questions: event.questions || [], answered: false } });
                   }
                   return copy;
                 });
@@ -1382,7 +1411,7 @@ export default function App() {
                   if (last && last.role === "assistant") {
                     copy[copy.length - 1] = { ...last, permissionData: { requestId: event.request_id, action: event.action, resources: event.resources || [], metadata: event.metadata || {}, save: event.save || [], resolved: false } };
                   } else {
-                    copy.push({ role: "assistant", text: "", permissionData: { requestId: event.request_id, action: event.action, resources: event.resources || [], metadata: event.metadata || {}, save: event.save || [], resolved: false } });
+                    copy.push({ role: "assistant", text: "", timestamp: new Date().toISOString(), permissionData: { requestId: event.request_id, action: event.action, resources: event.resources || [], metadata: event.metadata || {}, save: event.save || [], resolved: false } });
                   }
                   return copy;
                 });
@@ -1409,16 +1438,37 @@ export default function App() {
         }
       } catch (err) {
         if (err.name !== "AbortError") {
+          if (looksLikeUsageLimit(err.message)) {
+            setStatusInfo((prev) => ({
+              ...prev,
+              provider_status: {
+                kind: "usage_limited",
+                message: "Free usage limit reached",
+                detail: err.message,
+                updated_at: new Date().toISOString(),
+              },
+            }));
+          }
           setMessages((prev) => {
             const copy = [...prev];
             const last = copy[copy.length - 1];
             if (last && last.role === "assistant" && last.text === "") {
               copy[copy.length - 1] = {
+                ...last,
                 role: "assistant",
-                text: `[Error: ${err.message}]`,
+                text: looksLikeUsageLimit(err.message)
+                  ? "[Free usage limit reached. OpenCode is refusing new model responses until quota resets or the account/model changes.]"
+                  : `[Error: ${err.message}]`,
+                timestamp: last.timestamp || new Date().toISOString(),
               };
             } else {
-              copy.push({ role: "assistant", text: `[Error: ${err.message}]` });
+              copy.push({
+                role: "assistant",
+                text: looksLikeUsageLimit(err.message)
+                  ? "[Free usage limit reached. OpenCode is refusing new model responses until quota resets or the account/model changes.]"
+                  : `[Error: ${err.message}]`,
+                timestamp: new Date().toISOString(),
+              });
             }
             return copy;
           });
@@ -1518,6 +1568,17 @@ export default function App() {
     }
   };
 
+  const getMenuItemLabel = (item) => {
+    switch (item.id) {
+      case "showTimestamps":
+        return showTimestamps ? "Hide Timestamps" : "Show Timestamps";
+      case "switchTheme":
+        return theme === "light" ? "Switch to Dark Theme" : "Switch to Light Theme";
+      default:
+        return item.label;
+    }
+  };
+
   return (
     <ErrorBoundary>
       <div className="app">
@@ -1544,7 +1605,7 @@ export default function App() {
                             if (!item.disabled) handleMenuAction(item.id);
                           }}
                       >
-                        <span>{item.label}</span>
+                        <span>{getMenuItemLabel(item)}</span>
                         {item.shortcut && (
                           <span className="menu-shortcut">{item.shortcut}</span>
                         )}
@@ -1562,6 +1623,12 @@ export default function App() {
           <div className="status-panel">
             <div className="status-header">Status</div>
             <div className="status-body">
+              {statusInfo.provider_status?.kind === "usage_limited" && (
+                <div className="status-alert status-alert-warning">
+                  <div className="status-alert-title">Free usage limit reached</div>
+                  <div className="status-alert-text">Responses are paused until quota resets or you switch account/model.</div>
+                </div>
+              )}
               <div className="status-row">
                 <span className="status-label">Provider</span>
                 <span className="status-value">{statusInfo.provider || "—"}</span>
@@ -1647,14 +1714,14 @@ export default function App() {
                   </div>
                 ) : (
                   subagentMessages.map((m, i) => (
-                    <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} mode={mode} />
+                    <Message key={i} index={i} role={m.role} text={m.text} timestamp={m.timestamp} showTimestamps={showTimestamps} mode={mode} />
                   ))
                 )
               ) : messages.length === 0 ? (
                 <SuggestionQuestions onSelect={(text) => sendMessage(text)} />
               ) : (
                 messages.map((m, i) => (
-                  <Message key={i} index={i} role={m.role} text={m.text} reasoning={m.reasoning} timestamp={m.timestamp} showTimestamps={showTimestamps} thinkingMode={thinkingMode} questionData={m.questionData} permissionData={m.permissionData} onQuestionReply={handleQuestionReply} onQuestionReject={handleQuestionReject} onPermissionReply={handlePermissionReply} mode={mode} />
+                  <Message key={i} index={i} role={m.role} text={m.text} timestamp={m.timestamp} showTimestamps={showTimestamps} questionData={m.questionData} permissionData={m.permissionData} onQuestionReply={handleQuestionReply} onQuestionReject={handleQuestionReject} onPermissionReply={handlePermissionReply} mode={mode} />
                 ))
               )}
               <div ref={chatEndRef} />
@@ -1720,8 +1787,10 @@ export default function App() {
                       const last = copy[copy.length - 1];
                       if (last && last.role === "assistant" && last.text === "") {
                         copy[copy.length - 1] = {
+                          ...last,
                           role: "assistant",
                           text: "*[Stopped]*",
+                          timestamp: last.timestamp || new Date().toISOString(),
                         };
                       }
                       return copy;
@@ -1750,7 +1819,6 @@ export default function App() {
                 subagents={subagents}
                 activeSession={activeSubagentId}
                 onSelectSubagent={selectSubagent}
-                hideToolDetails={hideToolDetails}
               />
             </div>
           )}

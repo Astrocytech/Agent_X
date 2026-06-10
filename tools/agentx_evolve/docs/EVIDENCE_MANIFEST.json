@@ -1,0 +1,167 @@
+{
+  "manifest_version": "1.0",
+  "generated_at": "2026-06-09T00:00:00Z",
+  "generated_by": "Pass 11 - Acceptance Evidence Integrity",
+  "artifacts": [
+    {
+      "path": "tools/agentx_evolve/docs/REPOSITORY_REALITY_SNAPSHOT.md",
+      "type": "Report",
+      "producer": "Pass 0",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/BASELINE_DOCUMENT_ALIGNMENT_AUDIT.md",
+      "type": "Report",
+      "producer": "Pass 0",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/BASELINE_SOURCE_HASH_MANIFEST.json",
+      "type": "Hash manifest",
+      "producer": "Pass 0",
+      "related_requirements": "All",
+      "format": "JSON",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.md",
+      "type": "Coverage matrix",
+      "producer": "Pass 1",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.json",
+      "type": "Coverage matrix",
+      "producer": "Pass 1",
+      "related_requirements": "All",
+      "format": "JSON",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/STRUCTURE_GAP_REPORT.md",
+      "type": "Gap report",
+      "producer": "Pass 2",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/SECURITY_POLICY_COMPLETION_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 3",
+      "related_requirements": "AXE-SEC-*, AXE-POL-*, AXE-FAIL-*",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/PATCH_EXECUTION_COMPLETION_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 4",
+      "related_requirements": "AXE-PATCH-*",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/TOOL_MCP_GIT_BOUNDARY_COMPLETION_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 5",
+      "related_requirements": "AXE-MCP-*, AXE-GIT-*",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/MODEL_CONTEXT_WORKER_COMPLETION_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 6",
+      "related_requirements": "AXE-MODEL-*, AXE-CTX-*, AXE-WORKER-*",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/ORCHESTRATOR_REVIEW_PROMOTION_COMPLETION_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 7",
+      "related_requirements": "AXE-ORCH-*, AXE-REVIEW-*, AXE-PROMO-*",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/EVALUATION_SUPPORT_COMPLETION_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 8",
+      "related_requirements": "AXE-EVAL-*, AXE-ACCEPT-*",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/CLI_COMMAND_SURFACE_ACCEPTANCE_REPORT.md",
+      "type": "Completion report",
+      "producer": "Pass 10",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/ACCEPTANCE_EVIDENCE_INTEGRITY_REPORT.md",
+      "type": "Integrity report",
+      "producer": "Pass 11",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.md",
+      "type": "Evidence manifest",
+      "producer": "Pass 11",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.json",
+      "type": "Evidence manifest",
+      "producer": "Pass 11",
+      "related_requirements": "All",
+      "format": "JSON",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/SOURCE_DIFF_REVIEW_REPORT.md",
+      "type": "Diff review",
+      "producer": "Pass 11",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/FINAL_SOURCE_HASH_MANIFEST.json",
+      "type": "Hash manifest",
+      "producer": "Pass 12",
+      "related_requirements": "All",
+      "format": "JSON",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.md",
+      "type": "Acceptance report",
+      "producer": "Pass 12",
+      "related_requirements": "All",
+      "format": "Markdown",
+      "schema_path": null
+    },
+    {
+      "path": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.json",
+      "type": "Acceptance report",
+      "producer": "Pass 12",
+      "related_requirements": "All",
+      "format": "JSON",
+      "schema_path": null
+    }
+  ]
+}

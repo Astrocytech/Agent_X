@@ -60,7 +60,7 @@ prove-l2:
 	@echo "=== prove-l2: OK ==="
 
 prove-format:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/regression/ -q --tb=short -p no:cacheprovider
+	PYTHONPATH=. $(PYTHON) -m pytest tests/regression/test_text_file_formatting.py tests/regression/test_format_guard_self_integrity.py tests/regression/test_makefile_proof_wiring.py -q --tb=short -p no:cacheprovider
 	@echo "=== prove-format: OK ==="
 
 prove-all: audit-structure prove-seed prove-l1 prove-l2 prove-format
@@ -93,7 +93,7 @@ test-evolve:
 	PYTHONPATH=tools/agentx_evolve $(PYTHON) -m pytest tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider
 
 test-integration:
-	PYTHONPATH=. $(PYTHON) -m pytest tests/integration -q --tb=short -p no:cacheprovider
+	PYTHONPATH=tools $(PYTHON) -m pytest tests/integration -q --tb=short -p no:cacheprovider
 
 test-system:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/system -q --tb=short -p no:cacheprovider
@@ -102,7 +102,7 @@ test-regression:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/regression -q --tb=short -p no:cacheprovider
 
 test-all:
-	$(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests -q --tb=short -p no:cacheprovider -m "not live"
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests -q --tb=short -p no:cacheprovider -m "not live"
 
 test-live:
 	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider

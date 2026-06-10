@@ -141,7 +141,7 @@ function dedupeSubagents(subagents) {
 
 /* ── Main component ──────────────────────────────────── */
 
-export default function ActivityPanel({ activities, streaming, subagents, activeSession, onSelectSubagent, hideToolDetails }) {
+export default function ActivityPanel({ activities, streaming, subagents, activeSession, onSelectSubagent }) {
   const endRef = useRef(null);
   const [logPreferenceSet, setLogPreferenceSet] = useState(() => {
     try { return localStorage.getItem("agentx_log_collapsed") !== null; } catch { return false; }
@@ -263,13 +263,12 @@ export default function ActivityPanel({ activities, streaming, subagents, active
                     (a.type === "tool" ? " activity-tool" : " activity-" + a.type) : "";
                   const raw = renderActivityText(a);
                   const isDiff = looksLikeDiff(raw);
-                  const showFull = !hideToolDetails || !isTool;
                   return (
                     <div key={i} className={"activity-entry" + suffix}>
                       <span className="activity-time">{a.time || ""}</span>
                       {!isToolRunning && <span className="activity-type">{String(typeLabel)}</span>}
                       <span className="activity-text">
-                        {showFull ? (isDiff ? <DiffBlock text={raw} /> : raw) : (a.tool_name || a.text || "tool")}
+                        {!isTool ? (isDiff ? <DiffBlock text={raw} /> : raw) : (a.tool_name || a.text || "tool")}
                       </span>
                     </div>
                   );

@@ -24,6 +24,35 @@ _UI_DIST = Path(__file__).resolve().parent.parent.parent.parent / "ui" / "dist"
 _CHAT_ROOT = Path(".agentx-chat")
 
 
+def _looks_like_usage_limit(text: str) -> bool:
+    lower = (text or "").lower()
+    patterns = (
+        "free limit reached",
+        "free usage limit",
+        "free usage exceeded",
+        "freeusagelimiterror",
+        "usage limit",
+        "insufficient_quota",
+        "rate limit",
+        "rate limited",
+        "quota",
+        "exceeded your current quota",
+        "opencode go",
+        "go_upsell",
+        "too many requests",
+    )
+    return any(pattern in lower for pattern in patterns)
+
+
+def _set_provider_status(app: web.Application, kind: str = "", message: str = "", detail: str = "") -> None:
+    app["_provider_status"] = {
+        "kind": kind,
+        "message": message,
+        "detail": detail,
+        "updated_at": datetime.utcnow().isoformat() + "Z" if kind else "",
+    }
+
+
 def _chat_dir(session_id: str) -> Path:
     return _CHAT_ROOT / session_id
 
@@ -408,7 +437,22 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             except Exception as e:
                 print(f"[feed_queue] error: {type(e).__name__}: {e}", file=sys.stderr)
                 traceback.print_exc()
-                err = {"type": "error", "text": f"{type(e).__name__}: {e}"}
+                err_text = f"{type(e).__name__}: {e}"
+                if _looks_like_usage_limit(err_text):
+                    _set_provider_status(
+                        request.app,
+                        "usage_limited",
+                        "Free usage limit reached",
+                        err_text,
+                    )
+                    err = {
+                        "type": "usage_limit",
+                        "text": "Free usage limit reached",
+                        "detail": err_text,
+                    }
+                else:
+                    _set_provider_status(request.app, "error", "Provider error", err_text)
+                    err = {"type": "error", "text": err_text}
                 try:
                     fut = asyncio.run_coroutine_threadsafe(queue.put(err), loop)
                     fut.result(timeout=5)
@@ -438,6 +482,21 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             if event.get("type") == "text" and event.get("author") == "user":
                 continue
 
+            if event.get("type") == "usage_limit":
+                _set_provider_status(
+                    request.app,
+                    "usage_limited",
+                    "Free usage limit reached",
+                    event.get("detail") or event.get("text") or "",
+                )
+            elif event.get("type") == "error" and _looks_like_usage_limit(event.get("text", "")):
+                _set_provider_status(
+                    request.app,
+                    "usage_limited",
+                    "Free usage limit reached",
+                    event.get("text", ""),
+                )
+
             # Track pending permissions for PLAN mode enforcement
             if event.get("type") == "permission":
                 rid = event.get("request_id", "")
@@ -464,6 +523,7 @@ async def handle_chat(request: web.Request) -> web.StreamResponse:
             try:
                 reasoning_text = _join_fragments(accumulated_reasoning) if accumulated_reasoning else ""
                 _append_message(sid, "assistant", _join_fragments(accumulated), reasoning=reasoning_text)
+                _set_provider_status(request.app)
             except Exception as e:
                 print(f"[chat] failed to persist assistant message: {e}", file=sys.stderr)
 
@@ -607,9 +667,11 @@ async def handle_model_switch(request: web.Request) -> web.Response:
             config.provider = old_config_provider
             request.app["provider"] = new_provider
             request.app["model"] = model
+            _set_provider_status(request.app)
             return web.json_response({"ok": True, "model": model, "provider": new_provider_name})
         provider.model = model
         request.app["model"] = model
+        _set_provider_status(request.app)
         return web.json_response({"ok": True, "model": model})
     except Exception as e:
         return web.json_response({"error": str(e)}, status=500)
@@ -720,6 +782,7 @@ async def handle_new_session(request: web.Request) -> web.Response:
         return web.json_response({"error": "provider does not support new sessions"}, status=400)
     try:
         new_sid = provider.reset_session()
+        _set_provider_status(request.app)
         return web.json_response({"session_id": new_sid})
     except Exception as e:
         return web.json_response({"error": str(e)}, status=500)
@@ -898,6 +961,7 @@ async def handle_status(request: web.Request) -> web.Response:
             session_name = json.loads(mp.read_text()).get("session_name", "")
     p_model = getattr(provider, "model", "") if provider else ""
     gov_info = provider.get_governance_info() if provider and hasattr(provider, "get_governance_info") else {}
+    provider_status = request.app.get("_provider_status", {})
     return web.json_response({
         "model": p_model or request.app.get("model", ""),
         "session_id": sid,
@@ -906,6 +970,7 @@ async def handle_status(request: web.Request) -> web.Response:
         "agent_mode": gov_info.get("agent_mode", "general"),
         "fic_document": gov_info.get("fic_document", ""),
         "ceiling": gov_info.get("ceiling", "P9_EXTERNAL_SIDE_EFFECT"),
+        "provider_status": provider_status,
     })
 
 

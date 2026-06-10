@@ -1,0 +1,350 @@
+[
+  {
+    "path": "README.md",
+    "category": "governing_doc",
+    "sha256": "b2c6a0ae33ffebe856f4d1e3b372c2b883cc62b416a5d12169bcddbf655abc66",
+    "status": "unchanged"
+  },
+  {
+    "path": "Roadmap.md",
+    "category": "governing_doc",
+    "sha256": "0c703944343183e44478fbeb27faca0b81f2b7415f1dcdea990787b1dd4c418c",
+    "status": "unchanged"
+  },
+  {
+    "path": "MANIFEST.md",
+    "category": "governing_doc",
+    "sha256": "ff5668476f7b028ac0351ff93ff6eceda3e3ff92881875391a197a883255a803",
+    "status": "unchanged"
+  },
+  {
+    "path": "SELF_AUDIT.md",
+    "category": "governing_doc",
+    "sha256": "44977ede04e1587566ef40582a3ab01a37379972090455dbc361d8464e200665",
+    "status": "unchanged"
+  },
+  {
+    "path": "Makefile",
+    "category": "governing_doc",
+    "sha256": "5fe88780629850b2afe24f2bcd0471fc1d0edd2931d44001660c5aa3c8efb31c",
+    "status": "modified"
+  },
+  {
+    "path": "pyproject.toml",
+    "category": "governing_doc",
+    "sha256": "0beb1ad646ec6d5f558aac8db4c555578a2ba1b82293b272be65680a7aac9343",
+    "status": "unchanged"
+  },
+  {
+    "path": "pytest.ini",
+    "category": "governing_doc",
+    "sha256": "50fbb89c0e0681d621ab0976e6cfc4aa615e5fb2e1ab499fc97de86e2d262dbd",
+    "status": "unchanged"
+  },
+  {
+    "path": ".gitignore",
+    "category": "governing_doc",
+    "sha256": "93afcf484c8c8ecab6cee9e78fca3d7fa1b37405b6f5dca408dab694d202b464",
+    "status": "unchanged"
+  },
+  {
+    "path": "tools/agentx_evolve/ARCHITECTURE.md",
+    "category": "governing_doc",
+    "sha256": "4a2a178c16c8479be45cd5334dff3085a51444eb29410cb0cba3f814b362bb33",
+    "status": "unchanged"
+  },
+  {
+    "path": "tools/agentx_evolve/__main__.py",
+    "category": "source",
+    "sha256": "dced47bd2d848171e1d03d199a8f8c6d909888d5096e9bde15dc4596d6556d63",
+    "status": "unchanged"
+  },
+  {
+    "path": "tools/agentx_evolve/pyproject.toml",
+    "category": "governing_doc",
+    "sha256": "73ad6b9dc606c4e851f0e5fa007dec5f318aa3de9b5b6afb597db6daf3de989a",
+    "status": "unchanged"
+  },
+  {
+    "path": "tests/integration/README.md",
+    "category": "test",
+    "sha256": "d2851eb0a1610e82f102fa8c7cb3f7a5e738488dc45e874ce47596603c0b1a5b",
+    "status": "unchanged"
+  },
+  {
+    "path": "tests/system/README.md",
+    "category": "test",
+    "sha256": "452491f7fe920727b2d5e2905ad9cf8353430f9955a6f540c09555b8c02a42fe",
+    "status": "unchanged"
+  },
+  {
+    "path": "tests/smoke/README.md",
+    "category": "test",
+    "sha256": "047fcfda9eec57e6f21f9efe95c824f666f4b411bcf239fba75cc6530ab5422a",
+    "status": "unchanged"
+  },
+  {
+    "path": "tests/regression/README.md",
+    "category": "test",
+    "sha256": "c6cf0a2a69f7e3aeec1eb5d7653d333c1256ef8c93b2267582d5edb126bb5c2a",
+    "status": "unchanged"
+  },
+  {
+    "path": "tools/agentx_evolve/tests/test_config_precedence.py",
+    "category": "test",
+    "sha256": "2490ac3efecf3463f6be6984b054052862f8767df39adb4580deeaf4e6a08a04",
+    "status": "modified"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/README.md",
+    "category": "report",
+    "sha256": "e531a4ac89bbb11acbaba712b6b3ad45603ad81da7610cecd2016e8f35b6f59d",
+    "status": "modified"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/REPOSITORY_REALITY_SNAPSHOT.md",
+    "category": "report",
+    "sha256": "8aafa35a8877f4948e7b60465ffbba274f5edf14b37ecc4a2106276c855d3da2",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/BASELINE_DOCUMENT_ALIGNMENT_AUDIT.md",
+    "category": "report",
+    "sha256": "cb29ed81f35219b49711d5f3a79634e1074be129c2b2df5af865b6ad9d0e9276",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/BASELINE_SOURCE_HASH_MANIFEST.json",
+    "category": "report",
+    "sha256": "06a881268ed0cbea3ffeb047e80f88ad013beac5bb86e63524fc8a4a0a49c94a",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.md",
+    "category": "report",
+    "sha256": "d051b261ebf1398bb672d1d415e8cb2148a3ebab7cfaa9c8e5dc6fe6e9cb1e8d",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.json",
+    "category": "report",
+    "sha256": "bd23b9766990536d5fcdd29055e3a7008b3e79c508373253cf74709521593c3f",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/STRUCTURE_GAP_REPORT.md",
+    "category": "report",
+    "sha256": "ccd692cc6bb7e57772948811d879287bbd4c3dccf461fbf5d83d9467f7788c58",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/SECURITY_POLICY_COMPLETION_REPORT.md",
+    "category": "report",
+    "sha256": "bfcea527b4cf964a68d319ed4735bbf403fcf08a88d1f22a345f6e29c3e95d2f",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/PATCH_EXECUTION_COMPLETION_REPORT.md",
+    "category": "report",
+    "sha256": "82807fd8f05aa26680f5f322519cbe2a6633cb90a28c96acbc36066a42d0c192",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/TOOL_MCP_GIT_BOUNDARY_COMPLETION_REPORT.md",
+    "category": "report",
+    "sha256": "3647b5e01ab46e0183bbba60da120713597ca790736f3b73675fc3b09aa78160",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/MODEL_CONTEXT_WORKER_COMPLETION_REPORT.md",
+    "category": "report",
+    "sha256": "34260a42543513d06de903c7bfcd622608c43e4680155680c6c9e7e2257a4a58",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/ORCHESTRATOR_REVIEW_PROMOTION_COMPLETION_REPORT.md",
+    "category": "report",
+    "sha256": "0aafc80302d3911234a5374bad5742d7776297e1e8f73ccac3f6318335d03a8f",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/EVALUATION_SUPPORT_COMPLETION_REPORT.md",
+    "category": "report",
+    "sha256": "adc1bb5935f87156cfc465ff6f5b23d0526280dcaa25b081d2866a10a93c93c9",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/CLI_COMMAND_SURFACE_ACCEPTANCE_REPORT.md",
+    "category": "report",
+    "sha256": "5b8f6e4787b80a752db6d898157bb006dfb4fd377b9cf376d62968b70dd200a7",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/ACCEPTANCE_EVIDENCE_INTEGRITY_REPORT.md",
+    "category": "report",
+    "sha256": "b4a274011e2893347e463148d052026f67c8ecc0cd7914f9cedcb0c98676f794",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.md",
+    "category": "report",
+    "sha256": "5c2f62eca08675082618dab8416d9b21eb3ca7408555443a4154141ca9cc8694",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.json",
+    "category": "report",
+    "sha256": "28bfcd609003d0681775fe54baffd77460fce42c0c5d725549bef51c845a3a5f",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/SOURCE_DIFF_REVIEW_REPORT.md",
+    "category": "report",
+    "sha256": "1ead9d83b82bae5b0a46c5ee280ad607e7bcbf66f90a26250beda589742f64d1",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/FINAL_SOURCE_HASH_MANIFEST.json",
+    "category": "report",
+    "sha256": "5789bb6deec7ab475b3e1d039d1b762aeb567175b3def4ae87d052f3ba6ffb09",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.md",
+    "category": "report",
+    "sha256": "764742120f9b4b5db3bbb020086bf43735701055df94ff5cd46cdb65f23049e3",
+    "status": "new"
+  },
+  {
+    "path": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.json",
+    "category": "report",
+    "sha256": "a429a9f3f99a570826332f340a325f07520343b6e1efd7d2f17b44c8deb747b3",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_document_coverage_matrix.py",
+    "category": "test",
+    "sha256": "2b1013c0b3415dce1cb86caff7c5816c2a4bb9aa352819b751b18bbae4adccda",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_evidence_schema_validation.py",
+    "category": "test",
+    "sha256": "3a6f3a12f77939ff3a48f7d1d8d1adecaa2313aa5eec44158dbdc789a57d2e4c",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_failure_rollback_flow.py",
+    "category": "test",
+    "sha256": "b7c9d68677446548a45ea2a12f58c45228a62666de9c2d0e3dfc517ae28704da",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_makefile_target_coverage.py",
+    "category": "test",
+    "sha256": "d161dd2ebd3bc9da2836bea97c6e71e952c1c1d96d969623c08705f376e32f7c",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_model_context_worker_flow.py",
+    "category": "test",
+    "sha256": "7708139fd5f8c3c65b66445d2f9dd488a2d4f910e7dd7b233cabce01ef7d5908",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_no_l0_dependency_violation.py",
+    "category": "test",
+    "sha256": "e801afe67aecd2c69530dcbece4bfe5e50a64efaa433dd182009174f7fc918dc",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_orchestrator_review_promotion_flow.py",
+    "category": "test",
+    "sha256": "6be1994a6ccb92692c6dd078e48d17de237133f441bf7b19a35f557182dc137e",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_patch_execution_flow.py",
+    "category": "test",
+    "sha256": "7355b32b881d39644e521cdebcaa454e6863f5220dd815dd1d1d116e67f4d38a",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_policy_bypass_resistance.py",
+    "category": "test",
+    "sha256": "d89375e619621d635da5ae3ed624c42c143d41f8499d63b608f234c9a61757f9",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_runtime_artifact_boundary.py",
+    "category": "test",
+    "sha256": "c46b6c75b2e393780d2ce43de0de0e9108d398a270fe2a818e0152f4018c5b33",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_security_policy_boundary.py",
+    "category": "test",
+    "sha256": "c8fd54c46d47f841405ad3c77db563db7aa2489ec073594c2dfe02139605509b",
+    "status": "new"
+  },
+  {
+    "path": "tests/integration/test_tool_mcp_policy_flow.py",
+    "category": "test",
+    "sha256": "9c2a4071accef2ebe78b7d24c212a6b33d9cc3f6585add326673fb93516cfaa2",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_cli_help.py",
+    "category": "test",
+    "sha256": "1e2d2a033e2c0b2cbf290eba2cd5d62485b5fc5de07fdf89f8399f001d7d40b3",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_final_acceptance_report.py",
+    "category": "test",
+    "sha256": "8bcddccee2e65bc85373f5c63141614c714e223afd1e3ab7b568606201768113",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_incomplete_coverage_rejected.py",
+    "category": "test",
+    "sha256": "04c768c3e83d405bc21e87916fdc46763992c7822211ec19dec6aafa46a1e130",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_mock_self_evolution.py",
+    "category": "test",
+    "sha256": "b3f7da9e4b15eeb37535cd5b58fbe20d6dfea1b0e64d8bdcdc6d429c57d7a18c",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_no_network_default.py",
+    "category": "test",
+    "sha256": "dd1f501128f6e9f68fd965d446c584558495cdd9f90fcea7e76b6c397f4f123c",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_no_source_pollution.py",
+    "category": "test",
+    "sha256": "ce62b1b58a4341ad9be386f41df090656a0eba2481aca3646b47f871334e516e",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_rejects_protected_mutation.py",
+    "category": "test",
+    "sha256": "fc5d5293abb3c82c8fdf4b7daa7a46d21251e5697d90f56eda8d00bbf14a95c8",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_rollback_on_validation_failure.py",
+    "category": "test",
+    "sha256": "0a48e03ccbf307424c7f4fe13cdbdced7fd90120d6010f1f782317d77c3430e3",
+    "status": "new"
+  },
+  {
+    "path": "tests/system/test_agentx_evolve_runtime_artifact_boundary.py",
+    "category": "test",
+    "sha256": "3bb0b9dc076e8b38c86ea1686a26822568da32fb3a495949d802404842d32ee2",
+    "status": "new"
+  }
+]

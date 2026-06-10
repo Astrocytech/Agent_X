@@ -16,10 +16,30 @@ BLOCKED_AUTH = "authentication failed (401/403)"
 BLOCKED_SERVER = "opencode server unavailable"
 FAIL_MODEL = "model/endpoint not found (404)"
 FAIL_RATE_LIMIT = "rate limited (429)"
+FAIL_USAGE_LIMIT = "free usage limit reached"
 FAIL_SERVER = "server error (5xx)"
 FAIL_TIMEOUT = "provider timeout"
 FAIL_MALFORMED = "malformed response"
 FAIL_SERVER_START = "failed to start opencode server"
+
+
+def _looks_like_usage_limit(text: str) -> bool:
+    lower = (text or "").lower()
+    patterns = (
+        "free limit reached",
+        "free usage exceeded",
+        "freeusagelimiterror",
+        "usage limit",
+        "insufficient_quota",
+        "rate limit",
+        "rate limited",
+        "quota",
+        "exceeded your current quota",
+        "opencode go",
+        "go_upsell",
+        "too many requests",
+    )
+    return any(pattern in lower for pattern in patterns)
 
 
 class OpenCodeProviderError(Exception):
@@ -365,6 +385,13 @@ class OpenCodeProvider:
     @staticmethod
     def _classify_http_error(e: urllib.error.HTTPError) -> None:
         code = e.code
+        body = ""
+        try:
+            body = e.read().decode("utf-8", errors="replace")
+        except Exception:
+            body = ""
+        if _looks_like_usage_limit(body):
+            raise OpenCodeProviderError(FAIL_USAGE_LIMIT, exit_code=4, status="BLOCKED")
         if code == 401 or code == 403:
             raise OpenCodeProviderError(BLOCKED_AUTH, exit_code=2, status="BLOCKED")
         if code == 404:
@@ -373,7 +400,8 @@ class OpenCodeProvider:
             raise OpenCodeProviderError(FAIL_RATE_LIMIT, exit_code=4)
         if code >= 500:
             raise OpenCodeProviderError(FAIL_SERVER, exit_code=4)
-        raise OpenCodeProviderError(f"HTTP {code}: {e.reason}", exit_code=4)
+        detail = f": {body[:500]}" if body else ""
+        raise OpenCodeProviderError(f"HTTP {code}: {e.reason}{detail}", exit_code=4)
 
     def complete_streaming(
         self, messages: list[dict[str, Any]], cancel_event: threading.Event | None = None, **kwargs: Any,
@@ -415,6 +443,11 @@ class OpenCodeProvider:
                     )
                     with urllib.request.urlopen(req, timeout=self._timeout) as resp:
                         response_data[0] = json.loads(resp.read().decode("utf-8"))
+                except urllib.error.HTTPError as e:
+                    try:
+                        self._classify_http_error(e)
+                    except Exception as classified:
+                        error_data[0] = classified
                 except Exception as e:
                     error_data[0] = e
 
@@ -471,6 +504,18 @@ class OpenCodeProvider:
                         "type": "todo",
                         "todos": props.get("todos", []),
                     }
+
+                elif evt_type == "session.status":
+                    status = props.get("status", {})
+                    if isinstance(status, dict):
+                        message = str(status.get("message", ""))
+                        if _looks_like_usage_limit(message):
+                            yield {
+                                "type": "usage_limit",
+                                "text": FAIL_USAGE_LIMIT,
+                                "detail": message,
+                                "author": "system",
+                            }
 
                 elif evt_type == "message.part.updated":
                     part = props.get("part", {})

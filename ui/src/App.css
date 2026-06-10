@@ -701,6 +701,27 @@
   line-height: 1.4;
 }
 
+.status-alert {
+  border: 1px solid #d8b45c;
+  background: #fff7df;
+  color: #5f4100;
+  border-radius: 4px;
+  padding: 8px 10px;
+  line-height: 1.35;
+}
+
+.status-alert-title {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.status-alert-text {
+  margin-top: 4px;
+  font-size: 11px;
+}
+
 /* ── Todo list inside status panel ───────────────────────── */
 .todo-section {
   border-top: 1px solid #e0e2e6;
@@ -1765,6 +1786,11 @@
 }
 [data-theme="dark"] .status-value {
   color: #cdd6f4;
+}
+[data-theme="dark"] .status-alert {
+  background: #332800;
+  border-color: #8a6d1d;
+  color: #f7dc8b;
 }
 [data-theme="dark"] .modal {
   background: #1e1e2e;
