@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "umbrella_weather_fixture",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "title": "Umbrella Weather Fixture",
+  "type": "object",
+  "properties": {
+    "location": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "condition": {
+      "type": ["string", "null"]
+    },
+    "precipitation_probability": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "temperature_c": {
+      "type": ["number", "null"]
+    },
+    "wind_kph": {
+      "type": ["number", "null"]
+    },
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": ["string", "object"]
+      }
+    }
+  },
+  "required": ["location", "date", "condition", "precipitation_probability", "temperature_c", "wind_kph", "alerts"],
+  "additionalProperties": false
+}

@@ -1,0 +1,18 @@
+{
+  "report": "stage_a_canary_patch_report",
+  "milestone": "umbrella_agent_real_self_evolution",
+  "stage": "A",
+  "status": "PASS",
+  "canary_config": {
+    "safe_path": "tests/.canary_test.txt",
+    "approved_paths": ["tests/"],
+    "unsafe_l0_path": ".agentx-init/foo.py",
+    "unsafe_traversal_path": "tests/../../tmp/escape.txt"
+  },
+  "tests": {
+    "safe_dry_run": "PASS",
+    "safe_live": "PASS",
+    "unsafe_l0": "PASS",
+    "unsafe_traversal": "PASS"
+  }
+}

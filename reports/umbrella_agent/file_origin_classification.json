@@ -1,0 +1,106 @@
+{
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "classification_timestamp": "2026-06-09T23:50:00Z",
+  "pre_stage_a_commit": "6143fb0dd5a4abab11e19c236c6e6544211d155d",
+  "classification": [
+    {
+      "path": "tools/agentx_evolve/policy/capability_registry.py",
+      "classification": "PRE_EXISTING",
+      "existed_before_stage_a": true,
+      "created_in_stage": null,
+      "created_by": null,
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/patch_execution/patch_execution_service.py",
+      "classification": "PRE_EXISTING",
+      "existed_before_stage_a": true,
+      "created_in_stage": null,
+      "created_by": null,
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/.gitkeep",
+      "classification": "PRE_EXISTING",
+      "existed_before_stage_a": true,
+      "created_in_stage": null,
+      "created_by": null,
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "schemas/umbrella_agent_input.schema.json",
+      "classification": "STAGE_A_INFRASTRUCTURE_CHANGE",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "schemas/umbrella_weather_fixture.schema.json",
+      "classification": "STAGE_A_INFRASTRUCTURE_CHANGE",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "schemas/umbrella_agent_output.schema.json",
+      "classification": "STAGE_A_INFRASTRUCTURE_CHANGE",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/evidence_writer.py",
+      "classification": "STAGE_A_INFRASTRUCTURE_CHANGE",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/event_logger.py",
+      "classification": "STAGE_A_INFRASTRUCTURE_CHANGE",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/manifest_builder.py",
+      "classification": "STAGE_A_INFRASTRUCTURE_CHANGE",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.md",
+      "classification": "GENERATED_REPORT",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.json",
+      "classification": "GENERATED_REPORT",
+      "existed_before_stage_a": false,
+      "created_in_stage": "A",
+      "created_by": "stage_a_pipeline_implementation",
+      "persistence": "permanent",
+      "status": "PASS"
+    }
+  ]
+}

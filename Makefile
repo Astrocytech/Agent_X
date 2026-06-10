@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-all test-smoke test-live test-l0 test-l1 test-l2 test-initiator test-evolve test-integration test-system test-regression audit-structure prove-organization prove-hygiene run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-all test-smoke test-live test-l0 test-l1 test-l2 test-initiator test-evolve test-integration test-system test-regression audit-structure prove-organization prove-hygiene prove-umbrella-agent run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -112,6 +112,9 @@ prove-hygiene:
 	PYTHONPATH=L0/CODE $(PYTHON) -m mypy L0/CODE/core_kernel/ L0/CODE/tool_gateway/ L0/CODE/governance/ --ignore-missing-imports
 	pip-audit -r requirements/seed.txt
 	@echo "=== prove-hygiene: OK ==="
+
+prove-umbrella-agent:
+	$(PYTHON) scripts/prove-umbrella-agent.sh
 
 run:
 	PYTHONPATH=L0/CODE $(PYTHON) -c "from core_kernel.public.kernel_service import KernelService; from core_kernel.models.kernel_requests import KernelTurnRequest; k=KernelService(); print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"

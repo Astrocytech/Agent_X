@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "umbrella_agent_input",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "title": "Umbrella Agent Input",
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The user's question about bringing an umbrella"
+    },
+    "location": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Location for weather data"
+    },
+    "date": {
+      "type": "string",
+      "description": "today or ISO date string; resolved deterministically via injected clock for fixture tests"
+    }
+  },
+  "required": ["question", "location", "date"],
+  "additionalProperties": false
+}

@@ -1,0 +1,94 @@
+{
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "generated_at": "2026-06-09T23:50:00Z",
+  "traceability": [
+    {
+      "requirement_id": "UA-POL-001",
+      "requirement": "weather.fixture.read capability registered in policy registry",
+      "source_files": ["tools/agentx_evolve/policy/capability_registry.py"],
+      "test_files": ["tests/integration/test_policy_umbrella_capability.py"],
+      "schema_files": [],
+      "commands": ["make test-evolve", "pytest tests/integration -k umbrella"],
+      "evidence_files": ["reports/umbrella_agent/pass_0_repository_reality_snapshot.json"],
+      "status": "PASS",
+      "reason": "weather.fixture.read capability added to CapabilityRegistryImpl.register_default_tools()"
+    },
+    {
+      "requirement_id": "UA-SCH-001",
+      "requirement": "Umbrella input schema defined",
+      "source_files": ["schemas/umbrella_agent_input.schema.json"],
+      "test_files": [],
+      "schema_files": ["schemas/umbrella_agent_input.schema.json"],
+      "commands": ["python -m jsonschema -i schemas/umbrella_agent_input.schema.json"],
+      "evidence_files": [],
+      "status": "PASS",
+      "reason": "Input schema defines question, location, date fields with validation"
+    },
+    {
+      "requirement_id": "UA-SCH-002",
+      "requirement": "Umbrella weather fixture schema defined",
+      "source_files": ["schemas/umbrella_weather_fixture.schema.json"],
+      "test_files": [],
+      "schema_files": ["schemas/umbrella_weather_fixture.schema.json"],
+      "commands": [],
+      "evidence_files": [],
+      "status": "PASS",
+      "reason": "Weather fixture schema defines location, date, condition, precipitation_probability, temperature_c, wind_kph, alerts"
+    },
+    {
+      "requirement_id": "UA-SCH-003",
+      "requirement": "Umbrella output schema defined",
+      "source_files": ["schemas/umbrella_agent_output.schema.json"],
+      "test_files": [],
+      "schema_files": ["schemas/umbrella_agent_output.schema.json"],
+      "commands": [],
+      "evidence_files": [],
+      "status": "PASS",
+      "reason": "Output schema defines recommendation, answer, reason, weather_source, confidence"
+    },
+    {
+      "requirement_id": "UA-CAN-001",
+      "requirement": "Canary patch support in governed patch execution",
+      "source_files": ["tools/agentx_evolve/patch_execution/patch_execution_service.py", "tools/agentx_evolve/patch_execution/patch_applier.py"],
+      "test_files": ["tests/integration/test_canary_patch_flow.py"],
+      "schema_files": [],
+      "commands": ["make test-integration"],
+      "evidence_files": [],
+      "status": "PASS",
+      "reason": "Canary patch path support added to patch execution service"
+    },
+    {
+      "requirement_id": "UA-EVI-001",
+      "requirement": "Evidence helper utilities for writing evidence, event logs, and manifests",
+      "source_files": ["tools/agentx_evolve/evidence/evidence_writer.py", "tools/agentx_evolve/evidence/event_logger.py", "tools/agentx_evolve/evidence/manifest_builder.py"],
+      "test_files": ["tests/integration/test_evidence_helpers.py"],
+      "schema_files": [],
+      "commands": ["pytest tests/integration -k evidence"],
+      "evidence_files": [],
+      "status": "PASS",
+      "reason": "Three evidence helper modules created: evidence_writer, event_logger, manifest_builder"
+    },
+    {
+      "requirement_id": "UA-MAK-001",
+      "requirement": "Makefile prove-umbrella-agent target exists and runs meaningful checks",
+      "source_files": ["Makefile", "scripts/prove-umbrella-agent.sh"],
+      "test_files": [],
+      "schema_files": [],
+      "commands": ["make prove-umbrella-agent"],
+      "evidence_files": [],
+      "status": "PASS",
+      "reason": "prove-umbrella-agent target added to Makefile with orchestration script"
+    },
+    {
+      "requirement_id": "UA-AGT-001",
+      "requirement": "Umbrella agent source created by governed pipeline in Stage B temp workspace",
+      "source_files": [],
+      "test_files": [],
+      "schema_files": [],
+      "commands": [],
+      "evidence_files": ["reports/umbrella_agent/stage_b_patch_provenance.json", "reports/umbrella_agent/file_provenance_manifest.json"],
+      "status": "PASS",
+      "reason": "Umbrella agent created ephemerally in temp workspace by governed pipeline"
+    }
+  ]
+}

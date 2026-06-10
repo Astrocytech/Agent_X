@@ -1,0 +1,33 @@
+{
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "snapshot_type": "baseline",
+  "pass": 0,
+  "branch": "main",
+  "commit": "6143fb0dd5a4abab11e19c236c6e6544211d155d",
+  "commit_message": "stage 1",
+  "dirty": false,
+  "timestamp": "2026-06-09T23:50:00Z",
+  "file_tree": {
+    "policy_files": 15,
+    "patch_execution_files": 11,
+    "evidence_files": 0,
+    "test_integration": 13,
+    "test_system": 16,
+    "test_regression": 3,
+    "test_smoke": 0,
+    "schema_files_canonical": 478,
+    "umbrella_agent_files": 0
+  },
+  "makefile_targets": [
+    "audit-structure", "build-seed", "clean", "help", "install",
+    "prove-all", "prove-format", "prove-hygiene", "prove-organization", "prove-seed",
+    "run", "seed-boot",
+    "test-all", "test-evolve", "test-initiator", "test-integration", "test-live",
+    "test-regression", "test-smoke", "test-system"
+  ],
+  "pre_existing_evidence_dirs": [
+    ".agentx-init/evidence/",
+    "tools/agentx_evolve/docs/"
+  ],
+  "umbrella_related_files": []
+}

@@ -242,6 +242,20 @@ def _default_tools() -> list[ToolCapability]:
             ],
             side_effect_level="read",
         ),
+        ToolCapability(
+            tool_name="weather_fixture_read",
+            description="Read deterministic weather fixture data for umbrella recommendation",
+            capabilities=[
+                CapabilityDefinition(
+                    capability_id="cap-weather-fixture-read",
+                    name="weather.fixture.read",
+                    description="Read fixture-based weather data (deterministic, no network, no secrets)",
+                    allowed_operations=["READ"],
+                    side_effect_level="read",
+                ),
+            ],
+            side_effect_level="read",
+        ),
     ]
 
 

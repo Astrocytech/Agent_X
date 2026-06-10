@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "id": "umbrella_agent_output",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "title": "Umbrella Agent Output",
+  "type": "object",
+  "properties": {
+    "recommendation": {
+      "type": "string",
+      "enum": ["yes", "no", "maybe", "unknown"]
+    },
+    "answer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "weather_source": {
+      "type": "string",
+      "enum": ["fixture"]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low", "unknown"]
+    }
+  },
+  "required": ["recommendation", "answer", "reason", "weather_source", "confidence"],
+  "additionalProperties": false
+}
