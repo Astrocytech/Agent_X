@@ -1,0 +1,23 @@
+{
+  "id": "fixture_case_results",
+  "version": "2.0.0",
+  "architecture": "genuine_agent_x_derived",
+  "tool_source": "L0 ToolGateway: weather.fixture.read",
+  "rules_source": "\u00a73 deterministic: precip\u226560=yes, 30-59=maybe, <30=no",
+  "generated_at": "2026-06-10T14:06:17.748961+00:00",
+  "fixtures": [
+    {"id": "UA-FIX-001", "location": "Berlin", "condition": "cloudy", "precip": 45, "expected_recommendation": "maybe", "actual_recommendation": "maybe", "confidence": 0.4, "status": "PASS"},
+    {"id": "UA-FIX-002", "location": "Cairo", "condition": "clear", "precip": 0, "expected_recommendation": "no", "actual_recommendation": "no", "confidence": 0.8, "status": "PASS"},
+    {"id": "UA-FIX-003", "location": "Dubai", "condition": "clear", "precip": 0, "expected_recommendation": "no", "actual_recommendation": "no", "confidence": 0.8, "status": "PASS"},
+    {"id": "UA-FIX-004", "location": "London", "condition": "rain", "precip": 60, "expected_recommendation": "yes", "actual_recommendation": "yes", "confidence": 0.7, "status": "PASS"},
+    {"id": "UA-FIX-005", "location": "Moscow", "condition": "cloudy", "precip": 35, "expected_recommendation": "maybe", "actual_recommendation": "maybe", "confidence": 0.4, "status": "PASS"},
+    {"id": "UA-FIX-006", "location": "Mumbai", "condition": "rain", "precip": 70, "expected_recommendation": "yes", "actual_recommendation": "yes", "confidence": 0.7, "status": "PASS"},
+    {"id": "UA-FIX-007", "location": "Oslo", "condition": "cloudy", "precip": 55, "expected_recommendation": "maybe", "actual_recommendation": "maybe", "confidence": 0.4, "status": "PASS"},
+    {"id": "UA-FIX-008", "location": "Paris", "condition": "clear", "precip": 10, "expected_recommendation": "no", "actual_recommendation": "no", "confidence": 0.8, "status": "PASS"},
+    {"id": "UA-FIX-009", "location": "Sydney", "condition": "clear", "precip": 5, "expected_recommendation": "no", "actual_recommendation": "no", "confidence": 0.8, "status": "PASS"},
+    {"id": "UA-FIX-010", "location": "Tokyo", "condition": "rain", "precip": 80, "expected_recommendation": "yes", "actual_recommendation": "yes", "confidence": 0.7, "status": "PASS"}
+  ],
+  "pass_count": 10,
+  "fail_count": 0,
+  "conclusion": "All 10 deterministic fixture cases produce correct recommendations per \u00a73."
+}

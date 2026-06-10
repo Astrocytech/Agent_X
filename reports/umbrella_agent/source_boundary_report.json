@@ -1,0 +1,20 @@
+{
+  "report": "stage_b_boundary_report",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "status": "PASS",
+  "description": "Source boundary verification: all 7 enforcement layers active, L0 not modified.",
+  "verification": {
+    "layers": [
+      {"name": "L0_PREFIX", "file": "patch_applier.py:22", "active": true},
+      {"name": "Approved paths filter", "file": "patch_applier.py:25-31", "active": true},
+      {"name": "Path traversal protection", "file": "patch_applier.py:90-93", "active": true},
+      {"name": "Absolute path protection", "file": "patch_applier.py:85-88", "active": true},
+      {"name": "Symlink escape protection", "file": "patch_applier.py:95-99", "active": true},
+      {"name": "SandboxPolicy protected_paths", "file": "sandbox_policy.py", "active": true},
+      {"name": "Source change guard", "file": "source_change_guard.py", "active": true}
+    ],
+    "l0_modified": false,
+    "approved_paths_respected": true
+  },
+  "conclusion": "PASS — All boundary layers active. L0 unchanged."
+}

@@ -1,0 +1,88 @@
+{
+  "id": "ctx-umbrella-001",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "proposal_id": "umbrella-agent-001",
+  "user_goal": "Create a simple umbrella recommendation agent that answers: Should I bring an umbrella today?",
+  "forbidden_paths": [
+    "L0/",
+    ".git/",
+    "secrets",
+    "credentials",
+    "env files containing secrets",
+    "global shell config",
+    "dependency lockfiles without approval",
+    "core governance files without audit"
+  ],
+  "required_behavior": "Deterministic recommendation using fixture weather data. No live APIs. No network. No model hallucination.",
+  "schemas": {
+    "input": {
+      "$ref": "schemas/umbrella_agent_input.schema.json",
+      "fields": {
+        "question": "string",
+        "location": "string",
+        "date": "today|ISO-date"
+      }
+    },
+    "weather_fixture": {
+      "$ref": "schemas/umbrella_weather_fixture.schema.json",
+      "fields": {
+        "location": "string",
+        "date": "ISO-date",
+        "condition": "string|null",
+        "precipitation_probability": "0-100|null",
+        "temperature_c": "number|null",
+        "wind_kph": "number|null",
+        "alerts": "string[]"
+      }
+    },
+    "output": {
+      "$ref": "schemas/umbrella_agent_output.schema.json",
+      "fields": {
+        "recommendation": "yes|no|maybe|unknown",
+        "confidence": "high|medium|low|unknown",
+        "weather_source": "fixture",
+        "answer": "string",
+        "reason": "string"
+      }
+    }
+  },
+  "contract": "reports/umbrella_agent/pass_2_umbrella_agent_contract.md",
+  "rules": "reports/umbrella_agent/pass_3_recommendation_rules.md",
+  "boundary": "reports/umbrella_agent/pass_4_source_boundary_report.md",
+  "capabilities_required": [
+    "weather.fixture.read"
+  ],
+  "approved_paths": [
+    "umbrella_agent/",
+    "tests/"
+  ],
+  "tests_to_run": [
+    "pytest tests/test_umbrella_agent.py -v"
+  ],
+  "evidence_requirements": [
+    "event log (events.jsonl)",
+    "provenance manifest",
+    "fixture case results",
+    "source diff report",
+    "source hash manifests (before/after)"
+  ],
+  "review_requirements": [
+    "Governance decision in umbrella_decision.json",
+    "Review artifact in human_review_boundary_report.md"
+  ],
+  "promotion_requirements": [
+    "Promotion gate produces promotion_report.md",
+    "Evidence manifest validates",
+    "No UNEXPECTED_CHANGE files",
+    "All AC criteria pass"
+  ],
+  "restrictions": [
+    "No network access",
+    "No live weather API",
+    "Deterministic only",
+    "L0/ mutations blocked",
+    "Source writes limited to approved paths"
+  ],
+  "generated_at": "2026-06-10T13:11:30Z"
+}

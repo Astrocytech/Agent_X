@@ -1,0 +1,73 @@
+{
+  "id": "contract_version_inventory",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "generated_at": "2026-06-10T04:10:08Z",
+  "contracts": [
+    {
+      "id": "umbrella_agent_input",
+      "path": "schemas/umbrella_agent_input.schema.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "input_schema",
+      "valid": true
+    },
+    {
+      "id": "umbrella_weather_fixture",
+      "path": "schemas/umbrella_weather_fixture.schema.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "fixture_schema",
+      "valid": true
+    },
+    {
+      "id": "umbrella_agent_output",
+      "path": "schemas/umbrella_agent_output.schema.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "output_schema",
+      "valid": true
+    },
+    {
+      "id": "patch_candidate",
+      "path": "patch_candidate.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "patch_candidate_schema",
+      "valid": true
+    },
+    {
+      "id": "context_packet",
+      "path": "context_packet.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "context_schema",
+      "valid": true
+    },
+    {
+      "id": "evidence_manifest",
+      "path": "file_provenance_manifest.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "evidence_manifest_schema",
+      "valid": true
+    },
+    {
+      "id": "report_integrity",
+      "path": "report_integrity_validation.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "report_integrity_schema",
+      "valid": true
+    },
+    {
+      "id": "prompt_contract",
+      "path": "prompt_contract_used.json",
+      "version": "1.0.0",
+      "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+      "type": "prompt_contract",
+      "valid": true
+    }
+  ],
+  "conclusion": "All 8 contracts have stable IDs and version 1.0.0, consistent across the milestone."
+}

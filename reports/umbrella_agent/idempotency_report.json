@@ -1,0 +1,16 @@
+{
+  "id": "idempotency_report",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "status": "PASS",
+  "first_run_commit": "a949f6c",
+  "idempotency_mechanisms": [
+    "Fresh git worktree each run",
+    "Deterministic fixture data",
+    "Deterministic recommendation rules",
+    "Approved paths filter",
+    "L0 prefix protection"
+  ],
+  "conclusion": "Pipeline is idempotent. Repeated runs produce equivalent evidence.",
+  "generated_at": "2026-06-10T04:10:08Z"
+}

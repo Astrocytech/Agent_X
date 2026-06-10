@@ -9,3 +9,7 @@ tools:
     risk: low
     side_effect: none
     approval_required: false
+  weather.fixture.read:
+    risk: low
+    side_effect: none
+    approval_required: false

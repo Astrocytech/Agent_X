@@ -1,0 +1,601 @@
+{
+  "id": "file_provenance_manifest",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "generated_at": "2026-06-10T13:11:30Z",
+  "total_files": 74,
+  "files": [
+    {
+      "path": "L0/CODE/core_kernel/public/kernel_service.py",
+      "sha256": "dcf85c64feb74b9e7d981ebd0dd5855442be03993623846e1add6d177ddc55eb",
+      "origin": "pre_existing",
+      "stage": null,
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/policy/capability_registry.py",
+      "sha256": "240e651bbffec986fede0ccb4e1d7ff7a4a118b8bb5ce0dfcdfcf8397d6bc5c0",
+      "origin": "pre_existing",
+      "stage": null,
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "Makefile",
+      "sha256": "427dab18364e95d42706f31fba0a62b242a1d25004d97ee7abc73a55a069ce44",
+      "origin": "pre_existing",
+      "stage": null,
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "schemas/umbrella_agent_input.schema.json",
+      "sha256": "26569dffedf2a8b6d90d4c8eb1387ba94569595d808e57f260d315dd7d929d5d",
+      "origin": "stage_a_infrastructure",
+      "stage": "A",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "schemas/umbrella_weather_fixture.schema.json",
+      "sha256": "6d94c75aa4a31883b80ed77de2003b1615e7bb3c0e3b098a95b243963ee57df2",
+      "origin": "stage_a_infrastructure",
+      "stage": "A",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "schemas/umbrella_agent_output.schema.json",
+      "sha256": "8e34f0c61d16bbf95ab4cdcdd65aa330c9d52eb969832eea763e4768eb714835",
+      "origin": "stage_a_infrastructure",
+      "stage": "A",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/evidence_writer.py",
+      "sha256": "6b9d2d6c729207d95e0071ff34c93d8928f61c976a774fa9e730bbcc743b32eb",
+      "origin": "stage_a_infrastructure",
+      "stage": "A",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/event_logger.py",
+      "sha256": "1444402b9ce6ad08c7a3aec3db1365a262163a8f03c1694363fa6d7acea36743",
+      "origin": "stage_a_infrastructure",
+      "stage": "A",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/manifest_builder.py",
+      "sha256": "10569d43ff4e2faf0bb8780f9adf453cae4d91b369ccc45e83e1bcf39fdfefce",
+      "origin": "stage_a_infrastructure",
+      "stage": "A",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "umbrella_agent/__init__.py",
+      "sha256": "EPHEMERAL_TEMP_WORKSPACE",
+      "origin": "stage_b_governed_patch",
+      "stage": "B",
+      "persistence": "ephemeral",
+      "status": "PASS"
+    },
+    {
+      "path": "umbrella_agent/weather_fixture.py",
+      "sha256": "EPHEMERAL_TEMP_WORKSPACE",
+      "origin": "stage_b_governed_patch",
+      "stage": "B",
+      "persistence": "ephemeral",
+      "status": "PASS"
+    },
+    {
+      "path": "tests/test_umbrella_agent.py",
+      "sha256": "EPHEMERAL_TEMP_WORKSPACE",
+      "origin": "stage_b_governed_patch",
+      "stage": "B",
+      "persistence": "ephemeral",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_safe_live_result.json",
+      "sha256": "9bbeb0ab841637031405ab0ea9151dbacc119917e922ac23f611840a6f27612e",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_safe_result.json",
+      "sha256": "39c14d82deb72e6982d70cdb5bb6324037d19c2a3dba16d77730267679dbce0a",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_unsafe_l0_result.json",
+      "sha256": "cde68dfd142130b47a07091239c48da58c4c6421e779da717edf94a0e8c0f882",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_unsafe_traversal_result.json",
+      "sha256": "d9680c1fd671822d890e945deb8417706ff77a06b935d4035c9a16b61f0c380e",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/context_packet.json",
+      "sha256": "ae70ee84c6d0cdc76d010e18db58f82c1db8152998e8d7c4fd5b764152e3ab2b",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/contract_version_inventory.json",
+      "sha256": "524e0b5a15203720c021619abbbaf83af906c1c6348d580c787dd67a07293d8f",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/dependency_change_report.json",
+      "sha256": "bbdfe4dcec4e105c068384a1133b5dafe1e64c44ff54bcc5960286e225f549f9",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/dependency_change_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/events.jsonl",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/evidence_manifest.json",
+      "sha256": "d3dc56a92a5304759d30e2224d3ec5b783e97ace8cfabb68446184162ec5c367",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/file_origin_classification.json",
+      "sha256": "70f79e7240257fd07962538d1c8727819830cd88a1ef58e7f16d682d05f776e4",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/file_provenance_manifest.json",
+      "sha256": "44a1a5ed54c3546b2130068dc45e91a06c1edc2ae6b190654cd0183854843d06",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/final_acceptance_report.json",
+      "sha256": "18b63087e23ff013fe3aa207c3af5fe4ec7dbe760b81bd0bea294f31319ca51f",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/final_acceptance_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/final_claim_limits.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/final_repository_reality_snapshot.json",
+      "sha256": "3314ef470c06830d1ad5840ebd174316e55df397699673084c6b8e4ea473a24c",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/final_repository_reality_snapshot.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/fixture_case_results.json",
+      "sha256": "dd157f4f171310637e92547c5195dfdfee8ab0fd4d1653a63d5db64535432e1a",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/golden_command_transcript.json",
+      "sha256": "dfac06fe1183c487cbd66e6c12c3b223075109d4e659088b55e2666e08df6e33",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/golden_command_transcript.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/human_review_boundary_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/idempotency_report.json",
+      "sha256": "be2abf3d7f24c28d2d6d8c1d73368a76358a0d7044eeb5f6d7685223268e8f38",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/idempotency_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/makefile_target_verification.json",
+      "sha256": "931a8b4ed592881ff608c65f0a977927fbbc558d074c961d3330240c8c1e2006",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/makefile_target_verification.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.json",
+      "sha256": "2456b2da564d11e4cab1640944f37017474068a89ca57dbcf5cb443f8cd3601a",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_1_requirement_traceability_matrix.json",
+      "sha256": "40de5e51f92ee6435c2b137e3901cebe3a19d2978cafa937003517f030b89978",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_1_requirement_traceability_matrix.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_2_umbrella_agent_contract.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_3_recommendation_rules.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_4_source_boundary_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_5_self_evolution_run.json",
+      "sha256": "1bfee688a3b2bde71bd7d31e68ebee15233a00cc6f57076fc4dde314b0bd20ad",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_5_self_evolution_run.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/patch_candidate.json",
+      "sha256": "5df754f60bf9b7f8a347a4106ed963ff1dfaf8decf3f64b2309e402a4a259009",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/patch_execution_report.json",
+      "sha256": "4c2f34d982ecf854d8324ca65be6de3c22fe9aff87ffae129439f816301fb286",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/pipeline_evidence.json",
+      "sha256": "c8bbbd65d8667d31b4e6f3c9fe77b21635c214cc3fa9bf398bff6011949e75f9",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/promotion_report.json",
+      "sha256": "694ea103875600d01593c8722f1b026a997ddb49977852e90c165a582c4a0f40",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/promotion_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/prompt_contract_used.json",
+      "sha256": "bae03f4f38fc4d386297c7c398922fb60bc0a8d3b48f7c7293287700480b34b2",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/prove_umbrella_agent_command_report.json",
+      "sha256": "180cac2d5e22608ab48cfba4e129e667c9647d059a4a4103d5374b3e6717a991",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/prove_umbrella_agent_command_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/replayability_report.json",
+      "sha256": "2d137aa900c98fcebc99e7f0b7325a1e6586d1a141240bc7f380187a9711e076",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/replayability_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/report_integrity_validation.json",
+      "sha256": "21436ea27dc9d43762002f2d6a4fb8f115949b3429f221302c845cf1b7b7a7a9",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/report_integrity_validation.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/runtime_artifact_boundary_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/sabotage_check_report.json",
+      "sha256": "1c767e797c2436e2cbb92c6062b99bf1c70e84ab0832da24879bb7521722b0ca",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/sabotage_check_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/source_boundary_report.json",
+      "sha256": "37f7a2da8d96fa4e02cbd6f92536f93aaf17ef1859438efd141f8f680895cbbd",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/source_boundary_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/source_diff_report.json",
+      "sha256": "28c37e2613d8204d51404c1a4686949d2f8f11227876567d5f084b856e5e4e89",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/source_diff_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/source_hash_manifest_after.json",
+      "sha256": "ef7d83ec9129e1ce0a7de648790a01f3cac39ba97780f589c8424f63aa42fe8a",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/source_hash_manifest_before.json",
+      "sha256": "81770950d58388bfa8c54b4d73f6b3b8063e71ae3035f1fc367a95c7a1b4148a",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_canary_patch_report.json",
+      "sha256": "8d95b8e1cd8e7e543c508b60a765ba17b3241c773e39fd4718e801eaf844e0d4",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_canary_patch_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_no_umbrella_prebuild_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_pipeline_readiness_report.json",
+      "sha256": "52ed2f5a2453014bc992cba4927de0675bc3618a9b68e037c630bc4dc832bab2",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_pipeline_readiness_report.md",
+      "sha256": "text/md",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/test_report.json",
+      "sha256": "de86c86671cb311f414d0a537e00c0e04113ca96cc6d4925b7af5885b292a371",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_decision.json",
+      "sha256": "205e7c85d0726c8fa94edb0a330e5c2b95c04023df46e25629b3858c80587e50",
+      "origin": "milestone_evidence",
+      "stage": "A_B",
+      "persistence": "permanent",
+      "status": "PASS"
+    }
+  ]
+}

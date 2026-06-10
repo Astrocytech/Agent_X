@@ -1,0 +1,69 @@
+{
+  "id": "umbrella_agent_prompt_contract",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "system_prompt_summary": "Deterministic umbrella recommender using fixture weather data",
+  "output_format": {
+    "schema_id": "umbrella_agent_output",
+    "fields": [
+      "recommendation",
+      "confidence",
+      "answer",
+      "reason",
+      "weather_source"
+    ],
+    "allowed_recommendations": [
+      "yes",
+      "no",
+      "maybe",
+      "unknown"
+    ],
+    "allowed_confidence": [
+      "high",
+      "medium",
+      "low",
+      "unknown"
+    ]
+  },
+  "allowed_files": [
+    "umbrella_agent/",
+    "tests/test_umbrella_agent.py"
+  ],
+  "forbidden_files": [
+    "L0/",
+    "schemas/",
+    "reports/",
+    "tools/",
+    "scripts/",
+    "Makefile"
+  ],
+  "governance_rules": [
+    "weather.fixture.read capability required",
+    "Source writes limited to umbrella_agent/ and tests/",
+    "L0/ mutations forbidden",
+    "Network access forbidden",
+    "Deterministic output required",
+    "No live weather API for first pass",
+    "No dependency changes unless explicitly approved"
+  ],
+  "required_tests": [
+    "Unit: input validation, fixture parsing, yes/maybe/no/unknown rules, missing/malformed data",
+    "Integration: policy allow/block, patch executor allow/reject, evidence writer",
+    "System: end-to-end governed pipeline",
+    "Negative: L0 blocked, traversal blocked, unauthorized tool blocked, network blocked"
+  ],
+  "required_evidence": [
+    "events.jsonl",
+    "file_provenance_manifest.json",
+    "fixture_case_results.json",
+    "source_diff_report.json",
+    "source_hash_manifest_before.json",
+    "source_hash_manifest_after.json",
+    "evidence_manifest.json",
+    "promotion_report.md"
+  ],
+  "failure_reporting": "Return unknown on missing/malformed data, provider failure, or schema validation failure. Do not hallucinate weather data.",
+  "output_schema_id": "umbrella_agent_output",
+  "max_iterations": 1,
+  "generated_at": "2026-06-10T13:11:30Z"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "golden_command_transcript",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "generated_at": "2026-06-10T04:10:08Z",
+  "commands": [
+    {
+      "command": "bash scripts/canary-patch-test.sh",
+      "directory": "/home/glompy/Desktop/ASTROCYTECH/Agent_X",
+      "exit_code": 0,
+      "output_summary": "=== Stage A: Canary Patch Verification === | Repo root: /home/glompy/Desktop/ASTROCYTECH/Agent_X | Safe canary path: tests/.canary_test.txt |  | --- Test 1: Safe canary (DRY_RUN, approved path) --- | ",
+      "mandatory": true,
+      "assertions": true,
+      "status": "PASS"
+    },
+    {
+      "command": "python3 -m pytest tests/system/test_negative_l0_mutation_rejected.py -q --tb=short",
+      "directory": "/home/glompy/Desktop/ASTROCYTECH/Agent_X",
+      "exit_code": 0,
+      "output_summary": "...                                                                      [100%] | 3 passed in 0.04s | ",
+      "mandatory": true,
+      "assertions": true,
+      "status": "PASS"
+    },
+    {
+      "command": "python3 -m pytest tests/system/test_negative_network_default_rejected.py -q --tb=short",
+      "directory": "/home/glompy/Desktop/ASTROCYTECH/Agent_X",
+      "exit_code": 0,
+      "output_summary": "...                                                                      [100%] | 3 passed in 0.07s | ",
+      "mandatory": true,
+      "assertions": true,
+      "status": "PASS"
+    },
+    {
+      "command": "grep -q prove-umbrella-agent Makefile",
+      "directory": "/home/glompy/Desktop/ASTROCYTECH/Agent_X",
+      "exit_code": 0,
+      "output_summary": "",
+      "mandatory": false,
+      "assertions": true,
+      "status": "PASS"
+    }
+  ],
+  "summary": "4/4 commands passed",
+  "conclusion": "PASS"
+}

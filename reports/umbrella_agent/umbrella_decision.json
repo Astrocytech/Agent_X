@@ -1,0 +1,11 @@
+{
+  "governance_decision_id": "gov-umbrella-001",
+  "proposal_id": "umbrella-agent-001",
+  "decision": "APPROVED",
+  "approved_paths": [
+    "umbrella_agent/",
+    "tests/"
+  ],
+  "policy_decision_id": "policy-umbrella-001",
+  "timestamp": "2026-06-09T23:59:00Z"
+}

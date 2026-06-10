@@ -1,0 +1,16 @@
+{
+  "id": "pass_5_self_evolution_run",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "pass": 5,
+  "status": "PASS",
+  "proposal_id": "umbrella-agent-001",
+  "governance_decision_id": "gov-umbrella-001",
+  "patch_candidate": "patch_candidate.json",
+  "patch_execution": "patch_execution_report.json",
+  "source_diff": "source_diff_report.json",
+  "test_report": "test_report.json",
+  "tests_passed": 10,
+  "tests_total": 10,
+  "generated_at": "2026-06-10T13:11:30Z"
+}

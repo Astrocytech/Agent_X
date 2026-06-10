@@ -1,0 +1,23 @@
+{
+  "id": "patch-exec-umbrella-001",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "session_id": "IMP-umbrella-001",
+  "governance_decision_id": "gov-umbrella-001",
+  "mode": "DRY_RUN+LIVE",
+  "operations_count": 3,
+  "validation_status": "PASS",
+  "execution_status": "APPLIED",
+  "changed_paths": [
+    "umbrella_agent/__init__.py",
+    "umbrella_agent/weather_fixture.py",
+    "tests/test_umbrella_agent.py"
+  ],
+  "before_source_hash_manifest": "source_hash_manifest_before.json",
+  "after_source_hash_manifest": "source_hash_manifest_after.json",
+  "source_guard_status": "PASS",
+  "validation_gate_status": "PASS",
+  "rollback_required": false,
+  "final_decision": "ACCEPT",
+  "executed_at": "2026-06-10T13:11:30Z"
+}

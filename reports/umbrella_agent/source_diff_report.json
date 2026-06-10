@@ -1,0 +1,19 @@
+{
+  "id": "source-diff-umbrella-001",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "files_created": [
+    "umbrella_agent/__init__.py",
+    "umbrella_agent/weather_fixture.py",
+    "tests/test_umbrella_agent.py"
+  ],
+  "files_modified": [],
+  "files_deleted": [],
+  "l0_modifications": 0,
+  "total_additions_bytes": 7500,
+  "total_deletions_bytes": 0,
+  "before_manifest": "source_hash_manifest_before.json",
+  "after_manifest": "source_hash_manifest_after.json",
+  "verdict": "PASS",
+  "generated_at": "2026-06-10T13:11:30Z"
+}

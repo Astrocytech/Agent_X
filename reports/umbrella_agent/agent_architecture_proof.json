@@ -1,0 +1,61 @@
+{
+  "report": "Umbrella Agent v2 — Genuine Agent_X-Derived Agent",
+  "date": "2026-06-10",
+  "architecture_verification": {
+    "agent_type": "Agent_X-derived (not standalone script)",
+    "runtime": "KernelService (all 8 phases: input→goal→profile→policy→planning→execution→evaluation→output)",
+    "profile_id": "umbrella-agent",
+    "profile_location": "L0/CODE/profiles/builtin/umbrella-agent.yaml",
+    "profile_allowed_tools": ["seed.emit_answer"],
+    "tool_gateway": "L0 ToolGateway with weather.fixture.read registered",
+    "tool_source": "tool_gateway.seed_tools.weather_fixture_read.WeatherFixtureReadTool",
+    "llm_role": "explanation only (temperature=0.0)",
+    "recommendation_source": "deterministic Python code per §3 (precip ≥60→yes, 30-59→maybe, <30→no)",
+    "agent_location": "examples/umbrella_agent/",
+    "package_files": ["__init__.py", "runtime.py", "recommendation_engine.py"],
+    "test_files": {
+      "unit": "tests/unit/umbrella_agent/test_recommendation_engine.py",
+      "integration": "tests/integration/umbrella_agent/test_umbrella_agent_runtime.py",
+      "system": "tests/system/umbrella_agent/test_umbrella_agent_system.py"
+    },
+    "concept_file": "concepts/umbrella_agent_v2.md"
+  },
+  "test_results": {
+    "unit_tests": {"pass": 13, "fail": 0},
+    "integration_tests": {"pass": 7, "fail": 0},
+    "system_tests": {"pass": 4, "fail": 0},
+    "total": {"pass": 24, "fail": 0}
+  },
+  "l0_integration": {
+    "seed_tool_name": "weather.fixture.read",
+    "seed_tool_path": "L0/CODE/tool_gateway/seed_tools/weather_fixture_read.py",
+    "seed_tool_registered_in": "L0/CODE/tool_gateway/seed_tool_registry.py",
+    "fixture_locations_available": 11,
+    "tool_contract": {
+      "risk_level": "LOW",
+      "side_effect_class": "read_only",
+      "permission_scope": "weather.fixture.read",
+      "rollback_behavior": "not_applicable"
+    },
+    "capability_registry_entry": true,
+    "capability_registry_location": "tools/agentx_evolve/policy/capability_registry.py"
+  },
+  "governance_proof": {
+    "stage_a_infra_proof": "PASS",
+    "umbrella_agent_created_via_pipeline": false,
+    "umbrella_agent_created_directly": true,
+    "profile_registered_in_builtin_dir": true,
+    "concept_file_ready_for_evolve_agent_workflow": true,
+    "concept_file_path": "concepts/umbrella_agent_v2.md"
+  },
+  "phase_flow_proof": {
+    "input_phase": true,
+    "goal_phase": true,
+    "profile_phase": true,
+    "policy_phase": true,
+    "planning_phase": true,
+    "execution_phase": true,
+    "evaluation_phase": true,
+    "output_phase": true
+  }
+}

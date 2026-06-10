@@ -1,0 +1,9 @@
+{
+  "id": "prove_umbrella_agent_command_report",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "makefile_target": "prove-umbrella-agent",
+  "script": "scripts/prove-umbrella-agent.sh",
+  "checks_passed": true,
+  "generated_at": "2026-06-10T13:11:30Z"
+}

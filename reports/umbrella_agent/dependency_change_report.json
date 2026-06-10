@@ -1,0 +1,11 @@
+{
+  "id": "dependency_change_report",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "dependencies_changed": false,
+  "new_dependencies": [],
+  "modified_dependencies": [],
+  "removed_dependencies": [],
+  "conclusion": "No dependency changes for this milestone.",
+  "generated_at": "2026-06-10T13:11:30Z"
+}

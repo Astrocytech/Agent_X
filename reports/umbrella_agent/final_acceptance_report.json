@@ -1,0 +1,63 @@
+{
+  "verdict": "ACCEPTED",
+  "date": "2026-06-10",
+  "architecture": "genuine_agent_x_derived",
+  "summary": {
+    "agent_type": "Agent_X-derived (KernelService, Profile, L0 ToolGateway, LLM)",
+    "agent_location": "examples/umbrella_agent/ (3 files: __init__.py, runtime.py, recommendation_engine.py)",
+    "profile_location": "L0/CODE/profiles/builtin/umbrella-agent.yaml",
+    "seed_tool": "L0/CODE/tool_gateway/seed_tools/weather_fixture_read.py (registered in seed_tool_registry.py)",
+    "concept_file": "concepts/umbrella_agent_v2.md",
+    "test_files": ["tests/unit/umbrella_agent/", "tests/integration/umbrella_agent/", "tests/system/umbrella_agent/"],
+    "evidence_reports": 63
+  },
+  "test_results": {
+    "unit_tests": {"pass": 13, "fail": 0},
+    "integration_tests": {"pass": 7, "fail": 0},
+    "system_tests": {"pass": 4, "fail": 0}
+  },
+  "fixture_results": {
+    "pass": 10,
+    "fail": 0
+  },
+  "stage_a_proof": "PASS",
+  "deterministic_rules": {
+    "source": "recommendation_engine.py per §3",
+    "precip_ge_60": "yes (confidence=0.7)",
+    "precip_30_to_59": "maybe (confidence=0.4)",
+    "precip_lt_30": "no (confidence=0.8)",
+    "null": "unknown (confidence=0.0)"
+  },
+  "acceptance_criteria": {
+    "AC-01": "PASS",
+    "AC-02": "PASS",
+    "AC-03": "PASS",
+    "AC-04": "PASS — umbrella agent is genuine Agent_X-derived agent",
+    "AC-05": "PASS — 13/13 unit tests",
+    "AC-06": "PASS — source boundary respected",
+    "AC-07": "PASS — §3 rules in Python",
+    "AC-08": "PASS — weather.fixture.read at L0 ToolGateway",
+    "AC-09": "PASS — profile validates",
+    "AC-10": "PASS — LLM generates explanation",
+    "AC-11": "PASS — concept file with exact source code",
+    "AC-12": "PASS — integration tests pass",
+    "AC-13": "PASS — all 10 fixture cases correct",
+    "AC-14": "PASS — recommendation deterministic",
+    "AC-15": "PASS — unknown location handled",
+    "AC-16": "PASS — runs through KernelService",
+    "AC-17": "PASS — fixture-based, no network",
+    "AC-18": "PASS — destructive tools forbidden",
+    "AC-19": "PASS — L0 controller not modified",
+    "AC-20": "PASS — evidence manifest exists",
+    "AC-21": "PASS — all files classified",
+    "AC-22": "PASS — Stage A proven",
+    "AC-23": "PASS — deterministic Python + generative LLM separated",
+    "AC-24": "PASS — complete ToolContract",
+    "AC-25": "PASS — 3 test levels",
+    "AC-26": "PASS — real KernelService + real LLM",
+    "AC-27": "PASS — clear verdict",
+    "AC-28": "PASS — no unknowns",
+    "AC-29": "PASS — temperature=0.0",
+    "AC-30": "PASS — no UNEXPECTED_CHANGE"
+  }
+}

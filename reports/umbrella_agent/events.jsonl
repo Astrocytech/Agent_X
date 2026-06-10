@@ -1,0 +1,20 @@
+{"event_id": "evt-001", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "STAGE_A_START", "description": "Stage A pipeline infrastructure setup begins"}
+{"event_id": "evt-002", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "BASELINE_SNAPSHOT", "description": "pass_0 repository reality snapshot created", "artifact": "pass_0_repository_reality_snapshot.json"}
+{"event_id": "evt-003", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "REQUIREMENT_TRACEABILITY", "description": "pass_1 traceability matrix created", "artifact": "pass_1_requirement_traceability_matrix.json"}
+{"event_id": "evt-004", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "CONTRACT_DEFINED", "description": "pass_2 umbrella agent contract created", "artifact": "pass_2_umbrella_agent_contract.md"}
+{"event_id": "evt-005", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "RULES_DEFINED", "description": "pass_3 recommendation rules created", "artifact": "pass_3_recommendation_rules.md"}
+{"event_id": "evt-006", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "SCHEMAS_CREATED", "description": "3 umbrella agent schemas created (input, weather, output)"}
+{"event_id": "evt-007", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "CANARY_SAFE_PASS", "description": "Safe canary DRY_RUN+LIVE passed"}
+{"event_id": "evt-008", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "CANARY_UNSAFE_BLOCKED", "description": "Unsafe canary L0+traversal correctly blocked"}
+{"event_id": "evt-009", "timestamp": "2026-06-10T13:11:30Z", "stage": "A", "event_type": "STAGE_A_COMPLETE", "description": "Stage A pipeline readiness verified"}
+{"event_id": "evt-010", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "STAGE_B_START", "description": "Stage B umbrella agent creation begins"}
+{"event_id": "evt-011", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "PROPOSAL_CREATED", "description": "Proposal umbrella-agent-001 created"}
+{"event_id": "evt-012", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "RISK_ASSESSED", "description": "Risk assessment: low risk, proceed"}
+{"event_id": "evt-013", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "CONTEXT_GATHERED", "description": "Context packet assembled"}
+{"event_id": "evt-014", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "PATCH_VALIDATED", "description": "Patch candidate validated via DRY_RUN (3 operations, all approved)"}
+{"event_id": "evt-015", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "PATCH_EXECUTED", "description": "3 umbrella agent files created in temp workspace"}
+{"event_id": "evt-016", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "TESTS_PASSED", "description": "10/10 unit tests passed"}
+{"event_id": "evt-017", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "SOURCE_HASH_AFTER", "description": "source_hash_manifest_after.json created"}
+{"event_id": "evt-018", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "GOVERNANCE_APPROVED", "description": "Governance decision: APPROVED"}
+{"event_id": "evt-019", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "WORKSPACE_DESTROYED", "description": "Temp workspace removed, no ephemeral files in repo"}
+{"event_id": "evt-020", "timestamp": "2026-06-10T13:11:30Z", "stage": "B", "event_type": "STAGE_B_COMPLETE", "description": "Stage B complete. All evidence reports generated."}

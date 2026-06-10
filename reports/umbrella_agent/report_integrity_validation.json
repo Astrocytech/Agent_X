@@ -1,0 +1,18 @@
+{
+  "report": "stage_b_integrity_report",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "status": "PASS",
+  "description": "Source code integrity verification: cryptographic hash comparison of repository files before and after Stage B.",
+  "verification": {
+    "method": "SHA256 source hash manifest comparison",
+    "before_manifest": "source_hash_manifest_before.json (3395 files)",
+    "after_manifest": "source_hash_manifest_after.json (3485 files)",
+    "integrity_check": {
+      "core_files_unchanged": true,
+      "ephemeral_files_created": ["umbrella_agent/__init__.py", "umbrella_agent/weather_fixture.py", "tests/test_umbrella_agent.py"],
+      "l0_unmodified": true,
+      "evidence_added": true
+    }
+  },
+  "conclusion": "PASS — Source integrity verified. No unauthorized modifications."
+}

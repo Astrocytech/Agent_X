@@ -1,0 +1,31 @@
+{
+  "id": "sabotage_check_report",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "status": "PASS",
+  "description": "Prove the test suite catches meaningful defects via controlled sabotage analysis",
+  "sabotage_cases": [
+    {
+      "case": "Wrong precip threshold (50->80)",
+      "test": "test_high_precip_yes",
+      "result": "PASS"
+    },
+    {
+      "case": "Missing rain-condition rule",
+      "test": "Condition-based tests",
+      "result": "PASS"
+    },
+    {
+      "case": "Return 'no' instead of 'unknown'",
+      "test": "test_unknown_location",
+      "result": "PASS"
+    },
+    {
+      "case": "Missing output schema fields",
+      "test": "test_output_schema",
+      "result": "PASS"
+    }
+  ],
+  "conclusion": "All sabotage cases are detectable by the test suite.",
+  "generated_at": "2026-06-10T04:10:08Z"
+}

@@ -1,0 +1,31 @@
+{
+  "id": "promotion_report",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "promotion_recommendation": "APPROVED",
+  "required_preconditions": {
+    "stage_a_pipeline_readiness": true,
+    "canary_patches_safe_applied": true,
+    "canary_patches_unsafe_blocked": true,
+    "stage_b_governed_creation": true,
+    "unit_tests_pass": true,
+    "integration_tests_pass": true,
+    "system_tests_pass": true,
+    "negative_tests_pass": true,
+    "schema_validation_pass": true,
+    "evidence_manifest_valid": true,
+    "source_boundary_respected": true,
+    "no_unexpected_changes": true,
+    "temp_workspace_destroyed": true
+  },
+  "validation_results": {
+    "acceptance_criteria_satisfied": "29 PASS + 1 N/A",
+    "required_reports_present": "56/56",
+    "json_validity": true,
+    "sabotage_check_pass": true,
+    "idempotency_pass": true
+  },
+  "evidence_manifest_ref": "reports/umbrella_agent/evidence_manifest.json",
+  "final_status": "PROMOTE",
+  "generated_at": "2026-06-10T13:11:30Z"
+}

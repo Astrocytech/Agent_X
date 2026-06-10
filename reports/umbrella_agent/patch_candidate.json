@@ -1,0 +1,56 @@
+{
+  "patch_id": "patch-candidate-umbrella-001",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "proposal_id": "umbrella-agent-001",
+  "governance_decision_id": "gov-umbrella-001",
+  "policy_decision_id": "policy-umbrella-001",
+  "changed_files": [
+    "umbrella_agent/__init__.py",
+    "umbrella_agent/weather_fixture.py",
+    "tests/test_umbrella_agent.py"
+  ],
+  "reason": "Create umbrella recommendation agent with deterministic fixture-based weather provider and comprehensive test suite",
+  "risk_classification": "LOW \u2014 no network access, no live APIs, fixture data only, approved paths, ephemeral workspace",
+  "policy_decision": "APPROVED \u2014 weather.fixture.read capability granted for umbrella-agent milestone context",
+  "validation_commands": [
+    "pytest tests/test_umbrella_agent.py -v",
+    "python -c 'import json; json.loads(open(\"schemas/umbrella_agent_output.schema.json\").read())'",
+    "python -c 'from umbrella_agent import answer_umbrella_question'"
+  ],
+  "rollback_plan": "Rollback not needed \u2014 umbrella agent is ephemeral (Stage B temp workspace). Destroy workspace to undo all changes.",
+  "expected_artifacts": [
+    "tests/test_umbrella_agent.py",
+    "umbrella_agent/__init__.py",
+    "umbrella_agent/weather_fixture.py",
+    "reports/umbrella_agent/events.jsonl",
+    "reports/umbrella_agent/source_diff_report.json",
+    "reports/umbrella_agent/source_hash_manifest_after.json"
+  ],
+  "source_boundary_decision": "PASS \u2014 all writes to approved paths (umbrella_agent/, tests/), no L0/ modifications, no path traversal",
+  "operations": [
+    {
+      "operation_id": "op-create-umbrella-init",
+      "operation_type": "CREATE_FILE",
+      "target_path": "umbrella_agent/__init__.py",
+      "content_summary": "Umbrella agent entry point with answer_umbrella_question()",
+      "allow_create": true
+    },
+    {
+      "operation_id": "op-create-weather-fixture",
+      "operation_type": "CREATE_FILE",
+      "target_path": "umbrella_agent/weather_fixture.py",
+      "content_summary": "Deterministic WeatherFixtureProvider with fixture data for London, LA, Tokyo",
+      "allow_create": true
+    },
+    {
+      "operation_id": "op-create-tests",
+      "operation_type": "CREATE_FILE",
+      "target_path": "tests/test_umbrella_agent.py",
+      "content_summary": "10 unit tests covering all recommendation rules",
+      "allow_create": true
+    }
+  ],
+  "validation_mode": "DRY_RUN",
+  "generated_at": "2026-06-10T13:11:30Z"
+}

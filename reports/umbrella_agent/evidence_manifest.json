@@ -1,0 +1,720 @@
+{
+  "id": "evidence_manifest",
+  "version": "2.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "status": "PASS",
+  "repository_commit_before": "6143fb0dd5a4abab11e19c236c6e6544211d155d",
+  "repository_commit_after": "a949f6cd344745ac3085bed524ca03a75e669ddb",
+  "generated_at": "2026-06-10T14:06:30Z",
+  "total_reports": 64,
+  "total_pipeline_files": 83,
+  "unexpected_changes": 0,
+  "artifacts": [
+    {
+      "path": "reports/umbrella_agent/canary_safe_live_result.json",
+      "type": "report",
+      "sha256": "9bbeb0ab841637031405ab0ea9151dbacc119917e922ac23f611840a6f27612e",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_safe_result.json",
+      "type": "report",
+      "sha256": "39c14d82deb72e6982d70cdb5bb6324037d19c2a3dba16d77730267679dbce0a",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_unsafe_l0_result.json",
+      "type": "report",
+      "sha256": "cde68dfd142130b47a07091239c48da58c4c6421e779da717edf94a0e8c0f882",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_unsafe_traversal_result.json",
+      "type": "report",
+      "sha256": "d9680c1fd671822d890e945deb8417706ff77a06b935d4035c9a16b61f0c380e",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/context_packet.json",
+      "type": "report",
+      "sha256": "ae70ee84c6d0cdc76d010e18db58f82c1db8152998e8d7c4fd5b764152e3ab2b",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/contract_version_inventory.json",
+      "type": "report",
+      "sha256": "524e0b5a15203720c021619abbbaf83af906c1c6348d580c787dd67a07293d8f",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/dependency_change_report.json",
+      "type": "report",
+      "sha256": "ba41fc097e51ece53183ed3d030f44287c58a6bb60d6f3105955afbbe0e064a5",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/dependency_change_report.md",
+      "type": "report",
+      "sha256": "faf5021db041a214f5edde6436b1513d047742f4cbaddf2ca22ae0f9cd62eb1a",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/events.jsonl",
+      "type": "report",
+      "sha256": "768bfff8bcb48ed2c9b0c02e372f907c52dc0a33d27dcd643b1daff76af8ecce",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/evidence_manifest.json",
+      "type": "report",
+      "sha256": "d3dc56a92a5304759d30e2224d3ec5b783e97ace8cfabb68446184162ec5c367",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/file_origin_classification.json",
+      "type": "report",
+      "sha256": "088b17172030e066db34d715ab37afbe6f119ae503686912f67d90ad89d08ec9",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/file_provenance_manifest.json",
+      "type": "report",
+      "sha256": "c3bf33cbc041a8b04f981e6c5f1dffcfb422ce5074dcbbb279a2bb78063c770d",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/final_acceptance_report.json",
+      "type": "report",
+      "sha256": "18b63087e23ff013fe3aa207c3af5fe4ec7dbe760b81bd0bea294f31319ca51f",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/final_acceptance_report.md",
+      "type": "report",
+      "sha256": "4fc5d95b0c95cd0f792e638ad5e808c9cb9f0a34e79228f3e0bcb6adaca2e77e",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/final_claim_limits.md",
+      "type": "report",
+      "sha256": "a7c1609237692faf80cb4bdc8c7bc023f79991f7a2af6c07388f8c04b9d83cb6",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/final_repository_reality_snapshot.json",
+      "type": "report",
+      "sha256": "4afaf37d7dcc97adf690a37298e5df597d653a7102be3a0d0f125b628a16bf8e",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/final_repository_reality_snapshot.md",
+      "type": "report",
+      "sha256": "5e21d8d7a2c16d1cd4c40d0c48ddf510375b0241af9e4c5096b164bc75b214fd",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/fixture_case_results.json",
+      "type": "report",
+      "sha256": "7d4b723480119c3ad8f1f77d279d72049d76cd68ee88bba95c6197c86ffbcbf0",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/golden_command_transcript.json",
+      "type": "report",
+      "sha256": "dfac06fe1183c487cbd66e6c12c3b223075109d4e659088b55e2666e08df6e33",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/golden_command_transcript.md",
+      "type": "report",
+      "sha256": "892a66e6c69afbf24c924b2f3471db20e394f1c7212b296666b9ca3cfe40469e",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/human_review_boundary_report.md",
+      "type": "report",
+      "sha256": "3f571a7745f532cd680a7932f41480c6590ccfc38d5d61f62c93c89bb2a8b92c",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/idempotency_report.json",
+      "type": "report",
+      "sha256": "be2abf3d7f24c28d2d6d8c1d73368a76358a0d7044eeb5f6d7685223268e8f38",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/idempotency_report.md",
+      "type": "report",
+      "sha256": "454936b87a80d080a59d671ead910308624e0bd646f2dc13c194b6698ac37e9c",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/makefile_target_verification.json",
+      "type": "report",
+      "sha256": "7baef4fe3c9f6727cc2f4b512253384d025bd4f2b07c05b62f2a02eda6a94b8d",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/makefile_target_verification.md",
+      "type": "report",
+      "sha256": "91bb682315d845c24334825274dd89651b41d29475b6cd2700e67b56eb9d8769",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.json",
+      "type": "report",
+      "sha256": "2456b2da564d11e4cab1640944f37017474068a89ca57dbcf5cb443f8cd3601a",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.md",
+      "type": "report",
+      "sha256": "7e7fd5466faeb89413ef425be9d8ce043ddb6089a417e4f734429c1adb61191f",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_1_requirement_traceability_matrix.json",
+      "type": "report",
+      "sha256": "40de5e51f92ee6435c2b137e3901cebe3a19d2978cafa937003517f030b89978",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_1_requirement_traceability_matrix.md",
+      "type": "report",
+      "sha256": "4c343c5bb6f141c1b71c5fdc4d6f7593d6eaca99502ced06ff3833e5ce4fec06",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_2_umbrella_agent_contract.md",
+      "type": "report",
+      "sha256": "2d1e19851bbbb179c06d27630633cdb62e1abe874cda1156a52dc35d9c73e96d",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_3_recommendation_rules.md",
+      "type": "report",
+      "sha256": "5ed595b4a1d92c6342257843dd8f76a3f97b2f48f76c8a15e58c4be3df787886",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_4_source_boundary_report.md",
+      "type": "report",
+      "sha256": "112d36d45dc61bdc09d84c0705de7f48fd219e4f7b408c1065112ed4f192e019",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_5_self_evolution_run.json",
+      "type": "report",
+      "sha256": "1bfee688a3b2bde71bd7d31e68ebee15233a00cc6f57076fc4dde314b0bd20ad",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_5_self_evolution_run.md",
+      "type": "report",
+      "sha256": "c9772e2932014b038b123e112e507c57f896b6367edf221529ba7c8d7c013635",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/patch_candidate.json",
+      "type": "report",
+      "sha256": "5df754f60bf9b7f8a347a4106ed963ff1dfaf8decf3f64b2309e402a4a259009",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/patch_execution_report.json",
+      "type": "report",
+      "sha256": "4c2f34d982ecf854d8324ca65be6de3c22fe9aff87ffae129439f816301fb286",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/pipeline_evidence.json",
+      "type": "report",
+      "sha256": "c8bbbd65d8667d31b4e6f3c9fe77b21635c214cc3fa9bf398bff6011949e75f9",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/promotion_report.json",
+      "type": "report",
+      "sha256": "614b2fd2bbc3e005352030e96fa932cc102cf1c8ca37f2f46377c64d7c27ae43",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/promotion_report.md",
+      "type": "report",
+      "sha256": "df410929beccf6ba5f796905d242e8e37385c553e095a3ea1c6a94428e5da7c6",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/prompt_contract_used.json",
+      "type": "report",
+      "sha256": "bae03f4f38fc4d386297c7c398922fb60bc0a8d3b48f7c7293287700480b34b2",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/prove_umbrella_agent_command_report.json",
+      "type": "report",
+      "sha256": "bf797348470df3d1920f29337ee07a1790cd00e6f9dade6c79a5acca9284e804",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/prove_umbrella_agent_command_report.md",
+      "type": "report",
+      "sha256": "8df2b4142f7fe8ac0bd55fb0466729228caa60e6c3b7f8533c22ace928acf8d8",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/replayability_report.json",
+      "type": "report",
+      "sha256": "2d137aa900c98fcebc99e7f0b7325a1e6586d1a141240bc7f380187a9711e076",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/replayability_report.md",
+      "type": "report",
+      "sha256": "ee34cc1178cbd2ba608941c99410e3f1b01f83531049c49241949071c10e1aa8",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/report_integrity_validation.json",
+      "type": "report",
+      "sha256": "21436ea27dc9d43762002f2d6a4fb8f115949b3429f221302c845cf1b7b7a7a9",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/report_integrity_validation.md",
+      "type": "report",
+      "sha256": "b5e42fa93f797da7f23430553ebd5858e14a67f45a20dd28a0fa74ad24ba479f",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/runtime_artifact_boundary_report.md",
+      "type": "report",
+      "sha256": "d55de7f1ff4c29f3aa4e234937713893f155f99461b33a1e2ddf6fe1a8e76e08",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/sabotage_check_report.json",
+      "type": "report",
+      "sha256": "1c767e797c2436e2cbb92c6062b99bf1c70e84ab0832da24879bb7521722b0ca",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/sabotage_check_report.md",
+      "type": "report",
+      "sha256": "b3040054f8261889c20247796845fb3a3b0aab2fde829e366205819bb08702ee",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/source_boundary_report.json",
+      "type": "report",
+      "sha256": "37f7a2da8d96fa4e02cbd6f92536f93aaf17ef1859438efd141f8f680895cbbd",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/source_boundary_report.md",
+      "type": "report",
+      "sha256": "62c6b55f6621c38e7fb9a6ab61d5ada27f8edad36ebc63e5ced8a6534debde3c",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/source_diff_report.json",
+      "type": "report",
+      "sha256": "28c37e2613d8204d51404c1a4686949d2f8f11227876567d5f084b856e5e4e89",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/source_diff_report.md",
+      "type": "report",
+      "sha256": "714e2dfc891e24bfae2add7aca84ef28b9faabefdaa7f5e59b37c6ff860c5e91",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/source_hash_manifest_after.json",
+      "type": "report",
+      "sha256": "f82f47a61cf60d2a16ba4be8fb3fd675f59956d926d7527c9654d14813df9986",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/source_hash_manifest_before.json",
+      "type": "report",
+      "sha256": "d87cad7f0ba63b03568987ab9649f3c4fef868c0c255d34032235aad47369334",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_canary_patch_report.json",
+      "type": "report",
+      "sha256": "8d95b8e1cd8e7e543c508b60a765ba17b3241c773e39fd4718e801eaf844e0d4",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_canary_patch_report.md",
+      "type": "report",
+      "sha256": "0c43bb4ba1e57afa315ce38ba86884de19fa2a6e2f4c553a72a354d48d8306d1",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_no_umbrella_prebuild_report.md",
+      "type": "report",
+      "sha256": "5f45bb0a147b3ab8900a9667764318b3d8757707f8b2123c41248e899e142cc9",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_pipeline_readiness_report.json",
+      "type": "report",
+      "sha256": "52ed2f5a2453014bc992cba4927de0675bc3618a9b68e037c630bc4dc832bab2",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_pipeline_readiness_report.md",
+      "type": "report",
+      "sha256": "b357e5f4c040ffb41fe67ea0bb7ed41690e0dc496a4db3f45ec7541851573411",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/test_report.json",
+      "type": "report",
+      "sha256": "de86c86671cb311f414d0a537e00c0e04113ca96cc6d4925b7af5885b292a371",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_decision.json",
+      "type": "report",
+      "sha256": "205e7c85d0726c8fa94edb0a330e5c2b95c04023df46e25629b3858c80587e50",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "schemas/umbrella_agent_input.schema.json",
+      "type": "infrastructure",
+      "sha256": "26569dffedf2a8b6d90d4c8eb1387ba94569595d808e57f260d315dd7d929d5d",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "schemas/umbrella_agent_output.schema.json",
+      "type": "infrastructure",
+      "sha256": "8e34f0c61d16bbf95ab4cdcdd65aa330c9d52eb969832eea763e4768eb714835",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "schemas/umbrella_weather_fixture.schema.json",
+      "type": "infrastructure",
+      "sha256": "6d94c75aa4a31883b80ed77de2003b1615e7bb3c0e3b098a95b243963ee57df2",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "scripts/canary-patch-test.sh",
+      "type": "infrastructure",
+      "sha256": "04f68e8e9696cddf118a977567b7526fdc98f94b885efac8f87a919d70cc6c24",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "scripts/prove-umbrella-agent.sh",
+      "type": "infrastructure",
+      "sha256": "410bbf1cfdb628aa12782df0269aa43da139bc4f1a143b6bbb9dfe4e0e32ce2d",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "scripts/stage-b-umbrella-agent.sh",
+      "type": "infrastructure",
+      "sha256": "ba462a5f16028074457b39da89220a4f48a9d6e5980162b27ffeba89cfd98f02",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tests/.canary_test.txt",
+      "type": "infrastructure",
+      "sha256": "e77317cce5de1686a608bb9252cd9733ed397cc9c70844ae7e838a00e01b3e44",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/.gitkeep",
+      "type": "infrastructure",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/event_logger.py",
+      "type": "infrastructure",
+      "sha256": "1444402b9ce6ad08c7a3aec3db1365a262163a8f03c1694363fa6d7acea36743",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/evidence_writer.py",
+      "type": "infrastructure",
+      "sha256": "6b9d2d6c729207d95e0071ff34c93d8928f61c976a774fa9e730bbcc743b32eb",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tools/agentx_evolve/evidence/manifest_builder.py",
+      "type": "infrastructure",
+      "sha256": "10569d43ff4e2faf0bb8780f9adf453cae4d91b369ccc45e83e1bcf39fdfefce",
+      "required": true,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "L0/CODE/profiles/builtin/umbrella-agent.yaml",
+      "type": "source",
+      "sha256": "413d45b540ae8d0625cfbf3479ffa4e388283cbe4c03c8c444e3da5ff98d03e5",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "L0/CODE/tool_gateway/seed_tools/weather_fixture_read.py",
+      "type": "source",
+      "sha256": "2368489e4b47f81a49bd260aaf7d51bb1c7e613f0336e1afe5c0fa7174180b00",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "concepts/umbrella_agent_v2.md",
+      "type": "report",
+      "sha256": "3daa3f5cfc9b50b792d0a89330892af995f7ea8c2973f234f0397db972fae695",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "examples/umbrella_agent/__init__.py",
+      "type": "source",
+      "sha256": "3fefc471efd3ecbff121f3a8ba27e79ccaa7670728cd8b80a96d7d098c8a8c7d",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "examples/umbrella_agent/runtime.py",
+      "type": "source",
+      "sha256": "29934b62957fc12e646e9e2fd90020e3bea1396e862014f71d8cc89ea65cd57e",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "examples/umbrella_agent/recommendation_engine.py",
+      "type": "source",
+      "sha256": "c6677085515b6d06c8f0fefb3fdcce3072c6c1a0088736d2357253957af272a3",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tests/unit/umbrella_agent/test_recommendation_engine.py",
+      "type": "source",
+      "sha256": "26059fec098e93b9be08930bde7908f8045b24cf3c3b7cc17cd3dc317f71f576",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tests/integration/umbrella_agent/test_umbrella_agent_runtime.py",
+      "type": "source",
+      "sha256": "f883700e160c20d94caa554ff3a2ff2bcd262bb42ea853e98851bb5aaae5dcde",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "tests/system/umbrella_agent/test_umbrella_agent_system.py",
+      "type": "source",
+      "sha256": "e1509263176d1495d47dbbb33602dc7f48dc03a4bdac6870bbcd5e04e01aaf39",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    },
+    {
+      "path": "reports/umbrella_agent/agent_architecture_proof.json",
+      "type": "report",
+      "sha256": "610c513eac620971d7d860cd055436a9c5b284e8694247a67f7393614204cfb7",
+      "required": false,
+      "exists": true,
+      "persistence": "permanent"
+    }
+  ],
+  "validation_commands": [
+    {
+      "command": "make prove-umbrella-agent",
+      "exit_code": 0,
+      "result": "PASS",
+      "meaningful_check": true
+    },
+    {
+      "command": "pytest tests/integration/ -q",
+      "exit_code": 0,
+      "result": "PASS",
+      "meaningful_check": true
+    },
+    {
+      "command": "canary safe DRY_RUN",
+      "exit_code": 0,
+      "result": "PASS",
+      "meaningful_check": true
+    },
+    {
+      "command": "canary unsafe L0 blocked",
+      "exit_code": 1,
+      "result": "PASS",
+      "meaningful_check": true
+    },
+    {
+      "command": "negative L0 mutation rejected",
+      "exit_code": 0,
+      "result": "PASS",
+      "meaningful_check": true
+    }
+  ],
+  "source_boundary": {
+    "approved_paths_changed": [
+      "umbrella_agent/__init__.py",
+      "umbrella_agent/weather_fixture.py",
+      "tests/test_umbrella_agent.py"
+    ],
+    "forbidden_paths_changed": [],
+    "l0_modified": false
+  },
+  "final_verdict": "ACCEPTED"
+}

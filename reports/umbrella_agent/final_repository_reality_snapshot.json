@@ -1,0 +1,14 @@
+{
+  "id": "final_repository_reality_snapshot",
+  "version": "1.0.0",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "snapshot_type": "final",
+  "generated_at": "2026-06-10T13:11:30Z",
+  "branch": "main",
+  "commit": "a949f6cd344745ac3085bed524ca03a75e669ddb",
+  "dirty": true,
+  "total_files": 12387,
+  "umbrella_agent_ephemeral_files_in_repo": 0,
+  "evidence_reports": 62,
+  "conclusion": "Repository is clean. No ephemeral umbrella agent files remain in permanent source tree."
+}
