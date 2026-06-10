@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProvenanceRecord",
+  "type": "object",
+  "required": ["path", "sha256", "origin", "status"],
+  "properties": {
+    "path": {"type": "string"},
+    "sha256": {"type": "string"},
+    "origin": {"type": "string", "enum": ["pre_existing", "stage_a_infrastructure", "stage_b_generated", "manual", "unknown"]},
+    "stage": {"type": "string"},
+    "persistence": {"type": "string", "enum": ["permanent", "ephemeral"]},
+    "status": {"type": "string", "enum": ["PASS", "FAIL", "UNKNOWN"]}
+  }
+}

@@ -13,3 +13,11 @@ tools:
     risk: low
     side_effect: none
     approval_required: false
+  clothing.fixture.read:
+    risk: low
+    side_effect: none
+    approval_required: false
+  planning.fixture.read:
+    risk: low
+    side_effect: none
+    approval_required: false

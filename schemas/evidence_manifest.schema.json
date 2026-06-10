@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvidenceManifest",
+  "type": "object",
+  "required": ["id", "version", "milestone", "status", "artifacts", "final_verdict"],
+  "properties": {
+    "id": {"type": "string"},
+    "version": {"type": "string"},
+    "milestone": {"type": "string"},
+    "status": {"type": "string", "enum": ["PASS", "FAIL", "BLOCKED", "UNKNOWN", "NOT_APPLICABLE"]},
+    "repository_commit_before": {"type": "string"},
+    "repository_commit_after": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type", "sha256", "required", "exists"],
+        "properties": {
+          "path": {"type": "string"},
+          "type": {"type": "string", "enum": ["report", "source", "infrastructure", "schema", "test"]},
+          "sha256": {"type": "string"},
+          "required": {"type": "boolean"},
+          "exists": {"type": "boolean"},
+          "persistence": {"type": "string", "enum": ["permanent", "ephemeral"]}
+        }
+      }
+    },
+    "validation_commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command": {"type": "string"},
+          "exit_code": {"type": "integer"},
+          "result": {"type": "string"},
+          "meaningful_check": {"type": "boolean"}
+        }
+      }
+    },
+    "final_verdict": {"type": "string", "enum": ["ACCEPTED", "REJECTED", "INCOMPLETE", "PENDING"]}
+  }
+}

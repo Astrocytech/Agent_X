@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DependencyChangeRecord",
+  "type": "object",
+  "required": ["file_path", "sha256_before", "sha256_after", "change_type", "approved"],
+  "properties": {
+    "file_path": {"type": "string"},
+    "sha256_before": {"type": "string"},
+    "sha256_after": {"type": "string"},
+    "change_type": {"type": "string", "enum": ["added", "modified", "deleted", "unchanged"]},
+    "approved": {"type": "boolean"},
+    "approval_artifact": {"type": "string"},
+    "reason": {"type": "string"}
+  }
+}

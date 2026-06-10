@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BenchmarkCase",
+  "type": "object",
+  "required": ["case_id", "title", "agent_or_layer", "expected_behavior", "pass_fail_criteria", "negative_case", "replay_required"],
+  "properties": {
+    "case_id": {"type": "string", "pattern": "^P[0-9]-B[0-9]{3}$"},
+    "title": {"type": "string"},
+    "agent_or_layer": {"type": "string"},
+    "input_fixture": {"type": "object"},
+    "expected_behavior": {"type": "string"},
+    "expected_output_contract": {"type": "object"},
+    "expected_failure_mode": {"type": "string"},
+    "required_artifacts": {"type": "array", "items": {"type": "string"}},
+    "required_commands": {"type": "array", "items": {"type": "string"}},
+    "pass_fail_criteria": {"type": "string"},
+    "negative_case": {"type": "boolean"},
+    "replay_required": {"type": "boolean"},
+    "requirement_id": {"type": "string"},
+    "evidence_id": {"type": "string"}
+  }
+}
