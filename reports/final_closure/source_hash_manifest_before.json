@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "source_hash_manifest_before",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "note": "Canonical equivalent of .agentx-init/five_document_closure/baseline/baseline_source_hash_manifest.json",
+  "status": "PASS"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Five-Document Requirement Matrix Schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "report_id": {"type": "string"},
+    "project": {"type": "string"},
+    "commit": {"type": "string"},
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "requirement_id": {"type": "string"},
+          "source_document": {"type": "string", "enum": ["DOC1", "DOC2", "DOC3", "DOC4", "DOC5"]},
+          "source_section": {"type": "string"},
+          "requirement_text": {"type": "string"},
+          "mandatory": {"type": "boolean"},
+          "implementation_mode": {"type": "string", "enum": ["VERIFY_EXISTING", "IMPLEMENT_MISSING", "REPAIR_PARTIAL", "NOT_APPLICABLE_WITH_REASON"]},
+          "source_files": {"type": "array", "items": {"type": "string"}},
+          "test_files": {"type": "array", "items": {"type": "string"}},
+          "schema_files": {"type": "array", "items": {"type": "string"}},
+          "commands": {"type": "array", "items": {"type": "string"}},
+          "evidence_files": {"type": "array", "items": {"type": "string"}},
+          "review_files": {"type": "array", "items": {"type": "string"}},
+          "promotion_files": {"type": "array", "items": {"type": "string"}},
+          "replay_files": {"type": "array", "items": {"type": "string"}},
+          "test_strength": {"type": "string", "enum": ["MEANINGFUL", "WEAK", "PLACEHOLDER", "MISSING", "NOT_APPLICABLE"]},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "PARTIAL", "MISSING", "BLOCKED", "CONFLICT", "UNKNOWN", "UNVERIFIED", "NOT_APPLICABLE_WITH_REASON"]},
+          "reason": {"type": "string"}
+        },
+        "required": ["requirement_id", "source_document", "requirement_text", "mandatory", "status"]
+      }
+    }
+  },
+  "required": ["schema_version", "report_id", "project", "commit", "rows"]
+}

@@ -1,0 +1,122 @@
+{
+  "final_verdict": "ACCEPTED",
+  "repository": "https://github.com/Astrocytech/Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "dirty_tree": false,
+  "documents": [
+    {
+      "document_id": "DOC1",
+      "status": "PASS",
+      "requirements_total": 14,
+      "requirements_pass": 14,
+      "requirements_not_applicable": 0,
+      "requirements_unresolved": 0,
+      "evidence": [
+        ".agentx-init/five_document_closure/matrix/five_document_traceability_matrix.json",
+        ".agentx-init/five_document_closure/final/five_document_evidence_manifest.json",
+        ".agentx-init/five_document_closure/final/five_document_event_log_validation.json"
+      ]
+    },
+    {
+      "document_id": "DOC2",
+      "status": "PASS",
+      "requirements_total": 3,
+      "requirements_pass": 3,
+      "requirements_not_applicable": 0,
+      "requirements_unresolved": 0,
+      "evidence": [
+        "scripts/prove-umbrella-agent.sh",
+        "reports/umbrella_agent/final_acceptance_report.json",
+        "reports/umbrella_agent/umbrella_persistence_classification_report.json",
+        "reports/umbrella_agent/umbrella_contract_closure.json",
+        "reports/governed_pipeline/pipeline_trace.json"
+      ]
+    },
+    {
+      "document_id": "DOC3",
+      "status": "PASS",
+      "requirements_total": 1,
+      "requirements_pass": 1,
+      "requirements_not_applicable": 0,
+      "requirements_unresolved": 0,
+      "evidence": [
+        "scripts/prove-post-umbrella.sh",
+        ".agentx-init/post_umbrella/post_umbrella_truth.json",
+        "reports/post_umbrella/post_umbrella_final_acceptance.json"
+      ]
+    },
+    {
+      "document_id": "DOC4",
+      "status": "PASS",
+      "requirements_total": 1,
+      "requirements_pass": 1,
+      "requirements_not_applicable": 0,
+      "requirements_unresolved": 0,
+      "evidence": [
+        "scripts/prove-inverse-science.sh",
+        ".agentx-init/reports/inverse_science_final_acceptance.json",
+        ".agentx-init/reports/inverse_science_traceability_matrix.json"
+      ]
+    },
+    {
+      "document_id": "DOC5",
+      "status": "PASS",
+      "requirements_total": 1,
+      "requirements_pass": 1,
+      "requirements_not_applicable": 0,
+      "requirements_unresolved": 0,
+      "evidence": [
+        "scripts/prove-scriptor-benchmark.sh",
+        "benchmarks/benchcore/evidence/final_acceptance.json",
+        "benchmarks/benchcore/reports/final_acceptance.json"
+      ]
+    }
+  ],
+  "commands": [
+    "make prove-all",
+    "make prove-seed",
+    "make prove-l1",
+    "make prove-l2",
+    "make test-initiator",
+    "make test-evolve",
+    "make test-release",
+    "make test-all",
+    "make prove-umbrella-agent",
+    "make prove-post-umbrella",
+    "make prove-inverse-science",
+    "make prove-scriptor-benchmark",
+    "make final-acceptance",
+    "make audit-structure",
+    "make compileall-check"
+  ],
+  "schemas_validated": [
+    "schemas/benchmark_case.schema.json",
+    "schemas/benchmark_result.schema.json",
+    "schemas/command_transcript.schema.json",
+    "schemas/evidence_manifest.schema.json",
+    "schemas/event_log_entry.schema.json",
+    "schemas/provenance_record.schema.json",
+    "schemas/source_manifest.schema.json",
+    "schemas/umbrella_agent_input.schema.json",
+    "schemas/umbrella_agent_output.schema.json",
+    "schemas/umbrella_weather_fixture.schema.json"
+  ],
+  "evidence_validated": [
+    ".agentx-init/reports/",
+    ".agentx-init/five_document_closure/",
+    ".agentx-init/post_umbrella/",
+    "reports/umbrella_agent/",
+    "benchmarks/benchcore/",
+    "schemas/"
+  ],
+  "clean_checkout_replay": "PASS",
+  "claim_boundary": "PASS",
+  "proof_scripts": [
+    "scripts/prove-umbrella-agent.sh — Stage A + Stage B verification with artifact validation",
+    "scripts/prove-post-umbrella.sh — Schema, provenance, rollback, and acceptance verification",
+    "scripts/prove-inverse-science.sh — Schema existence + JSON validation + traceability check",
+    "scripts/prove-scriptor-benchmark.sh — Required tests + JSON artifact validation + status checks"
+  ],
+  "proof_verified": true,
+  "open_blockers": []
+}

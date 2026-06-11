@@ -2,7 +2,7 @@ import json, os, sys, tempfile, re
 from pathlib import Path
 
 
-MAKEFILE = Path("/home/glompy/Desktop/ASTROCYTECH/Agent_X/Makefile")
+MAKEFILE = Path(__file__).resolve().parents[2] / "Makefile"
 REQUIRED_TARGETS = {
     "install", "seed-boot", "prove-seed", "prove-l1", "prove-l2",
     "prove-format", "prove-all", "test-smoke", "test-integration",

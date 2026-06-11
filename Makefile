@@ -3,7 +3,14 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-quick test-dev test-release test-sabotage test-security test-all test-live test-l0 test-l1 test-l2 test-initiator test-evolve audit-structure prove-organization prove-hygiene prove-umbrella-agent prove-post-umbrella prove-inverse-science prove-scriptor-benchmark final-acceptance run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2
+.PHONY: prove-format compileall-check prove-all
+.PHONY: test-quick test-dev test-release test-sabotage test-security
+.PHONY: test-all test-live test-l0 test-l1 test-l2 test-initiator
+.PHONY: test-evolve audit-structure prove-organization prove-hygiene
+.PHONY: prove-umbrella-agent prove-post-umbrella prove-inverse-science
+.PHONY: prove-scriptor-benchmark generate-final-artifacts
+.PHONY: final-acceptance validate-final-acceptance run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -71,8 +78,17 @@ prove-format:
 	@echo "=== prove-format: OK ==="
 
 # target_id: P2-C007
-prove-all: prove-seed prove-format prove-l1 prove-l2 test-initiator test-evolve test-integration test-system test-regression test-all prove-umbrella-agent prove-post-umbrella prove-inverse-science prove-scriptor-benchmark final-acceptance audit-structure
+prove-all: prove-format compileall-check prove-seed prove-l1 prove-l2 test-initiator \
+  test-evolve test-integration test-system test-regression test-all \
+  prove-umbrella-agent generate-final-artifacts prove-post-umbrella \
+  prove-inverse-science prove-scriptor-benchmark final-acceptance \
+  audit-structure
 	@echo "=== prove-all: OK ==="
+	@echo "=== All targets passed ==="
+
+compileall-check:
+	$(PYTHON) -m compileall -q L0 L1 L2 tools tests
+	@echo "=== compileall-check: OK ==="
 
 # target_id: P2-C008
 audit-structure:
@@ -99,7 +115,10 @@ test-dev:
 
 # target_id: P2-C012
 test-release:
-	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/release L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider -m "not live"
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" \
+	$(PYTHON) -m pytest tests/release L1/tests L2/tests \
+	  tools/agentx_initiator/tests tools/agentx_evolve/tests \
+	  -q --tb=short -p no:cacheprovider -m "not live"
 
 # target_id: P2-C013
 test-sabotage:
@@ -115,17 +134,30 @@ test-live:
 
 # target_id: P2-C016
 test-all:
-	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/quick tests/dev tests/release L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider -m "not live"
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" \
+	$(PYTHON) -m pytest tests/quick tests/dev tests/release \
+	  L1/tests L2/tests tools/agentx_initiator/tests \
+	  tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider -m "not live"
 
 # ── Legacy aliases (deprecated, route to new tiers) ────────────────────────
 
 test-smoke: test-quick
 
-test-integration: test-release
+test-integration:
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" \
+	$(PYTHON) -m pytest tests/release/test_integration_governed_patch_handoff.py \
+	  tests/release/test_model_context_worker_flow.py \
+	  -q --tb=short -p no:cacheprovider -m "not live"
 
-test-system: test-release
+test-system:
+	$(MAKE) prove-l2
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/release/test_system_inverse_science.py -q --tb=short -p no:cacheprovider -m "not live"
 
-test-regression: test-release
+test-regression:
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" \
+	$(PYTHON) -m pytest tests/release L1/tests L2/tests \
+	  tools/agentx_initiator/tests tools/agentx_evolve/tests \
+	  -q --tb=short -p no:cacheprovider -m "not live"
 
 test-l0: prove-seed
 
@@ -164,20 +196,81 @@ prove-inverse-science:
 prove-scriptor-benchmark:
 	bash scripts/prove-scriptor-benchmark.sh
 
+# target_id: P2-C020-alt3b
+generate-final-artifacts:
+	PYTHONPATH=tools/agentx_evolve $(PYTHON) tools/agentx_evolve/final_acceptance/generate_artifacts.py
+	@echo "=== generate-final-artifacts: OK ==="
+
 # target_id: P2-C020-alt4
-final-acceptance:
+# R3.15 Required validation order
+final-acceptance: generate-final-artifacts
+	# 1. source_plan_gate_registry
+	$(PYTHON) tools/agentx_evolve/validators/validate_source_plan_gate_registry.py
+	# 2. alias/conflict_registry
+	$(PYTHON) tools/agentx_evolve/validators/validate_alias_conflict_registry.py
+	# 3. document_coverage
 	$(PYTHON) tools/agentx_evolve/validators/validate_five_document_matrix.py .agentx-init/five_document_closure/matrix/five_document_traceability_matrix.json
+	# 4. safety/policy
+	$(PYTHON) tools/agentx_evolve/validators/validate_safety_policy.py
+	# 5. patch_execution
+	$(PYTHON) tools/agentx_evolve/validators/validate_patch_execution.py
+	# 6. evidence_manifest
 	$(PYTHON) tools/agentx_evolve/validators/validate_evidence_manifest.py .agentx-init/five_document_closure/final/five_document_evidence_manifest.json
+	# 7. source_manifest (source_hash_manifest)
+	$(PYTHON) tools/agentx_evolve/validators/validate_source_hash_manifest.py .agentx-init/five_document_closure/final/five_document_source_hash_manifest_after.json
+	# 8. command_transcript
+	$(PYTHON) tools/agentx_evolve/validators/validate_command_transcript.py
+	# 9. no_op_command_detector
+	$(PYTHON) tools/agentx_evolve/validators/detect_noop_commands.py .agentx-init/reports/final_project_command_transcript.json
+	# 10. zero_test_detector
+	$(PYTHON) tools/agentx_evolve/validators/detect_skipped_or_empty_tests.py tests
+	# 11. event_log
 	$(PYTHON) tools/agentx_evolve/validators/validate_event_log.py .agentx-init/five_document_closure/final/five_document_event_log_validation.json
-	$(PYTHON) tools/agentx_evolve/validators/validate_clean_replay_report.py .agentx-init/five_document_closure/final/five_document_clean_checkout_replay.json
-	$(PYTHON) tools/agentx_evolve/validators/validate_claims.py .agentx-init/five_document_closure/final/five_document_claim_validation.json
+	# 12. provenance
+	$(PYTHON) tools/agentx_evolve/validators/validate_provenance.py
+	# 13. report_path_existence
+	$(PYTHON) tools/agentx_evolve/validators/validate_report_path_existence.py
+	# 14. live_test_quarantine
+	$(PYTHON) tools/agentx_evolve/validators/validate_live_test_quarantine.py
+	# 15. deferred_work_registry
+	$(PYTHON) tools/agentx_evolve/validators/validate_deferred_work_registry.py
+	# 16. dependency_change
+	$(PYTHON) tools/agentx_evolve/validators/validate_dependency_change.py
+	# 17. secret_scanner
 	$(PYTHON) tools/agentx_evolve/validators/scan_secrets_in_evidence.py
-	$(PYTHON) -c "import json; json.load(open('.agentx-init/five_document_closure/final/five_document_source_hash_manifest_after.json')); print('PASS: source hash manifest validates')"
+	# 18. l0_protection
+	$(PYTHON) tools/agentx_evolve/validators/validate_l0_protection.py
+	# 19. runtime_artifact_boundary
+	$(PYTHON) tools/agentx_evolve/validators/validate_runtime_artifact_boundary.py
+	# 20. clean_checkout_replay
+	$(PYTHON) tools/agentx_evolve/validators/validate_clean_replay_report.py .agentx-init/five_document_closure/final/five_document_clean_checkout_replay.json
+	# 21. milestone_final_reports
+	$(PYTHON) tools/agentx_evolve/validators/validate_milestone_final_reports.py
+	# 22. final_claim_taxonomy
+	$(PYTHON) tools/agentx_evolve/validators/validate_final_claim_taxonomy.py
+	# 23. forbidden_claim_scanner
+	$(PYTHON) tools/agentx_evolve/validators/validate_claims.py .agentx-init/five_document_closure/final/five_document_claim_validation.json
+	# 24. final_acceptance_cross_check (generated from real artifact evidence)
+	PYTHONPATH=tools/agentx_evolve $(PYTHON) tools/agentx_evolve/final_acceptance/generate_cross_check_matrix.py
+	# 25. final_project_run_manifest
+	$(PYTHON) tools/agentx_evolve/validators/validate_final_project_run_manifest.py
+	# Auxiliary: review + promotion records
+	$(PYTHON) tools/agentx_evolve/validators/validate_review_records.py
+	$(PYTHON) tools/agentx_evolve/validators/validate_promotion_records.py
+	# 26. script_substance_validator
+	$(PYTHON) tools/agentx_evolve/validators/validate_script_substance.py
 	@echo "=== final-acceptance: OK ==="
+
+validate-final-acceptance: final-acceptance
+	@echo "=== validate-final-acceptance: OK ==="
 
 # target_id: P2-C021
 run:
-	PYTHONPATH=L0/CODE $(PYTHON) -c "from core_kernel.public.kernel_service import KernelService; from core_kernel.models.kernel_requests import KernelTurnRequest; k=KernelService(); print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"
+	PYTHONPATH=L0/CODE $(PYTHON) -c "\
+from core_kernel.public.kernel_service import KernelService; \
+from core_kernel.models.kernel_requests import KernelTurnRequest; \
+k = KernelService(); \
+print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"
 
 # target_id: P2-C022
 build-seed:

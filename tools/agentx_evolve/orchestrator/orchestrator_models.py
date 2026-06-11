@@ -315,6 +315,10 @@ class PromotionGateRecord:
     promotion_target: str = ""
     promotion_status: str = GATE_STATUS_PENDING
     promotion_decision: str = ""
+    proposal_id: str = ""
+    policy_decision_id: str = ""
+    candidate_id: str = ""
+    rollback_ref: str = ""
     evidence_refs: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)

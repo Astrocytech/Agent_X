@@ -1,7 +1,7 @@
 # BenchCore Benchmark Pack — Final Acceptance Report
 
 **Date:** 2026-06-11
-**Commit:** `86d69bae59f8706e894dd1a9b640810b99bce43e`
+**Commit:** `6d4c52b602aafb30cad356d304bc0ddd4e3c1921`
 **Spec Revision:** Revision 6
 
 ## Verdict

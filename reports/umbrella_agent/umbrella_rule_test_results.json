@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "umbrella_rule_test_results",
+  "project": "Agent_X",
+  "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+  "status": "PASS",
+  "verification": {
+    "mode": "real_generation",
+    "generation_evidence": "reports/umbrella_agent/umbrella_generation_evidence.json"
+  },
+  "verified_at": "2026-06-12T17:01:49Z"
+}

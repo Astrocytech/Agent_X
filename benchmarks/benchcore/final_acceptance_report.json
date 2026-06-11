@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "benchcore_final_acceptance",
+  "commit": "6d4c52b602aafb30cad356d304bc0ddd4e3c1921",
+  "canonical_equivalent": "benchmarks/benchcore/reports/final_acceptance.md",
+  "status": "PASS",
+  "source_inventory_summary": {
+    "total_pdfs": 32,
+    "accepted": 20,
+    "deferred": 6,
+    "optional": 4,
+    "rejected": 2,
+    "per_pdf_semantic_coverage": "PASS"
+  },
+  "test_results": {
+    "total_passed": 209,
+    "total_failed": 0,
+    "duration_seconds": 0.29,
+    "reference": "make test-quiet (latest run)"
+  },
+  "replay_reference": {
+    "report": "benchmarks/benchcore/replay_report.json",
+    "steps": 8,
+    "all_exit_zero": true,
+    "status": "PASS"
+  },
+  "universal_readiness_matrix": {
+    "deterministic_proofs": true,
+    "committed_tests_pass": true,
+    "no_secrets_in_evidence": true,
+    "governance_routing_validated": true,
+    "rollback_verified": true
+  },
+  "hard_blockers_checked": [
+    {
+      "blocker": "Instant-universality claim",
+      "pass": true
+    },
+    {
+      "blocker": "Product-code claim",
+      "pass": true
+    },
+    {
+      "blocker": "PDF missing accounting",
+      "pass": true,
+      "evidence": "source_inventory_summary above"
+    },
+    {
+      "blocker": "Non-regenerable artifact",
+      "pass": true
+    },
+    {
+      "blocker": "Missing/stale source hash",
+      "pass": true
+    },
+    {
+      "blocker": "Live-system capability implied",
+      "pass": true
+    }
+  ]
+}

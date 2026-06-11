@@ -7,7 +7,9 @@
     "artifact_path",
     "decision",
     "review_ref",
-    "timestamp_utc"
+    "timestamp_utc",
+    "proposal_id",
+    "candidate_id"
   ],
   "properties": {
     "promotion_id": {
@@ -21,7 +23,9 @@
       "enum": [
         "PROMOTED",
         "BLOCKED",
-        "DEFERRED"
+        "DEFERRED",
+        "APPROVED",
+        "DENIED"
       ]
     },
     "review_ref": {
@@ -31,6 +35,27 @@
       "type": "string"
     },
     "reason": {
+      "type": "string"
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "policy_decision_id": {
+      "type": "string"
+    },
+    "rollback_ref": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "session_id": {
       "type": "string"
     }
   }

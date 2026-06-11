@@ -10,11 +10,19 @@ SUSPICIOUS_PATTERNS = [
     r'-----BEGIN (RSA |EC )?PRIVATE KEY-----',
 ]
 
-DEFAULT_ROOTS = [".agentx-init", "reports"]
+DEFAULT_ROOTS = [
+    "L0", "L1", "L2",
+    "tools", "tests",
+    "schemas",
+    ".agentx-init", "reports",
+    "benchmarks",
+    "examples",
+    "scripts",
+]
 
 def scan(roots=None):
     issues = []
-    exclude_patterns = ['secret_scan', 'golden_transcript']
+    exclude_patterns = ['secret_scan', 'golden_transcript', '__pycache__']
     for root in roots or DEFAULT_ROOTS:
         if not os.path.isdir(root):
             continue
@@ -26,6 +34,8 @@ def scan(roots=None):
             files = [f for f in files if not any(ep in f for ep in exclude_patterns)]
             for fn in files:
                 fp = os.path.join(dirpath, fn)
+                if _is_acceptable_path(fp):
+                    continue
                 try:
                     with open(fp, errors="ignore") as f:
                         content = f.read()
@@ -35,6 +45,24 @@ def scan(roots=None):
                 except:
                     pass
     return issues
+
+def _is_acceptable_path(fp):
+    norm = fp.replace(os.sep, '/')
+    acceptable_paths = [
+        # Design docs with example/placeholder credentials
+        'tools/docs/',
+        # Test files that intentionally contain secret-like patterns
+        '/test_sensitive_data_redactor.py',
+        '/test_llm_worker_models.py',
+        '/test_packaging_models.py',
+        '/test_monitoring_utils.py',
+        '/test_monitoring_redaction.py',
+        '/test_scan_secrets_in_evidence.py',
+        '/test_governance_benchmarks.py',
+        # Redaction implementation that defines regex patterns
+        'learning/outcome_models.py',
+    ]
+    return any(ap in norm for ap in acceptable_paths)
 
 def main():
     roots = sys.argv[1:] if len(sys.argv) > 1 else None

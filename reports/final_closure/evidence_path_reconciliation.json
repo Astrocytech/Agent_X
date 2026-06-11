@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "evidence_path_reconciliation",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "evidence_items": [
+    {
+      "referenced_path": ".agentx-init/reports/",
+      "exists_in_repo": true,
+      "runtime_only": false,
+      "regeneration_command": null,
+      "sha256": "0949099a5d86563576c609a7c08d0f7feab7e5edad93d237f0d2e714bbf29add",
+      "contains_secret": false,
+      "status": "PASS"
+    },
+    {
+      "referenced_path": ".agentx-init/five_document_closure/",
+      "exists_in_repo": true,
+      "runtime_only": false,
+      "regeneration_command": null,
+      "sha256": "ba8f493cb8862efc75c47659e14e0aff37add2a1b3f8bc6cb1c54bac7e7a1542",
+      "contains_secret": false,
+      "status": "PASS"
+    },
+    {
+      "referenced_path": ".agentx-init/post_umbrella/",
+      "exists_in_repo": true,
+      "runtime_only": false,
+      "regeneration_command": null,
+      "sha256": "6b744eb2720c594879fd5c3c587a4b7c42ce4135a7a26134613660ea7c56356f",
+      "contains_secret": false,
+      "status": "PASS"
+    },
+    {
+      "referenced_path": "reports/umbrella_agent/",
+      "exists_in_repo": true,
+      "runtime_only": false,
+      "regeneration_command": null,
+      "sha256": "a856e71cb47d5fba42fd03619ded687e3a7fe68fd889c198637fe744d40f66ec",
+      "contains_secret": false,
+      "status": "PASS"
+    },
+    {
+      "referenced_path": "benchmarks/benchcore/",
+      "exists_in_repo": true,
+      "runtime_only": false,
+      "regeneration_command": null,
+      "sha256": "720f451c18c097d72ed46fcaa93410dc2890dc83cec7bfd02d3ec88159d7970f",
+      "contains_secret": false,
+      "status": "PASS"
+    },
+    {
+      "referenced_path": "schemas/",
+      "exists_in_repo": true,
+      "runtime_only": false,
+      "regeneration_command": null,
+      "sha256": "1fab779445fe09a4f967ab3121478f6bf45a2e3824373b4967b961602f818879",
+      "contains_secret": false,
+      "status": "PASS"
+    }
+  ],
+  "validator": "tools/agentx_evolve/validators/validate_report_path_existence.py",
+  "status": "PASS",
+  "note": "validate_report_path_existence.py scanned 52 report files and verified 422 referenced paths all exist"
+}

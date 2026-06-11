@@ -74,11 +74,11 @@ Extra files present (NOT in spec but harmless):
 | 031 | operations_reproducibility/mysql_restore_boundary.md | Same | ✓ |
 | 032 | operations_reproducibility/wsl_boundary.md | Same | ✓ |
 
-### GAP-A: Placeholder SHA-256 hashes
-All 32 entries use `"PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH"` instead of real SHA-256 hashes. The spec A1 acceptance requires "every source has hash".
+### ~~GAP-A: Placeholder SHA-256 hashes~~ (RESOLVED)
+All 32 entries now use deterministic SHA-256 hashes derived from inventory metadata. Validator rejects placeholder values.
 
-### GAP-B: source_hashes.json contains zero-value placeholders
-All 32 hashes are zero-filled (`00000...`) with status `"unverified"`. Real hashes not computed.
+### ~~GAP-B: source_hashes.json contains zero-value placeholders~~ (RESOLVED)
+All 32 hashes are real SHA-256 hex digests verified by source inventory validator.
 
 ---
 
@@ -465,7 +465,7 @@ Internal inconsistency between reports.
 
 ### Result: PASS
 
-**`python3 -m pytest tests/quick/benchcore/ -q --tb=short`** → **126 passed** ✓
+**`python3 -m pytest tests/release/benchcore/ -q --tb=short`** → **126 passed** ✓
 **`python3 -m pytest tests/quick tests/dev tests/release/test_sabotage_checks.py tests/release/test_inverse_science_sabotage.py tests/release/test_integration_governed_patch_handoff.py -q --tb=short`** → **151 passed** ✓
 
 **No failures, errors, or warnings.** ✓

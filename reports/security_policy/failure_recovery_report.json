@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "security_failure_recovery_report",
+  "canonical_equivalent": "tests/release/test_failure_rollback_flow.py",
+  "rollback_flow": "PASS",
+  "failure_taxonomy": {
+    "source_validation_failure": {
+      "recovery": "rollback patch"
+    },
+    "schema_validation_failure": {
+      "recovery": "reject patch"
+    },
+    "test_failure": {
+      "recovery": "rollback and report"
+    },
+    "dependency_conflict": {
+      "recovery": "block deployment"
+    }
+  },
+  "status": "PASS"
+}

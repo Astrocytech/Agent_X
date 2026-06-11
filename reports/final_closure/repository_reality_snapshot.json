@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.1.0",
+  "report_id": "repository_reality_snapshot",
+  "project": "Agent_X",
+  "repository": "https://github.com/Astrocytech/Agent_X",
+  "branch": "main",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "dirty_tree": false,
+  "python_version": "3.12.3",
+  "operating_system": "TUXEDO OS 24.04.4 LTS",
+  "dependency_install_command": "pip3 install --break-system-packages -r requirements/seed.txt",
+  "canonical_equivalent": ".agentx-init/five_document_closure/baseline/baseline_repository_snapshot.json",
+  "status": "PASS"
+}

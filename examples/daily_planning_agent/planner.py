@@ -111,27 +111,138 @@ class DailyPlanningPlannerPort:
         )
 
     def _build_output(self, tasks: list[dict[str, Any]]) -> dict[str, Any]:
-        response = self._llm.complete(
-            system_prompt=LLM_SYSTEM_PROMPT,
-            user_text=(
-                f"Task list for daily planning:\n{json.dumps(tasks, indent=2)}\n\n"
-                "Prioritise these tasks."
+        if self._llm_available():
+            try:
+                response = self._llm.complete(
+                    system_prompt=LLM_SYSTEM_PROMPT,
+                    user_text=(
+                        f"Task list for daily planning:\n{json.dumps(tasks, indent=2)}\n\n"
+                        "Prioritise these tasks."
+                    ),
+                    temperature=0.0,
+                )
+                content = response.get("content", "")
+                parsed = self._parse_llm_json(content)
+                if parsed is not None:
+                    logger.info(
+                        "LLM prioritisation: top_priority=%s safe_failure=%s",
+                        parsed.get("top_priority"),
+                        parsed.get("safe_failure"),
+                    )
+                    return parsed
+            except Exception:
+                logger.info("LLM unavailable, using deterministic fallback")
+        else:
+            logger.info("LLM not reachable (health check failed), using deterministic fallback")
+        return self._deterministic_build_output(tasks)
+
+    @staticmethod
+    def _llm_available() -> bool:
+        try:
+            return LLMProvider()._health_check()
+        except Exception:
+            return False
+
+    @staticmethod
+    def _deterministic_build_output(tasks: list[dict[str, Any]]) -> dict[str, Any]:
+        blocked = []
+        errors = []
+
+        if not tasks:
+            return {"top_priority": None, "ordered_tasks": [],
+                    "reason": "Task list is empty.", "blocked_tasks": [],
+                    "safe_failure": True}
+
+        seen_ids = set()
+        id_map = {}
+        for t in tasks:
+            tid = t.get("id", "")
+            if tid in seen_ids:
+                errors.append(f"Duplicate task ID: {tid}")
+            seen_ids.add(tid)
+            id_map[tid] = t
+            title = t.get("title")
+            urgency = t.get("urgency")
+            effort = t.get("effort")
+            if not title:
+                errors.append(f"Task {tid}: missing title")
+            if urgency not in ("high", "medium", "low"):
+                errors.append(f"Task {tid}: invalid urgency '{urgency}'")
+            if effort not in ("high", "medium", "low"):
+                errors.append(f"Task {tid}: invalid effort '{effort}'")
+
+        if errors:
+            return {"top_priority": None, "ordered_tasks": [],
+                    "reason": "; ".join(errors), "blocked_tasks": [],
+                    "safe_failure": True}
+
+        deps = {}
+        for t in tasks:
+            tid = t["id"]
+            task_deps = t.get("dependencies") or []
+            for dep in task_deps:
+                if dep not in id_map:
+                    return {"top_priority": None, "ordered_tasks": [],
+                            "reason": f"Task {tid} depends on non-existent task {dep}",
+                            "blocked_tasks": [], "safe_failure": True}
+            deps[tid] = set(task_deps)
+
+        def has_cycle(graph):
+            visited = set()
+            path = set()
+            def dfs(node):
+                if node in path:
+                    return True
+                if node in visited:
+                    return False
+                visited.add(node)
+                path.add(node)
+                for nb in graph.get(node, set()):
+                    if dfs(nb):
+                        return True
+                path.remove(node)
+                return False
+            for node in graph:
+                if dfs(node):
+                    return True
+            return False
+
+        if has_cycle(deps):
+            cycle_tasks = list(deps.keys())
+            return {"top_priority": None, "ordered_tasks": [],
+                    "reason": "Circular dependencies detected",
+                    "blocked_tasks": cycle_tasks, "safe_failure": True}
+
+        completed_ids = {t["id"] for t in tasks if t.get("completed", False)}
+        active = [t for t in tasks if not t.get("completed", False)]
+
+        active_sorted = sorted(
+            active,
+            key=lambda t: (
+                {"high": 0, "medium": 1, "low": 2}.get(t.get("urgency", "low"), 99),
+                {"low": 0, "medium": 1, "high": 2}.get(t.get("effort", "medium"), 99),
+                t.get("deadline") or "",
             ),
-            temperature=0.0,
         )
 
-        content = response.get("content", "")
-        parsed = self._parse_llm_json(content)
-        if parsed is None:
-            raise RuntimeError(
-                f"LLM returned unparseable response: {content[:500]}"
-            )
-        logger.info(
-            "LLM prioritisation: top_priority=%s safe_failure=%s",
-            parsed.get("top_priority"),
-            parsed.get("safe_failure"),
-        )
-        return parsed
+        ordered = []
+        for t in active_sorted:
+            tid = t["id"]
+            task_deps = deps.get(tid, set())
+            if task_deps and not task_deps.issubset(completed_ids):
+                blocked.append(tid)
+            else:
+                ordered.append(tid)
+
+        for t in tasks:
+            tid = t["id"]
+            if t.get("completed", False) and tid not in ordered and tid not in blocked:
+                ordered.append(tid)
+
+        top = ordered[0] if ordered else None
+        return {"top_priority": top, "ordered_tasks": ordered,
+                "reason": f"Prioritised {len(ordered)} tasks ({len(blocked)} blocked)",
+                "blocked_tasks": blocked, "safe_failure": False}
 
     @staticmethod
     def _parse_llm_json(content: str) -> dict[str, Any] | None:

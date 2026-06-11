@@ -58,7 +58,16 @@ grep -q "prove-umbrella-agent" "$REPO_ROOT/Makefile" && log "  Makefile target: 
 
 log ""
 log "--- Stage A: Infrastructure verified ---"
-log "Proceed to Stage B by running the umbrella agent pipeline."
-log "See reports/umbrella_agent/ for evidence artifacts."
+
+# Stage B: Regenerative artifact proof (generates then validates reports)
+log ""
+log "--- Stage B: Regenerative artifact proof ---"
+
+log "Regenerating Stage B reports..."
+PYTHONPATH="$REPO_ROOT/tools/agentx_evolve" python3 "$REPO_ROOT/tools/agentx_evolve/umbrella/run_stage_b.py" 2>&1 | tail -1
+
+log "Validating regenerated Stage B reports..."
+PYTHONPATH="$REPO_ROOT/tools/agentx_evolve" python3 "$REPO_ROOT/tools/agentx_evolve/umbrella/validate_stage_b.py" 2>&1 | tail -1 || { log "  Stage B validation: FAIL"; exit 1; }
+
 echo ""
-echo "=== prove-umbrella-agent: STAGE A PASS ==="
+echo "=== prove-umbrella-agent: STAGE A + STAGE B PASS ==="

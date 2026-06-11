@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "unsupported_claim_scan",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "canonical_equivalent": ".agentx-init/five_document_closure/final/five_document_claim_validation.json",
+  "forbidden_claims_found": 0,
+  "unsupported_positive_claims_found": 0,
+  "status": "PASS"
+}

@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_trace",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "steps": [
+    {
+      "step": 1,
+      "name": "Proposal created",
+      "implementation": "tools/agentx_evolve/governance/proposal_creator.py",
+      "status": "PASS"
+    },
+    {
+      "step": 2,
+      "name": "Requirement classified",
+      "implementation": "tools/agentx_evolve/governance/requirement_classifier.py",
+      "status": "PASS"
+    },
+    {
+      "step": 3,
+      "name": "Risk classified",
+      "implementation": "tools/agentx_evolve/governance/risk_classifier.py",
+      "status": "PASS"
+    },
+    {
+      "step": 4,
+      "name": "Capability/policy checked",
+      "implementation": "tools/agentx_evolve/policy/policy_checker.py",
+      "test": "tests/release/test_policy_bypass_resistance.py",
+      "status": "PASS"
+    },
+    {
+      "step": 5,
+      "name": "Allowed/forbidden source paths checked",
+      "implementation": "tools/agentx_evolve/security/sandbox_policy.py",
+      "test": "tests/release/test_negative_l0_mutation_rejected.py",
+      "status": "PASS"
+    },
+    {
+      "step": 6,
+      "name": "Context/task packet built",
+      "implementation": "tools/agentx_evolve/patch_execution/context_builder.py",
+      "status": "PASS"
+    },
+    {
+      "step": 7,
+      "name": "Prompt contract selected",
+      "implementation": "tools/agentx_evolve/prompt_contracts/",
+      "status": "PASS"
+    },
+    {
+      "step": 8,
+      "name": "Worker/model/deterministic generator invoked",
+      "implementation": "tools/agentx_evolve/workers/",
+      "test": "tests/release/test_patch_execution_flow.py",
+      "status": "PASS"
+    },
+    {
+      "step": 9,
+      "name": "Patch candidate emitted",
+      "implementation": "tools/agentx_evolve/patch_execution/",
+      "status": "PASS"
+    },
+    {
+      "step": 10,
+      "name": "Patch candidate schema validated",
+      "implementation": "schemas/patch_candidate.schema.json",
+      "status": "PASS"
+    },
+    {
+      "step": 11,
+      "name": "Patch applied through governed patch executor",
+      "implementation": "tools/agentx_evolve/patch_execution/patch_execution_service.py",
+      "test": "tests/release/test_patch_execution_flow.py",
+      "status": "PASS"
+    },
+    {
+      "step": 12,
+      "name": "Source diff recorded",
+      "implementation": "tools/agentx_evolve/git/source_change_guard.py",
+      "status": "PASS"
+    },
+    {
+      "step": 13,
+      "name": "Source hashes before/after recorded",
+      "implementation": "tools/agentx_evolve/validators/validate_source_hash_manifest.py",
+      "status": "PASS"
+    },
+    {
+      "step": 14,
+      "name": "Validation commands run",
+      "implementation": "Makefile prove-* targets",
+      "status": "PASS"
+    },
+    {
+      "step": 15,
+      "name": "Rollback or rollback-not-needed proof recorded",
+      "implementation": "tools/agentx_evolve/patch_execution/failure_recovery.py",
+      "test": "tests/release/test_failure_rollback_flow.py",
+      "status": "PASS"
+    },
+    {
+      "step": 16,
+      "name": "Append-only event log updated",
+      "implementation": "tools/agentx_evolve/monitoring/event_logger.py",
+      "schema": "schemas/event_log_entry.schema.json",
+      "status": "PASS"
+    },
+    {
+      "step": 17,
+      "name": "Evidence manifest written",
+      "implementation": "tools/agentx_evolve/validators/validate_evidence_manifest.py",
+      "status": "PASS"
+    },
+    {
+      "step": 18,
+      "name": "Human review record created",
+      "implementation": "tools/agentx_evolve/human_review/",
+      "schema": "schemas/human_review_record.schema.json",
+      "test": "tests/release/test_orchestrator_review_promotion_flow.py",
+      "status": "PASS"
+    },
+    {
+      "step": 19,
+      "name": "Promotion recommendation created",
+      "implementation": "tools/agentx_evolve/promotion/promotion_service.py",
+      "schema": "schemas/promotion_record.schema.json",
+      "status": "PASS"
+    },
+    {
+      "step": 20,
+      "name": "Final acceptance decision recorded",
+      "implementation": "tools/agentx_evolve/validators/validate_final_project_run_manifest.py",
+      "status": "PASS"
+    }
+  ],
+  "hard_blockers_checked": {
+    "no_generated_artifact_without_provenance": true,
+    "no_patch_bypasses_policy": true,
+    "no_command_merely_echoes_success": true,
+    "no_tests_pass_because_zero_discovered": true
+  },
+  "status": "PASS"
+}

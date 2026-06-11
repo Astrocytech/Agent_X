@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "no_op_command_report",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "canonical_equivalent": ".agentx-init/reports/final_project_command_transcript.json",
+  "no_op_commands_found": 0,
+  "validator": "tools/agentx_evolve/validators/detect_noop_commands.py",
+  "status": "PASS"
+}

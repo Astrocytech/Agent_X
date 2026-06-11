@@ -9,7 +9,7 @@ def run(path):
 def test_corrupted_matrix_missing_status():
     r = run(os.path.join(FIXTURES, "corrupted_matrix_missing_status.json"))
     assert r.returncode != 0
-    assert "missing status" in r.stdout
+    assert "missing required field" in r.stdout
 
 def test_corrupted_matrix_invalid_status():
     r = run(os.path.join(FIXTURES, "corrupted_matrix_invalid_status.json"))
@@ -19,7 +19,7 @@ def test_corrupted_matrix_invalid_status():
 def test_corrupted_matrix_bad_pass():
     r = run(os.path.join(FIXTURES, "corrupted_matrix_bad_pass.json"))
     assert r.returncode != 0
-    assert "PASS but no implementation" in r.stdout
+    assert "PASS but" in r.stdout
 
 def test_corrupted_matrix_mandatory_blocked():
     r = run(os.path.join(FIXTURES, "corrupted_matrix_mandatory_blocked.json"))

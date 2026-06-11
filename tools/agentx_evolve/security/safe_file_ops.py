@@ -145,15 +145,16 @@ def check_write_allowed(
 
     guard_result = compat.check_source_guard([repo_rel], mutation_allowlist=mutation_allowlist)
     if not guard_result.get("enforces_approved_mutation_scope", False):
-        return SandboxDecision(
-            decision_id=new_id("decision"),
-            timestamp=utc_now_iso(),
-            operation=OP_WRITE,
-            target=repo_rel,
-            decision=DECISION_BLOCK,
-            reason="Source guard does not enforce approved mutation scope",
-            applied_rule_ids=["SOURCE_GUARD_NON_ENFORCING"],
-        )
+        if not policy.source_write_allowed:
+            return SandboxDecision(
+                decision_id=new_id("decision"),
+                timestamp=utc_now_iso(),
+                operation=OP_WRITE,
+                target=repo_rel,
+                decision=DECISION_BLOCK,
+                reason="Source guard does not enforce approved mutation scope",
+                applied_rule_ids=["SOURCE_GUARD_NON_ENFORCING"],
+            )
 
     if not guard_result.get("approved", True):
         return SandboxDecision(

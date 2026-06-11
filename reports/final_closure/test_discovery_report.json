@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "test_discovery_report",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "canonical_equivalent": "tests/",
+  "validator": "tools/agentx_evolve/validators/detect_skipped_or_empty_tests.py",
+  "discovered_test_suites": {
+    "tests/quick": {
+      "test_files_found": 9,
+      "skipped_or_empty": 0
+    },
+    "tests/dev": {
+      "test_files_found": 9,
+      "skipped_or_empty": 0
+    },
+    "tests/release": {
+      "test_files_found": 4,
+      "skipped_or_empty": 0
+    },
+    "tests/security": {
+      "test_files_found": 3,
+      "skipped_or_empty": 0
+    },
+    "tests/sabotage": {
+      "test_files_found": 1,
+      "skipped_or_empty": 0
+    },
+    "tests/live": {
+      "test_files_found": 6,
+      "skipped_or_empty": 0
+    },
+    "L0/tests": {
+      "test_files_found": 52,
+      "skipped_or_empty": 0
+    },
+    "L1/tests": {
+      "test_files_found": 4,
+      "skipped_or_empty": 0
+    },
+    "L2/tests": {
+      "test_files_found": 5,
+      "skipped_or_empty": 0
+    }
+  },
+  "total_test_files_found": 93,
+  "skipped_or_empty": 0,
+  "status": "PASS"
+}

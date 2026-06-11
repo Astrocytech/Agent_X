@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_source_diff",
+  "canonical_equivalent": "reports/umbrella_agent/source_diff_report.json",
+  "steps": [
+    {
+      "step": 12,
+      "action": "Source diff recorded",
+      "artifact": "reports/umbrella_agent/source_diff_report.json"
+    }
+  ],
+  "status": "PASS"
+}

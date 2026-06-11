@@ -149,7 +149,7 @@
   {
     "requirement_id": "BENCHCORE-REQ-0015",
     "source_ids": ["BENCHCORE-DOC-014", "BENCHCORE-DOC-019"],
-    "artifact_refs": ["benchmarks/benchcore/evaluation/evaluation_workflow_contract.md", "tests/quick/benchcore/"],
+    "artifact_refs": ["benchmarks/benchcore/evaluation/evaluation_workflow_contract.md", "tests/release/benchcore/"],
     "positive_tests": ["test_sabotage_mode_exists", "test_positive_tests_pass", "test_negative_tests_pass"],
     "negative_tests": [],
     "sabotage_tests": ["test_sabotage_overconfident_prediction_on_adversarial_input"],
@@ -519,7 +519,7 @@
   {
     "requirement_id": "BENCHCORE-REQ-0052",
     "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-014"],
-    "artifact_refs": ["tests/quick/benchcore/"],
+    "artifact_refs": ["tests/release/benchcore/"],
     "positive_tests": ["test_sabotage_tests_exist_per_requirement", "test_sabotage_results_separate", "test_sabotage_tests_pass"],
     "negative_tests": [],
     "sabotage_tests": ["test_sabotage_sabotage_test_does_not_trigger"],

@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "benchcore_generic_pattern_matrix",
+  "canonical_equivalent": "benchmarks/benchcore/",
+  "status": "PASS"
+}

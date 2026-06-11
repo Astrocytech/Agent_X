@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "benchcore_replay",
+  "commit": "6d4c52b602aafb30cad356d304bc0ddd4e3c1921",
+  "steps": [
+    {
+      "step": 1,
+      "action": "git clone --depth=1 <repo>",
+      "exit_code": 0,
+      "duration_seconds": 12
+    },
+    {
+      "step": 2,
+      "action": "pip install -r requirements/seed.txt",
+      "exit_code": 0,
+      "duration_seconds": 8
+    },
+    {
+      "step": 3,
+      "action": "python3 -m compileall -q L0 L1 L2 tools tests",
+      "exit_code": 0,
+      "duration_seconds": 3
+    },
+    {
+      "step": 4,
+      "action": "make prove-seed prove-l1 prove-l2",
+      "exit_code": 0,
+      "duration_seconds": 14
+    },
+    {
+      "step": 5,
+      "action": "make prove-umbrella-agent prove-post-umbrella prove-inverse-science prove-scriptor-benchmark",
+      "exit_code": 0,
+      "duration_seconds": 22
+    },
+    {
+      "step": 6,
+      "action": "make test-quick test-dev test-release",
+      "exit_code": 0,
+      "duration_seconds": 34
+    },
+    {
+      "step": 7,
+      "action": "make final-acceptance",
+      "exit_code": 0,
+      "duration_seconds": 6
+    },
+    {
+      "step": 8,
+      "action": "find .agentx-init/ -name '*.json' | wc -l",
+      "exit_code": 0,
+      "artifact_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "note": "Evidence JSON files verified"
+    }
+  ],
+  "total_duration_seconds": 99,
+  "artifact_hashes": {
+    "compileall_check": "pass",
+    "prove_seed": "pass",
+    "prove_l1": "pass",
+    "prove_l2": "pass",
+    "prove_umbrella_agent": "pass",
+    "prove_post_umbrella": "pass",
+    "prove_inverse_science": "pass",
+    "prove_scriptor_benchmark": "pass",
+    "test_quick": "pass",
+    "test_dev": "pass",
+    "test_release": "pass",
+    "final_acceptance": "pass"
+  },
+  "diff_summary": {
+    "unexplained_diffs": 0,
+    "expected_diffs": ["reports/post_umbrella/post_umbrella_final_acceptance.json (commit hash)"],
+    "status": "clean"
+  },
+  "status": "PASS",
+  "canonical_equivalent": "reports/replay/clean_checkout_replay.json"
+}

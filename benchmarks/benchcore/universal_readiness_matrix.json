@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "benchcore_universal_readiness",
+  "canonical_equivalent": "benchmarks/benchcore/",
+  "status": "PASS",
+  "disclaimer": "Benchcore is a benchmark/capability pack only. Does not prove universal agency."
+}

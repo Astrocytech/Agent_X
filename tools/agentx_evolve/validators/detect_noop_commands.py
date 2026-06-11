@@ -21,7 +21,7 @@ def detect(path):
 def main():
     path = sys.argv[1] if len(sys.argv) > 1 else ".agentx-init/five_document_closure/baseline/baseline_command_transcript.json"
     if not os.path.exists(path):
-        print(f"PASS: {path} not found (skipped)"); return
+        print(f"FAIL: {path} not found — command transcript is a mandatory proof artifact"); sys.exit(1)
     issues = detect(path)
     if issues:
         print(f"ISSUES: {len(issues)} no-op command(s):"); [print(f"  - {i}") for i in issues]

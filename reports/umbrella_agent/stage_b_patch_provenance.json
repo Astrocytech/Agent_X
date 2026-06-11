@@ -1,39 +1,97 @@
 {
   "patch_id": "patch-umbrella-stage-b-001",
   "proposal_id": "umbrella-agent-001",
-  "context_packet_id": "ctx-umbrella-001",
-  "prompt_contract_id": "prompt-umbrella-001",
-  "worker_output_id": "worker-output-umbrella-001",
-  "session_id": "IMP-umbrella-001",
+  "session_id": "IMP-076434ca6968",
   "governance_decision_id": "gov-umbrella-001",
-  "governance_policy_id": "policy-umbrella-001",
-  "execution_mode": "DRY_RUN+LIVE",
-  "changed_files": [
+  "execution_mode": "EVOLUTIONARY",
+  "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+  "canary_tests": [
     {
-      "path": "umbrella_agent/__init__.py",
-      "hash_before": "0000000000000000000000000000000000000000000000000000000000000000",
-      "hash_after": "EPHEMERAL_TEMP_WORKSPACE",
-      "change_type": "CREATE"
-    },
-    {
-      "path": "umbrella_agent/weather_fixture.py",
-      "hash_before": "0000000000000000000000000000000000000000000000000000000000000000",
-      "hash_after": "EPHEMERAL_TEMP_WORKSPACE",
-      "change_type": "CREATE"
-    },
-    {
-      "path": "tests/test_umbrella_agent.py",
-      "hash_before": "0000000000000000000000000000000000000000000000000000000000000000",
-      "hash_after": "EPHEMERAL_TEMP_WORKSPACE",
-      "change_type": "CREATE"
+      "test": "canary-patch-test",
+      "exit_code": 0,
+      "stdout_last_line": "Canary file at: tests/.canary_test.txt",
+      "passed": true
     }
   ],
-  "total_files_changed": 3,
-  "review_id": "gov-umbrella-001",
-  "review_verdict": "APPROVED",
-  "promotion_id": "promo-umbrella-001",
-  "promotion_verdict": "PROMOTE",
-  "manual_edit": false,
-  "persistence": "ephemeral",
-  "generated_at": "2026-06-10T13:11:30Z"
+  "generation": {
+    "files_generated": 4,
+    "files_applied": 4,
+    "pytest_summary": "32 passed in 0.07s",
+    "pytest_passed": true,
+    "evidence": "reports/umbrella_agent/umbrella_generation_evidence.json"
+  },
+  "changed_files": [
+    {
+      "status": "M",
+      "path": "examples/umbrella_agent/__init__.py"
+    },
+    {
+      "status": "M",
+      "path": "examples/umbrella_agent/recommendation_engine.py"
+    },
+    {
+      "status": "M",
+      "path": "examples/umbrella_agent/runtime.py"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/canary_safe_live_result.json"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/replayability_report.json"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/stage_b_patch_provenance.json"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/umbrella_contract_closure.json"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/umbrella_fixture_field_closure.json"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/umbrella_persistence_classification_report.json"
+    },
+    {
+      "status": "M",
+      "path": "reports/umbrella_agent/umbrella_rule_test_results.json"
+    },
+    {
+      "status": "M",
+      "path": "scripts/canary-patch-test.sh"
+    },
+    {
+      "status": "M",
+      "path": "tests/.canary_test.txt"
+    },
+    {
+      "status": "M",
+      "path": "tests/quick/umbrella_agent/test_recommendation_engine.py"
+    },
+    {
+      "status": "M",
+      "path": "tools/agentx_evolve/security/safe_file_ops.py"
+    },
+    {
+      "status": "M",
+      "path": "tools/agentx_evolve/umbrella/run_stage_b.py"
+    },
+    {
+      "status": "M",
+      "path": "tools/agentx_evolve/umbrella/validate_stage_b.py"
+    }
+  ],
+  "status": "PATCHED",
+  "patch_summary": {
+    "files_added": 0,
+    "files_modified": 16,
+    "safe_patch_count": 1,
+    "blocked_patch_count": 0
+  },
+  "verified_at": "2026-06-12T17:01:49Z"
 }

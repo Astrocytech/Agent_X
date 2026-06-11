@@ -1,0 +1,339 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "umbrella_persistence_classification_report",
+  "project": "Agent_X",
+  "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+  "status": "PASS",
+  "stage_b_passed": true,
+  "source_hashes_before": [
+    {
+      "path": "reports/umbrella_agent/agent_architecture_proof.json",
+      "sha256": "610c513eac620971d7d860cd055436a9c5b284e8694247a67f7393614204cfb7"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_safe_live_result.json",
+      "sha256": "701a53991ef7bba58d8dc1f98606f048311ed50d1cfd3429b6b3c630ef94d331"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_safe_result.json",
+      "sha256": "39c14d82deb72e6982d70cdb5bb6324037d19c2a3dba16d77730267679dbce0a"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_unsafe_l0_result.json",
+      "sha256": "cde68dfd142130b47a07091239c48da58c4c6421e779da717edf94a0e8c0f882"
+    },
+    {
+      "path": "reports/umbrella_agent/canary_unsafe_traversal_result.json",
+      "sha256": "d9680c1fd671822d890e945deb8417706ff77a06b935d4035c9a16b61f0c380e"
+    },
+    {
+      "path": "reports/umbrella_agent/context_packet.json",
+      "sha256": "ae70ee84c6d0cdc76d010e18db58f82c1db8152998e8d7c4fd5b764152e3ab2b"
+    },
+    {
+      "path": "reports/umbrella_agent/contract_version_inventory.json",
+      "sha256": "524e0b5a15203720c021619abbbaf83af906c1c6348d580c787dd67a07293d8f"
+    },
+    {
+      "path": "reports/umbrella_agent/dependency_change_report.json",
+      "sha256": "ba41fc097e51ece53183ed3d030f44287c58a6bb60d6f3105955afbbe0e064a5"
+    },
+    {
+      "path": "reports/umbrella_agent/dependency_change_report.md",
+      "sha256": "faf5021db041a214f5edde6436b1513d047742f4cbaddf2ca22ae0f9cd62eb1a"
+    },
+    {
+      "path": "reports/umbrella_agent/events.jsonl",
+      "sha256": "768bfff8bcb48ed2c9b0c02e372f907c52dc0a33d27dcd643b1daff76af8ecce"
+    },
+    {
+      "path": "reports/umbrella_agent/evidence_manifest.json",
+      "sha256": "718e52509c3a9c341bf2ac48714aa2c78eb5ef025bafe18179246d12c46a543d"
+    },
+    {
+      "path": "reports/umbrella_agent/file_origin_classification.json",
+      "sha256": "088b17172030e066db34d715ab37afbe6f119ae503686912f67d90ad89d08ec9"
+    },
+    {
+      "path": "reports/umbrella_agent/file_provenance_manifest.json",
+      "sha256": "c3bf33cbc041a8b04f981e6c5f1dffcfb422ce5074dcbbb279a2bb78063c770d"
+    },
+    {
+      "path": "reports/umbrella_agent/final_acceptance_report.json",
+      "sha256": "2378e17ab1713e4b2fb335f21fad45d82d398dc8a28e1db54b1e985aa729657c"
+    },
+    {
+      "path": "reports/umbrella_agent/final_acceptance_report.md",
+      "sha256": "884a40725334c78b4075c285cdd446eb90752b22fad6326069f3db6c912e0147"
+    },
+    {
+      "path": "reports/umbrella_agent/final_claim_limits.md",
+      "sha256": "a7c1609237692faf80cb4bdc8c7bc023f79991f7a2af6c07388f8c04b9d83cb6"
+    },
+    {
+      "path": "reports/umbrella_agent/final_repository_reality_snapshot.json",
+      "sha256": "a44b7a1ce1194f7e050a52e0dae63584e515de4e64bbd8dd6effbfc1e9e05a13"
+    },
+    {
+      "path": "reports/umbrella_agent/final_repository_reality_snapshot.md",
+      "sha256": "5e21d8d7a2c16d1cd4c40d0c48ddf510375b0241af9e4c5096b164bc75b214fd"
+    },
+    {
+      "path": "reports/umbrella_agent/fixture_case_results.json",
+      "sha256": "fa84e233a9d7df02548337b8e83ad858867775999a54137db9f8419fb1be576a"
+    },
+    {
+      "path": "reports/umbrella_agent/golden_command_transcript.json",
+      "sha256": "dfac06fe1183c487cbd66e6c12c3b223075109d4e659088b55e2666e08df6e33"
+    },
+    {
+      "path": "reports/umbrella_agent/golden_command_transcript.md",
+      "sha256": "892a66e6c69afbf24c924b2f3471db20e394f1c7212b296666b9ca3cfe40469e"
+    },
+    {
+      "path": "reports/umbrella_agent/human_review_boundary_report.md",
+      "sha256": "3f571a7745f532cd680a7932f41480c6590ccfc38d5d61f62c93c89bb2a8b92c"
+    },
+    {
+      "path": "reports/umbrella_agent/idempotency_report.json",
+      "sha256": "be2abf3d7f24c28d2d6d8c1d73368a76358a0d7044eeb5f6d7685223268e8f38"
+    },
+    {
+      "path": "reports/umbrella_agent/idempotency_report.md",
+      "sha256": "454936b87a80d080a59d671ead910308624e0bd646f2dc13c194b6698ac37e9c"
+    },
+    {
+      "path": "reports/umbrella_agent/makefile_target_verification.json",
+      "sha256": "7baef4fe3c9f6727cc2f4b512253384d025bd4f2b07c05b62f2a02eda6a94b8d"
+    },
+    {
+      "path": "reports/umbrella_agent/makefile_target_verification.md",
+      "sha256": "91bb682315d845c24334825274dd89651b41d29475b6cd2700e67b56eb9d8769"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.json",
+      "sha256": "562095eab861d841c92353bd5a3fd979c6ccd903b6348f76c15f9a1ea5d70bf0"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_0_repository_reality_snapshot.md",
+      "sha256": "7e7fd5466faeb89413ef425be9d8ce043ddb6089a417e4f734429c1adb61191f"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_1_requirement_traceability_matrix.json",
+      "sha256": "40de5e51f92ee6435c2b137e3901cebe3a19d2978cafa937003517f030b89978"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_1_requirement_traceability_matrix.md",
+      "sha256": "4c343c5bb6f141c1b71c5fdc4d6f7593d6eaca99502ced06ff3833e5ce4fec06"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_2_umbrella_agent_contract.md",
+      "sha256": "2d1e19851bbbb179c06d27630633cdb62e1abe874cda1156a52dc35d9c73e96d"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_3_recommendation_rules.md",
+      "sha256": "5ed595b4a1d92c6342257843dd8f76a3f97b2f48f76c8a15e58c4be3df787886"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_4_source_boundary_report.md",
+      "sha256": "112d36d45dc61bdc09d84c0705de7f48fd219e4f7b408c1065112ed4f192e019"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_5_self_evolution_run.json",
+      "sha256": "1bfee688a3b2bde71bd7d31e68ebee15233a00cc6f57076fc4dde314b0bd20ad"
+    },
+    {
+      "path": "reports/umbrella_agent/pass_5_self_evolution_run.md",
+      "sha256": "c9772e2932014b038b123e112e507c57f896b6367edf221529ba7c8d7c013635"
+    },
+    {
+      "path": "reports/umbrella_agent/patch_candidate.json",
+      "sha256": "5df754f60bf9b7f8a347a4106ed963ff1dfaf8decf3f64b2309e402a4a259009"
+    },
+    {
+      "path": "reports/umbrella_agent/patch_execution_report.json",
+      "sha256": "4c2f34d982ecf854d8324ca65be6de3c22fe9aff87ffae129439f816301fb286"
+    },
+    {
+      "path": "reports/umbrella_agent/pipeline_evidence.json",
+      "sha256": "c8bbbd65d8667d31b4e6f3c9fe77b21635c214cc3fa9bf398bff6011949e75f9"
+    },
+    {
+      "path": "reports/umbrella_agent/promotion_report.json",
+      "sha256": "614b2fd2bbc3e005352030e96fa932cc102cf1c8ca37f2f46377c64d7c27ae43"
+    },
+    {
+      "path": "reports/umbrella_agent/promotion_report.md",
+      "sha256": "a52b7221a3740c4cef232f82da0b90d7b2d5ddda62660dd632b8ce622693e2cb"
+    },
+    {
+      "path": "reports/umbrella_agent/prompt_contract_used.json",
+      "sha256": "bae03f4f38fc4d386297c7c398922fb60bc0a8d3b48f7c7293287700480b34b2"
+    },
+    {
+      "path": "reports/umbrella_agent/prove_umbrella_agent_command_report.json",
+      "sha256": "bf797348470df3d1920f29337ee07a1790cd00e6f9dade6c79a5acca9284e804"
+    },
+    {
+      "path": "reports/umbrella_agent/prove_umbrella_agent_command_report.md",
+      "sha256": "8df2b4142f7fe8ac0bd55fb0466729228caa60e6c3b7f8533c22ace928acf8d8"
+    },
+    {
+      "path": "reports/umbrella_agent/replayability_report.json",
+      "sha256": "be29200c6a275d631efd9afef462103843655a37d3838b691d85a68332b801fc"
+    },
+    {
+      "path": "reports/umbrella_agent/replayability_report.md",
+      "sha256": "ee34cc1178cbd2ba608941c99410e3f1b01f83531049c49241949071c10e1aa8"
+    },
+    {
+      "path": "reports/umbrella_agent/report_integrity_validation.json",
+      "sha256": "21436ea27dc9d43762002f2d6a4fb8f115949b3429f221302c845cf1b7b7a7a9"
+    },
+    {
+      "path": "reports/umbrella_agent/report_integrity_validation.md",
+      "sha256": "b5e42fa93f797da7f23430553ebd5858e14a67f45a20dd28a0fa74ad24ba479f"
+    },
+    {
+      "path": "reports/umbrella_agent/runtime_artifact_boundary_report.md",
+      "sha256": "d55de7f1ff4c29f3aa4e234937713893f155f99461b33a1e2ddf6fe1a8e76e08"
+    },
+    {
+      "path": "reports/umbrella_agent/sabotage_check_report.json",
+      "sha256": "1c767e797c2436e2cbb92c6062b99bf1c70e84ab0832da24879bb7521722b0ca"
+    },
+    {
+      "path": "reports/umbrella_agent/sabotage_check_report.md",
+      "sha256": "b3040054f8261889c20247796845fb3a3b0aab2fde829e366205819bb08702ee"
+    },
+    {
+      "path": "reports/umbrella_agent/source_boundary_report.json",
+      "sha256": "37f7a2da8d96fa4e02cbd6f92536f93aaf17ef1859438efd141f8f680895cbbd"
+    },
+    {
+      "path": "reports/umbrella_agent/source_boundary_report.md",
+      "sha256": "62c6b55f6621c38e7fb9a6ab61d5ada27f8edad36ebc63e5ced8a6534debde3c"
+    },
+    {
+      "path": "reports/umbrella_agent/source_diff_report.json",
+      "sha256": "28c37e2613d8204d51404c1a4686949d2f8f11227876567d5f084b856e5e4e89"
+    },
+    {
+      "path": "reports/umbrella_agent/source_diff_report.md",
+      "sha256": "714e2dfc891e24bfae2add7aca84ef28b9faabefdaa7f5e59b37c6ff860c5e91"
+    },
+    {
+      "path": "reports/umbrella_agent/source_hash_manifest_after.json",
+      "sha256": "2549976ae1013f1557239343ba5cc3c4428a6413c2239ab22fb753e93fd99709"
+    },
+    {
+      "path": "reports/umbrella_agent/source_hash_manifest_before.json",
+      "sha256": "fb1fa5fbf491bd3cc3c0c4a8eb88d5471e8284cd6f51f4521a87c5b5506baf53"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_canary_patch_report.json",
+      "sha256": "8d95b8e1cd8e7e543c508b60a765ba17b3241c773e39fd4718e801eaf844e0d4"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_canary_patch_report.md",
+      "sha256": "0c43bb4ba1e57afa315ce38ba86884de19fa2a6e2f4c553a72a354d48d8306d1"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_no_umbrella_prebuild_report.md",
+      "sha256": "5f45bb0a147b3ab8900a9667764318b3d8757707f8b2123c41248e899e142cc9"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_pipeline_readiness_report.json",
+      "sha256": "52ed2f5a2453014bc992cba4927de0675bc3618a9b68e037c630bc4dc832bab2"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_a_pipeline_readiness_report.md",
+      "sha256": "b357e5f4c040ffb41fe67ea0bb7ed41690e0dc496a4db3f45ec7541851573411"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_b_generation_summary.json",
+      "sha256": "1ac54105d96e3338264cad16d1ceed256260a8a437284979bade417e6edc4d5f"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_b_patch_provenance.json",
+      "sha256": "d10826f414d41f802118a70cf9295c6c6052f5c9414c12b12f4c5bb908c7792e"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_b_real_self_evolution_run.json",
+      "sha256": "1a532f9f1883914f6585cbbefc236e15e6d7c4aa2e171c237a1d313c4a05350d"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_b_real_self_evolution_run.md",
+      "sha256": "cd7c44f6a8b461eab8d95552284d7985d1c596c713cd93d563d6e784c23562f4"
+    },
+    {
+      "path": "reports/umbrella_agent/stage_b_replay_report.md",
+      "sha256": "d13fca9181362b168d4dd6b3de775d3a96fc5c27f7f27fbb4ab7ef2de21501b3"
+    },
+    {
+      "path": "reports/umbrella_agent/test_report.json",
+      "sha256": "de86c86671cb311f414d0a537e00c0e04113ca96cc6d4925b7af5885b292a371"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_contract_closure.json",
+      "sha256": "8084262d34a516df1109441d0b11068f926bf3cc534985cd74cd48a07c482f6d"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_contract_closure.md",
+      "sha256": "1e57ad8c13f406496afecd2a353319ad99ffd9b699de6a400ea31ae413524b4b"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_decision.json",
+      "sha256": "205e7c85d0726c8fa94edb0a330e5c2b95c04023df46e25629b3858c80587e50"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_ephemeral_boundary_reconciliation.json",
+      "sha256": "19876c74f8f28d4bf8884be956e921cb3bb86780486e15cc5dced52556b61ce3"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_ephemeral_boundary_reconciliation.md",
+      "sha256": "9f6b0618e10409854b8eda4e5d2b38a869def688138e45eca79bd2fa951e19aa"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_fixture_field_closure.json",
+      "sha256": "e934a489e0b5be01475b317e50f0251c29cb13a0d4fa2450abf85350ebaf0858"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_fixture_field_closure.md",
+      "sha256": "ec49a5899047c9dc1dc6438bdb7c6fe3f75a8ee6b179345a861a929fab3ecfc1"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_generation_evidence.json",
+      "sha256": "4ce16e6945e06fd28168ab0cb500e52f38f0fbaff9912b40332c33b106f2ed86"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_persistence_classification.schema.json",
+      "sha256": "377d058d88dc0092f7b2c493a30831e3733359ed33bcb14e0abfcdaf4ea2a60b"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_persistence_classification_report.json",
+      "sha256": "c3c427c9c9e339b100fde2639b426f0fb16a700935d3096937898e3a89ee2736"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_persistence_classification_report.md",
+      "sha256": "be235da526f0da073c1e7149f87f89731c555a211536007ff2e16e462d007812"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_requirement_amendment.json",
+      "sha256": "777f48acbee563565c6013ff4a549a37322f447e4d0e66cd7d81772708896a84"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_requirement_amendment.md",
+      "sha256": "195dec55fd7304f8b2bfe6c317751432d32ce98743c9d13855bec4f444e7ab1c"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_rule_test_results.json",
+      "sha256": "b66c3822addb153e247afbef79203eaa6274e9c2f037d1b77d465884fb3dc0a3"
+    },
+    {
+      "path": "reports/umbrella_agent/umbrella_rule_test_results.md",
+      "sha256": "a04eb57062a8c25a3f281a998997e200c2ca32e957a135e4a9979d06d5895ab8"
+    }
+  ],
+  "generated_at": "2026-06-12T17:01:49Z"
+}

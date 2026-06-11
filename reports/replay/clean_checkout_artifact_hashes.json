@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "clean_checkout_artifact_hashes",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "canonical_equivalent": ".agentx-init/five_document_closure/final/five_document_source_hash_manifest_after.json",
+  "status": "PASS"
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_source_hash_after",
+  "canonical_equivalent": "reports/umbrella_agent/source_hash_manifest_after.json",
+  "steps": [
+    {
+      "step": 13,
+      "action": "Hashes after recorded",
+      "artifact": "reports/umbrella_agent/source_hash_manifest_after.json"
+    }
+  ],
+  "status": "PASS"
+}
