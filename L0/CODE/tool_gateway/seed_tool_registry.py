@@ -48,7 +48,7 @@ def _seed_weather_fixture_read() -> ToolContract:
             "type": "object",
             "properties": {
                 "location": {"type": "string", "description": "City name"},
-                "date": {"type": "string", "description": "Date string (default: today)"},
+                "date": {"type": "string", "description": "ISO-8601 date string (defaults to 2026-06-10 fixture date if omitted)"},
             },
             "required": ["location"],
         },

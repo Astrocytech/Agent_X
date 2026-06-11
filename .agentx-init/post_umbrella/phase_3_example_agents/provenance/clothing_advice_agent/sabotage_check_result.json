@@ -1,0 +1,15 @@
+{
+  "artifact_type": "sabotage_check_result",
+  "agent": "clothing-advice-agent",
+  "description": "Sabotage check: Clothing Agent ignores severe weather flag",
+  "sabotage_check_id": "SC-S2",
+  "spec_reference": "Required Sabotage Checks item 2: 'Clothing Agent ignores severe weather flag'",
+  "test_evidence": [
+    "tests/release/test_sabotage_checks.py::test_clothing_agent_ignores_severe_weather"
+  ],
+  "method": "Modified clothing agent prompt to always return 'light clothing' regardless of severe weather flag, then verified tests fail",
+  "expected_result": "Tests fail when severe weather is ignored",
+  "actual_result": "PASS (sabotage detected — tests fail as expected)",
+  "verdict": "PASS",
+  "verified_at": "2026-06-11T03:48:00Z"
+}

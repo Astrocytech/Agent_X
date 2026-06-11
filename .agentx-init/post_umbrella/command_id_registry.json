@@ -1,0 +1,29 @@
+{
+  "description": "Maps Makefile targets to stable PX-CYYY IDs",
+  "timestamp_utc": "2026-06-11T12:00:00Z",
+  "entries": [
+    {"command_id": "P2-C001", "target": "install", "description": "Install minimal seed dependencies"},
+    {"command_id": "P2-C002", "target": "seed-boot", "description": "Compile and boot the seed"},
+    {"command_id": "P2-C003", "target": "prove-seed", "description": "Run canonical L0 seed proof"},
+    {"command_id": "P2-C004", "target": "prove-l1", "description": "Run L1 structure tests"},
+    {"command_id": "P2-C005", "target": "prove-l2", "description": "Run L2 structure tests"},
+    {"command_id": "P2-C006", "target": "prove-format", "description": "Run formatting guard tests"},
+    {"command_id": "P2-C007", "target": "prove-all", "description": "Run all layer tests + audit"},
+    {"command_id": "P2-C008", "target": "audit-structure", "description": "Run repository structure audit"},
+    {"command_id": "P2-C009", "target": "prove-organization", "description": "Run full org acceptance"},
+    {"command_id": "P2-C010", "target": "test-quick", "description": "Run fast tests (~4s)"},
+    {"command_id": "P2-C011", "target": "test-dev", "description": "Run work-in-progress tests"},
+    {"command_id": "P2-C012", "target": "test-release", "description": "Run full release verification (~5min)"},
+    {"command_id": "P2-C013", "target": "test-sabotage", "description": "Run sabotage/mutation checks"},
+    {"command_id": "P2-C014", "target": "test-security", "description": "Run negative security tests"},
+    {"command_id": "P2-C015", "target": "test-live", "description": "Run live provider tests"},
+    {"command_id": "P2-C016", "target": "test-all", "description": "Run all tests (excl. live)"},
+    {"command_id": "P2-C017", "target": "test-initiator", "description": "Run agentx_initiator tests"},
+    {"command_id": "P2-C018", "target": "test-evolve", "description": "Run agentx_evolve tests"},
+    {"command_id": "P2-C019", "target": "prove-hygiene", "description": "Run lint/type/safety checks"},
+    {"command_id": "P2-C020", "target": "prove-umbrella-agent", "description": "Run umbrella agent proof"},
+    {"command_id": "P2-C021", "target": "run", "description": "Run one governed seed turn"},
+    {"command_id": "P2-C022", "target": "build-seed", "description": "Build seed package from manifest"},
+    {"command_id": "P2-C023", "target": "clean", "description": "Remove generated runtime artifacts"}
+  ]
+}

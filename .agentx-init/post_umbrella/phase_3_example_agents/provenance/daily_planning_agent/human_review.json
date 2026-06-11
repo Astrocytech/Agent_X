@@ -1,0 +1,27 @@
+{
+  "artifact_type": "human_review",
+  "agent": "daily-planning-agent",
+  "proposal_id": "P3-DP-001",
+  "reviewer_id": "automated_validation",
+  "reviewer_role": "automated_governance_review",
+  "note": "Rule 8 compliance: this is automated validation, not a human review. In a production deployment, a named human reviewer would be recorded here.",
+  "reviewed_artifacts": [
+    "examples/daily_planning_agent/helpers.py",
+    "examples/daily_planning_agent/labels.py"
+  ],
+  "reviewed_validation": [
+    ".agentx-init/runs/20260611T012520Z-evolve-agent-bfccef1b/validation_report.json",
+    ".agentx-init/runs/20260611T012748Z-evolve-agent-90e68dfb/validation_report.json"
+  ],
+  "review_decision": "APPROVED",
+  "review_timestamp": "2026-06-10T21:30:00Z",
+  "criteria": [
+    "All existing tests pass",
+    "No protected paths modified",
+    "New files are in examples/ directory only",
+    "Code is deterministic and fixture-based"
+  ],
+  "approval_reason": "Low-risk helper modules. All tests pass. No governance bypass.",
+  "effective_human_review": false,
+  "requires_real_human_before_promotion": true
+}

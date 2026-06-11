@@ -1,0 +1,17 @@
+{
+  "artifact_type": "promotion_decision",
+  "agent": "clothing-advice-agent",
+  "proposal_id": "P-49588837",
+  "promotion_verdict": "APPROVED",
+  "validation_status": "PASS",
+  "validation_evidence": [
+    ".agentx-init/runs/20260611T034555Z-evolve-agent-8dd1742b/validation_report.json"
+  ],
+  "test_results": {
+    "patches": 1,
+    "validation_passed": true
+  },
+  "auto_promotion_allowed": false,
+  "decision_timestamp": "2026-06-11T03:46:21Z",
+  "note": "Auto-promotion disabled. A real human must confirm before production promotion."
+}

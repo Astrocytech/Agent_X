@@ -35,42 +35,51 @@ help:
 	@echo "  make prove-organization Run full org acceptance"
 	@echo "  make clean        Remove generated runtime artifacts"
 
+# target_id: P2-C001
 install:
 	$(PIP_INSTALL) -r requirements/seed.txt
 
+# target_id: P2-C002
 seed-boot:
 	PYTHONPATH=L0/CODE $(PYTHON) -m compileall -q L0/CODE
 	PYTHONPATH=L0/CODE $(PYTHON) L0/scripts/proofs/prove_seed_boot.py
 	@echo "=== seed-boot: OK ==="
 
+# target_id: P2-C003
 prove-seed:
 	PYTHONPATH=L0/CODE $(PYTHON) -m compileall -q L0/CODE
 	PYTHONPATH=L0/CODE $(PYTHON) L0/scripts/proofs/validate_seed_manifests.py
 	PYTHONPATH=L0/CODE $(PYTHON) -m pytest L0/tests/seed_l0 -q --tb=short -p no:cacheprovider
 	@echo "=== prove-seed: OK ==="
 
+# target_id: P2-C004
 prove-l1:
 	PYTHONPATH=L1 $(PYTHON) -m compileall -q L1
 	PYTHONPATH=. $(PYTHON) -m pytest L1/tests -q --tb=short -p no:cacheprovider
 	PYTHONPATH=. $(PYTHON) -m L1.validators.validate_all
 	@echo "=== prove-l1: OK ==="
 
+# target_id: P2-C005
 prove-l2:
 	$(PYTHON) L2/validators/bootstrap_validate_l2_scaffold.py
 	PYTHONPATH=L2 $(PYTHON) -m pytest L2/tests -q --tb=short -p no:cacheprovider
 	@echo "=== prove-l2: OK ==="
 
+# target_id: P2-C006
 prove-format:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/quick/test_text_file_formatting.py tests/quick/test_format_guard_self_integrity.py tests/quick/test_makefile_proof_wiring.py -q --tb=short -p no:cacheprovider
 	@echo "=== prove-format: OK ==="
 
+# target_id: P2-C007
 prove-all: audit-structure prove-seed prove-l1 prove-l2 prove-format
 	@echo "=== prove-all: OK ==="
 
+# target_id: P2-C008
 audit-structure:
 	PYTHONPATH=tools/repo_audit $(PYTHON) tools/repo_audit/audit_repository_structure.py
 	@echo "=== audit-structure: OK ==="
 
+# target_id: P2-C009
 prove-organization:
 	$(MAKE) audit-structure
 	PYTHONPATH=. $(PYTHON) -m pytest --collect-only -q
@@ -80,24 +89,31 @@ prove-organization:
 
 # ── Tiered test suites ─────────────────────────────────────────────────────
 
+# target_id: P2-C010
 test-quick:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/quick -q --tb=short -p no:cacheprovider
 
+# target_id: P2-C011
 test-dev:
 	PYTHONPATH=. $(PYTHON) -m pytest tests/dev -q --tb=short -p no:cacheprovider
 
+# target_id: P2-C012
 test-release:
 	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release -q --tb=short -p no:cacheprovider -m "not live"
 
+# target_id: P2-C013
 test-sabotage:
 	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release/test_sabotage_checks.py -q --tb=short -p no:cacheprovider
 
+# target_id: P2-C014
 test-security:
 	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release/test_negative_*.py -q --tb=short -p no:cacheprovider
 
+# target_id: P2-C015
 test-live:
 	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider
 
+# target_id: P2-C016
 test-all:
 	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests/quick tests/dev tests/release -q --tb=short -p no:cacheprovider -m "not live"
 
@@ -121,27 +137,34 @@ test-l1: prove-l1
 
 test-l2: prove-l2
 
+# target_id: P2-C017
 test-initiator:
 	PYTHONPATH=tools/agentx_initiator $(PYTHON) -m pytest tools/agentx_initiator/tests -q --tb=short -p no:cacheprovider
 
+# target_id: P2-C018
 test-evolve:
 	PYTHONPATH=tools/agentx_evolve $(PYTHON) -m pytest tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider
 
+# target_id: P2-C019
 prove-hygiene:
 	PYTHONPATH=L0/CODE ruff check L0/CODE/
 	PYTHONPATH=L0/CODE $(PYTHON) -m mypy L0/CODE/core_kernel/ L0/CODE/tool_gateway/ L0/CODE/governance/ --ignore-missing-imports
 	pip-audit -r requirements/seed.txt
 	@echo "=== prove-hygiene: OK ==="
 
+# target_id: P2-C020
 prove-umbrella-agent:
 	$(PYTHON) scripts/prove-umbrella-agent.sh
 
+# target_id: P2-C021
 run:
 	PYTHONPATH=L0/CODE $(PYTHON) -c "from core_kernel.public.kernel_service import KernelService; from core_kernel.models.kernel_requests import KernelTurnRequest; k=KernelService(); print(k.run_turn(KernelTurnRequest(user_input='Say hello from the governed seed.', session_id='cli')))"
 
+# target_id: P2-C022
 build-seed:
 	PYTHONPATH=L0/CODE $(PYTHON) L0/scripts/build_seed_package.py
 
+# target_id: P2-C023
 clean:
 	rm -rf .local/runtime/
 	rm -rf .pytest_cache/

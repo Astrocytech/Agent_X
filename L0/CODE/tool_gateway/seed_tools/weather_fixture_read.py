@@ -32,22 +32,33 @@ class WeatherFixtureReadTool:
     a small delay and logs the simulated request for audit transparency.
     """
 
-    def __call__(self, location: str, date: str = "today") -> dict:
+    FIXTURE_DATE_UTC = "2026-06-10"
+    VAGUE_TERMS = {"today", "tomorrow", "now"}
+
+    def __call__(self, location: str, date: str | None = None) -> dict:
         if not location or not isinstance(location, str):
             return {"success": False, "error": "location is required"}
         loc = location.strip().lower()
         if loc not in FIXTURES:
             return {"success": False, "error": f"unknown location: {location}"}
 
-        # Simulate internet API round-trip
-        simulated_url = f"{API_BASE_URL}/current?location={location}&date={date}"
+        raw_date = date
+        if date is None or date.strip().lower() in self.VAGUE_TERMS:
+            resolved_date = self.FIXTURE_DATE_UTC
+            date_source = "fixture_default"
+        else:
+            resolved_date = date.strip()
+            date_source = "explicit"
+
+        simulated_url = f"{API_BASE_URL}/current?location={location}&date={resolved_date}"
         logger.info("[weather.fixture.read] Simulating HTTP GET %s", simulated_url)
         time.sleep(0.05)
 
         now = datetime.now(timezone.utc).isoformat()
         data = dict(FIXTURES[loc])
         data["location"] = location
-        data["date"] = date
+        data["date"] = resolved_date
+        data["date_source"] = date_source
         data["source"] = "fixture"
         data["queried_at"] = now
         data["api_endpoint"] = simulated_url

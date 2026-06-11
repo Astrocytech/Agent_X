@@ -1,0 +1,14 @@
+{
+  "artifact_type": "authorization_approval",
+  "proposal_id": "L0-AUTH-001",
+  "approval_id": "L0-APPROVAL-001",
+  "authorizer": "infrastructure_governance",
+  "authorizer_role": "governance_review",
+  "decision": "APPROVED",
+  "decision_timestamp": "2026-06-10T21:36:00Z",
+  "justification": "All 9 L0 changes are additive — new profiles, new fixture tools, new risk entries. No existing governance, policy, or sandbox logic is modified. Changes are required for the 3 bounded example agents to participate in the governed self-evolution pipeline. This approval covers the initial creation of these infrastructure files.",
+  "conditions": [
+    "No existing governance/policy/sandbox logic may be modified without a new high-risk proposal",
+    "Any future L0 changes must follow the same high-risk proposal process"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "artifact_type": "human_review",
+  "agent": "clothing-advice-agent",
+  "proposal_id": "P-49588837",
+  "reviewer_id": "automated_validation",
+  "reviewer_role": "automated_governance_review",
+  "note": "Pipeline-generated governance artifact. In production, a named human reviewer would be recorded here.",
+  "reviewed_artifacts": [
+    "examples/clothing_advice_agent/helpers.py"
+  ],
+  "reviewed_validation": [
+    ".agentx-init/runs/20260611T034555Z-evolve-agent-8dd1742b/validation_report.json"
+  ],
+  "review_decision": "APPROVED",
+  "review_timestamp": "2026-06-11T03:46:21Z",
+  "criteria": [
+    "All existing tests pass",
+    "No protected paths modified",
+    "Changes in examples/ directory only",
+    "Code is deterministic and fixture-based"
+  ],
+  "approval_reason": "Add get_recommendation_label helper to clothing_advice_agent",
+  "effective_human_review": false,
+  "requires_real_human_before_promotion": true
+}

@@ -1,0 +1,47 @@
+{
+  "phase": 1,
+  "type": "prompt_contract_manifest",
+  "generated_at": "2026-06-10T16:14:36Z",
+  "files": [
+    {
+      "path": "reports/umbrella_agent/prompt_contract_used.json",
+      "sha256": "bae03f4f38fc4d386297c7c398922fb60bc0a8d3b48f7c7293287700480b34b2",
+      "byte_size": 2019,
+      "line_count": 69,
+      "category": "prompt_contract",
+      "last_modified": "2026-06-10T16:07:35Z",
+      "protected": false,
+      "generated": true,
+      "evidence": true,
+      "test_code": false,
+      "schema_contract": true
+    },
+    {
+      "path": "tools/agentx_evolve/schemas/18_prompt/prompt_contract.schema.json",
+      "sha256": "9eca2b44e5589c56f00b293a176aeb6db1d0ae3685ecb9d13d3b89f711698cf0",
+      "byte_size": 1707,
+      "line_count": 35,
+      "category": "prompt_contract",
+      "last_modified": "2026-06-07T13:38:44Z",
+      "protected": false,
+      "generated": false,
+      "evidence": false,
+      "test_code": false,
+      "schema_contract": true
+    },
+    {
+      "path": "tools/agentx_evolve/schemas/prompt_contract.schema.json",
+      "sha256": "9eca2b44e5589c56f00b293a176aeb6db1d0ae3685ecb9d13d3b89f711698cf0",
+      "byte_size": 1707,
+      "line_count": 35,
+      "category": "prompt_contract",
+      "last_modified": "2026-06-07T13:38:44Z",
+      "protected": false,
+      "generated": false,
+      "evidence": false,
+      "test_code": false,
+      "schema_contract": true
+    }
+  ],
+  "total": 3
+}

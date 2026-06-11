@@ -81,7 +81,7 @@ def test_all_11_fixture_locations() -> None:
 
     tool = WeatherFixtureReadTool()
     for location in FIXTURES:
-        result = tool(location=location, date="today")
+        result = tool(location=location, date=WeatherFixtureReadTool.FIXTURE_DATE_UTC)
         assert result["success"]
         rec = recommend(result["data"])
         assert rec["recommendation"] in ("yes", "maybe", "no")

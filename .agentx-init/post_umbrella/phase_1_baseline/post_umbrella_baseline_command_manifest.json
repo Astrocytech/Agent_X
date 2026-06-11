@@ -1,0 +1,156 @@
+{
+  "phase": 1,
+  "type": "command_manifest",
+  "generated_at": "2026-06-10T16:14:37Z",
+  "commands": [
+    {
+      "name": "help",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "install",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "seed-boot",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-seed",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-l1",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-l2",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-format",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-all",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "audit-structure",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-organization",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-smoke",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-l0",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-l1",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-l2",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-initiator",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-evolve",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-integration",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-system",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-regression",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-all",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "test-live",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-hygiene",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "prove-umbrella-agent",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "run",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "build-seed",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "clean",
+      "source": "Makefile",
+      "category": "make_target"
+    },
+    {
+      "name": "canary-patch-test.sh",
+      "source": "script",
+      "category": "shell_script",
+      "path": "scripts/canary-patch-test.sh"
+    },
+    {
+      "name": "prove-umbrella-agent.sh",
+      "source": "script",
+      "category": "shell_script",
+      "path": "scripts/prove-umbrella-agent.sh"
+    },
+    {
+      "name": "stage-b-umbrella-agent.sh",
+      "source": "script",
+      "category": "shell_script",
+      "path": "scripts/stage-b-umbrella-agent.sh"
+    }
+  ],
+  "total": 29
+}

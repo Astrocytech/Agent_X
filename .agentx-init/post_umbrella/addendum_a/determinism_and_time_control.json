@@ -1,0 +1,40 @@
+{
+  "addendum": "A",
+  "title": "Determinism and Time Control",
+  "timestamp_utc": "2026-06-11T12:00:00Z",
+  "agents": [
+    {
+      "name": "Umbrella Agent",
+      "current_date_source": "fixture_default — WeatherFixtureReadTool.FIXTURE_DATE_UTC = 2026-06-10",
+      "fixture_datetime_utc": "2026-06-10T12:00:00Z",
+      "fixture_timezone": "UTC",
+      "local_time_used": false,
+      "date_resolution_rule": "Vague terms ('today', 'tomorrow', 'now') resolved to 2026-06-10 (FIXTURE_DATE_UTC) by WeatherFixtureReadTool; date_source field recorded in every output as 'fixture_default' or 'explicit'",
+      "timezone_recorded_in_all_outputs": true,
+      "determinism_verdict": "PASS"
+    },
+    {
+      "name": "Clothing Advice Agent",
+      "current_date_source": "no date dependency — weather snapshot from fixture includes explicit queried_at timestamp in UTC",
+      "fixture_datetime_utc": "2026-06-10T12:00:00Z",
+      "fixture_timezone": "UTC",
+      "local_time_used": false,
+      "date_resolution_rule": "No date dependency — clothing advice based on current weather snapshot from fixture; queried_at recorded as ISO-8601 UTC",
+      "timezone_recorded_in_all_outputs": true,
+      "determinism_verdict": "PASS"
+    },
+    {
+      "name": "Daily Planning Agent",
+      "current_date_source": "task fixture dates are explicit ISO-8601 strings (e.g. 2026-06-10)",
+      "fixture_datetime_utc": "2026-06-10T12:00:00Z",
+      "fixture_timezone": "UTC",
+      "local_time_used": false,
+      "date_resolution_rule": "Fixture tasks carry explicit ISO-8601 deadline dates; no local time used; none accept vague terms",
+      "timezone_recorded_in_all_outputs": true,
+      "determinism_verdict": "PASS"
+    }
+  ],
+  "summary": "All 3 agents use deterministic fixtures with explicit UTC timestamps. No local machine time affects output. All fixture dates are ISO-8601. Vague terms resolved. Timezone recorded in all outputs.",
+  "remaining_gaps": [],
+  "verdict": "PASS"
+}

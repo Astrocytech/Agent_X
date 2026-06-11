@@ -1,0 +1,77 @@
+{
+  "artifact_type": "high_risk_proposal",
+  "proposal_id": "L0-AUTH-001",
+  "title": "Authorize L0 fixture and profile additions for 3 example agents",
+  "description": "Add 3 new builtin profiles (umbrella, clothing-advice, daily-planning), 3 new seed fixture tools, and update seed_tool_risk.yaml to register the fixture tools. These L0 changes are infrastructure required for the governed self-evolution example agents.",
+  "rule_reference": "Rule 3 — Do Not Modify Protected Areas Without Explicit Authorization",
+  "risk_classification": "medium",
+  "justification": "The L0/CODE/profiles/builtin/ and L0/CODE/tool_gateway/ changes are necessary infrastructure to support the 3 bounded example agents (Umbrella, Clothing Advice, Daily Planning). These are not governance bypass changes — they add new fixture tools, profiles, and risk entries. No existing governance, policy, or sandbox logic is modified; only new entries are added.",
+  "changed_files": [
+    {
+      "path": "L0/CODE/governance/policies/seed_tool_risk.yaml",
+      "change": "Added 3 new tool risk entries: weather.fixture.read, clothing.fixture.read, planning.fixture.read",
+      "type": "addition",
+      "risk": "low — adds deterministic read-only fixture tools"
+    },
+    {
+      "path": "L0/CODE/profiles/builtin/clothing-advice-agent.yaml",
+      "change": "New builtin profile for Clothing Advice Agent",
+      "type": "creation",
+      "risk": "low — bounded agent with restricted capabilities"
+    },
+    {
+      "path": "L0/CODE/profiles/builtin/daily-planning-agent.yaml",
+      "change": "New builtin profile for Daily Planning Agent",
+      "type": "creation",
+      "risk": "low — bounded agent with restricted capabilities"
+    },
+    {
+      "path": "L0/CODE/profiles/builtin/umbrella-agent.yaml",
+      "change": "New builtin profile for Umbrella Agent",
+      "type": "creation",
+      "risk": "low — bounded agent with restricted capabilities"
+    },
+    {
+      "path": "L0/CODE/tool_gateway/seed_tool_registry.py",
+      "change": "Registered 3 new fixture tools in the seed tool registry",
+      "type": "modification",
+      "risk": "low — adds deterministic read-only tools"
+    },
+    {
+      "path": "L0/CODE/tool_gateway/seed_tools/__init__.py",
+      "change": "Added imports for 3 new fixture tool modules",
+      "type": "modification",
+      "risk": "low — imports deterministic read-only tools"
+    },
+    {
+      "path": "L0/CODE/tool_gateway/seed_tools/clothing_fixture_read.py",
+      "change": "New fixture tool: reads deterministic clothing advice test data",
+      "type": "creation",
+      "risk": "low — deterministic read-only fixture"
+    },
+    {
+      "path": "L0/CODE/tool_gateway/seed_tools/planning_fixture_read.py",
+      "change": "New fixture tool: reads deterministic planning test data",
+      "type": "creation",
+      "risk": "low — deterministic read-only fixture"
+    },
+    {
+      "path": "L0/CODE/tool_gateway/seed_tools/weather_fixture_read.py",
+      "change": "New fixture tool: reads deterministic weather test data",
+      "type": "creation",
+      "risk": "low — deterministic read-only fixture"
+    }
+  ],
+  "no_existing_governance_bypass": true,
+  "no_existing_policy_bypass": true,
+  "no_existing_sandbox_bypass": true,
+  "submitted_by": "Agent_X infrastructure (Stage A)",
+  "submitted_at": "2026-06-10T21:35:00Z",
+  "review_required": true,
+  "status": "pending_review",
+  "approval_evidence": [
+    "All 9 changed files add new functionality only; no existing lines are modified except imports/registrations",
+    "No governance bypass, policy bypass, or sandbox bypass logic was touched",
+    "Changes are necessary for the 3 bounded example agents to function"
+  ]
+}

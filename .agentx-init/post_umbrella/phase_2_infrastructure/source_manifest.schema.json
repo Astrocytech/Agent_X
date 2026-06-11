@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SourceManifest",
+  "type": "object",
+  "required": ["milestone", "snapshot", "commit", "generated_at", "files"],
+  "properties": {
+    "milestone": {"type": "string"},
+    "snapshot": {"type": "string", "enum": ["before", "after", "baseline"]},
+    "commit": {"type": "string"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "file_count": {"type": "integer"},
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string"},
+          "sha256": {"type": "string"},
+          "byte_size": {"type": "integer"},
+          "category": {"type": "string"}
+        }
+      }
+    }
+  }
+}

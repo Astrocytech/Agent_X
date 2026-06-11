@@ -1,0 +1,417 @@
+{
+  "phase": 4,
+  "description": "Full benchmark case definitions with per-case fields per Phase 4 spec",
+  "schema_reference": "benchmark_case.schema.json",
+  "total_categories": 20,
+  "cases": [
+    {
+      "case_id": "P4-B001",
+      "title": "Umbrella Agent positive behavior",
+      "agent_or_layer": "umbrella_agent",
+      "negative_case": false,
+      "replay_required": true,
+      "input_fixture": "weather_fixture_read with 11 deterministic location fixtures",
+      "expected_behavior": "Returns umbrella recommendation (yes/no/maybe) based on precipitation probability",
+      "expected_output_contract": "{\"recommendation\": \"yes|no|maybe|unknown\", \"reason\": \"string\", \"data_source\": \"fixture\", \"safe_failure\": true}",
+      "expected_failure_mode": null,
+      "required_artifacts": [
+        "tests/quick/umbrella_agent/",
+        "L0/CODE/tool_gateway/seed_tools/weather_fixture_read.py"
+      ],
+      "required_commands": [
+        "pytest tests/quick/umbrella_agent/ -v"
+      ],
+      "pass_fail_criteria": "All 11 fixture cases return correct recommendation per precipitation threshold logic",
+      "requirement_id": "P3-R001",
+      "evidence_id": "P4-E001"
+    },
+    {
+      "case_id": "P4-B002",
+      "title": "Umbrella Agent safe failure behavior",
+      "agent_or_layer": "umbrella_agent",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Missing/malformed weather data (None precipitation, missing fields)",
+      "expected_behavior": "Returns safe_failure=true with unknown recommendation and unavailable data_source",
+      "expected_output_contract": "{\"recommendation\": \"unknown\", \"data_source\": \"unavailable\", \"safe_failure\": true}",
+      "expected_failure_mode": "Must not return a definite yes/no when data is missing",
+      "required_artifacts": [
+        "tests/quick/umbrella_agent/test_recommendation_engine.py"
+      ],
+      "required_commands": [
+        "pytest tests/quick/umbrella_agent/test_recommendation_engine.py::test_precip_none -v",
+        "pytest tests/quick/umbrella_agent/test_recommendation_engine.py::test_precip_missing -v"
+      ],
+      "pass_fail_criteria": "Missing data returns unknown, safe_failure=true",
+      "requirement_id": "P3-R001",
+      "evidence_id": "P4-E002"
+    },
+    {
+      "case_id": "P4-B003",
+      "title": "Clothing Advice Agent positive behavior",
+      "agent_or_layer": "clothing_advice_agent",
+      "negative_case": false,
+      "replay_required": true,
+      "input_fixture": "clothing_fixture_read with 15 deterministic weather scenarios",
+      "expected_behavior": "Returns clothing recommendation (heavy_winter|winter|cool|mild|hot|rain|snow|wind|severe) based on temperature, precip, wind, severe flag",
+      "expected_output_contract": "{\"recommendation\": \"string\", \"reason\": \"string\", \"confidence\": \"low|medium|high\", \"data_source\": \"fixture|unavailable\", \"safe_failure\": true}",
+      "expected_failure_mode": null,
+      "required_artifacts": [
+        "tests/quick/clothing_advice_agent/",
+        "L0/CODE/tool_gateway/seed_tools/clothing_fixture_read.py"
+      ],
+      "required_commands": [
+        "pytest tests/quick/clothing_advice_agent/ -v"
+      ],
+      "pass_fail_criteria": "All 15 fixture cases return correct clothing recommendation per weather rules",
+      "requirement_id": "P3-R001",
+      "evidence_id": "P4-E003"
+    },
+    {
+      "case_id": "P4-B004",
+      "title": "Clothing Advice Agent safe failure behavior",
+      "agent_or_layer": "clothing_advice_agent",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Missing weather data, null location, malformed temperature, precipitation outside 0-100",
+      "expected_behavior": "Returns safe_failure=true, data_source=unavailable when input is invalid",
+      "expected_output_contract": "{\"recommendation\": \"unknown\", \"data_source\": \"unavailable\", \"safe_failure\": true}",
+      "expected_failure_mode": "Must not invent weather data; must fail safely on malformed input",
+      "required_artifacts": [
+        "tests/quick/clothing_advice_agent/test_clothing_advice.py"
+      ],
+      "required_commands": [
+        "pytest tests/quick/clothing_advice_agent/ -v -k failure"
+      ],
+      "pass_fail_criteria": "All failure-mode fixture cases return safe_failure=true",
+      "requirement_id": "P3-R001",
+      "evidence_id": "P4-E004"
+    },
+    {
+      "case_id": "P4-B005",
+      "title": "Daily Planning Agent positive behavior",
+      "agent_or_layer": "daily_planning_agent",
+      "negative_case": false,
+      "replay_required": true,
+      "input_fixture": "planning_fixture_read with 15 deterministic task-list scenarios",
+      "expected_behavior": "Returns prioritized task list based on deadline, urgency, effort, and dependency analysis",
+      "expected_output_contract": "{\"top_priority\": \"string|null\", \"ordered_tasks\": [\"string\"], \"reason\": \"string\", \"blocked_tasks\": [\"string\"], \"safe_failure\": true}",
+      "expected_failure_mode": null,
+      "required_artifacts": [
+        "tests/quick/daily_planning_agent/",
+        "L0/CODE/tool_gateway/seed_tools/planning_fixture_read.py"
+      ],
+      "required_commands": [
+        "pytest tests/quick/daily_planning_agent/ -v"
+      ],
+      "pass_fail_criteria": "All 15 fixture cases return correct prioritization per planning rules",
+      "requirement_id": "P3-R002",
+      "evidence_id": "P4-E005"
+    },
+    {
+      "case_id": "P4-B006",
+      "title": "Daily Planning Agent safe failure behavior",
+      "agent_or_layer": "daily_planning_agent",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Empty task list, malformed task entry, invalid due-date format",
+      "expected_behavior": "Returns safe_failure=true with empty/null priority when input is invalid",
+      "expected_output_contract": "{\"top_priority\": null, \"ordered_tasks\": [], \"blocked_tasks\": [], \"safe_failure\": true}",
+      "expected_failure_mode": "Must not invent tasks; must fail safely on empty/malformed input",
+      "required_artifacts": [
+        "tests/quick/daily_planning_agent/test_daily_planning.py"
+      ],
+      "required_commands": [
+        "pytest tests/quick/daily_planning_agent/ -v -k failure"
+      ],
+      "pass_fail_criteria": "All failure-mode fixture cases return safe_failure=true",
+      "requirement_id": "P3-R002",
+      "evidence_id": "P4-E006"
+    },
+    {
+      "case_id": "P4-B007",
+      "title": "Policy rejection behavior",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Patch candidate attempting to modify L0/ protected path",
+      "expected_behavior": "Patch is rejected by policy boundary check before execution",
+      "expected_output_contract": "Validation report with BLOCKED status and policy violation reason",
+      "expected_failure_mode": "Patch must not be applied; policy violation must be recorded in evidence",
+      "required_artifacts": [
+        "tests/release/test_negative_patch_without_policy_approval_rejected.py",
+        "tests/release/test_sabotage_checks.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_negative_patch_without_policy_approval_rejected.py -v"
+      ],
+      "pass_fail_criteria": "Policy-violating patch is rejected with BLOCKED verdict",
+      "requirement_id": "P4-R001",
+      "evidence_id": "P4-E001"
+    },
+    {
+      "case_id": "P4-B008",
+      "title": "Path boundary rejection behavior",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Patch candidate with target path escaping agent directory",
+      "expected_behavior": "Patch is rejected by _enforce_target_boundary before execution",
+      "expected_output_contract": "PlanParseError with BLOCKED reason",
+      "expected_failure_mode": "Path traversal must be detected and blocked",
+      "required_artifacts": [
+        "tools/agentx_evolve/workflows/evolve_agent.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_path_boundary_rejection -v"
+      ],
+      "pass_fail_criteria": "Path-escaping patch raises PlanParseError",
+      "requirement_id": "P4-R001",
+      "evidence_id": "P4-E002"
+    },
+    {
+      "case_id": "P4-B009",
+      "title": "Invalid model output rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Model returns malformed JSON or schema-invalid structured plan",
+      "expected_behavior": "StructuredPlanParser raises PlanParseError",
+      "expected_output_contract": "Error message indicating plan parsing failure",
+      "expected_failure_mode": "Invalid model output must not be applied as a patch",
+      "required_artifacts": [
+        "tools/agentx_evolve/runtime/plan_parser.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_invalid_model_output -v"
+      ],
+      "pass_fail_criteria": "Malformed model output is rejected with PlanParseError",
+      "requirement_id": "P6-R001",
+      "evidence_id": "P4-E001"
+    },
+    {
+      "case_id": "P4-B010",
+      "title": "Rollback behavior",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Partial patch application that fails validation",
+      "expected_behavior": "Original source state is preserved; rollback artifact is written",
+      "expected_output_contract": "Rollback log and before/after source manifests show original state restored",
+      "expected_failure_mode": "Failed patch must not leave repository in modified state",
+      "required_artifacts": [
+        "tests/release/test_sabotage_checks.py",
+        ".agentx-init/post_umbrella/phase_5_failure_recovery/failure_rollback_log.md"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_rollback -v"
+      ],
+      "pass_fail_criteria": "Source state is preserved after failed patch application",
+      "requirement_id": "P5-R001",
+      "evidence_id": "P4-E001"
+    },
+    {
+      "case_id": "P4-B011",
+      "title": "Review/promotion gate behavior",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Promotion attempted without required human review artifact",
+      "expected_behavior": "Promotion is blocked; missing review artifact is detected",
+      "expected_output_contract": "Validation report with FAIL status due to missing review",
+      "expected_failure_mode": "Promotion without review must be rejected",
+      "required_artifacts": [
+        "tests/release/test_sabotage_checks.py",
+        ".agentx-init/post_umbrella/phase_3_example_agents/provenance/*/promotion_decision.json"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_promotion_without_review -v"
+      ],
+      "pass_fail_criteria": "Promotion without review artifact is rejected",
+      "requirement_id": "P4-R001",
+      "evidence_id": "P4-E003"
+    },
+    {
+      "case_id": "P4-B012",
+      "title": "Evidence manifest integrity",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Evidence manifest with missing artifact or invalid hash",
+      "expected_behavior": "check_missing_evidence_artifact and check_invalid_evidence_hash return violations",
+      "expected_output_contract": "List of missing artifacts and hash mismatches",
+      "expected_failure_mode": "Missing or corrupted evidence must be detected",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_evidence_integrity -v"
+      ],
+      "pass_fail_criteria": "Missing evidence and hash mismatches are detected",
+      "requirement_id": "P4-R001",
+      "evidence_id": "P4-E004"
+    },
+    {
+      "case_id": "P4-B013",
+      "title": "Source hash integrity",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Source manifest with hash mismatch",
+      "expected_behavior": "Hash validation detects tampered source files",
+      "expected_output_contract": "List of files with hash mismatches",
+      "expected_failure_mode": "Source tampering must be detected",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_source_hash_integrity -v"
+      ],
+      "pass_fail_criteria": "Hash mismatch is detected and reported",
+      "requirement_id": "P4-R001",
+      "evidence_id": "P4-E005"
+    },
+    {
+      "case_id": "P4-B014",
+      "title": "Clean-checkout replay",
+      "agent_or_layer": "governance",
+      "negative_case": false,
+      "replay_required": true,
+      "input_fixture": "Clean git clone of repository at known commit",
+      "expected_behavior": "Full command sequence replays successfully from clean checkout",
+      "expected_output_contract": "Replay report with command exit codes and final PASS verdict",
+      "expected_failure_mode": null,
+      "required_artifacts": [
+        ".agentx-init/post_umbrella/addendum_f/"
+      ],
+      "required_commands": [
+        "See addendum_f replay instructions"
+      ],
+      "pass_fail_criteria": "Temp clone replay produces same evidence hashes and PASS verdict",
+      "requirement_id": "P4-R002",
+      "evidence_id": "P4-E006"
+    },
+    {
+      "case_id": "P4-B015",
+      "title": "No-op command rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Makefile target that exits successfully but runs zero tests",
+      "expected_behavior": "check_noop_target detects target with tests_run=0 as no-op",
+      "expected_output_contract": "True when target is no-op (tests_run=0)",
+      "expected_failure_mode": "Command that does no meaningful work must be flagged",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_noop_command -v"
+      ],
+      "pass_fail_criteria": "No-op target is detected and reported",
+      "requirement_id": "P4-R001",
+      "evidence_id": "P4-E007"
+    },
+    {
+      "case_id": "P4-B016",
+      "title": "Manual generated-file insertion rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Provenance record with manual origin for file claimed as pipeline-generated",
+      "expected_behavior": "check_manual_insertion detects manually-inserted file in generated paths",
+      "expected_output_contract": "List of files with manual origin in generated path list",
+      "expected_failure_mode": "Claimed-generated file with manual origin must be detected",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_negative_manual_insertion.py -v"
+      ],
+      "pass_fail_criteria": "Manually-inserted file in generated set is detected",
+      "requirement_id": "P7-R001",
+      "evidence_id": "P4-E001"
+    },
+    {
+      "case_id": "P4-B017",
+      "title": "Secret-in-evidence rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Evidence file containing secret-like values (private key, API key, password)",
+      "expected_behavior": "scan_secrets detects secret patterns in evidence files",
+      "expected_output_contract": "List of (file_path, secret_type) tuples for each secret found",
+      "expected_failure_mode": "Secrets in evidence must be detected and cause FAIL",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_negative_secret_in_evidence.py -v"
+      ],
+      "pass_fail_criteria": "All secret patterns are detected in evidence files",
+      "requirement_id": "P7-R001",
+      "evidence_id": "P4-E002"
+    },
+    {
+      "case_id": "P4-B018",
+      "title": "Dependency change without approval rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Dependency change record with approved=false",
+      "expected_behavior": "check_dependency_change_without_approval returns unapproved dependency files",
+      "expected_output_contract": "List of dependency files changed without approval",
+      "expected_failure_mode": "Unapproved dependency changes must be detected",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_negative_dependency_change_rejected.py -v"
+      ],
+      "pass_fail_criteria": "Unapproved dependency change is detected",
+      "requirement_id": "P7-R001",
+      "evidence_id": "P4-E003"
+    },
+    {
+      "case_id": "P4-B019",
+      "title": "Unsupported final claim rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Final claims list containing unsupported claims like 'universal agent' or 'autonomous'",
+      "expected_behavior": "check_unsupported_final_claim returns claims not in supported set",
+      "expected_output_contract": "List of unsupported claims",
+      "expected_failure_mode": "Unsupported claims must be detected and rejected",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_negative_unsupported_claim.py -v"
+      ],
+      "pass_fail_criteria": "Unsupported claim is detected",
+      "requirement_id": "P7-R001",
+      "evidence_id": "P4-E004"
+    },
+    {
+      "case_id": "P4-B020",
+      "title": "Event log integrity rejection",
+      "agent_or_layer": "governance",
+      "negative_case": true,
+      "replay_required": true,
+      "input_fixture": "Event log with duplicate event IDs or missing required fields",
+      "expected_behavior": "validate_events_append_only detects duplicate IDs",
+      "expected_output_contract": "False when duplicate IDs or gaps in sequential IDs are found",
+      "expected_failure_mode": "Corrupted event log must be detected",
+      "required_artifacts": [
+        "tools/agentx_evolve/evidence/infrastructure_validator.py"
+      ],
+      "required_commands": [
+        "pytest tests/release/test_sabotage_checks.py::test_event_log_integrity -v"
+      ],
+      "pass_fail_criteria": "Duplicate event ID is detected",
+      "requirement_id": "P7-R001",
+      "evidence_id": "P4-E005"
+    }
+  ],
+  "verdict": "PASS",
+  "note": "All 20 benchmark cases defined with full per-case fields per Phase 4 spec requirement"
+}

@@ -1,0 +1,13 @@
+{
+  "phase": 4,
+  "timestamp_utc": "2026-06-10T18:00:00Z",
+  "entries": [
+    {"file": ".agentx-init/post_umbrella/phase_4_benchmarks/benchmark_cases.json", "type": "benchmark_case_definitions"},
+    {"file": ".agentx-init/post_umbrella/phase_4_benchmarks/benchmark_results.json", "type": "benchmark_results"},
+    {"file": ".agentx-init/post_umbrella/phase_4_benchmarks/benchmark_report.md", "type": "report"},
+    {"file": ".agentx-init/post_umbrella/phase_4_benchmarks/benchmark_replay_report.md", "type": "replay_report"},
+    {"file": ".agentx-init/post_umbrella/phase_4_benchmarks/benchmark_command_transcript.md", "type": "command_transcript"},
+    {"file": ".agentx-init/post_umbrella/phase_4_benchmarks/benchmark_evidence_manifest.json", "type": "evidence_manifest"}
+  ],
+  "verdict": "PASS"
+}

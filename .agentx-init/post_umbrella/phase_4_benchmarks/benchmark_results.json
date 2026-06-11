@@ -1,0 +1,30 @@
+{
+  "phase": 4,
+  "run_id": "benchmark-20260610-v2",
+  "timestamp_utc": "2026-06-10T17:00:00Z",
+  "cases": [
+    {"case_id": "B001", "verdict": "PASS", "tests": 13},
+    {"case_id": "B002", "verdict": "PASS", "tests": 2},
+    {"case_id": "B003", "verdict": "PASS", "tests": 35},
+    {"case_id": "B004", "verdict": "PASS", "tests": 3},
+    {"case_id": "B005", "verdict": "PASS", "tests": 30},
+    {"case_id": "B006", "verdict": "PASS", "tests": 3},
+    {"case_id": "B007", "verdict": "PASS", "tests": 3},
+    {"case_id": "B008", "verdict": "PASS", "tests": 2},
+    {"case_id": "B009", "verdict": "PASS", "tests": 3},
+    {"case_id": "B010", "verdict": "PASS", "tests": 2},
+    {"case_id": "B011", "verdict": "PASS", "tests": 2},
+    {"case_id": "B012", "verdict": "PASS", "tests": 2},
+    {"case_id": "B013", "verdict": "PASS", "tests": 1},
+    {"case_id": "B014", "verdict": "PASS", "tests": 1},
+    {"case_id": "B015", "verdict": "PASS", "tests": 3},
+    {"case_id": "B016", "verdict": "PASS", "tests": 2},
+    {"case_id": "B017", "verdict": "PASS", "tests": 4},
+    {"case_id": "B018", "verdict": "PASS", "tests": 1},
+    {"case_id": "B019", "verdict": "PASS", "tests": 1},
+    {"case_id": "B020", "verdict": "PASS", "tests": 3}
+  ],
+  "summary": {"total": 20, "pass": 20, "fail": 0, "blocked": 0, "unknown": 0},
+  "verdict": "PASS",
+  "note": "All 20 benchmark categories pass. Governance-layer benchmarks (B007-B020) automated in tests/release/test_governance_benchmarks.py (29 tests)."
+}

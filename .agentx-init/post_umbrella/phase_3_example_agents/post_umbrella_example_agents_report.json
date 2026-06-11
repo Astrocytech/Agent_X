@@ -1,0 +1,88 @@
+{
+  "phase": 3,
+  "stage": "B",
+  "timestamp_utc": "2026-06-10T22:00:00Z",
+  "agents": [
+    {
+      "name": "Clothing Advice Agent",
+      "question": "What should I wear today?",
+      "location": "examples/clothing_advice_agent/",
+      "fixture_tool": "L0/CODE/tool_gateway/seed_tools/clothing_fixture_read.py",
+      "fixture_cases": 16,
+      "all_tests_pass": true,
+      "output_contract": {
+        "recommendation": "string",
+        "reason": "string",
+        "confidence": "low|medium|high",
+        "data_source": "fixture|unavailable",
+        "safe_failure": true
+      },
+      "safe_failure_valid": true,
+      "governed_generation": "CHALLENGED",
+      "governed_note": "Core agent code created manually (Stage A, prior commit). helpers.py and labels.py created via evolve-agent pipeline (2 PASS runs, verdict: 'no patch applied'). OpenCode server wrote files directly. planner.py prompt fix and get_recommendation_label were Stage A/partial-pipeline.",
+      "pipeline_runs": [
+        "20260611T012648Z-evolve-agent-b2613318",
+        "20260611T012520Z-evolve-agent-bfccef1b"
+      ],
+      "pipeline_limitations": [
+        "All runs show 'no patch applied' — files written by OpenCode server directly",
+        "No structured patch governance was exercised during file creation"
+      ],
+      "generated_files": [
+        {"path": "examples/clothing_advice_agent/helpers.py", "via": "pipeline", "patch_applied": false},
+        {"path": "examples/clothing_advice_agent/labels.py", "via": "pipeline", "patch_applied": false}
+      ]
+    },
+    {
+      "name": "Daily Planning Agent",
+      "question": "What should I prioritize today?",
+      "location": "examples/daily_planning_agent/",
+      "fixture_tool": "L0/CODE/tool_gateway/seed_tools/planning_fixture_read.py",
+      "fixture_cases": 15,
+      "all_tests_pass": true,
+      "output_contract": {
+        "top_priority": "string|null",
+        "ordered_tasks": ["string"],
+        "reason": "string",
+        "blocked_tasks": ["string"],
+        "safe_failure": true
+      },
+      "safe_failure_valid": true,
+      "governed_generation": "CHALLENGED",
+      "governed_note": "Core agent code created manually (Stage A, prior commit). helpers.py and labels.py created via evolve-agent pipeline (2 PASS runs, verdict: 'no patch applied').",
+      "pipeline_runs": [
+        "20260611T012748Z-evolve-agent-90e68dfb",
+        "20260611T012520Z-evolve-agent-bfccef1b"
+      ],
+      "pipeline_limitations": [
+        "All runs show 'no patch applied' — files written by OpenCode server directly"
+      ],
+      "generated_files": [
+        {"path": "examples/daily_planning_agent/helpers.py", "via": "pipeline", "patch_applied": false},
+        {"path": "examples/daily_planning_agent/labels.py", "via": "pipeline", "patch_applied": false}
+      ]
+    },
+    {
+      "name": "Umbrella Agent",
+      "question": "Should I bring an umbrella today?",
+      "location": "examples/umbrella_agent/",
+      "fixture_cases": 11,
+      "all_tests_pass": true,
+      "output_contract": {
+        "recommendation": "yes|maybe|no|unknown",
+        "confidence": "float 0.0-1.0",
+        "answer": "string",
+        "precipitation_probability": "int|null",
+        "condition": "string|null",
+        "temperature_c": "int|null"
+      },
+      "safe_failure_valid": true,
+      "note": "Umbrella agent was the prior milestone proof case. Created through prior Stage A/B process, not part of this Phase 3 work."
+    }
+  ],
+  "total_agents": 3,
+  "verdict": "PASS (with limitations)",
+  "verdict_reason": "Phase 3 acceptance criteria substantially met. 6/7 criteria pass. Gap: patch-application mechanism is incomplete (files written by OpenCode server directly, not through structured patch governance). Core agent code was Stage A (pre-existing). helpers.py and labels.py were pipeline-generated with traceable provenance.",
+  "governed_generation": "CHALLENGED",
+  "governed_generation_note": "Pipeline orchestrates LLM calls correctly (3 PASS verdicts). OpenCode server writes files. However, the structured patch governance pipeline (proposed_patch.diff → applied_patch.diff) is not exercised — all runs show 'no patch applied'. This is a known limitation."
+}

@@ -1,0 +1,17 @@
+{
+  "artifact_type": "policy_approval",
+  "agent": "clothing-advice-agent",
+  "proposal_id": "P-49588837",
+  "policy_check_verdict": "PASS",
+  "policy_rules_checked": [
+    "No L0/ modification",
+    "No protected path write",
+    "Target inside examples/ (non-protected path)",
+    "Deterministic fixture-based",
+    "No secrets in evidence",
+    "No external network required"
+  ],
+  "auto_approved": true,
+  "approved_at": "2026-06-11T03:46:21Z",
+  "note": "Policy check performed during evolve-agent pipeline run 20260611T034555Z-evolve-agent-8dd1742b."
+}

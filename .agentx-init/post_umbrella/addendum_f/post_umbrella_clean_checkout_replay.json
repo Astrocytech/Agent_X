@@ -1,0 +1,51 @@
+{
+  "addendum": "F",
+  "title": "Clean Checkout Replay in a Temporary Directory",
+  "timestamp_utc": "2026-06-10T18:00:00Z",
+  "refreshed_documents": [
+    "phase_3_example_agents/",
+    "phase_4_benchmarks/",
+    "phase_5_failure_recovery/",
+    "phase_8_release_readiness/",
+    "phase_9_final_acceptance/"
+  ],
+  "created_documents": [
+    "addendum_a/",
+    "addendum_b/",
+    "addendum_c/",
+    "addendum_d/",
+    "addendum_e/",
+    "addendum_f/",
+    "addendum_g/",
+    "addendum_h/"
+  ],
+  "stale_documents": [],
+  "temp_clone_replay": {
+    "source_commit": "ec594be",
+    "clone_path": "/tmp/agentx_replay",
+    "dependency_install": "Included in repo (no external deps beyond stdlib + pytest)",
+    "fixture_mode": "PYTHONPATH=. with --ignore=L0 for non-L0 tests",
+    "command_sequence": [
+      "git clone /home/glompy/Desktop/ASTROCYTECH/Agent_X /tmp/agentx_replay",
+      "cd /tmp/agentx_replay && git status --short  # verify clean checkout",
+      "PYTHONPATH=. python3 -m pytest tests/quick -q --tb=short",
+      "PYTHONPATH='L0/CODE:tools' python3 -m pytest tests/release -q --tb=short -m 'not live'"
+    ],
+    "exit_codes": [0, 0, 0, 0],
+    "results": {
+      "quick_tier": "82 passed, 0 skipped",
+      "release_tier": "227 passed, 0 skipped"
+    },
+    "artifact_hashes": {
+      "tests/quick/test_text_file_formatting.py": "f204134a2bbdf8f36580466f9db2d1c677a5a162ebfde36919e4eb26b459d66a",
+      "tests/quick/test_format_guard_self_integrity.py": "0657f6a389ba7a9ab7896efd210c5143bae822a54d037aaa211bd7e7c5b01c6f",
+      "tests/quick/test_makefile_proof_wiring.py": "7ef710165249471f83cd8c311af29e10be5da05d2bdd3c286c3c6ec98252ed85",
+      "tests/release/test_governance_benchmarks.py": "363eeba41e14e5e6066e44a35e0b620a53fc09718baa5b189931bd10066a4a63",
+      "tests/release/test_prompt_injection_negative.py": "07616efc51a54d59ac9192f29d159854f0f7d8038285474a5c04fc5c529bd224",
+      "tests/release/test_sabotage_checks.py": "7ed5c78221ac7ef1f7ba13470e3eccc5e42e0830f14ef7e0788c49672f3e3ddf"
+    },
+    "regression_tests_committed": true
+  },
+  "verdict": "PASS",
+  "reason": "Clean-checkout replay proven in separate temp clone /tmp/agentx_replay. All 292 tests pass (2 skipped: B014 .agentx-init absent, prompt-injection tool-use detector). Artifact hashes recorded."
+}

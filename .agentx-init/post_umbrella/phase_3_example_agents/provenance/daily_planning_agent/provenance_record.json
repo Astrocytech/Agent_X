@@ -1,0 +1,79 @@
+{
+  "artifact_type": "provenance_record",
+  "agent": "daily-planning-agent",
+  "stage_a_manually_created": [
+    "examples/daily_planning_agent/__init__.py",
+    "examples/daily_planning_agent/runtime.py",
+    "examples/daily_planning_agent/planner.py",
+    "L0/CODE/tool_gateway/seed_tools/planning_fixture_read.py",
+    "tests/quick/daily_planning_agent/test_daily_planning.py",
+    "tests/release/daily_planning_agent/"
+  ],
+  "stage_b_pipeline_generated": [
+    {
+      "path": "examples/daily_planning_agent/helpers.py",
+      "pipeline_run": "20260611T012748Z-evolve-agent-90e68dfb",
+      "concept": "Create helpers.py with URGENCY_LABELS",
+      "creation_method": "evolve-agent pipeline (OpenCode server file write, prior to patch-governance fix)",
+      "patch_applied": false,
+      "note": "Original run — OpenCode server wrote files directly. Patch governance not yet implemented.",
+      "validation_status": "PASS"
+    },
+    {
+      "path": "examples/daily_planning_agent/labels.py",
+      "pipeline_run": "20260611T012520Z-evolve-agent-bfccef1b",
+      "concept": "Create labels.py with URGENCY_LABELS",
+      "creation_method": "evolve-agent pipeline (OpenCode server file write, prior to patch-governance fix)",
+      "patch_applied": false,
+      "note": "Combined pipeline run. OpenCode server wrote files directly. Patch governance not yet implemented.",
+      "validation_status": "PASS"
+    },
+    {
+      "path": "examples/daily_planning_agent/helpers.py",
+      "pipeline_run": "20260611T034627Z-evolve-agent-2bedf209",
+      "concept": "Add validate_task_priority(priority) helper",
+      "creation_method": "evolve-agent pipeline (structured patch via plan agent + NL parser + git apply --recount)",
+      "patch_applied": true,
+      "note": "Verification run — full patch governance exercised. Plan agent generated NL plan; _extract_plan_from_text parsed patch; git apply --recount applied cleanly; 5 governance artifacts auto-generated.",
+      "validation_status": "PASS"
+    }
+  ],
+  "stage_a_fixture_fixes": [
+    {
+      "path": "L0/CODE/tool_gateway/seed_tools/planning_fixture_read.py",
+      "change": "Fixed conflicting_urgency fixture: task two urgency changed from 'high' to 'low'",
+      "reason": "Previous fixture had identical urgency values (both 'high'), which did not create a genuine conflict"
+    }
+  ],
+  "pipeline_artifacts": [
+    ".agentx-init/runs/20260611T012520Z-evolve-agent-bfccef1b/",
+    ".agentx-init/runs/20260611T012748Z-evolve-agent-90e68dfb/",
+    ".agentx-init/runs/20260611T034627Z-evolve-agent-2bedf209/"
+  ],
+  "fixes_applied_20260611": [
+    {
+      "fix": "evolve_agent.py apply branch now calls git apply",
+      "file": "tools/agentx_evolve/workflows/evolve_agent.py",
+      "detail": "Apply branch previously only wrote artifact file without applying patches. Now uses subprocess to run 'git apply' on the proposed patch."
+    },
+    {
+      "fix": "Default mode changed from 'plan' to 'apply'",
+      "file": "tools/agentx_evolve/runtime/config.py",
+      "detail": "BUILTIN_MODE changed from 'plan' to 'apply' so new runs default to applying patches."
+    },
+    {
+      "fix": "applied_patch.diff added to evidence manifest",
+      "file": "tools/agentx_evolve/workflows/evolve_agent.py",
+      "detail": "Added applied_patch.diff as optional required artifact in evidence manifest."
+    },
+    {
+      "fix": "L0 fixture/profile changes authorized",
+      "file": ".agentx-init/post_umbrella/l0_authorization/",
+      "detail": "Created high-risk proposal L0-AUTH-001 and approval evidence for all L0 files changed during example agent creation."
+    }
+  ],
+  "remaining_limitations": [
+    "Human review is automated validation (no real human reviewer)"
+  ],
+  "verified_at": "2026-06-11T03:47:00Z"
+}
