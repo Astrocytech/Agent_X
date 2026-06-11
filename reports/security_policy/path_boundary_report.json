@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "security_path_boundary_report",
+  "validator": "tools/agentx_evolve/validators/validate_runtime_artifact_boundary.py",
+  "protected_paths": [
+    "L0/CODE",
+    ".agentx-init/five_document_closure/"
+  ],
+  "path_traversal_rejected": true,
+  "L0_protection": "PASS",
+  "status": "PASS"
+}

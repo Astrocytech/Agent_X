@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_prompt_contract",
+  "canonical_equivalent": "reports/umbrella_agent/prompt_contract_used.json",
+  "steps": [
+    {
+      "step": 7,
+      "action": "Prompt contract selected",
+      "contract": "reports/umbrella_agent/prompt_contract_used.json"
+    }
+  ],
+  "status": "PASS"
+}

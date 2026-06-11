@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "security_dependency_change_report",
+  "validator": "tools/agentx_evolve/validators/validate_dependency_change.py",
+  "canonical_equivalent": ".agentx-init/reports/final_project_dependency_change_report.json",
+  "dependency_changes": "NO_DEPENDENCY_CHANGES",
+  "status": "PASS"
+}

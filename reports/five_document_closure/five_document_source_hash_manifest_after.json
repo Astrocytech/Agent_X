@@ -182,52 +182,52 @@
   "tests/quick/validators/fixtures/corrupted_manifest_no_path.json": {
     "sha256": "bb6aa93ea672e98b2a8d1c827aee0ec440ebdde505723e992199a2d877a5f987"
   },
-  "tests/quick/benchcore/test_protocol_boundaries.py": {
+  "tests/release/benchcore/test_protocol_boundaries.py": {
     "sha256": "49ff7bd99b1686573ee0bb6c1ac9666cbcacf1dbdbc096fe5e7e227c3deb9cea"
   },
-  "tests/quick/benchcore/test_per_pdf_coverage.py": {
+  "tests/release/benchcore/test_per_pdf_coverage.py": {
     "sha256": "b7d8f243e078030f5d4e0def51d8a1e12be6b31f0bbadc03309c5e87db948372"
   },
-  "tests/quick/benchcore/test_no_live_dependencies.py": {
+  "tests/release/benchcore/test_no_live_dependencies.py": {
     "sha256": "364baf871b287cef0b54b7ea5b174f1982e4e827af0aad20b706f76651a3a77e"
   },
-  "tests/quick/benchcore/test_inverse_science_alignment.py": {
+  "tests/release/benchcore/test_inverse_science_alignment.py": {
     "sha256": "3efcc5bfa0000fc5e7091f65b4540e61dbf1c987879ca9198d373800509f9dbf"
   },
-  "tests/quick/benchcore/test_instant_universal_claim_rejection.py": {
+  "tests/release/benchcore/test_instant_universal_claim_rejection.py": {
     "sha256": "209f85005fb4ab817e91dacbfedcb70c155e91006a3bcb6fa12af6024ed88a18"
   },
-  "tests/quick/benchcore/test_dynamic_retrieval.py": {
+  "tests/release/benchcore/test_dynamic_retrieval.py": {
     "sha256": "2dd5ca8ca9b7cca7d4edfc02c5dd03cddeda77b272b26dc55cf7f2761dc465e0"
   },
-  "tests/quick/benchcore/test_generic_pattern_boundaries.py": {
+  "tests/release/benchcore/test_generic_pattern_boundaries.py": {
     "sha256": "1d1dd91b11aaaf1765c883ea21258d1877d7d8723028f3e0fb407cff5701ae3b"
   },
-  "tests/quick/benchcore/test_requirements_traceability.py": {
+  "tests/release/benchcore/test_requirements_traceability.py": {
     "sha256": "a6d55a94fdfc662d9a58134c059231fe99dca7aba8cdedcd0e575c8584552c77"
   },
-  "tests/quick/benchcore/test_visual_inventory.py": {
+  "tests/release/benchcore/test_visual_inventory.py": {
     "sha256": "cce972e26b69276cdc0e3eb85a497bc85538877375c6b9cecf855c58b0652052"
   },
-  "tests/quick/benchcore/test_evaluation_fixtures.py": {
+  "tests/release/benchcore/test_evaluation_fixtures.py": {
     "sha256": "b2841f36aa98f2d2ce7d7ee0094548bc4920c560e0b76af19d0db923692a919f"
   },
-  "tests/quick/benchcore/test_source_inventory.py": {
+  "tests/release/benchcore/test_source_inventory.py": {
     "sha256": "6dd479f66d5505365705103e419024a6dde34094592fe8cfbd987ccffa63e161"
   },
-  "tests/quick/benchcore/test_data_quality.py": {
+  "tests/release/benchcore/test_data_quality.py": {
     "sha256": "c3ef3752aa70acdc2fcac710ce888a32a181402a891abc035497d3427e7d4fcc"
   },
-  "tests/quick/benchcore/test_ontology.py": {
+  "tests/release/benchcore/test_ontology.py": {
     "sha256": "d940c317526e08fa1a9ce00d478299d08a6e32dd0a2b4abb567dc42c1841b6f3"
   },
-  "tests/quick/benchcore/test_grammar_validation.py": {
+  "tests/release/benchcore/test_grammar_validation.py": {
     "sha256": "b04594c04170a844f18f1e353b21fdaf900360b1ab07654e95fac9d4ad949438"
   },
-  "tests/quick/benchcore/test_feedback_loop.py": {
+  "tests/release/benchcore/test_feedback_loop.py": {
     "sha256": "b92d7420e472cb4c3e8e8955724c0c79d047a5a97e12da9da2b44e91b44baead"
   },
-  "tests/quick/benchcore/test_learning_policy.py": {
+  "tests/release/benchcore/test_learning_policy.py": {
     "sha256": "909afecc32072d7fadb954f56c81c56a6e2fb7d5f782fe45d9b18f710137b7f4"
   },
   "tests/quick/umbrella_agent/test_recommendation_engine.py": {

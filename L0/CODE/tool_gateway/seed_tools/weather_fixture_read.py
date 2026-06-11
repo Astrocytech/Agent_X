@@ -4,9 +4,11 @@ import logging
 import time
 from datetime import datetime, timezone
 
-__all__ = ["WeatherFixtureReadTool"]
+__all__ = ["WeatherFixtureReadTool", "FIXTURES"]
 
 logger = logging.getLogger(__name__)
+
+FIXTURE_DATE_UTC = "2026-06-10"
 
 FIXTURES: dict[str, dict] = {
     "london": {"precipitation_probability": 60, "condition": "rain", "temperature_c": 15},
@@ -22,21 +24,29 @@ FIXTURES: dict[str, dict] = {
     "vancouver": {"precipitation_probability": 35, "condition": "drizzle", "temperature_c": 12},
     "reykjavik": {"precipitation_probability": 65, "condition": "snow", "temperature_c": -2},
     "anchorage": {"precipitation_probability": 25, "condition": "snow", "temperature_c": -5},
+    "new york": {"precipitation_probability": 50, "condition": "thunderstorm", "temperature_c": 25},
+    "miami": {"precipitation_probability": 75, "condition": "heavy rain", "temperature_c": 28},
+    "seattle": {"precipitation_probability": 40, "condition": "shower", "temperature_c": 14},
+    "chicago": {"precipitation_probability": 30, "condition": "sleet", "temperature_c": 1},
+    "denver": {"precipitation_probability": 20, "condition": "freezing rain", "temperature_c": -3},
+    "houston": {"precipitation_probability": 85, "condition": "storm", "temperature_c": 26},
+    "phoenix": {"precipitation_probability": 0, "condition": "clear", "temperature_c": 42},
 }
 
-API_BASE_URL = "https://api.weather.example.com/v1"
+_VAGUE_TERMS = {"today", "tomorrow", "now"}
 
 
 class WeatherFixtureReadTool:
-    """Simulated weather API tool — returns deterministic fixture data
-    as if fetched from a remote weather service.
+    """Deterministic weather fixture provider (L0 self-contained).
 
-    This is NOT a real API call. It mocks the network round-trip with
-    a small delay and logs the simulated request for audit transparency.
+    Returns fixture data as if fetched from a remote weather service.
+    This is NOT a real API call.
     """
 
-    FIXTURE_DATE_UTC = "2026-06-10"
-    VAGUE_TERMS = {"today", "tomorrow", "now"}
+    FIXTURE_DATE_UTC = FIXTURE_DATE_UTC
+
+    def __init__(self, simulate_delay: bool = True) -> None:
+        self._simulate_delay = simulate_delay
 
     def __call__(self, location: str, date: str | None = None) -> dict:
         if not location or not isinstance(location, str):
@@ -45,17 +55,15 @@ class WeatherFixtureReadTool:
         if loc not in FIXTURES:
             return {"success": False, "error": f"unknown location: {location}"}
 
-        raw_date = date
-        if date is None or date.strip().lower() in self.VAGUE_TERMS:
-            resolved_date = self.FIXTURE_DATE_UTC
+        if date is None or date.strip().lower() in _VAGUE_TERMS:
+            resolved_date = FIXTURE_DATE_UTC
             date_source = "fixture_default"
         else:
             resolved_date = date.strip()
             date_source = "explicit"
 
-        simulated_url = f"{API_BASE_URL}/current?location={location}&date={resolved_date}"
-        logger.info("[weather.fixture.read] Simulating HTTP GET %s", simulated_url)
-        time.sleep(0.05)
+        if self._simulate_delay:
+            time.sleep(0.05)
 
         now = datetime.now(timezone.utc).isoformat()
         data = dict(FIXTURES[loc])
@@ -63,7 +71,6 @@ class WeatherFixtureReadTool:
         data["date"] = resolved_date
         data["date_source"] = date_source
         data["source"] = "fixture"
+        data["provider"] = "weather_fixture_provider"
         data["queried_at"] = now
-        data["api_endpoint"] = simulated_url
-        data["api_status"] = 200
         return {"success": True, "data": data}

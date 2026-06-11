@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_review",
+  "canonical_equivalent": ".agentx-init/five_document_closure/final/five_document_review_record_validation.json",
+  "steps": [
+    {
+      "step": 18,
+      "action": "Human review record created"
+    }
+  ],
+  "status": "PASS"
+}

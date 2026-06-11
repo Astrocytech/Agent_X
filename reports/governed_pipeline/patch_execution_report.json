@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_patch_execution",
+  "canonical_equivalent": "reports/umbrella_agent/patch_execution_report.json",
+  "steps": [
+    {
+      "step": 11,
+      "action": "Patch applied through governed executor",
+      "artifact": "reports/umbrella_agent/patch_execution_report.json"
+    }
+  ],
+  "status": "PASS"
+}

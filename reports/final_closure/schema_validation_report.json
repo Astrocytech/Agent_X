@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "schema_validation_report",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "validators": {
+    "validate_evidence_manifest": {
+      "path": "tools/agentx_evolve/validators/validate_evidence_manifest.py",
+      "tested_on": ".agentx-init/five_document_closure/final/five_document_evidence_manifest.json",
+      "status": "PASS"
+    },
+    "validate_event_log": {
+      "path": "tools/agentx_evolve/validators/validate_event_log.py",
+      "tested_on": ".agentx-init/five_document_closure/final/five_document_event_log_validation.json",
+      "status": "PASS"
+    },
+    "validate_command_transcript": {
+      "path": "tools/agentx_evolve/validators/validate_command_transcript.py",
+      "tested_on": ".agentx-init/five_document_closure/baseline/baseline_command_transcript.json",
+      "status": "PASS"
+    },
+    "validate_source_hash_manifest": {
+      "path": "tools/agentx_evolve/validators/validate_source_hash_manifest.py",
+      "status": "PASS"
+    },
+    "validate_five_document_matrix": {
+      "path": "tools/agentx_evolve/validators/validate_five_document_matrix.py",
+      "status": "PASS"
+    },
+    "validate_final_acceptance_cross_check": {
+      "path": "tools/agentx_evolve/validators/validate_final_acceptance_cross_check.py",
+      "status": "PASS"
+    },
+    "validate_claims": {
+      "path": "tools/agentx_evolve/validators/validate_claims.py",
+      "status": "PASS"
+    },
+    "validate_final_project_run_manifest": {
+      "path": "tools/agentx_evolve/validators/validate_final_project_run_manifest.py",
+      "status": "PASS"
+    },
+    "validate_clean_replay_report": {
+      "path": "tools/agentx_evolve/validators/validate_clean_replay_report.py",
+      "status": "PASS"
+    },
+    "validate_review_records": {
+      "path": "tools/agentx_evolve/validators/validate_review_records.py",
+      "status": "PASS"
+    },
+    "validate_promotion_records": {
+      "path": "tools/agentx_evolve/validators/validate_promotion_records.py",
+      "status": "PASS"
+    }
+  },
+  "behavior_verified": {
+    "every_json_artifact_parseable": true,
+    "every_required_field_present": true,
+    "enums_exact_or_mapped": true,
+    "timestamps_iso8601": true,
+    "hashes_valid_sha256": true,
+    "report_paths_repo_relative": true,
+    "no_stale_artifact_claims_newer_hash": true,
+    "no_report_overwrites_append_only_evidence": true
+  },
+  "status": "PASS"
+}

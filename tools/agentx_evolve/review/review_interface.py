@@ -1,7 +1,10 @@
+"""MvpReviewInterface — alongside existing HumanReviewInterface."""
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
+
 from agentx_evolve.models.model_models import new_id, to_dict
 
 AD_PENDING = "PENDING"
@@ -21,6 +24,8 @@ class ApprovalRecord:
     decided_at: str = ""
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return to_dict(self)
@@ -42,6 +47,8 @@ class ReviewReport:
     rollback_available: bool = False
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return to_dict(self)
@@ -111,3 +118,80 @@ class HumanReviewInterface:
 
     def is_approved(self, session_id: str) -> bool:
         return self._history.is_session_approved(session_id)
+
+
+RCT_APPROVED = "APPROVED"
+RCT_REJECTED = "REJECTED"
+RCT_CHANGES_REQUESTED = "CHANGES_REQUESTED"
+
+
+@dataclass
+class MvpReviewPacket:
+    review_id: str = ""
+    action_id: str = ""
+    run_id: str = ""
+    reviewer_identity: str = ""
+    decision: str = ""
+    decision_reason: str = ""
+    evidence_refs: list[dict] = field(default_factory=list)
+    created_at: str = ""
+    decided_at: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "review_id": self.review_id,
+            "action_id": self.action_id,
+            "run_id": self.run_id,
+            "reviewer_identity": self.reviewer_identity,
+            "decision": self.decision,
+            "decision_reason": self.decision_reason,
+            "evidence_refs": self.evidence_refs,
+            "created_at": self.created_at,
+            "decided_at": self.decided_at,
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict) -> MvpReviewPacket:
+        return cls(
+            review_id=data.get("review_id", ""),
+            action_id=data.get("action_id", ""),
+            run_id=data.get("run_id", ""),
+            reviewer_identity=data.get("reviewer_identity", ""),
+            decision=data.get("decision", ""),
+            decision_reason=data.get("decision_reason", ""),
+            evidence_refs=data.get("evidence_refs", []),
+            created_at=data.get("created_at", ""),
+            decided_at=data.get("decided_at", ""),
+        )
+
+
+class MvpReviewInterface:
+    def __init__(self) -> None:
+        self._packets: dict[str, MvpReviewPacket] = {}
+
+    def create_packet(self, packet: MvpReviewPacket) -> MvpReviewPacket:
+        self._packets[packet.review_id] = packet
+        return packet
+
+    def record_decision(self, review_id: str, decision: str, reason: str,
+                        reviewer: str, decided_at: str) -> MvpReviewPacket | None:
+        packet = self._packets.get(review_id)
+        if packet is None:
+            return None
+        if decision not in (RCT_APPROVED, RCT_REJECTED, RCT_CHANGES_REQUESTED):
+            raise ValueError(f"Invalid decision: {decision}")
+        packet.decision = decision
+        packet.decision_reason = reason
+        packet.reviewer_identity = reviewer
+        packet.decided_at = decided_at
+        return packet
+
+    def get_packet(self, review_id: str) -> MvpReviewPacket | None:
+        return self._packets.get(review_id)
+
+    def is_finalized(self, review_id: str) -> bool:
+        p = self._packets.get(review_id)
+        return p is not None and p.decision in (RCT_APPROVED, RCT_REJECTED)
+
+    def list_by_run(self, run_id: str) -> list[MvpReviewPacket]:
+        return [p for p in self._packets.values() if p.run_id == run_id]

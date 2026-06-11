@@ -1,0 +1,103 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "command_target_closure",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "commands": {
+    "python -m compileall L0 L1 L2 tools tests": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make prove-seed": {
+      "exists": true,
+      "meaningful": true,
+      "test_count": 52,
+      "status": "PASS"
+    },
+    "make prove-l1": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make prove-l2": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make test-initiator": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make test-evolve": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make test-integration": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS",
+      "target": "test-release"
+    },
+    "make test-system": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS",
+      "target": "test-release"
+    },
+    "make test-regression": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS",
+      "target": "test-release"
+    },
+    "make test-all": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make prove-all": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make audit-structure": {
+      "exists": true,
+      "meaningful": true,
+      "status": "PASS"
+    },
+    "make final-acceptance": {
+      "exists": true,
+      "meaningful": true,
+      "validators": 27,
+      "status": "PASS"
+    },
+    "make validate-final-acceptance": {
+      "exists": true,
+      "meaningful": true,
+      "validators": 27,
+      "status": "PASS"
+    }
+  },
+  "validators": {
+    "no_op_detector": {
+      "path": "tools/agentx_evolve/validators/detect_noop_commands.py",
+      "status": "PASS"
+    },
+    "skipped_test_detector": {
+      "path": "tools/agentx_evolve/validators/detect_skipped_or_empty_tests.py",
+      "status": "PASS"
+    },
+    "zero_test_discovery_detector": {
+      "path": "Makefile (compileall-check)",
+      "status": "PASS"
+    },
+    "command_transcript_validator": {
+      "path": "tools/agentx_evolve/validators/validate_command_transcript.py",
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

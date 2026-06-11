@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvidencePathReconciliation",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "report_id": {"type": "string"},
+    "project": {"type": "string"},
+    "evidence_paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "referenced_path": {"type": "string"},
+          "exists_in_repo": {"type": "boolean"},
+          "runtime_only": {"type": "boolean"},
+          "contains_secret": {"type": "boolean"},
+          "status": {"type": "string", "enum": ["PASS","FAIL","MISSING","UNVERIFIED"]}
+        },
+        "required": ["referenced_path", "exists_in_repo", "runtime_only", "contains_secret", "status"]
+      }
+    },
+    "status": {"type": "string"}
+  },
+  "required": ["schema_version", "report_id", "project", "evidence_paths", "status"]
+}

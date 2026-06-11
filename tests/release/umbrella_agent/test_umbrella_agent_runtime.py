@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from umbrella_agent import ask_umbrella
 from umbrella_agent.recommendation_engine import recommend
-from tool_gateway.seed_tools.weather_fixture_read import WeatherFixtureReadTool
+from agentx_evolve.fixtures.weather_fixture_provider import WeatherFixtureProvider
 
 
 def test_ask_unknown_location_returns_unknown() -> None:
@@ -40,25 +40,23 @@ def test_llm_interprets_weather_data() -> None:
         assert result["precipitation_probability"] == 60
 
 
-def test_recommendation_matches_rules_via_tool() -> None:
-    """Verify the tool data drives the recommendation via LLM's rule application."""
-    tool = WeatherFixtureReadTool()
-    london = tool(location="London", date="today")
+def test_recommendation_matches_rules_via_provider() -> None:
+    """Verify the provider data drives the recommendation via rule application."""
+    provider = WeatherFixtureProvider()
+    london = provider.fetch(location="London", date="today")
     assert london["success"]
     assert london["data"]["precipitation_probability"] == 60
 
 
-def test_tool_gateway_registered() -> None:
-    from tool_gateway.seed_tools.weather_fixture_read import WeatherFixtureReadTool
-    tool = WeatherFixtureReadTool()
-    result = tool(location="London", date="today")
+def test_weather_provider_registered() -> None:
+    provider = WeatherFixtureProvider()
+    result = provider.fetch(location="London", date="today")
     assert result["success"]
     assert result["data"]["precipitation_probability"] == 60
     assert result["data"]["condition"] == "rain"
 
 
-def test_tool_gateway_unknown_location() -> None:
-    from tool_gateway.seed_tools.weather_fixture_read import WeatherFixtureReadTool
-    tool = WeatherFixtureReadTool()
-    result = tool(location="Atlantis", date="today")
+def test_weather_provider_unknown_location() -> None:
+    provider = WeatherFixtureProvider()
+    result = provider.fetch(location="Atlantis", date="today")
     assert not result["success"]

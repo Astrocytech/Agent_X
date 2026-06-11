@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "artifact_integrity_report",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "artifacts_checked": [
+    {
+      "artifact": "reports/final_closure/five_document_requirement_matrix.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/final_closure/evidence_path_reconciliation.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/umbrella_agent/umbrella_persistence_classification_report.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/umbrella_agent/umbrella_contract_closure.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/governed_pipeline/pipeline_trace.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/final_closure/command_target_closure.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/security_policy/security_policy_closure.json",
+      "valid": true
+    },
+    {
+      "artifact": "reports/final_closure/five_document_final_acceptance_report.json",
+      "valid": true
+    }
+  ],
+  "all_valid": true,
+  "status": "PASS"
+}

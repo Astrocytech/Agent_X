@@ -135,3 +135,17 @@ from .openai_compatible_adapter import OpenAICompatibleAdapter
 from .hosted_model_adapter import HostedModelAdapter
 from .model_adapter import BaseModelProviderAdapter, make_blocked_response
 from .prompt_runner import run_prompt, run_json_prompt
+from .provenance_record import (
+    ProvenanceRecord,
+    ProvenanceChain,
+    ORIGIN_PRE_EXISTING,
+    ORIGIN_STAGE_A,
+    ORIGIN_STAGE_B,
+    ORIGIN_MANUAL,
+    ORIGIN_UNKNOWN,
+    PERSISTENCE_PERMANENT,
+    PERSISTENCE_EPHEMERAL,
+    STATUS_PASS,
+    STATUS_FAIL,
+    STATUS_UNKNOWN,
+)

@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UmbrellaPersistenceClassification",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string"},
+    "resolution": {"type": "string"},
+    "classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artifact_type": {"type": "string"},
+          "persistence": {"type": "string"},
+          "meaning": {"type": "string"}
+        },
+        "required": ["artifact_type", "persistence", "meaning"]
+      }
+    },
+    "status": {"type": "string"}
+  },
+  "required": ["schema_version", "resolution", "classifications", "status"]
+}

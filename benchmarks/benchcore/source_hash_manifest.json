@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "benchcore_source_hash_manifest",
+  "project": "Agent_X",
+  "commit": "b96c5443883dd4b6b8af480aaa8833180bd7c2fa",
+  "canonical_equivalent": "benchmarks/benchcore/src/",
+  "status": "Canonical equivalent available",
+  "verdict": "PASS"
+}

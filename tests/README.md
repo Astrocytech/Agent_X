@@ -13,6 +13,8 @@ Always-run tests that provide fast feedback:
 - Unit tests for each agent
 - Formatting guards (line endings, file integrity, Makefile wiring)
 - Smoke checks (import/help validation)
+- Schema validation tests
+- Validator unit tests
 
 ## Dev (`tests/dev/`)
 Tests under active development. May fail or be incomplete.
@@ -20,8 +22,9 @@ Tests under active development. May fail or be incomplete.
 
 ## Release (`tests/release/`)
 Full verification suite for release readiness:
-- Integration tests (cross-component behavior, runtime flows)
+- Integration tests (cross-component behavior, runtime flows, governance routing)
 - System tests (CLI workflows, evolve-agent lifecycle)
+- Benchmark validation tests (benchcore)
 - Governance benchmarks (B001-B020)
 - Regression tests (prompt injection, sabotage checks)
 - Negative tests (rejection of invalid operations)

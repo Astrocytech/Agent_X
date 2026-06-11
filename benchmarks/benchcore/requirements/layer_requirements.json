@@ -60,7 +60,7 @@
       "benchmarks/benchcore/evaluation/config.json",
       "benchmarks/benchcore/evaluation/report.py",
       "benchmarks/benchcore/evaluation/calibration.py",
-      "tests/quick/benchcore/"
+      "tests/release/benchcore/"
     ]
   },
   {

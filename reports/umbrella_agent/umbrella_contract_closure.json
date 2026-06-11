@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "umbrella_contract_closure",
+  "project": "Agent_X",
+  "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+  "status": "PASS",
+  "schemas": {
+    "input_schema": {
+      "path": "schemas/umbrella_agent_input.schema.json",
+      "sha256": "26569dffedf2a8b6d90d4c8eb1387ba94569595d808e57f260d315dd7d929d5d",
+      "validates": true
+    },
+    "weather_fixture_schema": {
+      "path": "schemas/umbrella_weather_fixture.schema.json",
+      "sha256": "6d94c75aa4a31883b80ed77de2003b1615e7bb3c0e3b098a95b243963ee57df2",
+      "validates": true
+    },
+    "output_schema": {
+      "path": "schemas/umbrella_agent_output.schema.json",
+      "sha256": "8e34f0c61d16bbf95ab4cdcdd65aa330c9d52eb969832eea763e4768eb714835",
+      "validates": true
+    }
+  },
+  "verified_at": "2026-06-12T17:01:49Z"
+}

@@ -142,3 +142,104 @@ class TestRequestPromotionDecisionHandlesAdapterError:
         assert result.promotion_status == GATE_STATUS_DENIED
         assert result.promotion_decision == GATE_STATUS_DENIED
         assert any("gate error" in e.lower() for e in result.errors)
+
+
+from agentx_evolve.promotion.promotion_gate import MvpPromotionGate
+
+
+class TestMvpPromotionGate:
+    def setup_method(self):
+        self.gate = MvpPromotionGate()
+
+    def test_promotion_requires_all_checks(self):
+        class FakeAction:
+            action_id = "act-1"
+        decision = self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a2",
+            "review_ref": "rev-1", "evidence_refs": [{"path": "/x"}],
+            "observation_ref": "obs-1", "gate_result": "ALLOW", "invariant_pass": True,
+        })
+        assert decision.promoted
+
+    def test_promotion_requires_review_evidence_observation_gate_invariant(self):
+        class FakeAction:
+            action_id = "act-all"
+        full = {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a2",
+            "review_ref": "rev-1", "evidence_refs": [{"path": "/x"}],
+            "observation_ref": "obs-1", "gate_result": "ALLOW", "invariant_pass": True,
+        }
+        assert self.gate.evaluate(FakeAction(), full).promoted
+        for key in ("review_ref", "evidence_refs", "observation_ref", "gate_result", "invariant_pass"):
+            partial = dict(full)
+            if key == "evidence_refs":
+                partial[key] = []
+            elif key in ("review_ref", "observation_ref"):
+                partial[key] = ""
+            elif key == "gate_result":
+                partial[key] = "DENY"
+            elif key == "invariant_pass":
+                partial[key] = False
+            assert not self.gate.evaluate(FakeAction(), partial).promoted, \
+                f"Should deny when {key} is missing/invalid"
+
+    def test_self_promotion_denied(self):
+        class FakeAction:
+            action_id = "act-2"
+        decision = self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a1",
+        })
+        assert not decision.promoted
+        assert "self-promotion" in decision.reason.lower()
+
+    def test_self_promotion_denied_with_reason(self):
+        class FakeAction:
+            action_id = "act-2b"
+        decision = self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a1",
+        })
+        assert not decision.promoted
+        assert "self-promotion" in decision.reason.lower()
+        assert "denied" in decision.reason.lower()
+        assert len(decision.reason) > 10
+
+    def test_self_promotion_decision_is_recorded(self):
+        class FakeAction:
+            action_id = "act-2c"
+        self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a1",
+        })
+        assert len(self.gate.decisions) == 1
+        rec = self.gate.decisions[0]
+        assert not rec.promoted
+
+    def test_missing_review_denied(self):
+        class FakeAction:
+            action_id = "act-3"
+        decision = self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a2",
+            "review_ref": "", "evidence_refs": [{"path": "/x"}],
+            "observation_ref": "obs-1", "gate_result": "ALLOW", "invariant_pass": True,
+        })
+        assert not decision.promoted
+        assert "review" in str(decision.errors).lower()
+
+    def test_missing_evidence_denied(self):
+        class FakeAction:
+            action_id = "act-4"
+        decision = self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a2",
+            "review_ref": "rev-1", "evidence_refs": [],
+            "observation_ref": "obs-1", "gate_result": "ALLOW", "invariant_pass": True,
+        })
+        assert not decision.promoted
+
+    def test_invariant_fail_denied(self):
+        class FakeAction:
+            action_id = "act-5"
+        decision = self.gate.evaluate(FakeAction(), {
+            "run_id": "r1", "agent_id": "a1", "target_agent": "a2",
+            "review_ref": "rev-1", "evidence_refs": [{"path": "/x"}],
+            "observation_ref": "obs-1", "gate_result": "ALLOW", "invariant_pass": False,
+        })
+        assert not decision.promoted

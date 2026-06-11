@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "security_policy_closure",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "gates": {
+    "filesystem_boundary_enforcement": {
+      "validator": "tools/agentx_evolve/security/sandbox_policy.py",
+      "test": "tests/release/test_negative_path_traversal.py",
+      "status": "PASS"
+    },
+    "path_traversal_rejection": {
+      "validator": "tools/agentx_evolve/security/sandbox_policy.py",
+      "test": "tests/release/test_negative_path_traversal.py",
+      "status": "PASS"
+    },
+    "protected_path_rejection": {
+      "validator": "tools/agentx_evolve/security/sandbox_policy.py",
+      "test": "tests/release/test_negative_l0_mutation_rejected.py",
+      "status": "PASS"
+    },
+    "l0_protection": {
+      "validator": "tools/agentx_evolve/validators/validate_l0_protection.py",
+      "test": "tests/release/test_negative_l0_mutation_rejected.py",
+      "status": "PASS"
+    },
+    "source_mutation_guard": {
+      "validator": "tools/agentx_evolve/git/source_change_guard.py",
+      "status": "PASS"
+    },
+    "policy_capability_registry": {
+      "validator": "tools/agentx_evolve/policy/policy_checker.py",
+      "test": "tests/release/test_policy_bypass_resistance.py",
+      "status": "PASS"
+    },
+    "denied_capability_execution_tests": {
+      "test": "tests/release/test_negative_*.py",
+      "status": "PASS"
+    },
+    "subprocess_shell_restrictions": {
+      "validator": "tools/agentx_evolve/security/sandbox_policy.py",
+      "status": "PASS"
+    },
+    "network_denied_by_default": {
+      "test": "tests/release/test_negative_network_default_rejected.py",
+      "status": "PASS"
+    },
+    "model_provider_policy_gates": {
+      "validator": "tools/agentx_evolve/providers/provider_router.py",
+      "status": "PASS"
+    },
+    "dependency_change_approval": {
+      "validator": "tools/agentx_evolve/validators/validate_dependency_change.py",
+      "status": "PASS"
+    },
+    "secret_scanner_evidence_reports": {
+      "validator": "tools/agentx_evolve/validators/scan_secrets_in_evidence.py",
+      "status": "PASS"
+    },
+    "local_absolute_path_sanitizer": {
+      "validator": "tools/agentx_evolve/validators/scan_secrets_in_evidence.py",
+      "status": "PASS"
+    },
+    "command_allowlist_policy_gated_execution": {
+      "validator": "tools/agentx_evolve/policy/command_allowlist.py",
+      "status": "PASS"
+    },
+    "rollback_plan_evidence": {
+      "test": "tests/release/test_failure_rollback_flow.py",
+      "evidence": ".agentx-init/post_umbrella/phase_5_failure_recovery/",
+      "status": "PASS"
+    },
+    "failure_taxonomy_recovery_playbook": {
+      "evidence": ".agentx-init/post_umbrella/phase_5_failure_recovery/failure_recovery_results.json",
+      "status": "PASS"
+    }
+  },
+  "hard_blockers_checked": {
+    "no_secret_in_committed_evidence": true,
+    "no_unrestricted_shell_execution": true,
+    "no_unrestricted_network_execution": true,
+    "no_path_traversal_write_allowed": true,
+    "no_protected_path_mutation_allowed": true,
+    "no_l0_mutation_without_governed_approval": true,
+    "no_dependency_change_without_approval": true
+  },
+  "status": "PASS"
+}

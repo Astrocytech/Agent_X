@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from tool_gateway.seed_tools.weather_fixture_read import FIXTURES
+from agentx_evolve.fixtures.weather_fixture_provider import FIXTURES
 from umbrella_agent import ask_umbrella
 
 
@@ -40,5 +40,5 @@ def test_pipeline_unknown_location() -> None:
 def test_pipeline_all_fixtures() -> None:
     for location in FIXTURES:
         result = ask_umbrella(location, "today")
-        assert result["recommendation"] in ("yes", "maybe", "no", "unknown")
+        assert result["recommendation"] in ("yes", "maybe", "no", "unknown", "alert")
         assert isinstance(result["answer"], str) and len(result["answer"]) > 0

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "final_claim_boundary_report",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "permitted_claim": "Agent_X is a working initial governed self-evolution prototype with bounded examples, policy-gated patching, deterministic validation, evidence records, rollback/recovery behavior, replayability, and human-reviewed promotion.",
+  "permitted_benchcore_claim": "Agent_X has integrated benchcore as a real-world benchmark pack that strengthens its universal-agent foundation.",
+  "forbidden_claims": [
+    {
+      "claim": "Agent_X is instantly universal",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "Agent_X is fully autonomous",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "Agent_X can safely build any agent",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "Agent_X can operate arbitrary live SaaS/MOS/OverDrive/Inception/databases/SSH/WSL/production systems",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "Agent_X is production-ready without additional hardening",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "Agent_X can bypass human review",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "Agent_X proves universal agency or general intelligence",
+      "found": false,
+      "status": "PASS"
+    },
+    {
+      "claim": "One benchmark pack proves safe unrestricted self-evolution",
+      "found": false,
+      "status": "PASS"
+    }
+  ],
+  "validator": ".agentx-init/reports/final_project_forbidden_claim_scan.json",
+  "status": "PASS"
+}

@@ -2,17 +2,12 @@
   "report": "stage_b_replayability_report",
   "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
   "status": "PASS",
-  "description": "Prove that the governed pipeline is replayable: identical inputs produce identical outputs.",
-  "verification": {
-    "method": "Source hash manifest comparison (before vs after)",
-    "before_commit": "a949f6c",
-    "after_commit": "a949f6c",
-    "evidence": [
-      "source_hash_manifest_before.json (3395 files)",
-      "source_hash_manifest_after.json (3485 files)"
-    ],
-    "notes": "After manifest includes umbrella agent ephemeral files (90 new files from git worktree setup). Core pipeline infrastructure unchanged.",
-    "replayable": true
+  "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+  "replay_result": {
+    "command": "make prove-seed",
+    "exit_code": 0,
+    "replayable": true,
+    "stdout_last_line": "=== prove-seed: OK ==="
   },
-  "conclusion": "PASS — Pipeline is replayable. Same Stage A infrastructure produces same results."
+  "verified_at": "2026-06-12T17:01:49Z"
 }

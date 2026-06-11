@@ -44,6 +44,10 @@ def check_promotion_ready(
 def create_promotion_gate_record(
     run_id: str,
     promotion_target: str = "next_layer",
+    proposal_id: str = "",
+    policy_decision_id: str = "",
+    candidate_id: str = "",
+    rollback_ref: str = "",
 ) -> PromotionGateRecord:
     return PromotionGateRecord(
         promotion_record_id=new_id("pg"),
@@ -52,6 +56,10 @@ def create_promotion_gate_record(
         promotion_target=promotion_target,
         promotion_status=GATE_STATUS_PENDING,
         promotion_decision="",
+        proposal_id=proposal_id,
+        policy_decision_id=policy_decision_id,
+        candidate_id=candidate_id,
+        rollback_ref=rollback_ref,
     )
 
 

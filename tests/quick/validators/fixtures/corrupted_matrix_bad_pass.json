@@ -1,7 +1,10 @@
 {
+  "matrix_id": "TEST-MATRIX-001",
+  "source_documents": ["DOC1"],
   "requirements": [
     {
-      "requirement_id": "R1",
+      "id": "R1",
+      "source_document": "DOC1",
       "status": "PASS",
       "implementation_files": [],
       "test_files": []

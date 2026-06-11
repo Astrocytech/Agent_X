@@ -1,0 +1,1 @@
+{"$schema":"http://json-schema.org/draft-07/schema#","$id":"workspace.schema.json","title":"Workspace","type":"object","required":["root","run_workspace","temp_workspace"],"properties":{"root":{"type":"string"},"run_workspace":{"type":"string"},"temp_workspace":{"type":"string"},"artifact_workspace":{"type":"string"}}}

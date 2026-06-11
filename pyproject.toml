@@ -18,18 +18,26 @@ dependencies = [
 seed-dev = [
     "pytest>=9.0",
 ]
+dev = [
+    "pytest>=9.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+agentx = "tools.agentx.__main__:main"
 
 [tool.setuptools]
-package-dir = {"" = "L0/CODE"}
+package-dir = {"" = "."}
 
 [tool.setuptools.packages.find]
-where = ["L0/CODE"]
+where = ["."]
 include = [
     "core_kernel*",
     "governance*",
     "kernel_composition*",
     "profiles*",
     "tool_gateway*",
+    "tools*",
 ]
 exclude = [
     "artifacts*",

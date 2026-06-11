@@ -24,11 +24,6 @@ from agentx_evolve.providers.api_provider import APIProviderError
 _PROVIDER_ERRORS = (OpenCodeProviderError, APIProviderError)
 
 
-CONTROLLER_PROTECTED = {
-    ".git", ".agentx-init", "tools/agentx_evolve",
-}
-
-
 class EvolveAgentWorkflow:
     def __init__(self, config: Any):
         self.config = config
@@ -137,6 +132,7 @@ class EvolveAgentWorkflow:
             return self._fail(session, writer, run_dir, str(e), EXIT_FAIL)
 
         self._enforce_target_boundary(plan, agent_path)
+        self._check_protected_paths(plan, agent_path)
         writer.write_structured_plan(plan)
 
         patch_content = ""
@@ -254,6 +250,7 @@ class EvolveAgentWorkflow:
     ) -> list[dict[str, Any]]:
         ts = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
         agent_name = agent_path.name.replace("_", "-")
+        session_id_val = getattr(session, "run_id", "")
         proposal_id = f"P-{uuid.uuid4().hex[:8].upper()}"
         plan_summary = plan.get("summary", "")
         patches = plan.get("patches", [])
@@ -287,6 +284,7 @@ class EvolveAgentWorkflow:
         _write("proposal_artifact.json", {
             "artifact_type": "proposal",
             "agent": agent_name,
+            "session_id": session_id_val,
             "proposal_id": proposal_id,
             "title": f"Evolve {agent_name}: {plan_summary[:80]}",
             "description": concept_text.strip()[:200],
@@ -308,6 +306,7 @@ class EvolveAgentWorkflow:
         _write("policy_approval.json", {
             "artifact_type": "policy_approval",
             "agent": agent_name,
+            "session_id": session_id_val,
             "proposal_id": proposal_id,
             "policy_check_verdict": "PASS" if is_ok else "FAIL",
             "policy_rules_checked": [
@@ -327,6 +326,7 @@ class EvolveAgentWorkflow:
         _write("risk_classification.json", {
             "artifact_type": "risk_classification",
             "agent": agent_name,
+            "session_id": session_id_val,
             "proposal_id": proposal_id,
             "risk_level": risk_level,
             "risk_justification": [
@@ -344,6 +344,7 @@ class EvolveAgentWorkflow:
         _write("human_review.json", {
             "artifact_type": "human_review",
             "agent": agent_name,
+            "session_id": session_id_val,
             "proposal_id": proposal_id,
             "reviewer_id": "automated_validation",
             "reviewer_role": "automated_governance_review",
@@ -368,6 +369,7 @@ class EvolveAgentWorkflow:
             "artifact_type": "promotion_decision",
             "agent": agent_name,
             "proposal_id": proposal_id,
+            "session_id": session_id_val,
             "promotion_verdict": "APPROVED" if is_ok else "DENIED",
             "validation_status": validation_status,
             "validation_evidence": [str(run_dir / "validation_report.json")],
@@ -377,6 +379,14 @@ class EvolveAgentWorkflow:
             },
             "auto_promotion_allowed": False,
             "decision_timestamp": ts,
+            "evidence_refs": [
+                str(run_dir / "proposal_artifact.json"),
+                str(run_dir / "policy_approval.json"),
+                str(run_dir / "risk_classification.json"),
+                str(run_dir / "human_review.json"),
+                str(run_dir / "validation_report.json"),
+            ],
+            "rollback_ref": "",
             "note": "Auto-promotion disabled. A real human must confirm before production promotion.",
         })
 
@@ -393,6 +403,31 @@ class EvolveAgentWorkflow:
             if not str(resolved).startswith(agent_str):
                 raise PlanParseError(
                     f"target '{target}' escapes agent directory '{agent_path}'",
+                    reason="BLOCKED",
+                )
+
+    @staticmethod
+    def _check_protected_paths(plan: dict[str, Any], agent_path: Path) -> None:
+        from agentx_evolve.security.path_boundary_service import (
+            policy_for_phase, PHASE_POST_UMBRELLA_STAGE_B,
+        )
+        from agentx_evolve.security.sandbox_policy import is_protected_path
+
+        repo_root = agent_path.parents[3] if agent_path.parents else Path.cwd()
+        policy = policy_for_phase(PHASE_POST_UMBRELLA_STAGE_B, repo_root)
+
+        for action in plan.get("actions", []):
+            target = action.get("target", "")
+            if not target:
+                continue
+            resolved = (agent_path / target).resolve()
+            try:
+                repo_rel = str(resolved.relative_to(repo_root.resolve()))
+            except ValueError:
+                continue
+            if is_protected_path(repo_rel, policy):
+                raise PlanParseError(
+                    f"target '{target}' resolves to protected path '{repo_rel}'",
                     reason="BLOCKED",
                 )
 

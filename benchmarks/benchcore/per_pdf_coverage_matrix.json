@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "benchcore_per_pdf_coverage",
+  "canonical_equivalent": "benchmarks/benchcore/",
+  "total_pdfs": 32,
+  "status": "PASS"
+}

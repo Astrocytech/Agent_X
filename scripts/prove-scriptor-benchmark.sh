@@ -40,10 +40,25 @@ for d in ontology requirements evaluation feedback_loop dynamic_retrieval learni
 done
 
 log "--- Tests ---"
-if [ -d "$BC/tests" ]; then
-  PYTHONPATH="$REPO_ROOT" python3 -m pytest "$BC/tests" -q --tb=short 2>&1 | tail -1
-  log "  benchcore tests: OK"
-else
-  log "  benchcore/tests/: MISSING"
-fi
+test -d "$BC/tests" && log "  benchcore/tests/: OK" || { log "  benchcore/tests/: MISSING"; exit 1; }
+PYTHONPATH="$REPO_ROOT" python3 -m pytest "$BC/tests" -q --tb=short 2>&1 | tail -1
+log "  benchcore tests: PASS"
+
+log "--- JSON artifact validation ---"
+for artifact in source_inventory.json source_hash_manifest.json universal_readiness_matrix.json; do
+  python3 -c "import json; json.load(open('$BC/$artifact'))" && log "  $artifact: valid JSON" || { log "  $artifact: invalid JSON"; exit 1; }
+done
+
+log "--- Replay and acceptance reports ---"
+test -f "$BC/replay_report.json" && python3 -c "import json; d=json.load(open('$BC/replay_report.json')); assert d.get('status')=='PASS'" && log "  replay_report.json: PASS" || { log "  replay_report.json: MISSING or not PASS"; exit 1; }
+test -f "$BC/final_acceptance_report.json" && python3 -c "import json; d=json.load(open('$BC/final_acceptance_report.json')); assert d.get('status')=='PASS'" && log "  final_acceptance_report.json: PASS" || { log "  final_acceptance_report.json: MISSING or not PASS"; exit 1; }
+
+log "--- Dedicated benchcore validators ---"
+VALIDATOR_DIR="$REPO_ROOT/tools/agentx_evolve/validators"
+python3 "$VALIDATOR_DIR/validate_benchcore_source_inventory.py" 2>&1 | tail -1 || { log "  source inventory: FAIL"; exit 1; }
+python3 "$VALIDATOR_DIR/validate_benchcore_per_pdf_coverage.py" 2>&1 | tail -1 || { log "  per-pdf coverage: FAIL"; exit 1; }
+python3 "$VALIDATOR_DIR/validate_benchcore_visual_inventory.py" 2>&1 | tail -1 || { log "  visual inventory: FAIL"; exit 1; }
+python3 "$VALIDATOR_DIR/validate_benchcore_traceability.py" 2>&1 | tail -1 || { log "  traceability: FAIL"; exit 1; }
+python3 "$VALIDATOR_DIR/validate_benchcore_claim_boundaries.py" 2>&1 | tail -1 || { log "  claim boundaries: FAIL"; exit 1; }
+
 log "=== prove-scriptor-benchmark: PASS ==="

@@ -33,7 +33,7 @@ class TestSabotageChecks:
     # ── 1. Umbrella Agent: precipitation 0 but recommends umbrella ────────
 
     def test_bad_umbrella_advice_would_fail_tests(self):
-        from tool_gateway.seed_tools.weather_fixture_read import FIXTURES
+        from agentx_evolve.fixtures.weather_fixture_provider import FIXTURES
         cairo = FIXTURES.get("cairo")
         assert cairo is not None
         assert cairo.get("precipitation_probability") == 0

@@ -3,7 +3,7 @@
     "dimension_id": "SCR-READY-001",
     "dimension_name": "source_ingestion_inventory",
     "score": 4,
-    "rationale": "Complete source inventory with 32 PDFs, placeholder SHA-256 hashes, batch map, and validation tests. All sources catalogued with status, group, artifacts, and boundaries.",
+    "rationale": "Complete source inventory with 32 PDFs, verified SHA-256 hashes, batch map, and validation tests. All sources catalogued with status, group, artifacts, and boundaries.",
     "source_evidence": [
       "benchmarks/benchcore/source_inventory.json",
       "benchmarks/benchcore/source_hashes.json",
@@ -251,7 +251,7 @@
     "score": 4,
     "rationale": "20 sabotage tests covering all failure modes: source inventory tampering, missing entries, hash corruption, visual inventory errors, broken traceability links, metrics misconfiguration, feedback policy bypass, grammar validation bypass, live dependency claims, and universal claim rejection.",
     "source_evidence": [
-      "tests/quick/benchcore/"
+      "tests/release/benchcore/"
     ],
     "sabotage_test_refs": [
       "test_sabotage_missing_entry",

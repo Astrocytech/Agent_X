@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "amendment_id": "AMENDMENT-001",
+  "resolution": "Option B",
+  "separations": [
+    {
+      "artifact_type": "Stage A infrastructure",
+      "persistence": "Permanent",
+      "meaning": "Governance, schemas, command targets, validators, support code"
+    },
+    {
+      "artifact_type": "Stage B governed source/tests",
+      "persistence": "Ephemeral",
+      "meaning": "Actual governed self-evolution proof artifact created in temp workspace"
+    },
+    {
+      "artifact_type": "Permanent reference impl",
+      "persistence": "Permanent",
+      "meaning": "Optional reusable example at examples/umbrella_agent/, not Stage B artifact"
+    },
+    {
+      "artifact_type": "Reports/evidence/manifests",
+      "persistence": "Permanent/regenerable",
+      "meaning": "Audit proof"
+    }
+  ],
+  "status": "PASS"
+}

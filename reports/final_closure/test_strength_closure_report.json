@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "test_strength_closure_report",
+  "project": "Agent_X",
+  "commit": "1b7d4e5dc90551233be2787292d0d32e8a297d6a",
+  "canonical_equivalent": "reports/final_closure/five_document_requirement_matrix.json",
+  "test_strength_summary": {
+    "MEANINGFUL": 12,
+    "WEAK": 0,
+    "PLACEHOLDER": 0,
+    "MISSING": 0,
+    "NOT_APPLICABLE": 2
+  },
+  "status": "PASS"
+}

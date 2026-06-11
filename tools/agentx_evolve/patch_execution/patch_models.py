@@ -471,3 +471,39 @@ class PatchLimits:
     status: str = "ACTIVE"
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+
+
+@dataclass
+class PatchCandidate:
+    schema_version: str = SPEC_SCHEMA_VERSION
+    schema_id: str = "patch_candidate.schema.json"
+    candidate_id: str = ""
+    proposal_id: str = ""
+    context_packet_id: str = ""
+    prompt_contract_id: str = ""
+    risk_classification_id: str = ""
+    governance_decision_id: str = ""
+    session_id: str = ""
+    created_at: str = ""
+    source_commit: str = ""
+    operations: list[PatchOperation] = field(default_factory=list)
+    allowed_paths: list[str] = field(default_factory=list)
+    blocked_paths: list[str] = field(default_factory=list)
+    rollback_plan: str = ""
+    status: str = "CREATED"
+    validation_status: str = "NOT_RUN"
+    validation_commands: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict[str, Any]:
+        from dataclasses import asdict
+        d = asdict(self)
+        d["operations"] = [op.to_dict() if hasattr(op, "to_dict") else op for op in d["operations"]]
+        return d
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> PatchCandidate:
+        ops = [PatchOperation(**op) if isinstance(op, dict) else op for op in data.get("operations", [])]
+        data["operations"] = ops
+        return cls(**data)

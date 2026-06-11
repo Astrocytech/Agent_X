@@ -4,6 +4,9 @@
 
 Agent_X has integrated BenchCore as a real-world benchmark pack that strengthens its universal-agent foundation.
 
+> **Alias:** This directory is the repository-safe name for the **Scriptor** benchmark pack.
+> See [ALIAS_TO_SCRIPTOR.md](ALIAS_TO_SCRIPTOR.md) for details.
+
 ## What It Is
 
 A **governed, source-backed, replayable benchmark/capability pack** that:

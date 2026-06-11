@@ -1,0 +1,175 @@
+{
+  "generation_run": {
+    "session_id": "IMP-076434ca6968",
+    "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+    "generated_at": "2026-06-12T17:02:01Z",
+    "workspace": "/tmp/tmpjnt7a7w7-umbrella-gen",
+    "workspace_cleaned": false
+  },
+  "proposal": {
+    "proposal_id": "proposal-IMP-076434ca6968",
+    "title": "Generate Umbrella Agent with Full Deterministic Behavior",
+    "description": "Generate umbrella agent source with condition-aware recommendation logic, alert handling, malformed data detection, and structured output formatting.",
+    "risk_classification": "bounded",
+    "created_at": "2026-06-12T17:02:01Z"
+  },
+  "context_packet": {
+    "packet_id": "ctx-IMP-076434ca6968",
+    "target_component": "umbrella_agent",
+    "generation_strategy": "template-based",
+    "weather_provider": "tools/agentx_evolve/fixtures/weather_fixture_provider.py",
+    "condition_categories": {
+      "rain_like": [
+        "rain",
+        "shower",
+        "thunderstorm"
+      ],
+      "alert": [
+        "storm",
+        "heavy rain",
+        "freezing rain",
+        "sleet",
+        "hail"
+      ],
+      "drizzle": [
+        "drizzle"
+      ],
+      "snow": [
+        "snow"
+      ],
+      "clear": [
+        "clear"
+      ],
+      "overcast": [
+        "cloudy",
+        "overcast",
+        "fog",
+        "mist"
+      ]
+    },
+    "output_fields": [
+      "recommendation",
+      "answer",
+      "reason",
+      "weather_source",
+      "confidence"
+    ]
+  },
+  "prompt_contract": {
+    "contract_id": "pc-IMP-076434ca6968",
+    "input_schema": {
+      "location": "string (required)",
+      "date": "string (optional, defaults to today)"
+    },
+    "output_schema": {
+      "recommendation": "string: yes | no | maybe | alert | unknown",
+      "answer": "string (human-readable explanation)",
+      "reason": "string (why this recommendation was made)",
+      "weather_source": "string",
+      "confidence": "float 0.0-1.0",
+      "condition": "string or null",
+      "precipitation_probability": "float or null",
+      "temperature_c": "int or null",
+      "location": "string",
+      "date": "string"
+    },
+    "behavior_rules": [
+      "rain/shower/thunderstorm with precip>=40 -> yes",
+      "rain/shower/thunderstorm with precip<40 -> maybe",
+      "drizzle -> maybe",
+      "storm/heavy rain/freezing rain/sleet/hail -> alert",
+      "clear with precip<=5 -> no, confidence 0.9",
+      "snow with precip>=30 -> yes",
+      "malformed/missing condition -> unknown",
+      "provider failure -> unknown",
+      "missing precip -> unknown"
+    ]
+  },
+  "generated_files": [
+    {
+      "target_path": "examples/umbrella_agent/recommendation_engine.py",
+      "sha256": "08e2cba4168e4334b0b6a89e717cdfba8352b8d77b793fe9dc117af46739ef6b",
+      "size": 6441
+    },
+    {
+      "target_path": "examples/umbrella_agent/runtime.py",
+      "sha256": "8cbb76ca67bea09b64e89e48673042d1afc6f69db7b735d081f790b4b3e945c0",
+      "size": 1927
+    },
+    {
+      "target_path": "examples/umbrella_agent/__init__.py",
+      "sha256": "c0f1fa6dbe81bcf38149594550171e380b7296324961f99613fa0386e0222557",
+      "size": 177
+    },
+    {
+      "target_path": "tests/quick/umbrella_agent/test_recommendation_engine.py",
+      "sha256": "efb957f2c8f1072fdfb430409c4e8db6fb12dacc735a190219319accac419e3c",
+      "size": 5005
+    }
+  ],
+  "patch_execution": {
+    "session_id": "IMP-076434ca6968",
+    "mode": "LIVE",
+    "approved_paths": [
+      "examples/",
+      "tests/quick/umbrella_agent/"
+    ],
+    "result": {
+      "status": "APPLIED",
+      "session_id": "IMP-076434ca6968",
+      "applications": [
+        {
+          "operation_id": "op-2ba0b93056a3",
+          "target_path": "examples/umbrella_agent/recommendation_engine.py",
+          "status": "APPLIED",
+          "sha256_after": "08e2cba4168e4334b0b6a89e717cdfba8352b8d77b793fe9dc117af46739ef6b"
+        },
+        {
+          "operation_id": "op-5871ee43c619",
+          "target_path": "examples/umbrella_agent/runtime.py",
+          "status": "APPLIED",
+          "sha256_after": "8cbb76ca67bea09b64e89e48673042d1afc6f69db7b735d081f790b4b3e945c0"
+        },
+        {
+          "operation_id": "op-bac6dcc681ff",
+          "target_path": "examples/umbrella_agent/__init__.py",
+          "status": "APPLIED",
+          "sha256_after": "c0f1fa6dbe81bcf38149594550171e380b7296324961f99613fa0386e0222557"
+        },
+        {
+          "operation_id": "op-8cba52fbb4c5",
+          "target_path": "tests/quick/umbrella_agent/test_recommendation_engine.py",
+          "status": "APPLIED",
+          "sha256_after": "efb957f2c8f1072fdfb430409c4e8db6fb12dacc735a190219319accac419e3c"
+        }
+      ],
+      "errors": []
+    },
+    "files_attempted": 4,
+    "files_applied": 4,
+    "errors": []
+  },
+  "verification": {
+    "pytest_run": {
+      "exit_code": 0,
+      "summary": "32 passed in 0.07s",
+      "passed": true,
+      "stdout": "................................                                         [100%]\n32 passed in 0.07s\n",
+      "stderr": ""
+    },
+    "tests_passed": true
+  },
+  "provenance": {
+    "proof_target": "umbrella_agent_generation",
+    "commit": "601d68e4380f860651d4dbe6fec9f23a49d5425e",
+    "verified_at": "2026-06-12T17:02:01Z",
+    "provenance_chain": [
+      "generate_umbrella_agent.py creates temp workspace",
+      "Source files generated from templates",
+      "Patch executor writes files to repo",
+      "Pytest validates generated agent",
+      "Temp workspace destroyed",
+      "Evidence retained in reports/umbrella_agent/"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+{"$schema":"http://json-schema.org/draft-07/schema#","$id":"invariant_result.schema.json","title":"InvariantResult","type":"object","required":["invariant_id","passed","reason"],"properties":{"invariant_id":{"type":"string"},"passed":{"type":"boolean"},"reason":{"type":"string"},"action_id":{"type":"string"},"evidence_ref":{"type":"string"}}}

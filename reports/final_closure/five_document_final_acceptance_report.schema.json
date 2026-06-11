@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Five-Document Final Acceptance Report Schema",
+  "type": "object",
+  "properties": {
+    "final_verdict": {"type": "string", "enum": ["ACCEPTED", "NOT_ACCEPTED"]},
+    "repository": {"type": "string"},
+    "commit": {"type": "string"},
+    "dirty_tree": {"type": "boolean"},
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "document_id": {"type": "string"},
+          "status": {"type": "string", "enum": ["PASS", "FAIL", "BLOCKED", "UNKNOWN"]},
+          "requirements_total": {"type": "integer"},
+          "requirements_pass": {"type": "integer"},
+          "requirements_not_applicable": {"type": "integer"},
+          "requirements_unresolved": {"type": "integer"},
+          "evidence": {"type": "array", "items": {"type": "string"}}
+        },
+        "required": ["document_id", "status"]
+      }
+    },
+    "commands": {"type": "array", "items": {"type": "string"}},
+    "schemas_validated": {"type": "array", "items": {"type": "string"}},
+    "evidence_validated": {"type": "array", "items": {"type": "string"}},
+    "clean_checkout_replay": {"type": "string", "enum": ["PASS", "FAIL", "BLOCKED", "UNKNOWN"]},
+    "claim_boundary": {"type": "string", "enum": ["PASS", "FAIL"]},
+    "open_blockers": {"type": "array", "items": {"type": "string"}}
+  },
+  "required": ["final_verdict", "repository", "commit", "dirty_tree", "documents", "clean_checkout_replay", "claim_boundary"]
+}

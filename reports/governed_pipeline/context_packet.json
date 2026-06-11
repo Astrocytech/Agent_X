@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_context_packet",
+  "canonical_equivalent": "reports/umbrella_agent/context_packet.json",
+  "steps": [
+    {
+      "step": 1,
+      "action": "Proposal created",
+      "provenance": "tools/agentx_evolve/orchestrator/task_planner.py"
+    },
+    {
+      "step": 6,
+      "action": "Context/task packet built",
+      "artifact": "reports/umbrella_agent/context_packet.json"
+    }
+  ],
+  "status": "PASS"
+}

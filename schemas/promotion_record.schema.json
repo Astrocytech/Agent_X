@@ -7,7 +7,9 @@
     "artifact_path",
     "decision",
     "review_ref",
-    "timestamp_utc"
+    "timestamp_utc",
+    "proposal_id",
+    "candidate_id"
   ],
   "properties": {
     "promotion_id": {
@@ -21,7 +23,10 @@
       "enum": [
         "PROMOTED",
         "BLOCKED",
-        "DEFERRED"
+        "DEFERRED",
+        "APPROVED",
+        "DENIED",
+        "APPROVED_WITH_LIMITS"
       ]
     },
     "review_ref": {
@@ -32,6 +37,45 @@
     },
     "reason": {
       "type": "string"
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "candidate_id": {
+      "type": "string"
+    },
+    "policy_decision_id": {
+      "type": "string"
+    },
+    "rollback_ref": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Constraints or restrictions attached to the promotion decision"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": { "type": "string" },
+          "status": { "type": "string", "enum": ["MET", "UNMET", "WAIVED"] }
+        }
+      },
+      "description": "Preconditions that must be satisfied for promotion"
     }
   }
 }

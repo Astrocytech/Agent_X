@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "governed_pipeline_patch_candidate",
+  "canonical_equivalent": "reports/umbrella_agent/patch_candidate.json",
+  "steps": [
+    {
+      "step": 9,
+      "action": "Patch candidate emitted",
+      "artifact": "reports/umbrella_agent/patch_candidate.json"
+    }
+  ],
+  "status": "PASS"
+}

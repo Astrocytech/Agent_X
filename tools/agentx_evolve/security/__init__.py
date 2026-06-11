@@ -15,3 +15,11 @@ from .safe_file_ops import safe_read_file, safe_write_file, safe_exact_edit, saf
 from .safe_subprocess import check_subprocess_allowed
 from .network_policy import check_network_allowed
 from .secret_redactor import redact_secrets
+
+from .path_boundary_service import (
+    policy_for_phase, register_phase, list_phases,
+    PHASE_UMBRELLA_STAGE_A, PHASE_UMBRELLA_STAGE_B,
+    PHASE_POST_UMBRELLA_STAGE_A, PHASE_POST_UMBRELLA_STAGE_B,
+    PHASE_INVERSE_SCIENCE_PLANNING, PHASE_INVERSE_SCIENCE_GOVERNED,
+    PHASE_BENCHCORE_BENCHMARK, PHASE_FINAL_ACCEPTANCE, PHASE_CANARY,
+)
