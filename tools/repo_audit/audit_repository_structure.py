@@ -54,6 +54,7 @@ def main() -> int:
         "L0/tests", "L1/tests", "L2/tests",
         "tools/agentx_initiator/tests", "tools/agentx_evolve/tests",
         "tests/quick", "tests/dev", "tests/release",
+        "benchmarks/benchcore/tests",
         "examples/umbrella_agent", "examples/clothing_agent",
         "examples/daily_planning_agent",
     }

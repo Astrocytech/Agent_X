@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-quick test-dev test-release test-sabotage test-security test-all test-live test-l0 test-l1 test-l2 test-initiator test-evolve audit-structure prove-organization prove-hygiene prove-umbrella-agent run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-quick test-dev test-release test-sabotage test-security test-all test-live test-l0 test-l1 test-l2 test-initiator test-evolve audit-structure prove-organization prove-hygiene prove-umbrella-agent prove-post-umbrella prove-inverse-science prove-scriptor-benchmark final-acceptance run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -71,7 +71,7 @@ prove-format:
 	@echo "=== prove-format: OK ==="
 
 # target_id: P2-C007
-prove-all: audit-structure prove-seed prove-l1 prove-l2 prove-format
+prove-all: prove-seed prove-format prove-l1 prove-l2 test-initiator test-evolve test-integration test-system test-regression test-all prove-umbrella-agent prove-post-umbrella prove-inverse-science prove-scriptor-benchmark final-acceptance audit-structure
 	@echo "=== prove-all: OK ==="
 
 # target_id: P2-C008
@@ -120,16 +120,12 @@ test-all:
 # ── Legacy aliases (deprecated, route to new tiers) ────────────────────────
 
 test-smoke: test-quick
-	@echo "test-smoke is deprecated, use 'make test-quick'"
 
 test-integration: test-release
-	@echo "test-integration is deprecated, use 'make test-release'"
 
 test-system: test-release
-	@echo "test-system is deprecated, use 'make test-release'"
 
 test-regression: test-release
-	@echo "test-regression is deprecated, use 'make test-release'"
 
 test-l0: prove-seed
 
@@ -167,6 +163,17 @@ prove-inverse-science:
 # target_id: P2-C020-alt3
 prove-scriptor-benchmark:
 	bash scripts/prove-scriptor-benchmark.sh
+
+# target_id: P2-C020-alt4
+final-acceptance:
+	$(PYTHON) tools/agentx_evolve/validators/validate_five_document_matrix.py .agentx-init/five_document_closure/matrix/five_document_traceability_matrix.json
+	$(PYTHON) tools/agentx_evolve/validators/validate_evidence_manifest.py .agentx-init/five_document_closure/final/five_document_evidence_manifest.json
+	$(PYTHON) tools/agentx_evolve/validators/validate_event_log.py .agentx-init/five_document_closure/final/five_document_event_log_validation.json
+	$(PYTHON) tools/agentx_evolve/validators/validate_clean_replay_report.py .agentx-init/five_document_closure/final/five_document_clean_checkout_replay.json
+	$(PYTHON) tools/agentx_evolve/validators/validate_claims.py .agentx-init/five_document_closure/final/five_document_claim_validation.json
+	$(PYTHON) tools/agentx_evolve/validators/scan_secrets_in_evidence.py
+	$(PYTHON) -c "import json; json.load(open('.agentx-init/five_document_closure/final/five_document_source_hash_manifest_after.json')); print('PASS: source hash manifest validates')"
+	@echo "=== final-acceptance: OK ==="
 
 # target_id: P2-C021
 run:

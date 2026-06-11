@@ -1,0 +1,73 @@
+{
+  "run_id": "stage-b-self-evolution-001",
+  "stage": "B",
+  "milestone": "UMBRELLA_AGENT_REAL_SELF_EVOLUTION_MVP",
+  "workspace_type": "temp",
+  "workspace_commit": "a949f6c",
+  "worker_id": "agentx-evolve-worker-001",
+  "pipeline_steps": [
+    {
+      "name": "proposal",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/patch_candidate.json"
+    },
+    {
+      "name": "risk_assessment",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/umbrella_decision.json"
+    },
+    {
+      "name": "context_gathering",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/context_packet.json"
+    },
+    {
+      "name": "prompt_contract",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/prompt_contract_used.json"
+    },
+    {
+      "name": "patch_candidate",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/patch_candidate.json"
+    },
+    {
+      "name": "validate",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/patch_execution_report.json"
+    },
+    {
+      "name": "evidence",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/evidence_manifest.json"
+    },
+    {
+      "name": "review",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/umbrella_decision.json"
+    },
+    {
+      "name": "promotion",
+      "status": "PASS",
+      "artifact_path": "reports/umbrella_agent/promotion_report.json"
+    }
+  ],
+  "fixture_results": [
+    {"case_id": "UA-FIX-001", "expected": "maybe", "actual": "maybe", "pass": true},
+    {"case_id": "UA-FIX-002", "expected": "no", "actual": "no", "pass": true},
+    {"case_id": "UA-FIX-003", "expected": "no", "actual": "no", "pass": true},
+    {"case_id": "UA-FIX-004", "expected": "yes", "actual": "yes", "pass": true},
+    {"case_id": "UA-FIX-005", "expected": "maybe", "actual": "maybe", "pass": true},
+    {"case_id": "UA-FIX-006", "expected": "yes", "actual": "yes", "pass": true},
+    {"case_id": "UA-FIX-007", "expected": "maybe", "actual": "maybe", "pass": true},
+    {"case_id": "UA-FIX-008", "expected": "no", "actual": "no", "pass": true},
+    {"case_id": "UA-FIX-009", "expected": "no", "actual": "no", "pass": true},
+    {"case_id": "UA-FIX-010", "expected": "yes", "actual": "yes", "pass": true}
+  ],
+  "fixture_pass_count": 10,
+  "fixture_fail_count": 0,
+  "tests_passed": 10,
+  "tests_total": 10,
+  "verdict": "PASS",
+  "timestamp": "2026-06-10T13:11:30Z"
+}

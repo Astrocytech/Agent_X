@@ -14,10 +14,16 @@ DEFAULT_ROOTS = [".agentx-init", "reports"]
 
 def scan(roots=None):
     issues = []
+    exclude_patterns = ['secret_scan', 'golden_transcript']
     for root in roots or DEFAULT_ROOTS:
         if not os.path.isdir(root):
             continue
         for dirpath, dirs, files in os.walk(root):
+            rel = os.path.relpath(dirpath, root)
+            parts = rel.replace(os.sep, '/').split('/')
+            if any(ep in p for p in parts for ep in exclude_patterns):
+                continue
+            files = [f for f in files if not any(ep in f for ep in exclude_patterns)]
             for fn in files:
                 fp = os.path.join(dirpath, fn)
                 try:

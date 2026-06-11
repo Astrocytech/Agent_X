@@ -1,0 +1,39 @@
+{
+  "patch_id": "patch-umbrella-stage-b-001",
+  "proposal_id": "umbrella-agent-001",
+  "context_packet_id": "ctx-umbrella-001",
+  "prompt_contract_id": "prompt-umbrella-001",
+  "worker_output_id": "worker-output-umbrella-001",
+  "session_id": "IMP-umbrella-001",
+  "governance_decision_id": "gov-umbrella-001",
+  "governance_policy_id": "policy-umbrella-001",
+  "execution_mode": "DRY_RUN+LIVE",
+  "changed_files": [
+    {
+      "path": "umbrella_agent/__init__.py",
+      "hash_before": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash_after": "EPHEMERAL_TEMP_WORKSPACE",
+      "change_type": "CREATE"
+    },
+    {
+      "path": "umbrella_agent/weather_fixture.py",
+      "hash_before": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash_after": "EPHEMERAL_TEMP_WORKSPACE",
+      "change_type": "CREATE"
+    },
+    {
+      "path": "tests/test_umbrella_agent.py",
+      "hash_before": "0000000000000000000000000000000000000000000000000000000000000000",
+      "hash_after": "EPHEMERAL_TEMP_WORKSPACE",
+      "change_type": "CREATE"
+    }
+  ],
+  "total_files_changed": 3,
+  "review_id": "gov-umbrella-001",
+  "review_verdict": "APPROVED",
+  "promotion_id": "promo-umbrella-001",
+  "promotion_verdict": "PROMOTE",
+  "manual_edit": false,
+  "persistence": "ephemeral",
+  "generated_at": "2026-06-10T13:11:30Z"
+}

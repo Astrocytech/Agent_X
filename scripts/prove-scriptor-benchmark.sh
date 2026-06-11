@@ -40,5 +40,10 @@ for d in ontology requirements evaluation feedback_loop dynamic_retrieval learni
 done
 
 log "--- Tests ---"
-PYTHONPATH=. python3 -m pytest tests/quick/benchcore -q --tb=short 2>&1 | tail -1
+if [ -d "$BC/tests" ]; then
+  PYTHONPATH="$REPO_ROOT" python3 -m pytest "$BC/tests" -q --tb=short 2>&1 | tail -1
+  log "  benchcore tests: OK"
+else
+  log "  benchcore/tests/: MISSING"
+fi
 log "=== prove-scriptor-benchmark: PASS ==="

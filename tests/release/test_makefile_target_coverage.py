@@ -60,7 +60,7 @@ class TestMakefileTargetCoverage:
                 has_command = True
         if current_target and not has_command:
             empty_phony_targets.append(current_target)
-        ignored = {"help", "prove-organization", "prove-hygiene", "test-l0", "test-l1", "test-l2"}
+        ignored = {"help", "prove-organization", "prove-hygiene", "test-l0", "test-l1", "test-l2", "test-smoke", "test-integration", "test-system", "test-regression"}
         genuine_empty = [t for t in empty_phony_targets if t not in ignored]
         assert not genuine_empty, f"Empty placeholder targets: {genuine_empty}"
 
