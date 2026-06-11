@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_governance_decision",
+  "title": "Inverse Science Governance Decision",
+  "type": "object",
+  "required": [
+    "decision_id",
+    "candidate_id",
+    "plan_id",
+    "schema_version",
+    "decision",
+    "policy_checks",
+    "capability_checks",
+    "path_boundary_checks",
+    "risk_level",
+    "limits",
+    "reason",
+    "review_requirement",
+    "created_at_utc"
+  ],
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "pattern": "^INVSCI-GOV-[A-Z0-9-]+$"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^INVSCI-CAND-[A-Z0-9-]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "allow_with_limits", "defer", "reject", "require_reframe"]
+    },
+    "policy_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check", "result"],
+        "properties": {
+          "check": { "type": "string" },
+          "result": { "type": "string", "enum": ["PASS", "FAIL", "UNKNOWN"] },
+          "detail": { "type": "string" }
+        },
+        "additionalProperties": true
+      }
+    },
+    "capability_checks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "path_boundary_checks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reason": {
+      "type": "string"
+    },
+    "review_requirement": {
+      "type": "string",
+      "description": "Human review requirement for this decision"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

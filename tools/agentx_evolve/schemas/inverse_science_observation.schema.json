@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_observation",
+  "title": "Inverse Science Observation",
+  "type": "object",
+  "required": [
+    "observation_id",
+    "candidate_id",
+    "plan_id",
+    "schema_version",
+    "actual_action",
+    "tools_used",
+    "tests_run",
+    "outputs_observed",
+    "unexpected_side_effects",
+    "validity_status",
+    "raw_evidence_paths",
+    "created_at_utc"
+  ],
+  "properties": {
+    "observation_id": {
+      "type": "string",
+      "pattern": "^INVSCI-OBS-[A-Z0-9-]+$"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^INVSCI-CAND-[A-Z0-9-]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "actual_action": {
+      "type": "string"
+    },
+    "tools_used": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tests_run": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "outputs_observed": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unexpected_side_effects": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "validity_status": {
+      "type": "string",
+      "enum": ["valid", "invalid", "uncertain"]
+    },
+    "raw_evidence_paths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

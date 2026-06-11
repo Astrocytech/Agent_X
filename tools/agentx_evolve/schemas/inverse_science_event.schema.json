@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_event",
+  "title": "Inverse Science Event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "sequence_id",
+    "plan_id",
+    "schema_version",
+    "event_type",
+    "created_at_utc"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^INVSCI-EVT-[A-Z0-9-]+$"
+    },
+    "sequence_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "plan_created",
+        "candidate_generated",
+        "candidate_ranked",
+        "candidate_selected",
+        "governance_decision_created",
+        "probe_started",
+        "probe_completed",
+        "observation_recorded",
+        "evidence_recorded",
+        "negative_knowledge_recorded",
+        "best_known_solution_updated",
+        "backtrack_requested",
+        "checkpoint_created",
+        "checkpoint_restored",
+        "final_report_created"
+      ]
+    },
+    "event_data": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

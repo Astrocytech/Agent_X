@@ -88,6 +88,8 @@ def main() -> None:
         _run_init_agent(args[1:])
     elif cmd == "evolve-agent":
         _run_evolve_agent(args[1:])
+    elif cmd == "inverse":
+        _run_inverse(args[1:])
     elif cmd == "help" or cmd == "--help" or cmd == "-h":
         _print_help()
         sys.exit(0)
@@ -108,7 +110,17 @@ def _print_help() -> None:
     print("  self-upgrade [options]     Self-upgrade plan or apply")
     print("  init-agent [options]       Initialize a new agent")
     print("  evolve-agent [options]     Evolve an external agent")
+    print("  inverse <subcommand>       Inverse science planning workflow")
     print("  version                    Show version")
+    print()
+    print("Inverse science subcommands:")
+    print("  init                       Initialize a plan")
+    print("  candidates                 List/generate candidates")
+    print("  rank                       Rank candidates")
+    print("  govern                     Make governance decision")
+    print("  observe                    Record observation")
+    print("  report                     Create final report")
+    print("  validate                   Validate artifacts")
     print()
     print("Chat options:")
     print("  --once <message>           One-shot chat message")
@@ -130,6 +142,53 @@ def _print_help() -> None:
     print("Init-agent options:")
     print("  --name <agent-name>        Agent name")
     print("  --dest <path>              Destination directory")
+
+
+def _run_inverse(argv: list) -> None:
+    """Dispatch inverse science subcommands."""
+    if not argv:
+        print("Usage: agentx-evolve inverse <subcommand> [options]")
+        print()
+        print("Subcommands:")
+        print("  init          Initialize a plan")
+        print("  candidates    List/generate candidates")
+        print("  rank          Rank candidates")
+        print("  govern        Make governance decision")
+        print("  observe       Record observation")
+        print("  report        Create final report")
+        print("  validate      Validate artifacts")
+        sys.exit(0)
+
+    sub = argv[0]
+    sub_argv = argv[1:]
+
+    if sub in ("--help", "-h"):
+        _run_inverse([])
+        return
+
+    from agentx_evolve.workflows.inverse_science import (
+        cmd_init, cmd_candidates, cmd_rank, cmd_govern,
+        cmd_observe, cmd_report, cmd_validate,
+    )
+
+    dispatch = {
+        "init": cmd_init,
+        "candidates": cmd_candidates,
+        "rank": cmd_rank,
+        "govern": cmd_govern,
+        "observe": cmd_observe,
+        "report": cmd_report,
+        "validate": cmd_validate,
+    }
+
+    handler = dispatch.get(sub)
+    if handler is None:
+        print(f"Unknown inverse subcommand: {sub}")
+        print("Available: init, candidates, rank, govern, observe, report, validate")
+        sys.exit(1)
+
+    rc = handler(sub_argv)
+    sys.exit(rc)
 
 
 def _chat_help() -> None:

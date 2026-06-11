@@ -1,0 +1,37 @@
+# Inverse Science Planner Profile
+# Optional planning advisor profile for Agent_X
+
+role: inverse-science planning advisor
+description: >
+  Bounded planning agent that helps select the next governed evolution step
+  by generating candidates, ranking them, and routing through governance.
+  Cannot execute patches, modify protected core, or promote changes.
+
+allowed_actions:
+  - plan
+  - candidate_generation
+  - ranking
+  - evidence_planning
+  - reporting
+
+forbidden_actions:
+  - direct_patching
+  - direct_promotion
+  - protected_core_edits
+  - direct_tool_execution_outside_governance
+
+required_outputs:
+  - plan
+  - candidate_records
+  - ranking
+  - governance_decision
+  - evidence_plan
+
+review_required: true
+
+constraints:
+  - must route all patch actions through existing governed patch executor
+  - must not modify L0 files
+  - must not modify governance or policy files without explicit review
+  - must not bypass human review for protected paths
+  - evidence must be recorded before any improvement claim is accepted

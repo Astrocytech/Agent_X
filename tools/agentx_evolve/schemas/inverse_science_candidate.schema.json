@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_candidate",
+  "title": "Inverse Science Candidate",
+  "type": "object",
+  "required": [
+    "candidate_id",
+    "plan_id",
+    "schema_version",
+    "candidate_type",
+    "proposed_change",
+    "primary_variable_changed",
+    "rationale",
+    "score_components",
+    "acquisition_score",
+    "hard_constraint_check",
+    "rollback_plan",
+    "evidence_plan",
+    "human_review_required",
+    "created_at_utc"
+  ],
+  "properties": {
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^INVSCI-CAND-[A-Z0-9-]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "candidate_type": {
+      "type": "string",
+      "enum": ["patch", "test", "document", "profile", "other"]
+    },
+    "proposed_change": {
+      "type": "string",
+      "description": "Description of the proposed change"
+    },
+    "primary_variable_changed": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "score_components": {
+      "type": "object",
+      "required": [
+        "expected_target_gain",
+        "expected_information_gain",
+        "novelty",
+        "reversibility_bonus",
+        "constraint_risk",
+        "safety_risk",
+        "cost",
+        "complexity_penalty"
+      ],
+      "properties": {
+        "expected_target_gain": { "type": "number" },
+        "expected_information_gain": { "type": "number" },
+        "novelty": { "type": "number" },
+        "reversibility_bonus": { "type": "number" },
+        "constraint_risk": { "type": "number" },
+        "safety_risk": { "type": "number" },
+        "cost": { "type": "number" },
+        "complexity_penalty": { "type": "number" }
+      },
+      "additionalProperties": true
+    },
+    "acquisition_score": {
+      "type": "number",
+      "description": "Sum of expected_target_gain + expected_information_gain + novelty + reversibility_bonus - constraint_risk - safety_risk - cost - complexity_penalty"
+    },
+    "hard_constraint_check": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "UNKNOWN"]
+    },
+    "rollback_plan": {
+      "type": "string"
+    },
+    "evidence_plan": {
+      "type": "string"
+    },
+    "human_review_required": {
+      "type": "boolean"
+    },
+    "human_review_requirement": {
+      "type": "string"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "if": {
+    "properties": { "hard_constraint_check": { "const": "FAIL" } },
+    "required": ["hard_constraint_check"]
+  },
+  "then": {
+    "properties": { "human_review_required": { "const": true } }
+  },
+  "additionalProperties": false
+}

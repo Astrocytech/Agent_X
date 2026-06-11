@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_best_known_solution",
+  "title": "Inverse Science Best Known Solution",
+  "type": "object",
+  "required": [
+    "entry_id",
+    "plan_id",
+    "schema_version",
+    "status",
+    "description",
+    "evidence_ledger_entries",
+    "candidate_id",
+    "overclaim_blockers",
+    "created_at_utc"
+  ],
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "pattern": "^INVSCI-BKS-[A-Z0-9-]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "best_found_input",
+        "local_optimum",
+        "global_optimum",
+        "exact_inverse",
+        "approximate_inverse",
+        "feasible_solution",
+        "proven_impossibility",
+        "unresolved"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "evidence_ledger_entries": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^INVSCI-EVID-[A-Z0-9-]+$" }
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "^INVSCI-CAND-[A-Z0-9-]+$"
+    },
+    "overclaim_blockers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "if": {
+    "properties": { "status": { "const": "global_optimum" } },
+    "required": ["status"]
+  },
+  "then": {
+    "properties": { "overclaim_blockers": { "type": "array", "items": { "type": "string" }, "minItems": 1 } }
+  },
+  "additionalProperties": false
+}

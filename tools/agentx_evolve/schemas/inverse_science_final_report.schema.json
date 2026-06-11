@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_final_report",
+  "title": "Inverse Science Final Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "plan_id",
+    "schema_version",
+    "plan",
+    "candidates",
+    "selected_candidate",
+    "governance_decision",
+    "observations",
+    "evidence_ledger",
+    "negative_knowledge",
+    "best_known_solution",
+    "event_log_path",
+    "evidence_manifest_id",
+    "verdict",
+    "overclaim_check",
+    "created_at_utc"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "pattern": "^INVSCI-REPORT-[A-Z0-9-]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "minItems": 1
+    },
+    "selected_candidate": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "governance_decision": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "evidence_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "negative_knowledge": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "best_known_solution": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "event_log_path": {
+      "type": "string"
+    },
+    "evidence_manifest_id": {
+      "type": "string"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["ACCEPTED_AS_OPTIONAL_INVERSE_SCIENCE_PLANNING_LAYER", "NOT_ACCEPTED"]
+    },
+    "overclaim_check": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "check": { "type": "string" },
+          "result": { "type": "string", "enum": ["PASS", "FAIL", "UNKNOWN"] }
+        },
+        "additionalProperties": true
+      }
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}

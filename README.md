@@ -463,6 +463,10 @@ make run
 - [L1/README.md](L1/README.md) — L1 evolution controller documentation
 - [L2/README.md](L2/README.md) — L2 specialization documentation
 
+## Optional Planning Methods
+
+- [Inverse Scientific Method](docs/methods/INVERSE_SCIENTIFIC_METHOD.md) — optional planning discipline for selecting the next governed evolution step
+
 ## Commands
 
 | Command | Purpose |

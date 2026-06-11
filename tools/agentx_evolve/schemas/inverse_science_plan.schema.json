@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agentx.example/schemas/inverse_science_plan",
+  "title": "Inverse Science Plan",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "schema_version",
+    "target",
+    "desired_output",
+    "success_criteria",
+    "unacceptable_outputs",
+    "hard_constraints",
+    "soft_constraints",
+    "allowed_actions",
+    "forbidden_actions",
+    "allowed_paths",
+    "forbidden_paths",
+    "identifiability_status",
+    "candidate_generation_policy",
+    "governance_required",
+    "black_box_characterization",
+    "created_at_utc"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "target": {
+      "type": "string",
+      "description": "What is being planned for"
+    },
+    "desired_output": {
+      "type": "string",
+      "description": "The desired outcome to achieve"
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "unacceptable_outputs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "hard_constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "soft_constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "allowed_paths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "forbidden_paths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "black_box_characterization": {
+      "type": "string"
+    },
+    "identifiability_status": {
+      "type": "string",
+      "enum": ["identifiable", "not_identifiable", "partially_identifiable"]
+    },
+    "candidate_generation_policy": {
+      "type": "string",
+      "enum": ["generate_all", "generate_top_n", "manual_only"]
+    },
+    "governance_required": {
+      "type": "boolean"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "if": {
+    "properties": { "identifiability_status": { "const": "not_identifiable" } },
+    "required": ["identifiability_status"]
+  },
+  "then": {
+    "properties": { "candidate_generation_policy": { "const": "manual_only" } }
+  },
+  "additionalProperties": false
+}

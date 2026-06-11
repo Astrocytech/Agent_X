@@ -19,6 +19,9 @@ FIXTURES: dict[str, dict] = {
     "oslo": {"precipitation_probability": 55, "condition": "cloudy", "temperature_c": 10},
     "dubai": {"precipitation_probability": 0, "condition": "clear", "temperature_c": 40},
     "moscow": {"precipitation_probability": 35, "condition": "cloudy", "temperature_c": 5},
+    "vancouver": {"precipitation_probability": 35, "condition": "drizzle", "temperature_c": 12},
+    "reykjavik": {"precipitation_probability": 65, "condition": "snow", "temperature_c": -2},
+    "anchorage": {"precipitation_probability": 25, "condition": "snow", "temperature_c": -5},
 }
 
 API_BASE_URL = "https://api.weather.example.com/v1"
