@@ -1,0 +1,8 @@
+{
+  "location": "hot_day",
+  "temperature_c": 35,
+  "condition": "clear",
+  "wind_speed_kph": 5,
+  "event_type": null,
+  "source": "fixture"
+}

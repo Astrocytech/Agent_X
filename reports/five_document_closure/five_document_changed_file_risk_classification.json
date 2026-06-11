@@ -1,0 +1,9 @@
+[
+  {
+    "path": "tests/quick/inverse_science/test_inverse_science.py",
+    "change_type": "MODIFIED",
+    "artifact_class": "TEST",
+    "risk": "MEDIUM",
+    "accepted": true
+  }
+]

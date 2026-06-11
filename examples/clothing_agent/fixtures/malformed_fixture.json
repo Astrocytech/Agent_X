@@ -1,0 +1,8 @@
+{
+  "location": "malformed_fixture",
+  "temperature_c": "not-a-number",
+  "condition": "clear",
+  "wind_speed_kph": 10,
+  "event_type": null,
+  "source": "fixture"
+}

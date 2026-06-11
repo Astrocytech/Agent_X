@@ -1,0 +1,13 @@
+{
+  "scenario": "too_many",
+  "tasks": [
+    {"id": "t1", "title": "Task A", "duration_min": 120, "deadline": "2026-06-11 10:00", "urgency": "high"},
+    {"id": "t2", "title": "Task B", "duration_min": 120, "deadline": "2026-06-11 12:00", "urgency": "high"},
+    {"id": "t3", "title": "Task C", "duration_min": 120, "deadline": "2026-06-11 14:00", "urgency": "medium"},
+    {"id": "t4", "title": "Task D", "duration_min": 120, "deadline": "2026-06-11 16:00", "urgency": "medium"},
+    {"id": "t5", "title": "Task E", "duration_min": 120, "deadline": "2026-06-11 18:00", "urgency": "low"},
+    {"id": "t6", "title": "Task F", "duration_min": 120, "deadline": "2026-06-12 10:00", "urgency": "low"}
+  ],
+  "time_budget_min": 480,
+  "source": "fixture"
+}

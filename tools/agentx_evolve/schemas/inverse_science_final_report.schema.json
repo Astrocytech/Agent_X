@@ -7,6 +7,13 @@
     "report_id",
     "plan_id",
     "schema_version",
+    "target_capability",
+    "hard_constraints",
+    "soft_preferences",
+    "allowed_inputs",
+    "forbidden_inputs",
+    "evidence_refs",
+    "status",
     "plan",
     "candidates",
     "selected_candidate",
@@ -33,6 +40,40 @@
     "schema_version": {
       "type": "string",
       "const": "1.0.0"
+    },
+    "target_capability": {
+      "type": "string",
+      "description": "The target capability the inverse science phase addresses"
+    },
+    "hard_constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Hard constraints applied during planning"
+    },
+    "soft_preferences": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Soft preferences considered during planning"
+    },
+    "allowed_inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Allowed input domains for candidates"
+    },
+    "forbidden_inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Forbidden input domains for candidates"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to evidence records supporting the report"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACCEPTED", "NOT_ACCEPTED", "INCONCLUSIVE"],
+      "description": "Overall status of the inverse science phase"
     },
     "plan": {
       "type": "object",

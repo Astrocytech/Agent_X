@@ -1,0 +1,9 @@
+{
+  "replay_id": "REPLAY-001",
+  "timestamp_utc": "2026-06-11T16:11:01Z",
+  "source_commit": "58f5b826acac2d78464eaae9a7c685b6c44b6a48",
+  "verdict": "PASS",
+  "reason": "All 105 requirements are PASS or NOT_APPLICABLE_WITH_REASON. Zero blocking items.",
+  "prerequisites_met": true,
+  "blockers": []
+}

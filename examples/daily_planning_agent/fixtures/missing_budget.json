@@ -1,0 +1,9 @@
+{
+  "scenario": "missing_budget",
+  "tasks": [
+    {"id": "t1", "title": "Plan sprint", "duration_min": 60, "deadline": "2026-06-11 10:00", "urgency": "high"},
+    {"id": "t2", "title": "Write tests", "duration_min": 45, "deadline": "2026-06-11 14:00", "urgency": "medium"}
+  ],
+  "time_budget_min": null,
+  "source": "fixture"
+}

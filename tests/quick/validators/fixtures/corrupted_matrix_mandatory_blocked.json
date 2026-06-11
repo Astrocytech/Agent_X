@@ -1,0 +1,9 @@
+{
+  "requirements": [
+    {
+      "requirement_id": "R1",
+      "status": "BLOCKED",
+      "mandatory": true
+    }
+  ]
+}

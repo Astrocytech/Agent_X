@@ -114,6 +114,9 @@ seed_l0_gateway:
   - L0/CODE/tool_gateway/tool_certification.py
   - L0/CODE/tool_gateway/seed_tools/__init__.py
   - L0/CODE/tool_gateway/seed_tools/emit_answer.py
+  - L0/CODE/tool_gateway/seed_tools/clothing_fixture_read.py
+  - L0/CODE/tool_gateway/seed_tools/planning_fixture_read.py
+  - L0/CODE/tool_gateway/seed_tools/weather_fixture_read.py
 
 seed_l0_governance:
   - L0/CODE/governance/__init__.py

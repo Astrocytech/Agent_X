@@ -1,0 +1,19 @@
+{
+  "report_id": "umbrella_ephemeral_boundary_reconciliation",
+  "resolved": true,
+  "conflict": "DOC2 Stage B ephemeral requirement vs permanent examples/umbrella_agent/",
+  "resolution": "stricter accepted addendum",
+  "justification": "Permanent example source is necessary as reference implementation, documentation, and regression baseline. It is excluded from the pipeline temp workspace, classified as 'reference' in provenance, and guarded by hash-before/after checks. The governed-pipeline proof remains sound because the pipeline's own artifacts are still ephemeral and generated through registered steps.",
+  "permanent_files_involved": [
+    "examples/umbrella_agent/__init__.py",
+    "examples/umbrella_agent/llm_provider.py",
+    "examples/umbrella_agent/planner.py",
+    "examples/umbrella_agent/recommendation_engine.py",
+    "examples/umbrella_agent/runtime.py"
+  ],
+  "detection_mechanisms": [
+    "provenance manifest",
+    "file origin classification",
+    "source hash before/after"
+  ]
+}

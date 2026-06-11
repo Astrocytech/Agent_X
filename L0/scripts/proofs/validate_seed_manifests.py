@@ -70,7 +70,7 @@ FORBIDDEN_IMPORTS = {
     "conda",
 }
 
-ALLOWED_SEED_TOOLS = {"emit_answer.py"}
+ALLOWED_SEED_TOOLS = {"emit_answer.py", "weather_fixture_read.py", "clothing_fixture_read.py", "planning_fixture_read.py"}
 
 FORBIDDEN_IMPORT_EXEMPT = {
     "L0/CODE/core_kernel/evidence/",
@@ -285,8 +285,9 @@ def validate_seed_tool_registry() -> None:
     sys.path.insert(0, str(ROOT / "L0/CODE"))
     from tool_gateway.seed_tool_registry import list_seed_tool_names  # type: ignore[import-untyped]
     names = list_seed_tool_names()
-    if set(names) != {"seed.emit_answer"}:
-        raise AssertionError(f"seed tools must be exactly seed.emit_answer, got: {names}")
+    expected = {"seed.emit_answer", "weather.fixture.read", "clothing.fixture.read", "planning.fixture.read"}
+    if set(names) != expected:
+        raise AssertionError(f"seed tools must be exactly {expected}, got: {set(names)}")
 
 
 def validate_blocked_capabilities() -> None:

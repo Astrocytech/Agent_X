@@ -1,0 +1,8 @@
+{
+  "location": "rainy_day",
+  "temperature_c": 15,
+  "condition": "rain",
+  "wind_speed_kph": 15,
+  "event_type": null,
+  "source": "fixture"
+}

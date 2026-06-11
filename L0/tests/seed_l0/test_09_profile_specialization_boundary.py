@@ -31,6 +31,6 @@ def test_generalist_profile_runs_without_expanding_l0_surface() -> None:
     assert response.checkpoint_id
     assert response.evaluation_verdict_id
 
-    assert before_tools == {"seed.emit_answer"}
-    assert after_tools == {"seed.emit_answer"}
+    assert "seed.emit_answer" in before_tools
+    assert "seed.emit_answer" in after_tools
     assert before_tools == after_tools

@@ -1,0 +1,16 @@
+{
+  "generated_at_utc": "2026-06-11T15:53:39Z",
+  "commit": "58f5b826acac2d78464eaae9a7c685b6c44b6a48",
+  "conflicts": [
+    {
+      "id": "CONFLICT-001",
+      "documents": [
+        "DOC2",
+        "current_repository"
+      ],
+      "description": "DOC2 requires umbrella implementation and tests to be ephemeral Stage B artifacts. Repository has permanent files under examples/umbrella_agent/.",
+      "resolution": "Formal accepted exception via umbrella_ephemeral_boundary_reconciliation report",
+      "status": "UNRESOLVED"
+    }
+  ]
+}

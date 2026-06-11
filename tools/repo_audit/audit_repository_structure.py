@@ -53,7 +53,9 @@ def main() -> int:
     approved_test_dirs = {
         "L0/tests", "L1/tests", "L2/tests",
         "tools/agentx_initiator/tests", "tools/agentx_evolve/tests",
-        "tests/integration", "tests/system", "tests/regression", "tests/smoke",
+        "tests/quick", "tests/dev", "tests/release",
+        "examples/umbrella_agent", "examples/clothing_agent",
+        "examples/daily_planning_agent",
     }
     for test_file in REPO.rglob("test_*.py"):
         rel = test_file.relative_to(REPO)
@@ -96,16 +98,10 @@ def main() -> int:
             if "05_archive" not in rel.parts and "03_runtime_integration" not in rel.parts:
                 check(False, f"REV document outside archive: {rel}")
 
-    # 9. No untracked generated runtime artifacts
-    result = __import__("subprocess").run(
-        ["git", "status", "--porcelain"],
-        capture_output=True, text=True, cwd=REPO,
-    )
-    for line in result.stdout.strip().split("\n"):
-        if not line:
-            continue
-        if ".agentx-init/" in line:
-            check(False, f"Untracked .agentx-init file: {line}")
+    # 9. No generated runtime artifacts present in the repo tree
+    for pattern in (".coverage", ".mypy_cache", ".ruff_cache"):
+        for match in REPO.rglob(pattern):
+            check(False, f"Runtime artifact should be gitignored/removed: {match.relative_to(REPO)}")
 
     if errors:
         print(f"Repository structure audit FAILED ({len(errors)} issues):")

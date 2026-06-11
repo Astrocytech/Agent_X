@@ -30,20 +30,19 @@ test -f "$REPO_ROOT/schemas/umbrella_weather_fixture.schema.json" && log "  weat
 test -f "$REPO_ROOT/schemas/umbrella_agent_output.schema.json" && log "  output schema: OK" || { log "  output schema: MISSING"; exit 1; }
 
 log "Phase A3: Policy registry (weather.fixture.read)"
-PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" python3 -c "
+PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" python3 << 'PYEOF' 2>&1 | tail -1
 from agentx_evolve.policy.capability_registry import CapabilityRegistryImpl
 r = CapabilityRegistryImpl()
 r.register_default_tools()
 names = [t.tool_name for t in r.list_tools()]
-assert 'weather_fixture_read' in names, f'weather_fixture_read not registered; found: {names}\n'
-# Also verify the capability name weather.fixture.read exists
+assert 'weather_fixture_read' in names
 caps = {}
 for t in r.list_tools():
     for c in t.capabilities:
         caps[c.name] = c
-assert 'weather.fixture.read' in caps, f'weather.fixture.read capability not found; found: {list(caps.keys())}'
-print('  weather.fixture.read: OK (tool=weather_fixture_read, capability=weather.fixture.read)')
-" 2>&1 | tail -1
+assert 'weather.fixture.read' in caps
+print('  weather.fixture.read: OK')
+PYEOF
 
 log "Phase A4: Canary patch tests"
 PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" bash "$REPO_ROOT/scripts/canary-patch-test.sh" 2>&1 | tail -5

@@ -1,0 +1,67 @@
+from __future__ import annotations
+
+FIXTURES: dict[str, dict] = {
+    "normal_day": {
+        "tasks": [
+            {"id": "t1", "title": "Morning standup", "duration_min": 15, "deadline": "2026-06-11 10:00", "urgency": "medium"},
+            {"id": "t2", "title": "Code review PR", "duration_min": 30, "deadline": "2026-06-11 12:00", "urgency": "high"},
+            {"id": "t3", "title": "Write monthly report", "duration_min": 60, "deadline": "2026-06-11 17:00", "urgency": "medium"},
+            {"id": "t4", "title": "Team lunch", "duration_min": 45, "deadline": "2026-06-11 13:00", "urgency": "low"},
+            {"id": "t5", "title": "Update docs", "duration_min": 30, "deadline": "2026-06-12 10:00", "urgency": "low"},
+        ],
+        "time_budget_min": 480,
+        "source": "fixture",
+    },
+    "one_urgent": {
+        "tasks": [
+            {"id": "t1", "title": "Fix production bug", "duration_min": 120, "deadline": "2026-06-11 09:00", "urgency": "high"},
+            {"id": "t2", "title": "Review team timesheets", "duration_min": 20, "deadline": "2026-06-11 17:00", "urgency": "medium"},
+            {"id": "t3", "title": "Clean inbox", "duration_min": 15, "deadline": "2026-06-12 10:00", "urgency": "low"},
+        ],
+        "time_budget_min": 480,
+        "source": "fixture",
+    },
+    "conflicting": {
+        "tasks": [
+            {"id": "t1", "title": "Client presentation", "duration_min": 60, "deadline": "2026-06-11 10:00", "urgency": "high"},
+            {"id": "t2", "title": "Sprint planning", "duration_min": 60, "deadline": "2026-06-11 10:00", "urgency": "high"},
+            {"id": "t3", "title": "Code review", "duration_min": 30, "deadline": "2026-06-11 14:00", "urgency": "medium"},
+        ],
+        "time_budget_min": 480,
+        "source": "fixture",
+    },
+    "too_many": {
+        "tasks": [
+            {"id": "t1", "title": "Task A", "duration_min": 120, "deadline": "2026-06-11 10:00", "urgency": "high"},
+            {"id": "t2", "title": "Task B", "duration_min": 120, "deadline": "2026-06-11 12:00", "urgency": "high"},
+            {"id": "t3", "title": "Task C", "duration_min": 120, "deadline": "2026-06-11 14:00", "urgency": "medium"},
+            {"id": "t4", "title": "Task D", "duration_min": 120, "deadline": "2026-06-11 16:00", "urgency": "medium"},
+            {"id": "t5", "title": "Task E", "duration_min": 120, "deadline": "2026-06-11 18:00", "urgency": "low"},
+            {"id": "t6", "title": "Task F", "duration_min": 120, "deadline": "2026-06-12 10:00", "urgency": "low"},
+        ],
+        "time_budget_min": 480,
+        "source": "fixture",
+    },
+    "empty": {
+        "tasks": [],
+        "time_budget_min": 480,
+        "source": "fixture",
+    },
+    "malformed": {
+        "tasks": [
+            {"id": "t1", "title": "Valid task", "duration_min": 30, "deadline": "2026-06-11 10:00", "urgency": "high"},
+            {"id": "t2", "title": None, "duration_min": 20, "deadline": "2026-06-11 12:00", "urgency": "medium"},
+            {"id": "t3", "title": "Bad urgency", "duration_min": 15, "deadline": "2026-06-11 14:00", "urgency": "extreme"},
+        ],
+        "time_budget_min": 480,
+        "source": "fixture",
+    },
+    "missing_budget": {
+        "tasks": [
+            {"id": "t1", "title": "Plan sprint", "duration_min": 60, "deadline": "2026-06-11 10:00", "urgency": "high"},
+            {"id": "t2", "title": "Write tests", "duration_min": 45, "deadline": "2026-06-11 14:00", "urgency": "medium"},
+        ],
+        "time_budget_min": None,
+        "source": "fixture",
+    },
+}

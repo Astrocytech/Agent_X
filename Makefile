@@ -154,7 +154,19 @@ prove-hygiene:
 
 # target_id: P2-C020
 prove-umbrella-agent:
-	$(PYTHON) scripts/prove-umbrella-agent.sh
+	bash scripts/prove-umbrella-agent.sh
+
+# target_id: P2-C020-alt1
+prove-post-umbrella:
+	bash scripts/prove-post-umbrella.sh
+
+# target_id: P2-C020-alt2
+prove-inverse-science:
+	bash scripts/prove-inverse-science.sh
+
+# target_id: P2-C020-alt3
+prove-scriptor-benchmark:
+	bash scripts/prove-scriptor-benchmark.sh
 
 # target_id: P2-C021
 run:

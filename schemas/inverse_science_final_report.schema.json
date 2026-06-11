@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Inverse Science Final Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "plan_id",
+    "schema_version",
+    "target_capability",
+    "hard_constraints",
+    "soft_preferences",
+    "allowed_inputs",
+    "forbidden_inputs",
+    "evidence_refs",
+    "status",
+    "verdict",
+    "created_at_utc"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "pattern": "^INVSCI-REPORT-[A-Z0-9-]+$"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^INVSCI-PLAN-[A-Z0-9-]+$"
+    },
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "target_capability": {
+      "type": "string",
+      "description": "The target capability the inverse science phase addresses"
+    },
+    "hard_constraints": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Hard constraints applied during planning"
+    },
+    "soft_preferences": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Soft preferences considered during planning"
+    },
+    "allowed_inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Allowed input domains for candidates"
+    },
+    "forbidden_inputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Forbidden input domains for candidates"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to evidence records supporting the report"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACCEPTED", "NOT_ACCEPTED", "INCONCLUSIVE"],
+      "description": "Overall status of the inverse science phase"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "ACCEPTED",
+        "NOT_ACCEPTED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "observations_summary": {
+      "type": "string"
+    },
+    "negative_knowledge_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "best_known_solution_ref": {
+      "type": "string"
+    },
+    "evidence_record_ref": {
+      "type": "string"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

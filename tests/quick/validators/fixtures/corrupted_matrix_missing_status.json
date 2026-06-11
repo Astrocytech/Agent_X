@@ -1,0 +1,11 @@
+{
+  "requirements": [
+    {
+      "requirement_id": "R1"
+    },
+    {
+      "requirement_id": "R2",
+      "status": "INVALID"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "location": "formal_event",
+  "temperature_c": 22,
+  "condition": "clear",
+  "wind_speed_kph": 5,
+  "event_type": "formal",
+  "source": "fixture"
+}

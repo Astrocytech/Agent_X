@@ -1,0 +1,8 @@
+{
+  "location": "missing_weather",
+  "temperature_c": null,
+  "condition": null,
+  "wind_speed_kph": null,
+  "event_type": null,
+  "source": "fixture"
+}

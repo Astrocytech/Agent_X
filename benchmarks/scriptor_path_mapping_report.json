@@ -1,0 +1,11 @@
+{
+  "report_id": "scriptor_benchcore_path_mapping",
+  "generated_at_utc": "2026-06-11T17:27:59Z",
+  "commit": "58f5b826acac2d78464eaae9a7c685b6c44b6a48",
+  "scriptor_canonical_path": "benchmarks/scriptor/",
+  "benchcore_equivalent_path": "benchmarks/benchcore/",
+  "mapping_type": "rename",
+  "all_32_sources_inventoried": true,
+  "sources_with_hashes": 32,
+  "verdict": "ACCEPTED \u2014 Scriptor benchmark pack exists as benchcore"
+}

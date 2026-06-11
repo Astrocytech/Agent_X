@@ -1,0 +1,8 @@
+{
+  "location": "casual_day",
+  "temperature_c": 25,
+  "condition": "clear",
+  "wind_speed_kph": 8,
+  "event_type": "casual",
+  "source": "fixture"
+}

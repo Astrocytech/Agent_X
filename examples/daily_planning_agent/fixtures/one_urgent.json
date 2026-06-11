@@ -1,0 +1,10 @@
+{
+  "scenario": "one_urgent",
+  "tasks": [
+    {"id": "t1", "title": "Fix production bug", "duration_min": 120, "deadline": "2026-06-11 09:00", "urgency": "high"},
+    {"id": "t2", "title": "Review team timesheets", "duration_min": 20, "deadline": "2026-06-11 17:00", "urgency": "medium"},
+    {"id": "t3", "title": "Clean inbox", "duration_min": 15, "deadline": "2026-06-12 10:00", "urgency": "low"}
+  ],
+  "time_budget_min": 480,
+  "source": "fixture"
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "promotion_id": "PROMO-001",
+    "timestamp_utc": "2026-06-11T16:11:01Z",
+    "decision": "PROMOTE_WITH_LIMITS",
+    "area": "five_document_closure",
+    "description": "Accepted with Scriptor PDFs as known blocker"
+  }
+]

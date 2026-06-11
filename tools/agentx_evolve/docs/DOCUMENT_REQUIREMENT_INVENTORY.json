@@ -1,0 +1,32 @@
+{
+  "generated_at_utc": "2026-06-11T15:53:39Z",
+  "commit": "58f5b826acac2d78464eaae9a7c685b6c44b6a48",
+  "documents": [
+    {
+      "id": "DOC1",
+      "title": "Document Coverage Completion",
+      "requirements": 45
+    },
+    {
+      "id": "DOC2",
+      "title": "Umbrella Agent Real Self-Evolution Milestone",
+      "requirements": 16
+    },
+    {
+      "id": "DOC3",
+      "title": "Post-Umbrella Next Phase",
+      "requirements": 16
+    },
+    {
+      "id": "DOC4",
+      "title": "Inverse Scientific Method Next Phase",
+      "requirements": 14
+    },
+    {
+      "id": "DOC5",
+      "title": "Scriptor Universal Agent Integration Plan",
+      "requirements": 14
+    }
+  ],
+  "total_requirements": 105
+}

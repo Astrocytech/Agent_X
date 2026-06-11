@@ -195,6 +195,13 @@ def _valid_final_report() -> dict:
         "report_id": "INVSCI-REPORT-TEST001",
         "plan_id": "INVSCI-PLAN-TEST001",
         "schema_version": "1.0.0",
+        "target_capability": "DOC4 Inverse Science Method Integration",
+        "hard_constraints": ["no L0 mutation", "governance before action"],
+        "soft_preferences": ["minimal new dependencies", "backward compatibility"],
+        "allowed_inputs": ["patch", "test", "document", "profile"],
+        "forbidden_inputs": ["direct_promotion", "runtime_override"],
+        "evidence_refs": ["INVSCI-EVID-TEST001"],
+        "status": "ACCEPTED",
         "plan": {"target": "test"},
         "candidates": [{"candidate_id": "c1"}],
         "selected_candidate": {"candidate_id": "c1"},
@@ -206,6 +213,7 @@ def _valid_final_report() -> dict:
         "event_log_path": "events.jsonl",
         "evidence_manifest_id": "m1",
         "verdict": "NOT_ACCEPTED",
+        "overclaim_check": [],
         "created_at_utc": "2026-06-11T12:00:00Z",
     }
 

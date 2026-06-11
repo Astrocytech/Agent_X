@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Five-Document Final Acceptance Report",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_id",
+    "repository",
+    "commit",
+    "source_documents",
+    "area_verdicts",
+    "final_verdict"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "report_id": {
+      "type": "string"
+    },
+    "repository": {
+      "type": "string"
+    },
+    "commit": {
+      "type": "string"
+    },
+    "created_at_utc": {
+      "type": "string"
+    },
+    "source_documents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "area_verdicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string"
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "PASS",
+              "FAIL"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "matrix_summary": {
+      "type": "object"
+    },
+    "commands": {
+      "type": "string"
+    },
+    "final_claim": {
+      "type": "string"
+    },
+    "final_verdict": {
+      "type": "string"
+    },
+    "remaining_blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

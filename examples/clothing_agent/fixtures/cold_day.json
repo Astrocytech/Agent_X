@@ -1,0 +1,8 @@
+{
+  "location": "cold_day",
+  "temperature_c": -2,
+  "condition": "snow",
+  "wind_speed_kph": 10,
+  "event_type": null,
+  "source": "fixture"
+}

@@ -1,0 +1,68 @@
+from __future__ import annotations
+
+FIXTURES: dict[str, dict] = {
+    "cold_day": {
+        "location": "cold_day",
+        "temperature_c": -2,
+        "condition": "snow",
+        "wind_speed_kph": 10,
+        "event_type": None,
+        "source": "fixture",
+    },
+    "hot_day": {
+        "location": "hot_day",
+        "temperature_c": 35,
+        "condition": "clear",
+        "wind_speed_kph": 5,
+        "event_type": None,
+        "source": "fixture",
+    },
+    "rainy_day": {
+        "location": "rainy_day",
+        "temperature_c": 15,
+        "condition": "rain",
+        "wind_speed_kph": 15,
+        "event_type": None,
+        "source": "fixture",
+    },
+    "windy_day": {
+        "location": "windy_day",
+        "temperature_c": 10,
+        "condition": "windy",
+        "wind_speed_kph": 45,
+        "event_type": None,
+        "source": "fixture",
+    },
+    "formal_event": {
+        "location": "formal_event",
+        "temperature_c": 22,
+        "condition": "clear",
+        "wind_speed_kph": 5,
+        "event_type": "formal",
+        "source": "fixture",
+    },
+    "casual_day": {
+        "location": "casual_day",
+        "temperature_c": 25,
+        "condition": "clear",
+        "wind_speed_kph": 8,
+        "event_type": "casual",
+        "source": "fixture",
+    },
+    "missing_weather": {
+        "location": "missing_weather",
+        "temperature_c": None,
+        "condition": None,
+        "wind_speed_kph": None,
+        "event_type": None,
+        "source": "fixture",
+    },
+    "malformed_fixture": {
+        "location": "malformed_fixture",
+        "temperature_c": "not-a-number",
+        "condition": "clear",
+        "wind_speed_kph": 10,
+        "event_type": None,
+        "source": "fixture",
+    },
+}

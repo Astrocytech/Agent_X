@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Promotion Record",
+  "type": "object",
+  "required": [
+    "promotion_id",
+    "artifact_path",
+    "decision",
+    "review_ref",
+    "timestamp_utc"
+  ],
+  "properties": {
+    "promotion_id": {
+      "type": "string"
+    },
+    "artifact_path": {
+      "type": "string"
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "PROMOTED",
+        "BLOCKED",
+        "DEFERRED"
+      ]
+    },
+    "review_ref": {
+      "type": "string"
+    },
+    "timestamp_utc": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    }
+  }
+}

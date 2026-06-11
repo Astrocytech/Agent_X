@@ -1,0 +1,10 @@
+{
+  "scenario": "conflicting",
+  "tasks": [
+    {"id": "t1", "title": "Client presentation", "duration_min": 60, "deadline": "2026-06-11 10:00", "urgency": "high"},
+    {"id": "t2", "title": "Sprint planning", "duration_min": 60, "deadline": "2026-06-11 10:00", "urgency": "high"},
+    {"id": "t3", "title": "Code review", "duration_min": 30, "deadline": "2026-06-11 14:00", "urgency": "medium"}
+  ],
+  "time_budget_min": 480,
+  "source": "fixture"
+}

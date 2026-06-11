@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Five-Document Traceability Matrix",
+  "type": "object",
+  "required": ["schema_version", "repository", "commit", "created_at_utc", "source_documents", "requirements", "summary"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "repository": {"type": "string"},
+    "commit": {"type": "string"},
+    "created_at_utc": {"type": "string"},
+    "source_documents": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/SourceDocumentRef"}
+    },
+    "requirements": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/RequirementRow"}
+    },
+    "summary": {"$ref": "#/definitions/MatrixSummary"}
+  },
+  "definitions": {
+    "SourceDocumentRef": {
+      "type": "object",
+      "required": ["document_id", "path", "sha256", "mandatory"],
+      "properties": {
+        "document_id": {"type": "string"},
+        "path": {"type": "string"},
+        "sha256": {"type": "string"},
+        "mandatory": {"type": "boolean"}
+      }
+    },
+    "RequirementRow": {
+      "type": "object",
+      "required": ["requirement_id", "source_document_id", "requirement_text", "mandatory", "status"],
+      "properties": {
+        "requirement_id": {"type": "string"},
+        "source_document_id": {"type": "string"},
+        "source_section": {"type": "string"},
+        "source_line_start": {"type": "integer"},
+        "source_line_end": {"type": "integer"},
+        "requirement_text": {"type": "string"},
+        "mandatory": {"type": "boolean"},
+        "requirement_type": {"type": "string"},
+        "implementation_files": {"type": "array", "items": {"type": "string"}},
+        "test_files": {"type": "array", "items": {"type": "string"}},
+        "commands": {"type": "array", "items": {"type": "string"}},
+        "evidence_files": {"type": "array", "items": {"type": "string"}},
+        "status": {"type": "string"},
+        "reason": {"type": "string"},
+        "blocking": {"type": "boolean"}
+      }
+    },
+    "MatrixSummary": {
+      "type": "object",
+      "required": ["mandatory_total", "pass", "not_applicable_with_reason"],
+      "properties": {
+        "mandatory_total": {"type": "integer"},
+        "pass": {"type": "integer"},
+        "not_applicable_with_reason": {"type": "integer"},
+        "fail": {"type": "integer"},
+        "blocked": {"type": "integer"},
+        "blocking_total": {"type": "integer"}
+      }
+    }
+  }
+}

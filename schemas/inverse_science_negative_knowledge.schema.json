@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Inverse Science Negative Knowledge",
+  "type": "object",
+  "required": [
+    "entry_id",
+    "plan_id",
+    "what_did_not_work",
+    "evidence_refs",
+    "created_at_utc"
+  ],
+  "properties": {
+    "entry_id": {
+      "type": "string"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "what_did_not_work": {
+      "type": "string"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at_utc": {
+      "type": "string"
+    }
+  }
+}

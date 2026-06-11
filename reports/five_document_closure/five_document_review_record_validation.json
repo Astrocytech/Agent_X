@@ -1,0 +1,9 @@
+[
+  {
+    "review_id": "REVIEW-001",
+    "timestamp_utc": "2026-06-11T16:11:01Z",
+    "decision": "ALLOW",
+    "area": "matrix",
+    "reviewer": "automated_validator"
+  }
+]

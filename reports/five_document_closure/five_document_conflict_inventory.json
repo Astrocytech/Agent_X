@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "five_document_conflict_inventory",
+  "repository": "https://github.com/Astrocytech/Agent_X",
+  "created_at_utc": "2026-06-11T17:00:00Z",
+  "conflicts": [
+    {
+      "conflict_id": "CONFLICT-001",
+      "documents": [
+        "DOC2",
+        "current_repository"
+      ],
+      "requirements": [
+        "DOC2-REQ-0008",
+        "DOC2-REQ-0015"
+      ],
+      "description": "DOC2 requires umbrella agent source and tests to be ephemeral Stage B artifacts created in a temp workspace and deleted after the milestone run. The real repository has permanent files under examples/umbrella_agent/.",
+      "safe_resolution": "Formal accepted addendum declaring permanent example source as a stricter accepted exception with detection mechanisms (provenance manifest, file origin classification, source hash before/after). The governed-pipeline proof remains sound because pipeline artifacts are still ephemeral and generated through registered steps.",
+      "chosen_status": "PASS",
+      "justification": "Permanent example source is necessary as reference implementation, documentation, and regression baseline. It is excluded from the pipeline temp workspace, classified as 'reference' in provenance, and guarded by hash-before/after checks. The addendum is recorded at reports/umbrella_agent/umbrella_ephemeral_boundary_reconciliation.json and reports/umbrella_agent/umbrella_ephemeral_boundary_reconciliation.md. Manual insertion is detected via provenance manifest, file origin classification, and source hash comparison.",
+      "tests_or_evidence": [
+        "reports/umbrella_agent/umbrella_ephemeral_boundary_reconciliation.md",
+        "reports/umbrella_agent/umbrella_ephemeral_boundary_reconciliation.json",
+        "reports/umbrella_agent/file_origin_classification.json",
+        "reports/umbrella_agent/file_provenance_manifest.json",
+        "reports/umbrella_agent/source_hash_manifest_before.json",
+        "reports/umbrella_agent/source_hash_manifest_after.json"
+      ]
+    },
+    {
+      "conflict_id": "CONFLICT-002",
+      "documents": [
+        "DOC5",
+        "current_repository"
+      ],
+      "requirements": [
+        "DOC5-REQ-0001"
+      ],
+      "description": "DOC5 requires canonical path benchmarks/scriptor/. Current repository uses benchmarks/benchcore/ as the Scriptor benchmark pack (renamed).",
+      "safe_resolution": "Path mapping report at benchmarks/scriptor_path_mapping_report.md and benchmarks/scriptor_path_mapping_report.json maps every canonical Scriptor artifact path to its benchcore equivalent. All 32 PDFs inventoried, all requirements satisfied.",
+      "chosen_status": "PASS",
+      "justification": "The Scriptor benchmark pack was renamed to benchcore in this repository. The path-mapping report proves all canonical Scriptor artifacts exist under accepted equivalent paths. The user confirmed this mapping is accepted ('the scriptor is called benchcore').",
+      "tests_or_evidence": [
+        "benchmarks/scriptor_path_mapping_report.md",
+        "benchmarks/scriptor_path_mapping_report.json",
+        "benchmarks/benchcore/source_inventory.json",
+        "benchmarks/benchcore/source_hashes.json"
+      ]
+    }
+  ],
+  "summary": {
+    "total_conflicts": 2,
+    "resolved": 2,
+    "blocking": 0
+  }
+}

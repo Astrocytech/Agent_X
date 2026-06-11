@@ -1,1220 +1,757 @@
 {
-  "matrix_version": "1.0",
-  "generated_at": "2026-06-09T00:00:00Z",
-  "commit_hash": "ebe0920e89c28ee294dc3d7c7f1c53a2006dbf74",
-  "branch": "main",
-  "rows": [
-    {
-      "id": "AXE-SEC-001",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "path traversal blocked",
-      "verdict": "PASS",
-      "source": "security/path_boundary.py",
-      "tests": "tests/test_path_boundary.py",
-      "schema": "schemas/19_security/path_boundary_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-002",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "absolute path escape blocked",
-      "verdict": "PASS",
-      "source": "security/path_boundary.py",
-      "tests": "tests/test_path_boundary.py",
-      "schema": "schemas/19_security/path_boundary_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-003",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "symlink escape blocked",
-      "verdict": "PASS",
-      "source": "security/path_boundary.py",
-      "tests": "tests/test_path_boundary.py",
-      "schema": "schemas/19_security/path_boundary_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-004",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "protected L0 mutation blocked",
-      "verdict": "PASS",
-      "source": "security/path_boundary.py",
-      "tests": "tests/test_path_boundary.py",
-      "schema": "schemas/19_security/path_boundary_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-005",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "network denied by default",
-      "verdict": "PASS",
-      "source": "security/network_policy.py",
-      "tests": "tests/test_network_policy.py",
-      "schema": "schemas/19_security/network_policy_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-006",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "unsafe subprocess blocked",
-      "verdict": "PASS",
-      "source": "security/safe_subprocess.py",
-      "tests": "tests/test_safe_subprocess.py",
-      "schema": "schemas/19_security/safe_subprocess_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-007",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "unknown command blocked",
-      "verdict": "PASS",
-      "source": "security/safe_subprocess.py",
-      "tests": "tests/test_safe_subprocess.py",
-      "schema": "schemas/19_security/safe_subprocess_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-008",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "denied command blocked",
-      "verdict": "PASS",
-      "source": "security/safe_subprocess.py",
-      "tests": "tests/test_safe_subprocess.py",
-      "schema": "schemas/19_security/safe_subprocess_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-009",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "secrets redacted from evidence",
-      "verdict": "PASS",
-      "source": "security/secret_redactor.py",
-      "tests": "tests/test_secret_redactor.py",
-      "schema": "schemas/19_security/secret_redaction_result.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-010",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "runtime artifact boundary enforced",
-      "verdict": "PASS",
-      "source": "security/safe_file_ops.py,security/sandbox_policy.py",
-      "tests": "tests/test_safe_file_ops.py",
-      "schema": "schemas/19_security/safe_file_operation.schema.json",
-      "evidence": "runtime_artifact_checker",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-011",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "failure records schema-valid",
-      "verdict": "PASS",
-      "source": "failure_taxonomy/,recovery/",
-      "tests": "tests/test_failure_schema.py,tests/test_failure_taxonomy.py",
-      "schema": "schemas/05_recovery/failure_record.schema.json",
-      "evidence": "failure_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-012",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "atomic writes implemented",
-      "verdict": "PASS",
-      "source": "security/safe_file_ops.py",
-      "tests": "tests/test_safe_file_ops.py",
-      "schema": "schemas/19_security/safe_file_operation.schema.json",
-      "evidence": "safe_file_ops",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-013",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "append-only JSONL implemented",
-      "verdict": "PASS",
-      "source": "security/safe_file_ops.py",
-      "tests": "tests/test_safe_file_ops.py",
-      "schema": "schemas/19_security/safe_file_operation.schema.json",
-      "evidence": "safe_file_ops",
-      "notes": ""
-    },
-    {
-      "id": "AXE-SEC-014",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "security",
-      "requirement": "source/runtime separation enforced",
-      "verdict": "PASS",
-      "source": "security/sandbox_policy.py,security/path_boundary.py",
-      "tests": "tests/test_runtime_artifacts.py",
-      "schema": "schemas/19_security/sandbox_policy.schema.json",
-      "evidence": "sandbox_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-001",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "capability registry exists",
-      "verdict": "PASS",
-      "source": "policy/capability_registry.py",
-      "tests": "tests/test_capability_registry.py",
-      "schema": "schemas/16_policy/capability_registry.schema.json",
-      "evidence": "policy_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-002",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "tool permissions enforced",
-      "verdict": "PASS",
-      "source": "policy/tool_policy.py",
-      "tests": "tests/test_tool_policy.py,tests/test_policy_integration.py",
-      "schema": "schemas/16_policy/tool_policy.schema.json",
-      "evidence": "policy_decision",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-003",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "model permissions enforced",
-      "verdict": "PASS",
-      "source": "policy/model_policy.py",
-      "tests": "tests/test_model_policy.py",
-      "schema": "schemas/16_policy/model_policy.schema.json",
-      "evidence": "policy_decision",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-004",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "patch permissions enforced",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_policy.py",
-      "tests": "tests/test_patch_execution_policy_integration.py",
-      "schema": "schemas/08_patch/patch_execution_decision.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-005",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "command permissions enforced",
-      "verdict": "PASS",
-      "source": "policy/policy_enforcer.py",
-      "tests": "tests/test_policy_enforcer.py",
-      "schema": "schemas/16_policy/policy_enforcement_result.schema.json",
-      "evidence": "policy_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-006",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "unknown capability fails closed",
-      "verdict": "PASS",
-      "source": "policy/capability_policy.py",
-      "tests": "tests/test_capability_policy.py",
-      "schema": "schemas/16_policy/capability_policy.schema.json",
-      "evidence": "policy_decision",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-007",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "denied capability fails closed",
-      "verdict": "PASS",
-      "source": "policy/capability_policy.py",
-      "tests": "tests/test_capability_policy.py",
-      "schema": "schemas/16_policy/capability_policy.schema.json",
-      "evidence": "policy_decision",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-008",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "policy decisions audited",
-      "verdict": "PASS",
-      "source": "policy/policy_evidence.py",
-      "tests": "tests/test_policy_evidence.py",
-      "schema": "schemas/16_policy/policy_audit.schema.json",
-      "evidence": "policy_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-POL-009",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "policy",
-      "requirement": "policy bypass resistant",
-      "verdict": "PASS",
-      "source": "security/,policy/",
-      "tests": "tests/integration/test_policy_bypass_resistance.py",
-      "schema": "",
-      "evidence": "",
-      "notes": "4 tests in integration suite"
-    },
-    {
-      "id": "AXE-PATCH-001",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "patch proposal schema exists and validates",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_models.py",
-      "tests": "tests/test_patch_execution_schema.py",
-      "schema": "schemas/08_patch/patch_operation.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-002",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "patch candidate schema exists and validates",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_models.py",
-      "tests": "tests/test_patch_execution_schema.py",
-      "schema": "schemas/08_patch/patch_application.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-003",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "patch result schema exists and validates",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_models.py",
-      "tests": "tests/test_patch_execution_schema.py",
-      "schema": "schemas/08_patch/patch_result.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-004",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "dry-run works",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_execution_service.py",
-      "tests": "tests/test_patch_execution_negative_cases.py",
-      "schema": "schemas/08_patch/dry_run_result.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-005",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "allowed low-risk patch applies in temp workspace",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_applier.py",
-      "tests": "tests/test_patch_applier.py",
-      "schema": "schemas/08_patch/patch_application.schema.json",
-      "evidence": "patch_session",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-006",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "invalid patch rejected",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_applier.py",
-      "tests": "tests/test_patch_execution_negative_cases.py",
-      "schema": "schemas/08_patch/patch_result.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-007",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "protected path patch rejected",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_applier.py,security/path_boundary.py",
-      "tests": "tests/test_patch_execution_negative_cases.py",
-      "schema": "schemas/08_patch/patch_result.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-008",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "failed validation rolls back",
-      "verdict": "PASS",
-      "source": "patch_execution/rollback_manager.py",
-      "tests": "tests/test_patch_execution_rollback.py",
-      "schema": "schemas/08_patch/rollback_record.schema.json",
-      "evidence": "rollback_manager",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-009",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "rollback evidence recorded",
-      "verdict": "PASS",
-      "source": "patch_execution/patch_evidence.py",
-      "tests": "tests/test_patch_evidence.py",
-      "schema": "schemas/08_patch/rollback_record.schema.json",
-      "evidence": "patch_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-010",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "unauthorized source mutation detected",
-      "verdict": "PASS",
-      "source": "patch_execution/source_change_guard.py",
-      "tests": "tests/test_source_change_guard.py",
-      "schema": "schemas/08_patch/source_change_guard.schema.json",
-      "evidence": "source_change_guard",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-011",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "patch cannot bypass policy",
-      "verdict": "PASS",
-      "source": "patch_execution/,policy/",
-      "tests": "tests/test_patch_execution_policy_integration.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-PATCH-012",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "patch_execution",
-      "requirement": "patch execution never depends on live model",
-      "verdict": "PASS",
-      "source": "patch_execution/",
-      "tests": "tests/test_patch_execution_service.py",
-      "schema": "",
-      "evidence": "",
-      "notes": "deterministic only"
-    },
-    {
-      "id": "AXE-TOOL-001",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "tool_mcp",
-      "requirement": "governed tool registry exists",
-      "verdict": "PASS",
-      "source": "tools/tool_registry.py",
-      "tests": "tests/test_tool_registry.py",
-      "schema": "schemas/22_tool_mcp/tool_registry.schema.json",
-      "evidence": "tool_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-002",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "tool_mcp",
-      "requirement": "tool arguments schema-validated",
-      "verdict": "PASS",
-      "source": "tools/tool_call_schema.py",
-      "tests": "tests/test_tool_call_schema.py",
-      "schema": "schemas/22_tool_mcp/tool_call.schema.json",
-      "evidence": "tool_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-003",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "tool_mcp",
-      "requirement": "allowed tool succeeds",
-      "verdict": "PASS",
-      "source": "tools/tool_invoker.py",
-      "tests": "tests/test_tool_invoker.py",
-      "schema": "schemas/22_tool_mcp/tool_result.schema.json",
-      "evidence": "tool_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-004",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "tool_mcp",
-      "requirement": "unknown tool rejected",
-      "verdict": "PASS",
-      "source": "tools/tool_policy.py",
-      "tests": "tests/test_tool_negative_cases.py",
-      "schema": "schemas/22_tool_mcp/tool_policy_result.schema.json",
-      "evidence": "tool_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-005",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "tool_mcp",
-      "requirement": "denied tool rejected",
-      "verdict": "PASS",
-      "source": "tools/tool_policy.py",
-      "tests": "tests/test_tool_policy.py",
-      "schema": "schemas/22_tool_mcp/tool_permission_decision.schema.json",
-      "evidence": "tool_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-006",
-      "class": "CONDITIONAL",
-      "component": "tool_mcp",
-      "requirement": "MCP exposed tools are governed",
-      "verdict": "PASS",
-      "source": "mcp/mcp_adapter.py",
-      "tests": "tests/test_mcp_adapter.py",
-      "schema": "schemas/22_tool_mcp/mcp_tool_manifest.schema.json",
-      "evidence": "mcp_evidence",
-      "notes": "conditional on MCP being active"
-    },
-    {
-      "id": "AXE-TOOL-007",
-      "class": "CONDITIONAL",
-      "component": "tool_mcp",
-      "requirement": "MCP denied-tool call is impossible",
-      "verdict": "PASS",
-      "source": "mcp/mcp_evidence.py",
-      "tests": "tests/test_mcp_evidence.py",
-      "schema": "schemas/22_tool_mcp/tool_permission_decision.schema.json",
-      "evidence": "mcp_evidence",
-      "notes": "conditional on MCP being active"
-    },
-    {
-      "id": "AXE-TOOL-008",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "git",
-      "requirement": "read-only git operations work",
-      "verdict": "PASS",
-      "source": "git/git_operations.py",
-      "tests": "tests/test_git_status.py",
-      "schema": "schemas/07_git/git_status_result.schema.json",
-      "evidence": "git_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-009",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "git",
-      "requirement": "git write operations blocked unless authorized",
-      "verdict": "PASS",
-      "source": "git/git_mutation_gate.py",
-      "tests": "tests/test_git_mutation_blocking.py",
-      "schema": "schemas/07_git/git_mutation_result.schema.json",
-      "evidence": "git_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-TOOL-010",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "tool_mcp",
-      "requirement": "tool audit evidence is schema-valid",
-      "verdict": "PASS",
-      "source": "tools/tool_evidence.py",
-      "tests": "tests/test_tool_evidence.py",
-      "schema": "schemas/22_tool_mcp/tool_audit.schema.json",
-      "evidence": "tool_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-001",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "model",
-      "requirement": "mock model provider exists",
-      "verdict": "PASS",
-      "source": "providers/mock_provider.py",
-      "tests": "tests/test_mock_provider.py",
-      "schema": "schemas/13_model_adapter/model_response.schema.json",
-      "evidence": "model_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-002",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "model",
-      "requirement": "mock model deterministic output tested",
-      "verdict": "PASS",
-      "source": "providers/mock_provider.py",
-      "tests": "tests/test_mock_provider.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-003",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "model",
-      "requirement": "live provider disabled/skipped by default",
-      "verdict": "PASS",
-      "source": "providers/provider_router.py",
-      "tests": "tests/test_model_negative_cases.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-004",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "model",
-      "requirement": "local runtime profile exists",
-      "verdict": "PASS",
-      "source": "model_runtime/local_runtime_profile.py",
-      "tests": "tests/test_local_runtime_profile.py",
-      "schema": "schemas/11_model_runtime/local_runtime_profile.schema.json",
-      "evidence": "local_runtime",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-005",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "model",
-      "requirement": "provider capabilities declared",
-      "verdict": "PASS",
-      "source": "models/model_registry.py",
-      "tests": "tests/test_model_registry.py",
-      "schema": "schemas/13_model_adapter/model_provider_profile.schema.json",
-      "evidence": "model_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-006",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "prompt",
-      "requirement": "prompt contracts versioned",
-      "verdict": "PASS",
-      "source": "prompts/prompt_versioning.py",
-      "tests": "tests/test_prompt_versioning.py",
-      "schema": "schemas/18_prompt/prompt_version.schema.json",
-      "evidence": "prompt_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-007",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "prompt",
-      "requirement": "prompt input/output schemas defined",
-      "verdict": "PASS",
-      "source": "prompts/prompt_contract_schema.py",
-      "tests": "tests/test_prompt_contract_schema.py",
-      "schema": "schemas/18_prompt/prompt_contract.schema.json",
-      "evidence": "prompt_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-008",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "prompt",
-      "requirement": "refusal/failure behavior defined",
-      "verdict": "PASS",
-      "source": "prompts/prompt_safety.py",
-      "tests": "tests/test_prompt_safety.py",
-      "schema": "schemas/18_prompt/prompt_safety_rule.schema.json",
-      "evidence": "prompt_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-009",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "context",
-      "requirement": "context packet bounded",
-      "verdict": "PASS",
-      "source": "context/context_builder.py,context/context_budgeting.py",
-      "tests": "tests/test_context_budgeting.py",
-      "schema": "schemas/02_context/context_pack.schema.json",
-      "evidence": "context_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-010",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "context",
-      "requirement": "denied files excluded",
-      "verdict": "PASS",
-      "source": "context/context_builder.py",
-      "tests": "tests/test_context_omission.py",
-      "schema": "schemas/02_context/context_pack.schema.json",
-      "evidence": "context_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-011",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "context",
-      "requirement": "protected files excluded by default",
-      "verdict": "PASS",
-      "source": "context/context_builder.py",
-      "tests": "tests/test_context_omission.py",
-      "schema": "schemas/02_context/context_pack.schema.json",
-      "evidence": "context_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-012",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "context",
-      "requirement": "runtime artifacts excluded by default",
-      "verdict": "PASS",
-      "source": "context/context_builder.py",
-      "tests": "tests/test_context_omission.py",
-      "schema": "schemas/02_context/context_pack.schema.json",
-      "evidence": "context_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-013",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "context",
-      "requirement": "secrets excluded or redacted",
-      "verdict": "PASS",
-      "source": "context/context_redaction.py",
-      "tests": "tests/test_context_redaction.py",
-      "schema": "schemas/02_context/context_redaction_report.schema.json",
-      "evidence": "context_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-014",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "model",
-      "requirement": "model output schema-validated",
-      "verdict": "PASS",
-      "source": "models/model_response_validator.py",
-      "tests": "tests/test_model_response_schema.py",
-      "schema": "schemas/13_model_adapter/model_response.schema.json",
-      "evidence": "model_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-015",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "worker",
-      "requirement": "LLM worker creates patch candidate only",
-      "verdict": "PASS",
-      "source": "llm_worker/patch_proposal.py",
-      "tests": "tests/test_llm_worker_patch_proposal.py",
-      "schema": "schemas/10_llm_worker/llm_worker_patch_proposal.schema.json",
-      "evidence": "worker_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-MODEL-016",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "worker",
-      "requirement": "LLM worker cannot apply patch directly",
-      "verdict": "PASS",
-      "source": "llm_worker/worker_models.py",
-      "tests": "tests/test_llm_worker_blocked_actions.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-001",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "bounded goal accepted",
-      "verdict": "PASS",
-      "source": "orchestrator/orchestrator_engine.py",
-      "tests": "tests/test_orchestrator_models.py",
-      "schema": "schemas/20_orchestrator/orchestration_plan.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-002",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "risk classification performed",
-      "verdict": "PASS",
-      "source": "orchestrator/run_admission.py",
-      "tests": "tests/test_orchestrator_models.py",
-      "schema": "schemas/20_orchestrator/orchestration_policy_decision.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-003",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "policy checks before tool/model/patch",
-      "verdict": "PASS",
-      "source": "orchestrator/gate_controller.py",
-      "tests": "tests/test_orchestrator_gate_controller.py",
-      "schema": "schemas/20_orchestrator/orchestration_approval_gate.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-004",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "context packet built",
-      "verdict": "PASS",
-      "source": "orchestrator/task_decomposer.py",
-      "tests": "tests/test_orchestrator_models.py",
-      "schema": "schemas/20_orchestrator/orchestration_context_package_binding.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-005",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "mock model invoked",
-      "verdict": "PASS",
-      "source": "orchestrator/model_invocation.py",
-      "tests": "tests/test_orchestrator_model_invocation.py",
-      "schema": "schemas/20_orchestrator/orchestration_model_binding.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-006",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "patch candidate evaluated",
-      "verdict": "PASS",
-      "source": "orchestrator/step_executor.py",
-      "tests": "tests/test_orchestrator_models.py",
-      "schema": "schemas/20_orchestrator/orchestration_step_result.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-007",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "governed patch execution used",
-      "verdict": "PASS",
-      "source": "orchestrator/tool_invocation.py",
-      "tests": "tests/test_orchestrator_tool_invocation.py",
-      "schema": "schemas/20_orchestrator/orchestration_tool_binding.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-008",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "validation recorded",
-      "verdict": "PASS",
-      "source": "orchestrator/orchestrator_state.py",
-      "tests": "tests/test_orchestrator_state.py",
-      "schema": "schemas/20_orchestrator/orchestration_state.schema.json",
-      "evidence": "orchestrator_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-009",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "human_review",
-      "requirement": "human review can approve/reject",
-      "verdict": "PASS",
-      "source": "human_review/review_api.py",
-      "tests": "tests/test_human_review_api.py",
-      "schema": "schemas/09_human_review/human_review_decision.schema.json",
-      "evidence": "human_review_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-010",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "promotion",
-      "requirement": "rejection prevents promotion",
-      "verdict": "PASS",
-      "source": "promotion/promotion_gate.py",
-      "tests": "tests/test_promotion_gate.py",
-      "schema": "schemas/17_promotion/promotion_gate_decision.schema.json",
-      "evidence": "promotion_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-011",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "promotion",
-      "requirement": "failed validation prevents promotion",
-      "verdict": "PASS",
-      "source": "promotion/promotion_gate.py",
-      "tests": "tests/test_promotion_gate.py",
-      "schema": "schemas/17_promotion/promotion_gate_decision.schema.json",
-      "evidence": "promotion_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-012",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "promotion",
-      "requirement": "missing evidence prevents promotion",
-      "verdict": "PASS",
-      "source": "promotion/promotion_gate.py",
-      "tests": "tests/test_promotion_gate.py",
-      "schema": "schemas/17_promotion/promotion_gate_decision.schema.json",
-      "evidence": "promotion_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-013",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "human_review",
-      "requirement": "high-risk change requires explicit approval",
-      "verdict": "PASS",
-      "source": "human_review/approval_validator.py",
-      "tests": "tests/test_human_approval_validator.py",
-      "schema": "schemas/09_human_review/human_approval_decision.schema.json",
-      "evidence": "human_review_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-014",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "full mock self-evolution session tested",
-      "verdict": "PASS",
-      "source": "orchestrator/",
-      "tests": "tests/test_self_evolution_orchestrator_engine.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ORCH-015",
-      "class": "MANDATORY_MINIMUM_SELF_EVOLUTION",
-      "component": "orchestrator",
-      "requirement": "orchestrator cannot skip patch governance",
-      "verdict": "PASS",
-      "source": "orchestrator/gate_controller.py",
-      "tests": "tests/test_orchestrator_gate_controller.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-001",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "evaluation",
-      "requirement": "evaluation harness runs",
-      "verdict": "PASS",
-      "source": "evaluation/evaluation_harness.py",
-      "tests": "tests/test_evaluation_harness.py",
-      "schema": "schemas/04_evaluation/evaluation_run.schema.json",
-      "evidence": "evaluation_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-002",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "evaluation",
-      "requirement": "regression failure blocks promotion",
-      "verdict": "PASS",
-      "source": "evaluation/regression_comparator.py,promotion/",
-      "tests": "tests/test_evaluation_regression.py",
-      "schema": "schemas/04_evaluation/evaluation_regression_comparison.schema.json",
-      "evidence": "evaluation_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-003",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "monitoring",
-      "requirement": "monitoring artifact schema-valid",
-      "verdict": "PASS",
-      "source": "monitoring/monitoring_models.py",
-      "tests": "tests/test_monitoring_schema_validation.py",
-      "schema": "schemas/14_monitoring/*.schema.json",
-      "evidence": "monitoring_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-004",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "docs_sync",
-      "requirement": "documentation sync detects drift",
-      "verdict": "PASS",
-      "source": "docs_sync/drift_detector.py",
-      "tests": "tests/test_docs_sync_drift.py",
-      "schema": "schemas/03_docs_sync/document_drift_record.schema.json",
-      "evidence": "docs_sync_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-005",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "learning",
-      "requirement": "outcome review records accepted/rejected",
-      "verdict": "PASS",
-      "source": "learning/outcome_review.py",
-      "tests": "tests/test_outcome_review.py",
-      "schema": "schemas/12_learning/outcome_review.schema.json",
-      "evidence": "learning_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-006",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "learning",
-      "requirement": "outcome review no uncontrolled autonomy",
-      "verdict": "PASS",
-      "source": "learning/learning_policy.py",
-      "tests": "tests/test_learning_policy.py",
-      "schema": "schemas/12_learning/learning_policy_decision.schema.json",
-      "evidence": "learning_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-007",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "backup",
-      "requirement": "backup snapshot works",
-      "verdict": "PASS",
-      "source": "backup/snapshot_creator.py",
-      "tests": "tests/test_snapshot_creator.py",
-      "schema": "schemas/01_backup/backup_snapshot_index.schema.json",
-      "evidence": "backup_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-008",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "backup",
-      "requirement": "restore/rollback works for required scope",
-      "verdict": "PASS",
-      "source": "backup/restore_executor.py",
-      "tests": "tests/test_restore_executor.py",
-      "schema": "schemas/01_backup/restore_result.schema.json",
-      "evidence": "backup_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-009",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "packaging",
-      "requirement": "packaging excludes runtime artifacts/caches",
-      "verdict": "PASS",
-      "source": "packaging/runtime_artifact_exclusion.py",
-      "tests": "tests/test_packaging_runtime_artifact_exclusion.py",
-      "schema": "schemas/15_packaging/runtime_artifact_exclusion_report.schema.json",
-      "evidence": "packaging_evidence",
-      "notes": ""
-    },
-    {
-      "id": "AXE-EVAL-010",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "support",
-      "requirement": "support layers cannot override gates",
-      "verdict": "PASS",
-      "source": "promotion/,orchestrator/",
-      "tests": "tests/test_promotion_integration_cases.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ACCEPT-001",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "testing",
-      "requirement": "unit tests meaningful assertions",
-      "verdict": "PASS",
-      "source": "tools/agentx_evolve/tests/",
-      "tests": "805 test files",
-      "schema": "",
-      "evidence": "",
-      "notes": "7482 passed"
-    },
-    {
-      "id": "AXE-ACCEPT-002",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "testing",
-      "requirement": "integration tests exist",
-      "verdict": "PASS",
-      "source": "tests/integration/test_security_policy_boundary.py (12 files total)",
-      "tests": "tests/integration/test_security_policy_boundary.py (46 tests total)",
-      "schema": "",
-      "evidence": "",
-      "notes": "12 integration test files, 46 tests"
-    },
-    {
-      "id": "AXE-ACCEPT-003",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "testing",
-      "requirement": "system tests exist",
-      "verdict": "PASS",
-      "source": "tests/system/test_agentx_evolve_cli_help.py (19 files total)",
-      "tests": "tests/system/test_agentx_evolve_cli_help.py (61 tests total)",
-      "schema": "",
-      "evidence": "",
-      "notes": "19 system test files, 61 tests"
-    },
-    {
-      "id": "AXE-ACCEPT-004",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "testing",
-      "requirement": "Makefile targets run intended tests",
-      "verdict": "PASS",
-      "source": "Makefile",
-      "tests": "tests/regression/test_makefile_proof_wiring.py",
-      "schema": "",
-      "evidence": "",
-      "notes": "All Makefile targets pass; test-all 8181 tests"
-    },
-    {
-      "id": "AXE-ACCEPT-005",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "testing",
-      "requirement": "evidence artifacts are schema-valid",
-      "verdict": "PASS",
-      "source": "multiple evidence modules",
-      "tests": "multiple schema-validation tests",
-      "schema": "478 schemas",
-      "evidence": "evidences",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ACCEPT-006",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "acceptance",
-      "requirement": "final coverage matrix complete",
-      "verdict": "PASS",
-      "source": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.md,.json",
-      "tests": "tests/integration/test_document_coverage_matrix.py",
-      "schema": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.json",
-      "evidence": "tools/agentx_evolve/docs/DOCUMENT_IMPLEMENTATION_COVERAGE_MATRIX.md",
-      "notes": "Matrix covers all 83 requirements"
-    },
-    {
-      "id": "AXE-ACCEPT-007",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "acceptance",
-      "requirement": "final acceptance report exists",
-      "verdict": "PASS",
-      "source": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.md,.json",
-      "tests": "tests/system/test_agentx_evolve_final_acceptance_report.py",
-      "schema": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.json",
-      "evidence": "tools/agentx_evolve/docs/FINAL_DOCUMENT_IMPLEMENTATION_ACCEPTANCE_REPORT.md",
-      "notes": "24 sections, both MD and JSON"
-    },
-    {
-      "id": "AXE-ACCEPT-008",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "acceptance",
-      "requirement": "final acceptance rejects incomplete coverage",
-      "verdict": "PASS",
-      "source": "final_acceptance/,tests/system/test_negative_*.py (10 files)",
-      "tests": "tests/system/test_negative_*.py (30 tests)",
-      "schema": "schemas/06_final_acceptance/final_acceptance_report.schema.json",
-      "evidence": "final_acceptance",
-      "notes": "14 negative acceptance tests total"
-    },
-    {
-      "id": "AXE-ACCEPT-009",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "testing",
-      "requirement": "all Makefile commands pass",
-      "verdict": "PASS",
-      "source": "Makefile",
-      "tests": "make test-all (8185 passed) + tests/regression/test_makefile_proof_wiring.py",
-      "schema": "",
-      "evidence": "",
-      "notes": "All 12 baseline commands pass; 8181 tests"
-    },
-    {
-      "id": "AXE-ACCEPT-010",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "security",
-      "requirement": "no default live network dependency",
-      "verdict": "PASS",
-      "source": "security/network_policy.py",
-      "tests": "tests/test_network_policy.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ACCEPT-011",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "patch_execution",
-      "requirement": "no uncontrolled source mutation",
-      "verdict": "PASS",
-      "source": "patch_execution/source_change_guard.py",
-      "tests": "tests/test_source_change_guard.py",
-      "schema": "schemas/08_patch/source_change_guard.schema.json",
-      "evidence": "source_change_guard",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ACCEPT-012",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "security",
-      "requirement": "no L0 protection violation",
-      "verdict": "PASS",
-      "source": "security/path_boundary.py",
-      "tests": "tests/test_path_boundary.py",
-      "schema": "",
-      "evidence": "",
-      "notes": ""
-    },
-    {
-      "id": "AXE-ACCEPT-013",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "acceptance",
-      "requirement": "evidence manifest complete",
-      "verdict": "PASS",
-      "source": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.md,.json",
-      "tests": "tests/system/test_negative_evidence_missing_rejected.py",
-      "schema": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.json",
-      "evidence": "tools/agentx_evolve/docs/EVIDENCE_MANIFEST.md",
-      "notes": "20 artifacts listed"
-    },
-    {
-      "id": "AXE-ACCEPT-014",
-      "class": "MANDATORY_FINAL_ACCEPTANCE",
-      "component": "acceptance",
-      "requirement": "source diff reviewed and justified",
-      "verdict": "PASS",
-      "source": "tools/agentx_evolve/docs/SOURCE_DIFF_REVIEW_REPORT.md",
-      "tests": "tests/integration/test_evidence_schema_validation.py",
-      "schema": "tools/agentx_evolve/docs/SOURCE_DIFF_REVIEW_REPORT.md",
-      "evidence": "tools/agentx_evolve/docs/SOURCE_DIFF_REVIEW_REPORT.md",
-      "notes": "All changes documented"
-    }
-  ],
+  "matrix_path": "/home/glompy/Desktop/ASTROCYTECH/Agent_X/.agentx-init/five_document_closure/matrix/five_document_traceability_matrix.json",
   "summary": {
-    "total_requirements": 100,
-    "PASS": 100,
-    "PARTIAL": 0,
-    "MISSING": 0,
-    "BLOCKED": 0,
-    "CONFLICT": 0,
-    "NOT_APPLICABLE": 0,
-    "UNVERIFIED": 0,
-    "SCAFFOLD_ONLY": 0,
-    "UNKNOWN": 0
-  }
+    "mandatory_total": 105,
+    "pass": 0,
+    "not_applicable_with_reason": 0,
+    "fail": 0,
+    "partial": 0,
+    "missing": 0,
+    "blocked": 0,
+    "conflict": 0,
+    "unknown": 105,
+    "unverified": 0,
+    "weak_target": 0,
+    "not_run": 0,
+    "command_missing": 0,
+    "placeholder": 0,
+    "blocking_total": 0
+  },
+  "requirements": [
+    {
+      "id": "DOC1-REQ-0001",
+      "doc": "DOC1",
+      "text": "README.md exists and is inventoried",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC1-REQ-0002",
+      "doc": "DOC1",
+      "text": "Roadmap.md exists and is inventoried",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC1-REQ-0003",
+      "doc": "DOC1",
+      "text": "MANIFEST.md exists and is inventoried",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC1-REQ-0004",
+      "doc": "DOC1",
+      "text": "SELF_AUDIT.md exists and is inventoried",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC1-REQ-0005",
+      "doc": "DOC1",
+      "text": "Makefile targets are meaningful, not echo-only",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC1-REQ-0006",
+      "doc": "DOC1",
+      "text": "L0 layer is independent from L1, L2, tools",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0007",
+      "doc": "DOC1",
+      "text": "L1 layer exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0008",
+      "doc": "DOC1",
+      "text": "L2 layer exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0009",
+      "doc": "DOC1",
+      "text": "tools/agentx_initiator/ exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0010",
+      "doc": "DOC1",
+      "text": "tools/agentx_evolve/ exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0011",
+      "doc": "DOC1",
+      "text": "tests/ directory exists with test suites",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0012",
+      "doc": "DOC1",
+      "text": "examples/ directory exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0013",
+      "doc": "DOC1",
+      "text": "docs/ directory exists",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC1-REQ-0014",
+      "doc": "DOC1",
+      "text": "schemas/ directory exists with schemas",
+      "status": "UNKNOWN",
+      "type": "schema"
+    },
+    {
+      "id": "DOC1-REQ-0015",
+      "doc": "DOC1",
+      "text": "requirements/ directory exists",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC1-REQ-0016",
+      "doc": "DOC1",
+      "text": "DOC1 reports created in tools/agentx_evolve/docs/",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC1-REQ-0017",
+      "doc": "DOC1",
+      "text": "L0 independence from higher layers proven",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0018",
+      "doc": "DOC1",
+      "text": "Filesystem allowlist/denylist enforced",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0019",
+      "doc": "DOC1",
+      "text": "Path traversal rejection tested",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0020",
+      "doc": "DOC1",
+      "text": "Policy denial prevents tool execution",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0021",
+      "doc": "DOC1",
+      "text": "Capability registry enforced",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0022",
+      "doc": "DOC1",
+      "text": "Failure taxonomy classifies failures",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0023",
+      "doc": "DOC1",
+      "text": "Patch candidate schema validation",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0024",
+      "doc": "DOC1",
+      "text": "Patch rollback on validation failure",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0025",
+      "doc": "DOC1",
+      "text": "Human review not replaced by automatic validation",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0026",
+      "doc": "DOC1",
+      "text": "All command-ladder targets exist and run meaningfully",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC1-REQ-0027",
+      "doc": "DOC1",
+      "text": "BASELINE_DOCUMENT_ALIGNMENT_AUDIT.md exists",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC1-REQ-0028",
+      "doc": "DOC1",
+      "text": "DOCUMENT_REQUIREMENT_INVENTORY.json exists",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC1-REQ-0029",
+      "doc": "DOC1",
+      "text": "Dependency-file modification requires review",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0030",
+      "doc": "DOC1",
+      "text": "Git protected-branch mutation requires approval",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0031",
+      "doc": "DOC1",
+      "text": "Live provider requires explicit policy, skipped by default",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0032",
+      "doc": "DOC1",
+      "text": "Prompt contract versioning exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0033",
+      "doc": "DOC1",
+      "text": "Context builder includes constraints and evidence plan",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0034",
+      "doc": "DOC1",
+      "text": "Orchestrator routes through all pipeline stages",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0035",
+      "doc": "DOC1",
+      "text": "Promotion gate blocks unsupported claims",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0036",
+      "doc": "DOC1",
+      "text": "Final acceptance rejects unresolved mandatory gaps",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC1-REQ-0037",
+      "doc": "DOC1",
+      "text": "Security sandbox/filesystem boundary implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0038",
+      "doc": "DOC1",
+      "text": "Policy/capability registry implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0039",
+      "doc": "DOC1",
+      "text": "Failure taxonomy/recovery playbook implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0040",
+      "doc": "DOC1",
+      "text": "Governed patch execution implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0041",
+      "doc": "DOC1",
+      "text": "Tool/MCP/Git boundary implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0042",
+      "doc": "DOC1",
+      "text": "Self-evolution orchestrator implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0043",
+      "doc": "DOC1",
+      "text": "Human review implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0044",
+      "doc": "DOC1",
+      "text": "Promotion/release gate implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC1-REQ-0045",
+      "doc": "DOC1",
+      "text": "Final acceptance implemented",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC2-REQ-0001",
+      "doc": "DOC2",
+      "text": "Umbrella input schema exists",
+      "status": "UNKNOWN",
+      "type": "schema"
+    },
+    {
+      "id": "DOC2-REQ-0002",
+      "doc": "DOC2",
+      "text": "Umbrella weather fixture schema exists",
+      "status": "UNKNOWN",
+      "type": "schema"
+    },
+    {
+      "id": "DOC2-REQ-0003",
+      "doc": "DOC2",
+      "text": "Umbrella output schema exists",
+      "status": "UNKNOWN",
+      "type": "schema"
+    },
+    {
+      "id": "DOC2-REQ-0004",
+      "doc": "DOC2",
+      "text": "Umbrella reports directory exists with artifacts",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC2-REQ-0005",
+      "doc": "DOC2",
+      "text": "All 18 pipeline steps have evidence",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC2-REQ-0006",
+      "doc": "DOC2",
+      "text": "Recommendation rules implemented for all fixture cases",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC2-REQ-0007",
+      "doc": "DOC2",
+      "text": "All fixture cases tested (yes/maybe/no/unknown)",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0008",
+      "doc": "DOC2",
+      "text": "Permanent/ephemeral boundary resolved",
+      "status": "UNKNOWN",
+      "type": "governance"
+    },
+    {
+      "id": "DOC2-REQ-0009",
+      "doc": "DOC2",
+      "text": "Weather fixture read is policy-gated",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0010",
+      "doc": "DOC2",
+      "text": "Canary patch support works",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0011",
+      "doc": "DOC2",
+      "text": "Evidence helper writes non-secret evidence",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0012",
+      "doc": "DOC2",
+      "text": "L0 mutation rejected",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0013",
+      "doc": "DOC2",
+      "text": "Write outside approved paths rejected",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0014",
+      "doc": "DOC2",
+      "text": "Recommendation rules pass all deterministic fixtures",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0015",
+      "doc": "DOC2",
+      "text": "Event log contains all pipeline stages",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC2-REQ-0016",
+      "doc": "DOC2",
+      "text": "prove-umbrella-agent target exists and runs meaningfully",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC3-REQ-0001",
+      "doc": "DOC3",
+      "text": "Post-umbrella artifact root exists",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC3-REQ-0002",
+      "doc": "DOC3",
+      "text": "Prior milestone verification exists",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC3-REQ-0003",
+      "doc": "DOC3",
+      "text": "Baseline manifests exist",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC3-REQ-0004",
+      "doc": "DOC3",
+      "text": "Infrastructure validators exist (all 18)",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC3-REQ-0005",
+      "doc": "DOC3",
+      "text": "Clothing advice agent exists with governed provenance",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC3-REQ-0006",
+      "doc": "DOC3",
+      "text": "Clothing advice agent has fixture cases",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC3-REQ-0007",
+      "doc": "DOC3",
+      "text": "Daily planning agent exists with governed provenance",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC3-REQ-0008",
+      "doc": "DOC3",
+      "text": "Daily planning agent has fixture cases",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC3-REQ-0009",
+      "doc": "DOC3",
+      "text": "Benchmark categories exist (all 10)",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC3-REQ-0010",
+      "doc": "DOC3",
+      "text": "Failure recovery proof exists",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC3-REQ-0011",
+      "doc": "DOC3",
+      "text": "Model provider abstraction exists (deterministic/local/live/disabled)",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC3-REQ-0012",
+      "doc": "DOC3",
+      "text": "Security negative tests exist (all 8)",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC3-REQ-0013",
+      "doc": "DOC3",
+      "text": "Release readiness report exists",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC3-REQ-0014",
+      "doc": "DOC3",
+      "text": "Does not claim production readiness",
+      "status": "UNKNOWN",
+      "type": "claim"
+    },
+    {
+      "id": "DOC3-REQ-0015",
+      "doc": "DOC3",
+      "text": "Final acceptance artifacts exist",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC3-REQ-0016",
+      "doc": "DOC3",
+      "text": "Final claim uses allowed wording only",
+      "status": "UNKNOWN",
+      "type": "claim"
+    },
+    {
+      "id": "DOC4-REQ-0001",
+      "doc": "DOC4",
+      "text": "Doctrine doc INVERSE_SCIENTIFIC_METHOD.md exists",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC4-REQ-0002",
+      "doc": "DOC4",
+      "text": "Doctrine doc contains required warnings",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC4-REQ-0003",
+      "doc": "DOC4",
+      "text": "Adaptation note JSON embedded in doctrine doc",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC4-REQ-0004",
+      "doc": "DOC4",
+      "text": "No Symbiant-specific terminology remains",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC4-REQ-0005",
+      "doc": "DOC4",
+      "text": "Inverse-science reports exist",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC4-REQ-0006",
+      "doc": "DOC4",
+      "text": "All 8 inverse-science schemas exist",
+      "status": "UNKNOWN",
+      "type": "schema"
+    },
+    {
+      "id": "DOC4-REQ-0007",
+      "doc": "DOC4",
+      "text": "Core records supported (plan, candidate, decision, observation, evidence, negative-knowledge, BKS, report)",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC4-REQ-0008",
+      "doc": "DOC4",
+      "text": "CLI workflow commands exist (plan, candidates, rank, decide, observe, report)",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC4-REQ-0009",
+      "doc": "DOC4",
+      "text": "First real use case implemented (borderline weather)",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC4-REQ-0010",
+      "doc": "DOC4",
+      "text": "Unit tests for schema validation, ranking, constraint separation",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC4-REQ-0011",
+      "doc": "DOC4",
+      "text": "Integration tests for governance routing",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC4-REQ-0012",
+      "doc": "DOC4",
+      "text": "Sabotage tests (L0 mutation, policy bypass, auto-promotion)",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC4-REQ-0013",
+      "doc": "DOC4",
+      "text": "prove-inverse-science target exists",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC4-REQ-0014",
+      "doc": "DOC4",
+      "text": "Inverse science not L0, not mandatory, cannot override policy",
+      "status": "UNKNOWN",
+      "type": "governance"
+    },
+    {
+      "id": "DOC5-REQ-0001",
+      "doc": "DOC5",
+      "text": "benchmarks/scriptor/ directory exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC5-REQ-0002",
+      "doc": "DOC5",
+      "text": "32-PDF source inventory exists",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC5-REQ-0003",
+      "doc": "DOC5",
+      "text": "Source hash manifest exists",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC5-REQ-0004",
+      "doc": "DOC5",
+      "text": "Missing source blockers report exists",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC5-REQ-0005",
+      "doc": "DOC5",
+      "text": "Source ingestion report exists",
+      "status": "UNKNOWN",
+      "type": "report"
+    },
+    {
+      "id": "DOC5-REQ-0006",
+      "doc": "DOC5",
+      "text": "Complete Scriptor artifact tree exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    },
+    {
+      "id": "DOC5-REQ-0007",
+      "doc": "DOC5",
+      "text": "Per-PDF semantic coverage record exists",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC5-REQ-0008",
+      "doc": "DOC5",
+      "text": "Universal readiness matrix exists",
+      "status": "UNKNOWN",
+      "type": "evidence"
+    },
+    {
+      "id": "DOC5-REQ-0009",
+      "doc": "DOC5",
+      "text": "Universal readiness does not claim max in Stage A",
+      "status": "UNKNOWN",
+      "type": "claim"
+    },
+    {
+      "id": "DOC5-REQ-0010",
+      "doc": "DOC5",
+      "text": "Sabotage tests exist (all 20)",
+      "status": "UNKNOWN",
+      "type": "test"
+    },
+    {
+      "id": "DOC5-REQ-0011",
+      "doc": "DOC5",
+      "text": "prove-scriptor-benchmark target exists",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC5-REQ-0012",
+      "doc": "DOC5",
+      "text": "prove-scriptor-benchmark validates all areas",
+      "status": "UNKNOWN",
+      "type": "command"
+    },
+    {
+      "id": "DOC5-REQ-0013",
+      "doc": "DOC5",
+      "text": "benchmarks/benchcore/ path mapping resolved",
+      "status": "UNKNOWN",
+      "type": "documentation"
+    },
+    {
+      "id": "DOC5-REQ-0014",
+      "doc": "DOC5",
+      "text": "Scriptor ontology (acronyms, glossary, terms) exists",
+      "status": "UNKNOWN",
+      "type": "source"
+    }
+  ]
 }

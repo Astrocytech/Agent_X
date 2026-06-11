@@ -1,0 +1,12 @@
+{
+  "scenario": "normal_day",
+  "tasks": [
+    {"id": "t1", "title": "Morning standup", "duration_min": 15, "deadline": "2026-06-11 10:00", "urgency": "medium"},
+    {"id": "t2", "title": "Code review PR", "duration_min": 30, "deadline": "2026-06-11 12:00", "urgency": "high"},
+    {"id": "t3", "title": "Write monthly report", "duration_min": 60, "deadline": "2026-06-11 17:00", "urgency": "medium"},
+    {"id": "t4", "title": "Team lunch", "duration_min": 45, "deadline": "2026-06-11 13:00", "urgency": "low"},
+    {"id": "t5", "title": "Update docs", "duration_min": 30, "deadline": "2026-06-12 10:00", "urgency": "low"}
+  ],
+  "time_budget_min": 480,
+  "source": "fixture"
+}
