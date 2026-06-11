@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ProductionCue",
+  "description": "Schema for production cues in the BenchCore benchmark pack. Enforces length, forbidden keywords, delimiter rules, and disallows additional properties.",
+  "type": "object",
+  "properties": {
+    "cue": {
+      "type": "string",
+      "maxLength": 150,
+      "description": "The production cue string. Must not exceed 150 characters."
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of associated keywords. Must not contain forbidden keywords: !halt, !emergency, !bypass."
+    },
+    "delimiter": {
+      "type": "string",
+      "enum": [":", "="],
+      "description": "Delimiter character. Only ':' or '=' are allowed; '/' and '\\' are forbidden."
+    },
+    "source": {
+      "type": "string",
+      "description": "Source document reference (e.g., BENCHCORE-DOC-xxx)."
+    }
+  },
+  "required": ["cue", "keywords", "delimiter", "source"],
+  "additionalProperties": false
+}

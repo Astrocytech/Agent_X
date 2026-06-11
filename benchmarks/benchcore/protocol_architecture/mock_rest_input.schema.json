@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MockRESTInput",
+  "description": "Schema for mock REST API input requests in the BenchCore benchmark pack. Used for protocol architecture benchmarking.",
+  "type": "object",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The REST endpoint path (e.g., /api/stories/12345)."
+    },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "DELETE"],
+      "description": "HTTP method for the request."
+    },
+    "headers": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z][a-zA-Z0-9_-]*$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "HTTP headers as key-value pairs."
+    },
+    "body": {
+      "oneOf": [
+        { "type": "object" },
+        { "type": "null" }
+      ],
+      "description": "Request body object, or null for GET/DELETE requests."
+    }
+  },
+  "required": ["endpoint", "method", "headers", "body"],
+  "additionalProperties": false
+}

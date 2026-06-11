@@ -1,0 +1,44 @@
+[
+  {
+    "claim_id": "CLAIM-REJECT-001",
+    "claim_text": "Agent_X is now instantly universal",
+    "rejection_reason": "No single benchmark or benchmark pack can prove universal agency. The BenchCore pack is a governed, source-backed benchmark — not a universality proof.",
+    "test_status": "pass"
+  },
+  {
+    "claim_id": "CLAIM-REJECT-002",
+    "claim_text": "Agent_X can now build any agent safely",
+    "rejection_reason": "The BenchCore pack covers 32 specific documents in a broadcast domain. It does not demonstrate capability across all domains or build safety guarantees.",
+    "test_status": "pass"
+  },
+  {
+    "claim_id": "CLAIM-REJECT-003",
+    "claim_text": "Agent_X has fully implemented BenchCore",
+    "rejection_reason": "This is a benchmark pack, not a full BenchCore implementation. 5 of 32 sources are deferred, 2 are optional, and no live system integration exists.",
+    "test_status": "pass"
+  },
+  {
+    "claim_id": "CLAIM-REJECT-004",
+    "claim_text": "Agent_X can now operate live MOS, OverDrive, Inception, customer databases, SSH log tailing, WSL, or production systems",
+    "rejection_reason": "All 32 sources have live_dependency=false. Deferred boundaries document SSH, MySQL, WSL, and other live dependencies as explicitly out of scope.",
+    "test_status": "pass"
+  },
+  {
+    "claim_id": "CLAIM-REJECT-005",
+    "claim_text": "One project benchmark proves general intelligence or universal agency",
+    "rejection_reason": "Benchmark packs measure specific, bounded capabilities. General intelligence and universal agency are not provable by any finite set of benchmarks.",
+    "test_status": "pass"
+  },
+  {
+    "claim_id": "CLAIM-REJECT-006",
+    "claim_text": "Agent_X is now fully autonomous",
+    "rejection_reason": "Agent_X operates within benchmark constraints and governed policies. Autonomy is bounded by human review patterns, learning policies, and claim boundaries.",
+    "test_status": "pass"
+  },
+  {
+    "claim_id": "CLAIM-REJECT-007",
+    "claim_text": "Agent_X can self-evolve without human review",
+    "rejection_reason": "The feedback loop and learning policies require governed, human-reviewed update processes. Self-evolution without review is explicitly prevented by policy.",
+    "test_status": "pass"
+  }
+]

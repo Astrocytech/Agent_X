@@ -1,0 +1,58 @@
+[
+  {
+    "requirement_id": "MLP-REQ-001",
+    "description": "Multi-line prediction must support context windows that include lines preceding the target line. The preceding context size must be configurable from 0 to at least 10 lines. The default preceding window should be 1 line for symmetric-1 mode and unlimited for full-story mode.",
+    "inputs": ["Target line index", "Parsed item list for the story", "Preceding window size (N)"],
+    "outputs": ["Context window containing N lines before the target"],
+    "constraints": ["Must not include lines from a different story", "Must handle cases where fewer than N lines precede the target"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "requirement_id": "MLP-REQ-002",
+    "description": "Multi-line prediction must support context windows that include lines following the target line. The following context size must be configurable from 0 to at least 10 lines. The default following window should be 1 line for symmetric-1 mode and unlimited for full-story mode.",
+    "inputs": ["Target line index", "Parsed item list for the story", "Following window size (M)"],
+    "outputs": ["Context window containing M lines after the target"],
+    "constraints": ["Must not include lines from a different story", "Must handle cases where fewer than M lines follow the target", "In evaluation mode, following lines are always from ground-truth data, not from model predictions"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "requirement_id": "MLP-REQ-003",
+    "description": "Multi-line prediction must support symmetric context windows (equal lines before and after the target). The symmetric-1 mode (1 before, 1 after) is the default multi-line configuration. The symmetric window size must be independently configurable from the asymmetric mode configuration.",
+    "inputs": ["Target line index", "Parsed item list for the story", "Symmetric window size (K)"],
+    "outputs": ["Context window containing K lines before and K lines after the target"],
+    "constraints": ["Must handle edge cases at story boundaries where fewer than K lines are available on one side", "Total context size = 2K + 1 (including target line)"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "requirement_id": "MLP-REQ-004",
+    "description": "Multi-line prediction must support full-story context windows that include all lines in the current story, from the first item to the last item. Full-story mode must respect story boundaries as determined by the story segmenter. Items from different stories must never be mixed in the same context window.",
+    "inputs": ["Target line index", "Parsed story with all items", "Story boundary definitions"],
+    "outputs": ["Context window containing all lines in the current story"],
+    "constraints": ["Story boundaries must be pre-computed by the story segmenter", "Full-story context may exceed LLM context window limits; must truncate or downsample if needed"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "requirement_id": "MLP-REQ-005",
+    "description": "Multi-line prediction evaluation must report results separately for each context window configuration (preceding-1, symmetric-1, full-story, and any custom configurations tested). Oracle-context results (best context window selected per example) must also be reported to establish an upper bound on context window benefit.",
+    "inputs": ["Predictions for all context window configurations", "Ground-truth labels per example"],
+    "outputs": ["Per-configuration metric tables", "Oracle-context aggregate metrics", "Configuration comparison report"],
+    "constraints": ["Oracle-context selection must be based on ground truth, not on model confidence", "Results must include the fraction of examples where each configuration is optimal"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032", "BENCHCORE-DOC-019"]
+  },
+  {
+    "requirement_id": "MLP-REQ-006",
+    "description": "Multi-line prediction must include a check that multi-line context does not leak information from future lines that would be unavailable in a real-time deployment. The evaluation harness must verify that the following context (lines after the target) is consistently marked as such. Sabotage tests must verify that a cheating implementation that uses ground-truth following lines as prediction hints is detected.",
+    "inputs": ["Context window with line position metadata", "Target line index"],
+    "outputs": ["Context annotation: preceding, target, following", "Leakage detection warning if applicable"],
+    "constraints": ["All lines in the context window must be annotated with position relative to target", "Sabotage test must distinguish allowed multi-line context from illegal future information"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032", "BENCHCORE-DOC-014"]
+  },
+  {
+    "requirement_id": "MLP-REQ-007",
+    "description": "Multi-line prediction must support multi-target prediction where multiple field values for the same item are predicted jointly from the same context window. Joint prediction must account for dependencies between fields (e.g., command type constrains which field values are valid). The prompt must specify which fields are being predicted and their inter-dependencies.",
+    "inputs": ["Context window", "List of target fields to predict", "Field dependency rules (from ontology)"],
+    "outputs": ["Joint prediction with all target fields", "Per-field confidence scores"],
+    "constraints": ["Joint prediction must not assume field independence", "Dependency rules must be extracted from source documents, not hardcoded"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032", "BENCHCORE-DOC-015"]
+  }
+]

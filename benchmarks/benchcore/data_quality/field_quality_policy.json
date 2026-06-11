@@ -1,0 +1,46 @@
+{
+  "policy_name": "FieldQualityPolicy",
+  "description": "Policy for classifying field quality in the BenchCore benchmark pack. Distinguishes between finite-target fields (enum-like) and noisy-or-free-text fields.",
+  "classification_schema": "finite_target or noisy_or_free_text",
+  "finite_fields": [
+    "status",
+    "severity",
+    "category",
+    "delimiter",
+    "command_type",
+    "transition"
+  ],
+  "noisy_fields": [
+    "story_body",
+    "description",
+    "notes",
+    "comments",
+    "raw_log_message",
+    "free_text_input"
+  ],
+  "rationale_required_for_noisy": true,
+  "classification_rules": [
+    {
+      "rule_id": "FQ_001",
+      "description": "Fields with a fixed set of known values are classified as finite_target.",
+      "test": "field has defined enum or set of allowed values"
+    },
+    {
+      "rule_id": "FQ_002",
+      "description": "Fields with unbounded, variable, or natural language content are classified as noisy_or_free_text.",
+      "test": "field value is free-form text, log output, or natural language"
+    },
+    {
+      "rule_id": "FQ_003",
+      "description": "Each noisy_or_free_text field must have an accompanying rationale explaining why it cannot be finite_target.",
+      "test": "field appears in noisy_fields and has rationale_documentation"
+    }
+  ],
+  "quality_metrics": {
+    "finite_target_precision": "Percentage of finite_target fields whose values match the expected enum set",
+    "noisy_field_coverage": "Percentage of noisy fields with documented rationale"
+  },
+  "source_ids": ["BENCHCORE-DOC-028"],
+  "scope": "benchmark-only",
+  "live_connections": false
+}

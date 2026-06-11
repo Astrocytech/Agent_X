@@ -1,0 +1,44 @@
+{
+  "policy_name": "SQLMappingPolicy",
+  "description": "Policy for XML-to-SQL mapping traceability in the BenchCore benchmark pack. Ensures every SQL operation derived from XML configuration is traceable back to its source element.",
+  "mapping_rules": [
+    {
+      "rule_id": "SQL_MAP_001",
+      "description": "Every SQL SELECT, INSERT, UPDATE, or DELETE derived from an XML element must include a source_xpath annotation.",
+      "annotation_format": "/* source: {xpath} */",
+      "enabled": true
+    },
+    {
+      "rule_id": "SQL_MAP_002",
+      "description": "Column mappings must preserve the original XML element name as a SQL alias or comment.",
+      "requirement": "SELECT xml_element_name AS db_column_name OR COMMENT 'xml_element_name'",
+      "enabled": true
+    },
+    {
+      "rule_id": "SQL_MAP_003",
+      "description": "JOIN conditions derived from XML relationships must reference the source XML path in a comment.",
+      "requirement": "ON a.id = b.id /* from XML path: /story/relationships/join */",
+      "enabled": true
+    },
+    {
+      "rule_id": "SQL_MAP_004",
+      "description": "WHERE clause filters derived from XML must include the source element reference.",
+      "requirement": "WHERE status = 'active' /* from XML: /story/filters/status */",
+      "enabled": true
+    }
+  ],
+  "traceability_requirements": {
+    "bidirectional": true,
+    "from_xml_to_sql": "Every XML data element must map to at least one SQL column or parameter.",
+    "from_sql_to_xml": "Every SQL column or parameter must be traceable to exactly one XML source element.",
+    "orphan_detection": "SQL elements without XML provenance and XML elements without SQL targets are flagged as orphans."
+  },
+  "validation": {
+    "auto_validate_on_generate": true,
+    "validation_type": "xpath_coverage_check",
+    "failure_action": "flag_and_report"
+  },
+  "source_ids": ["BENCHCORE-DOC-030"],
+  "scope": "benchmark-only",
+  "live_connections": false
+}

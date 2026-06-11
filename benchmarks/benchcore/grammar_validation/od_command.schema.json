@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ODCommand",
+  "description": "Schema for *OD commands. Enforces *OD prefix, proper argument syntax, no comma-separated lists where spaces are required, and valid transitions only.",
+  "type": "object",
+  "properties": {
+    "command": {
+      "type": "string",
+      "pattern": "^\\*OD",
+      "description": "The command string. Must start with '*OD'."
+    },
+    "arguments": {
+      "type": "object",
+      "patternProperties": {
+        "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Arguments object. Each value must be a string. Space-separated lists are required; comma-separated where space-separated is required will fail validation."
+    },
+    "transition": {
+      "type": "string",
+      "description": "Valid transition identifier for the command state machine."
+    }
+  },
+  "required": ["command", "arguments", "transition"],
+  "additionalProperties": false
+}

@@ -1,0 +1,64 @@
+{
+  "policy_name": "XMLCleanupPolicy",
+  "description": "Policy for XML cleanup and normalization in the BenchCore benchmark pack. Defines cleanup steps, validation rules, and error handling procedures.",
+  "cleanup_steps": [
+    {
+      "step_id": "XML_CLEAN_001",
+      "name": "Strip XML declarations",
+      "description": "Remove <?xml ...?> declarations from input XML strings.",
+      "enabled": true,
+      "pattern": "<\\?xml[^>]*\\?>"
+    },
+    {
+      "step_id": "XML_CLEAN_002",
+      "name": "Normalize whitespace",
+      "description": "Collapse consecutive whitespace characters into single spaces within element text content.",
+      "enabled": true
+    },
+    {
+      "step_id": "XML_CLEAN_003",
+      "name": "Strip CDATA sections",
+      "description": "Extract content from CDATA sections and replace the CDATA wrapper with the raw content.",
+      "enabled": false,
+      "note": "Disabled by default; enable only when CDATA preservation is not required."
+    },
+    {
+      "step_id": "XML_CLEAN_004",
+      "name": "Remove empty elements",
+      "description": "Remove XML elements that have no text content and no child elements.",
+      "enabled": false,
+      "exclude_elements": ["br", "hr", "img"]
+    },
+    {
+      "step_id": "XML_CLEAN_005",
+      "name": "Encode special characters",
+      "description": "Ensure all special characters (&, <, >, \", ') are properly XML-encoded in text content.",
+      "enabled": true
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "XML_VAL_001",
+      "description": "Output must be well-formed XML.",
+      "validator": "xml_well_formedness_check"
+    },
+    {
+      "rule_id": "XML_VAL_002",
+      "description": "All opened tags must be closed.",
+      "validator": "tag_balance_check"
+    },
+    {
+      "rule_id": "XML_VAL_003",
+      "description": "Attribute values must be properly quoted.",
+      "validator": "attribute_quotes_check"
+    }
+  ],
+  "error_handling": {
+    "on_parse_error": "flag_and_skip",
+    "on_validation_failure": "flag_and_report",
+    "max_errors_before_abort": 50
+  },
+  "source_ids": ["BENCHCORE-DOC-026"],
+  "scope": "benchmark-only",
+  "live_connections": false
+}

@@ -1,0 +1,11 @@
+id,input_field,output_field
+1,Process order #ORD-8842 for customer CUST-001,Order ORD-8842 processed for CUST-001
+2,Generate invoice for order ORD-8842,
+3,Send notification to j.doe@acme.example.com,Notification sent to j.doe@acme.example.com
+4,Update inventory for item SKU-4421,Invoice generated as INV-2025-0912
+5,Create shipping label for order ORD-8842,Order status updated to SHIPPED
+6,Process refund for order ORD-3321,
+7,Archive completed order ORD-1123,Refund processed for ORD-3321
+8,Generate monthly report for November 2025,Report generated: monthly_nov2025.pdf
+9,Backup database instance PROD-01,Backup complete: PROD-01_20251103.sql
+10,Run compliance audit for Q4 2025,Send notification to compliance@example.com

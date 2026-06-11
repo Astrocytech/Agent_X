@@ -1,0 +1,106 @@
+[
+  {
+    "concept": "MOS (Media Object Server) protocol",
+    "source_ids": ["BENCHCORE-DOC-026", "BENCHCORE-DOC-030"],
+    "product_context": "MOS is a broadcast industry protocol for communication between newsroom systems and media servers. BenchCore uses MOS for rundown integration.",
+    "boundary_type": "live_dependency",
+    "prevented_action": "Agent_X must not attempt to connect to or operate MOS protocol endpoints in production environments",
+    "evidence_ref": "benchmarks/benchcore/protocol_architecture/adapter_boundary_contract.md"
+  },
+  {
+    "concept": "OverDrive automation system",
+    "source_ids": ["BENCHCORE-DOC-018", "BENCHCORE-DOC-019", "BENCHCORE-DOC-024"],
+    "product_context": "OverDrive is a broadcast automation system for playout control. BenchCore integrates with OverDrive for command execution.",
+    "boundary_type": "live_dependency",
+    "prevented_action": "Agent_X must not execute OverDrive commands or control broadcast automation systems",
+    "evidence_ref": "benchmarks/benchcore/data_quality/field_quality_policy.json"
+  },
+  {
+    "concept": "Inception newsroom system",
+    "source_ids": ["BENCHCORE-DOC-025"],
+    "product_context": "Inception is a newsroom computer system (NRCS) used in broadcast production. BenchCore operates as a plugin within Inception.",
+    "boundary_type": "live_dependency",
+    "prevented_action": "Agent_X must not install or operate as a plugin in any newsroom system",
+    "evidence_ref": "benchmarks/benchcore/human_review_ui/suggestion_card.schema.json"
+  },
+  {
+    "concept": "NRCS (Newsroom Computer System) field prediction",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-006", "BENCHCORE-DOC-008"],
+    "product_context": "NRCS refers to specific broadcast newsroom systems where BenchCore predicts rundown fields like story, item, and split.",
+    "boundary_type": "product_context",
+    "prevented_action": "Agent_X must not claim NRCS field prediction as general-purpose classification; limited to benchmark pattern",
+    "evidence_ref": "benchmarks/benchcore/requirements/multiline_prediction_requirements.json"
+  },
+  {
+    "concept": "QuickCode keyword system",
+    "source_ids": ["BENCHCORE-DOC-022"],
+    "product_context": "QuickCode is a shorthand keyword system in broadcast production for expanding shortcuts into full production cues.",
+    "boundary_type": "product_context",
+    "prevented_action": "Agent_X must not claim QuickCode expansion as general NLP understanding",
+    "evidence_ref": "benchmarks/benchcore/grammar_validation/production_cue.schema.json"
+  },
+  {
+    "concept": "*CG/*OD command syntax",
+    "source_ids": ["BENCHCORE-DOC-024"],
+    "product_context": "*CG (character generator) and *OD (OverDrive) are specific command prefixes used in broadcast automation scripting.",
+    "boundary_type": "product_context",
+    "prevented_action": "Agent_X must not claim *CG/*OD validation as general command interpretation capability",
+    "evidence_ref": "benchmarks/benchcore/grammar_validation/od_command.schema.json"
+  },
+  {
+    "concept": "CAM/MIC/CLIP field prediction",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-008"],
+    "product_context": "CAM (camera), MIC (microphone), and CLIP are specific field types in broadcast rundown prediction.",
+    "boundary_type": "product_context",
+    "prevented_action": "Agent_X must not claim CAM/MIC/CLIP prediction as general object detection or audio processing",
+    "evidence_ref": "benchmarks/benchcore/requirements/solution_workflow_requirements.json"
+  },
+  {
+    "concept": "T5/TranX/LoRA model architecture",
+    "source_ids": ["BENCHCORE-DOC-014"],
+    "product_context": "T5 transformer with TranX semantic parser and LoRA fine-tuning were evaluated for BenchCore's prediction pipeline (deferred).",
+    "boundary_type": "model_specificity",
+    "prevented_action": "Agent_X must not claim T5/TranX/LoRA integration; this is a deferred architecture note, not an implemented capability",
+    "evidence_ref": "benchmarks/benchcore/learning_policy/deferred_training_experiments.md"
+  },
+  {
+    "concept": "Green line / grommet production references",
+    "source_ids": ["BENCHCORE-DOC-022"],
+    "product_context": "Green line and grommet are broadcast production terms referring to specific timing markers and physical cable management in control rooms.",
+    "boundary_type": "domain_terminology",
+    "prevented_action": "Agent_X must not claim understanding of broadcast production terminology as general knowledge",
+    "evidence_ref": "benchmarks/benchcore/grammar_validation/valid_examples.jsonl"
+  },
+  {
+    "concept": "DBLBOX (Double Box) production graphic",
+    "source_ids": ["BENCHCORE-DOC-022"],
+    "product_context": "DBLBOX is a production template for split-screen dual-box graphics in broadcast. It appears in production cue commands.",
+    "boundary_type": "domain_terminology",
+    "prevented_action": "Agent_X must not claim DBLBOX template knowledge as general UI layout generation",
+    "evidence_ref": "benchmarks/benchcore/grammar_validation/valid_examples.jsonl"
+  },
+  {
+    "concept": "MySQL database restore automation",
+    "source_ids": ["BENCHCORE-DOC-031"],
+    "product_context": "BenchCore documentation includes MySQL installation and SQL backup import for customer database setup.",
+    "boundary_type": "live_dependency",
+    "prevented_action": "Agent_X must not perform MySQL restore or database automation; this is deferred with no live dependency",
+    "evidence_ref": "benchmarks/benchcore/operations_reproducibility/mysql_restore_boundary.md"
+  },
+  {
+    "concept": "WSL (Windows Subsystem for Linux) installation",
+    "source_ids": ["BENCHCORE-DOC-032"],
+    "product_context": "BenchCore documentation covers WSL installation for Windows-based development environments.",
+    "boundary_type": "platform_specificity",
+    "prevented_action": "Agent_X must not automate WSL setup; platform-specific configuration is outside benchmark scope",
+    "evidence_ref": "benchmarks/benchcore/operations_reproducibility/wsl_boundary.md"
+  },
+  {
+    "concept": "Remote log tailing with SSH",
+    "source_ids": ["BENCHCORE-DOC-019"],
+    "product_context": "BenchCore documentation describes enabling remote log tailing via SSH for OverDrive systems.",
+    "boundary_type": "live_dependency",
+    "prevented_action": "Agent_X must not execute SSH commands or access remote systems for log tailing",
+    "evidence_ref": "benchmarks/benchcore/operations_reproducibility/remote_log_tailing_boundary.md"
+  }
+]

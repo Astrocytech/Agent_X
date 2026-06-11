@@ -1,0 +1,324 @@
+[
+  {
+    "term": "prediction",
+    "definition": "The output of a classifier model that assigns a value to a target field based on input features extracted from rundown context. In BenchCore, predictions are made for individual story/item fields such as CG text, command type, or timing values.",
+    "context": "Core inference operation in the BenchCore benchmark. Predictions are evaluated against ground-truth labels using metrics like F1, MRR, and Top-K.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "classifier",
+    "definition": "A model component that maps input features (extracted from rundown context) to predicted field values. In BenchCore Stage A, the classifier operates on top of a frozen LLM without retraining, using prompt engineering and dynamic retrieval.",
+    "context": "The central learning component of the benchmark. The classifier's design is constrained by the no-retraining policy for Stage A.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "single-line",
+    "definition": "A prediction task where the classifier must infer a target field value using only the current line of a rundown as context, without access to preceding or following lines.",
+    "context": "The simpler of two prediction paradigms in BenchCore. Used as a baseline and compared against multi-line prediction to measure the value of broader context.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "term": "multi-line",
+    "definition": "A prediction task where the classifier uses multiple lines of rundown context (both preceding and following the target line) to infer a field value. Required for accurate prediction of CG commands whose structure depends on broader story context.",
+    "context": "The more complex prediction paradigm that tests Agent_X's ability to model sequential dependencies in rundown data.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "term": "story",
+    "definition": "A coherent news segment within a broadcast rundown, composed of multiple items (CG, VO, SOT, etc.). Stories are the organizational unit for multi-line prediction context windows.",
+    "context": "The primary grouping structure in rundown data. Story boundaries must be inferred or provided for correct multi-line prediction.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029", "BENCHCORE-DOC-032"]
+  },
+  {
+    "term": "item",
+    "definition": "An individual element within a rundown story, such as a CG command, VO, SOT, or camera directive. Items are the atomic units of prediction in the BenchCore field prediction problem.",
+    "context": "The fundamental prediction target. Each item has multiple fields (type, text, timing, etc.) that the classifier must predict.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  {
+    "term": "rundown",
+    "definition": "A sequential list of stories and items that constitutes a broadcast program. Rundowns are the primary data structure from which training and evaluation examples are extracted in the BenchCore benchmark.",
+    "context": "The top-level data container. Rundowns define the temporal and structural context for all prediction tasks.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  {
+    "term": "log parsing",
+    "definition": "The process of extracting structured rundown data from raw NRCS log files. Includes segmenting lines into stories and items, identifying field boundaries, and handling malformed or incomplete log entries.",
+    "context": "The initial data ingestion step in the BenchCore pipeline. Quality of log parsing directly affects downstream prediction quality.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-002", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "evidence fusion",
+    "definition": "The process of combining multiple sources of contextual evidence (surrounding lines, field correlations, historical patterns) to produce a single prediction. In BenchCore, evidence fusion is the mechanism by which multi-line context improves single-line baseline predictions.",
+    "context": "A key architectural challenge. The benchmark tests how effectively an agent can fuse evidence across multiple lines of rundown data.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-015", "BENCHCORE-DOC-016"]
+  },
+  {
+    "term": "field quality",
+    "definition": "A characterization of how predictable a given field is, based on its value distribution, context dependence, and noise level. Fields are categorized as finite-target, noisy, or free-text to guide prediction strategy selection.",
+    "context": "A critical input to classifier design. Different field qualities require different prediction approaches and evaluation metrics.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "target field",
+    "definition": "A specific field within a story/item object that the classifier must predict. Examples include CG text content, command type, timing duration, and graphic style identifiers.",
+    "context": "The dependent variable in each prediction task. Each target field has an associated data type, allowed value set, and evaluation metric.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "finite target set",
+    "definition": "A target field whose possible values belong to a known, bounded set. Examples include command type (CG, VO, SOT, etc.) and camera number. Prediction for finite target sets is typically framed as classification.",
+    "context": "One of three field quality categories. Finite target fields are the simplest prediction case, evaluated with accuracy and F1 score.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "noisy field",
+    "definition": "A target field whose values contain significant variation or errors due to manual entry inconsistencies, legacy system artifacts, or ambiguous formatting. Requires robust prediction strategies that tolerate input noise.",
+    "context": "A challenging field quality category. Noisy fields test the classifier's ability to generalize beyond exact training patterns.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"]
+  },
+  {
+    "term": "free-text field",
+    "definition": "A target field whose values are unconstrained natural language strings, such as CG text content or story descriptions. Prediction requires generation rather than classification from a fixed set.",
+    "context": "The most challenging field quality category. Free-text fields may require LLM-based generation with appropriate constraints.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"]
+  },
+  {
+    "term": "production cue",
+    "definition": "A directive within a rundown that triggers a specific broadcast production action. Production cues are expressed as CG, OD, or other commands that must be predicted from story context.",
+    "context": "The real-world output that BenchCore's predictions aim to produce. Production cue prediction is the core practical application of the benchmark.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-004", "BENCHCORE-DOC-009"]
+  },
+  {
+    "term": "QuickCode",
+    "definition": "A shorthand command syntax used in NRCS systems to quickly insert common production cues. QuickCodes are short alphanumeric strings (e.g., 'CG1', 'VOSOT') that expand into full command structures. BenchCore must learn the mapping between QuickCodes and their expanded forms.",
+    "context": "A key prediction target that requires understanding both the shorthand and the expanded command structure. QuickCode expansion is a subtask within the broader field prediction problem.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "CG command",
+    "definition": "A command that produces a character generator graphic in the broadcast. CG commands contain fields for text content, timing (in/out points), layer, and visual style. These are the most common prediction targets in the BenchCore benchmark.",
+    "context": "The primary command type in the prediction task. CG commands appear in multiple variants (full-screen, lower-third, over-the-shoulder) each with distinct field structures.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030", "BENCHCORE-DOC-032"]
+  },
+  {
+    "term": "OD command",
+    "definition": "A command that defines an object within the rundown, specifying its type, properties, and relationships. OD commands precede CG commands in many NRCS log formats and provide structural metadata for prediction.",
+    "context": "A structural command type that provides context for CG predictions. OD commands must be correctly parsed and interpreted as input features.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "command expansion",
+    "definition": "The process of converting a shorthand or abbreviated command form (such as a QuickCode) into its full structured representation with all required fields populated. A key prediction capability that BenchCore evaluates.",
+    "context": "A subtask that tests the system's ability to map compact representations to complete structures. Related to code generation and semantic parsing.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "keyword expansion",
+    "definition": "A specific form of command expansion where natural language keywords (e.g., 'sports scores', 'weather') are mapped to full command structures with appropriate field values based on context and templates.",
+    "context": "A broader variant of command expansion that tests NL-to-command mapping capabilities.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "feedback loop",
+    "definition": "The process by which user corrections to predictions are captured, stored, and used to improve future predictions. Feedback can be implicit (user behavior) or explicit (direct ratings/corrections).",
+    "context": "A core architectural component that enables continuous improvement without retraining. The benchmark defines feedback policies but does not implement the full feedback pipeline in Stage A.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-015", "BENCHCORE-DOC-024"]
+  },
+  {
+    "term": "implicit signal",
+    "definition": "A form of feedback inferred from user behavior without explicit input, such as which suggestion card a user clicks, how long they hover, or whether they modify a prediction before accepting.",
+    "context": "A less intrusive but noisier feedback source. Implicit signals require careful interpretation to avoid bias amplification.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-024"]
+  },
+  {
+    "term": "explicit signal",
+    "definition": "A form of feedback where the user directly provides a rating, correction, or confirmation of a prediction. Examples include thumbs-up/down buttons, corrected text entries, and acceptance of suggestions.",
+    "context": "A high-quality but less abundant feedback source. Explicit signals are prioritized for feedback-driven improvement.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-024"]
+  },
+  {
+    "term": "position bias",
+    "definition": "The tendency for users to prefer or select items presented earlier in a list, independent of their actual quality. Must be accounted for when interpreting implicit feedback from suggestion card rankings.",
+    "context": "A known confound in feedback interpretation. The benchmark tests whether agent implementations account for position bias in their feedback policies.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-024"]
+  },
+  {
+    "term": "drift",
+    "definition": "A change in the underlying distribution of rundown data over time, caused by evolving broadcast formats, new show types, or changing editorial practices. Drift can degrade prediction quality if not detected and addressed.",
+    "context": "A key challenge for production deployment. The benchmark includes drift detection as a learning policy requirement.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-015", "BENCHCORE-DOC-024"]
+  },
+  {
+    "term": "exploration",
+    "definition": "The deliberate selection of non-optimal predictions to gather feedback data and discover potentially better alternatives. Exploration balances against exploitation (using the current best predictor) in the feedback loop.",
+    "context": "A learning policy decision. The benchmark defines exploration thresholds but does not implement adaptive exploration in Stage A.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-024"]
+  },
+  {
+    "term": "rollback",
+    "definition": "The ability to revert a prediction or system change to a previous state when feedback indicates degradation. Rollback is a safety mechanism in the deployment gate process.",
+    "context": "A deployment safety feature. The benchmark defines rollback requirements but does not implement automated rollback in Stage A.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-014"]
+  },
+  {
+    "term": "evaluation harness",
+    "definition": "The automated testing framework that runs prediction tasks against ground-truth data, computes metrics (F1, MRR, Top-K), and generates reports. The harness supports configurable test suites and multiple evaluation modes.",
+    "context": "The core evaluation infrastructure of the BenchCore benchmark. All prediction quality claims must be substantiated by evaluation harness results.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "exact-match",
+    "definition": "A strict evaluation metric requiring the predicted value to exactly equal the ground-truth value. Used for finite target set fields where value equivalence is well-defined.",
+    "context": "The most stringent evaluation criterion. Exact-match is required for fields where precision is critical, such as command timing values.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "top-k",
+    "definition": "An evaluation metric that considers a prediction correct if the ground-truth value appears among the top K candidates ranked by the classifier. Used for fields where presenting multiple suggestions is acceptable.",
+    "context": "A relaxed evaluation criterion appropriate for fields where user selection from candidates is the intended workflow.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "F1 score",
+    "definition": "The harmonic mean of precision and recall, calculated as 2 * (precision * recall) / (precision + recall). Used as the primary classification metric in BenchCore evaluation.",
+    "context": "The standard evaluation metric for finite target set predictions. Macro-averaged F1 is used for multi-class problems.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "MRR",
+    "definition": "Mean Reciprocal Rank, calculated as the average of reciprocal ranks of correct predictions across all evaluation examples. Used for ranking-based evaluation where the classifier produces an ordered list of candidates.",
+    "context": "A complementary metric to Top-K that accounts for the rank position of the correct answer within candidate lists.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "bootstrap confidence interval",
+    "definition": "A non-parametric method for estimating confidence intervals by resampling evaluation results with replacement. Used in BenchCore to quantify uncertainty in prediction quality metrics.",
+    "context": "A statistical rigor requirement. All published evaluation results must include bootstrap confidence intervals.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "deployment gate",
+    "definition": "A quality checkpoint that must be passed before a prediction model or configuration can be deployed to production. Gates enforce minimum metric thresholds and require passing specific test suites.",
+    "context": "A benchmark requirement defining the conditions under which predictions are considered deployable. Deployment gates test the agent's ability to assess its own prediction quality.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  {
+    "term": "dynamic retrieval",
+    "definition": "A mechanism that fetches relevant context, templates, or examples at inference time based on the current input, rather than relying solely on static training data. Used to augment LLM prompts with task-specific information.",
+    "context": "The primary mechanism for injecting domain knowledge into frozen LLM predictions. Dynamic retrieval replaces the need for fine-tuning in Stage A.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"]
+  },
+  {
+    "term": "capability registry",
+    "definition": "A searchable catalog of available prediction capabilities, command types, and field definitions. The registry enables dynamic discovery of what predictions a given Agent_X configuration can produce.",
+    "context": "An architectural component for managing prediction capabilities. The registry must support query by natural language description or command pattern.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-015", "BENCHCORE-DOC-025"]
+  },
+  {
+    "term": "natural language to ID mapping",
+    "definition": "The ability to convert a natural language description (e.g., 'put up the sports scores graphic') into the corresponding command ID or template identifier for prediction and generation.",
+    "context": "A key capability that bridges user intent to system commands. Tests the semantic understanding component of the agent.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"]
+  },
+  {
+    "term": "inverse science",
+    "definition": "The discipline of working backwards from observed data to infer underlying causes, structures, or generative processes. In BenchCore, inverse science is applied to infer rundown structure, command grammar, and prediction targets from raw log data without documentation.",
+    "context": "A meta-level challenge that tests whether Agent_X can reverse-engineer domain structure from raw data, analogous to scientific discovery.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-008", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "abduction",
+    "definition": "A form of logical inference that starts with observations and seeks the simplest and most likely explanation. In BenchCore, abduction is used to infer the most likely command structure given observed rundown patterns.",
+    "context": "A reasoning pattern employed in inverse science tasks. Abduction from data patterns to underlying grammar rules is a key benchmark challenge.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-008", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "deduction",
+    "definition": "A form of reasoning that derives specific consequences from general rules. In BenchCore, deduction is used to predict specific field values from known grammar rules and context.",
+    "context": "A reasoning pattern used during inference when grammar rules are known. Deduction complements abduction in the inverse science framework.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-008", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "explanation",
+    "definition": "A description of the reasoning behind a prediction, including the evidence and rules used. In BenchCore, explanations are required for auditability and for detecting spurious correlations in predictions.",
+    "context": "A benchmark requirement for interpretable predictions. Agents must provide explanations for their predictions, not just outputs.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-008", "BENCHCORE-DOC-015"]
+  },
+  {
+    "term": "hypothesis",
+    "definition": "A proposed explanation for observed patterns in rundown data that can be tested through prediction experiments. In BenchCore, hypotheses about command structure and field semantics are tested via the evaluation harness.",
+    "context": "A core concept in the inverse science methodology. The benchmark evaluates whether agents can form and test hypotheses about data structure.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-008", "BENCHCORE-DOC-030"]
+  },
+  {
+    "term": "negative knowledge",
+    "definition": "Knowledge about what a system cannot or should not do, including boundaries of prediction capability, known failure modes, and confidence thresholds below which predictions should not be offered.",
+    "context": "An important safety concept in BenchCore. Negative knowledge prevents overconfident predictions and defines the scope of reliable operation.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-008", "BENCHCORE-DOC-015"]
+  },
+  {
+    "term": "ontology",
+    "definition": "A formal representation of knowledge within a domain, including concepts, relationships, and constraints. This ontology file is itself an example. The BenchCore ontology defines the vocabulary and structure of the benchmark domain.",
+    "context": "The foundational knowledge representation for the benchmark. The ontology enables consistent terminology and traceability across all benchmark artifacts.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-015"]
+  },
+  {
+    "term": "glossary",
+    "definition": "An alphabetical list of terms with definitions, providing beginner-safe reference for domain terminology. This glossary provides definitions for BenchCore-specific and generic terms used throughout the benchmark.",
+    "context": "A reference artifact that ensures consistent understanding of terminology across all benchmark users and evaluators.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-001"]
+  },
+  {
+    "term": "acronym",
+    "definition": "An abbreviation formed from the initial letters of a phrase. The acronym map provides expansions and context for all acronyms used in BenchCore documentation.",
+    "context": "A reference artifact for decoding abbreviations used throughout the benchmark documentation and source materials.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-001"]
+  }
+]

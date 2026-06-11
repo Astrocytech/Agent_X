@@ -1,0 +1,135 @@
+[
+  {
+    "term": "Classifier",
+    "definition": "A machine learning model that assigns input data to one of several predefined categories. In BenchCore, classifiers predict target field values (e.g., command type, timing) from rundown context features using a frozen LLM backbone.",
+    "ml_context": "The core prediction component. The classifier architecture must respect the no-retraining constraint of Stage A, using prompt engineering and dynamic retrieval instead of weight updates.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "single-line prediction",
+    "definition": "A prediction task using only the current rundown line as context. The classifier sees no surrounding lines, making it a partially-observable prediction problem. Serves as a baseline for measuring the value of multi-line context.",
+    "ml_context": "A constrained prediction paradigm. Single-line prediction tests the classifier's ability to infer field values from minimal context.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "multi-line prediction",
+    "definition": "A prediction task using multiple lines of rundown context (preceding and/or following the target line). Enables the classifier to leverage story structure, item sequences, and cross-field correlations for more accurate predictions.",
+    "ml_context": "The primary prediction paradigm for complex fields. Multi-line prediction tests evidence fusion across sequential context.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "training",
+    "definition": "The process of updating model parameters to minimize prediction error on labeled data. In Stage A of BenchCore, traditional training (weight updates) is forbidden. The term is used only to describe the learning phase constraint.",
+    "ml_context": "Forbidden in Stage A. All learning must occur through non-parametric means (prompt engineering, dynamic retrieval, example selection).",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "forbidden"
+  },
+  {
+    "term": "inference",
+    "definition": "The process of generating predictions from input data using a trained model. In BenchCore, inference uses a frozen LLM with context-augmented prompts to predict target field values without modifying model parameters.",
+    "ml_context": "The primary operational phase for Stage A. All benchmark predictions are produced during inference using the frozen LLM.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "LLM",
+    "definition": "Large Language Model — a neural network with billions of parameters trained on vast text corpora. In BenchCore, the LLM serves as a frozen semantic backbone that provides natural language understanding for prediction tasks without parameter updates.",
+    "ml_context": "The foundation model for the prediction system. The LLM is explicitly frozen (no retraining, no fine-tuning) in Stage A to maintain the benchmark constraint.",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "frozen LLM",
+    "definition": "An LLM whose parameters are locked and not updated during the benchmark. The frozen LLM constraint ensures Stage A focuses on prompt engineering, retrieval, and architecture rather than model customization.",
+    "ml_context": "A hard constraint for Stage A. The frozen LLM is used as-is, with all task adaptation performed through input/output interfaces.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "retraining",
+    "definition": "The process of updating model weights on new data, either through full training or fine-tuning. Retraining is explicitly forbidden in Stage A of BenchCore to enforce the frozen LLM constraint.",
+    "ml_context": "Forbidden in Stage A. Retraining is reserved for later benchmark stages that relax the frozen model constraint.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "forbidden"
+  },
+  {
+    "term": "LoRA",
+    "definition": "Low-Rank Adaptation — a parameter-efficient fine-tuning method that trains small rank-decomposition matrices while keeping base weights frozen. Referenced in BenchCore as a candidate approach for future stages where the frozen LLM constraint is relaxed.",
+    "ml_context": "A forbidden technique for Stage A. LoRA is documented as a potential approach for later benchmark stages involving model adaptation.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "forbidden"
+  },
+  {
+    "term": "T5",
+    "definition": "Text-to-Text Transfer Transformer — a Google model that frames all NLP tasks as text-to-text problems. Referenced in BenchCore as a candidate architecture for the semantic parsing component, but not required for Stage A.",
+    "ml_context": "Referenced as an alternative backbone. Stage A does not require a specific model architecture beyond a frozen LLM.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "forbidden"
+  },
+  {
+    "term": "TranX",
+    "definition": "Transition-based Abstract Syntax Parser — a semantic parsing system that generates AST representations from natural language. Referenced in BenchCore as a candidate for NL-to-command parsing but forbidden for Stage A under the frozen LLM constraint.",
+    "ml_context": "A forbidden technique for Stage A. TranX would require training or fine-tuning and is only relevant to later stages.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "forbidden"
+  },
+  {
+    "term": "feature",
+    "definition": "An individual measurable property or characteristic of input data used by a model for prediction. In BenchCore, features include line position, surrounding command types, keyword presence, timing values, and story structure indicators.",
+    "ml_context": "The input representation for the classifier. Feature engineering determines what information is available for prediction.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "label",
+    "definition": "The ground-truth value of a target field used for evaluation. Labels in BenchCore are extracted from curated rundown datasets with validated field values.",
+    "ml_context": "The reference standard for evaluation. Labels are prepared by domain experts and stored in the evaluation dataset.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "target",
+    "definition": "The field or variable that the classifier is trained to predict. BenchCore defines multiple targets per rundown item, including command type, text content, timing, and visual style fields.",
+    "ml_context": "The dependent variable in each prediction task. Each target has a defined data type and evaluation metric.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "field quality",
+    "definition": "A characterization of a target field's predictability based on its value distribution, context dependence, and noise level. Categories include finite target set, noisy field, and free-text field.",
+    "ml_context": "A meta-feature that determines prediction strategy. Different field qualities require different ML approaches.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "finite target",
+    "definition": "A target field with a bounded, known set of possible values. Examples include command type (CG, VO, SOT) and camera number. Prediction is framed as multi-class classification.",
+    "ml_context": "The simplest prediction category. Finite targets are predicted using classification approaches with standard metrics (accuracy, F1).",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-019"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "noisy field",
+    "definition": "A target field whose values are corrupted by inconsistencies, errors, or formatting variations in the source data. Noisy fields require robust prediction strategies that tolerate imperfect input.",
+    "ml_context": "A challenging prediction category. Noisy fields test the classifier's robustness to input perturbations.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "embedding",
+    "definition": "A dense vector representation of text or data that captures semantic meaning. In BenchCore, embeddings are used for semantic similarity search in the dynamic retrieval system, enabling example-based prediction augmentation.",
+    "ml_context": "A key representation for retrieval. Embeddings enable finding similar rundown contexts for few-shot example selection.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"],
+    "learning_phase": "allowed"
+  },
+  {
+    "term": "vector search",
+    "definition": "A search technique that finds items similar to a query vector in embedding space. Used in BenchCore's dynamic retrieval to find relevant command templates and prediction examples for a given rundown context.",
+    "ml_context": "The retrieval mechanism for example-based prediction. Vector search enables dynamic context augmentation without retraining.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"],
+    "learning_phase": "allowed"
+  }
+]

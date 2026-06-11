@@ -1,0 +1,44 @@
+{
+  "policy_name": "EvidenceFusionPolicy",
+  "description": "Policy for fusing evidence from multiple sources (database records and MOS log entries) in the BenchCore benchmark pack. Enforces join keys, validation rules, and traceability.",
+  "join_key_required": true,
+  "allowed_join_keys": ["story_id", "session_id", "transaction_id", "job_id"],
+  "sources": [
+    {
+      "source_id": "DB_RECORDS",
+      "description": "Database records containing story metadata, status, and field values.",
+      "key_field": "story_id"
+    },
+    {
+      "source_id": "MOS_LOGS",
+      "description": "MOS protocol logs containing command history, timestamps, and status updates.",
+      "key_field": "story_id"
+    }
+  ],
+  "validation_rules": [
+    {
+      "rule_id": "EF_001",
+      "description": "Every fused record must have a non-null join key that exists in both source datasets.",
+      "validator": "join_key_presence_and_existence"
+    },
+    {
+      "rule_id": "EF_002",
+      "description": "Timestamp ordering must be consistent: MOS log timestamps must not predate corresponding DB record timestamps for the same story_id.",
+      "validator": "temporal_consistency_check"
+    },
+    {
+      "rule_id": "EF_003",
+      "description": "No data loss: all records from the smaller source must be mappable to at least one record in the larger source.",
+      "validator": "coverage_check"
+    },
+    {
+      "rule_id": "EF_004",
+      "description": "Field conflicts between sources must be flagged. Resolution strategy: DB_RECORDS takes precedence for metadata fields; MOS_LOGS takes precedence for timestamps.",
+      "validator": "conflict_detection_and_resolution",
+      "resolution_strategy": "DB_RECORDS priority for metadata, MOS_LOGS priority for timestamps"
+    }
+  ],
+  "source_ids": ["BENCHCORE-DOC-019", "BENCHCORE-DOC-025", "BENCHCORE-DOC-030"],
+  "scope": "benchmark-only",
+  "live_connections": false
+}

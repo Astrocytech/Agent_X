@@ -1,0 +1,37 @@
+[
+  {
+    "mechanism": "core_llm_training",
+    "description": "Full fine-tuning, continued pre-training, or any gradient-based update to the core LLM parameters.",
+    "reason_forbidden": "The core LLM must remain frozen to ensure benchmark isolation and reproducibility. Any weight update invalidates Stage A results.",
+    "test_that_fails_if_used": "anti_retraining_violation_detected",
+    "source_ids": ["BENCHCORE-DOC-012"]
+  },
+  {
+    "mechanism": "uncontrolled_lora_update",
+    "description": "Applying low-rank adaptation (LoRA) adapters to the core LLM without going through the evaluation workflow and deployment gates.",
+    "reason_forbidden": "LoRA adapters modify core model behavior via injected weights; even small adapters can shift predictions in untestable ways and bypass the frozen-model invariant.",
+    "test_that_fails_if_used": "lora_adapter_detected_without_evaluation",
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-014"]
+  },
+  {
+    "mechanism": "online_self_modification",
+    "description": "Allowing the system to modify its own core logic, prompt templates, or inference pipeline based on live feedback without human review or evaluation gate passage.",
+    "reason_forbidden": "Self-modification creates untracked state changes that cannot be rolled back or audited. It violates the evaluation-required-before-promotion invariant.",
+    "test_that_fails_if_used": "self_modification_detected_in_audit_log",
+    "source_ids": ["BENCHCORE-DOC-012"]
+  },
+  {
+    "mechanism": "promotion_without_evaluation",
+    "description": "Promoting any learned policy (ranking, scoring, classification, calibration) to active status without first passing the evaluation workflow and deployment gates.",
+    "reason_forbidden": "Unverified promotion can silently degrade system quality. All policy changes must be validated against the deployment gate contract before activation.",
+    "test_that_fails_if_used": "policy_promoted_without_evaluation_id",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-009", "BENCHCORE-DOC-012"]
+  },
+  {
+    "mechanism": "hidden_model_state_change",
+    "description": "Any change to the model's internal state — including cache poisoning, embedding drift, silent adapter loading, or prompt injection — that is not tracked in the evaluation log.",
+    "reason_forbidden": "Hidden state changes make benchmark results non-reproducible and violate the transparency requirement of the BenchCore benchmark pack.",
+    "test_that_fails_if_used": "unlogged_state_change_detected",
+    "source_ids": ["BENCHCORE-DOC-012"]
+  }
+]

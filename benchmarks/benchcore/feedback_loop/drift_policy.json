@@ -1,0 +1,33 @@
+{
+  "policy_id": "DRIFT-POLICY-001",
+  "name": "Feedback Drift Detection and Response Policy",
+  "description": "Policy for detecting and responding to drift in feedback signal distributions.",
+  "drift_metric": "mean_reliability_score",
+  "detection_method": "page-hinkley",
+  "threshold": 0.05,
+  "window_size": 100,
+  "evidence_required_before_action": true,
+  "evidence_minimum_samples": 50,
+  "allowed_responses": [
+    {
+      "response": "recalibrate",
+      "description": "Recompute reliability calibration parameters on recent data window.",
+      "requires_evaluation": true
+    },
+    {
+      "response": "pause_collection",
+      "description": "Temporarily halt feedback collection until drift is investigated.",
+      "requires_evaluation": true
+    },
+    {
+      "response": "fallback_to_explicit_only",
+      "description": "Discard implicit signals and collect only explicit feedback until drift resolves.",
+      "requires_evaluation": false
+    },
+    {
+      "response": "report_only",
+      "description": "Log the drift event and alert operators without taking automated action.",
+      "requires_evaluation": false
+    }
+  ]
+}

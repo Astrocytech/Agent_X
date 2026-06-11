@@ -1,0 +1,107 @@
+[
+  {
+    "term": "REST",
+    "definition": "Representational State Transfer — an architectural style for designing networked APIs using HTTP methods (GET, POST, PUT, DELETE) and stateless communication. In BenchCore, REST is the protocol through which the benchmark API exposes prediction, evaluation, and capability registry endpoints.",
+    "protocol_type": "api",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"],
+    "is_implemented": true
+  },
+  {
+    "term": "MOS",
+    "definition": "Media Object Server protocol — a standard for communication between newsroom systems and media servers. MOS is the primary live integration protocol referenced in BenchCore, but it is mocked in the benchmark to avoid live dependency requirements.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-030"],
+    "is_implemented": false
+  },
+  {
+    "term": "FastAPI",
+    "definition": "A modern, fast web framework for building APIs with Python. FastAPI is used as the implementation framework for the BenchCore benchmark API layer, providing automatic OpenAPI documentation and request validation.",
+    "protocol_type": "api",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"],
+    "is_implemented": true
+  },
+  {
+    "term": "adapter",
+    "definition": "A software component that converts between different interface formats, allowing systems with incompatible protocols to communicate. In BenchCore, adapters bridge between the internal prediction engine and external protocol formats (REST, MOS, etc.).",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-030"],
+    "is_implemented": true
+  },
+  {
+    "term": "endpoint",
+    "definition": "A specific URL path that exposes a particular API function. BenchCore REST endpoints include /predict, /evaluate, /feedback, and /registry, each serving distinct benchmark functions.",
+    "protocol_type": "api",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"],
+    "is_implemented": true
+  },
+  {
+    "term": "payload",
+    "definition": "The data content of an API request or response message. BenchCore payloads contain rundown data, prediction requests, evaluation results, and feedback in JSON format with defined schemas.",
+    "protocol_type": "api",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"],
+    "is_implemented": true
+  },
+  {
+    "term": "TCP socket",
+    "definition": "A network communication endpoint for TCP connections. TCP sockets are used in the MOS protocol implementation for real-time rundown data transmission. The benchmark mocks TCP socket communication.",
+    "protocol_type": "network",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-030"],
+    "is_implemented": false
+  },
+  {
+    "term": "mock",
+    "definition": "A simulated implementation of a dependency that mimics its interface without requiring the actual system. BenchCore uses mocks for all live dependencies (MOS, NRCS, external databases) to ensure the benchmark runs offline.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-005", "BENCHCORE-DOC-018"],
+    "is_implemented": true
+  },
+  {
+    "term": "live dependency",
+    "definition": "An external system or service that must be available for production operation. BenchCore identifies MOS servers, NRCS databases, and broadcast infrastructure as live dependencies that must be mocked in the benchmark.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-005", "BENCHCORE-DOC-018", "BENCHCORE-DOC-030"],
+    "is_implemented": false
+  },
+  {
+    "term": "production integration",
+    "definition": "The full integration with live broadcast systems required for real-world deployment. The BenchCore benchmark explicitly excludes production integration from its scope, limiting all protocol interactions to mock implementations.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-005", "BENCHCORE-DOC-018"],
+    "is_implemented": false
+  },
+  {
+    "term": "adapter boundary",
+    "definition": "The interface between an adapter and the core system, defining the contract that both sides must honor. Adapter boundaries in BenchCore are designed to allow swapping between mock and live implementations without changing internal logic.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018"],
+    "is_implemented": true
+  },
+  {
+    "term": "protocol contract",
+    "definition": "A formal specification of the messages, data formats, and interaction patterns that a protocol supports. BenchCore defines protocol contracts for each adapter to ensure consistent behavior across mock and live implementations.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-030"],
+    "is_implemented": true
+  },
+  {
+    "term": "failure mode",
+    "definition": "A specific way in which a protocol or integration can fail. Documented failure modes in BenchCore include connection timeout, malformed payload, authentication failure, schema validation error, and unexpected disconnection.",
+    "protocol_type": "integration",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018"],
+    "is_implemented": true
+  },
+  {
+    "term": "request format",
+    "definition": "The structure and encoding of a message sent to an API endpoint. BenchCore defines JSON schemas for all request formats, including prediction requests, feedback submissions, and registry queries.",
+    "protocol_type": "api",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"],
+    "is_implemented": true
+  },
+  {
+    "term": "response format",
+    "definition": "The structure and encoding of a message returned from an API endpoint. BenchCore defines JSON schemas for all response formats, including prediction results, evaluation reports, and capability listings.",
+    "protocol_type": "api",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"],
+    "is_implemented": true
+  }
+]

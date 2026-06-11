@@ -1,0 +1,49 @@
+{
+  "policy_id": "ROLLBACK-POLICY-001",
+  "name": "Feedback Loop Rollback Policy",
+  "description": "Policy defining conditions and procedures for rolling back feedback-driven changes.",
+  "trigger_conditions": [
+    {
+      "condition": "deployment_gate_failure",
+      "description": "One or more deployment gate conditions are no longer satisfied after an update.",
+      "source_ids": ["BENCHCORE-DOC-003"]
+    },
+    {
+      "condition": "drift_detected_and_unresolved",
+      "description": "Drift is detected and automatic recalibration fails to resolve it within the configured window.",
+      "source_ids": ["BENCHCORE-DOC-011"]
+    },
+    {
+      "condition": "accuracy_drop_exceeds_tolerance",
+      "description": "Exact-match accuracy drops by more than 5% relative to the previous evaluation.",
+      "source_ids": ["BENCHCORE-DOC-009"]
+    }
+  ],
+  "requires_baseline": true,
+  "baseline_identifier": "last_passing_evaluation_id",
+  "rollback_procedure": [
+    {
+      "step": 1,
+      "action": "identify_last_stable_checkpoint",
+      "description": "Retrieve the last evaluation results and configuration that passed all deployment gates."
+    },
+    {
+      "step": 2,
+      "action": "restore_configuration",
+      "description": "Replace current evaluation config, feedback policy, and ranking parameters with the last stable versions."
+    },
+    {
+      "step": 3,
+      "action": "re_evaluate",
+      "description": "Run evaluation on the restored configuration to confirm gates pass."
+    },
+    {
+      "step": 4,
+      "action": "notify",
+      "description": "Send rollback notification to configured channels."
+    }
+  ],
+  "notification_required": true,
+  "notification_channels": ["log", "console"],
+  "auto_rollback": false
+}

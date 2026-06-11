@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FeedbackAction",
+  "description": "Schema for feedback actions in the BenchCore human review/UI benchmark. Records human reviewer decisions on suggestion cards.",
+  "type": "object",
+  "properties": {
+    "action_id": {
+      "type": "string",
+      "description": "Unique identifier for this feedback action."
+    },
+    "card_id": {
+      "type": "string",
+      "description": "Reference to the suggestion card this action applies to."
+    },
+    "action": {
+      "type": "string",
+      "enum": ["accept", "reject", "modify"],
+      "description": "The reviewer's decision. 'modify' indicates the reviewer provided a modified value."
+    },
+    "modified_content": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "null" }
+      ],
+      "description": "The reviewer's modified content. Must be non-null when action is 'modify'; should be null for 'accept' or 'reject'."
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "Identifier for the human reviewer."
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})?$",
+      "description": "ISO 8601 timestamp of when the feedback action was recorded."
+    }
+  },
+  "required": ["action_id", "card_id", "action", "reviewer", "timestamp"],
+  "additionalProperties": false
+}

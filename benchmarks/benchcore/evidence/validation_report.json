@@ -1,0 +1,206 @@
+{
+  "report_type": "validation_report",
+  "date": "2026-06-11",
+  "tiers": {
+    "source_inventory": {
+      "passed": true,
+      "tests_passed": 5,
+      "tests_total": 5,
+      "details": [
+        "All 32 PDFs inventoried with source_id, filename, batch, status, group",
+        "All source entries have SHA-256 hash slots (placeholders for manual replacement)",
+        "Source batch map correctly groups 32 PDFs into single batch",
+        "No duplicate source IDs detected",
+        "All source entries have non-empty required_artifacts lists"
+      ]
+    },
+    "visual_inventory": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Visual inventory contains 21 entries across 11 diagram-heavy PDFs",
+        "All visual entries have source_id, page_ref, visual_type, and content_role",
+        "Visual types include diagram, slide, screenshot, flowchart, table, org_chart, ui_mockup",
+        "All visual entries map to existing source inventory entries"
+      ]
+    },
+    "per_pdf_coverage": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Semantic coverage report covers all 32 PDFs with concept extraction",
+        "Validation coverage report covers all 32 PDFs with test mapping",
+        "Each PDF entry has extracted_concepts list",
+        "Each PDF entry has requirement_ids mapping to traceability entries"
+      ]
+    },
+    "generic_pattern_extraction": {
+      "passed": true,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "details": [
+        "Generic pattern map contains 15 BenchCore-to-Agent_X pattern mappings",
+        "All pattern entries have benchcore_pattern, agentx_pattern, and abstraction_level",
+        "No pattern entry contains BenchCore-specific product names in agentx_pattern"
+      ]
+    },
+    "ontology": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Ontology contains 6 term files: glossary, acronym_map, ml_terms, ui_terms, command_terms, protocol_terms",
+        "Glossary contains term-definition pairs for BenchCore domain concepts",
+        "Acronym map covers all relevant BenchCore abbreviations",
+        "All ontology entries are marked as product_specific with benchmark-only scope"
+      ]
+    },
+    "requirements_traceability": {
+      "passed": true,
+      "tests_passed": 5,
+      "tests_total": 5,
+      "details": [
+        "Requirements extracted for all now-status PDFs with traceability links",
+        "Each accepted requirement has source_id referencing a source inventory entry",
+        "Each accepted requirement has artifact_path pointing to created artifacts",
+        "Each accepted requirement has test_ref linking to a test module",
+        "Traceability matrix covers all now-status documents"
+      ]
+    },
+    "inverse_science_alignment": {
+      "passed": true,
+      "tests_passed": 5,
+      "tests_total": 5,
+      "details": [
+        "Reasoning type rules distinguish abduction, deduction, and explanation",
+        "Observations fixture provides reasoning observation test cases",
+        "Hypotheses fixture provides reasoning hypothesis test cases",
+        "Candidate tests fixture provides reasoning test scenarios",
+        "Negative knowledge fixture defines what is NOT implied by BenchCore documents"
+      ]
+    },
+    "evaluation_fixtures": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Valid dataset fixture contains properly formatted evaluation data",
+        "Invalid dataset fixtures test missing keys and bad ranked lists",
+        "Expected metrics fixture defines exact-match, top-k, F1, MRR baselines",
+        "Evaluation config schema validates metric configuration structure"
+      ]
+    },
+    "feedback_loop": {
+      "passed": true,
+      "tests_passed": 5,
+      "tests_total": 5,
+      "details": [
+        "Feedback policy defines explicit/implicit signal governance rules",
+        "Rollback policy documents deployment rollback procedures",
+        "Exploration policy governs safe exploration boundaries",
+        "Drift policy defines drift detection and monitoring requirements",
+        "Feedback event schema validates event structure"
+      ]
+    },
+    "dynamic_retrieval": {
+      "passed": true,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "details": [
+        "Capability registry fixture maps natural language to template IDs",
+        "Retrieval query fixture provides query template test cases",
+        "Reranking policy defines retrieval result reranking rules"
+      ]
+    },
+    "learning_policy": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Anti-retraining policy enforces frozen-LLM constraint",
+        "Allowed learning mechanisms list governs what can be updated",
+        "Forbidden learning mechanisms list blocks core LLM retraining",
+        "Deferred training experiments document documents future ML pipelines"
+      ]
+    },
+    "grammar_validation": {
+      "passed": true,
+      "tests_passed": 5,
+      "tests_total": 5,
+      "details": [
+        "QuickCode schema validates quickcode command syntax",
+        "CG command schema validates CG command syntax",
+        "OD command schema validates OD command syntax",
+        "Production cue schema validates production cue format",
+        "Valid and invalid examples fixtures test grammar boundary conditions"
+      ]
+    },
+    "data_quality": {
+      "passed": true,
+      "tests_passed": 5,
+      "tests_total": 5,
+      "details": [
+        "Field quality policy defines quality rules for free-text fields",
+        "Evidence fusion policy requires join keys for multi-source fusion",
+        "XML cleanup policy defines XML preprocessing rules",
+        "Log parse policy defines log parsing pipeline",
+        "Raw and clean fixtures demonstrate preprocessing pipeline"
+      ]
+    },
+    "protocol_boundaries": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Mock MOS output schema defines valid MOS response structure",
+        "Mock REST input schema defines valid REST request structure",
+        "Failure modes document defines expected failure scenarios",
+        "Adapter boundary contract ensures protocol implementations remain mock-only"
+      ]
+    },
+    "human_review": {
+      "passed": true,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "details": [
+        "Suggestion card schema defines human review card structure",
+        "Feedback action schema defines accept/reject/modify action format",
+        "UI planning contract documents deferred interactive review integration"
+      ]
+    },
+    "operations_boundaries": {
+      "passed": true,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "details": [
+        "WSL boundary document defers platform-specific WSL setup",
+        "MySQL restore boundary document defers SQL backup automation",
+        "Remote log tailing boundary document defers SSH infrastructure setup"
+      ]
+    },
+    "universal_readiness_matrix": {
+      "passed": true,
+      "tests_passed": 3,
+      "tests_total": 3,
+      "details": [
+        "Readiness matrix scores 20 dimensions with evidence references",
+        "Maximum Stage A score is 4 for fully complete dimensions",
+        "Minimum Stage A score is 2 for deferred/generalization dimensions"
+      ]
+    },
+    "claim_boundary_enforcement": {
+      "passed": true,
+      "tests_passed": 4,
+      "tests_total": 4,
+      "details": [
+        "Instant universal claim rejection test defines 7 forbidden claim patterns",
+        "All forbidden claims are rejected with documented rejection reasons",
+        "No claim of instant universality appears in any benchmark artifact",
+        "Final acceptance uses approved bounded verdict wording"
+      ]
+    }
+  },
+  "all_tiers_passed": true
+}

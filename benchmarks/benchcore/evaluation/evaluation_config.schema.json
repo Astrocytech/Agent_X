@@ -1,0 +1,100 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvaluationConfig",
+  "description": "Schema for evaluation configuration in the BenchCore benchmark pack.",
+  "type": "object",
+  "properties": {
+    "dataset_path": {
+      "type": "string",
+      "description": "Path to the evaluation dataset CSV file."
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Metric families to compute and report.",
+      "properties": {
+        "exact_match_accuracy": {
+          "type": "boolean",
+          "description": "Compute exact-match accuracy (strict label match)."
+        },
+        "macro_precision_recall_f1": {
+          "type": "boolean",
+          "description": "Compute macro-averaged precision, recall, and F1."
+        },
+        "micro_precision_recall_f1": {
+          "type": "boolean",
+          "description": "Compute micro-averaged precision, recall, and F1."
+        },
+        "top_k_hit_rate": {
+          "type": "boolean",
+          "description": "Compute top-k hit rate for ranked predictions."
+        },
+        "mrr": {
+          "type": "boolean",
+          "description": "Compute mean reciprocal rank for ranked predictions."
+        },
+        "cost_weighted_macro_f1": {
+          "type": "boolean",
+          "description": "Compute macro F1 weighted by per-label cost coefficients."
+        }
+      },
+      "required": [
+        "exact_match_accuracy",
+        "macro_precision_recall_f1",
+        "micro_precision_recall_f1",
+        "top_k_hit_rate",
+        "mrr",
+        "cost_weighted_macro_f1"
+      ],
+      "additionalProperties": false
+    },
+    "top_k": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Value of k for top-k metrics."
+    },
+    "baseline_path": {
+      "type": ["string", "null"],
+      "description": "Path to a baseline results JSON for regression comparison, or null."
+    },
+    "bootstrap_iterations": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of bootstrap iterations for confidence intervals. 0 disables bootstrapping."
+    },
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Confidence level for bootstrap intervals (e.g., 0.95 for 95% CI)."
+    },
+    "regression_check": {
+      "type": "boolean",
+      "description": "Whether to perform regression check against baseline."
+    },
+    "deployment_gates": {
+      "type": "object",
+      "description": "Deployment gate conditions that must be satisfied.",
+      "properties": {
+        "pass_threshold": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Minimum fraction of gates that must pass for deployment approval."
+        }
+      },
+      "required": ["pass_threshold"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "dataset_path",
+    "metrics",
+    "top_k",
+    "baseline_path",
+    "bootstrap_iterations",
+    "confidence_level",
+    "regression_check",
+    "deployment_gates"
+  ],
+  "additionalProperties": false
+}

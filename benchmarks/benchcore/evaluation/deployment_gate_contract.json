@@ -1,0 +1,12 @@
+{
+  "gate_id": "DEPLOY-GATE-001",
+  "name": "Minimum Quality Gate",
+  "conditions": [
+    {"metric": "exact_match_accuracy", "operator": ">=", "threshold": 0.70},
+    {"metric": "macro_f1", "operator": ">=", "threshold": 0.60},
+    {"metric": "mrr", "operator": ">=", "threshold": 0.75}
+  ],
+  "pass_on_metrics_missing": false,
+  "regression_check_required": true,
+  "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-009"]
+}

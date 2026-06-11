@@ -1,0 +1,20 @@
+{
+  "policy_id": "RERANKING-POLICY-001",
+  "name": "Capability Retrieval Reranking Policy",
+  "description": "Policy for reranking retrieved capabilities after initial retrieval step.",
+  "reranking_method": "score_weighted",
+  "score_threshold": 0.5,
+  "max_results": 5,
+  "fallback_action": "return_top_k_unreranked",
+  "weighting": {
+    "semantic_similarity": 0.6,
+    "historical_feedback_score": 0.3,
+    "recency_bonus": 0.1
+  },
+  "deduplication": {
+    "enabled": true,
+    "field": "capability_id"
+  },
+  "min_score_for_display": 0.3,
+  "evaluation_required": true
+}

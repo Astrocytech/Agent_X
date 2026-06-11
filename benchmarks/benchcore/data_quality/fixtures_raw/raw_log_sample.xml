@@ -1,0 +1,102 @@
+<log>
+  <entry id="e001" timestamp="2025-11-03T08:12:34Z" source="mos-gateway-01">
+    <story id="s-1001">
+      <item type="command">
+          <action>PLST</action>
+        <params>
+          <param name="cmd">LOAD</param>
+          <param name="target">/air/ingest/primary</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+          <message>Loaded 142 segments into playlist buffer.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="e002" timestamp="2025-11-03T08:15:22Z" source="mos-gateway-01">
+    <story id="s-1001">
+      <item type="command">
+        <action>STOP</action>
+        <params>
+    <param name="cmd">STOP</param>
+          <param name="target">/air/ingest/primary</param>
+        </params>
+      </item>
+      <item type="response">
+          <status>OK</status>
+        <message>Playback stopped at frame 3421.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="e003" timestamp="2025-11-03T09:01:05Z" source="web-api-02">
+    <story id="s-1002">
+      <item type="command">
+        <action>NEWS_ITEM</action>
+        <params>
+    <param name="cmd">CREATE</param>
+          <param name="slug">election-results-preview</param>
+          <param name="body">Polls close at 20:00 ET. Early returns show a tight race in key battleground states like PA, GA, and AZ. Analysts caution that mail-in ballots may delay final calls. Stay tuned for live coverage &amp; expert analysis.</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>CREATED</status>
+          <message>Item "election-results-preview" created with ID 8872.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="e004" timestamp="2025-11-03T10:30:00Z" source="web-api-02">
+    <story id="s-1003">
+      <item type="command">
+        <action>RAW_DATA</action>
+        <params>
+    <param name="cmd">STORE</param>
+          <param name="payload"><![CDATA[Temperature: 22.4°C, Humidity: 67%, Pressure: 1013.2 hPa]]></param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Raw data stored with checksum a3f8c2.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="e005" timestamp="2025-11-03T11:45:18Z" source="mos-gateway-01">
+    <story id="s-1004">
+      <item type="command">
+        <action>SWITCHER</action>
+        <params>
+    <param name="cmd">CUT</param>
+          <param name="source">camera-03</param>
+    <param name="transition">MIX</param>
+          <param name="duration">30</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Cut executed: camera-03 > MIX 30 frames. Signal chain active.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="e006" timestamp="2025-11-03T12:00:00Z" source="oracle-db-01">
+    <story id="s-1004">
+      <item type="error">
+        <code>DB_TIMEOUT</code>
+        <message>Connection pool exhausted after 30s wait. Retry attempt 2/5 failed. &lt;!-- possible deadlock --&gt;</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="e007" timestamp="2025-11-03T12:00:01Z" source="oracle-db-01">
+    <story id="s-1004">
+      <item type="response">
+        <status>RETRY_OK</status>
+        <message>Connection re-established on attempt 3/5. Query executed in 2.3s.</message>
+      </item>
+    </story>
+  </entry>
+</log>

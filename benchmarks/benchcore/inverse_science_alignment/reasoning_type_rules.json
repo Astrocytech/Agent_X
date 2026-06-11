@@ -1,0 +1,102 @@
+[
+  {
+    "rule_id": "RULE-001",
+    "reasoning_type": "explanation",
+    "definition": "Restating or clarifying known material without generating new hypotheses or applying formal inference rules.",
+    "allowed_when": "The output paraphrases, summarizes, or elaborates on content already present in the source corpus.",
+    "forbidden_when": "The output introduces a novel hypothesis, selects among competing explanations, or applies a domain rule to derive new facts.",
+    "example": "The user asked what BenchCore benchmark pack covers. The response listed the seven sub-benchmarks from the README without adding new inferences.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "explanation_does_not_generate_hypotheses"
+  },
+  {
+    "rule_id": "RULE-002",
+    "reasoning_type": "deduction",
+    "definition": "Applying known rules or invariants to known facts to derive a logically necessary conclusion.",
+    "allowed_when": "A general rule is well-documented in the source corpus and the facts are known and uncontested.",
+    "forbidden_when": "The gap being filled requires selecting among multiple plausible mechanisms or the rule itself is not established in the corpus.",
+    "example": "All Stage A files are under benchmarks/benchcore/. This file is in inverse_science_alignment/, therefore it is part of Stage A.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "deduction_requires_established_rule"
+  },
+  {
+    "rule_id": "RULE-003",
+    "reasoning_type": "abduction",
+    "definition": "Generating or selecting the best hypothesis to explain a gap, anomaly, or failure mode when incomplete information prevents deduction.",
+    "allowed_when": "There is an identifiable gap, missing mechanism, or contradictory observation and at least two competing hypotheses can be formulated.",
+    "forbidden_when": "The output merely paraphrases source material, applies a cached rule without gap analysis, or no competing hypotheses are offered.",
+    "example": "PDFs are referenced but absent from the repo. Hypothesis: they are reference documents not binary artifacts. Alternative: they were omitted accidentally.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "abduction_requires_competing_hypotheses"
+  },
+  {
+    "rule_id": "RULE-004",
+    "reasoning_type": "explanation",
+    "definition": "Clarifying ambiguous or dense passages from sources without inferring new causal mechanisms.",
+    "allowed_when": "The original source text is present and the output aims to improve readability or accessibility.",
+    "forbidden_when": "The output changes the meaning of the source or adds information not traceable to a source ID.",
+    "example": "The term 'inverse science alignment' was explained by quoting the definition from the README and giving a plain-language restatement.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "explanation_preserves_source_meaning"
+  },
+  {
+    "rule_id": "RULE-005",
+    "reasoning_type": "abduction",
+    "definition": "Identifying a missing mechanism and proposing a plausible causal link to resolve an observed failure or gap.",
+    "allowed_when": "There is clear evidence of a gap and at least two distinct causal stories can be told to fill it.",
+    "forbidden_when": "No gap is identified or only one hypothesis is presented without alternatives.",
+    "example": "Source hashes are placeholders. Hypothesis A: PDF binaries are not redistributed for licensing reasons. Hypothesis B: hashing was deferred because PDFs are not yet finalized.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "abduction_without_competing_hypotheses_fails"
+  },
+  {
+    "rule_id": "RULE-006",
+    "reasoning_type": "explanation",
+    "definition": "Expanding on known requirements by referencing the specific document sections that define them.",
+    "allowed_when": "Every claim in the explanation is directly backed by one or more source_ids.",
+    "forbidden_when": "The explanation references concepts not present in the cited sources.",
+    "example": "The requirement 'every PDF must have coverage' was explained by quoting BENCHCORE-DOC-006 and listing the coverage columns.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "explanation_is_source_traceable"
+  },
+  {
+    "rule_id": "RULE-007",
+    "reasoning_type": "deduction",
+    "definition": "Deriving a conclusion by chaining multiple established rules where each step is traceable to source corpus invariants.",
+    "allowed_when": "Each premise in the chain has a corresponding source ID and the chain does not require a leap over an unstated assumption.",
+    "forbidden_when": "Any premise in the chain is itself a hypothesis not yet validated.",
+    "example": "If all PDFs must have coverage (RULE-007 from coverage rules) and PDF-032 exists, then PDF-032 must have a coverage row.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "deduction_chain_is_source_grounded"
+  },
+  {
+    "rule_id": "RULE-008",
+    "reasoning_type": "abduction",
+    "definition": "Explaining a performance or accuracy deficit by hypothesizing an untested failure mode and proposing a diagnostic test.",
+    "allowed_when": "The deficit is measurable, the hypothesized failure mode is falsifiable, and at least one alternative failure mode is stated.",
+    "forbidden_when": "The hypothesis is unfalsifiable or no alternative explanation is considered.",
+    "example": "Low exact-match accuracy may be caused by label noise in the training set (alternative: the evaluation metric penalizes synonyms unfairly).",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "abduction_produces_falsifiable_test"
+  },
+  {
+    "rule_id": "RULE-009",
+    "reasoning_type": "explanation",
+    "definition": "Restating a source-based rule or definition verbatim or in paraphrased form without adding inferential content.",
+    "allowed_when": "The source rule is quoted or closely paraphrased and the source_id is provided.",
+    "forbidden_when": "The output is labeled as 'abduction' or 'deduction' in a benchmark evaluation context.",
+    "example": "Paraphrasing the definition of 'evaluation_config.schema.json' from the benchmark spec.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "paraphrase_labeled_as_abduction_fails"
+  },
+  {
+    "rule_id": "RULE-010",
+    "reasoning_type": "explanation",
+    "definition": "Applying a previously cached rule from the source corpus without re-deriving it.",
+    "allowed_when": "The cached rule is correctly identified by its source_id and is applied in a context consistent with its original definition.",
+    "forbidden_when": "The cached rule is applied to a domain or scenario that the source explicitly excludes.",
+    "example": "Re-using the rule 'abduction requires competing hypotheses' from RULE-003 in a new gap analysis without modification.",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "validation_test": "cached_rule_labeled_as_abduction_fails"
+  }
+]

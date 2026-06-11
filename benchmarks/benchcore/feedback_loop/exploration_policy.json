@@ -1,0 +1,19 @@
+{
+  "policy_id": "EXPLORATION-POLICY-001",
+  "name": "Feedback Exploration Policy",
+  "description": "Policy governing exploration of alternative outputs to gather feedback for less-confident predictions.",
+  "strategy": "epsilon_greedy",
+  "epsilon": 0.1,
+  "budget": {
+    "max_percentage": 10.0,
+    "unit": "percent_of_total_predictions",
+    "reset_period_days": 7
+  },
+  "budget_exhausted_action": "fallback_to_greedy",
+  "exploration_candidates": {
+    "source": "ranking_score_below_threshold",
+    "threshold": 0.6
+  },
+  "evaluation_required": true,
+  "evaluation_frequency": "after_each_budget_period"
+}

@@ -1,0 +1,66 @@
+[
+  {
+    "workflow_step": "Data Acquisition and Parsing",
+    "description": "Raw rundown log files are acquired from the curated dataset. The log parser converts raw text lines into structured Item objects, extracting command type, field values, and metadata. The story segmenter groups items into stories based on boundary detection rules. Parsed output is stored in a structured format (JSON) with provenance tracking.",
+    "inputs": ["Raw rundown log files (.txt, .log, or .csv format)", "Parser configuration (delimiter, format, field mappings)"],
+    "outputs": ["Structured Item records with field-value pairs", "Story groupings with temporal ordering", "Provenance records linking each item to source line"],
+    "source_ids": ["BENCHCORE-DOC-002", "BENCHCORE-DOC-005", "BENCHCORE-DOC-029"],
+    "benchmark_artifacts": ["benchmarks/benchcore/data/parsers/log_parser.py", "benchmarks/benchcore/data/segmenters/story_segmenter.py", "benchmarks/benchcore/data/provenance.json"]
+  },
+  {
+    "workflow_step": "Context Window Construction",
+    "description": "For each prediction target, a context window is constructed from the parsed rundown. In single-line mode, the window contains only the target line. In multi-line mode, the window includes a configurable number of preceding and following lines. The context window is formatted according to the prompt template with clear delimiters for the LLM input.",
+    "inputs": ["Parsed Item records", "Evaluation mode (single-line or multi-line)", "Window size configuration"],
+    "outputs": ["Formatted context window string", "Metadata: target field, line position, story ID", "Window boundary markers"],
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"],
+    "benchmark_artifacts": ["benchmarks/benchcore/evaluation/harness.py", "benchmarks/benchcore/prompts/templates/"]
+  },
+  {
+    "workflow_step": "Dynamic Retrieval of Examples and Templates",
+    "description": "The context window is used as a query to the retrieval index. The retriever finds similar rundown contexts from the training data and returns ranked results including: similar item examples, command templates relevant to the detected context type, and field definitions for the target field. Retrieved results are formatted for inclusion in the LLM prompt.",
+    "inputs": ["Context window string", "Retrieval index (pre-populated from curated data)", "Top-K configuration"],
+    "outputs": ["Ranked list of retrieved examples", "Relevant command templates", "Field definitions"],
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"],
+    "benchmark_artifacts": ["benchmarks/benchcore/retrieval/retriever.py", "benchmarks/benchcore/retrieval/index.py", "benchmarks/benchcore/retrieval/index_builder.py"]
+  },
+  {
+    "workflow_step": "Prompt Assembly and LLM Inference",
+    "description": "The prompt template is populated with: task description (field prediction from rundown context), the context window, retrieved examples (few-shot), field definitions, and output format specification. The assembled prompt is sent to the frozen LLM for inference. The LLM generates a structured prediction in the specified output format.",
+    "inputs": ["Prompt template", "Context window", "Retrieved examples and templates", "Field definitions"],
+    "outputs": ["Raw LLM prediction (structured)", "Token usage and timing metadata"],
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"],
+    "benchmark_artifacts": ["benchmarks/benchcore/prompts/templates/", "benchmarks/benchcore/prompts/rag_template.txt"]
+  },
+  {
+    "workflow_step": "Grammar Validation and Correction",
+    "description": "The LLM-generated prediction is parsed into an AST and validated against the grammar rules for the predicted command type. If validation passes, the prediction proceeds. If validation fails, the system attempts auto-correction (adjusting syntax while preserving semantics) or flags the prediction as invalid with specific error messages.",
+    "inputs": ["Raw LLM prediction", "Grammar rules (machine-readable)", "AST parser"],
+    "outputs": ["Validated prediction", "AST representation", "Validation result (pass/auto-corrected/failed)"],
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "benchmark_artifacts": ["benchmarks/benchcore/grammar/validator.py", "benchmarks/benchcore/grammar/ast_parser.py", "benchmarks/benchcore/grammar/ast_validator.py", "benchmarks/benchcore/grammar/rules.json"]
+  },
+  {
+    "workflow_step": "Confidence Calibration and Thresholding",
+    "description": "The validated prediction is assigned a confidence score. If the confidence exceeds the configurable threshold, the prediction is returned. If below threshold, the prediction is either withheld (return empty with low-confidence flag) or flagged for mandatory human review. The calibration model is periodically evaluated against actual accuracy.",
+    "inputs": ["Validated prediction", "Confidence calibration model", "Confidence threshold configuration"],
+    "outputs": ["Calibrated confidence score", "Prediction with confidence flag", "Low-confidence warning if applicable"],
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "benchmark_artifacts": ["benchmarks/benchcore/evaluation/calibration.py", "benchmarks/benchcore/policies/calibration.md"]
+  },
+  {
+    "workflow_step": "Evaluation and Metric Computation",
+    "description": "The final prediction is compared to ground-truth labels. Metrics (F1, MRR, Top-K, exact-match) are computed per field and aggregated. Bootstrap confidence intervals are calculated. Results are recorded in the evaluation report along with configuration, dataset version, and any warnings or anomalies.",
+    "inputs": ["Final prediction", "Ground-truth labels", "Evaluation configuration"],
+    "outputs": ["Per-field metric scores", "Aggregate scores with confidence intervals", "Evaluation report (JSON and human-readable)", "Deployment gate pass/fail status"],
+    "source_ids": ["BENCHCORE-DOC-014", "BENCHCORE-DOC-019"],
+    "benchmark_artifacts": ["benchmarks/benchcore/evaluation/harness.py", "benchmarks/benchcore/evaluation/metrics.py", "benchmarks/benchcore/evaluation/report.py"]
+  },
+  {
+    "workflow_step": "Feedback Capture and Integration",
+    "description": "If the evaluation is interactive, user feedback (accept, reject, modify, rate) is captured and stored in the append-only feedback log. The feedback signal is aggregated with historical signals for the same prediction context. Aggregated feedback is used to update retrieval indices and example selection strategies for future predictions.",
+    "inputs": ["Prediction with context snapshot", "User feedback action", "Historical feedback for same context"],
+    "outputs": ["Feedback log entry (append-only)", "Updated signal aggregation", "(Future) Updated retrieval ranking"],
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-024"],
+    "benchmark_artifacts": ["benchmarks/benchcore/policies/feedback_policy.md", "benchmarks/benchcore/policies/feedback_aggregation.md", "benchmarks/benchcore/policies/exploration_policy.md"]
+  }
+]

@@ -1,0 +1,68 @@
+<log>
+  <entry id="m001" timestamp="2025-11-03T08:12:34Z" source="mos-gateway-01">
+    <story id="s-9001">
+      <item type="command">
+        <action>PLST</action>
+        <params>
+          <param name="cmd">LOAD</param>
+          <param name="target">/air/ingest/primary</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Loaded successfully.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="m002" timestamp="2025-11-03T09:00:00Z" source="mos-gateway-01">
+    <story id="s-9002">
+      <item type="command">
+        <action>SWITCHER</action>
+        <params>
+          <param name="cmd">CUT</param>
+          <param name="source">camera-01</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Switched to camera-01.</message>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="m003" timestamp="2025-11-03T10:00:00Z" source="web-api-02">
+    <story id="s-9003">
+      <item type="command">
+        <action>NEWS_ITEM</action>
+        <params>
+          <param name="cmd">PUBLISH</param>
+          <param name="slug">breaking-news-late</param>
+      </item>
+    </story>
+  </entry>
+
+  <entry id="m004" timestamp="2025-11-03T11:00:00Z" source="oracle-db-01">
+    <story id="s-9004">
+      <item type="error">
+        <code>DB_CONNECT_FAIL</code>
+        <message>Cannot connect to database.</message>
+      </item>
+    </story>
+  </incorrectTag>
+
+  <entry id="m005" timestamp="2025-11-03T12:00:00Z" source="mos-gateway-01">
+    <story id="s-9005">
+      <item type="command">
+        <action>INVALID&ILLEGAL>ACTION</action>
+        <params>
+          <param name="cmd">TEST</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Done.</message>
+      </item>
+    </story>
+  </entry>
+</log>

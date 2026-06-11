@@ -1,0 +1,44 @@
+[
+  {
+    "design_aspect": "Context Scope",
+    "previous_approach": "Single-line prediction used only the current line of the rundown as context, treating each line as an independent prediction task. No information from preceding or following lines was available to the classifier. This was the initial design because it simplified the prediction task to a line-by-line classification problem and avoided the complexity of story segmentation.",
+    "limitation": "Single-line context is insufficient for predicting items whose fields depend on broader story context. For example, a CG command's graphic type (full-screen vs. lower-third vs. over-the-shoulder) often depends on the preceding item (a VO might need a lower-third, while a SOT might need an over-the-shoulder graphic). Single-line prediction achieved approximately 0.65 F1 on CG type classification, compared to 0.82 F1 with symmetric-1 multi-line context.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  {
+    "design_aspect": "Field Independence Assumption",
+    "previous_approach": "Fields within an item were predicted independently, with separate classifiers for command type, text content, timing, and visual style. This independence assumption simplified model training and evaluation but ignored strong correlations between fields: certain command types systematically co-occur with specific text patterns, timing structures, and visual styles.",
+    "limitation": "Independent field prediction produced inconsistent results where the predicted command type was incompatible with the predicted text content or timing. For instance, the system might predict a 'lower-third' CG type with timing values appropriate for a 'full-screen' graphic, or predict a 'VO' command type with text content that only makes sense as a CG command. Joint prediction across correlated fields was identified as a necessary improvement.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032", "BENCHCORE-DOC-015"]
+  },
+  {
+    "design_aspect": "Evaluation Metric Choice",
+    "previous_approach": "Initial evaluation used only exact-match accuracy as the primary metric. A prediction was considered correct only if the predicted value exactly matched the ground-truth value. This binary metric provided limited information about partial correctness and was particularly harsh for free-text fields where synonyms and formatting variations caused false negatives.",
+    "limitation": "Exact-match accuracy underestimated prediction quality for tasks where approximate correctness is valuable. For CG text prediction, a prediction of 'Sports Scores' when the ground truth is 'Sports Score Update' would be scored as incorrect despite being semantically useful. The evaluation was expanded to include F1 score (for classification), MRR and Top-K (for ranking), and confidence-calibrated metrics, with each field type assigned its primary metric based on field quality category.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-019"]
+  },
+  {
+    "design_aspect": "Classifier Architecture",
+    "previous_approach": "The initial single-line design used a dedicated trained classifier (a small BERT-based model fine-tuned on rundown data) for each target field. Separate models were trained for command type classification, text generation, and timing prediction. This approach required labeled training data and periodic retraining to maintain performance.",
+    "limitation": "The trained classifier approach violated the frozen LLM constraint that Stage A requires, as it involved fine-tuning model parameters on domain data. Additionally, maintaining separate classifiers for each target field created scalability and consistency challenges. The architecture was redesigned to use a single frozen LLM with prompt engineering and dynamic retrieval, eliminating the need for domain-specific model training while maintaining or improving prediction quality through better context utilization.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-015", "BENCHCORE-DOC-010"]
+  },
+  {
+    "design_aspect": "Retrieval Strategy",
+    "previous_approach": "The initial design had no retrieval component. Predictions were generated using only the current line as input to the classifier, without access to similar examples, command templates, or historical patterns. The classifier relied entirely on patterns learned during training, which limited its ability to handle novel or unusual command structures.",
+    "limitation": "Without retrieval, the classifier could not leverage specific examples of similar contexts at inference time. This was particularly limiting for rare command types and unusual field value combinations. The addition of dynamic retrieval (initially keyword-based, later vector-similarity-based) improved F1 scores by approximately 0.08-0.12 across all field types by providing relevant examples and templates directly in the prompt context.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-025", "BENCHCORE-DOC-015"]
+  },
+  {
+    "design_aspect": "Feedback Integration",
+    "previous_approach": "The initial single-line design did not include a feedback loop. Predictions were static — once a model was trained and deployed, it continued making predictions without incorporating user corrections or preferences. There was no mechanism for improvement based on deployment experience.",
+    "limitation": "Static predictions could not adapt to evolving broadcast formats, new show types, or changing editorial preferences. Drift in prediction quality over time was observed but could only be addressed through manual retraining cycles. The feedback loop was added to enable continuous improvement through user signals without retraining, using feedback to update retrieval rankings and example selection strategies.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-012", "BENCHCORE-DOC-024"]
+  },
+  {
+    "design_aspect": "Confidence Estimation",
+    "previous_approach": "Initial predictions were produced without confidence scores. The system returned a single prediction with no indication of how certain the classifier was about that prediction. Users had no basis for deciding whether to accept the prediction automatically or to verify it manually.",
+    "limitation": "Without confidence estimation, every prediction was presented as equally certain, leading to user frustration when incorrect predictions were presented with apparent conviction. The system also could not implement confidence-based workflows (automatic acceptance for high-confidence predictions, mandatory review for low-confidence ones). Confidence calibration was added using temperature scaling on the frozen LLM's output probabilities, with periodic recalibration against actual prediction accuracy.",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-015"]
+  }
+]

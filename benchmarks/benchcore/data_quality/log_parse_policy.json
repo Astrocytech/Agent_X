@@ -1,0 +1,42 @@
+{
+  "policy_name": "LogParsePolicy",
+  "description": "Policy for parsing log data in the BenchCore benchmark pack. Defines rules for handling multi-line log entries, duplicate handling, and source identification.",
+  "one_input_multi_output": true,
+  "parse_rules": [
+    {
+      "rule_id": "LOG_PARSE_001",
+      "description": "Each log entry must be parsed into a structured object with at minimum timestamp, severity, and message fields.",
+      "required_fields": ["timestamp", "severity", "message"],
+      "field_types": {
+        "timestamp": "ISO 8601 string",
+        "severity": "enum [DEBUG, INFO, WARN, ERROR, FATAL]",
+        "message": "string",
+        "source_id": "string (optional)"
+      }
+    },
+    {
+      "rule_id": "LOG_PARSE_002",
+      "description": "Multi-line log entries must be consolidated into a single record. Line breaks within a message are preserved as escaped newlines.",
+      "multi_line_consolidation": true,
+      "max_line_length": 4096
+    },
+    {
+      "rule_id": "LOG_PARSE_003",
+      "description": "Log entries without a valid timestamp must be flagged and excluded from structured output.",
+      "timestamp_required": true,
+      "timestamp_pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}"
+    },
+    {
+      "rule_id": "LOG_PARSE_004",
+      "description": "Unknown severity levels must be coerced to UNKNOWN and flagged for review.",
+      "severity_coercion": {
+        "unknown_fallback": "UNKNOWN",
+        "flag_for_review": true
+      }
+    }
+  ],
+  "duplicate_handling": "deduplicate_by_timestamp_and_source_id",
+  "source_ids": ["BENCHCORE-DOC-019", "BENCHCORE-DOC-025"],
+  "scope": "benchmark-only",
+  "live_connections": false
+}

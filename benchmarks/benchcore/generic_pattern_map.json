@@ -1,0 +1,208 @@
+[
+  {
+    "benchcore_specific_concept": "QuickCode keyword expansion",
+    "generic_agentx_pattern": "Grammar-constrained command expansion from shorthand to full command syntax",
+    "source_ids": ["BENCHCORE-DOC-022", "BENCHCORE-DOC-024"],
+    "agent_x_layer": "grammar_validation",
+    "allowed_scope": "Structured command grammar validation with keyword-to-command mapping",
+    "forbidden_scope": "Claiming general natural language understanding; live production command execution",
+    "required_tests": [
+      "test_quickcode_expansion_valid",
+      "test_quickcode_expansion_invalid",
+      "test_quickcode_ambiguous_abbreviation_rejected"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "NRCS/CAM/MIC/CLIP field prediction",
+    "generic_agentx_pattern": "Multi-class single-label classification with finite target set",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-006", "BENCHCORE-DOC-008"],
+    "agent_x_layer": "requirements",
+    "allowed_scope": "Classification benchmarks with bounded, known target sets and evaluation metrics",
+    "forbidden_scope": "Claiming production NRCS/CAM/MIC/CLIP system access; claiming general intelligence from field prediction",
+    "required_tests": [
+      "test_classification_target_set_bounded",
+      "test_classification_exact_match",
+      "test_classification_top_k"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Evaluation metrics (exact-match, top-k, F1, MRR)",
+    "generic_agentx_pattern": "Generic configurable evaluation harness with multi-metric support",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-009"],
+    "agent_x_layer": "evaluation",
+    "allowed_scope": "Configurable evaluation harness for benchmark prediction quality assessment",
+    "forbidden_scope": "Claiming production-level system evaluation; claiming real-time monitoring capability",
+    "required_tests": [
+      "test_metrics_exact_match",
+      "test_metrics_top_k",
+      "test_metrics_f1",
+      "test_metrics_mrr",
+      "test_metrics_config_validation"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Feedback loop (explicit/implicit signals, position bias, drift)",
+    "generic_agentx_pattern": "Governed feedback benchmark pattern with signal schema, drift detection, and policy enforcement",
+    "source_ids": ["BENCHCORE-DOC-001"],
+    "agent_x_layer": "feedback_loop",
+    "allowed_scope": "Governed feedback signal processing with explicit/implicit classification and drift monitoring",
+    "forbidden_scope": "Claiming real-time feedback integration; claiming autonomous learning from feedback",
+    "required_tests": [
+      "test_feedback_signal_explicit",
+      "test_feedback_signal_implicit",
+      "test_feedback_drift_detection",
+      "test_feedback_position_bias"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Dynamic ID label mapping (natural language to dynamic IDs)",
+    "generic_agentx_pattern": "Capability-to-template retrieval registry with query matching",
+    "source_ids": ["BENCHCORE-DOC-010"],
+    "agent_x_layer": "dynamic_retrieval",
+    "allowed_scope": "Structured retrieval registry for mapping natural language queries to template identifiers",
+    "forbidden_scope": "Claiming real-time dynamic ID resolution against live production systems",
+    "required_tests": [
+      "test_registry_mapping_exact",
+      "test_registry_mapping_fuzzy",
+      "test_registry_query_template_match"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Anti-LLM-retraining feedback design",
+    "generic_agentx_pattern": "Frozen-LLM + retrieval/classifier update learning policy",
+    "source_ids": ["BENCHCORE-DOC-012"],
+    "agent_x_layer": "learning_policy",
+    "allowed_scope": "Learning policy that keeps LLM frozen and updates only retrieval or classifier components",
+    "forbidden_scope": "Claiming LLM fine-tuning safety; claiming protection against all retraining failure modes",
+    "required_tests": [
+      "test_llm_frozen_policy_enforced",
+      "test_updatable_component_classifier",
+      "test_updatable_component_retrieval",
+      "test_retraining_policy_violation_rejected"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Abductive inference vs explanation/deduction in LLMs",
+    "generic_agentx_pattern": "Inverse-science reasoning-type rules distinguishing abduction, deduction, and explanation",
+    "source_ids": ["BENCHCORE-DOC-013"],
+    "agent_x_layer": "inverse_science_alignment",
+    "allowed_scope": "Reasoning-type classification rules for observations and hypotheses in benchmark context",
+    "forbidden_scope": "Claiming general reasoning capability in Agent_X; claiming alignment or safety guarantees",
+    "required_tests": [
+      "test_reasoning_abductive_inference",
+      "test_reasoning_deduction",
+      "test_reasoning_explanation",
+      "test_reasoning_type_classification"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Production cue validation",
+    "generic_agentx_pattern": "Structured command grammar validation with format constraints",
+    "source_ids": ["BENCHCORE-DOC-022"],
+    "agent_x_layer": "grammar_validation",
+    "allowed_scope": "Grammar validation for structured commands with defined format, fields, and constraints",
+    "forbidden_scope": "Claiming broadcast production system capability; claiming support for arbitrary command formats",
+    "required_tests": [
+      "test_production_cue_valid_format",
+      "test_production_cue_invalid_format",
+      "test_production_cue_field_constraints"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "*CG/*OD command syntax",
+    "generic_agentx_pattern": "Domain-specific language command validation with prefix-based command grammar",
+    "source_ids": ["BENCHCORE-DOC-024"],
+    "agent_x_layer": "grammar_validation",
+    "allowed_scope": "DSL validation for prefix-based command languages with defined syntax rules",
+    "forbidden_scope": "Claiming OverDrive system access; claiming general DSL interpretation capability",
+    "required_tests": [
+      "test_od_command_valid",
+      "test_od_command_invalid",
+      "test_cg_command_valid",
+      "test_cg_command_invalid",
+      "test_command_prefix_validation"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "XML data cleanup pipeline",
+    "generic_agentx_pattern": "Structured data preprocessing and quality assessment pipeline",
+    "source_ids": ["BENCHCORE-DOC-017", "BENCHCORE-DOC-018"],
+    "agent_x_layer": "data_quality",
+    "allowed_scope": "Data quality assessment with valid/invalid fixtures, schema validation, and transformation rules",
+    "forbidden_scope": "Claiming production data pipeline capability; claiming client data access",
+    "required_tests": [
+      "test_xml_quality_valid",
+      "test_xml_quality_invalid",
+      "test_overdrive_data_cleanup",
+      "test_data_quality_schema_validation"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "DB log + MOS log evidence fusion",
+    "generic_agentx_pattern": "Multi-source evidence fusion with join-key requirement and conflict resolution",
+    "source_ids": ["BENCHCORE-DOC-011"],
+    "agent_x_layer": "data_quality",
+    "allowed_scope": "Evidence fusion from multiple structured sources using defined join keys and resolution rules",
+    "forbidden_scope": "Claiming production log system access; claiming real-time log monitoring capability",
+    "required_tests": [
+      "test_fusion_join_key_match",
+      "test_fusion_join_key_mismatch",
+      "test_fusion_conflict_resolution",
+      "test_fusion_field_enrichment"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "REST/MOS adapter architecture",
+    "generic_agentx_pattern": "Generic protocol adapter boundary planning with mock contracts and failure modes",
+    "source_ids": ["BENCHCORE-DOC-026", "BENCHCORE-DOC-030"],
+    "agent_x_layer": "protocol_architecture",
+    "allowed_scope": "Protocol adapter planning with mock contracts, request/response schemas, and failure mode documentation",
+    "forbidden_scope": "Claiming live MOS or REST system integration; claiming production adapter deployment",
+    "required_tests": [
+      "test_adapter_mock_contract",
+      "test_adapter_failure_mode",
+      "test_adapter_protocol_mapping"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Suggestion card + accept/reject/modify UI",
+    "generic_agentx_pattern": "Human-in-loop review pattern with structured suggestion, review action schema, and feedback recording",
+    "source_ids": ["BENCHCORE-DOC-025"],
+    "agent_x_layer": "human_review_ui",
+    "allowed_scope": "Review card schema with accept/reject/modify actions and feedback recording structure",
+    "forbidden_scope": "Claiming interactive UI capability; claiming live human review deployment",
+    "required_tests": [
+      "test_review_card_accept",
+      "test_review_card_reject",
+      "test_review_card_modify",
+      "test_review_card_schema_validation"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "NLP-to-code AST generation",
+    "generic_agentx_pattern": "Structured code generation benchmark with AST schema and source-code pair validation",
+    "source_ids": ["BENCHCORE-DOC-020", "BENCHCORE-DOC-023"],
+    "agent_x_layer": "grammar_validation",
+    "allowed_scope": "AST generation benchmark with validated source-code pairs and grammar-constrained output",
+    "forbidden_scope": "Claiming general code generation capability; claiming production code safety",
+    "required_tests": [
+      "test_ast_generation_valid",
+      "test_ast_generation_invalid",
+      "test_nlp_code_pair_matching",
+      "test_ast_grammar_constraints"
+    ]
+  },
+  {
+    "benchcore_specific_concept": "Story/item/split prediction across multiple lines",
+    "generic_agentx_pattern": "Multi-line sequence prediction benchmark with structured field dependencies",
+    "source_ids": ["BENCHCORE-DOC-005"],
+    "agent_x_layer": "requirements",
+    "allowed_scope": "Sequence prediction benchmarks with defined field relationships and multi-line context",
+    "forbidden_scope": "Claiming production rundown system access; claiming general sequence understanding",
+    "required_tests": [
+      "test_sequence_prediction_single_line",
+      "test_sequence_prediction_multi_line",
+      "test_sequence_field_dependency"
+    ]
+  }
+]

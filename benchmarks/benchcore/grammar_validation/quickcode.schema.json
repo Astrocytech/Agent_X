@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "QuickCode",
+  "description": "Schema for QuickCode examples. Enforces known keywords, non-empty expansions, and no unsupported expansions.",
+  "type": "object",
+  "properties": {
+    "keyword": {
+      "type": "string",
+      "enum": ["TITLE", "HEADLINE", "SUMMARY", "BODY", "AUTHOR", "DATE", "CATEGORY", "STATUS", "SOURCE", "KEYWORDS"],
+      "description": "QuickCode keyword. Must be one of the allowed known keywords."
+    },
+    "expansion": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Expansion string for the keyword. Must be non-empty and must be a supported expansion."
+    },
+    "source": {
+      "type": "string",
+      "description": "Source document reference (e.g., BENCHCORE-DOC-xxx)."
+    }
+  },
+  "required": ["keyword", "expansion", "source"],
+  "additionalProperties": false
+}

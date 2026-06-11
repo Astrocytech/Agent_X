@@ -1,0 +1,100 @@
+<log>
+  <entry id="d001" timestamp="2025-11-03T08:00:00Z" source="mos-gateway-01">
+    <story id="s-5001">
+      <item type="command">
+        <action>PLST</action>
+        <params>
+          <param name="cmd">LOAD</param>
+          <param name="target">/air/primary</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Loaded 50 segments.</message>
+      </item>
+    </story>
+  </entry>
+  <entry id="d002" timestamp="2025-11-03T08:05:00Z" source="web-api-02">
+    <story id="s-5002">
+      <item type="command">
+        <action>NEWS_ITEM</action>
+        <params>
+          <param name="cmd">CREATE</param>
+          <param name="slug">weather-alert</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>CREATED</status>
+        <message>Created weather-alert.</message>
+      </item>
+    </story>
+  </entry>
+  <entry id="d003" timestamp="2025-11-03T08:10:00Z" source="mos-gateway-01">
+    <story id="s-5003">
+      <item type="command">
+        <action>SWITCHER</action>
+        <params>
+          <param name="cmd">CUT</param>
+          <param name="source">camera-02</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Switched to camera-02.</message>
+      </item>
+    </story>
+  </entry>
+  <entry id="d001" timestamp="2025-11-03T08:15:00Z" source="mos-gateway-01">
+    <story id="s-5001">
+      <item type="command">
+        <action>PLST</action>
+        <params>
+          <param name="cmd">LOAD</param>
+          <param name="target">/air/backup</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Loaded 25 segments into backup.</message>
+      </item>
+    </story>
+  </entry>
+  <entry id="d004" timestamp="2025-11-03T08:20:00Z" source="oracle-db-01">
+    <story id="s-5004">
+      <item type="error">
+        <code>DB_LAG</code>
+        <message>Replication lag detected.</message>
+      </item>
+    </story>
+  </entry>
+  <entry id="d002" timestamp="2025-11-03T08:25:00Z" source="web-api-02">
+    <story id="s-5002">
+      <item type="command">
+        <action>NEWS_ITEM</action>
+        <params>
+          <param name="cmd">UPDATE</param>
+          <param name="slug">weather-alert</param>
+          <param name="body">Updated tornado watch.</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>UPDATED</status>
+        <message>Updated weather-alert.</message>
+      </item>
+    </story>
+  </entry>
+  <entry id="d005" timestamp="2025-11-03T08:30:00Z" source="mos-gateway-01">
+    <story id="s-5005">
+      <item type="command">
+        <action>STOP</action>
+        <params>
+          <param name="cmd">STOP</param>
+        </params>
+      </item>
+      <item type="response">
+        <status>OK</status>
+        <message>Playback stopped.</message>
+      </item>
+    </story>
+  </entry>
+</log>

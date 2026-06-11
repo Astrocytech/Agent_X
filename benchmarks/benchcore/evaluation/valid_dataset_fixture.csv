@@ -1,0 +1,21 @@
+id,input_text,expected_label,predicted_label,confidence
+SAMP-001,Extract the NRCS field from line 3,NRCS,NRCS,0.95
+SAMP-002,Predict the camera for shot 42,CAM,CAM,0.89
+SAMP-003,Identify the microphone type,MIC,MIC,0.92
+SAMP-004,Find the CLIP field in the metadata,CLIP,CLIP,0.88
+SAMP-005,Parse the lens model from the EXIF data,LENS,LENS,0.91
+SAMP-006,Extract the ISO value from the file header,ISO,ISO,0.87
+SAMP-007,Predict the white balance setting,WBAL,WBAL,0.84
+SAMP-008,Get the aperture from the camera settings,APER,APER,0.90
+SAMP-009,Find the shutter speed in the metadata,SHUT,SHUT,0.86
+SAMP-010,Extract the focal length from the EXIF,FOCL,FOCL,0.93
+SAMP-011,Predict the aspect ratio for the clip,ARAT,ARAT,0.82
+SAMP-012,Identify the codec used in the video stream,CODEC,CODEC,0.79
+SAMP-013,Get the bitrate from the stream info,BITR,BITR,0.81
+SAMP-014,Parse the frame rate from the header,FPS,FPS,0.85
+SAMP-015,Extract the color space from the metadata,CSPC,CSPC,0.88
+SAMP-016,Predict the scene detection score,SCENE,NRCS,0.45
+SAMP-017,Find the audio sample rate,AUDIO,AUDIO,0.94
+SAMP-018,Extract the timecode from the start of reel,TCOD,TCOD,0.76
+SAMP-019,Predict the reel number from the filename,REEL,REEL,0.90
+SAMP-020,Get the lab roll number from the edgecode,LABR,LABR,0.83

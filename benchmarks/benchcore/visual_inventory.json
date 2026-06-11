@@ -1,0 +1,254 @@
+[
+  {
+    "source_id": "BENCHCORE-DOC-002",
+    "filename": "benchcore-backend-explained-faq-and-slides.pdf",
+    "page": 1,
+    "visual_type": "slide",
+    "content_role": "requirement_bearing",
+    "summary": "BenchCore backend architecture overview slide showing component relationships and data flow",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/requirements.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-002",
+    "filename": "benchcore-backend-explained-faq-and-slides.pdf",
+    "page": 3,
+    "visual_type": "slide",
+    "content_role": "explanatory_only",
+    "summary": "FAQ slide explaining BenchCore prediction pipeline and module interactions",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/requirements.json"
+    ],
+    "status": "explanatory_only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-005",
+    "filename": "predicting-rundown-story-item-object-fields-multi-line.pdf",
+    "page": 2,
+    "visual_type": "workflow_diagram",
+    "content_role": "requirement_bearing",
+    "summary": "Multi-line prediction workflow showing story/item/split field extraction pipeline",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/multiline_prediction_requirements.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-005",
+    "filename": "predicting-rundown-story-item-object-fields-multi-line.pdf",
+    "page": 5,
+    "visual_type": "table",
+    "content_role": "requirement_bearing",
+    "summary": "Field mapping table for story/item/split object fields and their prediction targets",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/multiline_prediction_requirements.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-007",
+    "filename": "benchcore-nbc-presentation-notes.pdf",
+    "page": 2,
+    "visual_type": "slide",
+    "content_role": "explanatory_only",
+    "summary": "NBC presentation slide showing BenchCore system context and deployment architecture",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/product_narrative_requirements.json"
+    ],
+    "status": "explanatory_only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-007",
+    "filename": "benchcore-nbc-presentation-notes.pdf",
+    "page": 4,
+    "visual_type": "flowchart",
+    "content_role": "explanatory_only",
+    "summary": "Flowchart of BenchCore prediction pipeline from input to output with evaluation gates",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/product_narrative_requirements.json"
+    ],
+    "status": "explanatory_only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-016",
+    "filename": "problem-statement-and-baseline-architecture-part-1.pdf",
+    "page": 3,
+    "visual_type": "architecture_diagram",
+    "content_role": "requirement_bearing",
+    "summary": "Baseline architecture diagram showing component layout for BenchCore prediction system",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/layer_requirements.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-016",
+    "filename": "problem-statement-and-baseline-architecture-part-1.pdf",
+    "page": 7,
+    "visual_type": "workflow_diagram",
+    "content_role": "requirement_bearing",
+    "summary": "Data flow diagram for prediction pipeline from data ingestion to output evaluation",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/requirements/layer_requirements.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-021",
+    "filename": "core-architecture-for-benchcore-solution-1.pdf",
+    "page": 1,
+    "visual_type": "architecture_diagram",
+    "content_role": "requirement_bearing",
+    "summary": "Core architecture diagram for BenchCore Solution 1 showing protocol adapter layers",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/semantic_parser_pipeline_contract.md"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-021",
+    "filename": "core-architecture-for-benchcore-solution-1.pdf",
+    "page": 4,
+    "visual_type": "flowchart",
+    "content_role": "requirement_bearing",
+    "summary": "Sequence flow for prediction request handling through adapter and classifier components",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/failure_modes.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-022",
+    "filename": "production-cue-manual.pdf",
+    "page": 5,
+    "visual_type": "screenshot",
+    "content_role": "requirement_bearing",
+    "summary": "Production cue format specification with field-by-field breakdown and examples",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/grammar_validation/production_cue.schema.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-022",
+    "filename": "production-cue-manual.pdf",
+    "page": 12,
+    "visual_type": "table",
+    "content_role": "requirement_bearing",
+    "summary": "QuickCode keyword expansion table mapping shortcuts to full production cue commands",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/grammar_validation/production_cue.schema.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-024",
+    "filename": "overdrive-coding-od-manual.pdf",
+    "page": 3,
+    "visual_type": "screenshot",
+    "content_role": "requirement_bearing",
+    "summary": "OverDrive coding interface showing *CG/*OD command syntax and command entry fields",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/grammar_validation/od_command.schema.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-024",
+    "filename": "overdrive-coding-od-manual.pdf",
+    "page": 8,
+    "visual_type": "table",
+    "content_role": "requirement_bearing",
+    "summary": "Command reference table listing all *CG/*OD command codes, arguments, and descriptions",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/grammar_validation/valid_examples.jsonl"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-025",
+    "filename": "benchcore-as-ui-inception-plugin.pdf",
+    "page": 2,
+    "visual_type": "ui_mockup",
+    "content_role": "requirement_bearing",
+    "summary": "Inception plugin UI mockup showing suggestion card with accept/reject/modify controls",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/human_review_ui/suggestion_card.schema.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-025",
+    "filename": "benchcore-as-ui-inception-plugin.pdf",
+    "page": 6,
+    "visual_type": "workflow_diagram",
+    "content_role": "explanatory_only",
+    "summary": "Human review workflow showing suggestion generation, review, acceptance, and feedback loop",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/human_review_ui/feedback_action.schema.json"
+    ],
+    "status": "explanatory_only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-026",
+    "filename": "technical-organizationmapping.pdf",
+    "page": 1,
+    "visual_type": "org_chart",
+    "content_role": "requirement_bearing",
+    "summary": "Technical organization mapping showing system component ownership and interface boundaries",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/rest_mos_mapping_contract.md"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-026",
+    "filename": "technical-organizationmapping.pdf",
+    "page": 3,
+    "visual_type": "flowchart",
+    "content_role": "requirement_bearing",
+    "summary": "REST/MOS adapter mapping diagram showing protocol translation between systems",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/adapter_boundary_contract.md"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-028",
+    "filename": "technical-terminology-for-beginners.pdf",
+    "page": 2,
+    "visual_type": "table",
+    "content_role": "explanatory_only",
+    "summary": "Terminology glossary table with BenchCore-specific terms and plain-language definitions",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/ontology/glossary.json"
+    ],
+    "status": "explanatory_only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-030",
+    "filename": "architecture-desing.pdf",
+    "page": 1,
+    "visual_type": "architecture_diagram",
+    "content_role": "requirement_bearing",
+    "summary": "System architecture design diagram showing component interactions and data pathways",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/mock_rest_input.schema.json"
+    ],
+    "status": "covered"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-030",
+    "filename": "architecture-desing.pdf",
+    "page": 5,
+    "visual_type": "flowchart",
+    "content_role": "requirement_bearing",
+    "summary": "Protocol adapter flow diagram for REST and MOS communication pathways",
+    "mapped_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/failure_modes.json"
+    ],
+    "status": "covered"
+  }
+]

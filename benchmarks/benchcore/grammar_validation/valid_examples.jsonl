@@ -1,0 +1,12 @@
+{"type": "cue", "input": "Cue: Report ready | Keywords: summary, final | Delimiter: :", "expected_validation": true, "source": "BENCHCORE-DOC-020"}
+{"type": "cue", "input": "Cue: Generate headline | Keywords: headline, breaking | Delimiter: =", "expected_validation": true, "source": "BENCHCORE-DOC-020"}
+{"type": "od", "input": "*OD EXTRACT STORY ID=12345", "expected_validation": true, "source": "BENCHCORE-DOC-021"}
+{"type": "od", "input": "*OD UPDATE FIELD field=body content=The breaking news story has been updated", "expected_validation": true, "source": "BENCHCORE-DOC-021"}
+{"type": "od", "input": "*OD DELETE STORY ID=67890", "expected_validation": true, "source": "BENCHCORE-DOC-021"}
+{"type": "cg", "input": "*CG GENERATE FIELD type=NRCS", "expected_validation": true, "source": "BENCHCORE-DOC-022"}
+{"type": "cg", "input": "*CG GENERATE FIELD type=HEADLINE source=auto", "expected_validation": true, "source": "BENCHCORE-DOC-022"}
+{"type": "quickcode", "input": "KEYWORD: [TITLE] -> EXPANSION: {story_title}", "expected_validation": true, "source": "BENCHCORE-DOC-024"}
+{"type": "quickcode", "input": "KEYWORD: [SUMMARY] -> EXPANSION: {story_summary}", "expected_validation": true, "source": "BENCHCORE-DOC-024"}
+{"type": "quickcode", "input": "KEYWORD: [AUTHOR] -> EXPANSION: {story_author}", "expected_validation": true, "source": "BENCHCORE-DOC-024"}
+{"type": "cue", "input": "Cue: Update story metadata | Keywords: metadata, update, author | Delimiter: :", "expected_validation": true, "source": "BENCHCORE-DOC-020"}
+{"type": "od", "input": "*OD CREATE STORY ID=99999 field=headline value=New Story", "expected_validation": true, "source": "BENCHCORE-DOC-021"}

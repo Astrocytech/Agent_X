@@ -1,0 +1,254 @@
+{
+  "NRCS": {
+    "acronym": "NRCS",
+    "expansion": "Newsroom Computer System",
+    "context": "Legacy broadcast newsroom system referenced as the predecessor environment from which BenchCore's prediction targets (rundowns, stories, items) originate. The term appears in BENCHCORE-DOC-001 and BENCHCORE-DOC-016 to describe the data source domain.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  "MOS": {
+    "acronym": "MOS",
+    "expansion": "Media Object Server",
+    "context": "Protocol used for communication between newsroom systems and media servers. In BenchCore, MOS is the primary integration protocol for connecting predictions back to broadcast production environments. Referenced as a live dependency that is mocked in the benchmark.",
+    "term_type": "protocol_specific",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-030"]
+  },
+  "OD": {
+    "acronym": "OD",
+    "expansion": "Object Definition",
+    "context": "A BenchCore-specific command that defines the structure of a story or item object within the rundown. OD commands specify field types, allowed values, and relationships. Part of the broader command grammar that Agent_X must learn to predict.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"]
+  },
+  "CG": {
+    "acronym": "CG",
+    "expansion": "Character Generator",
+    "context": "A BenchCore command that produces on-screen text/graphics in a broadcast rundown. CG commands contain fields for text content, timing, and visual formatting. One of the primary prediction targets in the single-line and multi-line prediction tasks.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030", "BENCHCORE-DOC-032"]
+  },
+  "VO": {
+    "acronym": "VO",
+    "expansion": "Voice-Over",
+    "context": "A broadcast rundown element indicating a voice-over segment. VO items are a type of story element that BenchCore must learn to predict or classify from context. Appears in the prediction target taxonomy.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  "SOT": {
+    "acronym": "SOT",
+    "expansion": "Sound on Tape",
+    "context": "A broadcast rundown element indicating a pre-recorded sound bite. SOT items are a distinct prediction target type within the BenchCore field prediction problem, often requiring multi-line context for accurate classification.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  "PKG": {
+    "acronym": "PKG",
+    "expansion": "Package",
+    "context": "A self-contained news package within a rundown, typically combining VO, SOT, and other elements. PKG prediction involves identifying package boundaries and internal structure from multi-line context.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029", "BENCHCORE-DOC-032"]
+  },
+  "OTS": {
+    "acronym": "OTS",
+    "expansion": "Over-The-Shoulder",
+    "context": "A graphic displayed over the anchor's shoulder during a broadcast. OTS is a specific CG variant that appears in rundown data and is a prediction target for the multi-line field prediction task.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  "FS": {
+    "acronym": "FS",
+    "expansion": "Full Screen",
+    "context": "A full-screen graphic element in a broadcast rundown. FS items are CG variants that serve as prediction targets, with specific field structures that must be inferred from surrounding context.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  "DBLBOX": {
+    "acronym": "DBLBOX",
+    "expansion": "Double Box",
+    "context": "A split-screen broadcast element showing two simultaneous video sources. DBLBOX is a specific CG variant and prediction target in the BenchCore field prediction problem.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  "CAM": {
+    "acronym": "CAM",
+    "expansion": "Camera",
+    "context": "A camera shot directive within a rundown. CAM items specify which camera angle or source to use. Part of the finite set of prediction targets that Agent_X classifiers must recognize.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  "MIC": {
+    "acronym": "MIC",
+    "expansion": "Microphone",
+    "context": "A microphone/audio source directive in a rundown. MIC items indicate which audio feed to use. A finite prediction target within the BenchCore field classification problem.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-029"]
+  },
+  "CLIP": {
+    "acronym": "CLIP",
+    "expansion": "Clip",
+    "context": "A pre-recorded video clip element in a rundown. CLIP items are prediction targets whose boundaries and properties must be inferred from multi-line context.",
+    "term_type": "benchcore_specific",
+    "source_ids": ["BENCHCORE-DOC-016", "BENCHCORE-DOC-032"]
+  },
+  "LLM": {
+    "acronym": "LLM",
+    "expansion": "Large Language Model",
+    "context": "A neural language model with billions of parameters. In BenchCore, LLMs serve as the frozen (non-retrained) foundation for semantic parsing and field prediction. Agent_X uses an LLM for natural language understanding without modifying model weights.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"]
+  },
+  "RAG": {
+    "acronym": "RAG",
+    "expansion": "Retrieval-Augmented Generation",
+    "context": "A pattern that augments LLM prompts with retrieved context. In BenchCore, RAG is used for dynamic retrieval of command templates, field definitions, and historical examples during inference, without modifying the frozen LLM.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"]
+  },
+  "AST": {
+    "acronym": "AST",
+    "expansion": "Abstract Syntax Tree",
+    "context": "A tree representation of the syntactic structure of source code. In BenchCore, ASTs are used for grammar validation of generated commands and for structured output parsing from LLM predictions.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-015", "BENCHCORE-DOC-030"]
+  },
+  "SQL": {
+    "acronym": "SQL",
+    "expansion": "Structured Query Language",
+    "context": "A domain-specific language for managing relational databases. Referenced in BenchCore documentation as an analogy for structured command generation and as a query language for the capability registry and traceability stores.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-015"]
+  },
+  "XML": {
+    "acronym": "XML",
+    "expansion": "Extensible Markup Language",
+    "context": "A markup language for encoding documents. BenchCore commands historically used XML-like structures in some NRCS integrations. Referenced as a legacy format that the benchmark may need to parse.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018"]
+  },
+  "JSON": {
+    "acronym": "JSON",
+    "expansion": "JavaScript Object Notation",
+    "context": "A lightweight data interchange format. Used throughout the BenchCore benchmark for configuration files, API payloads, ontology definitions, and structured output representations.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-005", "BENCHCORE-DOC-015", "BENCHCORE-DOC-020"]
+  },
+  "API": {
+    "acronym": "API",
+    "expansion": "Application Programming Interface",
+    "context": "A set of defined interfaces for system-to-system communication. In BenchCore, the API layer provides access to the classifier, the capability registry, and the evaluation harness for external integration.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020"]
+  },
+  "REST": {
+    "acronym": "REST",
+    "expansion": "Representational State Transfer",
+    "context": "An architectural style for API design. BenchCore's protocol layer uses REST endpoints for command submission, prediction retrieval, and feedback collection, all mocked in the benchmark.",
+    "term_type": "protocol_specific",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-018", "BENCHCORE-DOC-020", "BENCHCORE-DOC-030"]
+  },
+  "TCP": {
+    "acronym": "TCP",
+    "expansion": "Transmission Control Protocol",
+    "context": "A core transport protocol of the internet. Referenced in the MOS protocol specification and in integration architecture for real-time rundown data transmission.",
+    "term_type": "protocol_specific",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-030"]
+  },
+  "UI": {
+    "acronym": "UI",
+    "expansion": "User Interface",
+    "context": "The visual interface through which users interact with the system. In BenchCore, the UI encompasses suggestion cards, feedback actions, and manual approval gates as defined in the presentation layer requirements.",
+    "term_type": "ui_specific",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"]
+  },
+  "ML": {
+    "acronym": "ML",
+    "expansion": "Machine Learning",
+    "context": "The field of study enabling computers to learn from data. In BenchCore, ML refers specifically to the classification and prediction components that learn field patterns from rundown data without retraining the underlying LLM.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-010", "BENCHCORE-DOC-015"]
+  },
+  "F1": {
+    "acronym": "F1",
+    "expansion": "F1 Score",
+    "context": "The harmonic mean of precision and recall, used as a primary evaluation metric in BenchCore's prediction evaluation. F1 score measures classification quality for each field prediction task.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  "MRR": {
+    "acronym": "MRR",
+    "expansion": "Mean Reciprocal Rank",
+    "context": "An evaluation metric that measures the average rank of the correct prediction. Used in BenchCore for top-K evaluation of field predictions where multiple candidates are ranked.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  "TOP_K": {
+    "acronym": "TOP_K",
+    "expansion": "Top-K Accuracy",
+    "context": "A metric measuring whether the correct prediction appears within the top K candidates. Used in BenchCore evaluation to assess classifier performance when presenting multiple suggestions to users.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"]
+  },
+  "LOE": {
+    "acronym": "LOE",
+    "expansion": "Level of Effort",
+    "context": "An estimate of the work required to implement a feature. Used in BenchCore documentation (particularly the FAQ) to discuss implementation complexity of different architectural approaches.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-013"]
+  },
+  "POC": {
+    "acronym": "POC",
+    "expansion": "Proof of Concept",
+    "context": "An initial implementation to validate feasibility. BenchCore itself is framed as a POC-level benchmark system, not a production deployment, to establish the claim boundary for Agent_X evaluation.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"]
+  },
+  "WSL": {
+    "acronym": "WSL",
+    "expansion": "Windows Subsystem for Linux",
+    "context": "A compatibility layer for running Linux binaries on Windows. Referenced in the environment setup documentation for running the BenchCore benchmark on Windows development machines.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005"]
+  },
+  "SSH": {
+    "acronym": "SSH",
+    "expansion": "Secure Shell",
+    "context": "A cryptographic network protocol for secure remote access. Referenced in deployment architecture for secure communication between evaluation harness and remote test infrastructure.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005"]
+  },
+  "MySQL": {
+    "acronym": "MySQL",
+    "expansion": "MySQL (Structured Query Language)",
+    "context": "An open-source relational database management system. Referenced in legacy NRCS architecture context for data storage of rundown and story data.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-029"]
+  },
+  "T5": {
+    "acronym": "T5",
+    "expansion": "Text-to-Text Transfer Transformer",
+    "context": "A transformer model by Google that treats all NLP tasks as text-to-text problems. Referenced in BenchCore as a candidate architecture for the semantic parsing component, though Stage A treats the LLM as frozen and does not implement custom models.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"]
+  },
+  "LoRA": {
+    "acronym": "LoRA",
+    "expansion": "Low-Rank Adaptation",
+    "context": "A parameter-efficient fine-tuning technique that adapts large models by training low-rank matrices. Referenced in BenchCore as a forbidden learning technique for Stage A (the frozen LLM constraint), allowed only in later benchmark stages.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"]
+  },
+  "TranX": {
+    "acronym": "TranX",
+    "expansion": "TranX (Transition-based Abstract Syntax Parser)",
+    "context": "A transition-based semantic parsing system that converts natural language into AST representations. Referenced in BenchCore as a candidate approach for NL-to-command parsing, forbidden for Stage A implementation under the frozen-LLM constraint.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"]
+  },
+  "CI/CD": {
+    "acronym": "CI/CD",
+    "expansion": "Continuous Integration / Continuous Deployment",
+    "context": "Automated software development practices for integrating and deploying code changes. Referenced in the evaluation harness design for automated test execution and deployment gate verification.",
+    "term_type": "generic",
+    "source_ids": ["BENCHCORE-DOC-005", "BENCHCORE-DOC-014"]
+  }
+}

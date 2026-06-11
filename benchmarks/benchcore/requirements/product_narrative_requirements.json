@@ -1,0 +1,50 @@
+[
+  {
+    "narrative_id": "NARR-001",
+    "requirement": "The product narrative must clearly distinguish between prediction (inferring field values from context) and learning (improving future predictions from feedback). These are separate concerns with separate architectural components. The narrative must avoid conflating a system that predicts well with a system that learns fast.",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "artifact_refs": ["benchmarks/benchcore/requirements/layer_requirements.json", "benchmarks/benchcore/policies/learning_policy.md"]
+  },
+  {
+    "narrative_id": "NARR-002",
+    "requirement": "The presentation of prediction quality must separate single-line and multi-line results. Presenting only multi-line results hides the value added by context windows. Both paradigms must be evaluated and reported separately to demonstrate the incremental benefit of multi-line context.",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-016"],
+    "artifact_refs": ["benchmarks/benchcore/evaluation/config.json", "benchmarks/benchcore/evaluation/harness.py"]
+  },
+  {
+    "narrative_id": "NARR-003",
+    "requirement": "The product narrative must specify field-level quality metrics, not just aggregate scores. Different field types (finite target, noisy, free-text) require different evaluation approaches and have different expected performance levels. Presenting only macro-averaged metrics hides important variation in prediction quality across field types.",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-019"],
+    "artifact_refs": ["benchmarks/benchcore/evaluation/metrics.py", "benchmarks/benchcore/evaluation/report.py"]
+  },
+  {
+    "narrative_id": "NARR-004",
+    "requirement": "The narrative must position the frozen LLM as a deliberate design choice for Stage A, not a limitation. The frozen LLM constraint isolates the benchmark's focus on prompt engineering, retrieval architecture, and evaluation methodology without confounding from model customization. Later stages may relax this constraint.",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-015"],
+    "artifact_refs": ["benchmarks/benchcore/policies/learning_policy.md", "benchmarks/benchcore/requirements/core_problem_statement.json"]
+  },
+  {
+    "narrative_id": "NARR-005",
+    "requirement": "The product narrative must present the benchmark as a POC-level implementation, not a production system. Language that implies production readiness, live deployment, or autonomous operation must be explicitly scoped as aspirational or out-of-scope. The narrative must include explicit caveats about mock protocols, curated data, and benchmark-only evaluation.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "artifact_refs": ["benchmarks/benchcore/CLAIM_BOUNDARY.md", "benchmarks/benchcore/requirements/backend_principles.json"]
+  },
+  {
+    "narrative_id": "NARR-006",
+    "requirement": "The relationship between BenchCore-specific terminology and generic Agent_X capabilities must be clearly articulated. BenchCore terms (CG, OD, QuickCode, rundown, story, item, MOS, NRCS) must be identified as domain-specific. The narrative must not imply that understanding BenchCore commands is a general Agent_X capability without domain adaptation.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "artifact_refs": ["benchmarks/benchcore/ontology/acronym_map.json", "benchmarks/benchcore/CLAIM_BOUNDARY.md"]
+  },
+  {
+    "narrative_id": "NARR-007",
+    "requirement": "The human-in-the-loop workflow must be central to the product narrative. Each prediction is framed as a suggestion for human review, not an autonomous action. The narrative must describe the suggestion card UI, feedback actions, and manual approval gates as essential architectural components, not optional additions.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "artifact_refs": ["benchmarks/benchcore/requirements/layer_requirements.json", "benchmarks/benchcore/schemas/ui_schemas.json"]
+  },
+  {
+    "narrative_id": "NARR-008",
+    "requirement": "The product narrative must explain the feedback loop architecture as a separate concern from the prediction architecture. Feedback collection, storage, aggregation, and exploration are distinct subsystems with their own policies and evaluation criteria. The narrative must not imply that feedback automatically improves predictions; the mechanism of improvement (dynamic retrieval updates, example selection) must be explicit.",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-012", "BENCHCORE-DOC-013", "BENCHCORE-DOC-024"],
+    "artifact_refs": ["benchmarks/benchcore/policies/feedback_policy.md", "benchmarks/benchcore/policies/exploration_policy.md", "benchmarks/benchcore/policies/feedback_aggregation.md"]
+  }
+]

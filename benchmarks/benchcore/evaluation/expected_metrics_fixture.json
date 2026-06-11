@@ -1,0 +1,16 @@
+{
+  "fixture_id": "EXPECTED-METRICS-001",
+  "dataset": "valid_dataset_fixture.csv",
+  "expected_metrics": {
+    "exact_match_accuracy": 0.85,
+    "macro_f1": 0.78,
+    "micro_f1": 0.82,
+    "top_3_hit_rate": 0.92,
+    "mrr": 0.88,
+    "cost_weighted_macro_f1": 0.75
+  },
+  "acceptance_gate": {
+    "min_accuracy": 0.70,
+    "min_f1": 0.65
+  }
+}

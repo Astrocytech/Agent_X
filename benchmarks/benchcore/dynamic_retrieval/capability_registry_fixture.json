@@ -1,0 +1,128 @@
+[
+  {
+    "capability_id": "CAP-001",
+    "natural_language_pattern": "(?i)(extract|get|find|parse)\\s+(the\\s+)?(nrcs|norris|nrcs\\s+field)",
+    "template_id": "TMPL-NRCS-EXTRACT",
+    "description": "Extract the NRCS (Norris) field from a line of text or metadata record.",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-002",
+    "natural_language_pattern": "(?i)(predict|determine|identify|get)\\s+(the\\s+)?(camera|camera\\s+model)",
+    "template_id": "TMPL-CAM-PREDICT",
+    "description": "Predict the camera model used for a given shot or frame.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-003",
+    "natural_language_pattern": "(?i)(find|get|identify|detect)\\s+(the\\s+)?(microphone|mic|audio\\s+source)",
+    "template_id": "TMPL-MIC-FIND",
+    "description": "Identify the microphone type or audio source used in a recording.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-004",
+    "natural_language_pattern": "(?i)(extract|get|find)\\s+(the\\s+)?(clip|clip\\s+field|clip\\s+id)",
+    "template_id": "TMPL-CLIP-EXTRACT",
+    "description": "Extract the CLIP field or CLIP ID from metadata.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-005",
+    "natural_language_pattern": "(?i)(parse|get|find|extract)\\s+(the\\s+)?(lens|lens\\s+model|lens\\s+data)",
+    "template_id": "TMPL-LENS-PARSE",
+    "description": "Parse lens model information from EXIF or metadata headers.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-006",
+    "natural_language_pattern": "(?i)(extract|get|find)\\s+(the\\s+)?(iso|iso\\s+value|iso\\s+speed)",
+    "template_id": "TMPL-ISO-EXTRACT",
+    "description": "Extract the ISO value from image or video file metadata.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-007",
+    "natural_language_pattern": "(?i)(predict|get|find)\\s+(the\\s+)?(white\\s+balance|wbal|wb)",
+    "template_id": "TMPL-WBAL-PREDICT",
+    "description": "Predict or retrieve the white balance setting from metadata.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-008",
+    "natural_language_pattern": "(?i)(get|find|extract)\\s+(the\\s+)?(aperture|f-stop|f\\s*\\/\\s*\\d+)",
+    "template_id": "TMPL-APER-GET",
+    "description": "Get the aperture or f-stop value from camera settings or metadata.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-009",
+    "natural_language_pattern": "(?i)(find|get|extract)\\s+(the\\s+)?(shutter|shutter\\s+speed|exposure\\s+time)",
+    "template_id": "TMPL-SHUT-FIND",
+    "description": "Find or extract the shutter speed or exposure time from metadata.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-010",
+    "natural_language_pattern": "(?i)(extract|get|find)\\s+(the\\s+)?(focal\\s+length|focal)",
+    "template_id": "TMPL-FOCL-EXTRACT",
+    "description": "Extract the focal length from EXIF or metadata.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  },
+  {
+    "capability_id": "CAP-011",
+    "natural_language_pattern": "(?i)(predict|get|determine)\\s+(the\\s+)?(aspect\\s+ratio|arat)",
+    "template_id": "TMPL-ARAT-PREDICT",
+    "description": "Predict or retrieve the aspect ratio for a video clip or image.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-012",
+    "natural_language_pattern": "(?i)(identify|get|detect)\\s+(the\\s+)?(codec|video\\s+codec|stream\\s+codec)",
+    "template_id": "TMPL-CODEC-IDENTIFY",
+    "description": "Identify the codec used in a video or audio stream.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-013",
+    "natural_language_pattern": "(?i)(get|extract|find)\\s+(the\\s+)?(bitrate|bit\\s*rate|bit\\s*rate\\s+info)",
+    "template_id": "TMPL-BITR-GET",
+    "description": "Get the bitrate from stream information.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-014",
+    "natural_language_pattern": "(?i)(parse|get|find)\\s+(the\\s+)?(frame\\s*rate|fps|frames\\s+per\\s+second)",
+    "template_id": "TMPL-FPS-PARSE",
+    "description": "Parse the frame rate from a video file header or metadata.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-015",
+    "natural_language_pattern": "(?i)(extract|get|find)\\s+(the\\s+)?(color\\s+space|colour\\s+space|cspc|color\\s+profile)",
+    "template_id": "TMPL-CSPC-EXTRACT",
+    "description": "Extract the color space or color profile from metadata.",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-016",
+    "natural_language_pattern": "(?i)(parse|clean|fix|normalize)\\s+(the\\s+)?(xml|xml\\s+data|xml\\s+file)",
+    "template_id": "TMPL-XML-CLEAN",
+    "description": "Parse, clean, fix, or normalize XML data.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-017",
+    "natural_language_pattern": "(?i)(parse|extract|read)\\s+(the\\s+)?(log|log\\s+file|log\\s+line|log\\s+entry)",
+    "template_id": "TMPL-LOG-PARSE",
+    "description": "Parse a log file, line, or entry to extract structured data.",
+    "source_ids": ["BENCHCORE-DOC-010"]
+  },
+  {
+    "capability_id": "CAP-018",
+    "natural_language_pattern": "(?i)(get|find|retrieve)\\s+(the\\s+)?(timecode|time\\s+code|tcod|reel\\s+timecode)",
+    "template_id": "TMPL-TCOD-GET",
+    "description": "Get or retrieve the timecode from the start of a reel or clip.",
+    "source_ids": ["BENCHCORE-DOC-004"]
+  }
+]

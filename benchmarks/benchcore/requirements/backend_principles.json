@@ -1,0 +1,72 @@
+[
+  {
+    "principle_id": "BP-001",
+    "principle": "No Live Dependencies",
+    "explanation": "The benchmark must operate entirely offline with all external systems mocked. No production NRCS, MOS server, or broadcast infrastructure is required to run any benchmark test or evaluation. Mock implementations must simulate realistic behavior including latency, failure modes, and data formatting without connecting to any live system.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-003", "BENCHCORE-DOC-005", "BENCHCORE-DOC-011"],
+    "agentx_application": "Agent_X must verify that its benchmark implementation contains no code paths that attempt live connections. All network calls must be intercepted by mock adapters. The evaluation harness must include connectivity tests that fail if any live dependency is detected."
+  },
+  {
+    "principle_id": "BP-002",
+    "principle": "Frozen LLM Constraint",
+    "explanation": "Stage A prohibits any modification to the underlying LLM's parameters. No fine-tuning, LoRA adaptation, model distillation, or any form of weight update is permitted. All task adaptation must occur through non-parametric mechanisms: prompt engineering, dynamic retrieval, example selection, and confidence calibration.",
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "agentx_application": "Agent_X's learning policy must document and enforce the frozen LLM constraint. The evaluation harness must include checks that no weight update operations are performed during benchmark runs. Llama, GPT, or any other LLM used must remain in its base configuration."
+  },
+  {
+    "principle_id": "BP-003",
+    "principle": "Claim Boundary Enforcement",
+    "explanation": "All claims about Agent_X's capabilities must be explicitly scoped to the benchmark context. BenchCore-specific terminology must be identified as such, not claimed as generic Agent_X features. The claim boundary document must specify what the benchmark does and does not demonstrate, including explicit limitations.",
+    "source_ids": ["BENCHCORE-DOC-001"],
+    "agentx_application": "Agent_X must maintain a claim boundary document that separates benchmark-demonstrated capabilities from aspirational or production-only capabilities. All evaluation reports must reference this boundary. Sabotage tests verify that claims are not overstated."
+  },
+  {
+    "principle_id": "BP-004",
+    "principle": "Source-Backed Evidence",
+    "explanation": "Every requirement, ontology entry, grammar rule, and test case must be traceable to specific source documents. Source references use BENCHCORE-DOC-NNN identifiers that resolve to inventory entries with content hashes. Claims without source backing are flagged and excluded from evaluation.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-002", "BENCHCORE-DOC-029"],
+    "agentx_application": "Agent_X must implement full traceability from all benchmark artifacts back to source documents. The traceability matrix enables verification that every requirement is grounded in evidence. The inventory with content hashes ensures source integrity."
+  },
+  {
+    "principle_id": "BP-005",
+    "principle": "Reproducible Evaluation",
+    "explanation": "All evaluation results must be reproducible. Stochastic components must use seeded randomness with the seed recorded in the evaluation configuration. Running the same evaluation configuration twice must produce identical results within floating-point tolerance. Non-determinism must be documented and bounded.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-005", "BENCHCORE-DOC-014"],
+    "agentx_application": "Agent_X's evaluation harness must enforce seed recording and replay verification. The harness must detect and report any unexpected non-determinism. Clean replay tests are part of the sabotage test suite."
+  },
+  {
+    "principle_id": "BP-006",
+    "principle": "Evaluation-Driven Development",
+    "explanation": "Benchmark development proceeds from requirements to tests to implementation, with evaluation results serving as the primary evidence of capability. Every requirement drives positive, negative, and sabotage tests. Implementation is complete only when all test suites pass.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-014", "BENCHCORE-DOC-019"],
+    "agentx_application": "Agent_X must follow a test-first approach where requirements define test suites before implementation. The evaluation harness runs all three test types (positive, negative, sabotage) and reports results separately. Sabotage tests specifically guard against overclaiming."
+  },
+  {
+    "principle_id": "BP-007",
+    "principle": "Human-in-the-Loop",
+    "explanation": "Predictions are suggestions, not autonomous actions. The benchmark architecture includes human review stages where users accept, reject, or modify predictions before they affect production data. The feedback loop captures these human decisions as learning signals.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-012", "BENCHCORE-DOC-013"],
+    "agentx_application": "Agent_X must model the human-in-the-loop workflow in its architecture, not bypass it. The benchmark verifies that all prediction outputs are framed as suggestions with appropriate confidence information. Automated deployment without human review is out of scope."
+  },
+  {
+    "principle_id": "BP-008",
+    "principle": "Inverse Science Methodology",
+    "explanation": "Domain knowledge (grammar rules, field definitions, command patterns) is derived from source documents through inverse science: observing patterns, forming hypotheses, testing against examples, and capturing negative knowledge. This systematic reverse-engineering approach ensures that all ontology and grammar artifacts are grounded in observed data rather than assumed.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-008", "BENCHCORE-DOC-030"],
+    "agentx_application": "Agent_X must document its inverse science process: how raw observations become patterns, how patterns become rules, and how rules are validated. The methodology must include explicit handling of uncertainty (confidence levels) and negative knowledge (known limitations)."
+  },
+  {
+    "principle_id": "BP-009",
+    "principle": "No Production Deployment",
+    "explanation": "The benchmark is a POC-level evaluation system, not a production deployment. It does not connect to live NRCS systems, control broadcast equipment, or process real rundown data from operational newsrooms. All data is curated, all protocols are mocked, and all results are for evaluation purposes only.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "agentx_application": "Agent_X must clearly scope its benchmark implementation as evaluation-only. Any code that resembles production infrastructure (plugin interfaces, protocol adapters, deployment gates) must be explicitly documented as mock or benchmark-only. Claims about production readiness are out of scope."
+  },
+  {
+    "principle_id": "BP-010",
+    "principle": "Comprehensive Sabotage Testing",
+    "explanation": "Every requirement must have at least one sabotage test designed to detect overclaimed capability. Sabotage tests provide adversarial or edge-case inputs that should cause graceful failure (correct rejection or uncertainty expression) rather than confident incorrect predictions. Sabotage test results are reported separately from positive/negative tests.",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-014"],
+    "agentx_application": "Agent_X must include sabotage tests in its evaluation harness for every accepted requirement. The harness must distinguish between three outcomes: positive tests pass (expected behavior works), negative tests pass (error handling works), and sabotage tests pass (system does not overclaim). A system that makes confident predictions on adversarial inputs fails its sabotage tests."
+  }
+]

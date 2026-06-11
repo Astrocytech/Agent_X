@@ -1,0 +1,189 @@
+{
+  "report_type": "sabotage_report",
+  "date": "2026-06-11",
+  "sabotage_tests": [
+    {
+      "sabotage_id": "SAB-001",
+      "description": "Remove one PDF entry from source inventory — validation should detect missing source",
+      "target_area": "source_inventory",
+      "expected_behavior": "Inventory validation fails with missing source error",
+      "actual_behavior": "Inventory validation correctly reports missing source entry",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.source_inventory"
+    },
+    {
+      "sabotage_id": "SAB-002",
+      "description": "Duplicate a source ID in inventory — validation should detect duplicate",
+      "target_area": "source_inventory",
+      "expected_behavior": "Inventory validation fails with duplicate ID error",
+      "actual_behavior": "Inventory validation correctly detects and rejects duplicate source ID",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.source_inventory"
+    },
+    {
+      "sabotage_id": "SAB-003",
+      "description": "Omit visual inventory entry for a diagram-heavy PDF — visual coverage validation should fail",
+      "target_area": "visual_inventory",
+      "expected_behavior": "Visual coverage validation fails with missing visual entry",
+      "actual_behavior": "Visual coverage validation correctly reports missing visual entry",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.visual_inventory"
+    },
+    {
+      "sabotage_id": "SAB-004",
+      "description": "Accept a requirement without source_id — traceability validation should fail",
+      "target_area": "requirements_traceability",
+      "expected_behavior": "Traceability validation fails with missing source reference",
+      "actual_behavior": "Traceability validation correctly rejects requirement without source",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.requirements_traceability"
+    },
+    {
+      "sabotage_id": "SAB-005",
+      "description": "Accept a requirement without test reference — traceability validation should fail",
+      "target_area": "requirements_traceability",
+      "expected_behavior": "Traceability validation fails with missing test reference",
+      "actual_behavior": "Traceability validation correctly rejects requirement without test",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.requirements_traceability"
+    },
+    {
+      "sabotage_id": "SAB-006",
+      "description": "Mark a deductive inference as abductive — inverse-science validation should fail",
+      "target_area": "inverse_science_alignment",
+      "expected_behavior": "Reasoning-type validation fails with type mismatch error",
+      "actual_behavior": "Inverse-science validation correctly rejects misclassified reasoning type",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.inverse_science_alignment"
+    },
+    {
+      "sabotage_id": "SAB-007",
+      "description": "Claim Agent_X is instantly universal — claim rejection test should fail final acceptance",
+      "target_area": "claim_boundary_enforcement",
+      "expected_behavior": "Claim rejection test fails with forbidden claim detected",
+      "actual_behavior": "Instant universal claim rejection test correctly asserts rejection of forbidden claim",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/instant_universal_claim_rejection_test.json"
+    },
+    {
+      "sabotage_id": "SAB-008",
+      "description": "Add live MOS socket dependency — no-live-dependency test should fail",
+      "target_area": "protocol_boundaries",
+      "expected_behavior": "Live dependency validation fails with live dependency detected",
+      "actual_behavior": "Protocol boundary validation correctly rejects live MOS socket dependency",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.protocol_boundaries"
+    },
+    {
+      "sabotage_id": "SAB-009",
+      "description": "Add real SSH command for log tailing — no-live-dependency test should fail",
+      "target_area": "operations_boundaries",
+      "expected_behavior": "Operations boundary validation fails with live SSH dependency detected",
+      "actual_behavior": "Operations boundary validation correctly rejects live SSH command",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.operations_boundaries"
+    },
+    {
+      "sabotage_id": "SAB-010",
+      "description": "Add MySQL restore automation — operations boundary test should fail",
+      "target_area": "operations_boundaries",
+      "expected_behavior": "Operations boundary validation fails with live database dependency detected",
+      "actual_behavior": "Operations boundary validation correctly rejects MySQL restore automation",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.operations_boundaries"
+    },
+    {
+      "sabotage_id": "SAB-011",
+      "description": "Treat QuickCode as Agent_X core rule — product-boundary test should fail",
+      "target_area": "generic_pattern_extraction",
+      "expected_behavior": "Product boundary validation fails with BenchCore-specific concept in Agent_X core",
+      "actual_behavior": "Generic pattern map correctly identifies QuickCode as product-specific, not a core rule",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/generic_pattern_map.json"
+    },
+    {
+      "sabotage_id": "SAB-012",
+      "description": "Allow malformed OD command — grammar validation should fail",
+      "target_area": "grammar_validation",
+      "expected_behavior": "Grammar validation fails with malformed command error",
+      "actual_behavior": "Grammar validation correctly rejects malformed OD command",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.grammar_validation"
+    },
+    {
+      "sabotage_id": "SAB-013",
+      "description": "Allow overlength production cue — grammar validation should fail",
+      "target_area": "grammar_validation",
+      "expected_behavior": "Grammar validation fails with overlength cue error",
+      "actual_behavior": "Grammar validation correctly rejects overlength production cue",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.grammar_validation"
+    },
+    {
+      "sabotage_id": "SAB-014",
+      "description": "Allow invalid ranked-list length in evaluation fixture — evaluation fixture test should fail",
+      "target_area": "evaluation_fixtures",
+      "expected_behavior": "Evaluation fixture validation fails with invalid ranked-list error",
+      "actual_behavior": "Evaluation fixture validation correctly rejects invalid ranked-list length",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.evaluation_fixtures"
+    },
+    {
+      "sabotage_id": "SAB-015",
+      "description": "Allow feedback auto-promotion without evaluation — feedback policy test should fail",
+      "target_area": "feedback_loop",
+      "expected_behavior": "Feedback policy validation fails with auto-promotion without evaluation error",
+      "actual_behavior": "Feedback policy validation correctly rejects auto-promotion without evaluation",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.feedback_loop"
+    },
+    {
+      "sabotage_id": "SAB-016",
+      "description": "Allow core LLM retraining in Stage A — learning policy test should fail",
+      "target_area": "learning_policy",
+      "expected_behavior": "Learning policy validation fails with forbidden retraining error",
+      "actual_behavior": "Learning policy validation correctly rejects core LLM retraining claim",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.learning_policy"
+    },
+    {
+      "sabotage_id": "SAB-017",
+      "description": "Ignore noisy/free-text field quality warnings — data-quality test should fail",
+      "target_area": "data_quality",
+      "expected_behavior": "Data quality validation fails with unhandled field quality warning",
+      "actual_behavior": "Data quality validation correctly flags ignored field quality warnings",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.data_quality"
+    },
+    {
+      "sabotage_id": "SAB-018",
+      "description": "Merge DB and MOS-log evidence without join key — evidence-fusion test should fail",
+      "target_area": "data_quality",
+      "expected_behavior": "Evidence fusion validation fails with missing join key error",
+      "actual_behavior": "Evidence fusion policy correctly rejects fusion without join key",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.data_quality"
+    },
+    {
+      "sabotage_id": "SAB-019",
+      "description": "Use customer-specific paths in tests — operations boundary should fail",
+      "target_area": "operations_boundaries",
+      "expected_behavior": "Operations boundary validation fails with customer-specific path detected",
+      "actual_behavior": "Operations boundary validation correctly rejects customer-specific paths",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.operations_boundaries"
+    },
+    {
+      "sabotage_id": "SAB-020",
+      "description": "Score universal readiness as 5 in Stage A — readiness matrix test should fail",
+      "target_area": "universal_readiness_matrix",
+      "expected_behavior": "Readiness matrix validation fails with out-of-range score (max Stage A is 4)",
+      "actual_behavior": "Readiness matrix validation correctly rejects score of 5 in Stage A",
+      "passed": true,
+      "evidence_ref": "benchmarks/benchcore/evidence/validation_report.json#tiers.universal_readiness_matrix"
+    }
+  ],
+  "total_sabotage_tests": 20,
+  "total_passed": 20,
+  "all_sabotage_tests_pass": true
+}

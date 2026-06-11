@@ -1,0 +1,72 @@
+[
+  {
+    "term": "Suggestion card",
+    "definition": "A UI component that displays a predicted command or field value to the user for review. Suggestion cards present the prediction along with metadata (confidence, alternatives) and affordances for feedback actions.",
+    "ui_context": "The primary mechanism for presenting predictions to users. Suggestion cards are the main UI touchpoint for the human-in-the-loop workflow.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "benchmark_only"
+  },
+  {
+    "term": "feedback action",
+    "definition": "A UI affordance that allows users to provide feedback on a prediction. Common feedback actions include accept, reject, modify, and rate buttons that generate explicit signals for the feedback loop.",
+    "ui_context": "The primary data collection mechanism for the feedback system. Feedback actions are designed to minimize user effort while maximizing signal quality.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-024"],
+    "implementation_status": "benchmark_only"
+  },
+  {
+    "term": "accept",
+    "definition": "A user action indicating that the prediction is correct and should be used as-is. Accept is the most common explicit feedback signal and the strongest positive training signal for the feedback loop.",
+    "ui_context": "The primary positive feedback mechanism. Accept actions are logged with the prediction context for evaluation and improvement.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "benchmark_only"
+  },
+  {
+    "term": "reject",
+    "definition": "A user action indicating that the prediction is incorrect and should be discarded. Reject generates a negative training signal and may trigger fallback to alternative predictions or manual entry.",
+    "ui_context": "A negative feedback mechanism. Reject actions may be followed by a corrected value if the user provides one.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "benchmark_only"
+  },
+  {
+    "term": "modify",
+    "definition": "A user action where the prediction is edited before acceptance. Modify captures the corrected value as an explicit signal and the difference between prediction and correction as implicit learning data.",
+    "ui_context": "A correction mechanism that provides high-quality training data (the user's corrected value is the ground truth).",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "benchmark_only"
+  },
+  {
+    "term": "top-N review",
+    "definition": "A UI pattern that presents the user with N ranked alternative predictions instead of a single suggestion. The user selects from the list, providing implicit preference feedback based on their selection.",
+    "ui_context": "A discovery UI that also collects implicit feedback on relative prediction quality. Top-N review is specified but not implemented in Stage A.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "deferred"
+  },
+  {
+    "term": "manual approval gate",
+    "definition": "A UI checkpoint requiring explicit user confirmation before predictions are applied to production rundowns. Manual approval gates are a safety mechanism ensuring human oversight of automated predictions.",
+    "ui_context": "A deployment safety UI component. Manual approval gates enforce the human-in-the-loop requirement for all prediction deployments.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "benchmark_only"
+  },
+  {
+    "term": "one-click action",
+    "definition": "A UI pattern allowing users to perform a common operation with a single interaction, such as accepting a suggestion or dismissing a notification. One-click actions minimize friction for high-confidence predictions.",
+    "ui_context": "An efficiency-focused UI pattern. One-click actions are proposed for predictions above a confidence threshold but are not implemented in Stage A.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013"],
+    "implementation_status": "deferred"
+  },
+  {
+    "term": "plugin",
+    "definition": "A modular extension that integrates BenchCore prediction capabilities into a host application (such as a newsroom system). Plugins are the delivery mechanism for deploying predictions in production environments.",
+    "ui_context": "The integration architecture for embedding predictions into existing workflows. Plugins define the boundary between the benchmark and production systems.",
+    "source_ids": ["BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-018"],
+    "implementation_status": "deferred"
+  },
+  {
+    "term": "Inception plugin",
+    "definition": "A specific plugin concept from the BenchCore documentation that embeds prediction capabilities directly into the NRCS interface. Named 'Inception' as a project codename, distinct from the generic plugin architecture.",
+    "ui_context": "A codename for the production integration plugin. The Inception plugin is referenced in design documents as a deployment target but is not part of the Stage A benchmark scope.",
+    "source_ids": ["BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-018"],
+    "implementation_status": "deferred"
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "contract_id": "DIAGNOSTICS-CONTRACT-001",
+  "name": "Feedback Diagnostics Contract",
+  "description": "Contract defining acceptable ranges for feedback quality metrics and alerting behavior.",
+  "diagnostics": [
+    {
+      "metric": "feedback_volume",
+      "acceptable_range": {"min": 10, "max": 10000},
+      "alert_on_violation": true,
+      "auto_remediation": "scale_collection"
+    },
+    {
+      "metric": "implicit_to_explicit_ratio",
+      "acceptable_range": {"min": 0.1, "max": 10.0},
+      "alert_on_violation": true,
+      "auto_remediation": null
+    },
+    {
+      "metric": "mean_reliability_score",
+      "acceptable_range": {"min": 0.5, "max": 1.0},
+      "alert_on_violation": true,
+      "auto_remediation": "filter_unreliable"
+    },
+    {
+      "metric": "position_bias_correction_coverage",
+      "acceptable_range": {"min": 0.8, "max": 1.0},
+      "alert_on_violation": false,
+      "auto_remediation": null
+    },
+    {
+      "metric": "feedback_latency_seconds",
+      "acceptable_range": {"min": 0.0, "max": 300.0},
+      "alert_on_violation": true,
+      "auto_remediation": "drop_stale"
+    },
+    {
+      "metric": "choice_model_convergence",
+      "acceptable_range": {"min": 0.01, "max": 1.0},
+      "alert_on_violation": false,
+      "auto_remediation": null
+    }
+  ]
+}

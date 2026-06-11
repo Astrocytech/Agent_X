@@ -1,0 +1,319 @@
+[
+  {
+    "dimension_id": "SCR-READY-001",
+    "dimension_name": "source_ingestion_inventory",
+    "score": 4,
+    "rationale": "Complete source inventory with 32 PDFs, placeholder SHA-256 hashes, batch map, and validation tests. All sources catalogued with status, group, artifacts, and boundaries.",
+    "source_evidence": [
+      "benchmarks/benchcore/source_inventory.json",
+      "benchmarks/benchcore/source_hashes.json",
+      "benchmarks/benchcore/source_batch_map.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_missing_entry",
+      "test_sabotage_duplicate_id",
+      "test_sabotage_readiness_score_5"
+    ],
+    "clean_replay_ref": "clean_replay_source_inventory passed"
+  },
+  {
+    "dimension_id": "SCR-READY-002",
+    "dimension_name": "document_understanding",
+    "score": 3,
+    "rationale": "Per-PDF semantic and validation coverage reports exist for all 32 documents, but no automated document extraction agent has been generated. Coverage is manual/managed.",
+    "source_evidence": [
+      "benchmarks/benchcore/per_pdf_semantic_coverage_report.json",
+      "benchmarks/benchcore/per_pdf_validation_coverage_report.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_missing_visual_coverage",
+      "test_sabotage_requirement_without_source"
+    ],
+    "clean_replay_ref": "clean_replay_document_understanding passed"
+  },
+  {
+    "dimension_id": "SCR-READY-003",
+    "dimension_name": "requirement_extraction",
+    "score": 3,
+    "rationale": "Requirements extracted and traceable via source-to-artifact-to-test links across all now-status PDFs. No generated extraction agent; extractions are curated fixtures.",
+    "source_evidence": [
+      "benchmarks/benchcore/per_pdf_semantic_coverage_report.json",
+      "benchmarks/benchcore/source_inventory.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_requirement_without_source",
+      "test_sabotage_requirement_without_test"
+    ],
+    "clean_replay_ref": "clean_replay_requirement_extraction passed"
+  },
+  {
+    "dimension_id": "SCR-READY-004",
+    "dimension_name": "visual_diagram_interpretation",
+    "score": 3,
+    "rationale": "Visual inventory with 21 entries across 11 PDFs, mapped to artifacts by content role. Covers diagrams, slides, screenshots, flowcharts, tables, org charts, and UI mockups.",
+    "source_evidence": [
+      "benchmarks/benchcore/visual_inventory.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_missing_visual_coverage"
+    ],
+    "clean_replay_ref": "clean_replay_visual_inventory passed"
+  },
+  {
+    "dimension_id": "SCR-READY-005",
+    "dimension_name": "traceability",
+    "score": 4,
+    "rationale": "End-to-end traceability from source documents through extracted concepts, requirements, artifacts, and tests. Traceability matrix embedded in per-PDF semantic coverage reports with requirement IDs.",
+    "source_evidence": [
+      "benchmarks/benchcore/per_pdf_semantic_coverage_report.json",
+      "benchmarks/benchcore/source_inventory.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_requirement_without_source",
+      "test_sabotage_requirement_without_test"
+    ],
+    "clean_replay_ref": "clean_replay_traceability passed"
+  },
+  {
+    "dimension_id": "SCR-READY-006",
+    "dimension_name": "evaluation_harness",
+    "score": 3,
+    "rationale": "Metrics config schema, valid/invalid fixtures, metrics contract with exact-match, top-k, F1, MRR defined. No generated evaluation agent.",
+    "source_evidence": [
+      "benchmarks/benchcore/evaluation/evaluation_config.schema.json",
+      "benchmarks/benchcore/evaluation/expected_metrics_fixture.json",
+      "benchmarks/benchcore/evaluation/invalid_dataset_bad_ranked_list.csv"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_invalid_ranked_list_length"
+    ],
+    "clean_replay_ref": "clean_replay_evaluation_harness passed"
+  },
+  {
+    "dimension_id": "SCR-READY-007",
+    "dimension_name": "feedback_loop_governance",
+    "score": 3,
+    "rationale": "Feedback signal schemas, governance policy, valid/invalid fixtures for explicit/implicit signals, position bias, and drift detection defined.",
+    "source_evidence": [
+      "benchmarks/benchcore/feedback_loop/feedback_event.schema.json",
+      "benchmarks/benchcore/feedback_loop/feedback_policy.json",
+      "benchmarks/benchcore/feedback_loop/diagnostics_contract.json",
+      "benchmarks/benchcore/feedback_loop/drift_policy.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_auto_promotion_without_evaluation"
+    ],
+    "clean_replay_ref": "clean_replay_feedback_loop passed"
+  },
+  {
+    "dimension_id": "SCR-READY-008",
+    "dimension_name": "dynamic_retrieval",
+    "score": 3,
+    "rationale": "Registry fixtures with mapped ID labels and query templates defined. No generated retrieval agent.",
+    "source_evidence": [
+      "benchmarks/benchcore/dynamic_retrieval/capability_registry_fixture.json",
+      "benchmarks/benchcore/dynamic_retrieval/retrieval_query_fixture.jsonl"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_customer_paths",
+      "test_sabotage_quickcode_as_core_rule"
+    ],
+    "clean_replay_ref": "clean_replay_dynamic_retrieval passed"
+  },
+  {
+    "dimension_id": "SCR-READY-009",
+    "dimension_name": "learning_safety",
+    "score": 3,
+    "rationale": "Anti-retraining policy defined with allowed/forbidden mechanisms, frozen-LLM constraint, and updatable component schema. No generated safety agent.",
+    "source_evidence": [
+      "benchmarks/benchcore/learning_policy/anti_retraining_policy.md",
+      "benchmarks/benchcore/learning_policy/allowed_learning_mechanisms.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_core_llm_retraining"
+    ],
+    "clean_replay_ref": "clean_replay_learning_safety passed"
+  },
+  {
+    "dimension_id": "SCR-READY-010",
+    "dimension_name": "inverse_science_reasoning",
+    "score": 3,
+    "rationale": "Reasoning rules distinguishing abduction, deduction, and explanation defined with observation and hypothesis fixtures.",
+    "source_evidence": [
+      "benchmarks/benchcore/inverse_science_alignment/reasoning_type_rules.json",
+      "benchmarks/benchcore/inverse_science_alignment/observations.jsonl",
+      "benchmarks/benchcore/inverse_science_alignment/hypotheses.jsonl"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_paraphrase_as_abduction"
+    ],
+    "clean_replay_ref": "clean_replay_inverse_science_reasoning passed"
+  },
+  {
+    "dimension_id": "SCR-READY-011",
+    "dimension_name": "grammar_validation",
+    "score": 3,
+    "rationale": "Production cue, OD/CG, QuickCode schemas with valid/invalid fixtures and command validation defined across multiple grammar sources.",
+    "source_evidence": [
+      "benchmarks/benchcore/grammar_validation/production_cue.schema.json",
+      "benchmarks/benchcore/grammar_validation/od_command.schema.json",
+      "benchmarks/benchcore/grammar_validation/valid_examples.jsonl",
+      "benchmarks/benchcore/grammar_validation/invalid_examples.jsonl"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_malformed_od_command",
+      "test_sabotage_overlength_cue"
+    ],
+    "clean_replay_ref": "clean_replay_grammar_validation passed"
+  },
+  {
+    "dimension_id": "SCR-READY-012",
+    "dimension_name": "structured_output_safety",
+    "score": 3,
+    "rationale": "Grammar validation schemas combined with AST generation contracts ensure structured output constraints. No generated output safety agent.",
+    "source_evidence": [
+      "benchmarks/benchcore/grammar_validation/ast_generation_contract.md",
+      "benchmarks/benchcore/grammar_validation/nlp_to_code_benchmark_contract.md"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_malformed_od_command",
+      "test_sabotage_overlength_cue"
+    ],
+    "clean_replay_ref": "clean_replay_structured_output_safety passed"
+  },
+  {
+    "dimension_id": "SCR-READY-013",
+    "dimension_name": "data_quality_assessment",
+    "score": 3,
+    "rationale": "XML, log, and field quality fixtures with fusion policies for multi-source evidence. Raw and clean fixture variants demonstrate preprocessing.",
+    "source_evidence": [
+      "benchmarks/benchcore/data_quality/fixtures_raw/",
+      "benchmarks/benchcore/data_quality/fixtures_clean/",
+      "benchmarks/benchcore/data_quality/xml_cleanup_policy.json",
+      "benchmarks/benchcore/data_quality/evidence_fusion_policy.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_noisy_field_as_finite",
+      "test_sabotage_fusion_without_join_key"
+    ],
+    "clean_replay_ref": "clean_replay_data_quality passed"
+  },
+  {
+    "dimension_id": "SCR-READY-014",
+    "dimension_name": "protocol_boundary_planning",
+    "score": 3,
+    "rationale": "Mock contracts, failure modes, and protocol mapping schemas for REST/MOS adapter patterns. No generated adapter implementation.",
+    "source_evidence": [
+      "benchmarks/benchcore/protocol_architecture/mock_rest_input.schema.json",
+      "benchmarks/benchcore/protocol_architecture/adapter_boundary_contract.md"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_live_mos_dependency",
+      "test_sabotage_customer_paths"
+    ],
+    "clean_replay_ref": "clean_replay_protocol_boundary passed"
+  },
+  {
+    "dimension_id": "SCR-READY-015",
+    "dimension_name": "human_review_planning",
+    "score": 2,
+    "rationale": "Review card schemas exist with accept/reject/modify actions and scenario fixtures, but no interactive human review interface or integration. Score limited to 2 for Stage A as interactive review is deferred.",
+    "source_evidence": [
+      "benchmarks/benchcore/human_review_ui/suggestion_card.schema.json",
+      "benchmarks/benchcore/human_review_ui/customer_explanation_contract.md"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_auto_promotion_without_evaluation",
+      "test_sabotage_customer_paths"
+    ],
+    "clean_replay_ref": "clean_replay_human_review_planning passed"
+  },
+  {
+    "dimension_id": "SCR-READY-016",
+    "dimension_name": "operations_boundary_discipline",
+    "score": 3,
+    "rationale": "Deferred boundaries documented for SSH, MySQL, WSL operations. All sources have live_dependency=false. No live system access attempted.",
+    "source_evidence": [
+      "benchmarks/benchcore/source_inventory.json",
+      "benchmarks/benchcore/product_specific_boundary_report.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_live_mos_dependency",
+      "test_sabotage_ssh_log_tailing",
+      "test_sabotage_mysql_restore_automation",
+      "test_sabotage_customer_paths"
+    ],
+    "clean_replay_ref": "clean_replay_operations_boundary passed"
+  },
+  {
+    "dimension_id": "SCR-READY-017",
+    "dimension_name": "sabotage_testing",
+    "score": 4,
+    "rationale": "20 sabotage tests covering all failure modes: source inventory tampering, missing entries, hash corruption, visual inventory errors, broken traceability links, metrics misconfiguration, feedback policy bypass, grammar validation bypass, live dependency claims, and universal claim rejection.",
+    "source_evidence": [
+      "benchmarks/benchcore/tests/"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_missing_entry",
+      "test_sabotage_duplicate_id",
+      "test_sabotage_missing_visual_coverage",
+      "test_sabotage_requirement_without_source",
+      "test_sabotage_requirement_without_test",
+      "test_sabotage_paraphrase_as_abduction",
+      "test_sabotage_instant_universal_claim",
+      "test_sabotage_live_mos_dependency",
+      "test_sabotage_ssh_log_tailing",
+      "test_sabotage_mysql_restore_automation",
+      "test_sabotage_customer_paths",
+      "test_sabotage_quickcode_as_core_rule",
+      "test_sabotage_malformed_od_command",
+      "test_sabotage_overlength_cue",
+      "test_sabotage_invalid_ranked_list_length",
+      "test_sabotage_auto_promotion_without_evaluation",
+      "test_sabotage_core_llm_retraining",
+      "test_sabotage_noisy_field_as_finite",
+      "test_sabotage_fusion_without_join_key",
+      "test_sabotage_readiness_score_5"
+    ],
+    "clean_replay_ref": "clean_replay_sabotage_tests passed"
+  },
+  {
+    "dimension_id": "SCR-READY-018",
+    "dimension_name": "clean_replay",
+    "score": 4,
+    "rationale": "Evidence reports generated and clean replay workflow produces consistent results across all source inventory, visual inventory, traceability, and test dimensions.",
+    "source_evidence": [
+      "benchmarks/benchcore/evidence/"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_readiness_score_5"
+    ],
+    "clean_replay_ref": "clean_replay_clean_replay passed"
+  },
+  {
+    "dimension_id": "SCR-READY-019",
+    "dimension_name": "claim_boundary_enforcement",
+    "score": 4,
+    "rationale": "Instant-universal claim rejection test fixture defines 7 forbidden claim patterns and asserts rejection. All patterns are explicitly banned and testable.",
+    "source_evidence": [
+      "benchmarks/benchcore/instant_universal_claim_rejection_test.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_instant_universal_claim"
+    ],
+    "clean_replay_ref": "clean_replay_claim_boundary passed"
+  },
+  {
+    "dimension_id": "SCR-READY-020",
+    "dimension_name": "generalization_beyond_benchcore",
+    "score": 2,
+    "rationale": "Generic pattern map extracted with 15 benchcore-to-agentx pattern mappings, but patterns are not yet actively used by generated agents. Score limited to 2 in Stage A as agent-level generalization is deferred.",
+    "source_evidence": [
+      "benchmarks/benchcore/generic_pattern_map.json"
+    ],
+    "sabotage_test_refs": [
+      "test_sabotage_quickcode_as_core_rule"
+    ],
+    "clean_replay_ref": "clean_replay_generalization passed"
+  }
+]

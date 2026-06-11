@@ -1,0 +1,55 @@
+{
+  "policy_id": "FEEDBACK-POLICY-001",
+  "name": "BenchCore Benchmark Feedback Policy",
+  "description": "Rules governing feedback collection, processing, and use for the BenchCore benchmark pack.",
+  "signal_types": {
+    "implicit": {
+      "description": "Feedback inferred from user behavior (e.g., dwell time, click-through, correction patterns).",
+      "reliability_floor": 0.3,
+      "requires_calibration": true
+    },
+    "explicit": {
+      "description": "Feedback directly provided by the user (e.g., thumbs up/down, rating, explicit correction).",
+      "reliability_floor": 0.6,
+      "requires_calibration": false
+    }
+  },
+  "choice_model": {
+    "accepted": {
+      "description": "The user accepted the system's output or prediction.",
+      "weight": 1.0
+    },
+    "rejected": {
+      "description": "The user rejected the system's output or prediction.",
+      "weight": -1.0
+    },
+    "custom": {
+      "description": "The user provided a custom alternative or correction.",
+      "weight": 0.5,
+      "requires_review": true
+    }
+  },
+  "position_bias_correction": {
+    "enabled": true,
+    "method": "inverse propensity weighting",
+    "description": "Each feedback event is reweighted by the inverse probability of the item being shown in that position."
+  },
+  "smoothing": {
+    "enabled": true,
+    "method": "additive (Laplace) smoothing",
+    "alpha": 1.0,
+    "description": "Small constant added to counts to avoid zero-probability estimates."
+  },
+  "reliability_thresholds": {
+    "minimum_reliable_score": 0.5,
+    "drop_below_threshold": false,
+    "log_below_threshold": true
+  },
+  "decay_config": {
+    "enabled": true,
+    "half_life_days": 30,
+    "decay_function": "exponential"
+  },
+  "auto_promotion_forbidden": true,
+  "evaluation_required_before_promotion": true
+}

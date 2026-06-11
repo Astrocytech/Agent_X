@@ -1,0 +1,639 @@
+[
+  {
+    "source_id": "BENCHCORE-DOC-001",
+    "filename": "feedback-loop-plan.pdf",
+    "extracted_concepts": [
+      "explicit feedback signals (user ratings, accept/reject)",
+      "implicit feedback signals (dwell time, click-through)",
+      "position bias in feedback collection",
+      "concept drift detection and monitoring",
+      "feedback governance and policy enforcement"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0001", "BENCHCORE-REQ-0002", "BENCHCORE-REQ-0003"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["BenchCore-specific feedback signal types not generalizable"],
+    "generic_agentx_patterns": ["Governed feedback benchmark pattern with signal schema, drift detection, and policy enforcement"],
+    "contradictions_or_assumptions": ["Assumes feedback signals are collected from a single system; multi-system fusion not covered"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/feedback_loop/feedback_event.schema.json",
+      "benchmarks/benchcore/feedback_loop/feedback_policy.json",
+      "benchmarks/benchcore/feedback_loop/diagnostics_contract.json",
+      "benchmarks/benchcore/feedback_loop/drift_policy.json"
+    ],
+    "tests": ["test_feedback_signal_explicit", "test_feedback_signal_implicit", "test_feedback_drift_detection", "test_feedback_position_bias"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-002",
+    "filename": "benchcore-backend-explained-faq-and-slides.pdf",
+    "extracted_concepts": [
+      "BenchCore backend component architecture",
+      "prediction pipeline module interactions",
+      "REST endpoint integration patterns",
+      "FAQ-driven requirements documentation"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0004", "BENCHCORE-REQ-0005"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["BenchCore-specific backend architecture not generalizable as-is"],
+    "generic_agentx_patterns": ["Protocol adapter boundary planning"],
+    "contradictions_or_assumptions": ["FAQ format may omit edge cases covered elsewhere"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/requirements/requirements.json",
+      "benchmarks/benchcore/protocol_architecture/mock_rest_input.schema.json"
+    ],
+    "tests": ["test_requirement_extraction_002"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-003",
+    "filename": "how-to-run-evaluation-metrics.pdf",
+    "extracted_concepts": [
+      "exact-match accuracy metric",
+      "top-k accuracy metric",
+      "F1 score computation",
+      "mean reciprocal rank (MRR) metric",
+      "configurable evaluation harness"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0006", "BENCHCORE-REQ-0007", "BENCHCORE-REQ-0008"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Metrics are domain-agnostic; no product-specific boundary"],
+    "generic_agentx_patterns": ["Generic configurable evaluation harness with multi-metric support"],
+    "contradictions_or_assumptions": ["Assumes ground-truth labels are available for all predictions"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/evaluation/evaluation_config.schema.json",
+      "benchmarks/benchcore/evaluation/expected_metrics_fixture.json",
+      "benchmarks/benchcore/evaluation/valid_dataset_fixture.csv"
+    ],
+    "tests": ["test_metrics_exact_match", "test_metrics_top_k", "test_metrics_f1", "test_metrics_mrr", "test_metrics_config_validation"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-004",
+    "filename": "how-the-logs-are-parsed.pdf",
+    "extracted_concepts": [
+      "log parsing pipeline structure",
+      "MOS log format and fields",
+      "multi-source evidence extraction",
+      "structured log parsing rules"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0009"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["MOS log format is product-specific to broadcast industry"],
+    "generic_agentx_patterns": ["Multi-source evidence fusion with join-key requirement"],
+    "contradictions_or_assumptions": ["Assumes consistent log format across all MOS systems"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/data_quality/log_parse_policy.json",
+      "benchmarks/benchcore/data_quality/evidence_fusion_policy.json"
+    ],
+    "tests": ["test_log_parsing_mos_format"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-005",
+    "filename": "predicting-rundown-story-item-object-fields-multi-line.pdf",
+    "extracted_concepts": [
+      "multi-line sequence prediction",
+      "story field prediction",
+      "item field prediction",
+      "split field prediction",
+      "field dependency relationships"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0010", "BENCHCORE-REQ-0011"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["NRCS field types (story, item, split) are product-specific"],
+    "generic_agentx_patterns": ["Multi-line sequence prediction benchmark", "Multi-class single-label classification with finite target set"],
+    "contradictions_or_assumptions": ["Assumes field boundaries are clearly defined in the input"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/requirements/multiline_prediction_requirements.json",
+      "benchmarks/benchcore/evaluation/multiline_output_contract.md"
+    ],
+    "tests": ["test_sequence_prediction_single_line", "test_sequence_prediction_multi_line", "test_sequence_field_dependency"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-006",
+    "filename": "benchcore-prediction-module-with-a-classifier-single-line-prediction-by-gpt.pdf",
+    "extracted_concepts": [
+      "single-line field prediction using classifier",
+      "GPT prompt-based classification",
+      "finite target set for field values",
+      "prediction module architecture"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0012", "BENCHCORE-REQ-0013"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["NRCS field prediction scope is product-specific"],
+    "generic_agentx_patterns": ["Multi-class single-label classification with finite target set"],
+    "contradictions_or_assumptions": ["GPT-based approach may produce out-of-set predictions not covered by classifier"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/requirements/solution_workflow_requirements.json",
+      "benchmarks/benchcore/evaluation/valid_dataset_fixture.csv"
+    ],
+    "tests": ["test_classification_target_set_bounded", "test_classification_exact_match"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-007",
+    "filename": "benchcore-nbc-presentation-notes.pdf",
+    "extracted_concepts": [
+      "BenchCore system context for NBC deployment",
+      "prediction pipeline overview",
+      "evaluation gates and quality checks",
+      "presentation architecture description"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0014"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["NBC-specific deployment context is product-specific"],
+    "generic_agentx_patterns": ["Presentation-level system architecture understanding"],
+    "contradictions_or_assumptions": ["Presentation notes may simplify or omit technical details"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/requirements/product_narrative_requirements.json"
+    ],
+    "tests": ["test_presentation_requirements_extracted"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-008",
+    "filename": "predicting-rundown-story-item-object-fields-solution-overview.pdf",
+    "extracted_concepts": [
+      "NRCS/CAM/MIC/CLIP field prediction solution",
+      "classifier-based approach overview",
+      "solution architecture and component roles",
+      "prediction pipeline design decisions"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0015", "BENCHCORE-REQ-0016"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["CAM/MIC/CLIP field names are broadcast production terminology"],
+    "generic_agentx_patterns": ["Multi-class single-label classification with finite target set"],
+    "contradictions_or_assumptions": ["Solution overview may not cover edge case handling"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/requirements/solution_workflow_requirements.json"
+    ],
+    "tests": ["test_solution_overview_classification"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-009",
+    "filename": "blueprint-for-testing-evaluating-benchcore-prediction-quality.pdf",
+    "extracted_concepts": [
+      "prediction quality evaluation blueprint",
+      "exact-match evaluation protocol",
+      "top-k evaluation protocol",
+      "F1 and MRR evaluation protocols",
+      "test case design for prediction evaluation"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0017", "BENCHCORE-REQ-0018", "BENCHCORE-REQ-0019"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Prediction domain is broadcast-specific but metrics are generic"],
+    "generic_agentx_patterns": ["Generic configurable evaluation harness with multi-metric support"],
+    "contradictions_or_assumptions": ["Assumes test cases represent real prediction distribution"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/evaluation/evaluation_config.schema.json",
+      "benchmarks/benchcore/evaluation/valid_dataset_fixture.csv"
+    ],
+    "tests": ["test_evaluation_blueprint_protocol", "test_evaluation_test_cases"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-010",
+    "filename": "mapping-natural-language-to-dynamic-id-labels-approaches-and-best-practices-by-gpt.pdf",
+    "extracted_concepts": [
+      "dynamic ID label mapping from natural language",
+      "template-based retrieval approach",
+      "fuzzy matching for label resolution",
+      "registry-based capability lookup"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0020", "BENCHCORE-REQ-0021"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Dynamic ID labels are specific to BenchCore's broadcast domain"],
+    "generic_agentx_patterns": ["Capability-to-template retrieval registry with query matching"],
+    "contradictions_or_assumptions": ["Assumes ID labels are stable and non-overlapping"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/dynamic_retrieval/capability_registry_fixture.json",
+      "benchmarks/benchcore/dynamic_retrieval/retrieval_query_fixture.jsonl"
+    ],
+    "tests": ["test_registry_mapping_exact", "test_registry_mapping_fuzzy", "test_registry_query_template_match"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-011",
+    "filename": "adding-the-second-half-to-enrich-the-prediction-data.pdf",
+    "extracted_concepts": [
+      "multi-source data enrichment",
+      "DB log and MOS log fusion",
+      "join-key based evidence integration",
+      "enriched prediction data generation"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0022"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["DB log and MOS log formats are product-specific"],
+    "generic_agentx_patterns": ["Multi-source evidence fusion with join-key requirement and conflict resolution"],
+    "contradictions_or_assumptions": ["Assumes join keys are consistent across sources"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/data_quality/log_parse_policy.json",
+      "benchmarks/benchcore/data_quality/evidence_fusion_policy.json"
+    ],
+    "tests": ["test_fusion_join_key_match", "test_fusion_join_key_mismatch", "test_fusion_conflict_resolution", "test_fusion_field_enrichment"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-012",
+    "filename": "a-design-to-avoid-llm-retraining-pitfalls-idea.pdf",
+    "extracted_concepts": [
+      "frozen LLM strategy to avoid retraining",
+      "retrieval component updates as alternative",
+      "classifier-only update mechanism",
+      "retraining pitfall analysis"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0023", "BENCHCORE-REQ-0024"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Retraining avoidance is domain-agnostic; no product-specific boundary"],
+    "generic_agentx_patterns": ["Frozen-LLM + retrieval/classifier update learning policy"],
+    "contradictions_or_assumptions": ["Assumes frozen LLM maintains sufficient prediction quality"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/learning_policy/anti_retraining_policy.md",
+      "benchmarks/benchcore/learning_policy/allowed_learning_mechanisms.json"
+    ],
+    "tests": ["test_llm_frozen_policy_enforced", "test_updatable_component_classifier", "test_updatable_component_retrieval", "test_retraining_policy_violation_rejected"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-013",
+    "filename": "reasoning-vs-abductive-inference-in-llms-and-rag-by-gpt.pdf",
+    "extracted_concepts": [
+      "abductive inference vs deductive reasoning",
+      "explanation versus inference distinction",
+      "reasoning type classification",
+      "LLM reasoning limitations in RAG context"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0025", "BENCHCORE-REQ-0026"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Reasoning concepts are domain-agnostic; no product-specific boundary"],
+    "generic_agentx_patterns": ["Inverse-science reasoning-type rules distinguishing abduction, deduction, and explanation"],
+    "contradictions_or_assumptions": ["GPT-generated analysis may reflect model biases rather than established philosophy"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/inverse_science_alignment/reasoning_type_rules.json",
+      "benchmarks/benchcore/inverse_science_alignment/observations.jsonl",
+      "benchmarks/benchcore/inverse_science_alignment/hypotheses.jsonl"
+    ],
+    "tests": ["test_reasoning_abductive_inference", "test_reasoning_deduction", "test_reasoning_explanation", "test_reasoning_type_classification"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-014",
+    "filename": "benchcore-baseline-architecture-part-2-t5-approach.pdf",
+    "extracted_concepts": [
+      "T5 transformer model architecture",
+      "TranX semantic parser integration",
+      "LoRA fine-tuning approach",
+      "baseline architecture part 2 design"
+    ],
+    "accepted_requirements": [],
+    "deferred_requirements": ["BENCHCORE-REQ-0027"],
+    "product_specific_boundaries": ["T5/TranX/LoRA are model-specific; no product context"],
+    "generic_agentx_patterns": ["Deferred architecture note for ML pipeline integration"],
+    "contradictions_or_assumptions": ["T5 approach may be superseded by newer architectures; deferred pending evaluation"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/learning_policy/deferred_training_experiments.md"
+    ],
+    "tests": []
+  },
+  {
+    "source_id": "BENCHCORE-DOC-015",
+    "filename": "preparing-the-view-table-for-the-customer-dump.pdf",
+    "extracted_concepts": [
+      "customer data view table preparation",
+      "data quality assessment for customer dumps",
+      "view table schema design",
+      "data cleaning pipeline"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0028"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Customer view table structure is BenchCore-specific"],
+    "generic_agentx_patterns": ["Structured data preprocessing and quality assessment pipeline"],
+    "contradictions_or_assumptions": ["Assumes view table schema is stable across customers"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/data_quality/field_quality_policy.json",
+      "benchmarks/benchcore/data_quality/input_output_pairing_contract.md"
+    ],
+    "tests": ["test_customer_view_quality"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-016",
+    "filename": "problem-statement-and-baseline-architecture-part-1.pdf",
+    "extracted_concepts": [
+      "BenchCore prediction problem statement",
+      "baseline architecture component layout",
+      "data ingestion to output pipeline",
+      "architecture design decisions and trade-offs"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0029", "BENCHCORE-REQ-0030"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Baseline architecture is BenchCore-specific in component naming"],
+    "generic_agentx_patterns": ["Protocol adapter boundary planning", "Multi-class classification benchmark"],
+    "contradictions_or_assumptions": ["Architecture assumes specific component boundaries that may not generalize"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/requirements/layer_requirements.json"
+    ],
+    "tests": ["test_baseline_architecture_requirements"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-017",
+    "filename": "massaging-the-client-data-xml-before-llm.pdf",
+    "extracted_concepts": [
+      "XML data preprocessing pipeline",
+      "client data XML format and structure",
+      "data quality assessment before LLM ingestion",
+      "XML cleaning and normalization rules"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0031", "BENCHCORE-REQ-0032"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Client XML format is BenchCore-specific"],
+    "generic_agentx_patterns": ["Structured data preprocessing and quality assessment pipeline"],
+    "contradictions_or_assumptions": ["Assumes XML structure is consistent across all clients"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/data_quality/xml_cleanup_policy.json"
+    ],
+    "tests": ["test_xml_quality_valid", "test_xml_quality_invalid", "test_data_quality_schema_validation"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-018",
+    "filename": "overview-of-the-actual-overdrive-data-structure-and-a-cleanup.pdf",
+    "extracted_concepts": [
+      "OverDrive data structure overview",
+      "data cleanup pipeline for OverDrive",
+      "field mapping and normalization",
+      "preprocessing rules for broadcast data"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0033"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["OverDrive data structure is product-specific to broadcast automation"],
+    "generic_agentx_patterns": ["Structured data preprocessing and quality assessment pipeline"],
+    "contradictions_or_assumptions": ["Cleanup rules are specific to OverDrive data quirks"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/data_quality/sql_mapping_policy.json"
+    ],
+    "tests": ["test_overdrive_data_cleanup"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-019",
+    "filename": "how-to-enable-remote-log-tailing-with-overdrive.pdf",
+    "extracted_concepts": [
+      "remote log tailing configuration",
+      "OverDrive SSH-based log access",
+      "log monitoring setup instructions"
+    ],
+    "accepted_requirements": [],
+    "deferred_requirements": ["BENCHCORE-REQ-0034"],
+    "product_specific_boundaries": ["SSH log tailing is operations-specific; not a benchmark capability"],
+    "generic_agentx_patterns": ["Operations boundary discipline — deferred"],
+    "contradictions_or_assumptions": ["Requires live SSH infrastructure not available in benchmark context"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/operations_reproducibility/remote_log_tailing_boundary.md"
+    ],
+    "tests": []
+  },
+  {
+    "source_id": "BENCHCORE-DOC-020",
+    "filename": "coding-solution-1-semantic-parsing-code-generation.pdf",
+    "extracted_concepts": [
+      "semantic parsing for code generation",
+      "AST-based code structure",
+      "NLP-to-code translation pipeline",
+      "grammar-constrained code output"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0035", "BENCHCORE-REQ-0036"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Code generation is domain-agnostic; marked benchmark-only"],
+    "generic_agentx_patterns": ["Structured code generation benchmark with AST schema and validation"],
+    "contradictions_or_assumptions": ["Benchmark-only — not a production code generation system"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/grammar_validation/ast_generation_contract.md",
+      "benchmarks/benchcore/grammar_validation/valid_examples.jsonl"
+    ],
+    "tests": ["test_ast_generation_valid", "test_ast_generation_invalid"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-021",
+    "filename": "core-architecture-for-benchcore-solution-1.pdf",
+    "extracted_concepts": [
+      "Solution 1 core architecture",
+      "protocol adapter layers",
+      "request handling sequence flow",
+      "classifier integration architecture"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0037", "BENCHCORE-REQ-0038"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Solution 1 architecture is BenchCore-specific in component design"],
+    "generic_agentx_patterns": ["Generic protocol adapter boundary planning with mock contracts"],
+    "contradictions_or_assumptions": ["Assumes adapter-based architecture works for all protocol types"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/adapter_boundary_contract.md",
+      "benchmarks/benchcore/protocol_architecture/mock_rest_input.schema.json"
+    ],
+    "tests": ["test_adapter_mock_contract", "test_adapter_failure_mode"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-022",
+    "filename": "production-cue-manual.pdf",
+    "extracted_concepts": [
+      "production cue format specification",
+      "QuickCode keyword expansion system",
+      "field-by-field cue breakdown",
+      "broadcast command grammar rules"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0039", "BENCHCORE-REQ-0040"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Production cue format is broadcast-specific"],
+    "generic_agentx_patterns": ["Grammar-constrained command expansion", "Structured command grammar validation"],
+    "contradictions_or_assumptions": ["QuickCode shortcuts may vary by installation"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/grammar_validation/production_cue.schema.json",
+      "benchmarks/benchcore/grammar_validation/valid_examples.jsonl",
+      "benchmarks/benchcore/grammar_validation/invalid_examples.jsonl"
+    ],
+    "tests": ["test_production_cue_valid_format", "test_production_cue_invalid_format", "test_production_cue_field_constraints", "test_quickcode_expansion_valid", "test_quickcode_expansion_invalid"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-023",
+    "filename": "solutions-nlp-to-code-can-be-used-by-benchcore.pdf",
+    "extracted_concepts": [
+      "NLP-to-code translation solutions",
+      "BenchCore-compatible code generation approaches",
+      "code generation pipeline design",
+      "production-ready NLP-to-code patterns"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0041"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Code generation is domain-agnostic; marked benchmark-only"],
+    "generic_agentx_patterns": ["Structured code generation benchmark with NLP-to-code pairs"],
+    "contradictions_or_assumptions": ["Benchmark-only — not a production code generation system"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/grammar_validation/nlp_to_code_benchmark_contract.md",
+      "benchmarks/benchcore/grammar_validation/valid_examples.jsonl"
+    ],
+    "tests": ["test_nlp_code_pair_matching", "test_ast_grammar_constraints"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-024",
+    "filename": "overdrive-coding-od-manual.pdf",
+    "extracted_concepts": [
+      "*CG/*OD command syntax specification",
+      "command code reference and arguments",
+      "domain-specific language for broadcast automation",
+      "command validation rules"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0042", "BENCHCORE-REQ-0043"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["*CG/*OD command syntax is OverDrive-specific"],
+    "generic_agentx_patterns": ["Domain-specific language command validation with prefix-based grammar"],
+    "contradictions_or_assumptions": ["Command set may differ between OverDrive versions"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/grammar_validation/od_command.schema.json",
+      "benchmarks/benchcore/grammar_validation/cg_command.schema.json",
+      "benchmarks/benchcore/grammar_validation/valid_examples.jsonl",
+      "benchmarks/benchcore/grammar_validation/invalid_examples.jsonl"
+    ],
+    "tests": ["test_od_command_valid", "test_od_command_invalid", "test_cg_command_valid", "test_cg_command_invalid", "test_command_prefix_validation"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-025",
+    "filename": "benchcore-as-ui-inception-plugin.pdf",
+    "extracted_concepts": [
+      "Inception plugin UI design",
+      "suggestion card with accept/reject/modify",
+      "human-in-loop review workflow",
+      "plugin integration architecture"
+    ],
+    "accepted_requirements": [],
+    "deferred_requirements": ["BENCHCORE-REQ-0044", "BENCHCORE-REQ-0045"],
+    "product_specific_boundaries": ["Inception plugin is product-specific; no generic plugin capability"],
+    "generic_agentx_patterns": ["Human-in-loop review pattern with suggestion and feedback"],
+    "contradictions_or_assumptions": ["Interactive UI is deferred; only schema-level coverage implemented"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/human_review_ui/suggestion_card.schema.json",
+      "benchmarks/benchcore/human_review_ui/feedback_action.schema.json"
+    ],
+    "tests": ["test_review_card_accept", "test_review_card_reject", "test_review_card_modify", "test_review_card_schema_validation"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-026",
+    "filename": "technical-organizationmapping.pdf",
+    "extracted_concepts": [
+      "technical organization mapping",
+      "system component ownership",
+      "interface boundary documentation",
+      "REST/MOS adapter mapping"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0046"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Organization mapping is BenchCore deployment-specific"],
+    "generic_agentx_patterns": ["Generic protocol adapter boundary planning with mock contracts"],
+    "contradictions_or_assumptions": ["Assumes organization structure is stable across deployments"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/rest_mos_mapping_contract.md",
+      "benchmarks/benchcore/protocol_architecture/mock_rest_input.schema.json"
+    ],
+    "tests": ["test_adapter_protocol_mapping"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-027",
+    "filename": "abbreviations-table.pdf",
+    "extracted_concepts": [
+      "BenchCore domain abbreviations",
+      "broadcast terminology mapping",
+      "abbreviation-to-full-form reference",
+      "domain ontology entries"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0047"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Abbreviations are specific to BenchCore broadcast domain"],
+    "generic_agentx_patterns": ["Domain ontology reference table"],
+    "contradictions_or_assumptions": ["Abbreviation set may be incomplete"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/ontology/acronym_map.json"
+    ],
+    "tests": ["test_abbreviations_coverage"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-028",
+    "filename": "technical-terminology-for-beginners.pdf",
+    "extracted_concepts": [
+      "BenchCore technical glossary",
+      "beginner-level terminology definitions",
+      "domain concept explanations",
+      "ontology for broadcast automation"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0048"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Terminology is BenchCore-specific to broadcast domain"],
+    "generic_agentx_patterns": ["Domain ontology glossary for terminology mapping"],
+    "contradictions_or_assumptions": ["Beginner-level definitions may oversimplify complex concepts"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/ontology/glossary.json"
+    ],
+    "tests": ["test_terminology_glossary_coverage"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-029",
+    "filename": "composite-model-for-camera-change-detection-in-uniform-visual-domains.pdf",
+    "extracted_concepts": [
+      "composite model for camera change detection",
+      "uniform visual domain analysis",
+      "change detection algorithms",
+      "computer vision benchmark approach"
+    ],
+    "accepted_requirements": [],
+    "deferred_requirements": ["BENCHCORE-REQ-0049"],
+    "product_specific_boundaries": ["Camera change detection is a separate domain from BenchCore"],
+    "generic_agentx_patterns": ["Optional benchmark outside BenchCore core scope"],
+    "contradictions_or_assumptions": ["Computer vision models not implemented; marked optional"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/optional_benchmarks/camera_change_detection/README.md"
+    ],
+    "tests": []
+  },
+  {
+    "source_id": "BENCHCORE-DOC-030",
+    "filename": "architecture-desing.pdf",
+    "extracted_concepts": [
+      "system architecture design",
+      "component interaction pathways",
+      "protocol adapter communication flow",
+      "REST and MOS adapter patterns"
+    ],
+    "accepted_requirements": ["BENCHCORE-REQ-0050"],
+    "deferred_requirements": [],
+    "product_specific_boundaries": ["Architecture design is BenchCore-specific in component naming"],
+    "generic_agentx_patterns": ["Generic protocol adapter boundary planning with failure modes"],
+    "contradictions_or_assumptions": ["Design may not cover all integration scenarios"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/protocol_architecture/adapter_boundary_contract.md",
+      "benchmarks/benchcore/protocol_architecture/failure_modes.json"
+    ],
+    "tests": ["test_adapter_failure_mode"]
+  },
+  {
+    "source_id": "BENCHCORE-DOC-031",
+    "filename": "installing-mysql-importing-sql-backups.pdf",
+    "extracted_concepts": [
+      "MySQL installation procedure",
+      "SQL backup import process",
+      "database setup requirements",
+      "customer database restore workflow"
+    ],
+    "accepted_requirements": [],
+    "deferred_requirements": ["BENCHCORE-REQ-0034"],
+    "product_specific_boundaries": ["MySQL operations are infrastructure-specific; not a benchmark capability"],
+    "generic_agentx_patterns": ["Operations boundary discipline — deferred"],
+    "contradictions_or_assumptions": ["Requires live MySQL infrastructure; no automation implemented"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/operations_reproducibility/mysql_restore_boundary.md"
+    ],
+    "tests": []
+  },
+  {
+    "source_id": "BENCHCORE-DOC-032",
+    "filename": "wsl-installation.pdf",
+    "extracted_concepts": [
+      "WSL installation guide",
+      "Windows development environment setup",
+      "platform-specific configuration steps"
+    ],
+    "accepted_requirements": [],
+    "deferred_requirements": ["BENCHCORE-REQ-0034"],
+    "product_specific_boundaries": ["WSL is platform-specific; not a benchmark capability"],
+    "generic_agentx_patterns": ["Operations boundary discipline — deferred"],
+    "contradictions_or_assumptions": ["Platform-specific setup outside benchmark scope"],
+    "implemented_artifacts": [
+      "benchmarks/benchcore/operations_reproducibility/wsl_boundary.md"
+    ],
+    "tests": []
+  }
+]

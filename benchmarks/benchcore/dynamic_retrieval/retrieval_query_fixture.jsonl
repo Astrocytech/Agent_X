@@ -1,0 +1,15 @@
+{"query_id": "QRY-001", "natural_language_query": "Extract the NRCS field from the third line of metadata", "expected_capability_id": "CAP-001", "expected_label": "NRCS", "difficulty": "easy"}
+{"query_id": "QRY-002", "natural_language_query": "What camera model was used for this shot?", "expected_capability_id": "CAP-002", "expected_label": "CAM", "difficulty": "easy"}
+{"query_id": "QRY-003", "natural_language_query": "Find the microphone type in the audio metadata", "expected_capability_id": "CAP-003", "expected_label": "MIC", "difficulty": "easy"}
+{"query_id": "QRY-004", "natural_language_query": "Get the CLIP identifier from the file header", "expected_capability_id": "CAP-004", "expected_label": "CLIP", "difficulty": "easy"}
+{"query_id": "QRY-005", "natural_language_query": "Parse the lens model from the EXIF data of this image", "expected_capability_id": "CAP-005", "expected_label": "LENS", "difficulty": "easy"}
+{"query_id": "QRY-006", "natural_language_query": "What is the ISO speed of this frame?", "expected_capability_id": "CAP-006", "expected_label": "ISO", "difficulty": "medium"}
+{"query_id": "QRY-007", "natural_language_query": "Find the white balance setting for this clip", "expected_capability_id": "CAP-007", "expected_label": "WBAL", "difficulty": "easy"}
+{"query_id": "QRY-008", "natural_language_query": "What aperture was used at the time of capture?", "expected_capability_id": "CAP-008", "expected_label": "APER", "difficulty": "medium"}
+{"query_id": "QRY-009", "natural_language_query": "Extract the shutter speed value", "expected_capability_id": "CAP-009", "expected_label": "SHUT", "difficulty": "easy"}
+{"query_id": "QRY-010", "natural_language_query": "Get the focal length from the camera metadata", "expected_capability_id": "CAP-010", "expected_label": "FOCL", "difficulty": "easy"}
+{"query_id": "QRY-011", "natural_language_query": "Predict the aspect ratio of this video clip", "expected_capability_id": "CAP-011", "expected_label": "ARAT", "difficulty": "medium"}
+{"query_id": "QRY-012", "natural_language_query": "What codec is used in this video stream?", "expected_capability_id": "CAP-012", "expected_label": "CODEC", "difficulty": "hard"}
+{"query_id": "QRY-013", "natural_language_query": "Find the bitrate information for this file", "expected_capability_id": "CAP-013", "expected_label": "BITR", "difficulty": "medium"}
+{"query_id": "QRY-014", "natural_language_query": "Parse the frame rate from this video header", "expected_capability_id": "CAP-014", "expected_label": "FPS", "difficulty": "medium"}
+{"query_id": "QRY-015", "natural_language_query": "Clean up this XML metadata so it can be read by the parser", "expected_capability_id": "CAP-016", "expected_label": "unknown", "difficulty": "hard"}

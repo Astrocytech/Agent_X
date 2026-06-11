@@ -1,0 +1,110 @@
+[
+  {
+    "mode_id": "FM_001",
+    "name": "Connection Timeout",
+    "description": "TCP connection to the target host times out before establishing a handshake. Adapter receives no response.",
+    "category": "network",
+    "severity": "high",
+    "mitigation": "Implement retry with exponential backoff; log timeout event; fail after max retries.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_002",
+    "name": "DNS Resolution Failure",
+    "description": "The hostname of the target server cannot be resolved to an IP address.",
+    "category": "network",
+    "severity": "high",
+    "mitigation": "Validate hostname configuration; implement fallback DNS servers; fail with clear error.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_003",
+    "name": "TLS Certificate Expired",
+    "description": "The server presents an expired or otherwise invalid TLS certificate.",
+    "category": "network",
+    "severity": "medium",
+    "mitigation": "Check certificate validity; log expiration date; fail securely (no insecure fallback).",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_004",
+    "name": "Malformed MOS XML Payload",
+    "description": "The MOS adapter receives or generates XML that is not well-formed or does not conform to the MOS DTD.",
+    "category": "protocol",
+    "severity": "high",
+    "mitigation": "Validate XML against schema before sending; catch parse errors with descriptive messages.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_005",
+    "name": "Unexpected MOS Response Status",
+    "description": "MOS adapter receives a response status that does not match any known status (roAck, roNack, roReq, roList).",
+    "category": "protocol",
+    "severity": "medium",
+    "mitigation": "Validate status against known enum; log unexpected status; treat as roNack for safety.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_006",
+    "name": "REST Method Not Allowed",
+    "description": "HTTP request uses a method (e.g., PATCH) that is not in the allowed set for the given endpoint.",
+    "category": "protocol",
+    "severity": "low",
+    "mitigation": "Validate method against endpoint schema before dispatching; return structured 405 error.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_007",
+    "name": "Missing Required Field in Payload",
+    "description": "A required JSON or XML field is missing from the request or response payload.",
+    "category": "data",
+    "severity": "high",
+    "mitigation": "Validate payload against schema; flag missing field; return validation error.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_008",
+    "name": "Type Mismatch in Argument Value",
+    "description": "A command argument value has the wrong type (e.g., string where number expected).",
+    "category": "data",
+    "severity": "medium",
+    "mitigation": "Coerce types where safe; fail validation where coercion is ambiguous.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_009",
+    "name": "Data Truncation",
+    "description": "A payload field exceeds the maximum allowed length and is silently truncated or rejected.",
+    "category": "data",
+    "severity": "medium",
+    "mitigation": "Enforce maxLength constraints; log truncation warnings; prevent silent data loss.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_010",
+    "name": "Command Execution Timeout",
+    "description": "A *OD or *CG command takes longer than the configured timeout to produce a result.",
+    "category": "timeout",
+    "severity": "high",
+    "mitigation": "Set command-level timeout; cancel on timeout; log partial results if available.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_011",
+    "name": "Idle Connection Closed",
+    "description": "The server closes the connection due to inactivity before the client sends a request.",
+    "category": "network",
+    "severity": "low",
+    "mitigation": "Implement keep-alive; reconnect transparently with state recovery.",
+    "mock_reproducible": true
+  },
+  {
+    "mode_id": "FM_012",
+    "name": "Stale Data Detected",
+    "description": "The data retrieved from a source has a timestamp older than the configured freshness threshold.",
+    "category": "data",
+    "severity": "medium",
+    "mitigation": "Check timestamp freshness; trigger data refresh; log staleness warning.",
+    "mock_reproducible": true
+  }
+]

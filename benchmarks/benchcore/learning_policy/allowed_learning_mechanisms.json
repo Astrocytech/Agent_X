@@ -1,0 +1,65 @@
+[
+  {
+    "mechanism": "capability_registry_update",
+    "description": "Adding, removing, or modifying entries in the capability registry JSON for dynamic retrieval.",
+    "constraints": "Must preserve JSON schema; all entries must have source_ids referencing BENCHCORE-DOC documents.",
+    "evaluation_required": true,
+    "source_ids": ["BENCHCORE-DOC-012"]
+  },
+  {
+    "mechanism": "source_inventory_update",
+    "description": "Updating coverage CSVs, source hashes, evidence records, and visual inventory.",
+    "constraints": "Hashes must be either valid SHA-256 or literal 'placeholder'; all PDF IDs must exist in the inventory.",
+    "evaluation_required": false,
+    "source_ids": ["BENCHCORE-DOC-006"]
+  },
+  {
+    "mechanism": "benchmark_fixture_create",
+    "description": "Creating or modifying evaluation datasets, expected metrics, test fixtures, and calibration datasets.",
+    "constraints": "Fixtures must conform to their respective JSON schemas; must not introduce bias toward specific labels.",
+    "evaluation_required": false,
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-009"]
+  },
+  {
+    "mechanism": "lightweight_classifier_update",
+    "description": "Training or updating a lightweight classifier (e.g., logistic regression, small SVM, embedding-based ranker) operating on frozen core LLM outputs.",
+    "constraints": "Classifier must not modify core LLM weights; must be evaluated against deployment gates before promotion.",
+    "evaluation_required": true,
+    "source_ids": ["BENCHCORE-DOC-012"]
+  },
+  {
+    "mechanism": "ranking_policy_update",
+    "description": "Updating reranking weights, score thresholds, max_results, or fallback strategies in retrieval reranking policy.",
+    "constraints": "Must preserve the reranking policy JSON schema; changes must be logged with before/after values.",
+    "evaluation_required": true,
+    "source_ids": ["BENCHCORE-DOC-012"]
+  },
+  {
+    "mechanism": "calibration_update",
+    "description": "Adjusting reliability scores, confidence calibration curves, position bias correction parameters, or smoothing coefficients.",
+    "constraints": "Must not increase the mean reliability score beyond 1.0; calibration must be validated on held-out feedback events.",
+    "evaluation_required": true,
+    "source_ids": ["BENCHCORE-DOC-011"]
+  },
+  {
+    "mechanism": "feedback_log_aggregation",
+    "description": "Recording, aggregating, and analyzing feedback events for diagnostics and drift detection.",
+    "constraints": "Must not modify core model behavior; aggregation must be statistically sound (e.g., bootstrap CIs reported).",
+    "evaluation_required": false,
+    "source_ids": ["BENCHCORE-DOC-011"]
+  },
+  {
+    "mechanism": "evaluation_artifact_generation",
+    "description": "Producing confusion matrices, bootstrap interval reports, regression dashboards, and metric summaries.",
+    "constraints": "Artifacts must be reproducible from logged evaluation runs; must not modify model state.",
+    "evaluation_required": false,
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-009"]
+  },
+  {
+    "mechanism": "hypothesis_and_test_update",
+    "description": "Adding or updating hypotheses, candidate tests, and negative knowledge records in inverse_science_alignment.",
+    "constraints": "Hypotheses must be traceable to observations; tests must be falsifiable; negative knowledge must cite evidence_against.",
+    "evaluation_required": false,
+    "source_ids": ["BENCHCORE-DOC-013"]
+  }
+]

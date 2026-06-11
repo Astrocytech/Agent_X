@@ -1,0 +1,92 @@
+<customer_data>
+  <record id="CUST-001">
+    <name>Acme Broadcast Corp</name>
+    <region>NA</region>
+    <status>active</status>
+    <plan>enterprise</plan>
+    <contract_signed>2024-03-15</contract_signed>
+    <notes>Primary contact: J. Doe (j.doe@acme.example.com). Uses MOS v3.2 &amp; legacy playout. Migrating to v4 next quarter.</notes>
+    <address>
+      <street>123 Media Drive</street>
+      <city>Atlanta</city>
+      <state>GA</state>
+      <zip>30301</zip>
+    </address>
+  </record>
+
+  <record id="CUST-002">
+    <name>Pinnacle Sports Network</name>
+    <region>EU</region>
+    <status>active</status>
+    <plan>premium</plan>
+    <contract_signed>2024-07-22</contract_signed>
+    <notes>Uses 24/7 live sports ingestion. Requires < 50ms latency on replay feeds. SLA tier 1.</notes>
+    <address>
+      <street>42 Olympic Way</street>
+      <city>London</city>
+      <state />
+      <zip>EC4A 1AB</zip>
+    </address>
+  </record>
+
+  <record id="CUST-003">
+    <name>Coastal News Network</name>
+    <region>NA</region>
+    <status>inactive</status>
+    <plan>standard</plan>
+    <contract_signed>2023-11-01</contract_signed>
+    <contract_ended>2025-10-31</contract_ended>
+    <notes>Account expired. Final invoice #INV-2025-0892 outstanding for $1,250.00. Contact: billing@coastalnews.example.com</notes>
+    <address>
+      <street>789 Harbor Blvd</street>
+      <city>San Diego</city>
+      <state>CA</state>
+      <zip>92101</zip>
+    </address>
+  </record>
+
+  <record id="CUST-004">
+    <name>Studio Berlin GmbH</name>
+    <region>EU</region>
+    <status>active</status>
+    <plan>enterprise</plan>
+    <contract_signed>2025-01-10</contract_signed>
+    <notes>Multi-studio setup with 12 channels. Requested custom API integration. Contact: H. Müller (h.mueller@studio-berlin.example.de). Preferred language: German for UI.</notes>
+    <address>
+      <street>1 Medienallee</street>
+      <city>Berlin</city>
+      <state />
+      <zip>10115</zip>
+    </address>
+  </record>
+
+  <record id="CUST-005">
+    <name>Tokyo Digital Broadcasting</name>
+    <region>APAC</region>
+    <status>active</status>
+    <plan>premium</plan>
+    <contract_signed>2024-09-05</contract_signed>
+    <notes>Uses 8K Uplink & hybrid cloud ingest. &lt;!-- internal: prefer direct fiber over VPN --&gt; Special requirements  for timecode sync across JP & US sites.</notes>
+    <address>
+      <street>5-10-20 Shibuya</street>
+      <city>Tokyo</city>
+      <state />
+      <zip>150-0002</zip>
+    </address>
+  </record>
+
+  <record id="CUST-006">
+    <name>Test Account - DO NOT BILL</name>
+    <region>NA</region>
+    <status>inactive</status>
+    <plan>trial</plan>
+    <contract_signed>2025-06-01</contract_signed>
+    <notes>Internal test account. No billing. Used for staging environment validation.</notes>
+    <address>
+      <street>999 Test Lane</street>
+      <city>Dallas</city>
+      <state>TX</state>
+      <zip>75201</zip>
+    </address>
+  </record>
+</customer_data>

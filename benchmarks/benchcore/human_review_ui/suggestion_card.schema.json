@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SuggestionCard",
+  "description": "Schema for suggestion cards in the BenchCore human review/UI benchmark. Cards represent AI-generated suggestions presented to a human reviewer.",
+  "type": "object",
+  "properties": {
+    "card_id": {
+      "type": "string",
+      "description": "Unique identifier for the suggestion card."
+    },
+    "suggestion_type": {
+      "type": "string",
+      "enum": ["field_value", "command_correction", "keyword_addition", "delimiter_change", "expansion_update", "content_review"],
+      "description": "Type of suggestion being made."
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "current_value": {
+          "type": ["string", "null"],
+          "description": "The current value before the suggestion (null if no current value exists)."
+        },
+        "suggested_value": {
+          "type": "string",
+          "description": "The suggested replacement value."
+        },
+        "rationale": {
+          "type": "string",
+          "description": "Explanation of why this suggestion is being made."
+        }
+      },
+      "required": ["suggested_value", "rationale"],
+      "description": "The content of the suggestion card."
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for the suggestion (0.0 to 1.0)."
+    },
+    "source_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Source document references supporting this suggestion."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "accepted", "rejected", "modified"],
+      "description": "Current review status of the suggestion card."
+    }
+  },
+  "required": ["card_id", "suggestion_type", "content", "confidence", "source_ids", "status"],
+  "additionalProperties": false
+}

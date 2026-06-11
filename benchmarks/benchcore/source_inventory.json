@@ -1,0 +1,548 @@
+[
+  {
+    "source_id": "BENCHCORE-DOC-001",
+    "filename": "feedback-loop-plan.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "feedback_loop",
+    "agentx_use": "Governed feedback loop benchmark pattern for explicit/implicit signal processing, position bias detection, and drift monitoring",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "feedback_loop/feedback_policy.json",
+      "feedback_loop/diagnostics_contract.json",
+      "feedback_loop/rollback_policy.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-002",
+    "filename": "benchcore-backend-explained-faq-and-slides.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "requirements",
+    "agentx_use": "Backend architecture requirements extraction for protocol adapter planning and capability mapping",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "requirements/backend_principles.json",
+      "visual_inventory.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-003",
+    "filename": "how-to-run-evaluation-metrics.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "evaluation",
+    "agentx_use": "Configurable evaluation harness with exact-match, top-k, F1, and MRR metrics",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "evaluation/evaluation_workflow_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-004",
+    "filename": "how-the-logs-are-parsed.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "data_quality",
+    "agentx_use": "Log parsing pipeline and multi-source evidence fusion patterns",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "data_quality/log_parse_policy.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-005",
+    "filename": "predicting-rundown-story-item-object-fields-multi-line.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "requirements",
+    "agentx_use": "Multi-line prediction benchmark for story/item/split field extraction and sequence prediction",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "requirements/multiline_prediction_requirements.json",
+      "evaluation/multiline_output_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-006",
+    "filename": "benchcore-prediction-module-with-a-classifier-single-line-prediction-by-gpt.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "requirements",
+    "agentx_use": "Multi-class single-label classification benchmark with finite target set for field prediction",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "requirements/design_history_single_line.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-007",
+    "filename": "benchcore-nbc-presentation-notes.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "requirements",
+    "agentx_use": "Presentation notes for BenchCore system architecture and prediction pipeline understanding",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "requirements/product_narrative_requirements.json",
+      "human_review_ui/customer_explanation_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-008",
+    "filename": "predicting-rundown-story-item-object-fields-solution-overview.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "requirements",
+    "agentx_use": "Solution overview for NRCS/CAM/MIC/CLIP field prediction with classifier approach",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "requirements/solution_workflow_requirements.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-009",
+    "filename": "blueprint-for-testing-evaluating-benchcore-prediction-quality.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "evaluation",
+    "agentx_use": "Blueprint for prediction quality evaluation with exact-match, top-k, F1, MRR metrics harness",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "evaluation/evaluation_config.schema.json",
+      "evaluation/expected_metrics_fixture.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-010",
+    "filename": "mapping-natural-language-to-dynamic-id-labels-approaches-and-best-practices-by-gpt.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "dynamic_retrieval",
+    "agentx_use": "Dynamic ID label mapping capability-to-template retrieval registry benchmark",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "dynamic_retrieval/capability_registry_fixture.json",
+      "dynamic_retrieval/retrieval_query_fixture.jsonl"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-011",
+    "filename": "adding-the-second-half-to-enrich-the-prediction-data.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "data_quality",
+    "agentx_use": "Multi-source evidence fusion with join-key requirement for enriched prediction data",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "data_quality/evidence_fusion_policy.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-012",
+    "filename": "a-design-to-avoid-llm-retraining-pitfalls-idea.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "learning_policy",
+    "agentx_use": "Frozen-LLM with retrieval/classifier update learning policy to avoid retraining pitfalls",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "learning_policy/anti_retraining_policy.md",
+      "learning_policy/allowed_learning_mechanisms.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-013",
+    "filename": "reasoning-vs-abductive-inference-in-llms-and-rag-by-gpt.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "inverse_science_alignment",
+    "agentx_use": "Inverse-science reasoning-type rules for distinguishing abductive inference from deduction and explanation",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "inverse_science_alignment/reasoning_type_rules.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-014",
+    "filename": "benchcore-baseline-architecture-part-2-t5-approach.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "later",
+    "primary_group": "learning_policy",
+    "agentx_use": "T5/TranX/LoRA architecture approach for prediction — deferred for future implementation",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "learning_policy/deferred_training_experiments.md"
+    ],
+    "deferred_boundaries": [
+      "T5 model integration requires ML pipeline",
+      "LoRA fine-tuning not yet benchmarked"
+    ],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-015",
+    "filename": "preparing-the-view-table-for-the-customer-dump.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "data_quality",
+    "agentx_use": "Customer data view table preparation and data quality assessment pipeline",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "data_quality/sql_mapping_policy.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-016",
+    "filename": "problem-statement-and-baseline-architecture-part-1.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "requirements",
+    "agentx_use": "Problem statement and baseline architecture for BenchCore prediction system",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "requirements/core_problem_statement.json",
+      "requirements/layer_requirements.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-017",
+    "filename": "massaging-the-client-data-xml-before-llm.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "data_quality",
+    "agentx_use": "Structured XML data preprocessing and quality assessment before LLM ingestion",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "data_quality/xml_cleanup_policy.json",
+      "data_quality/input_output_pairing_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-018",
+    "filename": "overview-of-the-actual-overdrive-data-structure-and-a-cleanup.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "data_quality",
+    "agentx_use": "OverDrive data structure cleanup and preprocessing pipeline",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "data_quality/field_quality_policy.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-019",
+    "filename": "how-to-enable-remote-log-tailing-with-overdrive.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "later",
+    "primary_group": "operations_reproducibility",
+    "agentx_use": "Remote log tailing configuration — deferred, requires SSH infrastructure knowledge",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "operations_reproducibility/remote_log_tailing_boundary.md"
+    ],
+    "deferred_boundaries": [
+      "SSH infrastructure not implemented",
+      "Live remote system access not available"
+    ],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-020",
+    "filename": "coding-solution-1-semantic-parsing-code-generation.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now, benchmark only",
+    "primary_group": "grammar_validation",
+    "agentx_use": "Structured code generation benchmark using NLP-to-code AST generation patterns",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "grammar_validation/ast_generation_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-021",
+    "filename": "core-architecture-for-benchcore-solution-1.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "protocol_architecture",
+    "agentx_use": "Core architecture for Solution 1 with generic protocol adapter boundary planning",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "protocol_architecture/semantic_parser_pipeline_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-022",
+    "filename": "production-cue-manual.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "grammar_validation",
+    "agentx_use": "Structured command grammar validation for production cue format",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "grammar_validation/production_cue.schema.json",
+      "grammar_validation/valid_examples.jsonl",
+      "grammar_validation/invalid_examples.jsonl"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-023",
+    "filename": "solutions-nlp-to-code-can-be-used-by-benchcore.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now, benchmark only",
+    "primary_group": "grammar_validation",
+    "agentx_use": "NLP-to-code translation patterns for structured code generation benchmark",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "grammar_validation/nlp_to_code_benchmark_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-024",
+    "filename": "overdrive-coding-od-manual.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "grammar_validation",
+    "agentx_use": "Domain-specific language command validation for *CG/*OD command syntax",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "grammar_validation/od_command.schema.json",
+      "grammar_validation/cg_command.schema.json",
+      "grammar_validation/quickcode.schema.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-025",
+    "filename": "benchcore-as-ui-inception-plugin.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "later",
+    "primary_group": "human_review_ui",
+    "agentx_use": "Human-in-loop review pattern with suggestion card and accept/reject/modify UI",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "human_review_ui/ui_planning_contract.md"
+    ],
+    "deferred_boundaries": [
+      "Interactive UI not implemented",
+      "Real-time human review pipeline deferred"
+    ],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-026",
+    "filename": "technical-organizationmapping.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "protocol_architecture",
+    "agentx_use": "Technical organization mapping for REST/MOS adapter architecture planning",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "protocol_architecture/rest_mos_mapping_contract.md"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-027",
+    "filename": "abbreviations-table.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "ontology",
+    "agentx_use": "BenchCore domain abbreviations and ontology reference table",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "ontology/acronym_map.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-028",
+    "filename": "technical-terminology-for-beginners.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "ontology",
+    "agentx_use": "BenchCore technical terminology glossary for ontology mapping",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "ontology/glossary.json",
+      "ontology/ui_terms.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-029",
+    "filename": "composite-model-for-camera-change-detection-in-uniform-visual-domains.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "optional / later",
+    "primary_group": "optional_benchmarks",
+    "agentx_use": "Composite model for camera change detection — optional benchmark outside BenchCore core",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "optional_benchmarks/camera_change_detection/README.md"
+    ],
+    "deferred_boundaries": [
+      "Computer vision model not implemented",
+      "Optional benchmark outside BenchCore core scope"
+    ],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-030",
+    "filename": "architecture-desing.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "now",
+    "primary_group": "protocol_architecture",
+    "agentx_use": "Architecture design for protocol adapter planning with REST/MOS adapter patterns",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "protocol_architecture/adapter_boundary_contract.md",
+      "protocol_architecture/failure_modes.json"
+    ],
+    "deferred_boundaries": [],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-031",
+    "filename": "installing-mysql-importing-sql-backups.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "later",
+    "primary_group": "operations_reproducibility",
+    "agentx_use": "MySQL installation and SQL backup import — deferred, no live database dependencies",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "operations_reproducibility/mysql_restore_boundary.md"
+    ],
+    "deferred_boundaries": [
+      "Live MySQL not available",
+      "SQL backup automation not implemented"
+    ],
+    "claim_boundary": "benchmark only"
+  },
+  {
+    "source_id": "BENCHCORE-DOC-032",
+    "filename": "wsl-installation.pdf",
+    "batch": 1,
+    "sha256": "PLACEHOLDER—REPLACE_WITH_ACTUAL_HASH",
+    "status": "later",
+    "primary_group": "operations_reproducibility",
+    "agentx_use": "WSL installation guide — deferred, platform-specific setup not benchmarked",
+    "product_specific": true,
+    "live_dependency": false,
+    "required_artifacts": [
+      "operations_reproducibility/wsl_boundary.md"
+    ],
+    "deferred_boundaries": [
+      "WSL environment not available",
+      "Platform-specific setup outside benchmark scope"
+    ],
+    "claim_boundary": "benchmark only"
+  }
+]

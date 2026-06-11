@@ -1,0 +1,107 @@
+[
+  {
+    "term": "Production cue",
+    "definition": "A directive within a broadcast rundown that triggers a specific production action, such as displaying a graphic, starting a voice-over, or switching camera angles. Production cues are expressed as CG, OD, or other command types.",
+    "command_type": "production",
+    "source_ids": ["BENCHCORE-DOC-001", "BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Varies by command type; typically prefix + arguments (e.g., *CG <text> <duration>)"
+  },
+  {
+    "term": "*CG",
+    "definition": "A character generator command prefixed with an asterisk, used in NRCS log formats to specify on-screen graphics. The asterisk prefix distinguishes CG commands from other rundown elements and marks them as production-relevant.",
+    "command_type": "production",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "*CG <text_content> [timing] [style_options]"
+  },
+  {
+    "term": "*OD",
+    "definition": "An object definition command prefixed with an asterisk, used to declare the structure and type of a story or item element. OD commands provide metadata that helps disambiguate subsequent CG commands.",
+    "command_type": "production",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "*OD <object_type> <properties>"
+  },
+  {
+    "term": "QuickCode",
+    "definition": "A shorthand alphanumeric code that expands into a full command structure. Examples include 'CG1' (basic lower-third graphic), 'VOSOT' (voice-over with sound bite), and 'FULL' (full-screen graphic). QuickCodes are a primary prediction target.",
+    "command_type": "shorthand",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Short alphanumeric string (2-8 chars) that maps to a command template"
+  },
+  {
+    "term": "keyword expansion",
+    "definition": "The process of converting descriptive keywords (e.g., 'sports scores', 'weather forecast') into structured commands by matching keywords against templates and filling fields with context-appropriate values.",
+    "command_type": "expansion",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Natural language keywords -> structured command via template matching"
+  },
+  {
+    "term": "AST",
+    "definition": "Abstract Syntax Tree — a tree representation of the syntactic structure of a command. ASTs are used in BenchCore for grammar validation, command parsing, and structured output generation from LLM predictions.",
+    "command_type": "grammar",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-015", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Tree structure with node types: Command, Argument, Field, Value"
+  },
+  {
+    "term": "semantic parsing",
+    "definition": "The process of mapping natural language input to a structured meaning representation. In BenchCore, semantic parsing converts rundown context and natural language descriptions into structured command predictions.",
+    "command_type": "parsing",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "NL input -> structured meaning representation -> command generation"
+  },
+  {
+    "term": "code generation",
+    "definition": "The automatic production of executable or interpretable code from specifications or examples. In BenchCore, code generation refers to producing valid command strings from predicted field values and templates.",
+    "command_type": "generation",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "syntax_pattern": "Field values + command template -> valid command string"
+  },
+  {
+    "term": "NLP-to-code",
+    "definition": "A specific application of semantic parsing where natural language descriptions are converted to executable commands or code. In BenchCore, NLP-to-code transforms story descriptions into production command sequences.",
+    "command_type": "parsing",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-010", "BENCHCORE-DOC-015"],
+    "syntax_pattern": "Natural language story description -> sequence of production commands"
+  },
+  {
+    "term": "command syntax",
+    "definition": "The set of rules defining the structure and format of valid commands in the BenchCore domain. Command syntax includes prefix conventions, argument ordering, delimiter usage, and field formatting rules.",
+    "command_type": "grammar",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Defined per command type in grammar specification"
+  },
+  {
+    "term": "structured output",
+    "definition": "An output format that follows a defined schema, typically expressed as JSON or XML. In BenchCore, structured output is the expected format for predictions, enabling consistent evaluation and downstream processing.",
+    "command_type": "format",
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-009", "BENCHCORE-DOC-015"],
+    "syntax_pattern": "JSON object with fields matching prediction schema"
+  },
+  {
+    "term": "grammar validation",
+    "definition": "The process of checking whether a generated command conforms to the defined syntactic rules of the domain. Grammar validation catches malformed commands before they are evaluated or deployed.",
+    "command_type": "grammar",
+    "source_ids": ["BENCHCORE-DOC-009", "BENCHCORE-DOC-015", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "AST-based validation against grammar specification"
+  },
+  {
+    "term": "delimiter",
+    "definition": "A character or sequence used to separate fields, arguments, or commands within a rundown line. Common delimiters in BenchCore include spaces, tabs, pipes, and commas, each serving a specific structural role.",
+    "command_type": "grammar",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Whitespace, tab, pipe (|), or comma used as field separators"
+  },
+  {
+    "term": "argument",
+    "definition": "A value passed to a command that modifies its behavior or specifies its target. CG commands accept arguments for text content, timing, visual style, and layer assignment.",
+    "command_type": "grammar",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-009", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Positional or keyword values following command prefix"
+  },
+  {
+    "term": "transition",
+    "definition": "A command or directive that specifies how the broadcast transitions between stories, segments, or graphic states. Transitions are a specific prediction target type with their own syntax and timing fields.",
+    "command_type": "production",
+    "source_ids": ["BENCHCORE-DOC-004", "BENCHCORE-DOC-016", "BENCHCORE-DOC-030"],
+    "syntax_pattern": "Transition command with source, target, duration, and effect fields"
+  }
+]

@@ -1,0 +1,6 @@
+id,input_text,expected_label,predicted_label,rank,confidence
+SAMP-201,Extract the NRCS field,NRCS,NRCS,"1,2,3",0.95
+SAMP-202,Predict the camera for shot 42,CAM,CAM,"1,2",0.89
+SAMP-203,Identify the microphone type,MIC,MIC,"1,2,3,4",0.92
+SAMP-204,Find the CLIP field in the metadata,CLIP,CLIP,"1",0.88
+SAMP-205,Parse the lens model,NRCS,NRCS,"1,2,3,4,5,6",0.91

@@ -1,0 +1,106 @@
+[
+  {
+    "layer_name": "Data Ingestion",
+    "purpose": "Parse raw rundown log files from NRCS systems into structured records suitable for prediction and evaluation. Handles format variations, malformed lines, and story segmentation.",
+    "components": [
+      "Log parser: Converts raw text lines into structured Item objects with field-value pairs",
+      "Story segmenter: Groups items into stories based on boundary detection rules",
+      "Field extractor: Identifies and extracts target field values from parsed items",
+      "Data provenance tracker: Records source file, line range, parser version, and modifications for every example",
+      "Dataset manifest: Maintains versioned inventory of all datasets with content hashes"
+    ],
+    "source_ids": ["BENCHCORE-DOC-002", "BENCHCORE-DOC-005", "BENCHCORE-DOC-029"],
+    "benchmark_artifacts": [
+      "benchmarks/benchcore/data/parsers/log_parser.py",
+      "benchmarks/benchcore/data/segmenters/story_segmenter.py",
+      "benchmarks/benchcore/data/extractors/field_extractor.py",
+      "benchmarks/benchcore/data/provenance.json",
+      "benchmarks/benchcore/data/dataset_manifest.json",
+      "benchmarks/benchcore/data/ground_truth/"
+    ]
+  },
+  {
+    "layer_name": "Prediction/Classification",
+    "purpose": "Generate field value predictions for story/item objects using a frozen LLM augmented with dynamic retrieval. This is the core inference layer of the benchmark.",
+    "components": [
+      "Frozen LLM: The base language model used for semantic understanding and generation, with no parameter modifications",
+      "Prompt templates: Versioned task descriptions with input/output format specifications, stored separately from code",
+      "Example selector: Retrieves relevant few-shot examples from the retrieval index based on input context similarity",
+      "Dynamic retriever: Fetches command templates, field definitions, and historical examples at inference time",
+      "Keyword expander: Maps natural language keywords to full command structures via template matching",
+      "Semantic parser: Converts rundown text into structured command representations with ambiguity resolution",
+      "Confidence calibrator: Maps raw model outputs to calibrated confidence scores"
+    ],
+    "source_ids": ["BENCHCORE-DOC-010", "BENCHCORE-DOC-015", "BENCHCORE-DOC-025"],
+    "benchmark_artifacts": [
+      "benchmarks/benchcore/prompts/",
+      "benchmarks/benchcore/prompts/templates/",
+      "benchmarks/benchcore/prompts/example_selector.py",
+      "benchmarks/benchcore/retrieval/",
+      "benchmarks/benchcore/grammar/keyword_expander.py",
+      "benchmarks/benchcore/grammar/semantic_parser.py",
+      "benchmarks/benchcore/evaluation/calibration.py"
+    ]
+  },
+  {
+    "layer_name": "Evaluation",
+    "purpose": "Measure prediction quality using standardized metrics, generate reports, and enforce deployment gates. Provides the scientific evidence base for all benchmark claims.",
+    "components": [
+      "Evaluation harness: Configurable test execution engine supporting single-line and multi-line modes",
+      "Metric computer: Calculates F1, MRR, Top-K, exact-match, and bootstrap confidence intervals",
+      "Evaluation config: JSON-based configuration specifying mode, target fields, metrics, and dataset splits",
+      "Report generator: Produces human-readable and machine-readable evaluation reports",
+      "Sabotage test runner: Executes adversarial test suites to detect overclaimed capability",
+      "Deployment gate: Enforces minimum metric thresholds for deployability claims"
+    ],
+    "source_ids": ["BENCHCORE-DOC-014", "BENCHCORE-DOC-019"],
+    "benchmark_artifacts": [
+      "benchmarks/benchcore/evaluation/harness.py",
+      "benchmarks/benchcore/evaluation/metrics.py",
+      "benchmarks/benchcore/evaluation/config.json",
+      "benchmarks/benchcore/evaluation/report.py",
+      "benchmarks/benchcore/evaluation/calibration.py",
+      "benchmarks/benchcore/tests/sabotage/"
+    ]
+  },
+  {
+    "layer_name": "Feedback",
+    "purpose": "Capture and process user feedback signals (explicit and implicit) to drive prediction improvement without retraining. Defines policies for signal collection, aggregation, and exploration.",
+    "components": [
+      "Feedback signal collectors: Capture accept, reject, modify, rate actions and implicit behavioral signals",
+      "Feedback store: Append-only log of feedback events with prediction context and timestamps",
+      "Signal aggregator: Combines multiple feedback signals with recency weighting and conflict resolution",
+      "Position bias debiaser: Normalizes implicit signals against display position bias",
+      "Exploration engine: Occasionally presents alternative predictions to gather feedback on non-optimal candidates"
+    ],
+    "source_ids": ["BENCHCORE-DOC-012", "BENCHCORE-DOC-024"],
+    "benchmark_artifacts": [
+      "benchmarks/benchcore/policies/feedback_policy.md",
+      "benchmarks/benchcore/policies/feedback_aggregation.md",
+      "benchmarks/benchcore/policies/exploration_policy.md",
+      "benchmarks/benchcore/policies/privacy_policy.md",
+      "benchmarks/benchcore/schemas/feedback_explicit.json",
+      "benchmarks/benchcore/data/feedback_store_schema.json"
+    ]
+  },
+  {
+    "layer_name": "Deployment",
+    "purpose": "Define the integration boundary between the benchmark and production systems, including protocol adapters, plugin interfaces, and deployment gates. All deployment-layer components are mock-only or deferred in Stage A.",
+    "components": [
+      "Mock protocol adapters: Simulate MOS, REST, and TCP interactions without live dependencies",
+      "Protocol contracts: Formal specifications of adapter interfaces sufficient for real implementation",
+      "Adapter boundary: Clear interface separating internal logic from protocol implementations",
+      "Inception plugin interface: Versioned API specification for production system integration (deferred)",
+      "Human review schemas: Data structures for suggestion cards and feedback actions (benchmark-only)",
+      "Deployment gate enforcer: Verifies that predictions meet minimum quality thresholds before deployment"
+    ],
+    "source_ids": ["BENCHCORE-DOC-003", "BENCHCORE-DOC-007", "BENCHCORE-DOC-011", "BENCHCORE-DOC-013", "BENCHCORE-DOC-018", "BENCHCORE-DOC-030"],
+    "benchmark_artifacts": [
+      "benchmarks/benchcore/protocol/mocks/",
+      "benchmarks/benchcore/protocol/contracts/",
+      "benchmarks/benchcore/protocol/adapter_interface.py",
+      "benchmarks/benchcore/schemas/ui_schemas.json",
+      "benchmarks/benchcore/schemas/plugin_interface.json"
+    ]
+  }
+]
