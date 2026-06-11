@@ -1,7 +1,7 @@
 import os
 import re
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE = os.path.normpath(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "benchmarks", "benchcore"))
 
 LIVE_PATTERNS = {
     "real_ip": re.compile(

@@ -251,7 +251,7 @@
     "score": 4,
     "rationale": "20 sabotage tests covering all failure modes: source inventory tampering, missing entries, hash corruption, visual inventory errors, broken traceability links, metrics misconfiguration, feedback policy bypass, grammar validation bypass, live dependency claims, and universal claim rejection.",
     "source_evidence": [
-      "benchmarks/benchcore/tests/"
+      "tests/quick/benchcore/"
     ],
     "sabotage_test_refs": [
       "test_sabotage_missing_entry",

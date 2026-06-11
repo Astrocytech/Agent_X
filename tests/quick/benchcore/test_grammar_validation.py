@@ -2,7 +2,7 @@ import json
 import os
 import re
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE = os.path.normpath(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))), "benchmarks", "benchcore"))
 GV = os.path.join(BASE, "grammar_validation")
 
 FORBIDDEN_KEYWORDS = {"!halt", "!emergency", "!bypass"}

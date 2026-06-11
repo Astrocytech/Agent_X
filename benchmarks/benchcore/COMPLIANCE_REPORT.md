@@ -465,7 +465,7 @@ Internal inconsistency between reports.
 
 ### Result: PASS
 
-**`python3 -m pytest benchmarks/benchcore/tests/ -q --tb=short`** → **126 passed** ✓
+**`python3 -m pytest tests/quick/benchcore/ -q --tb=short`** → **126 passed** ✓
 **`python3 -m pytest tests/quick tests/dev tests/release/test_sabotage_checks.py tests/release/test_inverse_science_sabotage.py tests/release/test_integration_governed_patch_handoff.py -q --tb=short`** → **151 passed** ✓
 
 **No failures, errors, or warnings.** ✓

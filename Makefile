@@ -99,15 +99,15 @@ test-dev:
 
 # target_id: P2-C012
 test-release:
-	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release -q --tb=short -p no:cacheprovider -m "not live"
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/release L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider -m "not live"
 
 # target_id: P2-C013
 test-sabotage:
-	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release/test_sabotage_checks.py -q --tb=short -p no:cacheprovider
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/release/test_sabotage_checks.py -q --tb=short -p no:cacheprovider
 
 # target_id: P2-C014
 test-security:
-	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release/test_negative_*.py -q --tb=short -p no:cacheprovider
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/release/test_negative_*.py -q --tb=short -p no:cacheprovider
 
 # target_id: P2-C015
 test-live:
@@ -115,7 +115,7 @@ test-live:
 
 # target_id: P2-C016
 test-all:
-	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest L0/tests L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests tests/quick tests/dev tests/release -q --tb=short -p no:cacheprovider -m "not live"
+	PYTHONPATH="L0/CODE:L1:L2:tools/agentx_initiator:tools/agentx_evolve:tools" $(PYTHON) -m pytest tests/quick tests/dev tests/release L1/tests L2/tests tools/agentx_initiator/tests tools/agentx_evolve/tests -q --tb=short -p no:cacheprovider -m "not live"
 
 # ── Legacy aliases (deprecated, route to new tiers) ────────────────────────
 
