@@ -42,7 +42,7 @@ Apply these deterministic rules:
 3. If temperature data is missing, malformed, or invalid -> set safe_failure to true
 
 Respond ONLY with a JSON object in this exact format (no markdown, no extra text):
-{"recommendation": "warm|cool|moderate|light|hot|rain_gear|snow_gear|wind_block|shelter|unknown", "reason": "<natural language explanation>", "confidence": "high|medium|low", "data_source": "fixture", "safe_failure": false}
+{"recommendation": "warm|cool|moderate|light|hot|rain_gear|snow_gear|wind_block|shelter|unknown", "reason": "<natural language explanation>", "confidence": "high|medium|low", "data_source": "fixture|unavailable", "safe_failure": false}
 """
 
 
@@ -171,3 +171,19 @@ class ClothingPlannerPort:
             return data
         except (json.JSONDecodeError, TypeError):
             return None
+
+    @staticmethod
+    def get_recommendation_label(recommendation: str) -> str:
+        labels = {
+            "warm": "Wear warm clothes",
+            "cool": "Wear a jacket",
+            "moderate": "Light layers work",
+            "light": "T-shirt weather",
+            "hot": "Stay cool",
+            "rain_gear": "Bring rain gear",
+            "snow_gear": "Snow gear needed",
+            "wind_block": "Wind protection needed",
+            "shelter": "Stay indoors",
+            "unknown": "Check weather",
+        }
+        return labels.get(recommendation, "No recommendation")

@@ -233,19 +233,22 @@ class OpenCodeProvider:
                 elif m.get("role") == "user":
                     user_text = m.get("content", "")
             fmt_instructions = (
-                "\n\nYou MUST respond with ONLY a valid JSON object using this exact schema:\n"
+                "\n\nYou have NO tools available. You can ONLY return text. "
+                "You MUST respond with ONLY a valid JSON object using this exact schema:\n"
                 '{"schema_version":"agentx.structured_plan.v1",'
                 '"summary":"<short description>",'
                 '"actions":[{"type":"patch|validate|report|noop","description":"<what>","target":"<relative file path>","safety_notes":["<note>"]}],'
                 '"patches":[{"format":"unified_diff","content":"<unified diff with ---/+++ markers>"}],'
                 '"validation_commands":["<command>"]}\n'
-                "Do NOT include markdown code fences, explanations, or any text outside the JSON."
+                "Do NOT include ANY text before or after the JSON object. "
+                "No markdown code fences. No explanations. Return ONLY the raw JSON object."
             )
             if system_text:
                 system_text += fmt_instructions
             body: dict[str, Any] = {
                 "model": {"providerID": self._provider_id, "modelID": self.model},
                 "parts": [{"type": "text", "text": user_text or "."}],
+                "agent": "plan",
             }
             if system_text:
                 body["system"] = system_text
@@ -272,6 +275,15 @@ class OpenCodeProvider:
                     return parsed
                 except json.JSONDecodeError:
                     pass
+            # Fallback: extract structured plan from natural language
+            parsed = self._extract_plan_from_text(content)
+            if parsed:
+                elapsed = (time.perf_counter() - start) * 1000
+                self._conversation_logger.log_response(
+                    provider=self._provider_id, model=self.model,
+                    response=parsed, duration_ms=elapsed,
+                )
+                return parsed
             elapsed = (time.perf_counter() - start) * 1000
             self._conversation_logger.log_error(
                 provider=self._provider_id, model=self.model,
@@ -288,6 +300,94 @@ class OpenCodeProvider:
                 error="OpenCodeProviderError", duration_ms=elapsed,
             )
             raise
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_error(
+                provider=self._provider_id, model=self.model,
+                error="LLM did not return valid JSON", duration_ms=elapsed,
+            )
+            raise OpenCodeProviderError(
+                f"LLM did not return a valid structured plan JSON:\n{content[:500]}",
+                exit_code=1,
+            )
+        except OpenCodeProviderError:
+            elapsed = (time.perf_counter() - start) * 1000
+            self._conversation_logger.log_error(
+                provider=self._provider_id, model=self.model,
+                error="OpenCodeProviderError", duration_ms=elapsed,
+            )
+            raise
+        finally:
+            try:
+                event_resp.close()
+            except (NameError, Exception):
+                pass
+
+    @staticmethod
+    def _extract_plan_from_text(text: str) -> dict[str, Any] | None:
+        """Extract a structured plan from natural language plan output.
+
+        Parses markdown plans produced by the 'plan' agent which include
+        code-fenced unified diffs.
+        """
+        import re as _re
+        lines = text.split("\n")
+        summary = ""
+        actions: list[dict[str, Any]] = []
+        patches: list[dict[str, Any]] = []
+
+        in_diff = False
+        diff_lines: list[str] = []
+        in_code = False
+
+        for line in lines:
+            stripped = line.strip()
+
+            # Track diff code fences
+            if stripped.startswith("```diff"):
+                in_diff = True
+                diff_lines = []
+                continue
+            if stripped == "```" and in_diff:
+                in_diff = False
+                diff_content = "\n".join(diff_lines)
+                if diff_content.strip():
+                    patches.append({"format": "unified_diff", "content": diff_content})
+                continue
+            if stripped.startswith("```"):
+                in_code = not in_code
+                continue
+
+            if in_diff:
+                diff_lines.append(line)
+                continue
+
+            # Extract summary from first heading or bold text
+            if not summary:
+                if stripped.startswith("#"):
+                    summary = stripped.lstrip("#").strip()
+                elif stripped.startswith("**") and stripped.endswith("**"):
+                    summary = stripped.strip("*")
+
+        if not patches and not summary:
+            return None
+
+        if not summary:
+            summary = "Plan from LLM"
+
+        actions.append({
+            "type": "patch" if patches else "noop",
+            "description": summary,
+            "target": "",
+            "safety_notes": [],
+        })
+
+        return {
+            "schema_version": "agentx.structured_plan.v1",
+            "summary": summary,
+            "actions": actions,
+            "patches": patches,
+            "validation_commands": [],
+        }
 
     @staticmethod
     def _last_user_text(messages: list[dict[str, Any]]) -> str:

@@ -129,6 +129,22 @@ FIXTURES: dict[str, dict] = {
         "wind_speed_kph": 5,
         "severe_weather_flag": False,
     },
+    "out_of_range_precip": {
+        "location": "out_of_range_precip",
+        "temperature_c": 28,
+        "precipitation_probability": 150,
+        "condition": "clear",
+        "wind_speed_kph": 5,
+        "severe_weather_flag": False,
+    },
+    "fog_condition": {
+        "location": "fog_condition",
+        "temperature_c": 10,
+        "precipitation_probability": 40,
+        "condition": "fog",
+        "wind_speed_kph": 5,
+        "severe_weather_flag": False,
+    },
 }
 
 API_BASE_URL = "https://api.clothing.example.com"

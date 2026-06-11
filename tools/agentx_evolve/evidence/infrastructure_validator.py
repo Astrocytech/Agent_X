@@ -87,16 +87,28 @@ def check_manual_insertion(manifest: dict, generated_paths: list[str]) -> list[s
     return manual
 
 
-def validate_events_append_only(log_path: str | Path) -> bool:
+def validate_events_append_only(log_path: str | Path, strict: bool = False) -> bool:
     with open(log_path) as f:
         lines = f.readlines()
-    ids = []
+    ids: list[str] = []
     for line in lines:
         try:
             entry = json.loads(line)
             ids.append(entry.get("event_id", ""))
         except json.JSONDecodeError:
             return False
+    if strict and len(ids) >= 2:
+        for i in range(1, len(ids)):
+            prev = ids[i - 1]
+            cur = ids[i]
+            if prev and cur and prev.startswith("evt-") and cur.startswith("evt-"):
+                try:
+                    prev_seq = int(prev.removeprefix("evt-"))
+                    cur_seq = int(cur.removeprefix("evt-"))
+                    if cur_seq - prev_seq > 1:
+                        return False
+                except ValueError:
+                    pass
     return len(ids) == len(set(ids))
 
 

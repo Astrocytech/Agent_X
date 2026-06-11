@@ -6,10 +6,10 @@ from typing import Any
 BUILTIN_PROVIDER = "opencode"
 BUILTIN_MODEL = "big-pickle"
 BUILTIN_RUN_ROOT = ".agentx-init/runs"
-BUILTIN_TIMEOUT = 0
+BUILTIN_TIMEOUT = 120
 BUILTIN_JSON = False
 BUILTIN_MOCK = False
-BUILTIN_MODE = "plan"
+BUILTIN_MODE = "apply"
 BUILTIN_DRY_RUN = False
 
 

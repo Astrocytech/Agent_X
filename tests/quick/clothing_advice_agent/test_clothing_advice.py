@@ -152,8 +152,43 @@ def test_parse_llm_json_returns_none_for_invalid() -> None:
     assert ClothingPlannerPort._parse_llm_json("{}") is not None
 
 
+def test_tool_returns_data_for_out_of_range_precip() -> None:
+    tool = ClothingFixtureReadTool()
+    result = tool(location="out_of_range_precip")
+    assert result["success"]
+    assert result["data"]["precipitation_probability"] == 150
+
+
+def test_tool_unknown_city_returns_data() -> None:
+    tool = ClothingFixtureReadTool()
+    result = tool(location="unknown_city")
+    assert result["success"]
+    assert result["data"]["temperature_c"] is None
+    assert result["data"]["precipitation_probability"] is None
+
+
+def test_tool_non_existent_location_returns_failure() -> None:
+    tool = ClothingFixtureReadTool()
+    result = tool(location="non_existent_city_xyz")
+    assert not result["success"]
+    assert "error" in result
+    assert "unknown location" in result["error"].lower()
+
+
 def test_build_output_safe_failure_for_none_data() -> None:
     planner = ClothingPlannerPort()
     output = planner._build_output(None)
     assert output["safe_failure"] is True
     assert output["recommendation"] == "unknown"
+
+
+def test_build_output_schema_contract() -> None:
+    planner = ClothingPlannerPort()
+    output = planner._build_output(None)
+    assert "recommendation" in output
+    assert "reason" in output
+    assert "confidence" in output
+    assert "data_source" in output
+    assert "safe_failure" in output
+    assert output["data_source"] == "unavailable"
+    assert output["confidence"] == "low"

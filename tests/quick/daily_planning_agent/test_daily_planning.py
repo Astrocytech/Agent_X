@@ -168,3 +168,26 @@ def test_parse_llm_json_returns_none_for_invalid() -> None:
     assert DailyPlanningPlannerPort._parse_llm_json("not json") is None
     assert DailyPlanningPlannerPort._parse_llm_json("") is None
     assert DailyPlanningPlannerPort._parse_llm_json("{}") is not None
+
+
+def test_conflicting_urgency_has_different_values() -> None:
+    tool = PlanningFixtureReadTool()
+    result = tool(scenario_id="conflicting_urgency")
+    assert result["success"]
+    tasks = result["data"]["tasks"]
+    urgencies = {t["urgency"] for t in tasks}
+    assert len(urgencies) > 1, "conflicting_urgency should have both high and low"
+    assert "high" in urgencies
+    assert "low" in urgencies
+
+
+def test_fixture_output_schema_contract() -> None:
+    tool = PlanningFixtureReadTool()
+    result = tool(scenario_id="urgent_today")
+    assert result["success"]
+    data = result["data"]
+    assert "scenario_id" in data
+    assert "tasks" in data
+    assert "task_count" in data
+    assert "source" in data
+    assert data["source"] == "fixture"

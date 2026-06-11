@@ -39,6 +39,21 @@ INJECTION_PATTERNS = [
 ]
 
 
+def _detect_hidden_tool_use(content: str) -> list[str]:
+    hidden: list[str] = []
+    lower = content.lower()
+    tool_patterns = [
+        "<function=", "</function>",
+        "<tool_call", "</tool_call>",
+        '{"function"', '{"tool"',
+        "tool_call(", "function_call(",
+    ]
+    for tp in tool_patterns:
+        if tp in lower:
+            hidden.append(tp)
+    return hidden
+
+
 def detect_prompt_injection_risk(item: ContextItem) -> dict[str, Any]:
     patterns_found: list[str] = []
     content_lower = item.content.lower()
@@ -46,6 +61,9 @@ def detect_prompt_injection_risk(item: ContextItem) -> dict[str, Any]:
     for pattern in INJECTION_PATTERNS:
         if pattern in content_lower:
             patterns_found.append(pattern)
+
+    hidden = _detect_hidden_tool_use(item.content)
+    patterns_found.extend(hidden)
 
     risk_score = _compute_risk_score(patterns_found, item)
     risk_level = _risk_level(risk_score)

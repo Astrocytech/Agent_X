@@ -3,7 +3,7 @@
 PYTHON ?= python3
 PIP_INSTALL ?= pip3 install --break-system-packages
 
-.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-quick test-dev test-release test-all test-live test-l0 test-l1 test-l2 test-initiator test-evolve audit-structure prove-organization prove-hygiene prove-umbrella-agent run clean build-seed
+.PHONY: help install seed-boot prove-seed prove-l1 prove-l2 prove-format prove-all test-quick test-dev test-release test-sabotage test-security test-all test-live test-l0 test-l1 test-l2 test-initiator test-evolve audit-structure prove-organization prove-hygiene prove-umbrella-agent run clean build-seed
 
 help:
 	@echo "L0 commands:"
@@ -25,6 +25,8 @@ help:
 	@echo "  make test-quick       Run fast tests (~4s) — run after every change"
 	@echo "  make test-dev         Run work-in-progress tests (may fail)"
 	@echo "  make test-release     Run full release verification (~5min)"
+	@echo "  make test-sabotage    Run sabotage/mutation checks"
+	@echo "  make test-security    Run negative security tests"
 	@echo "  make test-all         Run all tests across repo (excl. live)"
 	@echo "  make test-live        Run live provider tests"
 	@echo "  make prove-format     Run formatting guard tests"
@@ -86,6 +88,12 @@ test-dev:
 
 test-release:
 	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release -q --tb=short -p no:cacheprovider -m "not live"
+
+test-sabotage:
+	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release/test_sabotage_checks.py -q --tb=short -p no:cacheprovider
+
+test-security:
+	PYTHONPATH="L0/CODE:tools" $(PYTHON) -m pytest tests/release/test_negative_*.py -q --tb=short -p no:cacheprovider
 
 test-live:
 	PYTHONPATH=. $(PYTHON) -m pytest -q -m live --tb=short -p no:cacheprovider

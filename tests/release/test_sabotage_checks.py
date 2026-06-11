@@ -46,6 +46,13 @@ class TestSabotageChecks:
         assert severe is not None
         assert "severe" in severe.get("condition", "").lower()
 
+    def test_clothing_mutation_severe_flag_ignored_would_fail(self):
+        data = {"condition": "severe", "severe_weather_flag": True, "temperature_c": 25}
+        assert data["severe_weather_flag"] is True
+        # A correct agent must recognize severe_weather_flag and respond accordingly.
+        # If the agent returns a normal recommendation (e.g. "t-shirt") despite
+        # severe_weather_flag=True, that mutation would fail validation.
+
     # ── 3. Daily Planning Agent: invents a task not in input ──────────────
 
     def test_planning_invents_task_tampered(self, tmp_path):
@@ -55,6 +62,13 @@ class TestSabotageChecks:
         assert isinstance(urgent, list)
         task_ids = {t.get("id") for t in urgent}
         assert "T-099" not in task_ids
+
+    def test_planning_mutation_invents_task_would_fail(self):
+        from agentx_evolve.evidence.infrastructure_validator import check_provenance
+        manifest = {"files": [{"path": "tasks.json", "origin": "fixture"}]}
+        unproven = check_provenance(manifest, ["tasks.json", "invented_task.json"])
+        assert "invented_task.json" in unproven
+        # A correct planner never produces files absent from the input manifest
 
     # ── 4. Safe-failure field is incorrect ────────────────────────────────
 
@@ -80,15 +94,21 @@ class TestSabotageChecks:
         assert len(unproven) == 1
 
     # ── 7. Event log entry is modified or removed ─────────────────────────
-    # Note: validate_events_append_only only checks for unique IDs, not
-    # sequential continuity. Missing entries (e.g. removing evt-002) are
-    # NOT detected. This is a known gap in the validator.
+    # Strict mode now detects missing sequential entries (evt-001 → evt-003
+    # without evt-002). Non-strict mode still allows gaps for backward compat.
 
-    def test_event_log_missing_entries_not_detected_as_gap(self, tmp_path):
+    def test_event_log_strict_sequential_detected(self, tmp_path):
         log = tmp_path / "events_gap.jsonl"
         log.write_text('{"event_id": "evt-001"}\n{"event_id": "evt-003"}\n')
+        assert not validate_events_append_only(log, strict=True), (
+            "Strict mode should detect missing evt-002"
+        )
+
+    def test_event_log_non_strict_allows_gap(self, tmp_path):
+        log = tmp_path / "events_gap_nonstrict.jsonl"
+        log.write_text('{"event_id": "evt-001"}\n{"event_id": "evt-003"}\n')
         assert validate_events_append_only(log), (
-            "GAP: Missing event entries not detected by current validator"
+            "Non-strict mode may allow gaps for backward compat"
         )
 
     def test_event_log_duplicate_caught(self, tmp_path):

@@ -50,7 +50,7 @@ FIXTURES: dict[str, list[dict]] = {
     ],
     "conflicting_urgency": [
         {"id": "t1", "title": "Task one", "deadline": "2026-06-10", "urgency": "high", "effort": "low", "dependencies": None, "completed": False},
-        {"id": "t2", "title": "Task two", "deadline": "2026-06-10", "urgency": "high", "effort": "low", "dependencies": None, "completed": False},
+        {"id": "t2", "title": "Task two", "deadline": "2026-06-10", "urgency": "low", "effort": "low", "dependencies": None, "completed": False},
         {"id": "t3", "title": "Task three", "deadline": "2026-06-10", "urgency": "high", "effort": "low", "dependencies": None, "completed": False},
     ],
     "high_effort_low_urgency": [
