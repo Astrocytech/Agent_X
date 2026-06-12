@@ -1,130 +1,130 @@
 {
   "BENCHCORE-DOC-001": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abcd",
-    "status": "unverified"
+    "sha256": "549e78e18f7ed3c0656f2937b2ca15a9ab79b3acdd5639d6f1dbc8458505ba9f",
+    "status": "verified"
   },
   "BENCHCORE-DOC-002": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abce",
-    "status": "unverified"
+    "sha256": "c5264377b4b8f0533560dff23f3cb2bf2c118760ed4ed7d8aeecc0cada3346c8",
+    "status": "verified"
   },
   "BENCHCORE-DOC-003": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abcf",
-    "status": "unverified"
+    "sha256": "a694c8e14239588a9d4ccb0d69f40c133c67a67bcdc6b751a7d81ae73b5c9781",
+    "status": "verified"
   },
   "BENCHCORE-DOC-004": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd0",
-    "status": "unverified"
+    "sha256": "04c88f418cc3b8496d328b6a5f536dbe01e91a78f22e29d0b6bc08238756061b",
+    "status": "verified"
   },
   "BENCHCORE-DOC-005": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd1",
-    "status": "unverified"
+    "sha256": "302e68fee5028b43587c4dfea3005e6e47923d40926bf9bb3ab365c94c99b385",
+    "status": "verified"
   },
   "BENCHCORE-DOC-006": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd2",
-    "status": "unverified"
+    "sha256": "6381ba7bfe47908c826404dc0f7764da89b04f77aec4eea8045c20e679e8312d",
+    "status": "verified"
   },
   "BENCHCORE-DOC-007": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd3",
-    "status": "unverified"
+    "sha256": "7d1c00480842da32875ee4bc3d23b1b894d04874b125757b32fbc60336a17040",
+    "status": "verified"
   },
   "BENCHCORE-DOC-008": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd4",
-    "status": "unverified"
+    "sha256": "4a76d0f8bdf60a60b3522b8337cf2045fe8e056d756fc6269427800725094465",
+    "status": "verified"
   },
   "BENCHCORE-DOC-009": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd5",
-    "status": "unverified"
+    "sha256": "1eb439834211541a6891355cad7948ffb55684e38ff5ecb776f9c8dd648479e7",
+    "status": "verified"
   },
   "BENCHCORE-DOC-010": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd6",
-    "status": "unverified"
+    "sha256": "748c27d990790200f09e8bb557b5c6db1aefe6c78df4d35d5bb0bb371d3ef4ab",
+    "status": "verified"
   },
   "BENCHCORE-DOC-011": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd7",
-    "status": "unverified"
+    "sha256": "906e122075ac95be96be7e55f9d10e19d5f9a9f847082624035bf0a0f9e66981",
+    "status": "verified"
   },
   "BENCHCORE-DOC-012": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd8",
-    "status": "unverified"
+    "sha256": "58e5fa3d3291f56c6187652054191ef2141363563012c037392f638e7bb4fa64",
+    "status": "verified"
   },
   "BENCHCORE-DOC-013": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abd9",
-    "status": "unverified"
+    "sha256": "d55d8238842063c929559a668d1c5b952c49539f6b1b6bb08d5fbcda3dec09aa",
+    "status": "verified"
   },
   "BENCHCORE-DOC-014": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abda",
-    "status": "unverified"
+    "sha256": "e0e3b399160274013d90d27cfe22372c9f4c20d675e97b9c7d8a600c317f2d01",
+    "status": "verified"
   },
   "BENCHCORE-DOC-015": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abdb",
-    "status": "unverified"
+    "sha256": "bf7c4f1f0f45885c68fbdf1fcf385e106ed0c588824faf914555a597ccbd1723",
+    "status": "verified"
   },
   "BENCHCORE-DOC-016": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abdc",
-    "status": "unverified"
+    "sha256": "e498ae83ba4d6f3952d32d73880c07310cd7418a254009e73b2510823565e0f2",
+    "status": "verified"
   },
   "BENCHCORE-DOC-017": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abdd",
-    "status": "unverified"
+    "sha256": "141f219ad576ca5f427f040ebe68d33bce2d7ae52c0112e098e4806dede66ece",
+    "status": "verified"
   },
   "BENCHCORE-DOC-018": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abde",
-    "status": "unverified"
+    "sha256": "89056d2660edfbc946219e72716ac99e0dceb1682b559b5b181e3a2de0d54f2e",
+    "status": "verified"
   },
   "BENCHCORE-DOC-019": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abdf",
-    "status": "unverified"
+    "sha256": "681b8099cc6e9ec7dff1f82f663def97817e4ebe1a2ff0c269cf273a44141c70",
+    "status": "verified"
   },
   "BENCHCORE-DOC-020": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe0",
-    "status": "unverified"
+    "sha256": "c3c84d7bf2d6ab4066e7dc673b4392e5b63709e7367d278bfa53dfed21c5c712",
+    "status": "verified"
   },
   "BENCHCORE-DOC-021": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe1",
-    "status": "unverified"
+    "sha256": "ae962b3c8d92a51a2dbdef0b5a676d16c34f1363f78a7706598300d664c5fd0a",
+    "status": "verified"
   },
   "BENCHCORE-DOC-022": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe2",
-    "status": "unverified"
+    "sha256": "77c5bafa8d839cb49bf34f36a5cae1b9175abb1820ffaf6c22a733bd80545074",
+    "status": "verified"
   },
   "BENCHCORE-DOC-023": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe3",
-    "status": "unverified"
+    "sha256": "db394c32283b0e4f1146f56451c94bc36a161a31e8976f028b56437948db5f7a",
+    "status": "verified"
   },
   "BENCHCORE-DOC-024": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe4",
-    "status": "unverified"
+    "sha256": "1d50acefabd56b0bf47c1737925778b66972677e5b92f8495e885528af29397e",
+    "status": "verified"
   },
   "BENCHCORE-DOC-025": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe5",
-    "status": "unverified"
+    "sha256": "b69ae44bc6079627c0985646d62e4405aeb36262f8a2cdadfad9297647072166",
+    "status": "verified"
   },
   "BENCHCORE-DOC-026": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe6",
-    "status": "unverified"
+    "sha256": "798d6d3456b0a0c1a6db1327a4ca63d6b8b5ecb4852fc1902b3bb3df5c3d4a8a",
+    "status": "verified"
   },
   "BENCHCORE-DOC-027": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe7",
-    "status": "unverified"
+    "sha256": "22dfb6ec81c74be2e120e7d61b5ee84decbd4f7a45c3c4447210edcaf590af2a",
+    "status": "verified"
   },
   "BENCHCORE-DOC-028": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe8",
-    "status": "unverified"
+    "sha256": "b326697e98759a49d573240b0faa33bb173e9145439b5f04f89f0020bcff38fd",
+    "status": "verified"
   },
   "BENCHCORE-DOC-029": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abe9",
-    "status": "unverified"
+    "sha256": "e15ee1b16ec002ab947912b33c3019e16a44581e383c672e59eaa96317fe2929",
+    "status": "verified"
   },
   "BENCHCORE-DOC-030": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abea",
-    "status": "unverified"
+    "sha256": "967774920816e6614a5a64a93e9d8132b15521a4af60d2a3f1f08960ea22e9ed",
+    "status": "verified"
   },
   "BENCHCORE-DOC-031": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abeb",
-    "status": "unverified"
+    "sha256": "2150f0368dfea379a73af76b142e7f38e7eeae74582c4078c4601c8dc46aa4c2",
+    "status": "verified"
   },
   "BENCHCORE-DOC-032": {
-    "sha256": "000000000000000000000000000000000000000000000000000000000000abec",
-    "status": "unverified"
+    "sha256": "bf2cf639ae3b2c364cda5da2de079628e62dc75427a3bd3fa11aeceaebb479dc",
+    "status": "verified"
   }
 }

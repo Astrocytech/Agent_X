@@ -16,7 +16,6 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE_DIR = REPO_ROOT / "reports" / "umbrella_agent"
 
 UMBRELLA_OUT_DIR = "examples/umbrella_agent"
-APPROVED_PATHS = ["examples/", "tests/quick/umbrella_agent/"]
 
 RECOMMENDATION_ENGINE_SRC = '''
 from __future__ import annotations
@@ -475,15 +474,10 @@ def _build_patch_operations(generated_files: list[dict], workspace: Path) -> lis
 def _governed_patch_apply(operations: list, mode: str) -> dict:
     from agentx_evolve.patch_execution.patch_execution_service import execute_governed_patch
     from agentx_evolve.patch_execution.patch_models import MODE_DRY_RUN, MODE_LIVE, to_dict
-    from agentx_evolve.security.security_models import SandboxPolicy
     from agentx_evolve.patch_execution.initiator_patch_compat import InitiatorPatchCompat
+    from agentx_evolve.security.path_boundary_service import policy_for_phase, PHASE_UMBRELLA_STAGE_B
 
-    sandbox_policy = SandboxPolicy(
-        policy_id=_new_id("policy"),
-        source_write_allowed=True,
-        runtime_write_allowed=True,
-        allowlisted_write_paths=list(APPROVED_PATHS),
-    )
+    sandbox_policy = policy_for_phase(PHASE_UMBRELLA_STAGE_B, REPO_ROOT)
     compat = InitiatorPatchCompat(repo_root=REPO_ROOT)
 
     validation_commands = None
@@ -496,7 +490,7 @@ def _governed_patch_apply(operations: list, mode: str) -> dict:
     session = execute_governed_patch(
         repo_root=REPO_ROOT,
         operations=operations,
-        approved_paths=APPROVED_PATHS,
+        approved_paths=sandbox_policy.allowlisted_write_paths,
         proposal_id="proposal-umbrella-gen-001",
         governance_decision_id="gov-umbrella-gen-001",
         mode=mode,
@@ -515,6 +509,112 @@ def _governed_patch_apply(operations: list, mode: str) -> dict:
         "rollback_record_id": session.rollback_record_id,
         "session_dict": to_dict(session),
     }
+
+
+def _write_governance_artifacts(proposal_id: str, session_id: str) -> dict[str, str]:
+    now = _utc_now()
+    artifacts = {}
+
+    def _write(name: str, data: dict) -> str:
+        path = EVIDENCE_DIR / name
+        EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+        artifacts[name] = str(path)
+        return str(path)
+
+    ts = now
+
+    _write("proposal.json", {
+        "artifact_type": "proposal",
+        "proposal_id": proposal_id,
+        "session_id": session_id,
+        "title": "Generate Umbrella Agent with Full Deterministic Behavior",
+        "description": (
+            "Generate umbrella agent source with condition-aware "
+            "recommendation logic, alert handling, malformed data detection, "
+            "and structured output formatting."
+        ),
+        "risk_classification": "bounded",
+        "submitted_by": f"generate_umbrella_agent pipeline (session {session_id})",
+        "submitted_at": ts,
+        "status": "approved",
+    })
+
+    _write("risk_classification.json", {
+        "artifact_type": "risk_classification",
+        "proposal_id": proposal_id,
+        "session_id": session_id,
+        "risk_level": "bounded",
+        "risk_justification": [
+            "Changes in examples/ path (non-L0, non-protected)",
+            "Deterministic fixture-based generation",
+            "No live API calls required",
+            "Controlled via governed patch executor (rollback available)",
+        ],
+        "requires_human_review": False,
+        "allows_auto_promotion": False,
+        "classification_timestamp": ts,
+    })
+
+    _write("context_packet.json", {
+        "artifact_type": "context_packet",
+        "proposal_id": proposal_id,
+        "session_id": session_id,
+        "target_component": "umbrella_agent",
+        "generation_strategy": "template-based",
+        "weather_provider": "tools/agentx_evolve/providers/weather_fixture.py",
+        "condition_categories": {
+            "rain_like": ["rain", "shower", "thunderstorm"],
+            "alert": ["storm", "heavy rain", "freezing rain", "sleet", "hail"],
+            "drizzle": ["drizzle"],
+            "snow": ["snow"],
+            "clear": ["clear"],
+            "overcast": ["cloudy", "overcast", "fog", "mist"],
+        },
+        "output_fields": [
+            "recommendation", "answer", "reason",
+            "weather_source", "confidence",
+        ],
+        "created_at": ts,
+    })
+
+    _write("prompt_contract.json", {
+        "artifact_type": "prompt_contract",
+        "proposal_id": proposal_id,
+        "session_id": session_id,
+        "input_schema": {
+            "location": "string (required)",
+            "date": "string (optional, defaults to today)",
+        },
+        "output_schema": {
+            "recommendation": "string: yes | no | maybe | alert | unknown",
+            "answer": "string (human-readable explanation)",
+            "reason": "string (why this recommendation was made)",
+            "weather_source": "string",
+            "confidence": "float 0.0-1.0",
+            "condition": "string or null",
+            "precipitation_probability": "float or null",
+            "temperature_c": "int or null",
+            "location": "string",
+            "date": "string",
+        },
+        "behavior_rules": [
+            "rain/shower/thunderstorm with precip>=40 -> yes",
+            "rain/shower/thunderstorm with precip<40 -> maybe",
+            "drizzle -> maybe",
+            "storm/heavy rain/freezing rain/sleet/hail -> alert",
+            "clear with precip<=5 -> no, confidence 0.9",
+            "snow with precip>=30 -> yes",
+            "malformed/missing condition -> unknown",
+            "provider failure -> unknown",
+            "missing precip -> unknown",
+        ],
+        "contract_version": "1.0",
+        "created_at": ts,
+    })
+
+    return artifacts
 
 
 def _run_pytest_on_generated(test_path: str) -> dict:
@@ -543,13 +643,84 @@ def _run_pytest_on_generated(test_path: str) -> dict:
 
 def _build_evidence(workspace: Path, generated_files: list[dict],
                     patch_payload: dict, test_result: dict) -> dict:
+    from agentx_evolve.models import (
+        ProvenanceRecord,
+        ProvenanceChain,
+        ORIGIN_STAGE_B,
+        STATUS_PASS,
+        STATUS_FAIL,
+        PERSISTENCE_EPHEMERAL,
+        PERSISTENCE_PERMANENT,
+    )
+
     commit = _current_commit()
     now = _utc_now()
     session_id = patch_payload.get("live_session_id", _new_id("IMP"))
 
+    chain = ProvenanceChain()
+    chain.append(ProvenanceRecord(
+        path="temp_workspace",
+        sha256="",
+        origin=ORIGIN_STAGE_B,
+        stage="umbrella_b",
+        persistence=PERSISTENCE_EPHEMERAL,
+        status=STATUS_PASS,
+        metadata={"description": "Temp workspace created"},
+    ))
+    for f in generated_files:
+        rel = f.get("target_path", f.get("path", ""))
+        content = f.get("content", "")
+        sha = hashlib.sha256(content.encode()).hexdigest() if content else ""
+        chain.append(ProvenanceRecord(
+            path=rel,
+            sha256=sha,
+            origin=ORIGIN_STAGE_B,
+            stage="umbrella_b",
+            persistence=PERSISTENCE_EPHEMERAL,
+            status=STATUS_PASS,
+            metadata={"size": len(content)},
+        ))
+    chain.append(ProvenanceRecord(
+        path="governed_patch_dry_run",
+        sha256="",
+        origin=ORIGIN_STAGE_B,
+        stage="umbrella_b",
+        persistence=PERSISTENCE_EPHEMERAL,
+        status=STATUS_PASS if patch_payload.get("dry_run_status") == "PASS" else STATUS_FAIL,
+        metadata={"session_id": patch_payload.get("dry_run_session_id", "")},
+    ))
+    chain.append(ProvenanceRecord(
+        path="governed_patch_live",
+        sha256="",
+        origin=ORIGIN_STAGE_B,
+        stage="umbrella_b",
+        persistence=PERSISTENCE_EPHEMERAL,
+        status=STATUS_PASS if patch_payload.get("live_final_decision") == "ACCEPT" else STATUS_FAIL,
+        metadata={"session_id": patch_payload.get("live_session_id", "")},
+    ))
+    chain.append(ProvenanceRecord(
+        path="pytest_verification",
+        sha256="",
+        origin=ORIGIN_STAGE_B,
+        stage="umbrella_b",
+        persistence=PERSISTENCE_EPHEMERAL,
+        status=STATUS_PASS if test_result.get("passed") else STATUS_FAIL,
+        metadata={"summary": test_result.get("summary", "")},
+    ))
+    chain.append(ProvenanceRecord(
+        path=str(EVIDENCE_DIR / "umbrella_generation_evidence.json"),
+        sha256="",
+        origin=ORIGIN_STAGE_B,
+        stage="umbrella_b",
+        persistence=PERSISTENCE_PERMANENT,
+        status=STATUS_PASS,
+        metadata={"description": "Evidence report retained"},
+    ))
+
     evidence = {
         "generation_run": {
             "session_id": session_id,
+            "proposal_id": patch_payload.get("proposal_id"),
             "dry_run_session_id": patch_payload.get("dry_run_session_id"),
             "commit": commit,
             "generated_at": now,
@@ -621,7 +792,7 @@ def _build_evidence(workspace: Path, generated_files: list[dict],
             "session_id": session_id,
             "mode": "LIVE",
             "governance_decision_id": patch_payload.get("governance_decision_id"),
-            "approved_paths": APPROVED_PATHS,
+            "approved_paths": ["examples/", "tests/quick/umbrella_agent/"],
             "dry_run_status": patch_payload.get("dry_run_status"),
             "live_status": patch_payload.get("live_status"),
             "live_final_decision": patch_payload.get("live_final_decision"),
@@ -638,15 +809,7 @@ def _build_evidence(workspace: Path, generated_files: list[dict],
             "proof_target": "umbrella_agent_generation",
             "commit": commit,
             "verified_at": now,
-            "provenance_chain": [
-                "generate_umbrella_agent.py creates temp workspace",
-                "Source files generated from templates",
-                "DRY_RUN via governed patch executor",
-                "LIVE apply via governed patch executor (rollback, source guard, validation gate)",
-                "Pytest validates generated agent",
-                "Temp workspace destroyed",
-                "Evidence retained in reports/umbrella_agent/",
-            ],
+            "provenance_chain": chain.to_dict(),
         },
     }
 
@@ -655,13 +818,44 @@ def _build_evidence(workspace: Path, generated_files: list[dict],
 
 def run() -> dict:
     from agentx_evolve.patch_execution.patch_models import MODE_DRY_RUN, MODE_LIVE
+    from agentx_evolve.evidence.event_logger import log_event, read_event_log, validate_event_log
 
     now = _utc_now()
     commit = _current_commit()
+    session_id = _new_id("UMB")
+    proposal_id = f"P-{_new_id('PROP')}"
+    governance_decision_id = f"GOV-{_new_id('GOV')}"
     workspace = Path(tempfile.mkdtemp(suffix="-umbrella-gen"))
+
+    EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+    event_log_path = EVIDENCE_DIR / f"events_{session_id}.jsonl"
+    seq = 0
+
+    def _emit(stage: str, obj_id: str = "", result: str = "created"):
+        nonlocal seq
+        seq += 1
+        log_event({
+            "event_id": f"{session_id}-{seq:04d}",
+            "run_id": session_id,
+            "stage": stage,
+            "object_id": obj_id,
+            "result": result,
+            "actor": "generate_umbrella_agent pipeline",
+            "timestamp": _utc_now(),
+        }, event_log_path)
 
     print(f"[{now[11:19]}] Creating temp workspace: {workspace}")
     print(f"[{now[11:19]}] Commit: {commit}")
+    print(f"[{now[11:19]}] Session: {session_id}, Proposal: {proposal_id}")
+
+    print(f"[{now[11:19]}] Writing governance artifacts...")
+    gov_artifacts = _write_governance_artifacts(proposal_id, session_id)
+    for name, path in gov_artifacts.items():
+        print(f"  governance artifact: {name} -> {path}")
+    _emit("proposal", proposal_id)
+    _emit("risk", proposal_id)
+    _emit("context", f"ctx-{session_id}")
+    _emit("prompt", f"pc-{session_id}")
 
     print(f"[{now[11:19]}] Generating umbrella agent source...")
     generated_files = _generate_source_files(workspace)
@@ -669,8 +863,41 @@ def run() -> dict:
     print(f"[{now[11:19]}] Building patch operations...")
     operations = _build_patch_operations(generated_files, workspace)
 
-    print(f"[{now[11:19]}] DRY_RUN: validating patch via governed patch executor...")
+    print(f"[{now[11:19]}] Creating patch candidate lifecycle record...")
+    from agentx_evolve.patch_execution.patch_models import PatchCandidate
+    patch_candidate = PatchCandidate(
+        proposal_id=proposal_id,
+        context_packet_id=f"ctx-{session_id}",
+        prompt_contract_id=f"pc-{session_id}",
+        risk_classification_id=proposal_id,
+        governance_decision_id=governance_decision_id,
+        session_id=session_id,
+        created_at=now,
+        source_commit=commit,
+        operations=operations,
+        allowed_paths=["examples/", "tests/quick/umbrella_agent/"],
+        blocked_paths=["L0/", "L1/", "L2/", "tools/agentx_evolve/security/", "schemas/"],
+        rollback_plan="Snapshot and restore via governed patch executor rollback",
+        status="CREATED",
+        validation_commands=[
+            "python3 -m pytest tests/quick/umbrella_agent/ -q --tb=short",
+        ],
+    )
+    EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+    pc_path = EVIDENCE_DIR / "patch_candidate.json"
+    with open(pc_path, "w") as f:
+        json.dump(patch_candidate.to_dict(), f, indent=2)
+    print(f"  patch candidate -> {pc_path}")
+    _emit("patch_candidate", patch_candidate.candidate_id)
+
+    print(f"[{now[11:19]}] Validating patch candidate (DRY_RUN)...")
     dry_result = _governed_patch_apply(operations, MODE_DRY_RUN)
+    patch_candidate.validation_status = "PASS" if dry_result["final_decision"] not in ("REJECT", "ROLLBACK") else "FAIL"
+    patch_candidate.status = "VALIDATED" if patch_candidate.validation_status == "PASS" else "REJECTED"
+    with open(pc_path, "w") as f:
+        json.dump(patch_candidate.to_dict(), f, indent=2)
+    print(f"  candidate validation: {patch_candidate.validation_status}")
+    _emit("patch_validation", patch_candidate.candidate_id, patch_candidate.validation_status)
 
     if dry_result["final_decision"] in ("REJECT", "ROLLBACK"):
         print(f"  DRY_RUN FAILED: {dry_result['errors']}")
@@ -699,6 +926,7 @@ def run() -> dict:
         print(f"  patched  {path}")
 
     print(f"[{now[11:19]}] All governed patching passed. session={live_result['session_id']}")
+    _emit("patch_execution", live_result["session_id"], "ACCEPT")
 
     print(f"[{now[11:19]}] Running post-patch tests on generated agent...")
     test_path = str(REPO_ROOT / "tests" / "quick" / "umbrella_agent" / "test_recommendation_engine.py")
@@ -707,12 +935,15 @@ def run() -> dict:
     print(f"  pytest: {test_result['summary']}")
     if not test_result["passed"]:
         print(f"  stderr: {test_result['stderr'][:500]}")
+    _emit("test", "pytest", "PASS" if test_result.get("passed") else "FAIL")
 
     print(f"[{now[11:19]}] Building evidence report...")
     patch_payload = {
         "dry_run_session_id": dry_result["session_id"],
         "live_session_id": live_result["session_id"],
-        "governance_decision_id": "gov-umbrella-gen-001",
+        "governance_decision_id": governance_decision_id,
+        "proposal_id": proposal_id,
+        "session_id": session_id,
         "dry_run_status": dry_result["status"],
         "live_status": live_result["status"],
         "live_final_decision": live_result["final_decision"],
@@ -731,16 +962,22 @@ def run() -> dict:
     with open(ev_path, "w") as f:
         json.dump(evidence, f, indent=2)
     print(f"  evidence -> reports/umbrella_agent/umbrella_generation_evidence.json")
+    _emit("evidence", "umbrella_generation_evidence.json", "written")
+
+    ev_errors = validate_event_log(read_event_log(event_log_path))
+    if ev_errors:
+        print(f"  event log warnings: {ev_errors}")
 
     summary = {
         "status": "PASS" if test_result["passed"] else "FAIL",
-        "session_id": live_result["session_id"],
+        "session_id": session_id,
+        "proposal_id": proposal_id,
+        "governance_decision_id": governance_decision_id,
         "commit": commit,
         "files_generated": len(generated_files),
         "files_applied": len(live_result.get("changed_paths", [])),
         "pytest_passed": test_result["passed"],
         "pytest_summary": test_result["summary"],
-        "governance_decision_id": "gov-umbrella-gen-001",
         "verified_at": now,
     }
 

@@ -21,6 +21,8 @@ class ApprovalRecord:
     decided_at: str = ""
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return to_dict(self)
@@ -42,6 +44,8 @@ class ReviewReport:
     rollback_available: bool = False
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return to_dict(self)

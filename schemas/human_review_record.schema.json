@@ -24,7 +24,8 @@
       "enum": [
         "APPROVED",
         "REJECTED",
-        "CHANGES_REQUESTED"
+        "CHANGES_REQUESTED",
+        "APPROVED_WITH_LIMITS"
       ]
     },
     "timestamp_utc": {
@@ -38,6 +39,24 @@
       "items": {
         "type": "string"
       }
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Constraints or restrictions attached to the review decision"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": { "type": "string" },
+          "status": { "type": "string", "enum": ["MET", "UNMET", "WAIVED"] }
+        }
+      },
+      "description": "Preconditions that must be satisfied for approval"
     }
   }
 }

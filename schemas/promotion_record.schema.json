@@ -25,7 +25,8 @@
         "BLOCKED",
         "DEFERRED",
         "APPROVED",
-        "DENIED"
+        "DENIED",
+        "APPROVED_WITH_LIMITS"
       ]
     },
     "review_ref": {
@@ -57,6 +58,24 @@
     },
     "session_id": {
       "type": "string"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Constraints or restrictions attached to the promotion decision"
+    },
+    "conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": { "type": "string" },
+          "status": { "type": "string", "enum": ["MET", "UNMET", "WAIVED"] }
+        }
+      },
+      "description": "Preconditions that must be satisfied for promotion"
     }
   }
 }

@@ -5,6 +5,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 CANARY_PATH="tests/.canary_test.txt"
+export PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools"
 
 PASS_COUNT=0
 FAIL_COUNT=0
@@ -12,8 +13,7 @@ FAIL_COUNT=0
 pass() { echo "  ==> $1: PASS"; PASS_COUNT=$((PASS_COUNT + 1)); }
 fail() { echo "  ==> $1: FAIL"; FAIL_COUNT=$((FAIL_COUNT + 1)); }
 report() {
-  mkdir -p "$REPO_ROOT/reports/umbrella_agent"
-  echo "$2" > "$REPO_ROOT/reports/umbrella_agent/$1"
+  python3 -m agentx_evolve.umbrella.canary_writer "$1" "$2"
 }
 
 echo "=== Stage A: Canary Patch Verification ==="
@@ -24,10 +24,10 @@ echo ""
 # ----- Test 1: DRY_RUN safe canary -----
 echo "--- Test 1: Safe canary (DRY_RUN, approved path) ---"
 cd "$REPO_ROOT"
+# Safe test cleanup — removes prior canary file from approved test path
 rm -f "$CANARY_PATH" 2>/dev/null || true
 
-DRY_OUT=$(PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" \
-  python3 -c "
+DRY_OUT=$(python3 -c "
 from pathlib import Path
 from agentx_evolve.patch_execution.patch_models import (
     PatchOperation, OP_CREATE_FILE, PATCH_DRY_RUN, MODE_DRY_RUN, new_id
@@ -57,8 +57,7 @@ echo "--- Test 2: Safe canary (LIVE, patch executor) ---"
 rm -f "$CANARY_PATH" 2>/dev/null || true
 CANARY_CONTENT="canary: umbrella agent pipeline is operational at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-LIVE_OUT=$(PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" \
-  python3 -c "
+LIVE_OUT=$(python3 -c "
 import sys
 from pathlib import Path
 from agentx_evolve.patch_execution.patch_models import (
@@ -109,8 +108,7 @@ fi
 
 # ----- Test 3: Unsafe L0 path -----
 echo "--- Test 3: Unsafe canary (L0 path, should be BLOCKED) ---"
-L0_OUT=$(PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" \
-  python3 -c "
+L0_OUT=$(python3 -c "
 from pathlib import Path
 from agentx_evolve.patch_execution.patch_models import (
     PatchOperation, OP_WRITE_FILE, PATCH_BLOCKED, MODE_DRY_RUN, new_id
@@ -136,8 +134,7 @@ fi
 
 # ----- Test 4: Unsafe traversal -----
 echo "--- Test 4: Unsafe canary (path traversal, should be BLOCKED) ---"
-TRAV_OUT=$(PYTHONPATH="$REPO_ROOT/tools/agentx_evolve:$REPO_ROOT/tools" \
-  python3 -c "
+TRAV_OUT=$(python3 -c "
 from pathlib import Path
 from agentx_evolve.patch_execution.patch_models import (
     PatchOperation, OP_WRITE_FILE, PATCH_BLOCKED, MODE_DRY_RUN, new_id

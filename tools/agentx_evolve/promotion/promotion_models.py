@@ -447,6 +447,8 @@ class PromotionGateDecision:
     completion_record_sha256: str | None = None
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
 
 @dataclass
@@ -509,6 +511,8 @@ class PromotionReviewReport:
     final_verdict: str = "NOT_DONE"
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
 
 @dataclass
@@ -546,3 +550,5 @@ class PromotionCompletionRecord:
     final_decision: str = "DONE"
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)

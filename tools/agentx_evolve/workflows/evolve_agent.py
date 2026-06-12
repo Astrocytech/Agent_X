@@ -24,11 +24,6 @@ from agentx_evolve.providers.api_provider import APIProviderError
 _PROVIDER_ERRORS = (OpenCodeProviderError, APIProviderError)
 
 
-CONTROLLER_PROTECTED = {
-    ".git", ".agentx-init", "tools/agentx_evolve",
-}
-
-
 class EvolveAgentWorkflow:
     def __init__(self, config: Any):
         self.config = config
@@ -137,6 +132,7 @@ class EvolveAgentWorkflow:
             return self._fail(session, writer, run_dir, str(e), EXIT_FAIL)
 
         self._enforce_target_boundary(plan, agent_path)
+        self._check_protected_paths(plan, agent_path)
         writer.write_structured_plan(plan)
 
         patch_content = ""
@@ -407,6 +403,31 @@ class EvolveAgentWorkflow:
             if not str(resolved).startswith(agent_str):
                 raise PlanParseError(
                     f"target '{target}' escapes agent directory '{agent_path}'",
+                    reason="BLOCKED",
+                )
+
+    @staticmethod
+    def _check_protected_paths(plan: dict[str, Any], agent_path: Path) -> None:
+        from agentx_evolve.security.path_boundary_service import (
+            policy_for_phase, PHASE_POST_UMBRELLA_STAGE_B,
+        )
+        from agentx_evolve.security.sandbox_policy import is_protected_path
+
+        repo_root = agent_path.parents[3] if agent_path.parents else Path.cwd()
+        policy = policy_for_phase(PHASE_POST_UMBRELLA_STAGE_B, repo_root)
+
+        for action in plan.get("actions", []):
+            target = action.get("target", "")
+            if not target:
+                continue
+            resolved = (agent_path / target).resolve()
+            try:
+                repo_rel = str(resolved.relative_to(repo_root.resolve()))
+            except ValueError:
+                continue
+            if is_protected_path(repo_rel, policy):
+                raise PlanParseError(
+                    f"target '{target}' resolves to protected path '{repo_rel}'",
                     reason="BLOCKED",
                 )
 

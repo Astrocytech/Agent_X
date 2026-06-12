@@ -322,6 +322,8 @@ class PromotionGateRecord:
     evidence_refs: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    limits: list[str] = field(default_factory=list)
+    conditions: list[dict[str, str]] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return to_dict(self)
