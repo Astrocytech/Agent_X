@@ -160,7 +160,7 @@ def cmd_init(argv: list) -> int:
 
 def cmd_candidates(argv: list) -> int:
     """agentx-evolve inverse candidates --plan-id <id> [--json]
-       [--create --name <id> --change <desc> --rationale <text> --score-components <json>]"""
+       [--create --name <id> --change <desc> --patch-content <diff> --target <path> --rationale <text> --score-components <json>]"""
     plan_id = None
     json_output = False
     create_mode = False
@@ -168,6 +168,8 @@ def cmd_candidates(argv: list) -> int:
     cand_change = None
     cand_rationale = None
     cand_components = None
+    cand_patch = None
+    cand_target = None
     i = 0
     while i < len(argv):
         if argv[i] == "--plan-id" and i + 1 < len(argv):
@@ -184,6 +186,12 @@ def cmd_candidates(argv: list) -> int:
             i += 2
         elif argv[i] == "--change" and i + 1 < len(argv):
             cand_change = argv[i + 1]
+            i += 2
+        elif argv[i] == "--patch-content" and i + 1 < len(argv):
+            cand_patch = argv[i + 1]
+            i += 2
+        elif argv[i] == "--target" and i + 1 < len(argv):
+            cand_target = argv[i + 1]
             i += 2
         elif argv[i] == "--rationale" and i + 1 < len(argv):
             cand_rationale = argv[i + 1]
@@ -235,7 +243,8 @@ def cmd_candidates(argv: list) -> int:
             "schema_version": "1.0.0",
             "candidate_type": "patch",
             "proposed_change": cand_change,
-            "primary_variable_changed": "",
+            "patch_content": cand_patch or "",
+            "primary_variable_changed": cand_target or "",
             "rationale": cand_rationale or "",
             "score_components": components,
             "acquisition_score": 0,
@@ -577,6 +586,62 @@ def cmd_govern(argv: list) -> int:
 
     if decision in ("allow", "allow_with_limits"):
         _log_event(plan_dir, "probe_started", {"candidate_id": candidate_id, "governance_id": gov_id})
+        # Wire the governed patch executor: execute the candidate's proposed change
+        # through the governed pipeline (dry-run by default, safe with no file writes)
+        try:
+            from agentx_evolve.patch_execution.patch_execution_service import execute_governed_patch
+            from agentx_evolve.patch_execution.patch_models import (
+                PatchOperation, MODE_DRY_RUN, MODE_LIVE,
+            )
+            from agentx_evolve.patch_execution.initiator_patch_compat import InitiatorPatchCompat
+
+            patch_content = candidate.get("patch_content", "")
+            patch_ops: list[PatchOperation] = []
+            if patch_content:
+                # Build fine-grained operations from patch_content diff when available
+                patch_ops.append(PatchOperation(
+                    operation_id=f"invops-{gov_id[:8].lower()}",
+                    operation_type="write_file",
+                    target_path=candidate.get("primary_variable_changed", ""),
+                    content=patch_content,
+                    approved=True,
+                ))
+            else:
+                # Build a single description-only operation from the proposed change text
+                patch_ops.append(PatchOperation(
+                    operation_id=f"invops-{gov_id[:8].lower()}",
+                    operation_type="exact_edit",
+                    target_path=candidate.get("primary_variable_changed", "") or "unknown",
+                    old_text=None,
+                    new_text=candidate.get("proposed_change", ""),
+                    approved=True,
+                ))
+
+            compat = InitiatorPatchCompat(repo_root=Path.cwd())
+            is_dry_run = not allow_with_limits
+            mode = MODE_DRY_RUN if is_dry_run else MODE_LIVE
+            inv_session = execute_governed_patch(
+                repo_root=Path.cwd(),
+                operations=patch_ops,
+                approved_paths=["examples/"],
+                proposal_id=candidate.get("plan_id", plan_id),
+                governance_decision_id=gov_id,
+                mode=mode,
+                compat=compat,
+            )
+            # Update governance record with real patch execution session data
+            gov_record["patch_session_id"] = inv_session.session_id
+            gov_record["patch_mode"] = mode
+            gov_record["patch_result"] = inv_session.to_dict() if hasattr(inv_session, "to_dict") else str(inv_session)
+            _write_json(gov_dir / f"{gov_id}.json", gov_record)
+            _log_event(plan_dir, "patch_executed",
+                       {"candidate_id": candidate_id, "session_id": inv_session.session_id, "mode": mode})
+        except ImportError:
+            _log_event(plan_dir, "patch_execution_skipped",
+                       {"candidate_id": candidate_id, "reason": "patch_execution_service not available"})
+        except Exception as exc:
+            _log_event(plan_dir, "patch_execution_failed",
+                       {"candidate_id": candidate_id, "error": str(exc)})
 
     print(f"Governance decision: {decision}")
     return 0
