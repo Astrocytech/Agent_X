@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AdapterRecord",
+  "description": "Schema for adapter registry records",
+  "type": "object",
+  "required": ["adapter_id", "adapter_type", "provider"],
+  "properties": {
+    "adapter_id": {"type": "string"},
+    "adapter_type": {"type": "string", "enum": ["model", "tool", "mcp"]},
+    "provider": {"type": "string"},
+    "capabilities": {"type": "array", "items": {"type": "string"}},
+    "live_required": {"type": "boolean"},
+    "allowed_profiles": {"type": "array", "items": {"type": "string"}},
+    "schemas": {"type": "array", "items": {"type": "string"}},
+    "status": {"type": "string", "enum": ["enabled", "disabled"]},
+    "version": {"type": "string"}
+  },
+  "additionalProperties": false
+}

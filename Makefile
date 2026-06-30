@@ -13,6 +13,7 @@ PIP_INSTALL ?= pip3 install --break-system-packages
 .PHONY: prove-umbrella-agent prove-post-umbrella prove-inverse-science
 .PHONY: prove-scriptor-benchmark generate-final-artifacts
 .PHONY: prove-functional-runtime-mvp prove-functional-runtime-mvp-idempotent
+.PHONY: prove-agentx-adapter-mvp-once prove-agentx-adapter-mvp
 .PHONY: final-acceptance validate-final-acceptance run clean build-seed
 
 help:
@@ -403,6 +404,69 @@ prove-functional-runtime-mvp-expanded-coverage:
 
 prove-functional-runtime-mvp-idempotent: prove-functional-runtime-mvp
 	@echo "=== prove-functional-runtime-mvp-idempotent: OK ==="
+
+ADAPTER_MVP_PYTHONPATH = tools
+ADAPTER_MVP_TESTS = \
+  tools/agentx_evolve/tests/test_model_adapter_interface.py \
+  tools/agentx_evolve/tests/test_deterministic_mock_model_adapter.py \
+  tools/agentx_evolve/tests/test_prompt_contract.py \
+  tools/agentx_evolve/tests/test_context_builder_structural_factual_split.py \
+  tools/agentx_evolve/tests/test_evidence_bridge.py \
+  tools/agentx_evolve/tests/test_adapter_registry.py \
+  tools/agentx_evolve/tests/test_tool_adapter_interface.py \
+  tools/agentx_evolve/tests/test_local_tool_adapter.py \
+  tools/agentx_evolve/tests/test_mcp_shell.py \
+  tools/agentx_evolve/tests/test_replay_policy.py \
+  tools/agentx_evolve/tests/test_failure_taxonomy.py \
+  tools/agentx_evolve/tests/test_conformance.py \
+  tools/agentx_evolve/tests/test_agentx_adapter_mvp_mock_flow.py \
+  tools/agentx_evolve/tests/test_read_only_repo_info_tool.py
+
+ADAPTER_REC = PYTHONPATH="$(ADAPTER_MVP_PYTHONPATH)" $(PYTHON) tools/agentx_evolve/acceptance/adapter_record_command.py --
+
+prove-agentx-adapter-mvp-once:
+	# ============================================================
+	# AGENTX ADAPTER MVP — offline deterministic proof (single run)
+	# ============================================================
+	rm -rf .agentx-init/reports/adapter-mvp/
+	mkdir -p .agentx-init/reports/adapter-mvp/
+	# 1. Compileall check (item 10: compileall)
+	$(ADAPTER_REC) $(PYTHON) -m compileall -q tools/agentx_evolve tests
+	# 2. Generate acceptance matrix
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/generate_adapter_acceptance_matrix.py
+	# 3. Anti-false-PASS audit and validation
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/run_adapter_anti_false_pass_audit.py
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/validate_agentx_adapter_anti_false_pass.py
+	# 4. Run all adapter MVP tests
+	$(ADAPTER_REC) $(PYTHON) -m pytest $(ADAPTER_MVP_TESTS) -q --tb=short -p no:cacheprovider
+	# 5. Validate adapter replay (deterministic mock)
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/validate_agentx_adapter_replay.py
+	# 6. Run acceptance matrix validators (shell=True replaced with explicit subprocess)
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/validate_agentx_adapter_acceptance_matrix.py
+	# 7. Generate evidence manifest (before final verdict so transcript includes it)
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/acceptance/generate_adapter_evidence_manifest.py
+	# 8. Generate final verdict (candidate mode excludes self-referential validators)
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/generate_adapter_final_verdict.py --candidate
+	# 9. Validate final verdict (gates the build)
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/validate_agentx_adapter_final_verdict.py
+	# 10. Record FRMVP non-regression status
+	$(ADAPTER_REC) $(PYTHON) -c "import json, sys; from pathlib import Path; p = Path('.agentx-init/reports/functional_runtime_mvp_final_verdict.json'); print(f'FRMVP verdict exists: {p.exists()}'); sys.exit(0)"
+	@echo "=== prove-agentx-adapter-mvp-once: OK ==="
+
+prove-agentx-adapter-mvp:
+	# ============================================================
+	# AGENTX ADAPTER MVP — dual-run idempotent proof
+	# ============================================================
+	rm -rf /tmp/agentx-adapter-idempotency
+	mkdir -p /tmp/agentx-adapter-idempotency/run1 /tmp/agentx-adapter-idempotency/run2
+	$(MAKE) prove-agentx-adapter-mvp-once
+	cp -R .agentx-init/reports/adapter-mvp/. /tmp/agentx-adapter-idempotency/run1/
+	$(MAKE) prove-agentx-adapter-mvp-once
+	cp -R .agentx-init/reports/adapter-mvp/. /tmp/agentx-adapter-idempotency/run2/
+	$(ADAPTER_REC) $(PYTHON) tools/agentx_evolve/acceptance/generate_adapter_idempotency_report.py \
+	  --run1 /tmp/agentx-adapter-idempotency/run1 \
+	  --run2 /tmp/agentx-adapter-idempotency/run2
+	@echo "=== prove-agentx-adapter-mvp: OK ==="
 
 # target_id: P3-A01
 verify-existing-proof:

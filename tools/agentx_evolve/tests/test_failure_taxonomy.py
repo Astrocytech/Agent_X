@@ -1,91 +1,71 @@
+from __future__ import annotations
+
 import pytest
-
-from agentx_evolve.recovery.failure_taxonomy import (
-    REQUIRED_FAILURE_CLASSES,
-    DEFAULT_SEVERITY_BY_FAILURE_CLASS,
-    is_known_failure_class,
-    normalize_failure_class,
-    get_failure_severity,
-    classify_failure,
-    CRITICAL_CLASSES,
+from agentx_evolve.adapters.adapter_failures import (
+    FailureClass,
+    failure_outcome,
+    ADAPTER_FAILURE_CLASSES,
+    OUTCOME_BLOCKED,
+    OUTCOME_RETRYABLE,
+    OUTCOME_DENIED,
+    OUTCOME_ESCALATE,
 )
-from agentx_evolve.recovery.failure_models import SEVERITY_CRITICAL, SEVERITY_HIGH
 
 
-def test_failure_taxonomy_contains_required_classes():
-    required = {
-        "MODEL_INVALID_OUTPUT", "MODEL_INSUFFICIENT_CONTEXT",
-        "PATCH_APPLY_FAILED", "VALIDATION_FAILED", "GOVERNANCE_BLOCKED",
-        "RISK_TOO_HIGH", "SOURCE_GUARD_FAILED", "ROLLBACK_FAILED",
-        "SCHEMA_VALIDATION_FAILED", "TOOL_FAILURE", "LOCK_CONFLICT",
-        "ATOMIC_WRITE_FAILED", "PROMPT_CONTRACT_FAILED", "POLICY_DENIED",
-        "UNKNOWN_FAILURE",
-    }
-    assert required.issubset(REQUIRED_FAILURE_CLASSES)
+class TestFailureTaxonomy:
+    def test_timeout_maps_to_retryable(self):
+        fc = FailureClass("model_timeout", "timed out")
+        assert fc.outcome == OUTCOME_RETRYABLE
 
+    def test_refusal_maps_to_blocked(self):
+        fc = FailureClass("model_refusal", "refused")
+        assert fc.outcome == OUTCOME_BLOCKED
 
-def test_unknown_failure_maps_to_unknown_failure():
-    result = classify_failure({})
-    assert result.failure_class == "UNKNOWN_FAILURE"
+    def test_schema_error_maps_to_denied(self):
+        fc = FailureClass("model_schema_error", "bad schema")
+        assert fc.outcome == OUTCOME_DENIED
 
+    def test_tool_denied_maps_to_denied(self):
+        assert failure_outcome("tool_denied") == OUTCOME_DENIED
 
-def test_unknown_failure_requires_human_review():
-    result = classify_failure({"failure_class": "UNKNOWN_FAILURE"})
-    assert result.requires_human_review is True
-    assert result.requires_recovery is True
+    def test_execution_error_maps_to_blocked(self):
+        assert failure_outcome("tool_execution_error") == OUTCOME_BLOCKED
 
+    def test_evidence_error_maps_to_blocked(self):
+        assert failure_outcome("evidence_normalization_error") == OUTCOME_BLOCKED
 
-def test_l0_write_blocked_is_critical():
-    sev = get_failure_severity("L0_WRITE_BLOCKED")
-    assert sev == SEVERITY_CRITICAL
+    def test_adapter_not_registered_maps_to_denied(self):
+        assert failure_outcome("adapter_not_registered") == OUTCOME_DENIED
 
+    def test_context_contamination_maps_to_escalate(self):
+        assert failure_outcome("context_contamination") == OUTCOME_ESCALATE
 
-def test_path_traversal_is_critical():
-    sev = get_failure_severity("PATH_TRAVERSAL")
-    assert sev == SEVERITY_CRITICAL
+    def test_prompt_injection_maps_to_escalate(self):
+        assert failure_outcome("prompt_injection_detected") == OUTCOME_ESCALATE
 
+    def test_capability_mismatch_maps_to_denied(self):
+        assert failure_outcome("capability_mismatch") == OUTCOME_DENIED
 
-def test_model_invalid_output_is_low_or_medium():
-    sev = get_failure_severity("MODEL_INVALID_OUTPUT")
-    assert sev in ("LOW", "MEDIUM")
+    def test_budget_exceeded_maps_to_denied(self):
+        assert failure_outcome("budget_exceeded") == OUTCOME_DENIED
 
+    def test_all_failure_classes_have_outcome(self):
+        for fc in ADAPTER_FAILURE_CLASSES:
+            outcome = failure_outcome(fc)
+            assert outcome in (OUTCOME_BLOCKED, OUTCOME_RETRYABLE, OUTCOME_DENIED, OUTCOME_ESCALATE)
 
-def test_required_failure_classes_have_severity():
-    for fc in REQUIRED_FAILURE_CLASSES:
-        assert fc in DEFAULT_SEVERITY_BY_FAILURE_CLASS, f"{fc} missing severity"
-        sev = DEFAULT_SEVERITY_BY_FAILURE_CLASS[fc]
-        assert sev in ("LOW", "MEDIUM", "HIGH", "CRITICAL")
+    def test_failure_class_to_dict(self):
+        fc = FailureClass("model_timeout", "too slow")
+        d = fc.to_dict()
+        assert d["failure_class"] == "model_timeout"
+        assert d["reason"] == "too slow"
+        assert d["outcome"] == OUTCOME_RETRYABLE
 
+    def test_unknown_failure_class_raises(self):
+        with pytest.raises(ValueError):
+            FailureClass("nonexistent")
 
-def test_is_known_failure_class():
-    assert is_known_failure_class("MODEL_INVALID_OUTPUT") is True
-    assert is_known_failure_class("UNKNOWN_FAILURE") is True
-    assert is_known_failure_class("BOGUS") is False
-
-
-def test_normalize_failure_class():
-    assert normalize_failure_class(None) == "UNKNOWN_FAILURE"
-    assert normalize_failure_class("") == "UNKNOWN_FAILURE"
-    assert normalize_failure_class("unknown_failure") == "UNKNOWN_FAILURE"
-    assert normalize_failure_class("PATH_TRAVERSAL") == "PATH_TRAVERSAL"
-
-
-def test_malformed_input_none():
-    result = classify_failure(None)
-    assert result.failure_class == "UNKNOWN_FAILURE"
-
-
-def test_malformed_input_not_dict():
-    result = classify_failure("not a dict")
-    assert result.failure_class == "UNKNOWN_FAILURE"
-
-
-def test_critical_failure_sets_safe_mode():
-    result = classify_failure({"failure_class": "ROLLBACK_FAILED"})
-    assert result.requires_safe_mode is True
-    assert result.severity == SEVERITY_CRITICAL
-
-
-def test_unknown_failure_with_mutation_unknown_is_critical():
-    result = classify_failure({"failure_class": "UNKNOWN_FAILURE", "context": {"mutation_state_unknown": True}})
-    assert result.severity == SEVERITY_CRITICAL
+    def test_no_orphan_outcomes(self):
+        known = {OUTCOME_BLOCKED, OUTCOME_RETRYABLE, OUTCOME_DENIED, OUTCOME_ESCALATE}
+        for fc in ADAPTER_FAILURE_CLASSES:
+            assert failure_outcome(fc) in known

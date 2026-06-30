@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContextPacket",
+  "description": "Schema for adapter context packets",
+  "type": "object",
+  "required": ["schema_version", "structural"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "structural": {"type": "object"},
+    "factual": {"type": "array", "items": {"type": "object"}},
+    "packet_hash": {"type": "string"}
+  },
+  "additionalProperties": false
+}

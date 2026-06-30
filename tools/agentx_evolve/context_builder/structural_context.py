@@ -1,0 +1,5 @@
+from __future__ import annotations
+
+from agentx_evolve.context_builder.context_packet import StructuralContext as StructuralContext
+from agentx_evolve.context_builder.context_packet import FactualItem as FactualItem
+from agentx_evolve.context_builder.context_packet import ContextPacket as ContextPacket

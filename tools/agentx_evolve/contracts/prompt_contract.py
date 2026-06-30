@@ -1,80 +1,41 @@
-"""Prompt-contract versioning and output validation.
-
-Item 34 (28.1/28.2/28.3): Prompt templates with versioned contract,
-expected output schema, and output validation.
-"""
-
 from __future__ import annotations
 
-import json
-import re
-from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Callable
+from dataclasses import dataclass, field
+from typing import Any
 
 
 @dataclass
 class PromptContract:
     contract_id: str
     version: str = "1.0.0"
-    description: str = ""
-    prompt_template: str = ""
-    input_schema: dict | None = None
-    output_schema: dict | None = None
-    expected_output_keys: list[str] = field(default_factory=list)
-    output_validator: str = ""  # JSON path or regex
-    examples: list[dict] = field(default_factory=list)
+    purpose: str = ""
+    allowed_goal_types: list[str] = field(default_factory=list)
+    required_context_fields: list[str] = field(default_factory=list)
+    forbidden_context_fields: list[str] = field(default_factory=list)
+    allowed_output_schema: dict[str, Any] = field(default_factory=dict)
+    forbidden_claims: list[str] = field(default_factory=list)
+    allowed_action_proposals: list[str] = field(default_factory=list)
+    allowed_tool_proposals: list[str] = field(default_factory=list)
+    refusal_format: str = ""
+    blocked_format: str = ""
+    evidence_requirements: list[str] = field(default_factory=list)
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "contract_id": self.contract_id,
+            "version": self.version,
+            "purpose": self.purpose,
+            "allowed_goal_types": self.allowed_goal_types,
+            "required_context_fields": self.required_context_fields,
+            "forbidden_context_fields": self.forbidden_context_fields,
+            "allowed_output_schema": self.allowed_output_schema,
+            "forbidden_claims": self.forbidden_claims,
+            "allowed_action_proposals": self.allowed_action_proposals,
+            "allowed_tool_proposals": self.allowed_tool_proposals,
+            "refusal_format": self.refusal_format,
+            "blocked_format": self.blocked_format,
+            "evidence_requirements": self.evidence_requirements,
+        }
 
-def check_output_keys(contract: PromptContract, output: dict) -> list[str]:
-    missing = [k for k in contract.expected_output_keys if k not in output]
-    return missing
-
-
-def validate_json_output(contract: PromptContract, output: str) -> dict:
-    errors = []
-    try:
-        parsed = json.loads(output)
-    except json.JSONDecodeError as e:
-        return {"valid": False, "errors": [f"Invalid JSON: {e}"]}
-
-    if not isinstance(parsed, dict):
-        return {"valid": False, "errors": ["Output must be a JSON object"]}
-
-    missing = check_output_keys(contract, parsed)
-    if missing:
-        errors.append(f"Missing keys: {missing}")
-
-    if contract.output_schema:
-        for key, expected_type in contract.output_schema.items():
-            if key in parsed:
-                if not isinstance(parsed[key], eval(expected_type)):
-                    errors.append(f"Key '{key}' expected {expected_type}, got {type(parsed[key]).__name__}")
-
-    return {
-        "valid": len(errors) == 0,
-        "errors": errors,
-        "parsed": parsed,
-    }
-
-
-CONTRACTS: dict[str, PromptContract] = {}
-
-
-def register_contract(contract: PromptContract) -> None:
-    CONTRACTS[contract.contract_id] = contract
-
-
-def get_contract(contract_id: str) -> PromptContract | None:
-    return CONTRACTS.get(contract_id)
-
-
-umbrella_contract = PromptContract(
-    contract_id="umbrella-recommendation",
-    version="1.0.0",
-    description="Umbrella recommendation given weather data",
-    expected_output_keys=["recommendation", "reason", "confidence"],
-    output_schema={"recommendation": "str", "reason": "str", "confidence": "float"},
-)
-register_contract(umbrella_contract)
+    def matches_goal_type(self, goal_type: str) -> bool:
+        return not self.allowed_goal_types or goal_type in self.allowed_goal_types

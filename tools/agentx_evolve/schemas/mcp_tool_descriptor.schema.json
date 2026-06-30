@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MCPToolDescriptor",
+  "description": "Schema for MCP tool descriptors",
+  "type": "object",
+  "required": ["tool_name", "server_id", "transport"],
+  "properties": {
+    "tool_name": {"type": "string"},
+    "server_id": {"type": "string"},
+    "transport": {"type": "string", "enum": ["local_mock_transport"]},
+    "auth_mode": {"type": "string"},
+    "capabilities": {"type": "array", "items": {"type": "string"}},
+    "input_schema": {"type": "object"},
+    "output_schema": {"type": "object"},
+    "side_effects": {"type": "array", "items": {"type": "string"}},
+    "live_required": {"type": "boolean"},
+    "replay_mode": {"type": "string"},
+    "allowed_profiles": {"type": "array", "items": {"type": "string"}},
+    "schema_version": {"type": "string"}
+  },
+  "additionalProperties": false
+}

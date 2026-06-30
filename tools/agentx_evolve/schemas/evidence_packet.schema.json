@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidencePacket",
+  "description": "Schema for evidence packets produced by EvidenceBridge",
+  "type": "object",
+  "required": ["source_type", "source_adapter", "payload_hash", "trust_level"],
+  "properties": {
+    "evidence_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "source_type": {"type": "string"},
+    "source_adapter": {"type": "string"},
+    "producer_id": {"type": "string"},
+    "schema_version": {"type": "string"},
+    "payload_hash": {"type": "string"},
+    "trust_level": {"type": "string"},
+    "created_at": {"type": "string"},
+    "replay_status": {"type": "string"},
+    "provenance": {"type": "object"}
+  },
+  "additionalProperties": false
+}
