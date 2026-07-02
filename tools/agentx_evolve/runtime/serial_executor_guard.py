@@ -57,6 +57,14 @@ def acquire_lock(
                 return lock
             existing = json.loads(lock_file.read_text(encoding="utf-8"))
             lock["lock_held_by"] = existing.get("run_id", "unknown")
+            # Stale lock detection: if the owning PID is no longer alive, reclaim
+            owner_pid = existing.get("pid")
+            if owner_pid is not None:
+                try:
+                    os.kill(owner_pid, 0)
+                except (OSError, ProcessLookupError):
+                    lock_file.unlink(missing_ok=True)
+                    continue
         except (OSError, json.JSONDecodeError):
             time.sleep(0.1)
             continue

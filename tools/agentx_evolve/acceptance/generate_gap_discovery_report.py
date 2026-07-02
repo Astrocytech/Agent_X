@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -62,6 +63,19 @@ SEARCH_PATTERNS = [
 
 IGNORE_DIRS = {"__pycache__", ".git", ".agentx-init", "node_modules", ".pytest_cache"}
 
+# Patterns for mock/fake credentials in test fixtures that must not appear
+# in evidence artifacts. These match obviously fake API keys, tokens, and
+# secrets used in test code — not real credentials.
+MOCK_SECRET_PATTERNS: list[re.Pattern] = [
+    re.compile(r"(?i)\bsk-(?:abc|test|mock|fake)[A-Za-z0-9_-]{10,}"),
+]
+
+
+def _redact_mock_secrets(text: str) -> str:
+    for pat in MOCK_SECRET_PATTERNS:
+        text = pat.sub("***REDACTED***", text)
+    return text
+
 
 def _should_skip(path: Path) -> bool:
     return any(part.startswith(".") or part in IGNORE_DIRS for part in path.parts)
@@ -112,7 +126,7 @@ def scan_files() -> dict[str, list[dict]]:
                         match_entry = {
                             "file": rel,
                             "line": line_no,
-                            "context": line.strip()[:150],
+                            "context": _redact_mock_secrets(line.strip()[:150]),
                         }
                         if pattern not in matches:
                             matches[pattern] = []

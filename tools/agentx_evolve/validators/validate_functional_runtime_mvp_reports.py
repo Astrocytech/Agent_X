@@ -172,11 +172,17 @@ def validate_reports() -> list[str]:
         js_data = load_json(str(jf))
         if not isinstance(js_data, dict):
             continue
-        js_verdict = str(js_data.get("verdict", js_data.get("status", "")))
-        if js_verdict.upper() == "PASS" and "FAIL" in md_text.upper():
-            errors.append(f"Markdown {mf.name} says FAIL but JSON says PASS")
-        if "PASS" in md_text.upper() and js_verdict.upper() == "FAIL":
-            errors.append(f"Markdown {mf.name} says PASS but JSON says FAIL")
+        js_verdict = str(js_data.get("verdict", js_data.get("status", ""))).upper()
+        md_verdict_match = None
+        for line in md_text.splitlines():
+            stripped = line.strip().upper()
+            if stripped.startswith("**VERDICT**") or stripped.startswith("**STATUS**") or stripped.startswith("# "):
+                if "FAIL" in stripped:
+                    md_verdict_match = "FAIL"
+                elif "PASS" in stripped:
+                    md_verdict_match = "PASS"
+        if md_verdict_match and js_verdict != md_verdict_match:
+            errors.append(f"Markdown {mf.name} says {md_verdict_match} but JSON says {js_verdict}")
 
     # --- Acceptance matrix validation ---
     matrix = load_json(str(REPORT_DIR / "functional_runtime_mvp_acceptance_matrix.json"))

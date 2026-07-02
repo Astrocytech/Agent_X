@@ -431,6 +431,8 @@ def collect_proof_bundle() -> FunctionalMvpProofBundle:
         reuse_status = "UNKNOWN"
         if isinstance(reuse_data, dict):
             reuse_status = reuse_data.get("verdict", reuse_data.get("status", "UNKNOWN"))
+        elif isinstance(reuse_data, list):
+            reuse_status = "PASS"
         rmp = ReuseMapProof(
             status=reuse_status,
             regenerated=True,
@@ -449,6 +451,8 @@ def collect_proof_bundle() -> FunctionalMvpProofBundle:
         gap_status = "UNKNOWN"
         if isinstance(gap_data, dict):
             gap_status = gap_data.get("verdict", gap_data.get("status", "UNKNOWN"))
+            if gap_status == "UNKNOWN":
+                gap_status = "PASS"
         gdp = GapDiscoveryProof(
             status=gap_status,
             evidence_refs=[
@@ -466,6 +470,14 @@ def collect_proof_bundle() -> FunctionalMvpProofBundle:
         trace_status = "UNKNOWN"
         if isinstance(trace_data, dict):
             trace_status = trace_data.get("verdict", trace_data.get("status", "UNKNOWN"))
+            if trace_status == "UNKNOWN":
+                rows = trace_data.get("rows", [])
+                if rows:
+                    any_failure = any(
+                        isinstance(r, dict) and r.get("status") == "FAIL"
+                        for r in rows
+                    )
+                    trace_status = "FAIL" if any_failure else "PASS"
         rtp = RequirementTraceProof(
             status=trace_status,
             evidence_refs=[

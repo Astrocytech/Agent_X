@@ -74,3 +74,48 @@ class TestMCPAdapter:
         d = self.desc.to_dict()
         assert d["tool_name"] == "test_tool"
         assert d["server_id"] == "test_server"
+
+    def test_real_transport_stdio_supported(self):
+        from agentx_evolve.adapters.mcp_contract import SUPPORTED_TRANSPORTS
+        assert "stdio" in SUPPORTED_TRANSPORTS
+
+    def test_real_transport_streamable_http_supported(self):
+        from agentx_evolve.adapters.mcp_contract import SUPPORTED_TRANSPORTS
+        assert "streamable_http" in SUPPORTED_TRANSPORTS
+
+    def test_real_transport_sse_supported(self):
+        from agentx_evolve.adapters.mcp_contract import SUPPORTED_TRANSPORTS
+        assert "sse" in SUPPORTED_TRANSPORTS
+
+    def test_real_transport_remote_http_supported(self):
+        from agentx_evolve.adapters.mcp_contract import SUPPORTED_TRANSPORTS
+        assert "remote_http" in SUPPORTED_TRANSPORTS
+
+    def test_transport_runner_mock_execute(self):
+        from agentx_evolve.adapters.mcp_adapter import MCPTransportRunner
+        runner = MCPTransportRunner()
+        result = runner.execute("test_tool", "test_server", "local_mock_transport", {"key": "val"})
+        assert result["status"] == "SUCCESS"
+        assert result["output"]["mock"] is True
+
+    def test_transport_runner_stdio_not_found(self):
+        from agentx_evolve.adapters.mcp_adapter import MCPTransportRunner
+        runner = MCPTransportRunner()
+        result = runner.execute("tool", "nonexistent_mcp_server_binary", "stdio", {})
+        assert result["status"] == "EXECUTION_ERROR"
+
+    def test_transport_runner_network_transports_blocked(self):
+        from agentx_evolve.adapters.mcp_adapter import MCPTransportRunner
+        runner = MCPTransportRunner()
+        for transport in ("streamable_http", "sse", "remote_http"):
+            result = runner.execute("tool", "server", transport, {})
+            assert result["status"] == "BLOCKED", f"{transport} should be BLOCKED"
+
+    def test_execute_tool_with_real_transport(self):
+        self.adapter.register_descriptor(self.desc)
+        result = self.adapter.execute_tool("test_tool", "test_server", "local_mock_transport", {"a": 1})
+        assert result["status"] == "SUCCESS"
+
+    def test_execute_tool_blocked_on_validation_failure(self):
+        result = self.adapter.execute_tool("nonexistent", "srv", "local_mock_transport", {})
+        assert result["status"] == "BLOCKED"

@@ -1,9 +1,0 @@
-{
-  "claim": "AGENTX_ADAPTER_MVP",
-  "verdict": "AGENTX_ADAPTER_MVP",
-  "passed": 19,
-  "total": 19,
-  "ratio": 1.0,
-  "threshold": 1.0,
-  "acceptance_matrix": "/home/glompy/Desktop/ASTROCYTECH/Agent_X/tools/agentx_evolve/tests/acceptance/adapter_acceptance_matrix.json"
-}

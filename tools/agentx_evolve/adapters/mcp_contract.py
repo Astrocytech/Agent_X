@@ -5,8 +5,17 @@ from typing import Any
 
 MCP_DESCRIPTOR_SCHEMA_VERSION = "adapter.mcp_descriptor.v1"
 
-SUPPORTED_TRANSPORTS = {"local_mock_transport"}
-SUPPORTED_AUTH_MODES = {"none", "local_mock"}
+SUPPORTED_TRANSPORTS = {
+    "local_mock_transport",
+    "stdio",
+    "streamable_http",
+    "sse",
+    "remote_http",
+}
+SUPPORTED_AUTH_MODES = {"none", "local_mock", "api_key", "oauth"}
+
+REAL_TRANSPORTS = {"stdio", "streamable_http", "sse", "remote_http"}
+TRANSPORT_REQUIRES_NETWORK = {"streamable_http", "sse", "remote_http"}
 
 
 @dataclass

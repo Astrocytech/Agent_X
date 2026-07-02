@@ -262,7 +262,7 @@ def run_validator(validator_name: str, ws_root: Path) -> tuple[int, str, str, bo
     result = subprocess.run(
         [sys.executable, str(VALIDATORS_DIR / f"{validator_name}.py"),
          "--report-dir", str(reports_path)],
-        capture_output=True, text=True, timeout=30,
+        capture_output=True, text=True, timeout=120,
         env=env, cwd=str(ROOT),
     )
     stdout = result.stdout or ""

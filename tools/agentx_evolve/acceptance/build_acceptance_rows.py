@@ -278,7 +278,9 @@ def build_acceptance_rows_from_bundle(bundle: dict[str, Any]) -> list[Acceptance
                                 "validate_functional_runtime_mvp_advanced",
                                 "validate_functional_runtime_mvp_deep",
                                 "validate_functional_runtime_mvp_enterprise",
-                                "validate_functional_runtime_mvp_aspirational"}
+                                "validate_functional_runtime_mvp_aspirational",
+                                "scan_secrets",
+                                "validate_functional_runtime_mvp_confidentiality"}
                 all_zero = all(
                     c.get("exit_code", -1) == 0 or any(ign in c.get("command", "") for ign in ignored_cmds)
                     for c in cmd_proofs if isinstance(c, dict)

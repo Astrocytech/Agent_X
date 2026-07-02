@@ -56,6 +56,14 @@ class MvpFunctionalOrchestrator:
     def bind(self, component: str, instance: Any) -> None:
         setattr(self, f"_{component}", instance)
 
+    def set_forbidden_actions(self, agent_id: str, actions: list[str]) -> None:
+        if not hasattr(self, "_forbidden_actions_map"):
+            self._forbidden_actions_map: dict[str, list[str]] = {}
+        self._forbidden_actions_map[agent_id] = list(actions)
+
+    def set_validator_files(self, files: list[str]) -> None:
+        self._validator_files = list(files)
+
     def _validate_action(self, ctx: dict, run_id: str, goal_id: str,
                          errors: list[str]) -> bool:
         agent_id = ctx.get("agent_id", "default_agent")
@@ -76,6 +84,12 @@ class MvpFunctionalOrchestrator:
                 errors.append(f"Capability denied: {reason}")
                 return False
 
+        forbidden_map = getattr(self, "_forbidden_actions_map", {})
+        forbidden = forbidden_map.get(agent_id, [])
+        if action_type in forbidden:
+            errors.append(f"Forbidden action: {action_type} is not allowed for agent {agent_id}")
+            return False
+
         if self._policy_engine:
             policy_ctx = {
                 "agent_id": agent_id,
@@ -85,6 +99,12 @@ class MvpFunctionalOrchestrator:
             decision, reason = self._policy_engine.evaluate("action", policy_ctx, run_id=run_id)
             if decision != "ALLOW":
                 errors.append(f"Policy denied: {reason}")
+                return False
+
+        if hasattr(self, "_validator_files"):
+            target = ctx.get("target", "")
+            if target in self._validator_files:
+                errors.append(f"Validator alteration blocked: cannot modify {target}")
                 return False
 
         return True

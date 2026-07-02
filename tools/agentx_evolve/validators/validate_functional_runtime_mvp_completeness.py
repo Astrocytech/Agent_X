@@ -70,6 +70,8 @@ def validate_completeness() -> list[str]:
         "validate_l0_protection.py",
         "validate_functional_runtime_mvp_completeness.py",
         "generate_gap_discovery_report.py",
+        "run_gap_discovery.py",
+        "generate_functional_agentx_no_overclaim.py",
     }
     for root_dir in ["tools/agentx_evolve", "tests"]:
         root_path = Path(root_dir)

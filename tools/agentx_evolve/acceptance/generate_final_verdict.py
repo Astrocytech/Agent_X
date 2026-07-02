@@ -200,6 +200,7 @@ def main() -> int:
     reason_parts.append(f"git: {full_sha[:12]}")
 
     verdict: dict = {
+        "verdict": "PASS" if not overall_fail else "FAIL",
         "classification": classification,
         "classification_source": "candidate" if is_candidate else "verified",
         "verdict_status": verdict_status,

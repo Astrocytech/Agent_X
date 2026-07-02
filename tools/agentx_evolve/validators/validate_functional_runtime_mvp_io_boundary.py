@@ -65,6 +65,10 @@ def _is_in_docstring_or_comment(lines: list[str], line_idx: int) -> bool:
         stripped = lines[i].strip()
         if stripped.startswith('"""') or stripped.startswith("'''"):
             in_triple = not in_triple
+    if line_idx < len(lines):
+        stripped = lines[line_idx].strip()
+        if stripped.startswith('"""') or stripped.startswith("'''"):
+            in_triple = not in_triple
     return in_triple
 
 

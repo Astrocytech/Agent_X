@@ -1,8 +1,10 @@
 """MvpReviewInterface — alongside existing HumanReviewInterface."""
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 from agentx_evolve.models.model_models import new_id, to_dict
@@ -165,6 +167,26 @@ class MvpReviewPacket:
         )
 
 
+    @staticmethod
+    def _sha256_file(path: Path) -> str:
+        return hashlib.sha256(path.read_bytes()).hexdigest()
+
+    @staticmethod
+    def _verify_evidence_hash(ref: dict) -> list[str]:
+        path_str = ref.get("path", ref.get("ref", ""))
+        expected_hash = ref.get("sha256", ref.get("hash", ""))
+        if not path_str:
+            return ["evidence_ref missing path"]
+        p = Path(path_str)
+        if not p.exists():
+            return [f"evidence path {path_str} does not exist"]
+        if expected_hash:
+            actual = hashlib.sha256(p.read_bytes()).hexdigest()
+            if actual != expected_hash:
+                return [f"evidence hash mismatch for {path_str}: expected {expected_hash}, got {actual}"]
+        return []
+
+
 class MvpReviewInterface:
     def __init__(self) -> None:
         self._packets: dict[str, MvpReviewPacket] = {}
@@ -180,6 +202,17 @@ class MvpReviewInterface:
             return None
         if decision not in (RCT_APPROVED, RCT_REJECTED, RCT_CHANGES_REQUESTED):
             raise ValueError(f"Invalid decision: {decision}")
+        # Verify evidence hashes before allowing approval
+        if decision == RCT_APPROVED and packet.evidence_refs:
+            hash_errors: list[str] = []
+            for ref in packet.evidence_refs:
+                hash_errors.extend(self._verify_evidence_hash(ref))
+            if hash_errors:
+                packet.decision = RCT_REJECTED
+                packet.decision_reason = f"evidence hash verification failed: {'; '.join(hash_errors)}"
+                packet.reviewer_identity = reviewer
+                packet.decided_at = decided_at
+                return packet
         packet.decision = decision
         packet.decision_reason = reason
         packet.reviewer_identity = reviewer
@@ -195,3 +228,12 @@ class MvpReviewInterface:
 
     def list_by_run(self, run_id: str) -> list[MvpReviewPacket]:
         return [p for p in self._packets.values() if p.run_id == run_id]
+
+    def verify_evidence_binding(self, review_id: str) -> list[str]:
+        packet = self._packets.get(review_id)
+        if packet is None:
+            return [f"review packet {review_id} not found"]
+        errors: list[str] = []
+        for ref in packet.evidence_refs:
+            errors.extend(self._verify_evidence_hash(ref))
+        return errors

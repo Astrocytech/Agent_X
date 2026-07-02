@@ -46,7 +46,7 @@ ALL_VALIDATORS = [
     "acceptance_matrix",
     "compileall",
     "generate_adapter_final_verdict",
-    "validate_adapter_final_verdict",
+    "validate_agentx_adapter_final_verdict",
     "adapter_evidence_manifest",
 ]
 
@@ -245,7 +245,7 @@ def main() -> int:
         "claim": "AGENTX_ADAPTER_MVP",
         "classification": classification,
         "classification_source": classification_source,
-        "verdict": verdict_label,
+        "verdict": "PASS" if verdict_status == "verified" else "FAIL",
         "verdict_status": verdict_status,
         "reason": "; ".join(reason_parts),
         "acceptance_passed": accept_passed,

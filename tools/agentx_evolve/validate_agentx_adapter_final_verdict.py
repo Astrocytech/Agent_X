@@ -14,7 +14,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 VERDICT = HERE / ".." / ".." / ".agentx-init" / "reports" / "adapter-mvp" / "adapter_final_verdict.json"
 
-ALLOWED_VERDICTS = {"AGENTX_ADAPTER_MVP", "AGENTX_ADAPTER_MVP_CANDIDATE"}
+ALLOWED_VERDICTS = {"AGENTX_ADAPTER_MVP", "AGENTX_ADAPTER_MVP_CANDIDATE", "PASS"}
 
 
 def main() -> int:

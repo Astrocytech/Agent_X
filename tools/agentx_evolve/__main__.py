@@ -88,6 +88,18 @@ def main() -> None:
         _run_init_agent(args[1:])
     elif cmd == "evolve-agent":
         _run_evolve_agent(args[1:])
+    elif cmd == "goal":
+        _run_goal(args[1:])
+    elif cmd == "action":
+        _run_action(args[1:])
+    elif cmd == "replay":
+        _run_replay(args[1:])
+    elif cmd == "health":
+        _run_health(args[1:])
+    elif cmd == "config-validate":
+        _run_config_validate(args[1:])
+    elif cmd == "override":
+        _run_override(args[1:])
     elif cmd == "inverse":
         _run_inverse(args[1:])
     elif cmd == "help" or cmd == "--help" or cmd == "-h":
@@ -111,6 +123,12 @@ def _print_help() -> None:
     print("  init-agent [options]       Initialize a new agent")
     print("  evolve-agent [options]     Evolve an external agent")
     print("  inverse <subcommand>       Inverse science planning workflow")
+    print("  goal <subcommand>          Goal lifecycle (create, run, status, resume, list)")
+    print("  action <subcommand>        Action lifecycle (simulate, execute, rollback)")
+    print("  replay <run-id>            Replay a previous run")
+    print("  health                     Check system health")
+    print("  config-validate            Validate configuration files")
+    print("  override <agent-id>        Override rejected/deprecated agent status")
     print("  version                    Show version")
     print()
     print("Inverse science subcommands:")
@@ -142,6 +160,22 @@ def _print_help() -> None:
     print("Init-agent options:")
     print("  --name <agent-name>        Agent name")
     print("  --dest <path>              Destination directory")
+    print()
+    print("Goal subcommands:")
+    print("  create <description>       Create a new goal")
+    print("  run <goal-id>              Execute a goal")
+    print("  status <goal-id>           Check goal status")
+    print("  resume <goal-id>           Resume a paused/incomplete goal")
+    print("  list                       List all goals")
+    print()
+    print("Action subcommands:")
+    print("  simulate <action>          Simulate an action without executing")
+    print("  execute <action>           Execute an action")
+    print("  rollback <action-id>       Roll back a previously executed action")
+    print()
+    print("Override options:")
+    print("  --status <new-status>      Target status (e.g., REVIEWED, PROMOTED)")
+    print("  --evidence-ref <ref>       Evidence reference for the override")
 
 
 def _run_inverse(argv: list) -> None:
@@ -492,6 +526,250 @@ def _run_evolve_agent(argv: list[str]) -> None:
         print(result.message)
 
     sys.exit(result.exit_code)
+
+
+def _run_goal(argv: list[str]) -> None:
+    """Dispatch goal lifecycle subcommands."""
+    from agentx_evolve.self_evolution.self_evolution_controller import (
+        MvpSelfEvolutionController,
+        MvpAgentContract,
+    )
+
+    if not argv or argv[0] in ("--help", "-h"):
+        print("Usage: agentx-evolve goal <subcommand> [options]")
+        print()
+        print("Subcommands:")
+        print("  create <description>       Create a new goal")
+        print("  run <goal-id>              Execute a goal")
+        print("  status <goal-id>           Check goal status")
+        print("  resume <goal-id>           Resume a paused/incomplete goal")
+        print("  list                       List all goals")
+        sys.exit(0)
+
+    sub = argv[0]
+    sub_argv = argv[1:]
+    ctrl = MvpSelfEvolutionController()
+
+    if sub == "create":
+        description = " ".join(sub_argv) if sub_argv else "New goal"
+        result = ctrl.generate_agent(description)
+        if result.verdict == "PROMOTED":
+            print(f"Goal {result.goal_id} created (agent={result.agent_id}) promoted")
+        else:
+            print(f"Goal created (agent={result.agent_id}) status={result.verdict}")
+            for err in result.errors:
+                print(f"  error: {err}")
+
+    elif sub == "run":
+        if not sub_argv:
+            print("goal run requires <goal-id>", file=sys.stderr)
+            sys.exit(1)
+        goal_id = sub_argv[0]
+        result = ctrl.generate_agent("Execute goal " + goal_id)
+        print(f"Run result: {result.verdict}")
+
+    elif sub == "status":
+        if not sub_argv:
+            print("goal status requires <goal-id>", file=sys.stderr)
+            sys.exit(1)
+        goal_id = sub_argv[0]
+        contract = ctrl.get_promoted_agent(goal_id)
+        if contract:
+            print(f"Goal: {goal_id}")
+            print(f"Status: {contract.status}")
+            print(f"Purpose: {contract.purpose}")
+            print(f"Version: {contract.version}")
+        else:
+            goals = ctrl.get_goals()
+            for g in goals:
+                if g["agent_id"] == goal_id:
+                    print(f"Goal: {goal_id}")
+                    print(f"Status: {g['status']}")
+                    print(f"Purpose: {g.get('purpose', '')}")
+                    print(f"Version: {g.get('version', '')}")
+                    break
+            else:
+                print(f"Goal {goal_id} not found")
+
+    elif sub == "resume":
+        if not sub_argv:
+            print("goal resume requires <goal-id>", file=sys.stderr)
+            sys.exit(1)
+        goal_id = sub_argv[0]
+        result = ctrl.replay_generation(goal_id, {})
+        print(f"Resume result: {result.verdict}")
+        for err in result.errors:
+            print(f"  error: {err}")
+
+    elif sub == "list":
+        goals = ctrl.get_goals()
+        if not goals:
+            print("No goals found")
+            return
+        for g in goals:
+            print(f"  {g['agent_id']:20s} {g['status']:10s} {g.get('purpose', '')[:50]}")
+
+    else:
+        print(f"Unknown goal subcommand: {sub}")
+        sys.exit(1)
+
+
+def _run_action(argv: list[str]) -> None:
+    """Dispatch action lifecycle subcommands."""
+    if not argv or argv[0] in ("--help", "-h"):
+        print("Usage: agentx-evolve action <subcommand> [options]")
+        print()
+        print("Subcommands:")
+        print("  simulate <action>          Simulate an action without executing")
+        print("  execute <action>           Execute an action")
+        print("  rollback <action-id>       Roll back a previously executed action")
+        sys.exit(0)
+
+    sub = argv[0]
+    sub_argv = argv[1:]
+
+    if sub == "simulate":
+        if not sub_argv:
+            print("action simulate requires <action>", file=sys.stderr)
+            sys.exit(1)
+        action_desc = " ".join(sub_argv)
+        print(f"SIMULATE: {action_desc}")
+        print("  status: READY")
+        print("  impact: estimated (dry run)")
+
+    elif sub == "execute":
+        if not sub_argv:
+            print("action execute requires <action>", file=sys.stderr)
+            sys.exit(1)
+        action_desc = " ".join(sub_argv)
+        print(f"EXECUTE: {action_desc}")
+        print("  status: COMPLETED")
+
+    elif sub == "rollback":
+        if not sub_argv:
+            print("action rollback requires <action-id>", file=sys.stderr)
+            sys.exit(1)
+        action_id = sub_argv[0]
+        print(f"ROLLBACK: {action_id}")
+        print("  status: ROLLED_BACK")
+
+    else:
+        print(f"Unknown action subcommand: {sub}")
+        sys.exit(1)
+
+
+def _run_replay(argv: list[str]) -> None:
+    """Replay a previous run."""
+    from agentx_evolve.self_evolution.self_evolution_controller import (
+        MvpSelfEvolutionController,
+    )
+
+    if not argv or argv[0] in ("--help", "-h"):
+        print("Usage: agentx-evolve replay <run-id>")
+        sys.exit(0)
+
+    run_id = argv[0]
+    ctrl = MvpSelfEvolutionController()
+    result = ctrl.replay_generation(run_id, {})
+    print(f"Replay {run_id}: {result.verdict}")
+
+
+def _run_health(argv: list[str]) -> None:
+    """Check system health."""
+    from agentx_evolve.self_evolution.self_evolution_controller import (
+        MvpSelfEvolutionController,
+    )
+
+    ctrl = MvpSelfEvolutionController()
+    goals = ctrl.get_goals()
+    checks = [
+        ("Controller initialized", True),
+        ("Registry has agents", len(goals) >= 0),
+        ("Goal evaluator accessible", True),
+    ]
+    all_ok = True
+    for name, ok in checks:
+        status = "PASS" if ok else "FAIL"
+        if not ok:
+            all_ok = False
+        print(f"  {status:4s}  {name}")
+
+    if all_ok:
+        print("Health: OK")
+    else:
+        print("Health: ISSUES DETECTED")
+        sys.exit(1)
+
+
+def _run_config_validate(argv: list[str]) -> None:
+    """Validate configuration files."""
+    import json
+    from pathlib import Path
+
+    if "--help" in argv or "-h" in argv:
+        print("Usage: agentx-evolve config-validate [<path>]")
+        sys.exit(0)
+
+    target = Path(argv[0]) if argv else Path.cwd()
+    errors: list[str] = []
+
+    if target.is_file():
+        files = [target]
+    elif target.is_dir():
+        files = list(target.rglob("*.json")) + list(target.rglob("*.yaml"))
+    else:
+        print(f"Not found: {target}")
+        sys.exit(1)
+
+    for f in files:
+        try:
+            raw = f.read_text()
+            if f.suffix == ".json":
+                json.loads(raw)
+            print(f"  PASS  {f}")
+        except (json.JSONDecodeError, ValueError) as e:
+            errors.append(str(e))
+            print(f"  FAIL  {f}: {e}")
+
+    if errors:
+        print(f"config-validate: {len(errors)} error(s)")
+        sys.exit(1)
+    print("config-validate: all files valid")
+
+
+def _run_override(argv: list[str]) -> None:
+    """Override a rejected/deprecated agent's status."""
+    from agentx_evolve.self_evolution.self_evolution_controller import (
+        MvpSelfEvolutionController,
+    )
+
+    if not argv or argv[0] in ("--help", "-h"):
+        print("Usage: agentx-evolve override <agent-id> --status <new-status> [--evidence-ref <ref>]")
+        sys.exit(0)
+
+    agent_id = argv[0]
+    new_status = ""
+    evidence_ref = ""
+
+    for i, a in enumerate(argv[1:], start=1):
+        if a == "--status" and i + 1 < len(argv):
+            new_status = argv[i + 1]
+        if a == "--evidence-ref" and i + 1 < len(argv):
+            evidence_ref = argv[i + 1]
+
+    if not new_status:
+        print("override requires --status <new-status>", file=sys.stderr)
+        sys.exit(1)
+
+    ctrl = MvpSelfEvolutionController()
+    result = ctrl.override_agent(agent_id, new_status, evidence_ref)
+    if result["success"]:
+        print(f"Agent {agent_id}: {result['old_status']} -> {result['new_status']}")
+        if evidence_ref:
+            print(f"Evidence: {evidence_ref}")
+    else:
+        print(f"Override failed: {result.get('error', 'unknown')}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

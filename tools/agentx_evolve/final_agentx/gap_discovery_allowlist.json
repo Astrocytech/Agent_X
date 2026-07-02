@@ -1,0 +1,1224 @@
+{
+  "schema_version": "1.0",
+  "artifact_type": "gap_discovery_allowlist",
+  "description": "Reviewed allowlist for gap discovery findings. Each entry binds a file glob pattern and matched-text hash to a reason, owner, and expiry. Changing the matched text without updating the allowlist fails integrity validation.",
+  "entries": [
+    {
+      "id": "AL-001",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Test files use uuid4 for generating unique test IDs. Non-deterministic but acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-002",
+      "file_glob": "**/seed/agent_seed_framework/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Seed framework agents use uuid4 for agent identity generation. Intentional design for distributed identity.",
+      "owner": "seed-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-003",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "d03de18265c9e26165b98ef59b04d99c95b0d4d6b1dedd3f34e39bf6162314d7",
+      "reason": "Test files use time.time for timing measurements. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-004",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "7ee90bc17d0965af6c5afa075d61cd94b773786e94c05899b4c4485bec26cffa",
+      "reason": "Test files use datetime.now for test data setup. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-005",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "dcd9b1ba812c9cad04b08ce2b1c4bf03fd0f7146a6e1572065af8efb842ad416",
+      "reason": "Test files use random module for test data generation. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-006",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Test files use 'return True' in stubs and mock implementations. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-007",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "b86ab8c5df26a73d583ea7a97a40bfc77de63b171d57f0ea6df1899d0b6798bc",
+      "reason": "Test files may reference PENDING status as test data. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-008",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "68a9c1610c78b3a50220ca778290f442a5866137fe5e88127bc2cfc5d932ea53",
+      "reason": "Test files may reference UNKNOWN status as test data. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-009",
+      "file_glob": "**/fixtures/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Fixture files contain test data with uuid4 references. Acceptable in fixture context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-010",
+      "file_glob": "**/fixtures/**",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Fixture files contain stub return True implementations. Acceptable in fixture context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-011",
+      "file_glob": "**/fixtures/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "7ee90bc17d0965af6c5afa075d61cd94b773786e94c05899b4c4485bec26cffa",
+      "reason": "Fixture files may use datetime.now for timestamp data. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-012",
+      "file_glob": "**/fixtures/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "d03de18265c9e26165b98ef59b04d99c95b0d4d6b1dedd3f34e39bf6162314d7",
+      "reason": "Fixture files may use time.time for timing fixture data. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-013",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "a47f38fde4a25996ddb7ff2701ed6b0df2e131c764c4eedb49e2bbc55b6ef04d",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-014",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "1890bc5c4bc643c3c1074185df8764cadb48e0b725dc9dfb563f155d1f8cb8fc",
+      "reason": "Test files may contain TODO comments. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-015",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "937ee6fee37ac65ec1bb7093c3e7e2a5a16d23c50009c48176c12dca35a75060",
+      "reason": "Test files may contain FIXME comments. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-016",
+      "file_glob": "**/fixtures/**",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "1890bc5c4bc643c3c1074185df8764cadb48e0b725dc9dfb563f155d1f8cb8fc",
+      "reason": "Fixture files may contain TODO comments. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-017",
+      "file_glob": "**/fixtures/**",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "937ee6fee37ac65ec1bb7093c3e7e2a5a16d23c50009c48176c12dca35a75060",
+      "reason": "Fixture files may contain FIXME comments. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-018",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "69c42a862fe42083f07de081cef4cc0d1076c11b924088496c90b2862dcc2604",
+      "reason": "Test files may use Path.cwd for temporary directory setup. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-019",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "0d611d251338ca78bbb85b1978f4177e885e7dccf623aaac5d2f729288af27a9",
+      "reason": "Test files may use os.getcwd for directory assertion. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-020",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "722b0f7fa852b62fe78ab675075ea13be6df495aa506f36f4325fbed4631561c",
+      "reason": "Test files may use subprocess.run for integration tests. Acceptable in test context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-021",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "TEST_COVERAGE_GAP",
+      "pattern_hash": "e73c90564d872dfa251d53d7a20625b56d3545a43f64dd8f50bcf241ec1e971c",
+      "reason": "Test files may use pytest.skip for conditional test skipping. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-022",
+      "file_glob": "**/tests/**",
+      "line": null,
+      "tag": "TEST_COVERAGE_GAP",
+      "pattern_hash": "9dc53eabd424752fb6bc2a6418b3b6e1863e7834911a40c2fca1b6205fb511ae",
+      "reason": "Test files may use xfail for expected failures. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-023",
+      "file_glob": "**/docs/**",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "1890bc5c4bc643c3c1074185df8764cadb48e0b725dc9dfb563f155d1f8cb8fc",
+      "reason": "Documentation files may contain TODO items. Acceptable in document context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-024",
+      "file_glob": "**/docs/**",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "937ee6fee37ac65ec1bb7093c3e7e2a5a16d23c50009c48176c12dca35a75060",
+      "reason": "Documentation files may contain FIXME items. Acceptable in document context.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-025",
+      "file_glob": "**/conftest.py",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Conftest files may use uuid4 for fixture identity. Acceptable.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P01",
+      "file_glob": "tools/agentx_evolve/backup/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Backup models use uuid4 for generating unique backup identity strings. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P03",
+      "file_glob": "tools/agentx_evolve/docs_sync/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "docs_sync models use uuid4 for generating unique sync IDs. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P05",
+      "file_glob": "tools/agentx_evolve/evaluation/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Evaluation models use uuid4 for generating unique evaluation IDs. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P07",
+      "file_glob": "tools/agentx_evolve/backup/**",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "b86ab8c5df26a73d583ea7a97a40bfc77de63b171d57f0ea6df1899d0b6798bc",
+      "reason": "Backup models use PENDING as a lifecycle status constant. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P08",
+      "file_glob": "tools/agentx_evolve/final_agentx/generate_functional_agentx_evidence_manifest.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "b86ab8c5df26a73d583ea7a97a40bfc77de63b171d57f0ea6df1899d0b6798bc",
+      "reason": "Evidence manifest uses PENDING as default validation_status for missing refs. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P09",
+      "file_glob": "tools/agentx_evolve/evolution_acceptance/*.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "b86ab8c5df26a73d583ea7a97a40bfc77de63b171d57f0ea6df1899d0b6798bc",
+      "reason": "Evolution validators reference PENDING status for validation logic. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P11",
+      "file_glob": "tools/agentx_evolve/final_agentx/gap_discovery_allowlist.json",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Allowlist file references uuid4 in reason fields. Self-referential, intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P12",
+      "file_glob": "tools/agentx_evolve/final_agentx/gap_discovery_allowlist.json",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "b86ab8c5df26a73d583ea7a97a40bfc77de63b171d57f0ea6df1899d0b6798bc",
+      "reason": "Allowlist file references PENDING in reason fields. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P14",
+      "file_glob": "tools/agentx_evolve/final_agentx/gap_discovery_allowlist.json",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "70c11f0195e3bfd7e2cb999703d1b698f8a64a744122e131545e17a256017a4b",
+      "reason": "Allowlist file references hardcoded PASS in reason fields. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P15",
+      "file_glob": "tools/agentx_evolve/final_agentx/gap_discovery_allowlist.json",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "1890bc5c4bc643c3c1074185df8764cadb48e0b725dc9dfb563f155d1f8cb8fc",
+      "reason": "Allowlist file references TODO in reason fields. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P20",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "d03de18265c9e26165b98ef59b04d99c95b0d4d6b1dedd3f34e39bf6162314d7",
+      "reason": "Gap discovery script matches time.time in its own hardcoded examples. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P25",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "70c11f0195e3bfd7e2cb999703d1b698f8a64a744122e131545e17a256017a4b",
+      "reason": "Gap discovery script defines the hardcoded PASS search pattern itself. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P26",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "b86ab8c5df26a73d583ea7a97a40bfc77de63b171d57f0ea6df1899d0b6798bc",
+      "reason": "Gap discovery script defines the PENDING search pattern. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P28",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": null,
+      "tag": "CLEANUP_GAP",
+      "pattern_hash": "1890bc5c4bc643c3c1074185df8764cadb48e0b725dc9dfb563f155d1f8cb8fc",
+      "reason": "Gap discovery script defines the TODO search pattern. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P31",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": null,
+      "tag": "TEST_COVERAGE_GAP",
+      "pattern_hash": "e73c90564d872dfa251d53d7a20625b56d3545a43f64dd8f50bcf241ec1e971c",
+      "reason": "Gap discovery script defines the pytest.skip search pattern. Self-referential.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P33",
+      "file_glob": "tools/agentx_evolve/orchestrator/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Orchestrator models use uuid4 for generating unique orchestration IDs. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P35",
+      "file_glob": "tools/agentx_evolve/learning/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Learning models use uuid4 for generating unique IDs. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P36",
+      "file_glob": "tools/agentx_evolve/promotion/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Promotion models use uuid4 for generating unique promotion IDs. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P37",
+      "file_glob": "tools/agentx_evolve/adapters/cohere_model_adapter.py",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "c714d1e033e94872ff9881145ed90693479aad77290fd6d0302080890e9f982e",
+      "reason": "Cohere adapter intentionally references COHERE_API_KEY env var. This is the API key for the LLM provider. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P40",
+      "file_glob": "tools/agentx_evolve/final_agentx/*.py",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "722b0f7fa852b62fe78ab675075ea13be6df495aa506f36f4325fbed4631561c",
+      "reason": "Final agentx scripts use subprocess.run to invoke git, pytest, and other tools. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P41",
+      "file_glob": "tools/agentx_evolve/acceptance/*.py",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "722b0f7fa852b62fe78ab675075ea13be6df495aa506f36f4325fbed4631561c",
+      "reason": "Acceptance scripts use subprocess.run to invoke tools. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P42",
+      "file_glob": "tools/agentx_evolve/evolution_acceptance/*.py",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "722b0f7fa852b62fe78ab675075ea13be6df495aa506f36f4325fbed4631561c",
+      "reason": "Evolution acceptance scripts use subprocess.run to invoke validators. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P43",
+      "file_glob": "tools/agentx_evolve/validators/*.py",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "722b0f7fa852b62fe78ab675075ea13be6df495aa506f36f4325fbed4631561c",
+      "reason": "Validators may use subprocess.run to invoke external tools. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P44",
+      "file_glob": "tools/agentx_evolve/validators/*.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Validators may use return True to signal validation pass. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P45",
+      "file_glob": "tools/agentx_evolve/final_agentx/*.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Final agentx scripts use return True as success signal. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P46",
+      "file_glob": "tools/agentx_evolve/acceptance/*.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Acceptance scripts use return True as success signal. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P47",
+      "file_glob": "tools/agentx_evolve/orchestrator/*.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Orchestrator scripts use return True as success signal. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P48",
+      "file_glob": "tools/agentx_evolve/**/models/*.py",
+      "line": null,
+      "tag": "PROOF_GAP",
+      "pattern_hash": "37992c22232b4712e447e7067cfaa1fe3ed7c98e3080608ed81f7c2b1e62992c",
+      "reason": "Model files use return True as default/fallback in methods. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P49",
+      "file_glob": "tools/agentx_evolve/human_review/*.py",
+      "line": null,
+      "tag": "SAFETY_GAP",
+      "pattern_hash": "722b0f7fa852b62fe78ab675075ea13be6df495aa506f36f4325fbed4631561c",
+      "reason": "Human review scripts use subprocess.run for tool invocation. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-P50",
+      "file_glob": "**/seed/**",
+      "line": null,
+      "tag": "DETERMINISM_GAP",
+      "pattern_hash": "468b814c3da0fad0cdbcf192113ed4cc0b4996c29c7efd0588384adb0540bd59",
+      "reason": "Seed framework uses uuid4 for agent identity generation. Intentional design for distributed identity.",
+      "owner": "seed-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O01",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "70c11f0195e3bfd7e2cb999703d1b698f8a64a744122e131545e17a256017a4b",
+      "reason": "The no-forced-PASS guard intentionally references hardcoded PASS in its validation logic. It is the defense against overclaim.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O02",
+      "file_glob": "Makefile",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "3fbb7616e7bc4d1178a48014d39223010b0fe41a7daa11cad37918ae372f42f4",
+      "reason": "Makefile references forced PASS as part of the no-forced-PASS guard target names. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O03",
+      "file_glob": "tools/agentx_evolve/acceptance/generate_mvp_reports.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "3fbb7616e7bc4d1178a48014d39223010b0fe41a7daa11cad37918ae372f42f4",
+      "reason": "MVP report generation references without-forced-PASS in comments. Intentional documentation.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O04",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_functional_agentx_anti_false_pass_audit.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "3fbb7616e7bc4d1178a48014d39223010b0fe41a7daa11cad37918ae372f42f4",
+      "reason": "Anti-false-PASS audit tests forced-to-PASS as an attack scenario. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O05",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_execution_integrity.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "3fbb7616e7bc4d1178a48014d39223010b0fe41a7daa11cad37918ae372f42f4",
+      "reason": "Execution integrity validator references the NO_FORCED_PASS env var. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O06",
+      "file_glob": "tools/agentx_evolve/acceptance/generate_traceability_matrix.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "70c11f0195e3bfd7e2cb999703d1b698f8a64a744122e131545e17a256017a4b",
+      "reason": "Traceability matrix generator has a comment about hardcoded PASS values. Intentional documentation.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O07",
+      "file_glob": "tools/agentx_evolve/acceptance/*.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "2aba70f227e5bc4634add1da529619dce47ba8a8d8869cf5554f748ce34795cb",
+      "reason": "MVP reports and scenarios use APPROVED as default review decision for test data. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O08",
+      "file_glob": "tools/agentx_evolve/loop/operational_loop.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "2aba70f227e5bc4634add1da529619dce47ba8a8d8869cf5554f748ce34795cb",
+      "reason": "Operational loop uses APPROVED as default review_decision context value. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O09",
+      "file_glob": "tools/agentx_evolve/orchestrator/functional_orchestrator.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "2aba70f227e5bc4634add1da529619dce47ba8a8d8869cf5554f748ce34795cb",
+      "reason": "Functional orchestrator uses APPROVED as default review_decision context. Intentional design.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O10",
+      "file_glob": "tools/agentx_evolve/workflows/evolve_agent.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "2aba70f227e5bc4634add1da529619dce47ba8a8d8869cf5554f748ce34795cb",
+      "reason": "Evolution workflow uses APPROVED conditionally based on review outcome. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O11",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "d97578fd6275902ec1396edcdafeac47df4cd732890bfe9eddd146ae2b049c2d",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O12",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "4b088e302698923a28e5192d9fe375ab6a19984300a0d365368bc78b6eee0ef9",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O13",
+      "file_glob": "tools/agentx_evolve/__main__.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "f9a96063a51204bac771147b218d688a13ffb2e70cb1589cc7bd229d1eec571f",
+      "reason": "CLI help text and status display reference PROMOTED as a valid status. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-O14",
+      "file_glob": "tools/agentx_evolve/adversarial/adversarial_engine.py",
+      "line": null,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "e3fa3543c6304356a73caa6ea012b0633e380cdc91f29dba943f21c8c16a9ee7",
+      "reason": "Adversarial engine uses PROMOTED as a possible result outcome. Intentional.",
+      "owner": "dev-team",
+      "expires": "2027-07-01"
+    },
+    {
+      "id": "AL-FP-001",
+      "file_glob": "tools/agentx_evolve/acceptance/generate_traceability_matrix.py",
+      "line": 4,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "930c4dec3210d1f1a3cb8dba38df690d2c15288a7a20347678a97ffdfd1428d6",
+      "reason": "Known false positive: Hardcoded PASS",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-002",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 104,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "ef296b0937def6212099c384643c39744bda101e3f94b4e6fdbc8cef2f382654",
+      "reason": "Known false positive: Hardcoded PASS",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-003",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 1,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "7d05f660efb23bcacff35fdd7548febbf7d9b0f5bdfedaa667517fba878ab47e",
+      "reason": "Known false positive: Hardcoded PASS",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-004",
+      "file_glob": "Makefile",
+      "line": 320,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "857ee0c8ace32628776e1462d205a5f77e8551199604482216f2c861979fa24d",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-005",
+      "file_glob": "Makefile",
+      "line": 351,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "843c1e5c72476c73dd7c190e538d3d3f7f6ff41d55254676ca13387c96bca83c",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-006",
+      "file_glob": "Makefile",
+      "line": 352,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "c75f9d2185235ebf83980a8798530a51e2296bbc3c283a89b66af09b77f60c91",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-007",
+      "file_glob": "tools/agentx_evolve/acceptance/generate_mvp_reports.py",
+      "line": 311,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "2f5f8dde480ca38f0c1bea62467bbd8a6ece1fc97a2f9bee2de39345bb290248",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-008",
+      "file_glob": "tools/agentx_evolve/acceptance/generate_mvp_reports.py",
+      "line": 326,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "1a4ca2e5aef3bd3f309fba1cdb4b5d024779f855b29a22ac11917d3044f7cc3f",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-009",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_functional_agentx_anti_false_pass_audit.py",
+      "line": 103,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "8fd5cb2b1e5dd35bfd216928e2503299ea9eb15d77cb7969ba323742c831e8c8",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-010",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 105,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "a984bee13aeca0bd60b3af586c8d46f110feff7498e36a007247b97473277110",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-011",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_execution_integrity.py",
+      "line": 117,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "3f4419a48d2e457afb07ace8baa45d827d0275f506efecc44974b74a7b7f1bd9",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-012",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 39,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "ef220af311c9ac07ac8a40bad53847683ed036a2ec34bfe04def91729382f5ae",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-013",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 40,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "699d37a79c9e1d9b61e7b84ef805af9250857ffa83d18c2da55075e8a5b16990",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-014",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 42,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "9a5aa54625df6c6a7c7ece7f0f1d9294ac3273a665c2cd5ee79a50f164297919",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-015",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 48,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "02f339946685ff09ed07ba3808680e260f9f6962d9ac864963f8ab3aa7fbe001",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-016",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 50,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "d8bed0ff89a054ee31e85981d1be8e39e2f809bc4768a3fd12da0f7872829004",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-017",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 63,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "cc7a1884d8562203212ab711ec6bc6290e76b0656a802e2dc07cc14b079c85d4",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-018",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 75,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "303100de92371ee2c54f93c156e9be081cf77bcdb8a32ef3fd974f734f201e4d",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-019",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 77,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "c1a7aa48964d9dc48e16c00b6119c28ca3c6ae05caecd6db5caa1e2ee6d15d67",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-020",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 97,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "9dd50c82a99b930e0c357903c6313f7bb057f2f005dd464b2c8102156f650a63",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-021",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 107,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "4ce0373d10eca11212e89bd0089bab5de33122ea9f5181223092333641d8bc1c",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-022",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 115,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "085c78773b0b88073860cfa87cbc5645f37b73747366b8d324858d4d38e9cb3d",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-023",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 125,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "446a0a4c8e1887242649dbbbe63f1a730f6148e54f527761a0435001a93ee030",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-024",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 137,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "094b3a1ee2ea14a5da00d824b6f694ca3f68c0bd989fe46e58c3390fe651e5db",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-025",
+      "file_glob": "tools/agentx_evolve/validators/validate_functional_runtime_mvp_no_forced_pass.py",
+      "line": 149,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "d0be626d0d48007e124c46f16eef2ed8248b7eb5c622569510b880a5b8bc4e44",
+      "reason": "Known false positive: Forced PASS pattern",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-026",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 115,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "496008baa246891e4d8e042effa586fb148d46a9d68cf9bc434ef4f4f967f89e",
+      "reason": "Known false positive: return {\"status\": \"PASS\"}",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-027",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 116,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "87637208b2c4f78bf03d7f92bb54250fd2d9cc6f2a07a296c3cc27548781761f",
+      "reason": "Known false positive: Auto-approved review",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-028",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 117,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "12dfbe64edde469d8316cf519dc4758c60bfab777fc3f06de03a87a1da560529",
+      "reason": "Known false positive: Human review approved claim",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-029",
+      "file_glob": "tools/agentx_evolve/acceptance/exercise_orchestrator_scenarios.py",
+      "line": 101,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "7453bcedbb28b65ba9c9a176e0fcc28e474d06cb3b376466ec557dc5c902b7e0",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-030",
+      "file_glob": "tools/agentx_evolve/acceptance/generate_mvp_reports.py",
+      "line": 150,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "7453bcedbb28b65ba9c9a176e0fcc28e474d06cb3b376466ec557dc5c902b7e0",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-031",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 118,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "790869d3317e24b990ace0a4fcea4c1d49954effbfcc03a8caa65a9a6cfc02a6",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-032",
+      "file_glob": "tools/agentx_evolve/loop/operational_loop.py",
+      "line": 231,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "b094fa21f801fc6ac751ada707545c0aa883b5c42369a20ddc5f56973177b246",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-033",
+      "file_glob": "tools/agentx_evolve/loop/operational_loop.py",
+      "line": 243,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "a8686728541e0277bdb8db6a66f2e1bf3c7b47caf29c7b4d9cf84502db3c9214",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-034",
+      "file_glob": "tools/agentx_evolve/orchestrator/functional_orchestrator.py",
+      "line": 291,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "b094fa21f801fc6ac751ada707545c0aa883b5c42369a20ddc5f56973177b246",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-035",
+      "file_glob": "tools/agentx_evolve/workflows/evolve_agent.py",
+      "line": 354,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "db074f64f54005cea0256a9f6a27fb8d56842a3b8d53595c21ef089dae326542",
+      "reason": "Known false positive: Review decision approved",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-036",
+      "file_glob": "tools/agentx_evolve/__main__.py",
+      "line": 556,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "fa11f9e36f96ae16026a8de50e2e341bf58d1b808184073eb6da8b66b1c9bbf1",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-037",
+      "file_glob": "tools/agentx_evolve/final_agentx/run_gap_discovery.py",
+      "line": 119,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "19971e0dd46308404ffcf3bfc081a15c4e8583b20652285ce7fc40cbfe903f57",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-038",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 23,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "3cd84dbf9e51bc15c01e87eb70d6a7dcc731b3f049b85cc51cee9646ab4be27a",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-039",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 24,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "43bf047d4a8e0f9c4e1121b46fc08e60cab7912b5a7d51ff1114cedc3eaa7178",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-040",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 33,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "e1df048a30a23a85591211e3f429d8f4f8d4f4a489149d17cc2ceeb4613e1264",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-041",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 34,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "7ca81598b2f2aa77ca94274448763676c125793c42b4a0c359f496f93f5ec4b4",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-042",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 35,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "a62dc52ce741de48915fbe887987626f855662baf8c87919ef4cad4db7a7684d",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-043",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 36,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "1bffdf13068abae8e709a1f5b42c4bc7815c1c93d4353bb9205c4cf0ba8aba78",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-044",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 37,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "86a526f174108107e87568cc6292bb9f6c88ca9c915822be53e33a42710fd135",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-045",
+      "file_glob": "tools/agentx_evolve/lifecycle/action.py",
+      "line": 86,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "f68db0d4fcf4ce9914b8b7aceed58036003423561f3aa0f04e9207a8d502e136",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-046",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 25,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "c11a36699485754b9ba061034863b27ed09be9bad3b8cb9ed6e41568389e4934",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-047",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 26,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "69e84997333409616c58bb81a8d7c50cc0b1dd07d3dcbf5823dc24ebae6de85d",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-048",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 507,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "35fa2f26c9c3ac234d076602d2ccccc12be969ef88d11b0bb66ce4f42623bae6",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-049",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 512,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "ac3b534eb60bbe587950b4b1cff64232b2f8c6f4e33e664effb3f5e1babfa594",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-050",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 529,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "d72a7109d109c1877e3386bdf9d5efd08ee6ecff87235369767219074da72a54",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-051",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 546,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "9f5d61d92a85897cdbaaf58be23f4b06d61495558059af7280fa8e8db5728fac",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-052",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 553,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "74a31ce7e0d65665558b99482325fa0f47d405cba381152b7641560058bacf90",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    },
+    {
+      "id": "AL-FP-053",
+      "file_glob": "tools/agentx_evolve/self_evolution/self_evolution_controller.py",
+      "line": 591,
+      "tag": "OVERCLAIM_GAP",
+      "pattern_hash": "cbc7afd9cb3d3effaa8c2cfe5f64e7a21a23334d34f0b66db43ec1ee20d91b11",
+      "reason": "Known false positive: PROMOTED status",
+      "owner": "auto",
+      "expires": "2027-01-01"
+    }
+  ]
+}

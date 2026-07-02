@@ -18,7 +18,8 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-REPORT_DIR = Path(".agentx-init/reports")
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+REPORT_DIR = _PROJECT_ROOT / ".agentx-init/reports"
 TRANSCRIPT_PATH = REPORT_DIR / "functional_runtime_mvp_command_transcript.json"
 LOG_DIR = REPORT_DIR / "logs"
 # Debug alternate path to detect overwrites
@@ -124,6 +125,15 @@ def append_command(cmd: str, exit_code: int, stdout_full: str,
         fdeb.write(json.dumps(record) + "\n")
 
 
+def _pop_env_prefix(args: list[str]) -> dict[str, str]:
+    """Extract leading KEY=value tokens as environment overrides."""
+    env_updates: dict[str, str] = {}
+    while args and "=" in args[0] and not args[0].startswith("-"):
+        k, _, v = args.pop(0).partition("=")
+        env_updates[k] = v.strip("\"'")
+    return env_updates
+
+
 def main() -> int:
     if len(sys.argv) < 1:
         print("Usage: record_command.py -- <command>", file=sys.stderr)
@@ -132,13 +142,17 @@ def main() -> int:
         command_args = sys.argv[2:]
     else:
         command_args = sys.argv[1:]
-    command_str = " ".join(command_args)
+    orig_args = list(command_args)
+    env_updates = _pop_env_prefix(command_args)
+    command_str = " ".join(orig_args)
 
     start = time.time()
+    env = os.environ.copy()
+    env.update(env_updates)
     try:
         r = subprocess.run(
             command_args, capture_output=True, text=True,
-            timeout=3600,
+            timeout=3600, env=env,
         )
         exit_code = r.returncode
         stdout_summary = r.stdout or ""
