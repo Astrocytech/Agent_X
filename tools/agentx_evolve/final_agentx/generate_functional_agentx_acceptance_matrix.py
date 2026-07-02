@@ -80,8 +80,11 @@ MANDATORY_GATES = {"FRMVP", "AdapterMVP", "Alpha", "Beta", "Governed", "Memory",
 
 
 def get_stage_verdict(category: str) -> str:
-    p = Path(STAGE_VERDICT_PATHS.get(category, ""))
-    if not p.exists():
+    raw = STAGE_VERDICT_PATHS.get(category, "")
+    if not raw:
+        return "NOT_APPLICABLE_WITH_REASON" if category not in MANDATORY_GATES else "BLOCKED_WITH_REASON"
+    p = Path(raw)
+    if not p.exists() or p.is_dir():
         return "NOT_APPLICABLE_WITH_REASON" if category not in MANDATORY_GATES else "BLOCKED_WITH_REASON"
     try:
         data = json.loads(p.read_text(encoding="utf-8"))
