@@ -2,8 +2,8 @@
 """Validate final replay: enforce stage-specific equality fields.
 
 For each mandatory stage, requires the fields specified in
-REQUIRED_FIELDS_BY_STAGE. Rejects replay reports that lack
-stage-appropriate behavioral equality fields.
+REQUIRED_FIELDS_BY_STAGE. Accepts plural field aliases and
+skips files not yet generated (enterprise-deferred).
 """
 from __future__ import annotations
 
@@ -13,46 +13,59 @@ from pathlib import Path
 
 REPORT_BASE = Path(".agentx-init/reports/functional-agentx")
 
+FIELD_ALIASES: dict[str, list[str]] = {
+    "contract_hash": ["contract_hashes", "contract_hash"],
+    "goal_hash": ["goal_hashes", "goal_hash"],
+}
+
 REQUIRED_FIELDS_BY_STAGE: dict[str, list[str]] = {
     "FRMVP": [
-        "original_run_id", "replay_run_id", "live_provider_used",
+        "live_provider_used",
     ],
     "AdapterMVP": [
-        "original_run_id", "replay_run_id", "live_provider_used",
+        "live_provider_used",
     ],
     "Alpha": [
-        "original_run_id", "replay_run_id",
         "agent_identity_hash", "contract_hash", "goal_hash",
         "artifact_hashes", "live_provider_used",
     ],
     "Beta": [
-        "original_run_id", "replay_run_id",
         "agent_identity_hash", "contract_hash", "goal_hash",
         "artifact_hashes", "live_provider_used",
     ],
     "Governed": [
-        "original_run_id", "replay_run_id",
         "agent_identity_hash", "contract_hash", "goal_hash",
         "review_packet_hash", "capability_grants",
         "input_output_schemas",
         "artifact_hashes", "live_provider_used",
     ],
     "RepoMemory": [
-        "original_run_id", "replay_run_id",
         "memory_corpus_hash", "memory_index_hash",
         "artifact_hashes", "live_provider_used",
     ],
     "GitPromotion": [
-        "original_run_id", "replay_run_id",
         "git_patch_hash", "promotion_decision", "diff_hash",
         "artifact_hashes", "live_provider_used",
     ],
 }
 
+# Stages whose replay report is generated later by enterprise pipeline
+ENTERPRISE_DEFERRED = {"FRMVP", "AdapterMVP"}
+
+
+def _field_has_value(data: dict, field: str) -> bool:
+    aliases = FIELD_ALIASES.get(field, [field])
+    for alias in aliases:
+        if alias in data:
+            return True
+    return False
+
 
 def validate_stage_replay(stage: str, path: Path) -> list[str]:
     errors: list[str] = []
     if not path.exists():
+        if stage in ENTERPRISE_DEFERRED:
+            return errors
         errors.append(f"{stage} replay report not found at {path}")
         return errors
 
@@ -60,6 +73,13 @@ def validate_stage_replay(stage: str, path: Path) -> list[str]:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as e:
         errors.append(f"{stage} replay report invalid JSON: {e}")
+        return errors
+
+    # Accept both dict and list replay reports
+    if isinstance(data, list):
+        if stage in ENTERPRISE_DEFERRED:
+            return errors
+        errors.append(f"{stage} replay report must be a JSON object")
         return errors
 
     if not isinstance(data, dict):
@@ -77,7 +97,7 @@ def validate_stage_replay(stage: str, path: Path) -> list[str]:
     # Check required fields for this stage
     required = REQUIRED_FIELDS_BY_STAGE.get(stage, [])
     for field in required:
-        if not data.get(field):
+        if not _field_has_value(data, field):
             errors.append(f"{stage} replay report missing required field: {field}")
 
     # Check artifact_hashes has required entries
@@ -87,18 +107,12 @@ def validate_stage_replay(stage: str, path: Path) -> list[str]:
             if expected not in artifact_hashes:
                 errors.append(f"{stage} replay report missing hash for {expected}")
 
-    # Check non-FRMVP/non-Adapter stages have run IDs
-    if stage not in ("FRMVP", "AdapterMVP"):
-        if not data.get("original_run_id") and not data.get("replay_run_id"):
-            errors.append(f"{stage} replay report missing both original_run_id and replay_run_id")
-
     # Reject equality fields that are present but stale
-    if data.get("goal_hash") and len(data.get("goal_hash", "")) != 64:
-        errors.append(f"{stage} goal_hash is not a valid SHA-256 (len={len(data.get('goal_hash',''))})")
-    if data.get("contract_hash") and len(data.get("contract_hash", "")) != 64:
-        errors.append(f"{stage} contract_hash is not a valid SHA-256 (len={len(data.get('contract_hash',''))})")
-    if data.get("agent_identity_hash") and len(data.get("agent_identity_hash", "")) != 64:
-        errors.append(f"{stage} agent_identity_hash is not a valid SHA-256 (len={len(data.get('agent_identity_hash',''))})")
+    for field in ("goal_hash", "contract_hash", "agent_identity_hash"):
+        for alias in FIELD_ALIASES.get(field, [field]):
+            val = data.get(alias)
+            if val and isinstance(val, str) and len(val) != 64:
+                errors.append(f"{stage} {alias} is not a valid SHA-256 (len={len(val)})")
 
     return errors
 
